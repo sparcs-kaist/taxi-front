@@ -4,7 +4,12 @@
 }
 
 html{ height: 100%; }
-body{ height: 100%; background: rgb(240,240,240); }
+body{
+  height: 100%;
+  background: rgb(241,244,247);
+  -ms-overflow-style: none; touch-action: pan-y;
+}
+body::-webkit-scrollbar { display: none; }
 
 button{ border: none; outline: none; background: none; }
 button:active { outline: none }
