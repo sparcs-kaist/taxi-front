@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 
-class Search extends Component {
+class Addroom extends Component {
     render() {
         return (
             <div>
-                <div className="lay_auto">Hello World!</div>
+                <div className="lay_auto">새로운 방 생성</div>
             </div>
         );
     }
 }
 
-export default Search;
+export default Addroom;
