@@ -1,12 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Frame from './core/Frame/Frame'
-import Login from './core/Login/Login'
-import Search from './core/Search/Search'
-import Addroom from './core/Addroom/Addroom'
-import Myroom from './core/Myroom/Myroom'
-import Setting from './core/Setting/Setting'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import Frame from './components/Frame/Frame'
+import Login from './components/Login/Login'
+import Search from './components/Search/Search'
+import Addroom from './components/Addroom/Addroom'
+import Myroom from './components/Myroom/Myroom'
+import Setting from './components/Setting/Setting'
+//import Login from './components/user/login'
+import User from './components/user/user'
+import NewUser from './components/user/newuser'
 
 function App() {
   return (
@@ -18,6 +21,11 @@ function App() {
         <Route exact path="/addroom"><Frame><Addroom/></Frame></Route>
         <Route exact path="/myroom"><Frame><Myroom/></Frame></Route>
         <Route exact path="/setting"><Frame><Setting/></Frame></Route>
+        <Route exact path="/users">
+          <User/>
+          <Link to='/users/new'>New user</Link>
+        </Route>
+        <Route exact path="/users/new"><NewUser/></Route>
       </Switch>
     </Router>
   );
