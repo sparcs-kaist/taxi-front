@@ -5,6 +5,7 @@ import Frame from './components/Frame/Frame'
 import Login from './components/Login/Login'
 import Search from './components/Search/Search'
 import Addroom from './components/Addroom/Addroom'
+import Roomlist from './components/Roomlist/Roomlist'
 import Myroom from './components/Myroom/Myroom'
 import Setting from './components/Setting/Setting'
 //import Login from './components/user/login'
@@ -18,7 +19,8 @@ function App() {
         <Route exact path="/login"><Login/></Route>
         <Route exact path="/"><Frame><Search/></Frame></Route>
         <Route exact path="/search"><Frame><Search/></Frame></Route>
-        <Route exact path="/addroom"><Frame><Addroom/></Frame></Route>
+        <Route exact path="/addroom"><Addroom/></Route>
+        <Route exact path = "/roomlist"><Roomlist/></Route>
         <Route exact path="/myroom"><Frame><Myroom/></Frame></Route>
         <Route exact path="/setting"><Frame><Setting/></Frame></Route>
         <Route exact path="/users">
