@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from 'axios';
+import backServer from '../../serverconf';
 
 class Addroom extends Component {
     constructor(props) {
@@ -80,7 +81,7 @@ class Addroom extends Component {
             madeat:this.state.madeat
         };
         
-        axios.post("/rooms/newtaxi", newTaxi)
+        axios.post(backServer+"/rooms/newtaxi", newTaxi)
             .then(res=>console.log(res.data))
             .then(console.log("help"))
 

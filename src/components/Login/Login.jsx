@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { useSpring, animated } from 'react-spring';
 import './Login.css';
 import imgBackground from './img_background.jpg';
+import backServer from '../../serverconf';
+
 
 const DarkBackground = () => {
     const opacityProps = useSpring({
@@ -18,7 +20,7 @@ class Login extends Component {
                 <DarkBackground/>
                 <div id="background2"/>
                 <div className="lay_auto" style={{ height: "100%" }}>
-                    <a href="/auth/sparcssso"><div id="btnLogin">로그인</div></a>
+                    <a href={backServer + "/auth/sparcssso"}><div id="btnLogin">로그인</div></a>
                 </div>
             </div>
         );

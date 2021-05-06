@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 import { useState, useEffect } from 'react';
+import backServer from '../../serverconf';
 // login function
 
 const Login = () => {
@@ -15,7 +16,7 @@ const Login = () => {
     evt.preventDefault();
     axios({
       method: 'post',
-      url: 'http://192.168.2.6:9000/users/login',
+      url: backServer+'/users/login',
       data: {
         id: document.getElementById("user_id").value,
         password: document.getElementById("user_pw").value
