@@ -65,9 +65,9 @@ class Addroom extends Component {
         console.log("submit about new class been successful")
 
         const newTaxi= {
-            name:this.state.name,
-            from:this.state.from,
-            to:this.state.to,
+		name:this.state.name,
+            from:document.getElementById(this.state.from).value,
+            to:document.getElementById(this.state.to).value,
             time:this.state.time,
             part:this.state.part,
         };
@@ -98,7 +98,7 @@ class Addroom extends Component {
                     <div><input placeholder="name" value={this.state.name} onChange={this.handleName} className="name"></input>  </div>
                     <div><input placeholder="from" value={this.state.from} onChange={this.handleFrom} className="from"></input> </div>
                     <div><input placeholder="to" value={this.state.to} onChange={this.handleTo} className="to"></input> </div>
-                    <div><input placeholder="time" value={this.state.time} onChange={this.handleTime} className="time"></input> </div>
+                    <div><input type="date" placeholder="time" value={this.state.time} onChange={this.handleTime} className="time"></input> </div>
                     <div><input placeholder="part" value={this.state.part} onChange={this.handlePart} className="part"></input> </div>
                     <button className="button"> Make New Taxi Class </button>
                 </form>
