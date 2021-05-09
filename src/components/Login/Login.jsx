@@ -7,7 +7,7 @@ import backServer from '../../serverconf';
 
 const DarkBackground = () => {
     const opacityProps = useSpring({
-        opacity: 1,
+        opacity: 1, 12121212
         from: { opacity: 0 },
         config: { duration: 1500 }
     })
