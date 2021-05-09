@@ -10,7 +10,6 @@ class Addroom extends Component {
         this.handleFrom = this.handleFrom.bind(this);
         this.handleTo = this.handleTo.bind(this);
         this.handlePart = this.handlePart.bind(this);
-        this.handleMadeat = this.handleMadeat.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
 
@@ -60,13 +59,6 @@ class Addroom extends Component {
         })
 
     }
-    handleMadeat= e =>{
-        e.preventDefault();
-        this.setState({
-            madeat:e.target.value
-        })
-    }
-
 
     onSubmit(e){
         e.preventDefault();
@@ -78,7 +70,6 @@ class Addroom extends Component {
             to:this.state.to,
             time:this.state.time,
             part:this.state.part,
-            madeat:this.state.madeat
         };
         
         axios.post(backServer+"/rooms/newtaxi", newTaxi)
@@ -91,7 +82,6 @@ class Addroom extends Component {
             to:"",
             time:"",
             part:"",
-            madeat:""
         })
     }
 
@@ -110,7 +100,6 @@ class Addroom extends Component {
                     <div><input placeholder="to" value={this.state.to} onChange={this.handleTo} className="to"></input> </div>
                     <div><input placeholder="time" value={this.state.time} onChange={this.handleTime} className="time"></input> </div>
                     <div><input placeholder="part" value={this.state.part} onChange={this.handlePart} className="part"></input> </div>
-                    <div><input placeholder="madeat" value= {this.state.madeat} onChange = {this.handleMadeat} className="madeat"></input> </div>
                     <button className="button"> Make New Taxi Class </button>
                 </form>
                 
