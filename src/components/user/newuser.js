@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React from 'react';
+import backServer from '../../serverconf';
 // new user form and submit event
 
 // dogma : 서버 주소, 포트번호 저장하는 별도 전역 변수가 있으면 좋겠다.
@@ -13,7 +14,7 @@ class NewUser extends React.Component {
     event.preventDefault();
     axios({
       method: 'post',
-      url: 'http://192.168.2.6:9000/users/new',
+      url: backServer + '/users/new',
       data: {
         name: document.getElementById("user_name").value,
         id: document.getElementById("user_id").value,
@@ -21,7 +22,7 @@ class NewUser extends React.Component {
         joinat: new Date()
       }
     });
-    window.location.replace("http://192.168.2.6:3000/users");
+    window.location.replace("http://localhost:3000/users");
   }
 
   render() {

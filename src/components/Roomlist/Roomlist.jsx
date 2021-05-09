@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from 'axios';
 import {Link} from 'react-router-dom';
+import backServer from '../../serverconf';
 
 class Roomlist extends Component {
     constructor(props){
@@ -12,7 +13,7 @@ class Roomlist extends Component {
     }
 
     componentDidMount(){
-        axios.get("/rooms/newtaxi")
+        axios.get(backServer +"/rooms/newtaxi")
         .then ( (data) => this.setState({ taxi: data }))
     }
 

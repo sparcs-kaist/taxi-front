@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import backServer from '../../serverconf';
 
 const User = () => {
-    const server_addr = "192.168.2.6";
-    const port_num = 9000;
     const [users, setUsers] = useState([]);
     useEffect(() => {
-        axios.get(`http://${server_addr}:${port_num}/users`)
+        axios.get(`${backServer}/users`)
             .then(res => setUsers(res.data))
             .catch(err => console.log(err))
     }, [])
