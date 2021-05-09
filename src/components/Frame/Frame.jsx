@@ -1,27 +1,27 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { browserHistory } from 'react-router';
-import axios from 'axios';
+import axios from '../Tool/axios';
 import Navigation from './Navigation';
 import Footer from './Footer';
 import './Frame.css';
 
 class Frame extends Component {
-    constructor(props) {
+    constructor(props) { // constructor 에서 빼기
         super(props);
 
         this.state = { loginCheck: undefined };
         axios.get('/json/logininfo').then((userInfo) => {
             if(userInfo.data.id) this.setState({ loginCheck: true });
             else this.setState({ loginCheck: false });
-        })
+        }).catch((error) => {
+            console.log('axios error : '+error); // 추후 수정 바람
+        });
     }
     render() {
         if(this.state.loginCheck == undefined) {
             return (
                 <div id="main-container">
-                    <div id="main-content">
-                    </div>
+                    <div id="main-content"/>
                     <Navigation/>
                 </div>
             );

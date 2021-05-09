@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Frame from './components/Frame/Frame'
@@ -19,8 +18,8 @@ function App() {
         <Route exact path="/login"><Login/></Route>
         <Route exact path="/"><Frame><Search/></Frame></Route>
         <Route exact path="/search"><Frame><Search/></Frame></Route>
-        <Route exact path="/addroom"><Addroom/></Route>
-        <Route exact path = "/roomlist"><Roomlist/></Route>
+        <Route exact path="/addroom"><Frame><Addroom/></Frame></Route>
+        <Route exact path="/roomlist"><Roomlist/></Route>
         <Route exact path="/myroom"><Frame><Myroom/></Frame></Route>
         <Route exact path="/setting"><Frame><Setting/></Frame></Route>
         <Route exact path="/users">
