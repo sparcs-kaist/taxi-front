@@ -4,9 +4,7 @@ import axios from 'axios';
 import backServer from '../../serverconf';
 
 class Addroom extends Component {
-
-
-    handleSubmit(event) {
+ handleSubmit(event) {
         event.preventDefault();
         axios({
             method: 'post',
@@ -22,6 +20,7 @@ class Addroom extends Component {
     }
 
 
+
   render(){
     return (
         <div className="page">
@@ -32,7 +31,7 @@ class Addroom extends Component {
                     <input type="text" id="from" name="from" /><br/>
                     <input type="text" id="to" name="to" /><br/>
                     <input type="date" id="time" name="time" /><br/>
-
+	    		<input type="part" id="part" name="part"/><br/>
                     <button className="button"> Make New Taxi Class </button>
                 </form>
                 
