@@ -1,4 +1,5 @@
 import './App.css';
+import './Font.css';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Frame from './components/Frame/Frame'
 import Login from './components/Login/Login'
