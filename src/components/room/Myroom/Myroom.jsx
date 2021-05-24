@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
+import WhiteContainer from '../../Frame/WhiteContainer/WhiteContainer';
+import RoomElement from './RoomElement';
 
 class Myroom extends Component {
+    constructor(props){
+        super(props);
+    }
     render() {
         return (
-            <div>
-                <div className="lay_auto">참여 중인 방들</div>
-            </div>
+            <>
+                <WhiteContainer title="탑승 예정 택시">
+                    <div>Hello world</div>
+                </WhiteContainer>
+            </>
         );
     }
 }
