@@ -13,7 +13,7 @@ class WhiteContainer extends Component {
         return (
             <>
                 <div style={ this.styleBox }>
-                    <div className="lay_auto">
+                    <div className="lay_auto ND">
                         <div style={{ padding: '20px' }}>
                             <div style={ this.styleTitle }>{ this.props.title }</div>
                             <div>{ this.props.children }</div>
