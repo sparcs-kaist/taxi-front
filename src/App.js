@@ -6,6 +6,7 @@ import Login from './components/Login/Login'
 import Search from './components/Search/Search'
 import Addroom from './components/room/Addroom/Addroom'
 import Roomlist from './components/room/Roomlist/Roomlist'
+import Roominfo from './components/room/Roominfo/Roominfo'
 import Myroom from './components/room/Myroom/Myroom'
 import Setting from './components/Setting/Setting'
 //import Login from './components/user/login'
@@ -21,6 +22,7 @@ function App() {
         <Route exact path="/search"><Frame><Search/></Frame></Route>
         <Route exact path="/addroom"><Frame><Addroom/></Frame></Route>
         <Route exact path="/roomlist"><Roomlist/></Route>
+        <Route exact path="/roominfo"><Roominfo/></Route>
         <Route exact path="/myroom"><Frame><Myroom/></Frame></Route>
         <Route exact path="/setting"><Frame><Setting/></Frame></Route>
         <Route exact path="/users">
