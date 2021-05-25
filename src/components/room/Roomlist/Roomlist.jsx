@@ -15,34 +15,27 @@ class Roomlist extends Component {
     }
 
     componentDidMount(){
-        axios.get(backServer +"/rooms/newtaxi")
-        .then ( (data) => this.setState({ taxi: data }))
+        axios.get(backServer +"/rooms/getAllRoom")
+        .then ( (data) => {console.log(data); this.setState({ taxi: data.data });})
     }
 
   render(){
     return (
         <div className="roomlist" > 
-                    <text className="content">
-                        {this.state.taxi.map(taxi=> 
-                            <div className="room" style={{'marginBottom':'20px', 'width':'1020px','height':"200px"}}>
-                                <text className="name">Name : {taxi.name}</text><br/>
-                                <text  className="from">From : {taxi.from}</text><br/>
-                                <text className="to">To : {taxi.to}</text><br/>
-                                <text className="time">Time : {taxi.time}</text>
-                                <text  className = "madeat">Madeat : {taxi.madeat}</text>
-                                <br/>
-                            </div>)}
-                    </text>
+            <div className="content">
+                {this.state.taxi.map(t=> 
+                    <div className="room" style={{'marginBottom':'20px', 'width':'1020px','height':"200px"}}>
+                        <p className="name">Name : {t.name}</p><br/>
+                        <p className="from">From : {t.from}</p><br/>
+                        <p className="to">To : {t.to}</p><br/>
+                        <p className="time">Time : {t.time}</p>
+                        <p className="madeat">Madeat : {t.madeat}</p>
+                        <br/>
+                    </div>)}
+            </div>
         </div>
     );
   }
-}
-
-Roomlist.propTypes = {
-
-}
-Roomlist.defaultProps = {
- 
 }
 
 export default Roomlist;
