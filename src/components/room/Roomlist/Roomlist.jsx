@@ -1,48 +1,39 @@
-import React, { Component } from 'react';
-import "bootstrap/dist/css/bootstrap.min.css";
-import axios from 'axios';
-import {Link} from 'react-router-dom';
+import { Component } from 'react';
+import axios from '../../Tool/axios';
 import backServer from '../../../serverconf';
+import WhiteContainer from '../../Frame/WhiteContainer/WhiteContainer';
+import WhiteContainerMargin from '../../Frame/WhiteContainer/WhiteContainerMargin';
+import RoomElement from '../Myroom/RoomElement';
+import Footer from '../../Frame/Footer';
 
 // db 들어가 있는 방 목록 모두 출력
 
 class Roomlist extends Component {
     constructor(props){
         super(props);
-        this.state={
-            taxi:[]
-        }
+        this.state = { taxi: [] }
     }
 
     componentDidMount(){
-        axios.get(backServer +"/rooms/newtaxi")
-        .then ( (data) => this.setState({ taxi: data }))
+        axios.get("/rooms/getAllRoom").then(res => {
+            console.log(res.data);
+            this.setState({ taxi: res.data });
+        })
     }
 
-  render(){
-    return (
-        <div className="roomlist" > 
-                    <text className="content">
-                        {this.state.taxi.map(taxi=> 
-                            <div className="room" style={{'marginBottom':'20px', 'width':'1020px','height':"200px"}}>
-                                <text className="name">Name : {taxi.name}</text><br/>
-                                <text  className="from">From : {taxi.from}</text><br/>
-                                <text className="to">To : {taxi.to}</text><br/>
-                                <text className="time">Time : {taxi.time}</text>
-                                <text  className = "madeat">Madeat : {taxi.madeat}</text>
-                                <br/>
-                            </div>)}
-                    </text>
-        </div>
-    );
-  }
-}
-
-Roomlist.propTypes = {
-
-}
-Roomlist.defaultProps = {
- 
+    render(){
+        return <>
+            <WhiteContainer title="모든 방 (for test)">
+                {
+                    this.state.taxi.map((item, index) => 
+                        <RoomElement key={ index } title={ item.name } partLen={ item.part.length } partImgs={ [] }
+                        subtitle={ `${item.from} > ${ item.to }, ${ item.time }` }/>
+                    )
+                }
+            </WhiteContainer>
+            <Footer/>
+        </>;
+    }
 }
 
 export default Roomlist;
