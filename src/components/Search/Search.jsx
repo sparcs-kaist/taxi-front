@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import  Picker from 'react-picker';
 import DatePicker from 'react-datepicker';
 //import Picker from 'react-scrollable-picker';
 import Select from 'react-select'
 import WhiteContainer from '../Frame/WhiteContainer/WhiteContainer.jsx';
 import WhiteContainerMargin from '../Frame/WhiteContainer/WhiteContainerMargin.jsx';
-import './Search.css';
-
  
 import "react-datepicker/dist/react-datepicker.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
