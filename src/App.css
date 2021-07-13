@@ -24,13 +24,14 @@ button:focus { outline:none }
 @media (max-width: 767px){
   .lay_auto{
       position: relative;
+      margin-left: 20px; margin-right: 20px;
       /*overflow-x: hidden; overflow-y: auto;*/
   }
 }
 @media (min-width: 768px){
   .lay_auto{
       position: relative;
-      width: 768px; height: auto;
+      width: 728px; height: auto;
       margin: auto;
       /*overflow-x: hidden; overflow-y: auto;*/
   }
