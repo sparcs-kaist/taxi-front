@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import  Picker from 'react-picker';
+// import  Picker from 'react-picker';
 import DatePicker from 'react-datepicker';
 //import Picker from 'react-scrollable-picker';
 import Select from 'react-select'
 import WhiteContainer from '../Frame/WhiteContainer/WhiteContainer.jsx';
 import WhiteContainerMargin from '../Frame/WhiteContainer/WhiteContainerMargin.jsx';
-import './Search.css';
-
+import {Paper, Divider, Grid, Dialog, DialogContent, Button} from '@material-ui/core';
  
 import "react-datepicker/dist/react-datepicker.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -17,9 +16,22 @@ class Search extends Component {
         super(props)
         this.state = {
             startDate: new Date(),
+            open : false,
+            valueGroups: {
+                title: 'Mr.',
+                firstName: 'Micheal',
+                secondName: 'Jordan'
+              }, 
+              optionGroups: {
+                title: ['Mr.', 'Mrs.', 'Ms.', 'Dr.'],
+                firstName: ['John', 'Micheal', 'Elizabeth'],
+                secondName: ['Lennon', 'Jackson', 'Jordan', 'Legend', 'Taylor']
+              }
         };
         this.handleChange = this.handleChange.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
+        this.handleOpen = this.handleOpen.bind(this);
+        this.handleClose= this.handleClose.bind(this);
     }
 
     handleChange(date) {
@@ -33,33 +45,61 @@ class Search extends Component {
         console.log(this.state.startDate)
       }
 
+      handleOpen(){
+          this.setState({
+              open: true
+          })
+      }
+
+      handleClose(){
+          this.setState({
+              open: false
+          })
+      }
+
     render() {
         return (
             <div className ="searchroom">
                 <WhiteContainer title ="방 검색">
-                    <div style={{display:"flex",flexDirection:"row", alignItems:"stretch", marginBottom:60}}>
-                        <div className = "departure" style={{width:'30%'}}>
-                            <label> 출발지 </label>
-                            <Select 
-                                options={ [
-                                { value: '기계동', label: '기계동' },{ value: '대전역', label: '대전역' },{ value: '시외버스터미널', label: '시외버스터미널' }
-                                ]}
-                                />
-                        </div>
-                        
-                        <div className = "arrival" style={{width:'30%', marginLeft:'20%'}}>
-                            <label> 도착지 </label>
-                            <Select 
-                                options={ [
-                                { value: '기계동', label: '기계동' },{ value: '대전역', label: '대전역' },{ value: '시외버스터미널', label: '시외버스터미널' }
-                                ]}
-                                />
-                        </div>
-                    </div>
+                    <Paper style={{width:"80%", height:"150px", margin:'auto', padding:"20px"}}>
+                        <Grid container >
+                            <Grid item xs={5}>
+                                <div className = "departure" style={{display:'flex', flexDirection:'column', justifyContent:'flex-start', }}>
+                                    <label style={{margin:'auto'}}> 출발지 </label>
+                                    <Button onClick={this.handleOpen}>어디서 출발할까요</Button>
+                                    <Dialog open={this.state.open} onClose={this.handleClose}>
+                                        <DialogContent>
+                                            <Select
+                                                style={{margin:"auto", borderStyle:"none"}} 
+                                                options={ [
+                                                { value: '기계동', label: '기계동' },{ value: '대전역', label: '대전역' },{ value: '시외버스터미널', label: '시외버스터미널' }
+                                                ]}
+                                            />
+                                        </DialogContent>
+                                    </Dialog>
+                                </div>
+                            </Grid>
+                            <Divider orientation="vertical" flexItem style={{height:'100px',margin:"auto"}}/>
+                            <Grid item xs={5}>
+                                <div className = "arrival" style={{display:'flex', flexDirection:'column', justifyContent:'flex-start'}}>
+                                    <label style={{margin:'auto'}}> 도착지 </label>
+                                    <Button onClick={this.handleOpen}>어디서 출발할까요</Button>
+                                    <Dialog open={this.state.open} onClose={this.handleClose}>
+                                        <DialogContent>
+                                            <Select
+                                                options={ [
+                                                { value: '기계동', label: '기계동' },{ value: '대전역', label: '대전역' },{ value: '시외버스터미널', label: '시외버스터미널' }
+                                                ]}
+                                                />
+                                        </DialogContent>
+                                    </Dialog>
+                                </div>
+                            </Grid>
+                        </Grid>
+                    </Paper>
 
                     <hr></hr>
 
-                    
                     <div className = "date" style={{}}>
                     <label > 출발 날짜 </label>
                         <form onSubmit={ this.onFormSubmit }>
