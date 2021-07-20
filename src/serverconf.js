@@ -1,2 +1,2 @@
-const backServer = "http://ssal.sparcs.org:59000";
+const backServer = "http://localhost:5000";
 export default backServer

@@ -3,24 +3,16 @@ import { Component } from 'react';
 class WhiteContainer extends Component {
     constructor(props){
         super(props);
-        this.styleBox = { background: 'white' }
-        this.styleTitle = {
-            marginBottom: '10px',
-            fontSize: '22px', fontWeight: 900
-        }
+        this.margin = '20px';
     }
     render(){
         return (
-            <>
-                <div style={ this.styleBox }>
-                    <div className="lay_auto ND">
-                        <div style={{ padding: '20px' }}>
-                            <div style={ this.styleTitle }>{ this.props.title }</div>
-                            <div>{ this.props.children }</div>
-                        </div>
-                    </div>
+            <div className="lay_auto ND" style={{ marginBottom: '20px', boxShadow: '0px 1px 7.5px 2px rgba(0,0,0,0.05)', borderRadius: '10px', overflow: 'hidden'
+            }}>
+                <div style={{ position: 'relative', padding: '10px', background: 'white' }}>
+                    { this.props.children }
                 </div>
-            </>
+            </div>
         )
     }
 }

@@ -5,6 +5,11 @@ import Navigation from './Navigation';
 import Footer from './Footer';
 import './Frame.css';
 
+const TopBar = (props) => {
+    return (
+        <div style={{ background: '#663D71', width: '100%', height: '5px', position: 'fixed', top: '0px', left: '0px' }}/>
+    )
+}
 class Frame extends Component {
     constructor(props) { // constructor 에서 빼기
         super(props);
@@ -21,8 +26,7 @@ class Frame extends Component {
         if(this.state.loginCheck == undefined) {
             return (
                 <div id="main-container">
-                    <div id="main-content"/>
-                    <Navigation/>
+                    <Navigation selected={ this.props.navi }/><TopBar/>
                 </div>
             );
         }
@@ -34,11 +38,9 @@ class Frame extends Component {
         else{
             return (
                 <div id="main-container">
-                    <div id="main-content">
-                        { this.props.children }
-                        <Footer/>
-                    </div>
-                    <Navigation/>
+                    { this.props.children }
+                    <Footer/>
+                    <Navigation selected={ this.props.navi }/><TopBar/>
                 </div>
             );
         }

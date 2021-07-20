@@ -18,13 +18,13 @@ function App() {
     <Router>
       <Switch>
         <Route exact path="/login"><Login/></Route>
-        <Route exact path="/"><Frame><Search/></Frame></Route>
-        <Route exact path="/search"><Frame><Search/></Frame></Route>
-        <Route exact path="/addroom"><Frame><Addroom/></Frame></Route>
+        <Route exact path="/"><Frame navi="search"><Search/></Frame></Route>
+        <Route exact path="/search"><Frame navi="search"><Search/></Frame></Route>
+        <Route exact path="/addroom"><Frame navi="addroom"><Addroom/></Frame></Route>
         <Route exact path="/roomlist"><Roomlist/></Route>
         <Route exact path="/roominfo"><Roominfo/></Route>
-        <Route exact path="/myroom"><Frame><Myroom/></Frame></Route>
-        <Route exact path="/setting"><Frame><Setting/></Frame></Route>
+        <Route exact path="/myroom"><Frame navi="myroom"><Myroom/></Frame></Route>
+        <Route exact path="/setting"><Frame navi="setting"><Setting/></Frame></Route>
         <Route exact path="/users">
           <User/>
           <Link to='/users/new'>New user</Link>
