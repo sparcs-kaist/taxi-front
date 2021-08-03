@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import DatePicker from 'react-datepicker';
+//import Picker from 'react-scrollable-picker';
+import DatePicker from '../Frame/DatePicker/DatePicker';
 import Select from 'react-select'
 import WhiteContainer from '../Frame/WhiteContainer/WhiteContainer.jsx';
 import WhiteContainerMargin from '../Frame/WhiteContainer/WhiteContainerMargin.jsx';
