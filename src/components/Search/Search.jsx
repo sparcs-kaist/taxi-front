@@ -32,7 +32,8 @@ class Search extends Component {
             ],
             },
         };
-        this.handleChange = this.handleChange.bind(this);
+        this.handleChangeDeparture = this.handleChangeDeparture.bind(this);
+        this.handleChangeArrival = this.handleChangeArrival.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose= this.handleClose.bind(this);
@@ -55,7 +56,7 @@ class Search extends Component {
           })
       }
 
-      handleChange = (name, value) => {
+      handleChangeDeparture = (name, value) => {
         this.setState(({valueGroups}) => ({
           valueGroups: {
             ...valueGroups,
@@ -63,6 +64,16 @@ class Search extends Component {
           }
         }));
       };
+
+      handleChangeArrival = (name, value) => {
+        this.setState(({valueGroups}) => ({
+          valueGroups: {
+            ...valueGroups,
+            [name]: value
+          }
+        }));
+      };
+
 
     render() {
         return (
@@ -80,16 +91,16 @@ class Search extends Component {
                                     </Button>
                                         <Dialog open={this.state.open} onClose={this.handleClose} >
                                             <DialogContent style={{height: '300px', margin: 'auto', width: '500px'}}>
-                                                {/* <Picker
+                                                <Picker
                                                     optionGroups={this.state.optionGroups}
                                                     valueGroups={this.state.valueGroups}
-                                                    onChange={this.handleChange}
-                                                /> */}
+                                                    onChange={this.handleChangeDeparture}
+                                                />
                                             </DialogContent>
-                                            <DialogActions>
+                                            {/* <DialogActions>
                                                 <Button onClick={this.handleClose}> 취소 </Button>
                                                 <Button> 선택하기 </Button>
-                                            </DialogActions>
+                                            </DialogActions> */}
                                         </Dialog>
                                 </div>
                             </Grid>
@@ -107,7 +118,7 @@ class Search extends Component {
                                             <Picker
                                                 optionGroups={this.state.optionGroups}
                                                 valueGroups={this.state.valueGroups}
-                                                onChange={this.handleChange}
+                                                onChange={this.handleChangeArrival}
                                                 />
                                         </DialogContent>
                                     </Dialog>
@@ -176,6 +187,26 @@ class Search extends Component {
                 </WhiteContainer>
                 <WhiteContainerMargin/>
                 <WhiteContainer title="추천 방 목록">
+                    <div style={{ display: 'flex', alignContent: 'row', justifyContent: 'center'}}>
+                        <div> 시간: </div>
+                        <div style={{width: '100px',fontSize:'12px', backgroundColor:'#F7F7F7', borderRadius:'10px', padding: '10px', margin: '20px'}}>
+                            <Picker
+                                optionGroups={this.state.optionGroups}
+                                valueGroups={this.state.valueGroups}
+                                onChange={this.handleChangeDeparture}
+                            />
+                        </div>
+                        <div> 시 </div>
+                        <div style={{width: '100px', fontSize:'12px', backgroundColor:'#F7F7F7', borderRadius:'10px', padding: '10px',  margin: '20px'}}>
+                            <Picker
+                                optionGroups={this.state.optionGroups}
+                                valueGroups={this.state.valueGroups}
+                                onChange={this.handleChangeDeparture}
+                            />
+                        </div>
+                        <div> 분 이후 </div>
+                    </div>
+
                 </WhiteContainer>
             </div>
           );
