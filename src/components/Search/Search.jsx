@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
-//import Picker from 'react-scrollable-picker';
 import Select from 'react-select'
 import WhiteContainer from '../Frame/WhiteContainer/WhiteContainer.jsx';
 import WhiteContainerMargin from '../Frame/WhiteContainer/WhiteContainerMargin.jsx';
-import {Paper, Divider, Grid, Dialog, DialogContent, Button} from '@material-ui/core';
+import {Paper, Divider, Grid, Dialog, DialogContent, Button, DialogActions} from '@material-ui/core';
+import Picker from 'react-scrollable-picker';
+//import Picker from 'react-mobile-picker';
+
  
 import "react-datepicker/dist/react-datepicker.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -17,27 +19,23 @@ class Search extends Component {
             startDate: new Date(),
             open : false,
             valueGroups: {
-                title: 'Mr.',
-                firstName: 'Micheal',
-                secondName: 'Jordan'
+                place: '카이스트'
               }, 
-              optionGroups: {
-                title: ['Mr.', 'Mrs.', 'Ms.', 'Dr.'],
-                firstName: ['John', 'Micheal', 'Elizabeth'],
-                secondName: ['Lennon', 'Jackson', 'Jordan', 'Legend', 'Taylor']
-              }
+            optionGroups: {
+                place: [
+                { value: '택시승강장', label: '택시승강장' },
+                { value: '갤러리아 타임월드', label: '갤러리아 타임월드' },
+                { value: '서대전역', label: '서대전역' },
+                { value: '대전역', label: '대전역' },
+                { value: '정부청사', label: '정부청사' }
+            ],
+            },
         };
         this.handleChange = this.handleChange.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose= this.handleClose.bind(this);
     }
-
-    handleChange(date) {
-        this.setState({
-          startDate: date
-        })
-      }
     
       onFormSubmit(e) {
         e.preventDefault();
@@ -56,39 +54,59 @@ class Search extends Component {
           })
       }
 
+      handleChange = (name, value) => {
+        this.setState(({valueGroups}) => ({
+          valueGroups: {
+            ...valueGroups,
+            [name]: value
+          }
+        }));
+      };
+
     render() {
         return (
             <div className ="searchroom">
                 <WhiteContainer title ="방 검색">
-                    <Paper style={{width:"80%", height:"150px", margin:'auto', padding:"20px"}}>
+                    <Paper style={{height:"150px", margin:'40px', padding:"20px", borderRadius: '12px' }}>
                         <Grid container >
                             <Grid item xs={5}>
-                                <div className = "departure" style={{display:'flex', flexDirection:'column', justifyContent:'flex-start', }}>
+                                <div className = "departure" style={{display:'flex', flexDirection:'column', justifyContent:'flex-start'}}>
                                     <label style={{margin:'auto'}}> 출발지 </label>
-                                    <Button onClick={this.handleOpen}>어디서 출발할까요</Button>
-                                    <Dialog open={this.state.open} onClose={this.handleClose}>
-                                        <DialogContent>
-                                            <Select
-                                                style={{margin:"auto", borderStyle:"none"}} 
-                                                options={ [
-                                                { value: '기계동', label: '기계동' },{ value: '대전역', label: '대전역' },{ value: '시외버스터미널', label: '시외버스터미널' }
-                                                ]}
-                                            />
-                                        </DialogContent>
-                                    </Dialog>
+                                    <Button onClick={this.handleOpen} style={{marginTop: '15px',  color: 'lightgray'}}>
+                                        <div style={{fontWeight: 'bold', fontSize: '20px'}}>
+                                        어디서 출발할까요?
+                                        </div>
+                                    </Button>
+                                        <Dialog open={this.state.open} onClose={this.handleClose} >
+                                            <DialogContent style={{height: '300px', margin: 'auto', width: '500px'}}>
+                                                {/* <Picker
+                                                    optionGroups={this.state.optionGroups}
+                                                    valueGroups={this.state.valueGroups}
+                                                    onChange={this.handleChange}
+                                                /> */}
+                                            </DialogContent>
+                                            <DialogActions>
+                                                <Button onClick={this.handleClose}> 취소 </Button>
+                                                <Button> 선택하기 </Button>
+                                            </DialogActions>
+                                        </Dialog>
                                 </div>
                             </Grid>
                             <Divider orientation="vertical" flexItem style={{height:'100px',margin:"auto"}}/>
                             <Grid item xs={5}>
                                 <div className = "arrival" style={{display:'flex', flexDirection:'column', justifyContent:'flex-start'}}>
                                     <label style={{margin:'auto'}}> 도착지 </label>
-                                    <Button onClick={this.handleOpen}>어디서 출발할까요</Button>
-                                    <Dialog open={this.state.open} onClose={this.handleClose}>
-                                        <DialogContent>
-                                            <Select
-                                                options={ [
-                                                { value: '기계동', label: '기계동' },{ value: '대전역', label: '대전역' },{ value: '시외버스터미널', label: '시외버스터미널' }
-                                                ]}
+                                    <Button onClick={this.handleOpen} style={{marginTop: '15px',  color: 'lightgray'}}>
+                                        <div style={{fontWeight: 'bold', fontSize: '20px'}}>
+                                        어디로 갈까요?
+                                        </div>
+                                    </Button>
+                                    <Dialog open={this.state.open} onClose={this.handleClose} >
+                                        <DialogContent style={{height: '300px', margin: 'auto', width: '500px'}}>
+                                            <Picker
+                                                optionGroups={this.state.optionGroups}
+                                                valueGroups={this.state.valueGroups}
+                                                onChange={this.handleChange}
                                                 />
                                         </DialogContent>
                                     </Dialog>
