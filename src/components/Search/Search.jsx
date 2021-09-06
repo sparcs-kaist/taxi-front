@@ -3,11 +3,13 @@ import React, { Component } from 'react';
 import DatePicker from '../Frame/DatePicker/DatePicker';
 import Select from 'react-select'
 import WhiteContainer from '../Frame/WhiteContainer/WhiteContainer.jsx';
+import Title from '../Frame/Title/Title';
 import WhiteContainerMargin from '../Frame/WhiteContainer/WhiteContainerMargin.jsx';
 import {Paper, Divider, Grid, Dialog, DialogContent, Button, DialogActions} from '@material-ui/core';
 import Picker from 'react-scrollable-picker';
 //import Picker from 'react-mobile-picker';
 
+import svgSearch from './svg_search.svg';
  
 import "react-datepicker/dist/react-datepicker.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -134,8 +136,9 @@ class Search extends Component {
         return (
             <div className ="searchroom"> 
                 {/* 방 제목으로 검색 */}
+                <Title img={ svgSearch }>방 검색하기</Title>
                 <WhiteContainer title ="방 검색">
-                    <label > 방명 </label>
+                    <label> 방명 </label>
                     <div className = "roomname">
                         <form onSubmit={ this.onFormSubmit }>
                             <input type='text' placeholder="방 이름을 입력하세요" style={{borderStyle:"none"}}></input>
