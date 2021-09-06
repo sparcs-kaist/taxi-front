@@ -32,8 +32,7 @@ class Search extends Component {
             ],
             },
         };
-        this.handleChangeDeparture = this.handleChangeDeparture.bind(this);
-        this.handleChangeArrival = this.handleChangeArrival.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose= this.handleClose.bind(this);
@@ -56,16 +55,7 @@ class Search extends Component {
           })
       }
 
-      handleChangeDeparture = (name, value) => {
-        this.setState(({valueGroups}) => ({
-          valueGroups: {
-            ...valueGroups,
-            [name]: value
-          }
-        }));
-      };
-
-      handleChangeArrival = (name, value) => {
+      handleChange = (name, value) => {
         this.setState(({valueGroups}) => ({
           valueGroups: {
             ...valueGroups,
@@ -77,7 +67,17 @@ class Search extends Component {
 
     render() {
         return (
-            <div className ="searchroom">
+            <div className ="searchroom"> 
+                {/* 방 제목으로 검색 */}
+                <WhiteContainer title ="방 검색">
+                    <label > 방명 </label>
+                    <div className = "roomname">
+                        <form onSubmit={ this.onFormSubmit }>
+                            <input type='text' placeholder="방 이름을 입력하세요" style={{borderStyle:"none"}}></input>
+                        </form>
+                    </div>
+                </WhiteContainer>
+                 {/* 출발지, 도착지로검색 */}
                 <WhiteContainer title ="방 검색">
                     <Paper style={{height:"150px", margin:'40px', padding:"20px", borderRadius: '12px' }}>
                         <Grid container >
@@ -89,19 +89,15 @@ class Search extends Component {
                                         어디서 출발할까요?
                                         </div>
                                     </Button>
-                                        <Dialog open={this.state.open} onClose={this.handleClose} >
-                                            <DialogContent style={{height: '300px', margin: 'auto', width: '500px'}}>
-                                                <Picker
-                                                    optionGroups={this.state.optionGroups}
-                                                    valueGroups={this.state.valueGroups}
-                                                    onChange={this.handleChangeDeparture}
-                                                />
-                                            </DialogContent>
-                                            {/* <DialogActions>
-                                                <Button onClick={this.handleClose}> 취소 </Button>
-                                                <Button> 선택하기 </Button>
-                                            </DialogActions> */}
-                                        </Dialog>
+                                    <Dialog open={this.state.open} onClose={this.handleClose} >
+                                        <DialogContent style={{height: '300px', margin: 'auto', width: '500px'}}>
+                                            <Picker
+                                                optionGroups={this.state.optionGroups}
+                                                valueGroups={this.state.valueGroups}
+                                                onChange={this.handleChange}
+                                            />
+                                        </DialogContent>
+                                    </Dialog>
                                 </div>
                             </Grid>
                             <Divider orientation="vertical" flexItem style={{height:'100px',margin:"auto"}}/>
@@ -118,7 +114,7 @@ class Search extends Component {
                                             <Picker
                                                 optionGroups={this.state.optionGroups}
                                                 valueGroups={this.state.valueGroups}
-                                                onChange={this.handleChangeArrival}
+                                                onChange={this.handleChange}
                                                 />
                                         </DialogContent>
                                     </Dialog>
@@ -126,11 +122,11 @@ class Search extends Component {
                             </Grid>
                         </Grid>
                     </Paper>
-
-                    <hr></hr>
-
-                    <div className = "date" style={{}}>
-                    <label > 출발 날짜 </label>
+                    </WhiteContainer>
+                     {/* 날짜로 검색 */}
+                    <WhiteContainer title ="날짜 검색">
+                        <div className = "date" >
+                        <label > 출발 날짜 </label>
                         <form onSubmit={ this.onFormSubmit }>
                             <div style={{display: 'flex',  justifyContent:'center', alignItems:'center', marginBottom:60}}>
                                 <DatePicker
@@ -142,9 +138,9 @@ class Search extends Component {
                                 </div>
                         </form>
                     </div>
-
-                    <hr></hr>
-
+                    </WhiteContainer>
+                    {/* 시간으로 검색 후보 1*/}
+                    <WhiteContainer>
                     <div  className="deptime"> 출발시간</div> 
                     <div className = "departuretime" style={{marginBottom:60, display:"flex",flexDirection:"row", alignItems:"stretch" , justifyContent:"space-evenly"}}>
                         <div style={{width:'20%'}} className="am">
@@ -173,27 +169,16 @@ class Search extends Component {
                                 />
                         </div>
                     </div>
-                    
-                    <hr></hr>
-
-                    <label > 방명 </label>
-                    <div className = "roomname">
-                        <form onSubmit={ this.onFormSubmit }>
-                            <input type='text' placeholder="방 이름을 입력하세요" style={{borderStyle:"none"}}></input>
-                        </form>
-                    </div>
-
-                    <button className="submitbutton" style={{backgroundColor:"#7F59CA" , width: '100%', height:40, borderRadius:10, marginTop:40}}  > 검색하기 </button>
                 </WhiteContainer>
-                <WhiteContainerMargin/>
-                <WhiteContainer title="추천 방 목록">
+                {/* 시간으로 검색 후보 2 */}
+                <WhiteContainer title="시간">
                     <div style={{ display: 'flex', alignContent: 'row', justifyContent: 'center'}}>
                         <div> 시간: </div>
                         <div style={{width: '100px',fontSize:'12px', backgroundColor:'#F7F7F7', borderRadius:'10px', padding: '10px', margin: '20px'}}>
                             <Picker
                                 optionGroups={this.state.optionGroups}
                                 valueGroups={this.state.valueGroups}
-                                onChange={this.handleChangeDeparture}
+                                onChange={this.handleChange}
                             />
                         </div>
                         <div> 시 </div>
@@ -201,13 +186,15 @@ class Search extends Component {
                             <Picker
                                 optionGroups={this.state.optionGroups}
                                 valueGroups={this.state.valueGroups}
-                                onChange={this.handleChangeDeparture}
+                                onChange={this.handleChange}
                             />
                         </div>
                         <div> 분 이후 </div>
                     </div>
-
                 </WhiteContainer>
+                <button className="submitbutton" style={{backgroundColor:"#7F59CA",width: '43%', height:40, borderRadius:10, marginLeft: '28.5%'}}  > 
+                    검색하기
+                </button>
             </div>
           );
     }
