@@ -8,7 +8,6 @@ import {Paper, Divider, Grid, Dialog, DialogContent, Button, DialogActions} from
 import Picker from 'react-scrollable-picker';
 //import Picker from 'react-mobile-picker';
 
- 
 import "react-datepicker/dist/react-datepicker.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -144,7 +143,7 @@ class Search extends Component {
                 </WhiteContainer>
                  {/* 출발지, 도착지로검색 */}
                 <WhiteContainer title ="방 검색">
-                    <Paper style={{height:"150px", margin:'40px', padding:"20px", borderRadius: '12px' }}>
+                    <Paper style={{height:"80px", margin:'40px'}} elevation={0}>
                         <Grid container >
                             <Grid item xs={5}>
                                 <div className = "departure" style={{display:'flex', flexDirection:'column', justifyContent:'flex-start'}}>
@@ -165,7 +164,7 @@ class Search extends Component {
                                     </Dialog>
                                 </div>
                             </Grid>
-                            <Divider orientation="vertical" flexItem style={{height:'100px',margin:"auto"}}/>
+                            <Divider orientation="vertical" flexItem style={{height:'180px',margin:'auto'}}/>
                             <Grid item xs={5}>
                                 <div className = "arrival" style={{display:'flex', flexDirection:'column', justifyContent:'flex-start'}}>
                                     <label style={{margin:'auto'}}> 도착지 </label>
