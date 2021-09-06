@@ -19,21 +19,58 @@ class Search extends Component {
         this.state = {
             startDate: new Date(),
             open : false,
-            valueGroups: {
-                place: '카이스트'
+            valueGroupsDep: {
+                place: '택시승강장'
               }, 
-            optionGroups: {
+            optionGroupsDep: {
                 place: [
-                { value: '택시승강장', label: '택시승강장' },
-                { value: '갤러리아 타임월드', label: '갤러리아 타임월드' },
-                { value: '서대전역', label: '서대전역' },
-                { value: '대전역', label: '대전역' },
-                { value: '정부청사', label: '정부청사' }
+                    { value: '택시승강장', label: '택시승강장' },
+                    { value: '갤러리아 타임월드', label: '갤러리아 타임월드' },
+                    { value: '서대전역', label: '서대전역' },
+                    { value: '대전역', label: '대전역' },
+                    { value: '정부청사', label: '정부청사' }
+                ],
+            },
+            valueGroupsArr: {
+                place: '택시승강장'
+              }, 
+            optionGroupsArr: {
+                place: [
+                    { value: '택시승강장', label: '택시승강장' },
+                    { value: '갤러리아 타임월드', label: '갤러리아 타임월드' },
+                    { value: '서대전역', label: '서대전역' },
+                    { value: '대전역', label: '대전역' },
+                    { value: '정부청사', label: '정부청사' }
+                ],
+            },
+            valueGroupsTimeHour: {
+                place: '1'
+              }, 
+            optionGroupsTimeHour: {
+                place: [
+                { value: '1', label: '1' },
+                { value: '2', label: '2' },
+                { value: '3', label: '3' },
+                { value: '4', label: '4' },
+                { value: '5', label: '5' }
+            ],
+            },
+            valueGroupsTimeMin: {
+                place: '15'
+              }, 
+            optionGroupsTimeMin: {
+                place: [
+                { value: '15', label: '15' },
+                { value: '30', label: '30' },
+                { value: '45', label: '45' },
+                { value: '00', label: '00' }
             ],
             },
         };
-        this.handleChangeDeparture = this.handleChangeDeparture.bind(this);
-        this.handleChangeArrival = this.handleChangeArrival.bind(this);
+        this.handleChangeDep = this.handleChangeDep.bind(this);
+        this.handleChangeArr = this.handleChangeArr.bind(this);
+        this.handleChangeTimeHour = this.handleChangeTimeHour.bind(this);
+        this.handleChangeTimeMin = this.handleChangeTimeMin.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose= this.handleClose.bind(this);
@@ -56,19 +93,37 @@ class Search extends Component {
           })
       }
 
-      handleChangeDeparture = (name, value) => {
-        this.setState(({valueGroups}) => ({
-          valueGroups: {
-            ...valueGroups,
+      handleChangeDep = (name, value) => {
+        this.setState(({valueGroupsDep}) => ({
+          valueGroupsDep: {
+            ...valueGroupsDep,
             [name]: value
           }
         }));
       };
 
-      handleChangeArrival = (name, value) => {
-        this.setState(({valueGroups}) => ({
-          valueGroups: {
-            ...valueGroups,
+      handleChangeArr = (name, value) => {
+        this.setState(({valueGroupsArr}) => ({
+          valueGroupsArr: {
+            ...valueGroupsArr,
+            [name]: value
+          }
+        }));
+      };
+
+      handleChangeTimeHour = (name, value) => {
+        this.setState(({valueGroupsTimeHour}) => ({
+          valueGroupsTimeHour: {
+            ...valueGroupsTimeHour,
+            [name]: value
+          }
+        }));
+      };
+
+      handleChangeTimeMin = (name, value) => {
+        this.setState(({valueGroupsTimeMin}) => ({
+          valueGroupsTimeMin: {
+            ...valueGroupsTimeMin,
             [name]: value
           }
         }));
@@ -77,7 +132,17 @@ class Search extends Component {
 
     render() {
         return (
-            <div className ="searchroom">
+            <div className ="searchroom"> 
+                {/* 방 제목으로 검색 */}
+                <WhiteContainer title ="방 검색">
+                    <label > 방명 </label>
+                    <div className = "roomname">
+                        <form onSubmit={ this.onFormSubmit }>
+                            <input type='text' placeholder="방 이름을 입력하세요" style={{borderStyle:"none"}}></input>
+                        </form>
+                    </div>
+                </WhiteContainer>
+                 {/* 출발지, 도착지로검색 */}
                 <WhiteContainer title ="방 검색">
                     <Paper style={{height:"150px", margin:'40px', padding:"20px", borderRadius: '12px' }}>
                         <Grid container >
@@ -89,19 +154,15 @@ class Search extends Component {
                                         어디서 출발할까요?
                                         </div>
                                     </Button>
-                                        <Dialog open={this.state.open} onClose={this.handleClose} >
-                                            <DialogContent style={{height: '300px', margin: 'auto', width: '500px'}}>
-                                                <Picker
-                                                    optionGroups={this.state.optionGroups}
-                                                    valueGroups={this.state.valueGroups}
-                                                    onChange={this.handleChangeDeparture}
-                                                />
-                                            </DialogContent>
-                                            {/* <DialogActions>
-                                                <Button onClick={this.handleClose}> 취소 </Button>
-                                                <Button> 선택하기 </Button>
-                                            </DialogActions> */}
-                                        </Dialog>
+                                    <Dialog open={this.state.open} onClose={this.handleClose} >
+                                        <DialogContent style={{height: '300px', margin: 'auto', width: '500px'}}>
+                                            <Picker
+                                                optionGroups={this.state.optionGroupsDep}
+                                                valueGroups={this.state.valueGroupsDep}
+                                                onChange={this.handleChangeDep}
+                                            />
+                                        </DialogContent>
+                                    </Dialog>
                                 </div>
                             </Grid>
                             <Divider orientation="vertical" flexItem style={{height:'100px',margin:"auto"}}/>
@@ -116,9 +177,9 @@ class Search extends Component {
                                     <Dialog open={this.state.open} onClose={this.handleClose} >
                                         <DialogContent style={{height: '300px', margin: 'auto', width: '500px'}}>
                                             <Picker
-                                                optionGroups={this.state.optionGroups}
-                                                valueGroups={this.state.valueGroups}
-                                                onChange={this.handleChangeArrival}
+                                                optionGroups={this.state.optionGroupsArr}
+                                                valueGroups={this.state.valueGroupsArr}
+                                                onChange={this.handleChangeArr}
                                                 />
                                         </DialogContent>
                                     </Dialog>
@@ -126,11 +187,11 @@ class Search extends Component {
                             </Grid>
                         </Grid>
                     </Paper>
-
-                    <hr></hr>
-
-                    <div className = "date" style={{}}>
-                    <label > 출발 날짜 </label>
+                    </WhiteContainer>
+                     {/* 날짜로 검색 */}
+                    <WhiteContainer title ="날짜 검색">
+                        <div className = "date" >
+                        <label > 출발 날짜 </label>
                         <form onSubmit={ this.onFormSubmit }>
                             <div style={{display: 'flex',  justifyContent:'center', alignItems:'center', marginBottom:60}}>
                                 <DatePicker
@@ -142,9 +203,9 @@ class Search extends Component {
                                 </div>
                         </form>
                     </div>
-
-                    <hr></hr>
-
+                    </WhiteContainer>
+                    {/* 시간으로 검색 후보 1*/}
+                    <WhiteContainer>
                     <div  className="deptime"> 출발시간</div> 
                     <div className = "departuretime" style={{marginBottom:60, display:"flex",flexDirection:"row", alignItems:"stretch" , justifyContent:"space-evenly"}}>
                         <div style={{width:'20%'}} className="am">
@@ -170,44 +231,35 @@ class Search extends Component {
                                 options={ [
                                 { value: '0', label: '0' }, { value: '15', label: '15' },{ value: '30', label: '30' },{ value: '45', label: '45' }
                                 ]}
-                                />
+                            />
                         </div>
                     </div>
-                    
-                    <hr></hr>
-
-                    <label > 방명 </label>
-                    <div className = "roomname">
-                        <form onSubmit={ this.onFormSubmit }>
-                            <input type='text' placeholder="방 이름을 입력하세요" style={{borderStyle:"none"}}></input>
-                        </form>
-                    </div>
-
-                    <button className="submitbutton" style={{backgroundColor:"#7F59CA" , width: '100%', height:40, borderRadius:10, marginTop:40}}  > 검색하기 </button>
                 </WhiteContainer>
-                <WhiteContainerMargin/>
-                <WhiteContainer title="추천 방 목록">
+                {/* 시간으로 검색 후보 2 */}
+                <WhiteContainer title="시간">
                     <div style={{ display: 'flex', alignContent: 'row', justifyContent: 'center'}}>
                         <div> 시간: </div>
                         <div style={{width: '100px',fontSize:'12px', backgroundColor:'#F7F7F7', borderRadius:'10px', padding: '10px', margin: '20px'}}>
                             <Picker
-                                optionGroups={this.state.optionGroups}
-                                valueGroups={this.state.valueGroups}
-                                onChange={this.handleChangeDeparture}
+                                optionGroups={this.state.optionGroupsTimeHour}
+                                valueGroups={this.state.valueGroupsTimeHour}
+                                onChange={this.handleChangeTimeHour}
                             />
                         </div>
                         <div> 시 </div>
                         <div style={{width: '100px', fontSize:'12px', backgroundColor:'#F7F7F7', borderRadius:'10px', padding: '10px',  margin: '20px'}}>
                             <Picker
-                                optionGroups={this.state.optionGroups}
-                                valueGroups={this.state.valueGroups}
-                                onChange={this.handleChangeDeparture}
+                                optionGroups={this.state.optionGroupsTimeMin}
+                                valueGroups={this.state.valueGroupsTimeMin}
+                                onChange={this.handleChangeTimeMin}
                             />
                         </div>
                         <div> 분 이후 </div>
                     </div>
-
                 </WhiteContainer>
+                <button className="submitbutton" style={{backgroundColor:"#7F59CA",width: '43%', height:40, borderRadius:10, marginLeft: '28.5%'}}  > 
+                    검색하기
+                </button>
             </div>
           );
     }
