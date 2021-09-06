@@ -19,20 +19,58 @@ class Search extends Component {
         this.state = {
             startDate: new Date(),
             open : false,
-            valueGroups: {
-                place: '카이스트'
+            valueGroupsDep: {
+                place: '택시승강장'
               }, 
-            optionGroups: {
+            optionGroupsDep: {
                 place: [
-                { value: '택시승강장', label: '택시승강장' },
-                { value: '갤러리아 타임월드', label: '갤러리아 타임월드' },
-                { value: '서대전역', label: '서대전역' },
-                { value: '대전역', label: '대전역' },
-                { value: '정부청사', label: '정부청사' }
+                    { value: '택시승강장', label: '택시승강장' },
+                    { value: '갤러리아 타임월드', label: '갤러리아 타임월드' },
+                    { value: '서대전역', label: '서대전역' },
+                    { value: '대전역', label: '대전역' },
+                    { value: '정부청사', label: '정부청사' }
+                ],
+            },
+            valueGroupsArr: {
+                place: '택시승강장'
+              }, 
+            optionGroupsArr: {
+                place: [
+                    { value: '택시승강장', label: '택시승강장' },
+                    { value: '갤러리아 타임월드', label: '갤러리아 타임월드' },
+                    { value: '서대전역', label: '서대전역' },
+                    { value: '대전역', label: '대전역' },
+                    { value: '정부청사', label: '정부청사' }
+                ],
+            },
+            valueGroupsTimeHour: {
+                place: '1'
+              }, 
+            optionGroupsTimeHour: {
+                place: [
+                { value: '1', label: '1' },
+                { value: '2', label: '2' },
+                { value: '3', label: '3' },
+                { value: '4', label: '4' },
+                { value: '5', label: '5' }
+            ],
+            },
+            valueGroupsTimeMin: {
+                place: '15'
+              }, 
+            optionGroupsTimeMin: {
+                place: [
+                { value: '15', label: '15' },
+                { value: '30', label: '30' },
+                { value: '45', label: '45' },
+                { value: '00', label: '00' }
             ],
             },
         };
-        this.handleChange = this.handleChange.bind(this);
+        this.handleChangeDep = this.handleChangeDep.bind(this);
+        this.handleChangeArr = this.handleChangeArr.bind(this);
+        this.handleChangeTimeHour = this.handleChangeTimeHour.bind(this);
+        this.handleChangeTimeMin = this.handleChangeTimeMin.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose= this.handleClose.bind(this);
@@ -55,10 +93,37 @@ class Search extends Component {
           })
       }
 
-      handleChange = (name, value) => {
-        this.setState(({valueGroups}) => ({
-          valueGroups: {
-            ...valueGroups,
+      handleChangeDep = (name, value) => {
+        this.setState(({valueGroupsDep}) => ({
+          valueGroupsDep: {
+            ...valueGroupsDep,
+            [name]: value
+          }
+        }));
+      };
+
+      handleChangeArr = (name, value) => {
+        this.setState(({valueGroupsArr}) => ({
+          valueGroupsArr: {
+            ...valueGroupsArr,
+            [name]: value
+          }
+        }));
+      };
+
+      handleChangeTimeHour = (name, value) => {
+        this.setState(({valueGroupsTimeHour}) => ({
+          valueGroupsTimeHour: {
+            ...valueGroupsTimeHour,
+            [name]: value
+          }
+        }));
+      };
+
+      handleChangeTimeMin = (name, value) => {
+        this.setState(({valueGroupsTimeMin}) => ({
+          valueGroupsTimeMin: {
+            ...valueGroupsTimeMin,
             [name]: value
           }
         }));
@@ -92,9 +157,9 @@ class Search extends Component {
                                     <Dialog open={this.state.open} onClose={this.handleClose} >
                                         <DialogContent style={{height: '300px', margin: 'auto', width: '500px'}}>
                                             <Picker
-                                                optionGroups={this.state.optionGroups}
-                                                valueGroups={this.state.valueGroups}
-                                                onChange={this.handleChange}
+                                                optionGroups={this.state.optionGroupsDep}
+                                                valueGroups={this.state.valueGroupsDep}
+                                                onChange={this.handleChangeDep}
                                             />
                                         </DialogContent>
                                     </Dialog>
@@ -112,9 +177,9 @@ class Search extends Component {
                                     <Dialog open={this.state.open} onClose={this.handleClose} >
                                         <DialogContent style={{height: '300px', margin: 'auto', width: '500px'}}>
                                             <Picker
-                                                optionGroups={this.state.optionGroups}
-                                                valueGroups={this.state.valueGroups}
-                                                onChange={this.handleChange}
+                                                optionGroups={this.state.optionGroupsArr}
+                                                valueGroups={this.state.valueGroupsArr}
+                                                onChange={this.handleChangeArr}
                                                 />
                                         </DialogContent>
                                     </Dialog>
@@ -166,7 +231,7 @@ class Search extends Component {
                                 options={ [
                                 { value: '0', label: '0' }, { value: '15', label: '15' },{ value: '30', label: '30' },{ value: '45', label: '45' }
                                 ]}
-                                />
+                            />
                         </div>
                     </div>
                 </WhiteContainer>
@@ -176,17 +241,17 @@ class Search extends Component {
                         <div> 시간: </div>
                         <div style={{width: '100px',fontSize:'12px', backgroundColor:'#F7F7F7', borderRadius:'10px', padding: '10px', margin: '20px'}}>
                             <Picker
-                                optionGroups={this.state.optionGroups}
-                                valueGroups={this.state.valueGroups}
-                                onChange={this.handleChange}
+                                optionGroups={this.state.optionGroupsTimeHour}
+                                valueGroups={this.state.valueGroupsTimeHour}
+                                onChange={this.handleChangeTimeHour}
                             />
                         </div>
                         <div> 시 </div>
                         <div style={{width: '100px', fontSize:'12px', backgroundColor:'#F7F7F7', borderRadius:'10px', padding: '10px',  margin: '20px'}}>
                             <Picker
-                                optionGroups={this.state.optionGroups}
-                                valueGroups={this.state.valueGroups}
-                                onChange={this.handleChange}
+                                optionGroups={this.state.optionGroupsTimeMin}
+                                valueGroups={this.state.valueGroupsTimeMin}
+                                onChange={this.handleChangeTimeMin}
                             />
                         </div>
                         <div> 분 이후 </div>
