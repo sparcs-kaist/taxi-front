@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { useSpring, animated } from 'react-spring';
+import getDateInfo from './getDateInfo';
 import svgToday from './svg_today.svg';
 import svgLeft from './svg_left.svg';
 import svgRight from './svg_right.svg';
@@ -23,7 +24,7 @@ const Date = (props) => {
         }
 
         let color = '#323232';
-        console.log(props.key)
+        //console.log(props.key)
         if(props.index === 0 || props.index === 6) color = '#DD616E';
         if(props.available === 'today') color = 'rgb(102,61,113)';
         if(props.selected) color = '#FFFFFF';
@@ -93,53 +94,7 @@ class DatePicker extends Component {
         }
     }
     getDateInfo(){
-        const info = [
-            [
-                { date: null },
-                { date: null },
-                { date: null },
-                { date: null },
-                { date: 1, available: null },
-                { date: 2, available: null },
-                { date: 3, available: null },
-            ],
-            [
-                { date: 4, available: null },
-                { date: 5, available: null },
-                { date: 6, available: null },
-                { date: 7, available: null },
-                { date: 8, available: null },
-                { date: 9, available: null },
-                { date: 10, available: null },
-            ],
-            [
-                { date: 11, available: null },
-                { date: 12, available: null },
-                { date: 13, available: null },
-                { date: 14, available: 'today' },
-                { date: 15, available: true },
-                { date: 16, available: true },
-                { date: 17, available: true },
-            ],
-            [
-                { date: 18, available: true },
-                { date: 19, available: true },
-                { date: 20, available: true },
-                { date: 21, available: true },
-                { date: 22, available: true },
-                { date: 23, available: true },
-                { date: 24, available: true },
-            ],
-            [
-                { date: 25, available: true },
-                { date: 26, available: true },
-                { date: 27, available: true },
-                { date: 28, available: true },
-                { date: 29, available: true },
-                { date: 30, available: true },
-                { date: 31, available: true },
-            ],
-        ]
+        const info = getDateInfo.get();
         return info;
     }
     render(){
