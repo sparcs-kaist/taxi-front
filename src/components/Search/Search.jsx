@@ -16,11 +16,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 class Search extends Component {
     constructor(props){
-
         super(props)
         this.state = {
             startDate: new Date(),
-            open : false,
+            openDep : false,
+            openArr: false,
+            openTime:false,
             valueGroupsDep: {
                 place: '택시승강장'
               }, 
@@ -46,10 +47,10 @@ class Search extends Component {
                 ],
             },
             valueGroupsTimeHour: {
-                place: '1'
+                hour: '1'
               }, 
             optionGroupsTimeHour: {
-                place: [
+                hour: [
                 { value: '1', label: '1' },
                 { value: '2', label: '2' },
                 { value: '3', label: '3' },
@@ -58,10 +59,10 @@ class Search extends Component {
             ],
             },
             valueGroupsTimeMin: {
-                place: '15'
+                min: '15'
               }, 
             optionGroupsTimeMin: {
-                place: [
+                min: [
                 { value: '15', label: '15' },
                 { value: '30', label: '30' },
                 { value: '45', label: '45' },
@@ -74,8 +75,12 @@ class Search extends Component {
         this.handleChangeTimeHour = this.handleChangeTimeHour.bind(this);
         this.handleChangeTimeMin = this.handleChangeTimeMin.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
-        this.handleOpen = this.handleOpen.bind(this);
-        this.handleClose= this.handleClose.bind(this);
+        this.handleOpenArr = this.handleOpenArr.bind(this);
+        this.handleOpenDep = this.handleOpenDep.bind(this);
+        this.handleOpenTime = this.handleOpenTime.bind(this);
+        this.handleCloseArr= this.handleCloseArr.bind(this);
+        this.handleCloseDep= this.handleCloseDep.bind(this);
+        this.handleCloseTime= this.handleCloseTime.bind(this);
     }
     
       onFormSubmit(e) {
@@ -83,17 +88,42 @@ class Search extends Component {
         console.log(this.state.startDate)
       }
 
-      handleOpen(){
+      handleOpenDep(){
           this.setState({
-              open: true
+              openDep: true
+          })
+      }
+      handleOpenArr(){
+        this.setState({
+            openArr: true
+        })
+    }
+    
+    handleOpenTime(){
+        this.setState({
+            openTime: true
+        })
+    }
+
+      handleCloseTime(){
+          this.setState({
+              openTime: true
           })
       }
 
-      handleClose(){
-          this.setState({
-              open: false
-          })
-      }
+      handleCloseArr(){
+        this.setState({
+            openArr: false
+        })
+    }
+
+    handleCloseDep(){
+        this.setState({
+            openArr: false
+        })
+    }
+
+
 
       handleChangeDep = (name, value) => {
         this.setState(({valueGroupsDep}) => ({
@@ -138,26 +168,28 @@ class Search extends Component {
                 {/* 방 제목으로 검색 */}
                 <Title img={ svgSearch }>방 검색하기</Title>
                 <WhiteContainer title ="방 검색">
-                    <label> 방명 </label>
-                    <div className = "roomname">
-                        <form onSubmit={ this.onFormSubmit }>
-                            <input type='text' placeholder="방 이름을 입력하세요" style={{borderStyle:"none"}}></input>
-                        </form>
+                    <div style={{display: 'flex', alignContent: 'row'}}>
+                        <label> 방 이름 : </label>
+                        <div className = "roomname" style={{marginLeft: '20px', borderRadius:'10px'}}>
+                            <form onSubmit={ this.onFormSubmit }>
+                                <input type='text' placeholder="방 이름을 입력하세요" style={{borderStyle:"none"}}></input>
+                            </form>
+                        </div>
                     </div>
                 </WhiteContainer>
                  {/* 출발지, 도착지로검색 */}
                 <WhiteContainer title ="방 검색">
-                    <Paper style={{height:"150px", margin:'40px', padding:"20px", borderRadius: '12px' }}>
+                    <Paper style={{height:"80px", margin:'40px'}} elevation={0}>
                         <Grid container >
-                            <Grid item xs={5}>
-                                <div className = "departure" style={{display:'flex', flexDirection:'column', justifyContent:'flex-start'}}>
+                            <Grid item xs={6}>
+                                <div className = "departure" style={{display:'flex', flexDirection:'column'}}>
                                     <label style={{margin:'auto'}}> 출발지 </label>
-                                    <Button onClick={this.handleOpen} style={{marginTop: '15px',  color: 'lightgray'}}>
+                                    <Button onClick={this.handleOpenArr} style={{margin:'auto',  color: 'lightgray'}}>
                                         <div style={{fontWeight: 'bold', fontSize: '20px'}}>
                                         어디서 출발할까요?
                                         </div>
                                     </Button>
-                                    <Dialog open={this.state.open} onClose={this.handleClose} >
+                                    <Dialog open={this.state.openArr} onClose={this.handleCloseArr} >
                                         <DialogContent style={{height: '300px', margin: 'auto', width: '500px'}}>
                                             <Picker
                                                 optionGroups={this.state.optionGroupsDep}
@@ -168,16 +200,15 @@ class Search extends Component {
                                     </Dialog>
                                 </div>
                             </Grid>
-                            <Divider orientation="vertical" flexItem style={{height:'100px',margin:"auto"}}/>
-                            <Grid item xs={5}>
-                                <div className = "arrival" style={{display:'flex', flexDirection:'column', justifyContent:'flex-start'}}>
+                            <Grid item xs={6}>
+                                <div className = "arrival" style={{display:'flex', flexDirection:'column'}}>
                                     <label style={{margin:'auto'}}> 도착지 </label>
-                                    <Button onClick={this.handleOpen} style={{marginTop: '15px',  color: 'lightgray'}}>
+                                    <Button onClick={this.handleOpenDep} style={{margin:'auto',  color: 'lightgray'}}>
                                         <div style={{fontWeight: 'bold', fontSize: '20px'}}>
                                         어디로 갈까요?
                                         </div>
                                     </Button>
-                                    <Dialog open={this.state.open} onClose={this.handleClose} >
+                                    <Dialog open={this.state.openDep} onClose={this.handleCloseDep} >
                                         <DialogContent style={{height: '300px', margin: 'auto', width: '500px'}}>
                                             <Picker
                                                 optionGroups={this.state.optionGroupsArr}
@@ -207,57 +238,34 @@ class Search extends Component {
                         </form>
                     </div>
                     </WhiteContainer>
-                    {/* 시간으로 검색 후보 1*/}
-                    <WhiteContainer>
-                    <div  className="deptime"> 출발시간</div> 
-                    <div className = "departuretime" style={{marginBottom:60, display:"flex",flexDirection:"row", alignItems:"stretch" , justifyContent:"space-evenly"}}>
-                        <div style={{width:'20%'}} className="am">
-                            <label style={{fontSize:12}}> AM/PM </label>
-                            <Select 
-                                options={ [
-                                { value: 'AM', label: 'AM' },
-                                { value: 'PM', label: 'PM' },
-                                ]}
-                                />
-                        </div>
-                        <div style={{width:'30%'}} className="hour">
-                            <label style={{fontSize:12}}> 시간 </label>
-                            <Select 
-                                options={ [
-                                { value: '1', label: '1' },{ value: '2', label: '2' },{ value: '3', label: '3' },{ value: '4', label: '4' },{ value: '5', label: '5' },{ value: '6', label: '6' },{ value: '7', label: '7' },{ value: '8', label: '8' },{ value: '9', label: '9' },{ value: '10', label: '10' },{ value: '11', label: '11' },
-                                ]}
-                                />
-                        </div>
-                        <div style={{width:'20%'}} className="minute">
-                            <label style={{fontSize:12}}> 분 </label>
-                            <Select 
-                                options={ [
-                                { value: '0', label: '0' }, { value: '15', label: '15' },{ value: '30', label: '30' },{ value: '45', label: '45' }
-                                ]}
-                            />
-                        </div>
-                    </div>
-                </WhiteContainer>
                 {/* 시간으로 검색 후보 2 */}
                 <WhiteContainer title="시간">
+                    <label > 출발 시각 </label>
                     <div style={{ display: 'flex', alignContent: 'row', justifyContent: 'center'}}>
-                        <div> 시간: </div>
-                        <div style={{width: '100px',fontSize:'12px', backgroundColor:'#F7F7F7', borderRadius:'10px', padding: '10px', margin: '20px'}}>
-                            <Picker
-                                optionGroups={this.state.optionGroupsTimeHour}
-                                valueGroups={this.state.valueGroupsTimeHour}
-                                onChange={this.handleChangeTimeHour}
-                            />
-                        </div>
-                        <div> 시 </div>
-                        <div style={{width: '100px', fontSize:'12px', backgroundColor:'#F7F7F7', borderRadius:'10px', padding: '10px',  margin: '20px'}}>
-                            <Picker
-                                optionGroups={this.state.optionGroupsTimeMin}
-                                valueGroups={this.state.valueGroupsTimeMin}
-                                onChange={this.handleChangeTimeMin}
-                            />
-                        </div>
-                        <div> 분 이후 </div>
+                        <Button onClick={this.handleOpenArr} style={{margin:'auto',  color: 'lightgray'}}>
+                            몇시 몇분에 출발할까요?
+                        </Button>
+                        <Dialog open={this.state.openTime} onClose={this.handleCloseTIme} >
+                            <DialogContent style={{height: '300px', margin: 'auto', width: '500px'}}>
+                            <div> 시간: </div>
+                                <div style={{width: '100px',fontSize:'12px', backgroundColor:'#F7F7F7', borderRadius:'10px', padding: '10px', margin: '20px'}}>
+                                    <Picker
+                                        optionGroups={this.state.optionGroupsTimeHour}
+                                        valueGroups={this.state.valueGroupsTimeHour}
+                                        onChange={this.handleChangeTimeHour}
+                                    />
+                                </div>
+                                <div> 시 </div>
+                                <div style={{width: '100px', fontSize:'12px', backgroundColor:'#F7F7F7', borderRadius:'10px', padding: '10px',  margin: '20px'}}>
+                                    <Picker
+                                        optionGroups={this.state.optionGroupsTimeMin}
+                                        valueGroups={this.state.valueGroupsTimeMin}
+                                        onChange={this.handleChangeTimeMin}
+                                    />
+                                </div>
+                                <div> 분 이후 </div>
+                            </DialogContent>
+                        </Dialog>
                     </div>
                 </WhiteContainer>
                 <button className="submitbutton" style={{backgroundColor:"#7F59CA",width: '43%', height:40, borderRadius:10, marginLeft: '28.5%'}}  > 
