@@ -10,7 +10,6 @@ const Date = (props) => {
         display: 'inline-block', position: 'relative',
         width: '14.2%', height: '100%', overflow: 'hidden'
     }
-    if(!props.date) return <span style={ style }/>;
 
     let styleBox = {
         width: 'calc(100% - 6px)', height: '100%', marginLeft: '3px',
@@ -20,7 +19,11 @@ const Date = (props) => {
     let styleDate = {
         width: '100%', textAlign: 'center', height: '24px', lineHeight: '24px',
         position: 'absolute', top: 'calc(50% - 12px)', left: '0px',
-        fontSize: '16px', fontWeight: 300, color: '#C8C8C8'
+        fontSize: '15px', fontWeight: 300, color: '#C8C8C8'
+    }
+    let styleToday = {
+        width: '4px', height: '4px', borderRadius: '2px',
+        position: 'absolute', top: 'calc(50% + 10px)', left: 'calc(50% - 2px)'
     }
 
     if(props.available){
@@ -28,18 +31,30 @@ const Date = (props) => {
         styleBox.background = '#FAF8FB';
         className = 'BTNC';
         styleDate.color = '#323232';
+        if(props.available === 'today') styleToday.background = '#B89DBD';
     }
     if(props.selected){
         styleBox.background = '#6E3678';
         styleDate.color = 'white';
         styleDate.fontWeight = 500;
+        if(props.available === 'today') styleToday.background = 'white';
     }
+
+    const onClick = () => {
+        if(props.available) props.handler(props.month, props.date);
+    }
+    const background = useSpring({
+        background: styleBox.background,
+        config: { duration: 150 }
+    });
  
+    if(!props.date) return <span style={ style }/>;
     return (
         <span style={ style }>
-            <div style={ styleBox } className={ className }>
+            <animated.div style={{ ...styleBox, ...background }} className={ className } onClick={ onClick }>
                 <div style={ styleDate }>{ props.date }</div>
-            </div>
+                <div style={ styleToday }/>
+            </animated.div>
         </span>
     )
 }
@@ -91,28 +106,56 @@ class DatePicker extends Component {
             fontSize: '13px', textAlign: 'center'
         }
         this.styleLayOneWeek = {
-            height: '40px', position: 'relative', marginBottom: '6px'
+            position: 'relative', marginBottom: '6px'
         }
+
+        this.state = { selectedDate: [undefined, undefined], showNext: false }
+        this.month1 = getDateInfo.getCurrent();
+        this.month2 = getDateInfo.getNext();
     }
-    getDateInfo(){
-        const info = getDateInfo.get();
-        return info;
+    dateHandler(month, date){
+        this.setState({ selectedDate: [month, date] });
+        if(this.props.handler){
+            this.props.handler(month, date);
+        }
     }
 
     resizeEvent(){
         const bodyWidth = document.body.clientWidth;
+        const weeks = document.getElementsByClassName('datepicker-week');
+
+        if(weeks.length > 0){
+            const width = weeks[0].clientWidth / 7 - 6;
+            const height = `${ Math.min(width, 50) }px`;
+            for(let i=0; i<weeks.length; i++){
+                weeks[i].style.height = height;
+            }
+        }
     }
 
     render(){
-        const dateInfo = this.getDateInfo();
+        const dateInfo = (this.state.showNext ? this.month2 : this.month1);
+        let year = '', month = '';
+
+        if(dateInfo.length > 1){
+            year = dateInfo[1][0].year;
+            month = dateInfo[1][0].month;
+        }
+
+        const onClickBack = () => {
+            this.setState({ showNext: false });
+        }
+        const onClickNext = () => {
+            this.setState({ showNext: true });
+        }
 
         return (
             <div>
                 <div style={ this.styleLayTop }>
                     <img src={ svgToday } style={ this.styleLayTopImg } alt=""/>
-                    <div style={ this.styleLayTopTxt }>날짜 : 2021년 7월</div>
-                    <img src={ svgLeft } style={ this.styleLayTopLeft } alt=""/>
-                    <img src={ svgRight } style={ this.styleLayTopRight } alt=""/>
+                    <div style={ this.styleLayTopTxt }>날짜 : { year }년 { month }월</div>
+                    <img src={ svgLeft } style={ this.styleLayTopLeft } className="BTNC" alt="" onClick={ onClickBack }/>
+                    <img src={ svgRight } style={ this.styleLayTopRight } className="BTNC" alt="" onClick={ onClickNext }/>
                 </div>
                 <div style={ this.styleLayTopBorder }/>
                 <div style={ this.styleLayWeek }>
@@ -125,11 +168,15 @@ class DatePicker extends Component {
 
                 { dateInfo.map((item, index) => {
                     return (
-                        <div key={ index } style={ this.styleLayOneWeek }>
+                        <div key={ index } style={{ ...this.styleLayOneWeek }} className="datepicker-week">
                             { item.map((item, index) => {
                                 let selected = false;
-                                if(item.date ===20) selected = true;
-                                return <Date key={ index } index={ index } date={ item.date } available={ item.available } selected={ selected }/>
+                                if(month === this.state.selectedDate[0] && item.date === this.state.selectedDate[1]) selected = true;
+                                return (
+                                    <Date key={ index } index={ index } month={ item.month } date={ item.date }
+                                    available={ item.available } selected={ selected }
+                                    handler={ (x,y) => this.dateHandler(x,y) }/>
+                                );
                             }) }
                         </div>
                     )
@@ -138,11 +185,11 @@ class DatePicker extends Component {
         )
     }
     componentDidMount(){
-        this.resizeEvent()
+        this.resizeEvent();
         window.addEventListener('resize', this.resizeEvent);
     }
     componentDidUpdate(){
-        this.resizeEvent()
+        this.resizeEvent();
         window.addEventListener('resize', this.resizeEvent);
     }
     componentWillUnmount(){
