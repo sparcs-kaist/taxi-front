@@ -4,7 +4,6 @@ import DatePicker from '../Frame/DatePicker/DatePicker';
 import Select from 'react-select'
 import WhiteContainer from '../Frame/WhiteContainer/WhiteContainer.jsx';
 import Title from '../Frame/Title/Title';
-import WhiteContainerMargin from '../Frame/WhiteContainer/WhiteContainerMargin.jsx';
 import {Paper, Divider, Grid, Dialog, DialogContent, Button, DialogActions} from '@material-ui/core';
 import Picker from 'react-scrollable-picker';
 //import Picker from 'react-mobile-picker';
@@ -24,7 +23,7 @@ class Search extends Component {
             openTime:false,
             valueGroupsDep: {
                 place: '택시승강장'
-              }, 
+            }, 
             optionGroupsDep: {
                 place: [
                     { value: '택시승강장', label: '택시승강장' },
@@ -36,7 +35,7 @@ class Search extends Component {
             },
             valueGroupsArr: {
                 place: '택시승강장'
-              }, 
+            }, 
             optionGroupsArr: {
                 place: [
                     { value: '택시승강장', label: '택시승강장' },
@@ -48,26 +47,26 @@ class Search extends Component {
             },
             valueGroupsTimeHour: {
                 hour: '1'
-              }, 
+            }, 
             optionGroupsTimeHour: {
                 hour: [
-                { value: '1', label: '1' },
-                { value: '2', label: '2' },
-                { value: '3', label: '3' },
-                { value: '4', label: '4' },
-                { value: '5', label: '5' }
-            ],
+                    { value: '1', label: '1' },
+                    { value: '2', label: '2' },
+                    { value: '3', label: '3' },
+                    { value: '4', label: '4' },
+                    { value: '5', label: '5' }
+                ],
             },
             valueGroupsTimeMin: {
                 min: '15'
-              }, 
+            }, 
             optionGroupsTimeMin: {
                 min: [
-                { value: '15', label: '15' },
-                { value: '30', label: '30' },
-                { value: '45', label: '45' },
-                { value: '00', label: '00' }
-            ],
+                    { value: '15', label: '15' },
+                    { value: '30', label: '30' },
+                    { value: '45', label: '45' },
+                    { value: '00', label: '00' }
+                ],
             },
         };
         this.handleChangeDep = this.handleChangeDep.bind(this);
@@ -83,17 +82,17 @@ class Search extends Component {
         this.handleCloseTime= this.handleCloseTime.bind(this);
     }
     
-      onFormSubmit(e) {
+    onFormSubmit(e) {
         e.preventDefault();
         console.log(this.state.startDate)
-      }
+    }
 
-      handleOpenDep(){
-          this.setState({
-              openDep: true
-          })
-      }
-      handleOpenArr(){
+    handleOpenDep(){
+        this.setState({
+            openDep: true
+        })
+    }
+    handleOpenArr(){
         this.setState({
             openArr: true
         })
@@ -105,13 +104,13 @@ class Search extends Component {
         })
     }
 
-      handleCloseTime(){
-          this.setState({
-              openTime: true
-          })
-      }
+    handleCloseTime(){
+        this.setState({
+            openTime: true
+        })
+    }
 
-      handleCloseArr(){
+    handleCloseArr(){
         this.setState({
             openArr: false
         })
@@ -123,50 +122,51 @@ class Search extends Component {
         })
     }
 
-
-
-      handleChangeDep = (name, value) => {
+    handleChangeDep = (name, value) => {
         this.setState(({valueGroupsDep}) => ({
-          valueGroupsDep: {
-            ...valueGroupsDep,
-            [name]: value
-          }
+            valueGroupsDep: {
+                ...valueGroupsDep,
+                [name]: value
+            }
         }));
-      };
+    };
 
-      handleChangeArr = (name, value) => {
+    handleChangeArr = (name, value) => {
         this.setState(({valueGroupsArr}) => ({
-          valueGroupsArr: {
-            ...valueGroupsArr,
-            [name]: value
-          }
+            valueGroupsArr: {
+                ...valueGroupsArr,
+                [name]: value
+            }
         }));
-      };
+    };
 
-      handleChangeTimeHour = (name, value) => {
+    handleChangeTimeHour = (name, value) => {
         this.setState(({valueGroupsTimeHour}) => ({
-          valueGroupsTimeHour: {
-            ...valueGroupsTimeHour,
-            [name]: value
-          }
+            valueGroupsTimeHour: {
+                ...valueGroupsTimeHour,
+                [name]: value
+            }
         }));
-      };
+    };
 
-      handleChangeTimeMin = (name, value) => {
+    handleChangeTimeMin = (name, value) => {
         this.setState(({valueGroupsTimeMin}) => ({
-          valueGroupsTimeMin: {
-            ...valueGroupsTimeMin,
-            [name]: value
-          }
+            valueGroupsTimeMin: {
+                ...valueGroupsTimeMin,
+                [name]: value
+            }
         }));
-      };
+    };
 
 
     render() {
         return (
             <div className ="searchroom"> 
-                {/* 방 제목으로 검색 */}
+                <div style={{ height: '20px' }}/>
                 <Title img={ svgSearch }>방 검색하기</Title>
+                <div style={{ height: '20px' }}/>
+
+                {/* 방 제목으로 검색 */}
                 <WhiteContainer title ="방 검색">
                     <div style={{display: 'flex', alignContent: 'row'}}>
                         <label> 방 이름 : </label>
@@ -177,7 +177,8 @@ class Search extends Component {
                         </div>
                     </div>
                 </WhiteContainer>
-                 {/* 출발지, 도착지로검색 */}
+
+                {/* 출발지, 도착지로검색 */}
                 <WhiteContainer title ="방 검색">
                     <Paper style={{height:"80px", margin:'40px'}} elevation={0}>
                         <Grid container >
@@ -221,23 +222,18 @@ class Search extends Component {
                             </Grid>
                         </Grid>
                     </Paper>
-                    </WhiteContainer>
-                     {/* 날짜로 검색 */}
-                    <WhiteContainer title ="날짜 검색">
-                        <div className = "date" >
-                        <label > 출발 날짜 </label>
-                        <form onSubmit={ this.onFormSubmit }>
-                            <div style={{display: 'flex',  justifyContent:'center', alignItems:'center', marginBottom:60}}>
-                                <DatePicker
-                                    selected={ this.state.startDate }
-                                    onChange={ this.handleChange }
-                                    name="startDate"
-                                    dateFormat="MM/dd/yyyy"
-                                />
-                                </div>
-                        </form>
-                    </div>
-                    </WhiteContainer>
+                </WhiteContainer>
+
+                {/* 날짜로 검색 */}
+                <WhiteContainer title ="날짜 검색">
+                    <DatePicker
+                        selected={ this.state.startDate }
+                        onChange={ this.handleChange }
+                        name="startDate"
+                        dateFormat="MM/dd/yyyy"
+                    />
+                </WhiteContainer>
+
                 {/* 시간으로 검색 후보 2 */}
                 <WhiteContainer title="시간">
                     <label > 출발 시각 </label>
@@ -268,6 +264,7 @@ class Search extends Component {
                         </Dialog>
                     </div>
                 </WhiteContainer>
+
                 <button className="submitbutton" style={{backgroundColor:"#7F59CA",width: '43%', height:40, borderRadius:10, marginLeft: '28.5%'}}  > 
                     검색하기
                 </button>

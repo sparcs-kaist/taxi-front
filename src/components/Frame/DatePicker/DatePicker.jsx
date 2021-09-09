@@ -8,44 +8,38 @@ import svgRight from './svg_right.svg';
 const Date = (props) => {
     const style = {
         display: 'inline-block', position: 'relative',
-        width: '14.2%', height: '36px', overflow: 'hidden'
+        width: '14.2%', height: '100%', overflow: 'hidden'
     }
-    let container = '';
+    if(!props.date) return <span style={ style }/>;
 
-    if(props.date){
-        const styleBorder = {
-            width: '34px', height: '34px', borderRadius: '17px', margin: 'auto',
-            fontSize: '16px', fontWeight: 500, textAlign: 'center', lineHeight: '31px'
-        }
-        const styleToday = {
-            position: 'absolute', top: '24px', left: '0px',
-            width: '100%', textAlign: 'center',
-            fontSize: '9px', color: 'rgb(102,61,113)'
-        }
-
-        let color = '#323232';
-        //console.log(props.key)
-        if(props.index === 0 || props.index === 6) color = '#DD616E';
-        if(props.available === 'today') color = 'rgb(102,61,113)';
-        if(props.selected) color = '#FFFFFF';
-
-        let backgroundOpcity = 0;
-        if(props.selected) backgroundOpcity = 1;
-        const styleBackground = {
-            background: `rgba(102,61,113,${ backgroundOpcity })`,
-            border: `3px solid rgba(225,225,225,${ backgroundOpcity/2 })`
-        }
-        
-        container = (
-            <>
-                <animated.div style={{ ...styleBorder, ...styleBackground, color: color }}>{ props.date }</animated.div>
-                <div style={{ ...styleToday, opacity: (props.selected || props.available!=='today' ? 0 : 1) }}>오늘</div>
-            </>
-        )
+    let styleBox = {
+        width: 'calc(100% - 6px)', height: '100%', marginLeft: '3px',
+        borderRadius: '10px', background: '#FAFAFA', position: 'relative'
     }
+    let className = '';
+    let styleDate = {
+        width: '100%', textAlign: 'center', height: '24px', lineHeight: '24px',
+        position: 'absolute', top: 'calc(50% - 12px)', left: '0px',
+        fontSize: '16px', fontWeight: 300, color: '#C8C8C8'
+    }
+
+    if(props.available){
+        styleBox.boxShadow = 'inset 1px 1px 2.5px -1px rgba(110, 54, 120, 0.1)';
+        styleBox.background = '#FAF8FB';
+        className = 'BTNC';
+        styleDate.color = '#323232';
+    }
+    if(props.selected){
+        styleBox.background = '#6E3678';
+        styleDate.color = 'white';
+        styleDate.fontWeight = 500;
+    }
+ 
     return (
         <span style={ style }>
-            { container }
+            <div style={ styleBox } className={ className }>
+                <div style={ styleDate }>{ props.date }</div>
+            </div>
         </span>
     )
 }
@@ -64,15 +58,22 @@ class DatePicker extends Component {
         ]
 
         this.styleLayTop = {
-            height: '31px', position: 'relative'
+            height: '44px', position: 'relative',
+        }
+        this.styleLayTopBorder = {
+            height: '1px',
+            backgroundImage: 'linear-gradient(to right, #C8C8C8 50%, rgba(255,255,255,0) 0%)',
+            backgroundPosition: 'bottom',
+            backgroundSize: '15px 1px',
+            backgroundRpeat: 'repeat-x'
         }
         this.styleLayTopImg = {
-            position: 'absolute', top: '6px', left: '0px',
-            width: '19px', height: '19px'
+            position: 'absolute', top: '2px', left: '15px',
+            width: '20px', height: '20px'
         }
         this.styleLayTopTxt = {
-            position: 'absolute', top: '0px', left: '26px',
-            fontSize: '16px', color: 'black', height: '31px', lineHeight: '31px'
+            position: 'absolute', top: '0px', left: '44px',
+            fontSize: '16px', color: 'black', height: '24px', lineHeight: '24px'
         }
         this.styleLayTopLeft = {
             position: 'absolute', top: '0px', right: '40px',
@@ -90,15 +91,20 @@ class DatePicker extends Component {
             fontSize: '13px', textAlign: 'center'
         }
         this.styleLayOneWeek = {
-            height: '36px', position: 'relative'
+            height: '40px', position: 'relative', marginBottom: '6px'
         }
     }
     getDateInfo(){
         const info = getDateInfo.get();
         return info;
     }
+
+    resizeEvent(){
+        const bodyWidth = document.body.clientWidth;
+    }
+
     render(){
-        const dataInfo = this.getDateInfo();
+        const dateInfo = this.getDateInfo();
 
         return (
             <div>
@@ -108,6 +114,7 @@ class DatePicker extends Component {
                     <img src={ svgLeft } style={ this.styleLayTopLeft } alt=""/>
                     <img src={ svgRight } style={ this.styleLayTopRight } alt=""/>
                 </div>
+                <div style={ this.styleLayTopBorder }/>
                 <div style={ this.styleLayWeek }>
                     { this.week.map((item, index) => {
                         return (
@@ -115,7 +122,8 @@ class DatePicker extends Component {
                         )
                     }) }
                 </div>
-                { dataInfo.map((item, index) => {
+
+                { dateInfo.map((item, index) => {
                     return (
                         <div key={ index } style={ this.styleLayOneWeek }>
                             { item.map((item, index) => {
@@ -128,6 +136,17 @@ class DatePicker extends Component {
                 }) }
             </div>
         )
+    }
+    componentDidMount(){
+        this.resizeEvent()
+        window.addEventListener('resize', this.resizeEvent);
+    }
+    componentDidUpdate(){
+        this.resizeEvent()
+        window.addEventListener('resize', this.resizeEvent);
+    }
+    componentWillUnmount(){
+        window.removeEventListener('resize', this.resizeEvent);
     }
 }
 
