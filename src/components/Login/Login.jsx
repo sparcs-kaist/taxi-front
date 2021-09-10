@@ -1,62 +1,68 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 import { useSpring, animated } from 'react-spring';
 import backAddress from '../../serverconf'
-import imgBackground from './img_background.jpg';
 import svgLogo from './svg_logo.svg';
 
-const DarkBackground = () => {
-    const style = {
-        position: 'absolute', top: '0px', left: '0px',
-        width: '100%', height: '100%',
-        objectFit: 'cover'
+const TaxiLogo = () => {
+    const styleImg = {
+        height: '70px', verticalAlign: 'middle'
     }
-    const opacityProps = useSpring({
-        opacity: 1,
-        from: { opacity: 0 },
-        config: { duration: 1500 }
-    })
-    return <animated.img src={ imgBackground } style={{ ...style, ...opacityProps }}/>;
+    const styleTxt = {
+        verticalAlign: 'middle', marginLeft: '15px',
+        fontSize: '50px', fontWeight: '900', color: '#623678', 
+    }
+    return (
+        <div style={{ position: 'relative', height: '90px', textAlign: 'center' }}>
+            <img src={ svgLogo } alt="" style={ styleImg }/>
+            <span style={ styleTxt }>Taxi</span>
+        </div>
+    )
 }
-class Login extends Component {
-    constructor(props){
-        super(props);
-        this.styleBackgroundBlack = {
-            position: 'absolute', top: '0px', left: '0px',
-            width: '100%', height: '100%',
-            background: 'rgba(0,0,0,0.6)'
-        }
-        this.styleLogoImg = {
-            position: 'absolute', top: '20%', left: 'calc(50% - 40px)',
-            width: '80px',
-        }
-        this.styleLogoTxt = {
-            position: 'absolute', top: 'calc(20% + 180px)', left: '0px',
-            width: '100%', textAlign: 'center',
-            fontSize: '40px', fontWeight: '900', color: 'rgb(127,89,202)'
-        }
-        this.styleBtnLogin = {
-            position: 'absolute', top: '60%', left: '10%', right: '10%',
-            height: '44px', borderRadius: '22px',
-            lineHeight: '44px', textAlign: 'center',
-            fontSize: '17px', color: 'white',
-            border: '2px solid white'
-        }
+const BtnLogin = () => {
+    const [isHover, setHover] = useState(false);
+    const style = {
+        position: 'absolute', top: '0px', left: '10%', right: '10%',
+        height: '44px', borderRadius: '22px',
+        lineHeight: '44px', textAlign: 'center',
+        fontSize: '17px', color: '#623678',
+        border: '1px solid #623678'
     }
-    render() {
-        return (
-            <div className="ND" style={{ width: "100%", height: "100%" }}>
-                <DarkBackground/>
-                <div style={ this.styleBackgroundBlack }/>
-                <div className="lay_auto" style={{ height: "100%" }}>
-                    <img src={ svgLogo } alt="" style={ this.styleLogoImg }/>
-                    <div style={ this.styleLogoTxt }>Taxi</div>
-                    <a href={`${ backAddress }/auth/sparcssso`}>
-                        <div style={ this.styleBtnLogin }>로그인</div>
-                    </a>
-                </div>
+    const background = useSpring({
+        background: `rgba(150,150,150,${ isHover ? 0.1 : 0 })`,
+        config: { duration: 100 }
+    })
+    return (
+        <div style={{ position: 'relative' }}>
+            <a href={`${ backAddress }/auth/sparcssso`}>
+                <animated.div onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }
+                style={{ ...style, ...background }}>로그인</animated.div>
+            </a>
+        </div>
+    )
+}
+
+const Bottom = () => {
+    return (
+        <div style={{ position: 'fixed', bottom: '0px', left: '0px', width: '100%', height: '50px' }}>
+            <div className="lay_auto" style={{ height: "100%", position: 'relative' }}>
+                <div style={{ position: 'absolute', top: '0px', right: '0px' }}>contact : taxi@sparcs.org</div>
             </div>
-        );
-    }
+        </div>
+    )
+}
+
+const Login = () => {
+    return (
+        <div className="ND" style={{ width: "100%", height: "100%" }}>
+            <div style={{ background: '#663D71', width: '100%', height: '5px', position: 'fixed', top: '0px', left: '0px' }}/>
+            <div className="lay_auto" style={{ height: "100%" }}>
+                <div style={{ height: '35%' }}/>
+                <TaxiLogo/>
+                <BtnLogin/>
+            </div>
+            <Bottom/>
+        </div>
+    )
 }
 
 export default Login;
