@@ -45,7 +45,7 @@ const Date = (props) => {
     }
     const background = useSpring({
         background: styleBox.background,
-        config: { duration: 150 }
+        config: { duration: 150 } 
     });
  
     if(!props.date) return <span style={ style }/>;
