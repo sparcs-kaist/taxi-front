@@ -9,6 +9,9 @@ import Picker from 'react-scrollable-picker';
 //import Picker from 'react-mobile-picker';
 
 import svgSearch from './svg_search.svg';
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import CreateIcon from '@material-ui/icons/Create';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
  
 import "react-datepicker/dist/react-datepicker.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -54,7 +57,12 @@ class Search extends Component {
                     { value: '2', label: '2' },
                     { value: '3', label: '3' },
                     { value: '4', label: '4' },
-                    { value: '5', label: '5' }
+                    { value: '5', label: '5' },
+                    { value: '6', label: '6' },
+                    { value: '7', label: '7' },
+                    { value: '8', label: '8' },
+                    { value: '9', label: '9' },
+                    { value: '10', label: '10' }
                 ],
             },
             valueGroupsTimeMin: {
@@ -87,24 +95,19 @@ class Search extends Component {
         console.log(this.state.startDate)
     }
 
-    handleOpenDep(){
-        this.setState({
-            openDep: true
-        })
-    }
     handleOpenArr(){
         this.setState({
             openArr: true
         })
     }
-    
-    handleOpenTime(){
+
+    handleOpenDep(){
         this.setState({
-            openTime: true
+            openDep: true
         })
     }
-
-    handleCloseTime(){
+    
+    handleOpenTime(){
         this.setState({
             openTime: true
         })
@@ -118,7 +121,13 @@ class Search extends Component {
 
     handleCloseDep(){
         this.setState({
-            openArr: false
+            openDep: false
+        })
+    }
+
+    handleCloseTime(){
+        this.setState({
+            openTime: false
         })
     }
 
@@ -169,28 +178,31 @@ class Search extends Component {
                 {/* 방 제목으로 검색 */}
                 <WhiteContainer title ="방 검색">
                     <div style={{display: 'flex', alignContent: 'row'}}>
-                        <label> 방 이름 : </label>
+                        <label style={{marginTop: 'auto', marginLeft:'24px', fontSize: '12pt'}}> <CreateIcon style={{marginRight: '5px', width: '14px'}}/>방 이름 : </label>
                         <div className = "roomname" style={{marginLeft: '20px', borderRadius:'10px'}}>
                             <form onSubmit={ this.onFormSubmit }>
-                                <input type='text' placeholder="방 이름을 입력하세요" style={{borderStyle:"none"}}></input>
+                                <input type='text'  style={{borderStyle:"none", backgroundColor:'#FAFAFA', width: '222px', height: '38px', paddingLeft:'20px'}}></input>
                             </form>
                         </div>
                     </div>
                 </WhiteContainer>
 
                 {/* 출발지, 도착지로검색 */}
-                <WhiteContainer title ="방 검색">
+                <WhiteContainer title ="장소">
                     <Paper style={{height:"80px", margin:'40px'}} elevation={0}>
                         <Grid container >
                             <Grid item xs={6}>
                                 <div className = "departure" style={{display:'flex', flexDirection:'column'}}>
-                                    <label style={{margin:'auto'}}> 출발지 </label>
-                                    <Button onClick={this.handleOpenArr} style={{margin:'auto',  color: 'lightgray'}}>
-                                        <div style={{fontWeight: 'bold', fontSize: '20px'}}>
-                                        어디서 출발할까요?
+                                    <label style={{margin:'auto', fontSize:"12pt", color:'#C8C8C8', display:'flex', flexDirection:'column'}}> 
+                                        <FiberManualRecordIcon style={{ fontSize: 9, color:'#C8C8C8' }} />
+                                        출발지
+                                    </label>
+                                    <Button onClick={this.handleOpenDep} style={{margin:'auto'}}>
+                                        <div style={{fontWeight: 'bold', fontSize: '16pt'}}>
+                                       {this.state.valueGroupsDep.place}
                                         </div>
                                     </Button>
-                                    <Dialog open={this.state.openArr} onClose={this.handleCloseArr} >
+                                    <Dialog open={this.state.openDep} onClose={this.handleCloseDep} >
                                         <DialogContent style={{height: '300px', margin: 'auto', width: '500px'}}>
                                             <Picker
                                                 optionGroups={this.state.optionGroupsDep}
@@ -203,13 +215,16 @@ class Search extends Component {
                             </Grid>
                             <Grid item xs={6}>
                                 <div className = "arrival" style={{display:'flex', flexDirection:'column'}}>
-                                    <label style={{margin:'auto'}}> 도착지 </label>
-                                    <Button onClick={this.handleOpenDep} style={{margin:'auto',  color: 'lightgray'}}>
-                                        <div style={{fontWeight: 'bold', fontSize: '20px'}}>
-                                        어디로 갈까요?
+                                    <label style={{margin:'auto', fontSize:"12pt", color:'#C8C8C8', display:'flex', flexDirection:'column'}}> 
+                                        <FiberManualRecordIcon style={{ fontSize: 9, color:'#C8C8C8' }} />
+                                        도착지
+                                    </label>
+                                    <Button onClick={this.handleOpenArr} style={{margin:'auto'}}>
+                                        <div style={{fontWeight: 'bold', fontSize: '16pt'}}>
+                                            {this.state.valueGroupsArr.place}
                                         </div>
                                     </Button>
-                                    <Dialog open={this.state.openDep} onClose={this.handleCloseDep} >
+                                    <Dialog open={this.state.openArr} onClose={this.handleCloseArr} >
                                         <DialogContent style={{height: '300px', margin: 'auto', width: '500px'}}>
                                             <Picker
                                                 optionGroups={this.state.optionGroupsArr}
@@ -236,14 +251,15 @@ class Search extends Component {
 
                 {/* 시간으로 검색 후보 2 */}
                 <WhiteContainer title="시간">
-                    <label > 출발 시각 </label>
+                    <label style={{ fontSize:'12pt', marginLeft:'24px',}}> <AccessTimeIcon style={{marginRight: '5px', width: '14px'}}/> 출발 시각 </label>
                     <div style={{ display: 'flex', alignContent: 'row', justifyContent: 'center'}}>
-                        <Button onClick={this.handleOpenArr} style={{margin:'auto',  color: 'lightgray'}}>
+                        <Button onClick={this.handleOpenTime} style={{margin:'auto',  color: 'lightgray'}}>
                             몇시 몇분에 출발할까요?
                         </Button>
-                        <Dialog open={this.state.openTime} onClose={this.handleCloseTIme} >
-                            <DialogContent style={{height: '300px', margin: 'auto', width: '500px'}}>
-                            <div> 시간: </div>
+                        <Dialog open={this.state.openTime} onClose={this.handleCloseTime} >
+                            <DialogContent style={{height: '300px', margin: 'auto', width: '500px', display: 'flex', alignContent:'row'}}>
+                                <AccessTimeIcon style={{marginRight: '5px', width: '14px'}}/>
+                                <div> 시간: </div>
                                 <div style={{width: '100px',fontSize:'12px', backgroundColor:'#F7F7F7', borderRadius:'10px', padding: '10px', margin: '20px'}}>
                                     <Picker
                                         optionGroups={this.state.optionGroupsTimeHour}
