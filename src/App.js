@@ -1,9 +1,10 @@
 import './App.css';
 import './Font.css';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Link, useParams, HashRouter } from 'react-router-dom';
 import Frame from './components/Frame/Frame'
 import Login from './components/Login/Login'
 import Search from './components/Search/Search'
+import SearchResult from './components/Search/SearchResult/SearchResult'
 import Addroom from './components/room/Addroom/Addroom'
 import Roomlist from './components/room/Roomlist/Roomlist'
 import Roominfo from './components/room/Roominfo/Roominfo'
@@ -13,6 +14,8 @@ import Setting from './components/Setting/Setting'
 import User from './components/user/user'
 import NewUser from './components/user/newuser'
 
+const SearchResultWithParam = (props) => <Frame navi="search"><SearchResult param={ useParams().pnum }/></Frame>
+
 function App() {
   return (
     <Router>
@@ -20,6 +23,7 @@ function App() {
         <Route exact path="/login"><Login/></Route>
         <Route exact path="/"><Frame navi="search"><Search/></Frame></Route>
         <Route exact path="/search"><Frame navi="search"><Search/></Frame></Route>
+        <Route exact path="/search/result/:pnum"><SearchResultWithParam/></Route>
         <Route exact path="/addroom"><Frame navi="addroom"><Addroom/></Frame></Route>
         <Route exact path="/roomlist"><Roomlist/></Route>
         <Route exact path="/roominfo"><Roominfo/></Route>

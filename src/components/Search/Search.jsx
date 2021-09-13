@@ -4,6 +4,7 @@ import DatePicker from '../Frame/DatePicker/DatePicker';
 import Select from 'react-select'
 import WhiteContainer from '../Frame/WhiteContainer/WhiteContainer.jsx';
 import Title from '../Frame/Title/Title';
+import SubmitButton from '../Frame/SubmitButton/SubmitButton';
 import {Paper, Divider, Grid, Dialog, DialogContent, Button, DialogActions} from '@material-ui/core';
 import Picker from 'react-scrollable-picker';
 //import Picker from 'react-mobile-picker';
@@ -24,6 +25,7 @@ class Search extends Component {
             openDep : false,
             openArr: false,
             openTime:false,
+            valueDateMonth: [undefined, undefined],
             valueGroupsDep: {
                 place: '택시승강장'
             }, 
@@ -79,6 +81,7 @@ class Search extends Component {
         };
         this.handleChangeDep = this.handleChangeDep.bind(this);
         this.handleChangeArr = this.handleChangeArr.bind(this);
+        this.handleChangeDate = this.handleChangeDate.bind(this);
         this.handleChangeTimeHour = this.handleChangeTimeHour.bind(this);
         this.handleChangeTimeMin = this.handleChangeTimeMin.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
@@ -131,6 +134,12 @@ class Search extends Component {
         })
     }
 
+    handleChangeDate = (month, date) => {
+        this.setState({
+            valueDate: [month, date]
+        })
+    }
+
     handleChangeDep = (name, value) => {
         this.setState(({valueGroupsDep}) => ({
             valueGroupsDep: {
@@ -166,6 +175,7 @@ class Search extends Component {
             }
         }));
     };
+    
 
 
     render() {
@@ -243,7 +253,7 @@ class Search extends Component {
                 <WhiteContainer title ="날짜 검색">
                     <DatePicker
                         selected={ this.state.startDate }
-                        onChange={ this.handleChange }
+                        handler={ this.handleChange }
                         name="startDate"
                         dateFormat="MM/dd/yyyy"
                     />
@@ -280,10 +290,7 @@ class Search extends Component {
                         </Dialog>
                     </div>
                 </WhiteContainer>
-
-                <button className="submitbutton" style={{backgroundColor:"#7F59CA",width: '43%', height:40, borderRadius:10, marginLeft: '28.5%'}}  > 
-                    검색하기
-                </button>
+                <SubmitButton>검색하기</SubmitButton>
             </div>
           );
     }
