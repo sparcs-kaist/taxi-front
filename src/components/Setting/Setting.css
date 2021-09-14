@@ -1,0 +1,28 @@
+.userInfoBox{
+    display:flex;
+    flex-direction: column;
+}
+.flexLine1{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.profileImage{
+    display: flex;
+    align-items: center;
+    align-content: center;
+    margin-right: 20px;
+}
+.nickname{
+    font-size: 16pt;
+    font-weight: bold;
+}
+.flexLine2{
+    padding-top: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+.profileTag{
+    color: #9B9B9B;
+    padding-right: 6px;
+}
