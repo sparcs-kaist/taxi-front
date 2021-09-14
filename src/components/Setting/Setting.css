@@ -24,5 +24,21 @@
 }
 .profileTag{
     color: #9B9B9B;
-    padding-right: 6px;
+    padding-right: 10px;
+}
+.myPageMenu{
+    display: flex;
+    flex-direction: row;
+    margin-left: 4px;
+    align-items: center;
+}
+.myPageMenu.myPageMenu{
+    margin-top: 30px;
+}
+.myPageMenu:first-child{
+    margin-top: 4px;
+}
+.myPageMenu:hover{
+    cursor: pointer;
+    /* background-color: #EEEEEE; */
 }
