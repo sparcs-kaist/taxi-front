@@ -7,6 +7,7 @@ import Title from '../Frame/Title/Title';
 import SubmitButton from '../Frame/SubmitButton/SubmitButton';
 import {Paper, Divider, Grid, Dialog, DialogContent, Button, DialogActions} from '@material-ui/core';
 import Picker from 'react-scrollable-picker';
+import {Link} from 'react-router-dom';
 //import Picker from 'react-mobile-picker';
 
 import svgSearch from './svg_search.svg';
@@ -25,7 +26,8 @@ class Search extends Component {
             openDep : false,
             openArr: false,
             openTime:false,
-            valueDateMonth: [undefined, undefined],
+            roomName: undefined,
+            valueDate: [undefined, undefined],
             valueGroupsDep: {
                 place: '택시승강장'
             }, 
@@ -95,7 +97,10 @@ class Search extends Component {
     
     onFormSubmit(e) {
         e.preventDefault();
-        console.log(this.state.startDate)
+        this.setState({
+            roomName: e
+        })
+        console.log(e)
     }
 
     handleOpenArr(){
@@ -175,10 +180,12 @@ class Search extends Component {
             }
         }));
     };
-    
-
 
     render() {
+        const roomName = this.state.roomName
+        const depString = this.state.valueGroupsDep.place
+        const arrString = this.state.valueGroupsArr.place
+        const date = this.state.valueDate.month
         return (
             <div className ="searchroom"> 
                 <div style={{ height: '20px' }}/>
@@ -290,10 +297,13 @@ class Search extends Component {
                         </Dialog>
                     </div>
                 </WhiteContainer>
-                <SubmitButton>검색하기</SubmitButton>
+                <SubmitButton>
+                    <Link to={"/search/result/"+ depString + arrString + date}>
+                        검색하기
+                    </Link>
+                </SubmitButton>
             </div>
           );
     }
 }
-
 export default Search;
