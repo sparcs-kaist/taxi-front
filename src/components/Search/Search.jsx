@@ -33,7 +33,7 @@ class Search extends Component {
             }, 
             optionGroupsDep: {
                 place: [
-                    { value: '택시승강장', label: '택시승강장' },
+                    { value: 'taxi', label: '택시승강장' },
                     { value: '갤러리아 타임월드', label: '갤러리아 타임월드' },
                     { value: '서대전역', label: '서대전역' },
                     { value: '대전역', label: '대전역' },
@@ -98,7 +98,7 @@ class Search extends Component {
     onFormSubmit(e) {
         e.preventDefault();
         this.setState({
-            roomName: e
+            roomName: e.target.value
         })
         console.log(e)
     }
@@ -185,7 +185,8 @@ class Search extends Component {
         const roomName = this.state.roomName
         const depString = this.state.valueGroupsDep.place
         const arrString = this.state.valueGroupsArr.place
-        const date = this.state.valueDate.month
+        const depTimeString = this.state.valueGroupsTimeHour.hour
+        const arrTimeString = this.state.valueGroupsTimeMin.min
         return (
             <div className ="searchroom"> 
                 <div style={{ height: '20px' }}/>
@@ -197,9 +198,7 @@ class Search extends Component {
                     <div style={{display: 'flex', alignContent: 'row'}}>
                         <label style={{marginTop: 'auto', marginLeft:'24px', fontSize: '12pt'}}> <CreateIcon style={{marginRight: '5px', width: '14px'}}/>방 이름 : </label>
                         <div className = "roomname" style={{marginLeft: '20px', borderRadius:'10px'}}>
-                            <form onSubmit={ this.onFormSubmit }>
-                                <input type='text'  style={{borderStyle:"none", backgroundColor:'#FAFAFA', width: '222px', height: '38px', paddingLeft:'20px'}}></input>
-                            </form>
+                            <input onChange={this.onFormSubmit}type='text'  id='roomName' style={{borderStyle:"none", backgroundColor:'#FAFAFA', width: '222px', height: '38px', paddingLeft:'20px'}}></input>
                         </div>
                     </div>
                 </WhiteContainer>
@@ -298,7 +297,7 @@ class Search extends Component {
                     </div>
                 </WhiteContainer>
                 <SubmitButton>
-                    <Link to={"/search/result/"+ depString + arrString + date}>
+                    <Link to={"/search/result/" + this.state.roomName +"#"+  depString + '#' + arrString + '#' + depTimeString + '#'+arrTimeString }>
                         검색하기
                     </Link>
                 </SubmitButton>

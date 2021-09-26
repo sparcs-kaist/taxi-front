@@ -13,8 +13,7 @@ export default class SearchResult extends Component {
             <div>
                 <div style={{ height: '20px' }}/>
                 <Title img={ svgSearch }>검색 결과</Title>
-                <div style={{ height: '20px' }}/>
-                
+                <div style={{ height: '20px' }}>{ window.location.href }</div>
             </div>
         )
     }
