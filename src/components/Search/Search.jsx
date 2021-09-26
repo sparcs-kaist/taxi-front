@@ -7,6 +7,7 @@ import Title from '../Frame/Title/Title';
 import SubmitButton from '../Frame/SubmitButton/SubmitButton';
 import {Paper, Divider, Grid, Dialog, DialogContent, Button, DialogActions} from '@material-ui/core';
 import Picker from 'react-scrollable-picker';
+import {Link} from 'react-router-dom';
 //import Picker from 'react-mobile-picker';
 
 import svgSearch from './svg_search.svg';
@@ -25,13 +26,14 @@ class Search extends Component {
             openDep : false,
             openArr: false,
             openTime:false,
-            valueDateMonth: [undefined, undefined],
+            roomName: undefined,
+            valueDate: [undefined, undefined],
             valueGroupsDep: {
                 place: '택시승강장'
             }, 
             optionGroupsDep: {
                 place: [
-                    { value: '택시승강장', label: '택시승강장' },
+                    { value: 'taxi', label: '택시승강장' },
                     { value: '갤러리아 타임월드', label: '갤러리아 타임월드' },
                     { value: '서대전역', label: '서대전역' },
                     { value: '대전역', label: '대전역' },
@@ -95,7 +97,10 @@ class Search extends Component {
     
     onFormSubmit(e) {
         e.preventDefault();
-        console.log(this.state.startDate)
+        this.setState({
+            roomName: e.target.value
+        })
+        console.log(e)
     }
 
     handleOpenArr(){
@@ -175,10 +180,13 @@ class Search extends Component {
             }
         }));
     };
-    
-
 
     render() {
+        const roomName = this.state.roomName
+        const depString = this.state.valueGroupsDep.place
+        const arrString = this.state.valueGroupsArr.place
+        const depTimeString = this.state.valueGroupsTimeHour.hour
+        const arrTimeString = this.state.valueGroupsTimeMin.min
         return (
             <div className ="searchroom"> 
                 <div style={{ height: '20px' }}/>
@@ -190,9 +198,7 @@ class Search extends Component {
                     <div style={{display: 'flex', alignContent: 'row'}}>
                         <label style={{marginTop: 'auto', marginLeft:'24px', fontSize: '12pt'}}> <CreateIcon style={{marginRight: '5px', width: '14px'}}/>방 이름 : </label>
                         <div className = "roomname" style={{marginLeft: '20px', borderRadius:'10px'}}>
-                            <form onSubmit={ this.onFormSubmit }>
-                                <input type='text'  style={{borderStyle:"none", backgroundColor:'#FAFAFA', width: '222px', height: '38px', paddingLeft:'20px'}}></input>
-                            </form>
+                            <input onChange={this.onFormSubmit}type='text'  id='roomName' style={{borderStyle:"none", backgroundColor:'#FAFAFA', width: '222px', height: '38px', paddingLeft:'20px'}}></input>
                         </div>
                     </div>
                 </WhiteContainer>
@@ -290,10 +296,13 @@ class Search extends Component {
                         </Dialog>
                     </div>
                 </WhiteContainer>
-                <SubmitButton>검색하기</SubmitButton>
+                <SubmitButton>
+                    <Link to={"/search/result/" + this.state.roomName +"#"+  depString + '#' + arrString + '#' + depTimeString + '#'+arrTimeString }>
+                        검색하기
+                    </Link>
+                </SubmitButton>
             </div>
           );
     }
 }
-
 export default Search;
