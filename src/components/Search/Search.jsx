@@ -100,7 +100,6 @@ class Search extends Component {
         this.setState({
             roomName: e.target.value
         })
-        console.log(e)
     }
 
     handleOpenArr(){
@@ -181,12 +180,18 @@ class Search extends Component {
         }));
     };
 
+    onClick(){
+        const roomName = this.state.roomName;
+        const depString = this.state.valueGroupsDep.place;
+        const arrString = this.state.valueGroupsArr.place;
+        const depTimeString = this.state.valueGroupsTimeHour.hour;
+        const arrTimeString = this.state.valueGroupsTimeMin.min;
+        const date = this.state.valueDate;
+
+        console.log(roomName, depString, arrString, depTimeString, arrTimeString, date);
+    }
+
     render() {
-        const roomName = this.state.roomName
-        const depString = this.state.valueGroupsDep.place
-        const arrString = this.state.valueGroupsArr.place
-        const depTimeString = this.state.valueGroupsTimeHour.hour
-        const arrTimeString = this.state.valueGroupsTimeMin.min
         return (
             <div className ="searchroom"> 
                 <div style={{ height: '20px' }}/>
@@ -257,12 +262,7 @@ class Search extends Component {
 
                 {/* 날짜로 검색 */}
                 <WhiteContainer title ="날짜 검색">
-                    <DatePicker
-                        selected={ this.state.startDate }
-                        handler={ this.handleChange }
-                        name="startDate"
-                        dateFormat="MM/dd/yyyy"
-                    />
+                    <DatePicker handler={ this.handleChangeDate }/>
                 </WhiteContainer>
 
                 {/* 시간으로 검색 후보 2 */}
@@ -296,11 +296,7 @@ class Search extends Component {
                         </Dialog>
                     </div>
                 </WhiteContainer>
-                <SubmitButton>
-                    <Link to={"/search/result/" + this.state.roomName +"#"+  depString + '#' + arrString + '#' + depTimeString + '#'+arrTimeString }>
-                        검색하기
-                    </Link>
-                </SubmitButton>
+                <SubmitButton onClick={ () => this.onClick() }>검색하기</SubmitButton>
             </div>
           );
     }
