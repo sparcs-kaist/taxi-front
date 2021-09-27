@@ -45,7 +45,7 @@ class Search extends Component {
             }, 
             optionGroupsArr: {
                 place: [
-                    { value: '택시승강장', label: '택시승강장' },
+                    { value: 'taxi', label: '택시승강장' },
                     { value: '갤러리아 타임월드', label: '갤러리아 타임월드' },
                     { value: '서대전역', label: '서대전역' },
                     { value: '대전역', label: '대전역' },
@@ -270,7 +270,9 @@ class Search extends Component {
                     <label style={{ fontSize:'12pt', marginLeft:'24px',}}> <AccessTimeIcon style={{marginRight: '5px', width: '14px'}}/> 출발 시각 </label>
                     <div style={{ display: 'flex', alignContent: 'row', justifyContent: 'center'}}>
                         <Button onClick={this.handleOpenTime} style={{margin:'auto',  color: 'lightgray'}}>
-                            몇시 몇분에 출발할까요?
+                            <div style={{fontWeight: 'bold', fontSize: '16pt'}}>
+                                {this.state.valueGroupsTimeHour.hour}시   {this.state.valueGroupsTimeMin.min}분
+                            </div>
                         </Button>
                         <Dialog open={this.state.openTime} onClose={this.handleCloseTime} >
                             <DialogContent style={{height: '300px', margin: 'auto', width: '500px', display: 'flex', alignContent:'row'}}>
