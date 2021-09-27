@@ -21,7 +21,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const LinkTo = (props) => {
     if(props.to){
         const histroy = useHistory();
-        histroy.push('/search/result/')
+        histroy.push(props.to);
     }
     return <div/>;
 }
@@ -196,7 +196,7 @@ class Search extends Component {
         const arrTimeString = this.state.valueGroupsTimeMin.min;
         const date = this.state.valueDate;
 
-        this.setState({ linkto: `/search/result/` });
+        this.setState({ linkto: `/search/result/${ roomName }#${ depString }#${ arrString }#${ depTimeString }#${ arrTimeString }#${ date[0] }#${ date[1] }` });
     }
 
     render() {
