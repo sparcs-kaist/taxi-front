@@ -186,8 +186,9 @@ class Search extends Component {
         const arrString = this.state.valueGroupsArr.place;
         const depTimeString = this.state.valueGroupsTimeHour.hour;
         const arrTimeString = this.state.valueGroupsTimeMin.min;
+        const date = this.state.valueDate;
 
-        console.log(roomName, depString, arrString, depTimeString, arrTimeString);
+        console.log(roomName, depString, arrString, depTimeString, arrTimeString, date);
     }
 
     render() {
