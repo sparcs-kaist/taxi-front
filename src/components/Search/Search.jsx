@@ -41,7 +41,7 @@ class Search extends Component {
             }, 
             optionGroupsDep: {
                 place: [
-                    { value: 'taxi', label: '택시승강장' },
+                    { value: '택시승강장', label: '택시승강장' },
                     { value: '갤러리아 타임월드', label: '갤러리아 타임월드' },
                     { value: '서대전역', label: '서대전역' },
                     { value: '대전역', label: '대전역' },
@@ -53,7 +53,7 @@ class Search extends Component {
             }, 
             optionGroupsArr: {
                 place: [
-                    { value: 'taxi', label: '택시승강장' },
+                    { value: '택시승강장', label: '택시승강장' },
                     { value: '갤러리아 타임월드', label: '갤러리아 타임월드' },
                     { value: '서대전역', label: '서대전역' },
                     { value: '대전역', label: '대전역' },
@@ -196,7 +196,7 @@ class Search extends Component {
         const arrTimeString = this.state.valueGroupsTimeMin.min;
         const date = this.state.valueDate;
 
-        this.setState({ linkto: `/search/result/${ roomName }#${ depString }#${ arrString }#${ depTimeString }#${ arrTimeString }#${ date[0] }#${ date[1] }` });
+        this.setState({ linkto: `/search/result/${ roomName }&${ depString }&${ arrString }&${ depTimeString }&${ arrTimeString }&${ date[0] }&${ date[1] }` });
     }
 
     render() {
