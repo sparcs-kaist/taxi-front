@@ -7,7 +7,7 @@ import Title from '../Frame/Title/Title';
 import SubmitButton from '../Frame/SubmitButton/SubmitButton';
 import {Paper, Divider, Grid, Dialog, DialogContent, Button, DialogActions} from '@material-ui/core';
 import Picker from 'react-scrollable-picker';
-import {Link} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 //import Picker from 'react-mobile-picker';
 
 import svgSearch from './svg_search.svg';
@@ -17,6 +17,14 @@ import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
  
 import "react-datepicker/dist/react-datepicker.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+const LinkTo = (props) => {
+    if(props.to){
+        const histroy = useHistory();
+        histroy.push('/search/result/')
+    }
+    return <div/>;
+}
 
 class Search extends Component {
     constructor(props){
@@ -188,7 +196,7 @@ class Search extends Component {
         const arrTimeString = this.state.valueGroupsTimeMin.min;
         const date = this.state.valueDate;
 
-        console.log(roomName, depString, arrString, depTimeString, arrTimeString, date);
+        this.setState({ linkto: `/search/result/` });
     }
 
     render() {
@@ -299,6 +307,7 @@ class Search extends Component {
                     </div>
                 </WhiteContainer>
                 <SubmitButton onClick={ () => this.onClick() }>검색하기</SubmitButton>
+                <LinkTo to={ this.state.linkto }/>
             </div>
           );
     }
