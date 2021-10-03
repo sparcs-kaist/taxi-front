@@ -16,6 +16,7 @@
 .nickname{
     font-size: 16pt;
     font-weight: bold;
+    letter-spacing: .3rem;
 }
 .flexLine2{
     padding-top: 15px;

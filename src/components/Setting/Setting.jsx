@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import WhiteContainer from '../Frame/WhiteContainer/WhiteContainer.jsx';
 import Title from '../Frame/Title/Title';
-import backAddress from '../../serverconf'
+
+import axios from "../Tool/axios";
+import backServer from '../../serverconf'
 
 import svgMyPage from './svg_myPage.svg';
 import svgDocument from './svg_document.svg';
@@ -21,12 +23,16 @@ const profileImage = {
 }
 
 function Setting() {
-    // const [example, setExample] = useState(false);
+
+    const [user, setUser] = useState({name: "이름", id: "아이디", nickname: "닉네임"})
+
     const HandleModify = () => {
         alert("수정하기 창 대신 팝업")
     };
     const logoutHandler = () => {
         alert("로그아웃 됨")
+        const logoutURL = `${backServer}/auth/logout`
+        window.location.href = logoutURL
     };
 
     const MyPageMenu = (props) => {
@@ -37,9 +43,23 @@ function Setting() {
             </div>
         )
     }
-    // useEffect(() => {
-    //     ~~~
-    // }, [])
+    
+    useEffect(() => {
+        axios.get("/json/logininfo")
+            .then((res) => {
+                const result = res.data;
+                axios.get("/json/logininfo/detail")
+                .then((res) => {
+                    if (res) {
+                        result.nickname = res.data.nickname
+                        setUser(result)
+                    }
+                })
+                .catch(() => {setUser(result)})
+            })
+            .catch(() => {})
+    }, [])
+
     return (
         <div>
             <div style={{ height: '20px' }}/>
@@ -53,7 +73,7 @@ function Setting() {
                             <img style={profileImage}/>
                         </div>
                         <div className="nickname">
-                            김 태 우
+                            {user.name}
                         </div>
                     </div>
                     <div className="flexLine2">
@@ -74,7 +94,7 @@ function Setting() {
                     <div className="flexLine2">
                         <div className="flexLine1">
                             <div className="profileTag">별명</div>
-                            <div style={{fontWeight: '400'}}>어은동핵주먹</div>
+                            <div style={{fontWeight: '400'}}>{user.nickname}</div>
                         </div>
                     </div>
                 </div>
