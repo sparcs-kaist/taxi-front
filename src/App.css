@@ -1,38 +1,70 @@
-*{
-  margin: 0px; padding: 0px;
-  font-family: "NanumSquare", sans-serif; font-weight: 300;
+* {
+  margin: 0px;
+  padding: 0px;
+  font-family: "NanumSquare", sans-serif;
+  font-weight: 300;
 }
 
-html{ height: 100%; }
-body{
+html {
   height: 100%;
-  background: rgba(102,61,113,0.05) !important;
-  -ms-overflow-style: none; touch-action: pan-y;
 }
-body::-webkit-scrollbar { display: none; }
+body {
+  height: 100%;
+  background: rgba(102, 61, 113, 0.05) !important;
+  -ms-overflow-style: none;
+  touch-action: pan-y;
+}
+body::-webkit-scrollbar {
+  display: none;
+}
 
-button{ border: none; outline: none; background: none; }
-button:active { outline: none }
-button:focus { outline:none }
+button {
+  border: none;
+  outline: none;
+  background: none;
+}
+button:active {
+  outline: none;
+}
+button:focus {
+  outline: none;
+}
 
-#root{ width: 100%; height: 100%; position: relative; }
+#root {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
 
-.BTNC{ cursor:pointer; }
-.ND { -ms-user-select: none; -moz-user-select: -moz-none; -webkit-user-select: none; -khtml-user-select: none; user-select:none; }
-.BTM_EMPTY{ width: 100%; height: 200px; }
+.BTNC {
+  cursor: pointer;
+}
+.ND {
+  -ms-user-select: none;
+  -moz-user-select: -moz-none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+}
+.BTM_EMPTY {
+  width: 100%;
+  height: 200px;
+}
 
-@media (max-width: 767px){
-  .lay_auto{
-      position: relative;
-      margin-left: 20px; margin-right: 20px;
-      /*overflow-x: hidden; overflow-y: auto;*/
+@media (max-width: 767px) {
+  .lay_auto {
+    position: relative;
+    margin-left: 20px;
+    margin-right: 20px;
+    /*overflow-x: hidden; overflow-y: auto;*/
   }
 }
-@media (min-width: 768px){
-  .lay_auto{
-      position: relative;
-      width: 728px; height: auto;
-      margin: auto;
-      /*overflow-x: hidden; overflow-y: auto;*/
+@media (min-width: 768px) {
+  .lay_auto {
+    position: relative;
+    width: 728px;
+    height: auto;
+    margin: auto;
+    /*overflow-x: hidden; overflow-y: auto;*/
   }
 }
