@@ -1,9 +1,7 @@
 import axios from "axios";
 import React from "react";
-import backServer from "../../serverconf";
+import { backServer } from "../../serverconf";
 // new user form and submit event
-
-// dogma : 서버 주소, 포트번호 저장하는 별도 전역 변수가 있으면 좋겠다.
 
 class NewUser extends React.Component {
   // constructor(props) {

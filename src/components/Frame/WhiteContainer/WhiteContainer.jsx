@@ -1,4 +1,5 @@
-import { Component } from "react";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 class WhiteContainer extends Component {
   constructor(props) {
@@ -24,6 +25,11 @@ class WhiteContainer extends Component {
       </div>
     );
   }
+}
+
+WhiteContainer.propTypes = {
+  // FIXME specify type
+  children: PropTypes.any
 }
 
 export default WhiteContainer;

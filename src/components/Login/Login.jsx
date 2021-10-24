@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
-import backAddress from "../../serverconf";
+import { backServer } from "../../serverconf";
 import svgLogo from "./svg_logo.svg";
 
 const TaxiLogo = () => {
@@ -43,7 +43,7 @@ const BtnLogin = () => {
   });
   return (
     <div style={{ position: "relative" }}>
-      <a href={`${backAddress}/auth/sparcssso`}>
+      <a href={`${backServer}/auth/sparcssso`}>
         <animated.div
           onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}

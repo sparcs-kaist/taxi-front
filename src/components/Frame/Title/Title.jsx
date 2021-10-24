@@ -1,3 +1,6 @@
+import React from "react";
+import PropTypes from "prop-types";
+
 const Title = (props) => {
   return (
     <div
@@ -32,5 +35,11 @@ const Title = (props) => {
     </div>
   );
 };
+
+Title.propTypes = {
+  // FIXME specify type
+  img: PropTypes.any,
+  children: PropTypes.children
+}
 
 export default Title;

@@ -4,10 +4,6 @@ import Proptypes from "prop-types"
 
 const lay1size = 54;
 
-Lay1Container.propTypes = {
-  len: Proptypes.number
-}
-
 const Lay1Container = (props) => {
   const cstyle = {
     position: "absolute",
@@ -112,19 +108,16 @@ const Lay1Container = (props) => {
   } else return <></>;
 };
 
+Lay1Container.propTypes = {
+  len: Proptypes.number
+}
+
 // 데이터 예시
 // title = "12월 8일 오후 12시 택시팟 찾아요~"
 // subtitle = "대전역 > 카이스트, 오후 12시 30분 출발"
 // partLen = { 1}
 // partImgs = { []}
 
-RoomElement.propTypes = {
-  // TODO fix types of partLen and partImages
-  title: Proptypes.string,
-  subtitle: Proptypes.string,
-  partLen: Proptypes.any,
-  partImgs: Proptypes.any
-}
 const RoomElement = (props) => {
   const styleBody = {
     position: "relative",
@@ -181,5 +174,14 @@ const RoomElement = (props) => {
     </animated.div>
   );
 };
+
+RoomElement.propTypes = {
+  // FIXME specify type
+  title: Proptypes.string,
+  subtitle: Proptypes.string,
+  partLen: Proptypes.any,
+  partImgs: Proptypes.any
+}
+
 
 export default RoomElement;
