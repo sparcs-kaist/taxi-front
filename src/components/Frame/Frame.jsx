@@ -4,6 +4,7 @@ import axios from "../Tool/axios";
 import Navigation from "./Navigation";
 import Footer from "./Footer";
 import "./Frame.css";
+import PropTypes from "prop-types"
 
 const TopBar = (props) => {
   return (
@@ -19,6 +20,7 @@ const TopBar = (props) => {
     />
   );
 };
+
 class Frame extends Component {
   constructor(props) {
     // constructor 에서 빼기
@@ -58,7 +60,11 @@ class Frame extends Component {
   }
 }
 
-Frame.propTypes = {};
+Frame.propTypes = {
+  // FIXME specify type
+  navi: PropTypes.any,
+  children: PropTypes.any
+}
 Frame.defaultProps = {
   children: <div></div>,
 };

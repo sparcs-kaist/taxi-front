@@ -1,9 +1,10 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import { useSpring, animated } from "react-spring";
 import getDateInfo from "./getDateInfo";
 import svgToday from "./svg_today.svg";
 import svgLeft from "./svg_left.svg";
 import svgRight from "./svg_right.svg";
+import PropTypes from "prop-types"
 
 const Date = (props) => {
   const style = {
@@ -80,6 +81,15 @@ const Date = (props) => {
     </span>
   );
 };
+
+Date.propTypes = {
+  available: PropTypes.boolean,
+  selected: PropTypes.boolean,
+  handler: PropTypes.func,
+  month: PropTypes.any,
+  date: PropTypes.any
+}
+
 class DatePicker extends Component {
   constructor(props) {
     super(props);
@@ -277,6 +287,11 @@ class DatePicker extends Component {
   componentWillUnmount() {
     window.removeEventListener("resize", this.resizeEvent);
   }
+}
+
+DatePicker.propTypes = {
+  // FIXME specify type
+  handler: PropTypes.any
 }
 
 export default DatePicker;

@@ -2,13 +2,8 @@ import React, { Component } from "react";
 import Title from "../../Frame/Title/Title";
 import axios from "../../Tool/axios";
 import Proptypes from "prop-types"
-
 import svgSearch from "./svg_search.svg";
 
-
-SearchResult.propTypes = {
-  param: Proptypes.any
-}
 export default class SearchResult extends Component {
   constructor(props) {
     super(props);
@@ -37,4 +32,8 @@ export default class SearchResult extends Component {
       </div>
     );
   }
+}
+
+SearchResult.propTypes = {
+  param: Proptypes.any
 }

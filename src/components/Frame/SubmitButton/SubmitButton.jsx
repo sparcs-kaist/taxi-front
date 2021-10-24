@@ -1,5 +1,6 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
+import PropTypes from "prop-types";
 
 const Button = (props) => {
   const [isHover, setHover] = useState(false);
@@ -32,10 +33,19 @@ const Button = (props) => {
   );
 };
 
+Button.propTypes = {
+  // FIXME specify type
+  fontColor: PropTypes.any,
+  backgroundHover: PropTypes.any,
+  background: PropTypes.any,
+  onClick: PropTypes.any,
+  children: PropTypes.any
+}
+
 Button.defaultProps = {
   background: "#6E3678",
   backgroundHover: "white",
   fontColor: "white",
-  onClick: () => {},
+  onClick: () => { },
 };
 export default Button;

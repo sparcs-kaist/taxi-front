@@ -22,6 +22,7 @@ import svgSearch from "./svg_search.svg";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import CreateIcon from "@material-ui/icons/Create";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
+import PropTypes from "prop-types"
 
 import "react-datepicker/dist/react-datepicker.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -33,6 +34,11 @@ const LinkTo = (props) => {
   }
   return <div />;
 };
+
+LinkTo.propTypes = {
+  // FIXME specify type
+  to: PropTypes.any
+}
 
 class Search extends Component {
   constructor(props) {
@@ -154,13 +160,13 @@ class Search extends Component {
     });
   }
 
-  handleChangeDate = (month, date) => {
+  handleChangeDate(month, date) {
     this.setState({
       valueDate: [month, date],
     });
   };
 
-  handleChangeDep = (name, value) => {
+  handleChangeDep(name, value) {
     this.setState(({ valueGroupsDep }) => ({
       valueGroupsDep: {
         ...valueGroupsDep,
@@ -169,7 +175,7 @@ class Search extends Component {
     }));
   };
 
-  handleChangeArr = (name, value) => {
+  handleChangeArr(name, value) {
     this.setState(({ valueGroupsArr }) => ({
       valueGroupsArr: {
         ...valueGroupsArr,
@@ -178,7 +184,7 @@ class Search extends Component {
     }));
   };
 
-  handleChangeTimeHour = (name, value) => {
+  handleChangeTimeHour(name, value) {
     this.setState(({ valueGroupsTimeHour }) => ({
       valueGroupsTimeHour: {
         ...valueGroupsTimeHour,
@@ -187,7 +193,7 @@ class Search extends Component {
     }));
   };
 
-  handleChangeTimeMin = (name, value) => {
+  handleChangeTimeMin(name, value) {
     this.setState(({ valueGroupsTimeMin }) => ({
       valueGroupsTimeMin: {
         ...valueGroupsTimeMin,
@@ -437,5 +443,10 @@ class Search extends Component {
       </div>
     );
   }
+}
+
+Search.propTypes = {
+  // FIXME specify type
+  to: PropTypes.any
 }
 export default Search;

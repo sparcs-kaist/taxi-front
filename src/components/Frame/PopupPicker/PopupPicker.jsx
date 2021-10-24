@@ -1,5 +1,6 @@
-import { Component, useState } from "react";
+import React, { Component, useState } from "react";
 import Picker from "react-mobile-picker-scroll";
+import PropTypes from 'prop-types'
 
 const PopupPicker = (props) => {
   const [valueGroup, setvalueGroup] = useState({ item: props.options[0] });
@@ -84,5 +85,10 @@ PopupPicker.defaultProps = {
   title: "Title",
   options: ["option1", "option2", "option3"],
 };
+
+PopupPicker.propTypes = {
+  options: PropTypes.array,
+  title: PropTypes.string
+}
 
 export default PopupPicker;

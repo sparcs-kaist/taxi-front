@@ -1,4 +1,4 @@
-import { Component, useState } from "react";
+import React, { Component, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSpring, animated } from "react-spring";
 import "./Navigation.css";
@@ -10,6 +10,7 @@ import svgSearchSelected from "./NavigationIcon/search_selected.svg";
 import svgAddroomSelected from "./NavigationIcon/add_selected.svg";
 import svgMyroomSelected from "./NavigationIcon/chat_selected.svg";
 import svgSettingSelected from "./NavigationIcon/setting_selected.svg";
+import PropTypes from "prop-types"
 
 const NavigationBtn = (props) => {
   const [isHover, setHover] = useState(false);
@@ -68,6 +69,17 @@ const NavigationBtn = (props) => {
     </Link>
   );
 };
+
+NavigationBtn.propTypes = {
+  // FIXME specify type
+  selected: PropTypes.boolean,
+  to: PropTypes.any,
+  icon: PropTypes.any,
+  icon2: PropTypes.any,
+  name: PropTypes.any
+}
+
+
 class Navigation extends Component {
   render() {
     return (
@@ -105,6 +117,10 @@ class Navigation extends Component {
       </div>
     );
   }
+}
+
+Navigation.propTypes = {
+  selected: PropTypes.string
 }
 
 export default Navigation;
