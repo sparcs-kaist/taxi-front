@@ -3,13 +3,41 @@
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"
+    />
     <meta name="description" content="SPARCS Taxi" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>Taxi</title>
-    <script>document.documentElement.addEventListener('touchstart', function (event) { if (event.touches.length > 1) { event.preventDefault(); } }, false);</script>
-    <script>var lastTouchEnd = 0; document.documentElement.addEventListener('touchend', function (event) { var now = (new Date()).getTime(); if (now - lastTouchEnd <= 300) { event.preventDefault(); } lastTouchEnd = now; }, false);</script>
+    <script>
+      document.documentElement.addEventListener(
+        "touchstart",
+        function (event) {
+          if (event.touches.length > 1) {
+            event.preventDefault();
+          }
+        },
+        false
+      );
+    </script>
+    <script>
+      var lastTouchEnd = 0;
+      document.documentElement.addEventListener(
+        "touchend",
+        function (event) {
+          var now = new Date().getTime();
+          if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+          }
+          lastTouchEnd = now;
+        },
+        false
+      );
+    </script>
   </head>
-  <body><div id="root"></div></body>
+  <body>
+    <div id="root"></div>
+  </body>
 </html>
