@@ -2,10 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 class WhiteContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.margin = "20px";
-  }
   render() {
     return (
       <div
@@ -18,7 +14,7 @@ class WhiteContainer extends Component {
         }}
       >
         <div
-          style={{ position: "relative", padding: "20px", background: "white" }}
+          style={{ position: "relative", padding: this.props.padding, background: "white" }}
         >
           {this.props.children}
         </div>
@@ -29,7 +25,11 @@ class WhiteContainer extends Component {
 
 WhiteContainer.propTypes = {
   // FIXME specify type
-  children: PropTypes.any
+  children: PropTypes.any,
+  padding: PropTypes.any,
+}
+WhiteContainer.defaultProps = {
+  padding: '20px'
 }
 
 export default WhiteContainer;

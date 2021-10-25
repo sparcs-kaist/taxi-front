@@ -22,7 +22,7 @@ import svgSearch from "./svg_search.svg";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import CreateIcon from "@material-ui/icons/Create";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
-import PropTypes from "prop-types"
+import PropTypes from "prop-types";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -37,8 +37,8 @@ const LinkTo = (props) => {
 
 LinkTo.propTypes = {
   // FIXME specify type
-  to: PropTypes.any
-}
+  to: PropTypes.any,
+};
 
 class Search extends Component {
   constructor(props) {
@@ -164,7 +164,7 @@ class Search extends Component {
     this.setState({
       valueDate: [month, date],
     });
-  };
+  }
 
   handleChangeDep(name, value) {
     this.setState(({ valueGroupsDep }) => ({
@@ -173,7 +173,7 @@ class Search extends Component {
         [name]: value,
       },
     }));
-  };
+  }
 
   handleChangeArr(name, value) {
     this.setState(({ valueGroupsArr }) => ({
@@ -182,7 +182,7 @@ class Search extends Component {
         [name]: value,
       },
     }));
-  };
+  }
 
   handleChangeTimeHour(name, value) {
     this.setState(({ valueGroupsTimeHour }) => ({
@@ -191,7 +191,7 @@ class Search extends Component {
         [name]: value,
       },
     }));
-  };
+  }
 
   handleChangeTimeMin(name, value) {
     this.setState(({ valueGroupsTimeMin }) => ({
@@ -200,7 +200,7 @@ class Search extends Component {
         [name]: value,
       },
     }));
-  };
+  }
 
   onClick() {
     const roomName = this.state.roomName;
@@ -447,6 +447,6 @@ class Search extends Component {
 
 Search.propTypes = {
   // FIXME specify type
-  to: PropTypes.any
-}
+  to: PropTypes.any,
+};
 export default Search;
