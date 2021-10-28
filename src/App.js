@@ -21,6 +21,7 @@ import Setting from "./components/Setting/Setting";
 //import Login from './components/user/login'
 import User from "./components/user/user";
 import NewUser from "./components/user/newuser";
+import Chatting from "./components/Chatting/Chatting";
 
 const SearchResultWithParam = (props) => (
   <Frame navi="search">
@@ -75,6 +76,9 @@ function App() {
         </Route>
         <Route exact path="/users/new">
           <NewUser />
+        </Route>
+        <Route exact path="/chatting/:roomId">
+          <Chatting />
         </Route>
       </Switch>
     </Router>

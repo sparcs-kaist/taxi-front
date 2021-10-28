@@ -1,3 +1,7 @@
+// 최상위 컴포넌트
+// 로그인 여부를 체크하고, 로그인이 되어있지 않으면 로그인 페이지로 리다이렉트
+// props 주석은 최하단 참조
+
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "../Tool/axios";
@@ -34,20 +38,23 @@ class Frame extends Component {
         else this.setState({ loginCheck: false });
       })
       .catch((error) => {
-        console.log("axios error : " + error); // 추후 수정 바람
+        console.log("axios error : " + error); // FIXME: 추후 수정 바람
       });
   }
   render() {
-    if (this.state.loginCheck == undefined) {
+    if (this.state.loginCheck === undefined) {
+      // 백 서버 offline인 경우 (FIXME)
       return (
         <div id="main-container">
           <Navigation selected={this.props.navi} />
           <TopBar />
         </div>
       );
-    } else if (this.state.loginCheck == false) {
+    } else if (this.state.loginCheck === false) {
+      // 로그인이 되어 있지 않은 경우(백 서버 online), 로그인 페이지로 리다이렉트
       return <Redirect to={"/login?redirect=" + window.location.pathname} />;
     } else {
+      // 로그인이 되어있는 경우
       return (
         <div id="main-container">
           {this.props.children}
@@ -61,8 +68,10 @@ class Frame extends Component {
 }
 
 Frame.propTypes = {
-  // FIXME specify type
-  navi: PropTypes.any,
+  // FIXME: specify type
+  // navi: 하단 바에 어떤 항목이 선택되어있어야 하는가?
+  // children: ??
+  navi: PropTypes.string,
   children: PropTypes.any
 }
 Frame.defaultProps = {
