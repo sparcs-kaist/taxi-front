@@ -10,6 +10,7 @@ import { backServer } from "../../serverconf"
 import { useParams } from "react-router-dom";
 import axios from "../Tool/axios";
 import { useLayoutEffect } from "react";
+import "./Chatting.css"
 
 Chatting.propTypes = {
   // roomId: PropTypes.number,
@@ -103,28 +104,29 @@ export default function Chatting(props) {
     }
   }, [isComponentLoading, isFetching, hasNext, self])
 
-  // useEffect(() => {
-  //   if (!topEl.current) {
-  //     // 처음 렌더링돼었을 때
-  //     // 맨 아래로 스크롤하고, top element 설정
-  //     self.current.scrollTop = self.current.scrollHeight - self.current.clientHeight;
-  //     topEl.current = document.getElementById("chats")?.children[1];
-  //   } else {
-  //     // 두번째 이후 렌더링
-  //     if (!items.isNewChat) {
-  //       // load more을 통해 렌더링 된 경우
-  //       // top element로 스크롤 후 top element를 재설정
-  //       // topEl.current.scrollIntoView(true);
-  //       topEl.current = document.getElementById("chats")?.children[1];
-  //       console.log("setIsFetching false")
-  //     } else {
-  //       // newChat을 통해 렌더링 된 경우
-  //       // 맨 아래로 스크롤
-  //       self.current.scrollTop = self.current.scrollHeight - self.current.clientHeight;
-  //     }
-  //   }
-  //   setIsFetching(false);
-  // }, [items])
+  useEffect(() => {
+    if (isComponentLoading) return;
+    if (!topEl.current) {
+      // 처음 렌더링돼었을 때
+      // 맨 아래로 스크롤하고, top element 설정
+      self.current.scrollTop = self.current.scrollHeight - self.current.clientHeight;
+      topEl.current = document.getElementById("chats")?.children[1];
+    } else {
+      // 두번째 이후 렌더링
+      if (!items.isNewChat) {
+        // load more을 통해 렌더링 된 경우
+        // top element로 스크롤 후 top element를 재설정
+        // topEl.current.scrollIntoView(true);
+        topEl.current = document.getElementById("chats")?.children[1];
+        console.log("setIsFetching false")
+      } else {
+        // newChat을 통해 렌더링 된 경우
+        // 맨 아래로 스크롤
+        self.current.scrollTop = self.current.scrollHeight - self.current.clientHeight;
+      }
+    }
+    setIsFetching(false);
+  }, [items])
 
 
 
@@ -139,7 +141,7 @@ export default function Chatting(props) {
               <tbody id="chats">
                 <tr>
                   <td>
-                    {isFetching && 'Loading...'}
+                    {isFetching && 'Loading more message...'}
                   </td>
                 </tr>
                 {renderChats(items.data)}

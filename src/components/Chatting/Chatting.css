@@ -1,0 +1,80 @@
+body {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+#chatting {
+  height: 450px;
+  overflow-y: scroll;
+  margin-top : 20px;
+  margin-bottom : 15px;
+  background-color: black;
+}
+
+#chattingTable {
+  border-collapse: separate;
+  border-spacing: 10px 5px;
+}
+
+.chatText {
+  width: 250px;
+}
+
+.todoItem {
+  width: 130px;
+  margin: 7px;
+}
+
+.author {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.time {
+  font-size: 8pt;
+}
+
+.chatText {
+  font-size: 10pt;
+}
+
+.App {
+  padding: 30px;
+  display: flex;
+  flex-flow: row wrap;
+  align-content: space-between;
+  justify-content: space-between;
+}
+
+.chatInput {
+  height: 25px;
+  width: 400px;
+  
+}
+
+#chat {
+}
+
+#loginInfo {
+  /* display: inline-block; */
+  /* align-self: right; */
+  /* break-after: always; */
+  
+}
+
+#title {
+  font-size: 35px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  /* display: inline-block; */
+  /* flex-grow: 4; */
+  /* align-self: left; */
+}
+
+.lineBreak {
+  width: 100%
+}
+
+input[type="button"] {
+  height: 28px;
+}
