@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { backServer } from "../serverconf";
 
-const chatServerAddr = 'http://ec2-18-116-38-81.us-east-2.compute.amazonaws.com/:9000/chats'
+const chatServerAddr = `${backServer}/chats`
 
 // interface chatRes {
 //   data: chat[],
@@ -33,7 +34,7 @@ const useInfiniteScrollInverse = (roomId, scrollLength) => {
     fetchData(roomId, page, scrollLength)
       .then((res) => {
         const data = res.data;
-        console.log(data);
+        console.log("fetch res: " + data);
         // 로딩 메시지 테스트를 위해 일부러 setTimeout
         setTimeout(() => {
           setItems(prev => {

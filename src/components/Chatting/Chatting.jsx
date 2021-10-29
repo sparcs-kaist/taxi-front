@@ -87,19 +87,21 @@ export default function Chatting(props) {
 
   // 스크롤 관련 이벤트 등록(FIXME: dependancy array 조정 필요)
   useEffect(() => {
-    const handleScroll = () => {
-      const isScrolledToTop = self.current.scrollTop === 0;
-      console.log("handleScroll()");
-      if (isScrolledToTop && hasNext && !isFetching) next();
-    }
-    const div = self.current;
-    const throttledHandleScroll = _.throttle(handleScroll, 500)
-    div?.addEventListener('scroll', throttledHandleScroll);
+    if (!isComponentLoading) {
+      const handleScroll = () => {
+        const isScrolledToTop = self.current.scrollTop === 0;
+        console.log("handleScroll()");
+        if (isScrolledToTop && hasNext && !isFetching) next();
+      }
+      const div = self.current;
+      const throttledHandleScroll = _.throttle(handleScroll, 500)
+      div?.addEventListener('scroll', throttledHandleScroll);
 
-    return () => {
-      div.removeEventListener('scroll', throttledHandleScroll);
+      return () => {
+        div?.removeEventListener('scroll', throttledHandleScroll);
+      }
     }
-  }, [isFetching, hasNext, self])
+  }, [isComponentLoading, isFetching, hasNext, self])
 
   // useEffect(() => {
   //   if (!topEl.current) {
