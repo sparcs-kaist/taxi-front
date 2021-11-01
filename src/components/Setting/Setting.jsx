@@ -3,7 +3,7 @@ import WhiteContainer from "../Frame/WhiteContainer/WhiteContainer.jsx";
 import Title from "../Frame/Title/Title";
 
 import axios from "../Tool/axios";
-import backServer from "../../serverconf";
+import { backServer } from "../../serverconf";
 import PropTypes from "prop-types";
 
 import svgMyPage from "./svg_myPage.svg";
@@ -75,7 +75,7 @@ function Setting() {
             setUser(result);
           });
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   return (

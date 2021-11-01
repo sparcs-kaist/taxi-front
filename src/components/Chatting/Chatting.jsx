@@ -4,12 +4,10 @@ import Chat from "./Chat"
 import InputForm from "./InputForm";
 import _ from "lodash"
 import useInfiniteScrollInverse from "../../hooks/useInfiniteScrollInverse";
-import Cookies from "js-cookie";
 import PropTypes from "prop-types"
 import { backServer } from "../../serverconf"
 import { useParams } from "react-router-dom";
 import axios from "../Tool/axios";
-import { useLayoutEffect } from "react";
 import "./Chatting.css"
 
 Chatting.propTypes = {
@@ -40,10 +38,8 @@ export default function Chatting(props) {
     setIsComponentLoading(true);
     try {
       const res = await axios.get(`${backServer}/auth/getToken`, { withCredentials: true });
-      console.log("res: " + res);
       setToken(res.data);
     } catch (e) {
-
       console.error(e);
     } finally {
       setIsComponentLoading(false);
@@ -91,7 +87,6 @@ export default function Chatting(props) {
     if (!isComponentLoading) {
       const handleScroll = () => {
         const isScrolledToTop = self.current.scrollTop === 0;
-        console.log("handleScroll()");
         if (isScrolledToTop && hasNext && !isFetching) next();
       }
       const div = self.current;
@@ -116,9 +111,8 @@ export default function Chatting(props) {
       if (!items.isNewChat) {
         // load more을 통해 렌더링 된 경우
         // top element로 스크롤 후 top element를 재설정
-        // topEl.current.scrollIntoView(true);
+        topEl.current.scrollIntoView(true);
         topEl.current = document.getElementById("chats")?.children[1];
-        console.log("setIsFetching false")
       } else {
         // newChat을 통해 렌더링 된 경우
         // 맨 아래로 스크롤
