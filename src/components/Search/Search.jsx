@@ -221,7 +221,6 @@ class Search extends Component {
         <div style={{ height: "20px" }} />
         <Title img={svgSearch}>방 검색하기</Title>
         <div style={{ height: "20px" }} />
-
         {/* 방 제목으로 검색 */}
         <WhiteContainer title="방 검색">
           <div
@@ -229,7 +228,6 @@ class Search extends Component {
               display: "flex",
               alignContent: "row",
               alginItems: "center",
-              justifyContent: "middle",
             }}
           >
             <CreateIcon
@@ -237,6 +235,7 @@ class Search extends Component {
                 width: "20px",
                 height: "20px",
                 marginLeft: "15px",
+                marginTop: "2px",
               }}
             />
             <div
@@ -277,22 +276,25 @@ class Search extends Component {
                     flexDirection: "column",
                   }}
                 >
-                  <label
+                  <div
                     style={{
                       margin: "auto",
                       fontSize: "12pt",
                       color: "#C8C8C8",
                       display: "flex",
                       flexDirection: "column",
-                      alginItems: "center",
-                      justifyContent: "center",
+                      justifyContent: "space-between",
                     }}
                   >
                     <FiberManualRecordIcon
-                      style={{ fontSize: 9, color: "#C8C8C8" }}
+                      style={{
+                        fontSize: 9,
+                        color: "#C8C8C8",
+                        width: "100%",
+                      }}
                     />
-                    출발지
-                  </label>
+                    <div>출발지</div>
+                  </div>
                   <Button
                     onClick={this.handleOpenDep}
                     style={{ margin: "auto" }}
@@ -334,10 +336,15 @@ class Search extends Component {
                       color: "#C8C8C8",
                       display: "flex",
                       flexDirection: "column",
+                      justifyContent: "space-between",
                     }}
                   >
                     <FiberManualRecordIcon
-                      style={{ fontSize: 9, color: "#C8C8C8" }}
+                      style={{
+                        fontSize: 9,
+                        color: "#C8C8C8",
+                        width: "100%",
+                      }}
                     />
                     도착지
                   </label>
@@ -392,6 +399,7 @@ class Search extends Component {
                 width: "20px",
                 height: "20px",
                 marginLeft: "15px",
+                marginTop: "2px",
               }}
             />
             <div
