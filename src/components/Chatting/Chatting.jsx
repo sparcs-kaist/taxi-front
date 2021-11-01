@@ -5,7 +5,7 @@ import InputForm from "./InputForm";
 import _ from "lodash"
 import useInfiniteScrollInverse from "../../hooks/useInfiniteScrollInverse";
 import PropTypes from "prop-types"
-import { backServer } from "../../serverconf"
+import backServer from "../../serverconf"
 import { useParams } from "react-router-dom";
 import axios from "../Tool/axios";
 import "./Chatting.css"
