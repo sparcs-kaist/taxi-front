@@ -4,6 +4,7 @@ import Title from "../Frame/Title/Title";
 
 import axios from "../Tool/axios";
 import backServer from "../../serverconf";
+import PropTypes from "prop-types";
 
 import svgMyPage from "./svg_myPage.svg";
 import svgDocument from "./svg_document.svg";
@@ -49,6 +50,12 @@ function Setting() {
         <div style={{ fontWeight: "400" }}>{props.children}</div>
       </div>
     );
+  };
+
+  MyPageMenu.propTypes = {
+    onClick: PropTypes.function,
+    img: PropTypes.any,
+    children: PropTypes.any,
   };
 
   useEffect(() => {
