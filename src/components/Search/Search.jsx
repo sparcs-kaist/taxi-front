@@ -339,6 +339,7 @@ class Search extends Component {
                         height: "300px",
                         margin: "auto",
                         width: "500px",
+                        maxWidth: "100%",
                       }}
                     >
                       <Picker
@@ -392,6 +393,7 @@ class Search extends Component {
                         height: "300px",
                         margin: "auto",
                         width: "500px",
+                        maxWidth: "100%",
                       }}
                     >
                       <Picker
