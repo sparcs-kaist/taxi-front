@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-import { backServer } from "../../../serverconf";
+import backServer from "../../../serverconf";
 
 // db 들어가 있는 방 목록 모두 출력
 
