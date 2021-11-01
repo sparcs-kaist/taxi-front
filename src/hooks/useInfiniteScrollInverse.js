@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import backServer from "../serverconf";
+import { backServer } from "../serverconf";
 
 const chatServerAddr = `${backServer}/chats`
 
