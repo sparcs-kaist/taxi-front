@@ -89,6 +89,20 @@ class Search extends Component {
           { value: "8", label: "8" },
           { value: "9", label: "9" },
           { value: "10", label: "10" },
+          { value: "11", label: "11" },
+          { value: "12", label: "12" },
+          { value: "13", label: "13" },
+          { value: "14", label: "14" },
+          { value: "15", label: "15" },
+          { value: "16", label: "16" },
+          { value: "17", label: "17" },
+          { value: "18", label: "18" },
+          { value: "19", label: "19" },
+          { value: "20", label: "20" },
+          { value: "21", label: "21" },
+          { value: "22", label: "22" },
+          { value: "23", label: "23" },
+          { value: "24", label: "24" },
         ],
       },
       valueGroupsTimeMin: {
@@ -210,11 +224,16 @@ class Search extends Component {
     const arrTimeString = this.state.valueGroupsTimeMin.min;
     const date = this.state.valueDate;
 
-    if (roomName === undefined || roomName === '') alert('방 이름을 입력해주세요.');
-    else if (depString === undefined || depString === '') alert('출발지를 입력해주세요.');
-    else if (arrString === undefined || arrString === '') alert('도착지를 입력해주세요.');
-    else if (depString === arrString) alert('출발지와 도착지는 같을 수 없습니다.');
-    else if (date[0] === undefined || date[1] === undefined) alert('날짜를 입력해주세요.');
+    if (roomName === undefined || roomName === "")
+      alert("방 이름을 입력해주세요.");
+    else if (depString === undefined || depString === "")
+      alert("출발지를 입력해주세요.");
+    else if (arrString === undefined || arrString === "")
+      alert("도착지를 입력해주세요.");
+    else if (depString === arrString)
+      alert("출발지와 도착지는 같을 수 없습니다.");
+    else if (date[0] === undefined || date[1] === undefined)
+      alert("날짜를 입력해주세요.");
     else {
       this.setState({
         linkto: `/search/result/${roomName}&${depString}&${arrString}&${depTimeString}&${arrTimeString}&${date[0]}&${date[1]}`,
@@ -243,6 +262,7 @@ class Search extends Component {
                 height: "20px",
                 marginLeft: "15px",
                 marginTop: "2px",
+                fill: "black",
               }}
             />
             <div
@@ -419,7 +439,6 @@ class Search extends Component {
               출발 시각
             </div>
           </div>
-
           <div
             style={{
               display: "flex",
@@ -446,7 +465,13 @@ class Search extends Component {
                   alignContent: "row",
                 }}
               >
-                <AccessTimeIcon style={{ marginRight: "5px", width: "14px" }} />
+                <AccessTimeIcon
+                  style={{
+                    marginRight: "5px",
+                    width: "14px",
+                    fill: "black",
+                  }}
+                />
                 <div> 시간: </div>
                 <div
                   style={{
