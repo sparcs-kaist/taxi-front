@@ -282,10 +282,11 @@ class Search extends Component {
                 borderRadius: "8px",
                 borderStyle: "none",
                 backgroundColor: "#FAFAFA",
-                width: "222px",
+                width: "calc(100% - 110px)",
                 height: "28px",
                 paddingLeft: "20px",
-                marginLeft: "6px",
+                paddingRight: "20px",
+                marginLeft: "10px",
               }}
             ></input>
           </div>
