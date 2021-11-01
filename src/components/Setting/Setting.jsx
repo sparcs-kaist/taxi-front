@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import WhiteContainer from "../Frame/WhiteContainer/WhiteContainer.jsx";
 import Title from "../Frame/Title/Title";
-
+import ModifyModal from "./ModifyModal.jsx";
 import axios from "../Tool/axios";
 import backServer from "../../serverconf";
 import PropTypes from "prop-types";
@@ -30,9 +30,10 @@ function Setting() {
     id: "아이디",
     nickname: "닉네임",
   });
+  const [modifyModal, setModifyModal] = useState(false);
 
-  const HandleModify = () => {
-    alert("수정하기 창 대신 팝업");
+  const handleModify = () => {
+    setModifyModal(!modifyModal);
   };
   const logoutHandler = () => {
     alert("로그아웃 됨");
@@ -80,6 +81,9 @@ function Setting() {
 
   return (
     <div>
+      {modifyModal && (
+        <ModifyModal handleModify={handleModify} profileImage={profileImage} />
+      )}
       <div style={{ height: "20px" }} />
       <Title img={svgMyPage}>내 페이지</Title>
       <div style={{ height: "20px" }} />
@@ -100,7 +104,7 @@ function Setting() {
                 cursor: "pointer",
                 fontWeight: "400px",
               }}
-              onClick={HandleModify}
+              onClick={handleModify}
             >
               수정하기
             </div>

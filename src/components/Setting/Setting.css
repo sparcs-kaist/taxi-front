@@ -1,45 +1,71 @@
-.userInfoBox{
-    display:flex;
-    flex-direction: column;
+.userInfoBox {
+  display: flex;
+  flex-direction: column;
 }
-.flexLine1{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+.flexLine1 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
-.profileImage{
-    display: flex;
-    align-items: center;
-    align-content: center;
-    margin-right: 20px;
+.profileImage {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  margin-right: 20px;
 }
-.nickname{
-    font-size: 16pt;
-    font-weight: bold;
-    letter-spacing: .3rem;
+.nickname {
+  font-size: 16pt;
+  font-weight: bold;
+  letter-spacing: 0.3rem;
 }
-.flexLine2{
-    padding-top: 15px;
-    display: flex;
-    justify-content: space-between;
+.flexLine2 {
+  padding-top: 15px;
+  display: flex;
+  justify-content: space-between;
 }
-.profileTag{
-    color: #9B9B9B;
-    padding-right: 10px;
+.profileTag {
+  color: #9b9b9b;
+  padding-right: 10px;
 }
-.myPageMenu{
-    display: flex;
-    flex-direction: row;
-    margin-left: 4px;
-    align-items: center;
+.myPageMenu {
+  display: flex;
+  flex-direction: row;
+  margin-left: 4px;
+  align-items: center;
 }
-.myPageMenu.myPageMenu{
-    margin-top: 30px;
+.myPageMenu.myPageMenu {
+  margin-top: 30px;
 }
-.myPageMenu:first-child{
-    margin-top: 4px;
+.myPageMenu:first-child {
+  margin-top: 4px;
 }
-.myPageMenu:hover{
-    cursor: pointer;
-    /* background-color: #EEEEEE; */
+.myPageMenu:hover {
+  cursor: pointer;
+  /* background-color: #EEEEEE; */
+}
+.modifyModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #00000080;
+  z-index: 10000;
+  display: flex;
+}
+.modalContainer {
+  margin: auto;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+.modifyModalL1 {
+  text-align: right;
+}
+.modifyModalL2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
