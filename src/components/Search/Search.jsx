@@ -224,46 +224,58 @@ class Search extends Component {
 
         {/* 방 제목으로 검색 */}
         <WhiteContainer title="방 검색">
-          <div style={{ display: "flex", alignContent: "row" }}>
-            <label
+          <div
+            style={{
+              display: "flex",
+              alignContent: "row",
+              alginItems: "center",
+              justifyContent: "middle",
+            }}
+          >
+            <CreateIcon
               style={{
-                marginTop: "auto",
-                marginLeft: "24px",
-                fontSize: "12pt",
+                width: "20px",
+                height: "20px",
+                marginLeft: "15px",
+              }}
+            />
+            <div
+              style={{
+                marginLeft: "5px",
+                fontSize: "16px",
+                color: "black",
               }}
             >
-              {" "}
-              <CreateIcon style={{ marginRight: "5px", width: "14px" }} />방
-              이름 :{" "}
-            </label>
-            <div
-              className="roomname"
-              style={{ marginLeft: "20px", borderRadius: "10px" }}
-            >
-              <input
-                onChange={this.onFormSubmit}
-                type="text"
-                id="roomName"
-                style={{
-                  borderStyle: "none",
-                  backgroundColor: "#FAFAFA",
-                  width: "222px",
-                  height: "38px",
-                  paddingLeft: "20px",
-                }}
-              ></input>
+              방 이름 :{" "}
             </div>
+            <input
+              onChange={this.onFormSubmit}
+              type="text"
+              id="roomName"
+              style={{
+                borderRadius: "8px",
+                borderStyle: "none",
+                backgroundColor: "#FAFAFA",
+                width: "222px",
+                height: "28px",
+                paddingLeft: "20px",
+                marginLeft: "6px",
+              }}
+            ></input>
           </div>
         </WhiteContainer>
 
         {/* 출발지, 도착지로검색 */}
         <WhiteContainer title="장소">
-          <Paper style={{ height: "80px", margin: "40px" }} elevation={0}>
+          <Paper style={{ height: "80px" }} elevation={0}>
             <Grid container>
-              <Grid item xs={6}>
+              <Grid item xs>
                 <div
                   className="departure"
-                  style={{ display: "flex", flexDirection: "column" }}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
                 >
                   <label
                     style={{
@@ -272,6 +284,8 @@ class Search extends Component {
                       color: "#C8C8C8",
                       display: "flex",
                       flexDirection: "column",
+                      alginItems: "center",
+                      justifyContent: "center",
                     }}
                   >
                     <FiberManualRecordIcon
@@ -307,7 +321,8 @@ class Search extends Component {
                   </Dialog>
                 </div>
               </Grid>
-              <Grid item xs={6}>
+              <Divider orientation="vertical" flexItem />
+              <Grid item xs>
                 <div
                   className="arrival"
                   style={{ display: "flex", flexDirection: "column" }}
@@ -365,13 +380,31 @@ class Search extends Component {
 
         {/* 시간으로 검색 후보 2 */}
         <WhiteContainer title="시간">
-          <label style={{ fontSize: "12pt", marginLeft: "24px" }}>
-            {" "}
+          <div
+            style={{
+              display: "flex",
+              alignContent: "row",
+              alginItems: "center",
+            }}
+          >
             <AccessTimeIcon
-              style={{ marginRight: "5px", width: "14px" }}
-            />{" "}
-            출발 시각{" "}
-          </label>
+              style={{
+                width: "20px",
+                height: "20px",
+                marginLeft: "15px",
+              }}
+            />
+            <div
+              style={{
+                marginLeft: "5px",
+                fontSize: "16px",
+                color: "black",
+              }}
+            >
+              출발 시각
+            </div>
+          </div>
+
           <div
             style={{
               display: "flex",
