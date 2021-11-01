@@ -210,9 +210,16 @@ class Search extends Component {
     const arrTimeString = this.state.valueGroupsTimeMin.min;
     const date = this.state.valueDate;
 
-    this.setState({
-      linkto: `/search/result/${roomName}&${depString}&${arrString}&${depTimeString}&${arrTimeString}&${date[0]}&${date[1]}`,
-    });
+    if (roomName === undefined || roomName === '') alert('방 이름을 입력해주세요.');
+    else if (depString === undefined || depString === '') alert('출발지를 입력해주세요.');
+    else if (arrString === undefined || arrString === '') alert('도착지를 입력해주세요.');
+    else if (depString === arrString) alert('출발지와 도착지는 같을 수 없습니다.');
+    else if (date[0] === undefined || date[1] === undefined) alert('날짜를 입력해주세요.');
+    else {
+      this.setState({
+        linkto: `/search/result/${roomName}&${depString}&${arrString}&${depTimeString}&${arrTimeString}&${date[0]}&${date[1]}`,
+      });
+    }
   }
 
   render() {
