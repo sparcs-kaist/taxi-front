@@ -28,9 +28,10 @@ const useInfiniteScrollInverse = (roomId, scrollLength) => {
   const [hasNext, setHasNext] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
 
+  // next() 를 통해 page가 바뀔 때마다 채팅을 새로 로딩하여 기존 데이터에 추가
   useEffect(() => {
     console.log("useEfffect of page")
-
+    // 초기값 가져오기
     fetchData(roomId, page, scrollLength)
       .then((res) => {
         const data = res.data;
@@ -40,6 +41,7 @@ const useInfiniteScrollInverse = (roomId, scrollLength) => {
           setItems(prev => {
             return {
               data: [...data.data, ...prev.data],
+              isInitialLoad: page === 0,
               isNewChat: false
             }
           })
@@ -50,9 +52,8 @@ const useInfiniteScrollInverse = (roomId, scrollLength) => {
       })
   }, [page])
 
+  // page++ 하기
   const next = () => {
-    console.log('next()')
-    console.log('hasNext ' + hasNext)
     if (hasNext) {
       setIsFetching(true);
       setPage(page + 1);
@@ -60,8 +61,8 @@ const useInfiniteScrollInverse = (roomId, scrollLength) => {
     else console.error("noMoreItems")
   }
 
+  // 새로운 채팅을 등록
   const newChat = (newChat) => {
-    console.log("newChat()");
     setItems(prev => {
       return {
         data: [...prev.data, newChat],
