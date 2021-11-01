@@ -430,6 +430,7 @@ class Search extends Component {
                 height: "20px",
                 marginLeft: "15px",
                 marginTop: "2px",
+                fill: "black"
               }}
             />
             <div
