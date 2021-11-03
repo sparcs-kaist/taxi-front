@@ -31,7 +31,7 @@ class SearchOrAdd extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isSearchResults: {
+      isResults: {
         is: false,
         data: []
       },
@@ -223,7 +223,7 @@ class SearchOrAdd extends Component {
         console.log(res);
         if (res.status === 200) {
           this.setState({
-            isSearchResults: {
+            isResults: {
               is: true,
               data: res.data
             }
@@ -239,10 +239,10 @@ class SearchOrAdd extends Component {
   }
 
   render() {
-    const isSearchResults = this.state.isSearchResults;
+    const isResults = this.state.isResults;
     return (
       <>
-        {!isSearchResults.is &&
+        {!isResults.is &&
           <div className="searchroom">
             <div style={{ height: "20px" }} />
             <Title img={svgSearch}>
@@ -546,8 +546,8 @@ class SearchOrAdd extends Component {
           </div>
         }
         {/* 지금은 그냥 방 추가일때도 이걸로 표시, 추후 내 방 리스트 프론트 만들어지면 그걸로 돌리면됨 */}
-        {isSearchResults.is &&
-          <SearchResult searchResults={isSearchResults.data} />}
+        {isResults.is &&
+          <SearchResult searchResults={isResults.data} />}
       </>
     );
   }
