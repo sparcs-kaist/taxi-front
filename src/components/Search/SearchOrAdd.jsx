@@ -15,7 +15,6 @@ import {
   DialogActions,
 } from "@material-ui/core";
 import Picker from "react-scrollable-picker";
-import { useHistory } from "react-router-dom";
 //import Picker from 'react-mobile-picker';
 
 import svgSearch from "./svg_search.svg";
@@ -28,49 +27,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "../Tool/axios";
 
-const LinkTo = (props) => {
-  if (props.to) {
-    const histroy = useHistory();
-    histroy.push(props.to);
-  }
-  return <div />;
-};
-
-LinkTo.propTypes = {
-  // FIXME specify type
-  to: PropTypes.any,
-};
-
-const getAPIRes = (dep, arr, startDate) => {
-  return axios.get("/rooms/search", {
-    params: {
-      from: dep,
-      to: arr,
-      startDate: startDate,
-    }
-  })
-}
-
-const validateForm = ({ roomName, depString, arrString, date }) => {
-  let msg = "";
-  if (roomName === undefined || roomName === "")
-    msg = "방 이름을 입력해주세요.";
-  else if (depString === undefined || depString === "")
-    msg = "출발지를 입력해주세요.";
-  else if (arrString === undefined || arrString === "")
-    msg = "도착지를 입력해주세요.";
-  else if (depString === arrString)
-    msg = "출발지와 도착지는 같을 수 없습니다.";
-  else if (date[0] === undefined || date[1] === undefined)
-    msg = "날짜를 입력해주세요.";
-
-  return {
-    isValid: msg === "",
-    msg
-  }
-}
-
-class Search extends Component {
+class SearchOrAdd extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -155,6 +112,70 @@ class Search extends Component {
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.onClickSearch = this.onClickSearch.bind(this);
+    this.getAPIRes = this.getAPIRes.bind(this);
+    this.validateForm = this.validateForm.bind(this);
+  }
+
+  getAPIRes(dep, arr, startDate, name, part) {
+    if (this.props.isSearch) {
+      return axios.get("/rooms/search", {
+        params: {
+          from: dep,
+          to: arr,
+          time: startDate,
+        }
+      });
+    } else {
+      return axios.post('/rooms/create', {
+        data: {
+          name: name,
+          from: dep,
+          to: arr,
+          time: startDate,
+          part: part
+        }
+      })
+    }
+  }
+
+  validateForm({ roomName, depString, arrString, date }) {
+    // 중복은 의도된 것, 추후 수정 필요
+    if (this.props.isSearch) {
+      let msg = "";
+      if (roomName === undefined || roomName === "")
+        msg = "방 이름을 입력해주세요.";
+      else if (depString === undefined || depString === "")
+        msg = "출발지를 입력해주세요.";
+      else if (arrString === undefined || arrString === "")
+        msg = "도착지를 입력해주세요.";
+      else if (depString === arrString)
+        msg = "출발지와 도착지는 같을 수 없습니다.";
+      else if (date[0] === undefined || date[1] === undefined)
+        msg = "날짜를 입력해주세요.";
+
+      return {
+        isValid: msg === "",
+        msg
+      }
+    } else {
+      let msg = "";
+      if (roomName === undefined || roomName === "")
+        msg = "방 이름을 입력해주세요.";
+      else if (depString === undefined || depString === "")
+        msg = "출발지를 입력해주세요.";
+      else if (arrString === undefined || arrString === "")
+        msg = "도착지를 입력해주세요.";
+      else if (depString === arrString)
+        msg = "출발지와 도착지는 같을 수 없습니다.";
+      else if (date[0] === undefined || date[1] === undefined)
+        msg = "날짜를 입력해주세요.";
+
+      return {
+        isValid: msg === "",
+        msg
+      }
+    }
+
   }
 
   onFormSubmit(e) {
@@ -193,14 +214,13 @@ class Search extends Component {
     const arrTimeString = this.state.valueGroupsTimeMin.min;
     const date = this.state.valueDate;
 
-    const formValidity = validateForm({ roomName, depString, arrString, date });
+    const formValidity = this.validateForm({ roomName, depString, arrString, date });
 
     if (formValidity.isValid) {
-      console.log("valid"); //TODO
-      console.log(date); // date의 type 검증 필요
+      // date의 type 검증 필요
       try {
-        const res = await getAPIRes(depString, arrString)
-        console.log(res)
+        const res = await this.getAPIRes(depString, arrString, date, roomName, [])
+        console.log(res);
         if (res.status === 200) {
           this.setState({
             isSearchResults: {
@@ -211,12 +231,8 @@ class Search extends Component {
         }
       } catch (e) {
         console.log("error occured while fetching API data");
-        alert(e.response.status);
+        console.log(e)
       }
-
-      // this.setState({
-      //   linkto: `/search/result/${roomName}&${depString}&${arrString}&${depTimeString}&${arrTimeString}&${date[0]}&${date[1]}`,
-      // });
     } else {
       alert(formValidity.msg);
     }
@@ -229,7 +245,10 @@ class Search extends Component {
         {!isSearchResults.is &&
           <div className="searchroom">
             <div style={{ height: "20px" }} />
-            <Title img={svgSearch}>방 검색하기</Title>
+            <Title img={svgSearch}>
+              {this.props.isSearch && "방 검색하기"}
+              {!this.props.isSearch && "방 만들기"}
+            </Title>
             <div style={{ height: "20px" }} />
             {/* 방 제목으로 검색 */}
             <WhiteContainer title="방 검색">
@@ -520,10 +539,13 @@ class Search extends Component {
                 </Dialog>
               </div>
             </WhiteContainer>
-            <SubmitButton onClick={this.onClickSearch}>검색하기</SubmitButton>
-            <LinkTo to={this.state.linkto} />
+            <SubmitButton onClick={this.onClickSearch}>
+              {this.props.isSearch && "검색하기"}
+              {!this.props.isSearch && "방 만들기"}
+            </SubmitButton>
           </div>
         }
+        {/* 지금은 그냥 방 추가일때도 이걸로 표시, 추후 내 방 리스트 프론트 만들어지면 그걸로 돌리면됨 */}
         {isSearchResults.is &&
           <SearchResult searchResults={isSearchResults.data} />}
       </>
@@ -531,8 +553,8 @@ class Search extends Component {
   }
 }
 
-Search.propTypes = {
+SearchOrAdd.propTypes = {
   // FIXME specify type
-  to: PropTypes.any,
+  isSearch: PropTypes.boolean,
 };
-export default Search;
+export default SearchOrAdd;

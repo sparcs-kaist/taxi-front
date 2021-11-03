@@ -10,12 +10,24 @@ import svgSearch from "./svg_search.svg";
 // time: { type: Date, required: true }, // 출발 시간
 // part: { type: Array, default: [] }, // 참여 멤버
 // madeat: { type: Date, required: true }, // 생성 날짜
+
 const SearchResult = (props) => {
-  console.log(props.searchResults);
+  const renderResult = (result) => {
+    return (
+      <div style={{ color: "#000000" }}>
+        from: ${result.from}, to: ${result.to}, name: ${result.name}, time: ${result.time}
+      </ div>
+    )
+  }
+  console.log(props.searchResults)
+
   return (
     <div>
       <div style={{ height: "20px" }} />
       <Title img={svgSearch}>검색 결과</Title>
+      {Array.isArray(props.searchResults) ?
+        props.searchResults.map(renderResult) :
+        renderResult(props.searchResults)}
     </div>
   );
 }
