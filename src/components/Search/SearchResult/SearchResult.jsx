@@ -1,39 +1,27 @@
-import React, { Component } from "react";
+import React from "react";
 import Title from "../../Frame/Title/Title";
-import axios from "../../Tool/axios";
 import Proptypes from "prop-types"
 import svgSearch from "./svg_search.svg";
 
-export default class SearchResult extends Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    if (this.onCall !== this.props.param) {
-      this.onCall = this.props.param;
-      const roomName = this.props.param.split("&")[0];
-      const depPlace = this.props.param.split("&")[1];
-      const arrPlace = this.props.param.split("&")[2];
-      const depHour = this.props.param.split("&")[3];
-      const depMin = this.props.param.split("&")[4];
-
-      console.log(depPlace, arrPlace);
-      axios
-        .post("/rooms/search", { fromName: depPlace, toName: arrPlace })
-        .then((result) => {
-          console.log(result.data);
-        });
-    }
-
-    return (
-      <div>
-        <div style={{ height: "20px" }} />
-        <Title img={svgSearch}>검색 결과</Title>
-      </div>
-    );
-  }
+// result type
+// checkname: { type: String, required: true, default: "이름 없음" },
+// from: { type: schema.Types.ObjectId, required: true },
+// to: { type: schema.Types.ObjectId, required: true },
+// time: { type: Date, required: true }, // 출발 시간
+// part: { type: Array, default: [] }, // 참여 멤버
+// madeat: { type: Date, required: true }, // 생성 날짜
+const SearchResult = (props) => {
+  console.log(props.searchResults);
+  return (
+    <div>
+      <div style={{ height: "20px" }} />
+      <Title img={svgSearch}>검색 결과</Title>
+    </div>
+  );
 }
 
 SearchResult.propTypes = {
-  param: Proptypes.any
+  searchResults: Proptypes.array.isRequired
 }
+
+export default SearchResult;
