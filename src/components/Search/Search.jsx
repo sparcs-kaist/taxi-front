@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 //import Picker from 'react-scrollable-picker';
 import DatePicker from "../Frame/DatePicker/DatePicker";
-import Select from "react-select";
 import WhiteContainer from "../Frame/WhiteContainer/WhiteContainer.jsx";
 import Title from "../Frame/Title/Title";
 import SubmitButton from "../Frame/SubmitButton/SubmitButton";
+import SearchResult from "./SearchResult/SearchResult"
 import {
   Paper,
   Divider,
@@ -26,6 +26,7 @@ import PropTypes from "prop-types";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import axios from "../Tool/axios";
 
 const LinkTo = (props) => {
   if (props.to) {
@@ -40,10 +41,43 @@ LinkTo.propTypes = {
   to: PropTypes.any,
 };
 
+const getAPIRes = (dep, arr, startDate) => {
+  return axios.get("/rooms/search", {
+    params: {
+      from: dep,
+      to: arr,
+      startDate: startDate,
+    }
+  })
+}
+
+const validateForm = ({ roomName, depString, arrString, date }) => {
+  let msg = "";
+  if (roomName === undefined || roomName === "")
+    msg = "방 이름을 입력해주세요.";
+  else if (depString === undefined || depString === "")
+    msg = "출발지를 입력해주세요.";
+  else if (arrString === undefined || arrString === "")
+    msg = "도착지를 입력해주세요.";
+  else if (depString === arrString)
+    msg = "출발지와 도착지는 같을 수 없습니다.";
+  else if (date[0] === undefined || date[1] === undefined)
+    msg = "날짜를 입력해주세요.";
+
+  return {
+    isValid: msg === "",
+    msg
+  }
+}
+
 class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isSearchResults: {
+        is: false,
+        data: []
+      },
       startDate: new Date(),
       openDep: false,
       openArr: false,
@@ -117,18 +151,10 @@ class Search extends Component {
         ],
       },
     };
-    this.handleChangeDep = this.handleChangeDep.bind(this);
-    this.handleChangeArr = this.handleChangeArr.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
-    this.handleChangeTimeHour = this.handleChangeTimeHour.bind(this);
-    this.handleChangeTimeMin = this.handleChangeTimeMin.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
-    this.handleOpenArr = this.handleOpenArr.bind(this);
-    this.handleOpenDep = this.handleOpenDep.bind(this);
-    this.handleOpenTime = this.handleOpenTime.bind(this);
-    this.handleCloseArr = this.handleCloseArr.bind(this);
-    this.handleCloseDep = this.handleCloseDep.bind(this);
-    this.handleCloseTime = this.handleCloseTime.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.onClickSearch = this.onClickSearch.bind(this);
   }
 
   onFormSubmit(e) {
@@ -138,85 +164,28 @@ class Search extends Component {
     });
   }
 
-  handleOpenArr() {
-    this.setState({
-      openArr: true,
-    });
-  }
-
-  handleOpenDep() {
-    this.setState({
-      openDep: true,
-    });
-  }
-
-  handleOpenTime() {
-    this.setState({
-      openTime: true,
-    });
-  }
-
-  handleCloseArr() {
-    this.setState({
-      openArr: false,
-    });
-  }
-
-  handleCloseDep() {
-    this.setState({
-      openDep: false,
-    });
-  }
-
-  handleCloseTime() {
-    this.setState({
-      openTime: false,
-    });
-  }
-
   handleChangeDate(month, date) {
     this.setState({
       valueDate: [month, date],
     });
   }
 
-  handleChangeDep(name, value) {
-    this.setState(({ valueGroupsDep }) => ({
-      valueGroupsDep: {
-        ...valueGroupsDep,
-        [name]: value,
-      },
-    }));
+  // usage: handleChange("valueGroupsDep") 
+  handleChange(state) {
+    return (
+      (name, value) => {
+        this.setState((prev) => ({
+          [state]: {
+            ...prev.state,
+            [name]: value,
+          },
+        }));
+      }
+    )
   }
 
-  handleChangeArr(name, value) {
-    this.setState(({ valueGroupsArr }) => ({
-      valueGroupsArr: {
-        ...valueGroupsArr,
-        [name]: value,
-      },
-    }));
-  }
-
-  handleChangeTimeHour(name, value) {
-    this.setState(({ valueGroupsTimeHour }) => ({
-      valueGroupsTimeHour: {
-        ...valueGroupsTimeHour,
-        [name]: value,
-      },
-    }));
-  }
-
-  handleChangeTimeMin(name, value) {
-    this.setState(({ valueGroupsTimeMin }) => ({
-      valueGroupsTimeMin: {
-        ...valueGroupsTimeMin,
-        [name]: value,
-      },
-    }));
-  }
-
-  onClick() {
+  // 뭐에 대한 onclick?
+  async onClickSearch() {
     const roomName = this.state.roomName;
     const depString = this.state.valueGroupsDep.place;
     const arrString = this.state.valueGroupsArr.place;
@@ -224,300 +193,340 @@ class Search extends Component {
     const arrTimeString = this.state.valueGroupsTimeMin.min;
     const date = this.state.valueDate;
 
-    if (roomName === undefined || roomName === "")
-      alert("방 이름을 입력해주세요.");
-    else if (depString === undefined || depString === "")
-      alert("출발지를 입력해주세요.");
-    else if (arrString === undefined || arrString === "")
-      alert("도착지를 입력해주세요.");
-    else if (depString === arrString)
-      alert("출발지와 도착지는 같을 수 없습니다.");
-    else if (date[0] === undefined || date[1] === undefined)
-      alert("날짜를 입력해주세요.");
-    else {
-      this.setState({
-        linkto: `/search/result/${roomName}&${depString}&${arrString}&${depTimeString}&${arrTimeString}&${date[0]}&${date[1]}`,
-      });
+    const formValidity = validateForm({ roomName, depString, arrString, date });
+
+    if (formValidity.isValid) {
+      console.log("valid"); //TODO
+      console.log(date); // date의 type 검증 필요
+      try {
+        const res = await getAPIRes(depString, arrString)
+        console.log(res)
+        if (res.status === 200) {
+          this.setState({
+            isSearchResults: {
+              is: true,
+              data: res.data
+            }
+          })
+        }
+      } catch (e) {
+        console.log("error occured while fetching API data");
+        alert(e.response.status);
+      }
+
+      // this.setState({
+      //   linkto: `/search/result/${roomName}&${depString}&${arrString}&${depTimeString}&${arrTimeString}&${date[0]}&${date[1]}`,
+      // });
+    } else {
+      alert(formValidity.msg);
     }
   }
 
   render() {
+    const isSearchResults = this.state.isSearchResults;
     return (
-      <div className="searchroom">
-        <div style={{ height: "20px" }} />
-        <Title img={svgSearch}>방 검색하기</Title>
-        <div style={{ height: "20px" }} />
-        {/* 방 제목으로 검색 */}
-        <WhiteContainer title="방 검색">
-          <div
-            style={{
-              display: "flex",
-              alignContent: "row",
-              alginItems: "center",
-            }}
-          >
-            <CreateIcon
-              style={{
-                width: "20px",
-                height: "20px",
-                marginLeft: "15px",
-                marginTop: "2px",
-                fill: "black",
-              }}
-            />
-            <div
-              style={{
-                marginLeft: "5px",
-                fontSize: "16px",
-                color: "black",
-              }}
-            >
-              방 이름 :{" "}
-            </div>
-            <input
-              onChange={this.onFormSubmit}
-              type="text"
-              id="roomName"
-              style={{
-                borderRadius: "8px",
-                borderStyle: "none",
-                backgroundColor: "#FAFAFA",
-                width: "calc(100% - 110px)",
-                height: "28px",
-                paddingLeft: "20px",
-                paddingRight: "20px",
-                marginLeft: "10px",
-              }}
-            ></input>
-          </div>
-        </WhiteContainer>
-
-        {/* 출발지, 도착지로검색 */}
-        <WhiteContainer title="장소">
-          <Paper style={{ height: "80px" }} elevation={0}>
-            <Grid container>
-              <Grid item xs>
-                <div
-                  className="departure"
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <div
-                    style={{
-                      margin: "auto",
-                      fontSize: "12pt",
-                      color: "#C8C8C8",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <FiberManualRecordIcon
-                      style={{
-                        fontSize: 9,
-                        color: "#C8C8C8",
-                        width: "100%",
-                      }}
-                    />
-                    <div>출발지</div>
-                  </div>
-                  <Button
-                    onClick={this.handleOpenDep}
-                    style={{ margin: "auto" }}
-                  >
-                    <div style={{ fontWeight: "bold", fontSize: "16pt" }}>
-                      {this.state.valueGroupsDep.place}
-                    </div>
-                  </Button>
-                  <Dialog
-                    open={this.state.openDep}
-                    onClose={this.handleCloseDep}
-                  >
-                    <DialogContent
-                      style={{
-                        height: "300px",
-                        margin: "auto",
-                        width: "500px",
-                        maxWidth: "100%",
-                      }}
-                    >
-                      <Picker
-                        optionGroups={this.state.optionGroupsDep}
-                        valueGroups={this.state.valueGroupsDep}
-                        onChange={this.handleChangeDep}
-                      />
-                    </DialogContent>
-                  </Dialog>
-                </div>
-              </Grid>
-              <Divider orientation="vertical" flexItem />
-              <Grid item xs>
-                <div
-                  className="arrival"
-                  style={{ display: "flex", flexDirection: "column" }}
-                >
-                  <label
-                    style={{
-                      margin: "auto",
-                      fontSize: "12pt",
-                      color: "#C8C8C8",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <FiberManualRecordIcon
-                      style={{
-                        fontSize: 9,
-                        color: "#C8C8C8",
-                        width: "100%",
-                      }}
-                    />
-                    도착지
-                  </label>
-                  <Button
-                    onClick={this.handleOpenArr}
-                    style={{ margin: "auto" }}
-                  >
-                    <div style={{ fontWeight: "bold", fontSize: "16pt" }}>
-                      {this.state.valueGroupsArr.place}
-                    </div>
-                  </Button>
-                  <Dialog
-                    open={this.state.openArr}
-                    onClose={this.handleCloseArr}
-                  >
-                    <DialogContent
-                      style={{
-                        height: "300px",
-                        margin: "auto",
-                        width: "500px",
-                        maxWidth: "100%",
-                      }}
-                    >
-                      <Picker
-                        optionGroups={this.state.optionGroupsArr}
-                        valueGroups={this.state.valueGroupsArr}
-                        onChange={this.handleChangeArr}
-                      />
-                    </DialogContent>
-                  </Dialog>
-                </div>
-              </Grid>
-            </Grid>
-          </Paper>
-        </WhiteContainer>
-
-        {/* 날짜로 검색 */}
-        <WhiteContainer title="날짜 검색">
-          <DatePicker handler={this.handleChangeDate} />
-        </WhiteContainer>
-
-        {/* 시간으로 검색 후보 2 */}
-        <WhiteContainer title="시간">
-          <div
-            style={{
-              display: "flex",
-              alignContent: "row",
-              alginItems: "center",
-            }}
-          >
-            <AccessTimeIcon
-              style={{
-                width: "20px",
-                height: "20px",
-                marginLeft: "15px",
-                marginTop: "2px",
-                fill: "black"
-              }}
-            />
-            <div
-              style={{
-                marginLeft: "5px",
-                fontSize: "16px",
-                color: "black",
-              }}
-            >
-              출발 시각
-            </div>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              alignContent: "row",
-              justifyContent: "center",
-            }}
-          >
-            <Button
-              onClick={this.handleOpenTime}
-              style={{ margin: "auto", color: "lightgray" }}
-            >
-              <div style={{ fontWeight: "bold", fontSize: "16pt" }}>
-                {this.state.valueGroupsTimeHour.hour}시{" "}
-                {this.state.valueGroupsTimeMin.min}분
-              </div>
-            </Button>
-            <Dialog open={this.state.openTime} onClose={this.handleCloseTime}>
-              <DialogContent
+      <>
+        {!isSearchResults.is &&
+          <div className="searchroom">
+            <div style={{ height: "20px" }} />
+            <Title img={svgSearch}>방 검색하기</Title>
+            <div style={{ height: "20px" }} />
+            {/* 방 제목으로 검색 */}
+            <WhiteContainer title="방 검색">
+              <div
                 style={{
-                  height: "300px",
-                  margin: "auto",
-                  width: "500px",
                   display: "flex",
                   alignContent: "row",
+                  alginItems: "center",
+                }}
+              >
+                <CreateIcon
+                  style={{
+                    width: "20px",
+                    height: "20px",
+                    marginLeft: "15px",
+                    marginTop: "2px",
+                    fill: "black",
+                  }}
+                />
+                <div
+                  style={{
+                    marginLeft: "5px",
+                    fontSize: "16px",
+                    color: "black",
+                  }}
+                >
+                  방 이름 :{" "}
+                </div>
+                <input
+                  onChange={this.onFormSubmit}
+                  type="text"
+                  id="roomName"
+                  style={{
+                    borderRadius: "8px",
+                    borderStyle: "none",
+                    backgroundColor: "#FAFAFA",
+                    width: "calc(100% - 110px)",
+                    height: "28px",
+                    paddingLeft: "20px",
+                    paddingRight: "20px",
+                    marginLeft: "10px",
+                  }}
+                ></input>
+              </div>
+            </WhiteContainer>
+
+            {/* 출발지, 도착지로검색 */}
+            <WhiteContainer title="장소">
+              <Paper style={{ height: "80px" }} elevation={0}>
+                <Grid container>
+                  <Grid item xs>
+                    <div
+                      className="departure"
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <div
+                        style={{
+                          margin: "auto",
+                          fontSize: "12pt",
+                          color: "#C8C8C8",
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <FiberManualRecordIcon
+                          style={{
+                            fontSize: 9,
+                            color: "#C8C8C8",
+                            width: "100%",
+                          }}
+                        />
+                        <div>출발지</div>
+                      </div>
+                      <Button
+                        onClick={() =>
+                          this.setState({
+                            openDep: true,
+                          })
+                        }
+                        style={{ margin: "auto" }}
+                      >
+                        <div style={{ fontWeight: "bold", fontSize: "16pt" }}>
+                          {this.state.valueGroupsDep.place}
+                        </div>
+                      </Button>
+                      <Dialog
+                        open={this.state.openDep}
+                        onClose={() =>
+                          this.setState({
+                            openDep: false,
+                          })
+                        }
+                      >
+                        <DialogContent
+                          style={{
+                            height: "300px",
+                            margin: "auto",
+                            width: "500px",
+                            maxWidth: "100%",
+                          }}
+                        >
+                          <Picker
+                            optionGroups={this.state.optionGroupsDep}
+                            valueGroups={this.state.valueGroupsDep}
+                            onChange={this.handleChange("valueGroupsDep")}
+                          />
+                        </DialogContent>
+                      </Dialog>
+                    </div>
+                  </Grid>
+                  <Divider orientation="vertical" flexItem />
+                  <Grid item xs>
+                    <div
+                      className="arrival"
+                      style={{ display: "flex", flexDirection: "column" }}
+                    >
+                      <label
+                        style={{
+                          margin: "auto",
+                          fontSize: "12pt",
+                          color: "#C8C8C8",
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <FiberManualRecordIcon
+                          style={{
+                            fontSize: 9,
+                            color: "#C8C8C8",
+                            width: "100%",
+                          }}
+                        />
+                        도착지
+                      </label>
+                      <Button
+                        onClick={() => {
+                          this.setState({
+                            openArr: true,
+                          })
+                        }}
+                        style={{ margin: "auto" }}
+                      >
+                        <div style={{ fontWeight: "bold", fontSize: "16pt" }}>
+                          {this.state.valueGroupsArr.place}
+                        </div>
+                      </Button>
+                      <Dialog
+                        open={this.state.openArr}
+                        onClose={() => this.setState({
+                          openArr: false,
+                        })}
+                      >
+                        <DialogContent
+                          style={{
+                            height: "300px",
+                            margin: "auto",
+                            width: "500px",
+                            maxWidth: "100%",
+                          }}
+                        >
+                          <Picker
+                            optionGroups={this.state.optionGroupsArr}
+                            valueGroups={this.state.valueGroupsArr}
+                            onChange={this.handleChange("valueGroupsArr")}
+                          />
+                        </DialogContent>
+                      </Dialog>
+                    </div>
+                  </Grid>
+                </Grid>
+              </Paper>
+            </WhiteContainer>
+
+            {/* 날짜로 검색 */}
+            <WhiteContainer title="날짜 검색">
+              <DatePicker handler={this.handleChangeDate} />
+            </WhiteContainer>
+
+            {/* 시간으로 검색 후보 2 */}
+            <WhiteContainer title="시간">
+              <div
+                style={{
+                  display: "flex",
+                  alignContent: "row",
+                  alginItems: "center",
                 }}
               >
                 <AccessTimeIcon
                   style={{
-                    marginRight: "5px",
-                    width: "14px",
-                    fill: "black",
+                    width: "20px",
+                    height: "20px",
+                    marginLeft: "15px",
+                    marginTop: "2px",
+                    fill: "black"
                   }}
                 />
-                <div> 시간: </div>
                 <div
                   style={{
-                    width: "100px",
-                    fontSize: "12px",
-                    backgroundColor: "#F7F7F7",
-                    borderRadius: "10px",
-                    padding: "10px",
-                    margin: "20px",
+                    marginLeft: "5px",
+                    fontSize: "16px",
+                    color: "black",
                   }}
                 >
-                  <Picker
-                    optionGroups={this.state.optionGroupsTimeHour}
-                    valueGroups={this.state.valueGroupsTimeHour}
-                    onChange={this.handleChangeTimeHour}
-                  />
+                  출발 시각
                 </div>
-                <div> 시 </div>
-                <div
-                  style={{
-                    width: "100px",
-                    fontSize: "12px",
-                    backgroundColor: "#F7F7F7",
-                    borderRadius: "10px",
-                    padding: "10px",
-                    margin: "20px",
-                  }}
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  alignContent: "row",
+                  justifyContent: "center",
+                }}
+              >
+                <Button
+                  onClick={() => this.setState({
+                    openTime: true,
+                  })}
+                  style={{ margin: "auto", color: "lightgray" }}
                 >
-                  <Picker
-                    optionGroups={this.state.optionGroupsTimeMin}
-                    valueGroups={this.state.valueGroupsTimeMin}
-                    onChange={this.handleChangeTimeMin}
-                  />
-                </div>
-                <div> 분 이후 </div>
-              </DialogContent>
-            </Dialog>
+                  <div style={{ fontWeight: "bold", fontSize: "16pt" }}>
+                    {this.state.valueGroupsTimeHour.hour}시{" "}
+                    {this.state.valueGroupsTimeMin.min}분
+                  </div>
+                </Button>
+                <Dialog open={this.state.openTime}
+                  onClose={() =>
+                    this.setState({
+                      openTime: false,
+                    })}
+                >
+                  <DialogContent
+                    style={{
+                      height: "300px",
+                      margin: "auto",
+                      width: "500px",
+                      display: "flex",
+                      alignContent: "row",
+                    }}
+                  >
+                    <AccessTimeIcon
+                      style={{
+                        marginRight: "5px",
+                        width: "14px",
+                        fill: "black",
+                      }}
+                    />
+                    <div> 시간: </div>
+                    <div
+                      style={{
+                        width: "100px",
+                        fontSize: "12px",
+                        backgroundColor: "#F7F7F7",
+                        borderRadius: "10px",
+                        padding: "10px",
+                        margin: "20px",
+                      }}
+                    >
+                      <Picker
+                        optionGroups={this.state.optionGroupsTimeHour}
+                        valueGroups={this.state.valueGroupsTimeHour}
+                        onChange={this.handleChange("valueGroupsTimeHour")}
+                      />
+                    </div>
+                    <div> 시 </div>
+                    <div
+                      style={{
+                        width: "100px",
+                        fontSize: "12px",
+                        backgroundColor: "#F7F7F7",
+                        borderRadius: "10px",
+                        padding: "10px",
+                        margin: "20px",
+                      }}
+                    >
+                      <Picker
+                        optionGroups={this.state.optionGroupsTimeMin}
+                        valueGroups={this.state.valueGroupsTimeMin}
+                        onChange={this.handleChange("valueGroupsTimeMin")}
+                      />
+                    </div>
+                    <div> 분 이후 </div>
+                  </DialogContent>
+                </Dialog>
+              </div>
+            </WhiteContainer>
+            <SubmitButton onClick={this.onClickSearch}>검색하기</SubmitButton>
+            <LinkTo to={this.state.linkto} />
           </div>
-        </WhiteContainer>
-        <SubmitButton onClick={() => this.onClick()}>검색하기</SubmitButton>
-        <LinkTo to={this.state.linkto} />
-      </div>
+        }
+        {isSearchResults.is &&
+          <SearchResult searchResults={isSearchResults.data} />}
+      </>
     );
   }
 }
