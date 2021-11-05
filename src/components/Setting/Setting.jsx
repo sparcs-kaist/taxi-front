@@ -4,7 +4,7 @@ import Title from "../Frame/Title/Title";
 import ModifyModal from "./ModifyModal.jsx";
 import axios from "../Tool/axios";
 import getProfileImageUrl from "../Tool/getProfileImageUrl";
-import backServer from "../../serverconf";
+import { backServer } from "../../serverconf";
 import PropTypes from "prop-types";
 
 import svgMyPage from "./svg_myPage.svg";
