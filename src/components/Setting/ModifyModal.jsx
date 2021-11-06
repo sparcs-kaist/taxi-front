@@ -2,13 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import WhiteContainer from "../Frame/WhiteContainer/WhiteContainer.jsx";
 import PropTypes from "prop-types";
 import axios from "../Tool/axios";
-import getProfileImageUrl from "../Tool/getProfileImageUrl";
 
 import "./Setting.css";
 
 ModifyModal.propTypes = {
   user: PropTypes.any,
   setUser: PropTypes.func,
+  setUserModified: PropTypes.func,
   handleModify: PropTypes.func,
   profileImageStyle: PropTypes.any,
   profileImageUrl: PropTypes.string,
@@ -22,17 +22,15 @@ function ModifyModal(props) {
   const handleChangeNickname = (newNickname) => {
     axios
       .post(`/users/${props.user.id}/editNickname`, { nickname: newNickname })
-      .then((res) => {
+      .then(async (res) => {
         if (res) {
           const newUser = props.user;
           newUser.nickname = newNickname;
-          props.setUser(newUser);
+          await props.setUser(newUser);
           alert("닉네임 변경에 성공했습니다.");
         } else {
           alert("닉네임 변경에 실패했습니다.");
         }
-      })
-      .then(() => {
         props.handleModify();
       })
       .catch(() => {
@@ -52,7 +50,7 @@ function ModifyModal(props) {
     }
     const formData = new FormData();
     formData.append("profileImage", inputImage.current.files[0]);
-    const newProfileImageUrl = await axios
+    await axios
       .post(`/users/${props.user.id}/uploadProfileImage`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -61,18 +59,12 @@ function ModifyModal(props) {
       .then(async (res) => {
         if (res) {
           alert("프로필 사진 변경에 성공했습니다.");
-          return await getProfileImageUrl(props.user.id);
         }
       })
       .catch((err) => {
         alert("프로필 사진 변경에 실패했습니다.");
-        return props.user.profileImageUrl;
       });
-
-    const newUser = props.user;
-    newUser.profileImageUrl = newProfileImageUrl;
-    props.setUser(newUser);
-    setProfileImageUrl(newProfileImageUrl);
+    props.setUserModified(true);
   };
 
   return (
@@ -86,7 +78,7 @@ function ModifyModal(props) {
           </div>
           <div className="modifyModalL2">
             <img
-              src={profileImageUrl}
+              src={`${props.user.profileImageUrl}?${Date.now}`}
               style={props.profileImageStyle}
               alt="프로필 사진"
             />

@@ -3,7 +3,6 @@ import WhiteContainer from "../Frame/WhiteContainer/WhiteContainer.jsx";
 import Title from "../Frame/Title/Title";
 import ModifyModal from "./ModifyModal.jsx";
 import axios from "../Tool/axios";
-import getProfileImageUrl from "../Tool/getProfileImageUrl";
 import { backServer } from "../../serverconf";
 import PropTypes from "prop-types";
 
@@ -27,36 +26,41 @@ const profileImageStyle = {
 
 function Setting() {
   const [user, setUser] = useState({});
+  const [userModified, setUserModified] = useState(false);
   const [modifyModal, setModifyModal] = useState(false);
 
   const handleModify = () => {
     setModifyModal(!modifyModal);
   };
 
-  const getUserInfo = () => {
-    axios
-      .get("/json/logininfo")
+  const getUserInfo = async () => {
+    let newUser = user;
+    // id, name을 아직 불러오지 않은 경우에만 불러옴니다.
+    if (!user.id) {
+      await axios
+        .get("/json/logininfo")
+        .then((res) => {
+          if (res) {
+            newUser = res.data;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    // 닉네임을 불러옵니다. 프로필 사진의 url도 새로 설정합니다(이미지 re-render를 위해).
+    await axios
+      .get("/json/logininfo/detail")
       .then((res) => {
-        let result = user;
         if (res) {
-          result = res.data;
+          newUser.nickname = res.data.nickname;
+          newUser.profileImageUrl = `${backServer}/static/profile-images/${newUser.id}`;
         }
-        axios
-          .get("/json/logininfo/detail")
-          .then(async (res) => {
-            if (res) {
-              result.nickname = res.data.nickname;
-              result.profileImageUrl = await getProfileImageUrl(result.id);
-              setUser(result);
-            }
-          })
-          .catch(() => {
-            setUser(result);
-          });
       })
-      .catch(() => {
-        setUser({});
+      .catch((err) => {
+        console.log(err);
       });
+    setUser(newUser);
   };
 
   const logoutHandler = () => {
@@ -84,9 +88,16 @@ function Setting() {
     children: PropTypes.any,
   };
 
-  useEffect(() => {
-    getUserInfo();
+  useEffect(async () => {
+    await getUserInfo();
   }, []);
+
+  useEffect(async () => {
+    if (userModified) {
+      await getUserInfo();
+      setUserModified(false);
+    }
+  }, [userModified]);
 
   return (
     <div>
@@ -94,6 +105,7 @@ function Setting() {
         <ModifyModal
           user={user}
           setUser={setUser}
+          setUserModified={setUserModified}
           handleModify={handleModify}
           profileImageStyle={profileImageStyle}
           profileImageUrl={user.profileImageUrl}
@@ -108,7 +120,7 @@ function Setting() {
           <div className="flexLine1">
             <div className="profileImage">
               <img
-                src={user.profileImageUrl}
+                src={`${user.profileImageUrl}?${Date.now}`} //이미지가 바뀌었을 때 다시 렌더링하도록 해시를 추가
                 style={profileImageStyle}
                 alt="프로필 사진"
               />
