@@ -120,7 +120,7 @@ function Setting() {
           <div className="flexLine1">
             <div className="profileImage">
               <img
-                src={`${user.profileImageUrl}?${Date.now}`} //이미지가 바뀌었을 때 다시 렌더링하도록 해시를 추가
+                src={`${user.profileImageUrl}?${Date.now()}`} //이미지가 바뀌었을 때 다시 렌더링하도록 해시를 추가
                 style={profileImageStyle}
                 alt="프로필 사진"
               />

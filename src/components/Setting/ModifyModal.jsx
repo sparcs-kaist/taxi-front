@@ -78,7 +78,7 @@ function ModifyModal(props) {
           </div>
           <div className="modifyModalL2">
             <img
-              src={`${props.user.profileImageUrl}?${Date.now}`}
+              src={`${props.user.profileImageUrl}?${Date.now()}`}
               style={props.profileImageStyle}
               alt="프로필 사진"
             />
