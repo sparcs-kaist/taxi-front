@@ -1,39 +1,39 @@
-import React, { Component } from "react";
+import React from "react";
 import Title from "../../Frame/Title/Title";
-import axios from "../../Tool/axios";
 import Proptypes from "prop-types"
 import svgSearch from "./svg_search.svg";
 
-export default class SearchResult extends Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    if (this.onCall !== this.props.param) {
-      this.onCall = this.props.param;
-      const roomName = this.props.param.split("&")[0];
-      const depPlace = this.props.param.split("&")[1];
-      const arrPlace = this.props.param.split("&")[2];
-      const depHour = this.props.param.split("&")[3];
-      const depMin = this.props.param.split("&")[4];
+// result type
+// checkname: { type: String, required: true, default: "이름 없음" },
+// from: { type: schema.Types.ObjectId, required: true },
+// to: { type: schema.Types.ObjectId, required: true },
+// time: { type: Date, required: true }, // 출발 시간
+// part: { type: Array, default: [] }, // 참여 멤버
+// madeat: { type: Date, required: true }, // 생성 날짜
 
-      console.log(depPlace, arrPlace);
-      axios
-        .post("/rooms/search", { fromName: depPlace, toName: arrPlace })
-        .then((result) => {
-          console.log(result.data);
-        });
-    }
-
+const SearchResult = (props) => {
+  const renderResult = (result) => {
     return (
-      <div>
-        <div style={{ height: "20px" }} />
-        <Title img={svgSearch}>검색 결과</Title>
-      </div>
-    );
+      <div style={{ color: "#000000" }}>
+        from: ${result.from}, to: ${result.to}, name: ${result.name}, time: ${result.time}
+      </ div>
+    )
   }
+  console.log(props.searchResults)
+
+  return (
+    <div>
+      <div style={{ height: "20px" }} />
+      <Title img={svgSearch}>검색 결과</Title>
+      {Array.isArray(props.searchResults) ?
+        props.searchResults.map(renderResult) :
+        renderResult(props.searchResults)}
+    </div>
+  );
 }
 
 SearchResult.propTypes = {
-  param: Proptypes.any
+  searchResults: Proptypes.array.isRequired
 }
+
+export default SearchResult;
