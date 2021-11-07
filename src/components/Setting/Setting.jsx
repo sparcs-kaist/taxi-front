@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import WhiteContainer from "../Frame/WhiteContainer/WhiteContainer.jsx";
 import Title from "../Frame/Title/Title";
 import ModifyModal from "./ModifyModal.jsx";
@@ -25,9 +26,15 @@ const profileImageStyle = {
 };
 
 function Setting() {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({
+    name: "",
+    id: "",
+    nickname: "",
+    profileImageUrl: "",
+  });
   const [userModified, setUserModified] = useState(false);
   const [modifyModal, setModifyModal] = useState(false);
+  const history = useHistory();
 
   const handleModify = () => {
     setModifyModal(!modifyModal);
@@ -35,38 +42,30 @@ function Setting() {
 
   const getUserInfo = async () => {
     let newUser = user;
-    // id, name을 아직 불러오지 않은 경우에만 불러옴니다.
+    // id, name, 프로필 사진의 url을 아직 불러오지 않은 경우에만 불러옴니다.
     if (!user.id) {
-      await axios
-        .get("/json/logininfo")
-        .then((res) => {
-          if (res) {
-            newUser = res.data;
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      const userInfo = await axios.get("/json/logininfo");
+      if (userInfo.data) {
+        newUser = userInfo.data;
+        newUser.profileImageUrl = `${backServer}/static/profile-images/${newUser.id}`;
+      }
     }
-    // 닉네임을 불러옵니다. 프로필 사진의 url도 새로 설정합니다(이미지 re-render를 위해).
-    await axios
-      .get("/json/logininfo/detail")
-      .then((res) => {
-        if (res) {
-          newUser.nickname = res.data.nickname;
-          newUser.profileImageUrl = `${backServer}/static/profile-images/${newUser.id}`;
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // 닉네임을 불러옵니다.
+    const detailedUserInfo = await axios.get("/json/logininfo/detail");
+    if (detailedUserInfo.data) {
+      newUser.nickname = detailedUserInfo.data.nickname;
+    }
     setUser(newUser);
   };
 
-  const logoutHandler = () => {
-    alert("로그아웃 됨");
-    const logoutURL = `${backServer}/auth/logout`;
-    window.location.href = logoutURL;
+  const handleLogout = async () => {
+    const response = await axios.get("/auth/logout");
+    if (response.status === 200) {
+      alert("로그아웃 되었습니다.");
+      history.push("/login");
+    } else {
+      alert("로그아웃에 실패했습니다.");
+    }
   };
 
   const MyPageMenu = (props) => {
@@ -165,7 +164,7 @@ function Setting() {
             사용 약관 및 개인정보 보호 규칙
           </MyPageMenu>
           <MyPageMenu img={svgSparcs}>만든 사람들</MyPageMenu>
-          <MyPageMenu img={svgLogout} onClick={logoutHandler}>
+          <MyPageMenu img={svgLogout} onClick={handleLogout}>
             로그아웃
           </MyPageMenu>
         </div>

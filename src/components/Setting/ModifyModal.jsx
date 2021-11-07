@@ -16,28 +16,23 @@ ModifyModal.propTypes = {
 
 function ModifyModal(props) {
   const [newNickname, setNewNickname] = useState(props.user.nickname);
-  const [profileImageUrl, setProfileImageUrl] = useState(props.profileImageUrl);
   const inputImage = useRef(null);
 
-  const handleChangeNickname = (newNickname) => {
-    axios
-      .post(`/users/${props.user.id}/editNickname`, { nickname: newNickname })
-      .then(async (res) => {
-        if (res) {
-          const newUser = props.user;
-          newUser.nickname = newNickname;
-          await props.setUser(newUser);
-          alert("닉네임 변경에 성공했습니다.");
-        } else {
-          alert("닉네임 변경에 실패했습니다.");
-        }
-        props.handleModify();
-      })
-      .catch(() => {
-        alert(
-          "닉네임 변경에 실패했습니다. 사용 가능한 닉네임인지 다시 확인해주세요."
-        );
-      });
+  const handleChangeNickname = async () => {
+    const result = await axios.post(`/users/${props.user.id}/editNickname`, {
+      nickname: newNickname,
+    });
+    if (result) {
+      const newUser = props.user;
+      newUser.nickname = newNickname;
+      props.setUser(newUser);
+      alert("닉네임 변경에 성공했습니다.");
+      props.handleModify();
+    } else {
+      alert(
+        "닉네임 변경에 실패했습니다. 사용 가능한 닉네임인지 다시 확인해주세요."
+      );
+    }
   };
 
   const handleSelectProfileImage = () => {
@@ -105,13 +100,7 @@ function ModifyModal(props) {
               }}
             ></input>
           </div>
-          <button
-            onClick={() => {
-              handleChangeNickname(newNickname);
-            }}
-          >
-            수정완료
-          </button>
+          <button onClick={handleChangeNickname}>수정완료</button>
         </WhiteContainer>
       </div>
     </div>
