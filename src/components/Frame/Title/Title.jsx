@@ -39,7 +39,7 @@ const Title = (props) => {
 Title.propTypes = {
   // FIXME specify type
   img: PropTypes.any,
-  children: PropTypes.children
-}
+  children: PropTypes.any,
+};
 
-export default Title;   
+export default Title;

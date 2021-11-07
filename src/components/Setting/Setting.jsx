@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import WhiteContainer from "../Frame/WhiteContainer/WhiteContainer.jsx";
 import Title from "../Frame/Title/Title";
 import ModifyModal from "./ModifyModal.jsx";
@@ -14,7 +15,7 @@ import svgHistory from "./svg_history.svg";
 import svgPeople from "./svg_people.svg";
 import "./Setting.css";
 
-const profileImage = {
+const profileImageStyle = {
   width: "60px",
   height: "60px",
   borderRadius: "30px",
@@ -26,19 +27,45 @@ const profileImage = {
 
 function Setting() {
   const [user, setUser] = useState({
-    name: "이름",
-    id: "아이디",
-    nickname: "닉네임",
+    name: "",
+    id: "",
+    nickname: "",
+    profileImageUrl: "",
   });
+  const [userModified, setUserModified] = useState(false);
   const [modifyModal, setModifyModal] = useState(false);
+  const history = useHistory();
 
   const handleModify = () => {
     setModifyModal(!modifyModal);
   };
-  const logoutHandler = () => {
-    alert("로그아웃 됨");
-    const logoutURL = `${backServer}/auth/logout`;
-    window.location.href = logoutURL;
+
+  const getUserInfo = async () => {
+    let newUser = user;
+    // id, name, 프로필 사진의 url을 아직 불러오지 않은 경우에만 불러옴니다.
+    if (!user.id) {
+      const userInfo = await axios.get("/json/logininfo");
+      if (userInfo.data) {
+        newUser = userInfo.data;
+        newUser.profileImageUrl = `${backServer}/static/profile-images/${newUser.id}`;
+      }
+    }
+    // 닉네임을 불러옵니다.
+    const detailedUserInfo = await axios.get("/json/logininfo/detail");
+    if (detailedUserInfo.data) {
+      newUser.nickname = detailedUserInfo.data.nickname;
+    }
+    setUser(newUser);
+  };
+
+  const handleLogout = async () => {
+    const response = await axios.get("/auth/logout");
+    if (response.status === 200) {
+      alert("로그아웃 되었습니다.");
+      history.push("/login");
+    } else {
+      alert("로그아웃에 실패했습니다.");
+    }
   };
 
   const MyPageMenu = (props) => {
@@ -47,6 +74,7 @@ function Setting() {
         <img
           src={props.img}
           style={{ marginRight: "12px", width: "20px", height: "20px" }}
+          alt="마이페이지 메뉴 아이콘"
         />
         <div style={{ fontWeight: "400" }}>{props.children}</div>
       </div>
@@ -54,35 +82,33 @@ function Setting() {
   };
 
   MyPageMenu.propTypes = {
-    onClick: PropTypes.function,
+    onClick: PropTypes.func,
     img: PropTypes.any,
     children: PropTypes.any,
   };
 
-  useEffect(() => {
-    axios
-      .get("/json/logininfo")
-      .then((res) => {
-        const result = res.data;
-        axios
-          .get("/json/logininfo/detail")
-          .then((res) => {
-            if (res) {
-              result.nickname = res.data.nickname;
-              setUser(result);
-            }
-          })
-          .catch(() => {
-            setUser(result);
-          });
-      })
-      .catch(() => { });
+  useEffect(async () => {
+    await getUserInfo();
   }, []);
+
+  useEffect(async () => {
+    if (userModified) {
+      await getUserInfo();
+      setUserModified(false);
+    }
+  }, [userModified]);
 
   return (
     <div>
       {modifyModal && (
-        <ModifyModal handleModify={handleModify} profileImage={profileImage} />
+        <ModifyModal
+          user={user}
+          setUser={setUser}
+          setUserModified={setUserModified}
+          handleModify={handleModify}
+          profileImageStyle={profileImageStyle}
+          profileImageUrl={user.profileImageUrl}
+        />
       )}
       <div style={{ height: "20px" }} />
       <Title img={svgMyPage}>내 페이지</Title>
@@ -92,7 +118,11 @@ function Setting() {
         <div className="userInfoBox">
           <div className="flexLine1">
             <div className="profileImage">
-              <img style={profileImage} />
+              <img
+                src={`${user.profileImageUrl}?${Date.now()}`} //이미지가 바뀌었을 때 다시 렌더링하도록 해시를 추가
+                style={profileImageStyle}
+                alt="프로필 사진"
+              />
             </div>
             <div className="nickname">{user.name}</div>
           </div>
@@ -134,7 +164,7 @@ function Setting() {
             사용 약관 및 개인정보 보호 규칙
           </MyPageMenu>
           <MyPageMenu img={svgSparcs}>만든 사람들</MyPageMenu>
-          <MyPageMenu img={svgLogout} onClick={logoutHandler}>
+          <MyPageMenu img={svgLogout} onClick={handleLogout}>
             로그아웃
           </MyPageMenu>
         </div>
