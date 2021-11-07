@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import WhiteContainer from "../Frame/WhiteContainer/WhiteContainer.jsx";
+import ModalContainer from "./ModalContainer";
 import PropTypes from "prop-types";
 import axios from "../Tool/axios";
 
-import "./Setting.css";
+import "./ModifyModal.css";
 
 ModifyModal.propTypes = {
   user: PropTypes.any,
@@ -65,7 +65,7 @@ function ModifyModal(props) {
   return (
     <div className="modifyModal" onClick={props.handleModify}>
       <div className="modalContainer" onClick={(e) => e.stopPropagation()}>
-        <WhiteContainer>
+        <ModalContainer>
           <div className="modifyModalL1">
             <span onClick={props.handleModify} style={{ cursor: "pointer" }}>
               X
@@ -101,7 +101,7 @@ function ModifyModal(props) {
             ></input>
           </div>
           <button onClick={handleChangeNickname}>수정완료</button>
-        </WhiteContainer>
+        </ModalContainer>
       </div>
     </div>
   );
