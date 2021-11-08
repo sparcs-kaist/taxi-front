@@ -1,3 +1,5 @@
+// 하단 탐색 바
+
 import React, { Component, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSpring, animated } from "react-spring";

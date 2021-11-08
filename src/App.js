@@ -11,9 +11,8 @@ import {
 } from "react-router-dom";
 import Frame from "./components/Frame/Frame";
 import Login from "./components/Login/Login";
-import Search from "./components/Search/Search";
+import SearchOrAdd from "./components/Search/SearchOrAdd";
 import SearchResult from "./components/Search/SearchResult/SearchResult";
-import Addroom from "./components/room/Addroom/Addroom";
 import Roomlist from "./components/room/Roomlist/Roomlist";
 import Roominfo from "./components/room/Roominfo/Roominfo";
 import Myroom from "./components/room/Myroom/Myroom";
@@ -21,6 +20,7 @@ import Setting from "./components/Setting/Setting";
 //import Login from './components/user/login'
 import User from "./components/user/user";
 import NewUser from "./components/user/newuser";
+import Chatting from "./components/Chatting/Chatting";
 
 const SearchResultWithParam = (props) => (
   <Frame navi="search">
@@ -37,12 +37,12 @@ function App() {
         </Route>
         <Route exact path="/">
           <Frame navi="search">
-            <Search />
+            <SearchOrAdd isSearch={true} />
           </Frame>
         </Route>
         <Route exact path="/search">
           <Frame navi="search">
-            <Search />
+            <SearchOrAdd isSearch={true} />
           </Frame>
         </Route>
         <Route exact path="/search/result/:pnum">
@@ -50,7 +50,7 @@ function App() {
         </Route>
         <Route exact path="/addroom">
           <Frame navi="addroom">
-            <Addroom />
+            <SearchOrAdd isSearch={false} />
           </Frame>
         </Route>
         <Route exact path="/roomlist">
@@ -75,6 +75,9 @@ function App() {
         </Route>
         <Route exact path="/users/new">
           <NewUser />
+        </Route>
+        <Route exact path="/chatting/:roomId">
+          <Chatting />
         </Route>
       </Switch>
     </Router>
