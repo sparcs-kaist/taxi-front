@@ -2,8 +2,18 @@ import React, { useState, useEffect, useRef } from "react";
 import ModalContainer from "./ModalContainer";
 import PropTypes from "prop-types";
 import axios from "../Tool/axios";
-
+import ModalSubmitButton from "./ModalSubmitButton";
 import "./ModifyModal.css";
+
+const modalProfileStyle = {
+  width: "200px",
+  height: "200px",
+  borderRadius: "100px",
+  flexGrow: 1,
+  overflow: "hidden",
+  background: "#EEEEEE",
+  margin: "auto",
+};
 
 ModifyModal.propTypes = {
   user: PropTypes.any,
@@ -67,40 +77,65 @@ function ModifyModal(props) {
       <div className="modalContainer" onClick={(e) => e.stopPropagation()}>
         <ModalContainer>
           <div className="modifyModalL1">
-            <span onClick={props.handleModify} style={{ cursor: "pointer" }}>
-              X
-            </span>
-          </div>
-          <div className="modifyModalL2">
-            <img
-              src={`${props.user.profileImageUrl}?${Date.now()}`}
-              style={props.profileImageStyle}
-              alt="프로필 사진"
-            />
-            <input
-              type="file"
-              accept="image/*"
-              ref={inputImage}
-              onChange={handleUploadProfileImage}
-              hidden
-            ></input>
+            <div className="modalNickname">{props.user.name}</div>
+            <div className="modalProfile">
+              <img
+                src={`${props.user.profileImageUrl}?${Date.now()}`}
+                style={modalProfileStyle}
+                alt="프로필 사진"
+              />
+              <input
+                type="file"
+                accept="image/*"
+                ref={inputImage}
+                onChange={handleUploadProfileImage}
+                hidden
+              ></input>
+            </div>
             <div
-              style={{ textAlign: "center", color: "#6E3678" }}
+              className="modalProfileModify"
               onClick={handleSelectProfileImage}
             >
               프로필 사진 변경
             </div>
           </div>
-          <div>
-            <span>별명</span>
+          <hr className="modalHorizon" />
+          <div className="modifyModalL2">
+            <div className="modalProfileTag">학번</div>
+            <div className="modalProfileContent">20190111</div>
+          </div>
+          <div className="modifyModalL2">
+            <div className="modalProfileTag">메일</div>
+            <div className="modalProfileContent">nupjuk@kaist.ac.kr</div>
+          </div>
+          <div className="modifyModalL2">
+            <span className="modalProfileTag_nickname">별명</span>
             <input
+              className="modalProfileContent_nickname"
               value={newNickname}
               onChange={(e) => {
                 setNewNickname(e.target.value);
               }}
             ></input>
           </div>
-          <button onClick={handleChangeNickname}>수정완료</button>
+          <div className="ModalButton">
+            <ModalSubmitButton
+              className="ModalCancel"
+              onClick={props.handleModify}
+              background="#EEEEEE"
+              backgroundHover="#E5E5E5"
+              fontColor="#9B9B9B"
+            >
+              취소
+            </ModalSubmitButton>
+            <ModalSubmitButton
+              onClick={handleChangeNickname}
+              className="ModalSubmit"
+              backgroundHover="#4e2b60"
+            >
+              수정 완료
+            </ModalSubmitButton>
+          </div>
         </ModalContainer>
       </div>
     </div>

@@ -132,7 +132,7 @@ function Setting() {
               style={{
                 color: "#6E3678",
                 cursor: "pointer",
-                fontWeight: "400px",
+                fontWeight: "400",
               }}
               onClick={handleModify}
             >
