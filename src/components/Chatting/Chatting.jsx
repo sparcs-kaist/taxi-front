@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import axios from "../Tool/axios";
 // import "./Chatting.css"
 import { useLayoutEffect } from "react";
+import MessageForm from "./MessageForm";
 
 Chatting.propTypes = {
   // roomId: PropTypes.number,
@@ -86,7 +87,7 @@ export default function Chatting(props) {
 
   const getSocket = () => {
     // 소켓 연결 및 이벤트 등록
-    console.log(token);
+    console.log("token", token);
     const socket = io(backServer, {
       auth: { token: token },
     });

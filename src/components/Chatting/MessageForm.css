@@ -1,0 +1,47 @@
+.MessageForm-container {
+}
+.MessageForm {
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  height: 60px;
+  background-color: white;
+  display: flex;
+  box-shadow: -5px 5px 10px #dfdfdf;
+  align-items: stretch;
+  padding-left: 48px;
+  padding-top: 11px;
+  padding-bottom: 11px;
+}
+
+.MessageForm-input-field {
+  flex-grow: 1;
+  font-size: 1rem;
+  font-weight: normal;
+  letter-spacing: 0.05rem;
+  height: 100%;
+  resize: none;
+  border-radius: 10px;
+  padding: 2px 20px;
+  color: black;
+  border: none;
+  font-family: NanumSquareR;
+  background-color: #fafafa;
+}
+
+.MessageForm-send-icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  cursor: pointer;
+}
+.MessageForm-send-icon {
+  margin-right: 17px;
+  margin-left: 14px;
+  width: 30px;
+  height: 30px;
+  color: #323232;
+  align-items: center;
+  justify-content: center;
+}
