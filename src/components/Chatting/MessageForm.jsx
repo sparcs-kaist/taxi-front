@@ -18,6 +18,11 @@ export default function MessageForm({
   //   handleStopTyping,
   handleSendMessage,
 }) {
+  const onEnterPress = (e) => {
+    if (e.key == "Enter") {
+      handleSendMessage();
+    }
+  };
   return (
     <>
       <div className="MessageForm-container">
@@ -31,13 +36,14 @@ export default function MessageForm({
             // onKeyPress={handleStartTyping}
             // onKeyUp={handleStopTyping}
           />
-          <div className="MessageForm-send-icon-container">
-            <IoMdSend
-              type="submit"
-              onClick={handleSendMessage}
-              className="MessageForm-send-icon"
-            />
-          </div>
+          <button
+            className="MessageForm-send-icon-container"
+            type="submit"
+            onClick={handleSendMessage}
+          >
+            {" "}
+            <IoMdSend className="MessageForm-send-icon" />
+          </button>
         </form>
       </div>
     </>

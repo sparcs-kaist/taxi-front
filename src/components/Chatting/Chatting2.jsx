@@ -14,7 +14,8 @@ export default function Chatting2(props) {
     setNewMessage(event.target.value);
   };
   const handleSendMessage = (event) => {
-    event.preventDefault();
+    if (!event) return;
+    event?.preventDefault();
     if (!newMessage) {
       alert("내용을 입력하세요");
     } else {
