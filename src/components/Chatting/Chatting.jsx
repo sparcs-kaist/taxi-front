@@ -13,7 +13,7 @@ const Chatting = (props) => {
   const handleSendMessage = (event) => {
     event?.preventDefault();
     if (!newMessage) {
-      alert("내용을 입력하세요");
+      return;
     } else {
       sendMessage(newMessage);
     }
