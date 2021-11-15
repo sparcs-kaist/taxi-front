@@ -16,6 +16,8 @@ class RoomPlace extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      openDep: false,
+      openArr: false,
       valueGroupsDep: {
         place: "택시승강장",
       },
@@ -44,22 +46,26 @@ class RoomPlace extends Component {
   }
 
   // usage: handleChange("valueGroupsDep")
-  handleChange(state) {
-    return (name, value) => {
-      this.setState((prev) => ({
-        [state]: {
-          ...prev.state,
-          [name]: value,
-        },
-      }));
-      this.props.handler(
-        this.state.valueGroupsDep.place,
-        this.state.valueGroupsArr.place
-      );
-    };
-  }
 
   render() {
+    const handleChange = (state) => {
+      return (name, value) => {
+        this.setState(
+          (prev) => ({
+            [state]: {
+              ...prev.state,
+              [name]: value,
+            },
+          }),
+          () => {
+            this.props.handler(
+              this.state.valueGroupsDep.place,
+              this.state.valueGroupsArr.place
+            );
+          }
+        );
+      };
+    };
     let depDirection = {
       display: "flex",
       flexDirection: "column",
@@ -117,7 +123,7 @@ class RoomPlace extends Component {
                 <Picker
                   optionGroups={this.state.optionGroupsDep}
                   valueGroups={this.state.valueGroupsDep}
-                  onChange={this.handleChange("valueGroupsDep")}
+                  onChange={handleChange("valueGroupsDep")}
                 />
               </DialogContent>
             </Dialog>
@@ -179,7 +185,7 @@ class RoomPlace extends Component {
                 <Picker
                   optionGroups={this.state.optionGroupsArr}
                   valueGroups={this.state.valueGroupsArr}
-                  onChange={this.handleChange("valueGroupsArr")}
+                  onChange={handleChange("valueGroupsArr")}
                 />
               </DialogContent>
             </Dialog>

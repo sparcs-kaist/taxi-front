@@ -29,8 +29,6 @@ class SearchOrAdd extends Component {
         data: [],
       },
       startDate: new Date(),
-      openDep: false,
-      openArr: false,
       openTime: false,
       roomName: undefined,
       valueDate: [undefined, undefined],
@@ -120,6 +118,7 @@ class SearchOrAdd extends Component {
       valueGroupsDep: dep,
       valueGroupsArr: arr,
     });
+    // console.log(this.state.valueGroupsDep);
   }
 
   handleChangeDate(month, date) {
@@ -133,7 +132,6 @@ class SearchOrAdd extends Component {
       valueGroupsTimeHour: hour,
       valueGroupsTimeMin: min,
     });
-    console.log(this.state.valueGroupsTimeHour, this.state.valueGroupsTimeMin);
   }
 
   // 뭐에 대한 onclick?

@@ -55,22 +55,27 @@ class RoomTime extends Component {
     };
   }
   // usage: handleChange("valueGroupsDep")
-  handleChange(state) {
-    return (name, value) => {
-      this.setState((prev) => ({
-        [state]: {
-          ...prev.state,
-          [name]: value,
-        },
-      }));
-      this.props.handler(
-        this.state.valueGroupsTimeHour,
-        this.state.valueGroupsTimeMin
-      );
-    };
-  }
 
   render() {
+    const handleChange = (state) => {
+      return (name, value) => {
+        this.setState(
+          (prev) => ({
+            [state]: {
+              ...prev.state,
+              [name]: value,
+            },
+          }),
+          () => {
+            this.props.handler(
+              this.state.valueGroupsTimeHour,
+              this.state.valueGroupsTimeMin
+            );
+          }
+        );
+      };
+    };
+
     let roomPlaceFormat = {
       display: "flex",
       alignContent: "row",
@@ -152,7 +157,7 @@ class RoomTime extends Component {
                 <Picker
                   optionGroups={this.state.optionGroupsTimeHour}
                   valueGroups={this.state.valueGroupsTimeHour}
-                  onChange={this.handleChange("valueGroupsTimeHour")}
+                  onChange={handleChange("valueGroupsTimeHour")}
                 />
               </div>
               <div> 시 </div>
@@ -160,7 +165,7 @@ class RoomTime extends Component {
                 <Picker
                   optionGroups={this.state.optionGroupsTimeMin}
                   valueGroups={this.state.valueGroupsTimeMin}
-                  onChange={this.handleChange("valueGroupsTimeMin")}
+                  onChange={handleChange("valueGroupsTimeMin")}
                 />
               </div>
               <div> 분 이후 </div>
