@@ -12,6 +12,7 @@ import SearchResult from "./SearchResult/SearchResult";
 import { Paper } from "@material-ui/core";
 
 import svgSearch from "./svg_search.svg";
+import svgAddSelected from "./add_selected.svg";
 
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import PropTypes from "prop-types";
@@ -185,10 +186,16 @@ class SearchOrAdd extends Component {
         {!isResults.is && (
           <div className="searchroom">
             <div style={{ height: "20px" }} />
-            <Title img={svgSearch}>
-              {this.props.isSearch && "방 검색하기"}
-              {!this.props.isSearch && "방 만들기"}
-            </Title>
+            {this.props.isSearch && (
+              <Title img={svgSearch}>
+                {this.props.isSearch && "방 검색하기"}
+              </Title>
+            )}
+            {!this.props.isSearch && (
+              <Title img={svgAddSelected}>
+                {!this.props.isSearch && "방 만들기"}
+              </Title>
+            )}
             <div style={{ height: "20px" }} />
             {/* 방 제목으로 검색 */}
             <WhiteContainer title="방 검색">
