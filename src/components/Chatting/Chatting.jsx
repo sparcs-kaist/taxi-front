@@ -4,7 +4,10 @@ import Main from "./Main/Main";
 import MessageForm from "./MessageForm";
 
 const Chatting = (props) => {
+  const roomId = 0;
+
   const [newMessage, setNewMessage] = useState("");
+  const [chats, setChats] = useState([]);
 
   // MessageForm 관련 함수들 - 시작-----
   const handleNewMessageChange = (event) => {
@@ -15,15 +18,29 @@ const Chatting = (props) => {
     if (!newMessage) sendMessage(newMessage);
     setNewMessage("");
   };
+  // MessageForm 관련 함수들 - 끝-------
+
+  // Events
+  const endterRoom = () => {
+
+  }
+  const receiveMessage = () => {
+
+  }
+  const requestMoreChats = () => {
+
+  }
+  const incomeUser = () => {
+
+  }
+  const exitUser = () => {
+
+  }
+  // const updateReadCnt = () => {}
   const sendMessage = (messageStr) => {
     alert("새 메시지: " + messageStr);
   };
-  //MessageForm 관련 함수들 - 끝-------
 
-  // Events
-
-
-  const roomId = 0;
   return (
     <div>
       <Header />
