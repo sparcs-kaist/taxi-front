@@ -21,11 +21,21 @@ const Chatting = (props) => {
   // MessageForm 관련 함수들 - 끝-------
 
   // Events
-  const endterRoom = () => {};
-  const receiveMessage = () => {};
-  const requestMoreChats = () => {};
-  const incomeUser = () => {};
-  const exitUser = () => {};
+  const endterRoom = () => {
+
+  }
+  const receiveMessage = () => {
+
+  }
+  const requestMoreChats = () => {
+
+  }
+  const incomeUser = () => {
+
+  }
+  const exitUser = () => {
+
+  }
   // const updateReadCnt = () => {}
   const sendMessage = (messageStr) => {
     alert("새 메시지: " + messageStr);

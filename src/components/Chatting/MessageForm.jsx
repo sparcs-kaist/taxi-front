@@ -1,5 +1,5 @@
 import React from "react";
-import "./MessageForm.css";
+import "./Style/MessageForm.css";
 import PropTypes from "prop-types";
 import { IoMdSend } from "react-icons/io";
 
