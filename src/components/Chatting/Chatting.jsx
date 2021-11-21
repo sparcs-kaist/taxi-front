@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Header from "./Header/Header";
 import MessagesBody from "./MessagesBody/MessagesBody";
-import MessageForm from "./MessageForm";
+import MessageForm from "./Input/MessageForm";
 
 const Chatting = (props) => {
   const roomId = 0;

@@ -1,0 +1,20 @@
+.MessageBody-container {
+  background: #e5e5e5;
+}
+
+.chatMessage-myMessage {
+  justify-content: flex-start;
+  display: flex;
+  margin: 4px auto;
+  flex-direction: row-reverse;
+}
+.chatMessage-receiveMessage {
+  justify-content: flex-start;
+  display: flex;
+  margin: 4px auto;
+  flex-direction: row;
+}
+.chatMessage-avatar-container {
+  align-self: flex-start;
+  margin: 0px 8px;
+}
