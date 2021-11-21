@@ -27,13 +27,19 @@ const ChatMessage = ({ chatMessage, chatMessages, index }) => {
         {!isAuthor && (
           <div className="chatMessage-avatar-container">
             <UserAvatar
-              user={chatMessage.author}
+              name={chatMessage.author}
               chatMessage={chatMessage}
               thumbnailUrl="dummy data"
             ></UserAvatar>
           </div>
         )}
-        message
+        <div className="chatMessage-bodyContainer">
+          {!isAuthor && (
+            <div className="chatMessage-userName">{chatMessage.author}</div>
+          )}
+          <div className="chatMessage-body">{chatMessage.text}</div>
+        </div>
+        <div className="chatMessage-date">{chatMessage.time}</div>
       </div>
     </>
   );
