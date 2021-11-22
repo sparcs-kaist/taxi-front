@@ -10,6 +10,7 @@ import {
   Button,
 } from "@material-ui/core";
 import Picker from "react-scrollable-picker";
+
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 
 class RoomPlace extends Component {
@@ -130,6 +131,17 @@ class RoomPlace extends Component {
           </div>
         </Grid>
         <Divider orientation="vertical" flexItem />
+        <div
+          style={{
+            height: "1px",
+            backgroundImage:
+              "linear-gradient(to bottom, #C8C8C8 50%, rgba(255,255,255,0) 0%)",
+            backgroundPosition: "bottom",
+            backgroundSize: "15px 1px",
+            backgroundRpeat: "repeat-y",
+          }}
+        />
+        {/* <Dash style={{ width: 1, height: 100, flexDirection: "column" }} /> */}
         <Grid item xs>
           <div
             className="arrival"
