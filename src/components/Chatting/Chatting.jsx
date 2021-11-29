@@ -43,7 +43,7 @@ const Chatting = (props) => {
 
   return (
     <div>
-      <Header />
+      <Header title="서울 같이 가요~" />
       <MessagesBody />
       <MessageForm
         newMessage={newMessage}
