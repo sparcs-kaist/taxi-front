@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-//import Picker from 'react-scrollable-picker';
 import DatePicker from "../Frame/DatePicker/DatePicker";
 import RoomName from "../Frame/RoomName/RoomName";
 import RoomPlace from "../Frame/RoomPlace/RoomPlace";
@@ -9,21 +8,29 @@ import Title from "../Frame/Title/Title";
 import SubmitButton from "../Frame/SubmitButton/SubmitButton";
 import SearchResult from "./SearchResult/SearchResult";
 
-import { Paper } from "@material-ui/core";
+import { Paper, Button } from "@material-ui/core";
 
 import svgSearch from "./svg_search.svg";
+import svgAddSelected from "./add_selected.svg";
 
-import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import PropTypes from "prop-types";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Toast, ToastBody } from "react-bootstrap";
+import "react-toastify/dist/ReactToastify.css";
 import axios from "../Tool/axios";
 
 class SearchOrAdd extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      nameOpen: false,
+      placeOpen: false,
+      dateOpen: false,
+      timeOpen: false,
+      toastOpen: false,
+      toastMessage: undefined,
       isResults: {
         is: false,
         data: [],
@@ -134,6 +141,10 @@ class SearchOrAdd extends Component {
     });
   }
 
+  handleButton() {
+    this.setState({ openName: !this.state.openName });
+  }
+
   // 뭐에 대한 onclick?
   async onClickSearch() {
     const roomName = this.state.roomName;
@@ -174,47 +185,137 @@ class SearchOrAdd extends Component {
         console.log(e);
       }
     } else {
-      alert(formValidity.msg);
+      this.setState({ toastOpen: true, toastMessage: formValidity.msg });
     }
   }
 
   render() {
     const isResults = this.state.isResults;
+
     return (
       <>
         {!isResults.is && (
           <div className="searchroom">
             <div style={{ height: "20px" }} />
-            <Title img={svgSearch}>
-              {this.props.isSearch && "방 검색하기"}
-              {!this.props.isSearch && "방 만들기"}
-            </Title>
+            {this.props.isSearch && (
+              <>
+                <Title img={svgSearch}>
+                  {this.props.isSearch && "방 검색하기"}
+                </Title>
+                <div
+                  className="lay_auto ND"
+                  style={{
+                    position: "relative",
+                    paddingTop: "10px",
+                    paddingBottom: "10px",
+                    display: "flex",
+                    justifyContent: "flex-start",
+                  }}
+                >
+                  <Button
+                    style={{
+                      marginRight: "10px",
+                      borderRadius: "15px",
+                      backgroundColor: "white",
+                      boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
+                      // backgroudColor: ,
+                    }}
+                    onClick={() =>
+                      this.setState({ nameOpen: !this.state.nameOpen })
+                    }
+                  >
+                    방 제목
+                  </Button>
+                  <Button
+                    style={{
+                      marginRight: "10px",
+                      borderRadius: "15px",
+                      backgroundColor: "white",
+                      boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
+                    }}
+                    onClick={() =>
+                      this.setState({ placeOpen: !this.state.placeOpen })
+                    }
+                  >
+                    출발/도착지
+                  </Button>
+                  <Button
+                    style={{
+                      marginRight: "10px",
+                      borderRadius: "15px",
+                      backgroundColor: "white",
+                      boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
+                    }}
+                    onClick={() =>
+                      this.setState({ dateOpen: !this.state.dateOpen })
+                    }
+                  >
+                    날짜
+                  </Button>
+                  <Button
+                    style={{
+                      borderRadius: "15px",
+                      backgroundColor: "white",
+                      boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
+                    }}
+                    onClick={() =>
+                      this.setState({ timeOpen: !this.state.timeOpen })
+                    }
+                  >
+                    시각
+                  </Button>
+                </div>
+              </>
+            )}
+            {!this.props.isSearch && (
+              <Title img={svgAddSelected}>
+                {!this.props.isSearch && "방 만들기"}
+              </Title>
+            )}
             <div style={{ height: "20px" }} />
             {/* 방 제목으로 검색 */}
-            <WhiteContainer title="방 검색">
-              <RoomName handler={this.handleChangeName} />
-            </WhiteContainer>
+            {this.state.nameOpen && (
+              <WhiteContainer title="방 검색">
+                <RoomName handler={this.handleChangeName} />
+              </WhiteContainer>
+            )}
             {/* 출발지, 도착지로검색 */}
-            <WhiteContainer title="장소">
-              <Paper style={{ height: "80px" }} elevation={0}>
-                <RoomPlace handler={this.handleChangePlace} />
-              </Paper>
-            </WhiteContainer>
+            {this.state.placeOpen && (
+              <WhiteContainer title="장소">
+                <Paper style={{ height: "80px" }} elevation={0}>
+                  <RoomPlace handler={this.handleChangePlace} />
+                </Paper>
+              </WhiteContainer>
+            )}
 
             {/* 날짜로 검색 */}
-            <WhiteContainer title="날짜 검색">
-              <DatePicker handler={this.handleChangeDate} />
-            </WhiteContainer>
+            {this.state.dateOpen && (
+              <WhiteContainer title="날짜 검색">
+                <DatePicker handler={this.handleChangeDate} />
+              </WhiteContainer>
+            )}
 
             {/* 시간으로 검색 */}
-            <WhiteContainer title="시간">
-              <RoomTime handler={this.handleChangeTime}></RoomTime>
-            </WhiteContainer>
+            {this.state.timeOpen && (
+              <WhiteContainer title="시간">
+                <RoomTime handler={this.handleChangeTime}></RoomTime>
+              </WhiteContainer>
+            )}
 
             <SubmitButton onClick={this.onClickSearch}>
               {this.props.isSearch && "검색하기"}
               {!this.props.isSearch && "방 만들기"}
             </SubmitButton>
+            {this.state.toastOpen && (
+              <Toast
+                onClose={() => this.setState({ openToast: false })}
+                autohide
+                delay={3000}
+              >
+                <Toast.Header>Warning</Toast.Header>
+                <Toast.Body> {this.state.toastMessage}</Toast.Body>
+              </Toast>
+            )}
           </div>
         )}
         {/* 지금은 그냥 방 추가일때도 이걸로 표시, 추후 내 방 리스트 프론트 만들어지면 그걸로 돌리면됨 */}
