@@ -230,6 +230,7 @@ class SearchOrAdd extends Component {
                     style={{
                       marginRight: "10px",
                       borderRadius: "15px",
+                      backgroundColor: "white",
                       boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
                     }}
                     onClick={() =>
@@ -242,6 +243,7 @@ class SearchOrAdd extends Component {
                     style={{
                       marginRight: "10px",
                       borderRadius: "15px",
+                      backgroundColor: "white",
                       boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
                     }}
                     onClick={() =>
@@ -253,6 +255,7 @@ class SearchOrAdd extends Component {
                   <Button
                     style={{
                       borderRadius: "15px",
+                      backgroundColor: "white",
                       boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
                     }}
                     onClick={() =>
