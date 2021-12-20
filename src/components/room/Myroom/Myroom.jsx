@@ -6,8 +6,7 @@ import RoomElement from "./RoomElement";
 import Footer from "../../Frame/Footer";
 import Title from "../../Frame/Title/Title";
 import RoomEntry from "../../Frame/RoomEntry/RoomEntry";
-
-import svgSearch from "../../Search/svg_search.svg";
+import svgMyRoom from "../../Frame/NavigationIcon/chat_selected.svg";
 
 class Myroom extends Component {
   constructor(props) {
@@ -17,36 +16,40 @@ class Myroom extends Component {
     return (
       <div className="myroom">
         <div style={{ height: "20px" }} />
-        <Title img={svgSearch}>내 방 리스트</Title>
+        <Title img={svgMyRoom}>내 방 리스트</Title>
         <div style={{ height: "20px" }} />
 
-        <WhiteContainer title="탑승 예정 택시">
+        <WhiteContainer title="탑승 예정 택시" padding="11px">
           <RoomEntry
             title="서울 같이 가요~"
             participants="2"
             head="김넙죽"
-            start="택시승강장"
-            end="시외버스터미널"
+            from="택시승강장"
+            to="시외버스터미널"
             date="2021년 7월 20일 09시 00분"
           />
         </WhiteContainer>
+        <WhiteContainer title="탑승 예정 택시" padding="11px">
+          <RoomEntry
+            title="둔산 갑니다"
+            participants="1"
+            head="박야옹"
+            from="택시승강장"
+            to="갤러리아"
+            date="2021년 7월 20일 17시 30분"
+          />
+        </WhiteContainer>
+        <WhiteContainer title="탑승 예정 택시" padding="11px">
+          <RoomEntry
+            title="대전역 ㄱ"
+            participants="3"
+            head="이거위"
+            from="오리연못"
+            to="대전역"
+            date="2021년 7월 20일 09시 30분"
+          />
+        </WhiteContainer>
         {/* <WhiteContainer title="탑승 예정 택시">
-          <RoomElement
-            title="12월 8일 오후 12시 택시팟 찾아요~"
-            subtitle="대전역 > 카이스트, 오후 12시 30분 출발"
-            partLen={1}
-            partImgs={[]}
-          />
-        </WhiteContainer>
-        <WhiteContainer title="탑승 예정 택시">
-          <RoomElement
-            title="12월 8일 오후 12시 택시팟 찾아요~"
-            subtitle="대전역 > 카이스트, 오후 12시 30분 출발"
-            partLen={2}
-            partImgs={[]}
-          />
-        </WhiteContainer>
-        <WhiteContainer title="탑승 예정 택시">
           <RoomElement
             title="12월 8일 오후 12시 택시팟 찾아요~"
             subtitle="대전역 > 카이스트, 오후 12시 30분 출발"
