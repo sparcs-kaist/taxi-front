@@ -212,6 +212,7 @@ class SearchOrAdd extends Component {
                     justifyContent: "flex-start",
                   }}
                 >
+                  {/* <div style ={{color: }}> 어느 조건으로 검색하시겠습니까?</div> */}
                   <Button
                     style={{
                       marginRight: "10px",
@@ -268,9 +269,63 @@ class SearchOrAdd extends Component {
               </>
             )}
             {!this.props.isSearch && (
-              <Title img={svgAddSelected}>
-                {!this.props.isSearch && "방 만들기"}
-              </Title>
+              <>
+                <Title img={svgAddSelected}>
+                  {!this.props.isSearch && "방 만들기"}
+                </Title>
+                <Button
+                  style={{
+                    marginRight: "10px",
+                    borderRadius: "15px",
+                    backgroundColor: "white",
+                    boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
+                    // backgroudColor: ,
+                  }}
+                  onClick={() =>
+                    this.setState({ nameOpen: !this.state.nameOpen })
+                  }
+                >
+                  방 제목
+                </Button>
+                <Button
+                  style={{
+                    marginRight: "10px",
+                    borderRadius: "15px",
+                    backgroundColor: "white",
+                    boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
+                  }}
+                  onClick={() =>
+                    this.setState({ placeOpen: !this.state.placeOpen })
+                  }
+                >
+                  출발/도착지
+                </Button>
+                <Button
+                  style={{
+                    marginRight: "10px",
+                    borderRadius: "15px",
+                    backgroundColor: "white",
+                    boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
+                  }}
+                  onClick={() =>
+                    this.setState({ dateOpen: !this.state.dateOpen })
+                  }
+                >
+                  날짜
+                </Button>
+                <Button
+                  style={{
+                    borderRadius: "15px",
+                    backgroundColor: "white",
+                    boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
+                  }}
+                  onClick={() =>
+                    this.setState({ timeOpen: !this.state.timeOpen })
+                  }
+                >
+                  시각
+                </Button>
+              </>
             )}
             <div style={{ height: "20px" }} />
             {/* 방 제목으로 검색 */}

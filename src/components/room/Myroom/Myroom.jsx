@@ -13,13 +13,15 @@ import axios from "../../Tool/axios";
 import svgMyRoom from "../../Frame/NavigationIcon/chat_selected.svg";
 
 const Myroom = (props) => {
-  // const [myRoomList, setRoomList] = useState([]);
+  const [myRoomList, setRoomList] = useState([]);
+
+  const getUserRoom = async () => {
+    const userRoom = await axios.get("rooms/searchByUser");
+    setRoomList(userRoom.data);
+  };
 
   useEffect(() => {
-    axios.get("/json/logininfo").then((res) => {
-      const userid = res.data;
-      console.log(userid);
-    });
+    getUserRoom();
   });
 
   return (
@@ -28,7 +30,7 @@ const Myroom = (props) => {
       <Title img={svgMyRoom}>내 방 리스트</Title>
       <div style={{ height: "20px" }} />
 
-      <WhiteContainer title="탑승 예정 택시" padding="11px">
+      {/* <WhiteContainer title="탑승 예정 택시" padding="11px">
         <RoomEntry
           title="서울 같이 가요~"
           participants="2"
@@ -57,7 +59,19 @@ const Myroom = (props) => {
           to="대전역"
           date="2021년 7월 20일 09시 30분"
         />
-      </WhiteContainer>
+      </WhiteContainer> */}
+      {myRoomList.map((item, index) => (
+        <WhiteContainer key={index} title="탑승 예정 택시" padding="11px">
+          <RoomEntry
+            title={item.name}
+            participants={item.part.length}
+            head={item.part[0]}
+            from={item.from}
+            to={item.to}
+            date={item.time}
+          />
+        </WhiteContainer>
+      ))}
       {/* <WhiteContainer title="탑승 예정 택시">
           <RoomElement
             title="12월 8일 오후 12시 택시팟 찾아요~"

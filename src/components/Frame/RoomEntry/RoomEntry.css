@@ -37,14 +37,6 @@
   color: #9b9b9b;
 }
 
-/* .dashedLine {
-  height: 0px;
-  margin-top: 10px;
-  margin-bottom: 16px;
-  border: 0.5px dashed #c8c8c8;
-  transform: rotate(180deg);
-} */
-
 .dashedLine {
   height: 1px;
   background-image: linear-gradient(

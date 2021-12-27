@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "./RoomEntry.css";
-import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
 import PropTypes from "prop-types";
 
 const RoomEntry = (props) => {
+  const dateFormat = (date) => {
+    const dateKor = new Date(date);
+    return `${dateKor.getFullYear()}년 ${dateKor.getMonth() + 1}월 
+      ${dateKor.getDate()}일 ${dateKor.getHours()}시 ${dateKor.getMinutes()}분`;
+  };
+
   return (
     <div className="taxiRoom">
       <div className="flexSpaceBetween">
@@ -40,7 +46,7 @@ const RoomEntry = (props) => {
         </div>
       </div>
 
-      <div className="date">{props.date}</div>
+      <div className="date">{dateFormat(props.date)}</div>
     </div>
   );
 };
