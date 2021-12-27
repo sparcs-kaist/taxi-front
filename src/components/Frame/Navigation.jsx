@@ -12,7 +12,7 @@ import svgSearchSelected from "./NavigationIcon/search_selected.svg";
 import svgAddroomSelected from "./NavigationIcon/add_selected.svg";
 import svgMyroomSelected from "./NavigationIcon/chat_selected.svg";
 import svgSettingSelected from "./NavigationIcon/setting_selected.svg";
-import PropTypes from "prop-types"
+import PropTypes from "prop-types";
 
 const NavigationBtn = (props) => {
   const [isHover, setHover] = useState(false);
@@ -73,14 +73,12 @@ const NavigationBtn = (props) => {
 };
 
 NavigationBtn.propTypes = {
-  // FIXME specify type
-  selected: PropTypes.boolean,
-  to: PropTypes.any,
-  icon: PropTypes.any,
-  icon2: PropTypes.any,
-  name: PropTypes.any
-}
-
+  selected: PropTypes.bool,
+  to: PropTypes.string,
+  icon: PropTypes.element,
+  icon2: PropTypes.element,
+  name: PropTypes.string,
+};
 
 class Navigation extends Component {
   render() {
@@ -122,7 +120,7 @@ class Navigation extends Component {
 }
 
 Navigation.propTypes = {
-  selected: PropTypes.string
-}
+  selected: PropTypes.string,
+};
 
 export default Navigation;
