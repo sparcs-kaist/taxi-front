@@ -82,7 +82,7 @@ const Header = (props) => {
 			<animated.div style={ styleBgd } onClick={ () => setOpen(false) }/>
 			<div style={ style }>
 				<div style={ styleLine }/>
-				<div style={ styleTitle }>{ props.title }</div>
+				<div style={ styleTitle }>{ props.roomId }</div>
 				<BtnBack/>
 				<BtnMenu token={ isOpen } onClick={ () => setOpen(!isOpen) }/>
 			</div>
@@ -90,7 +90,7 @@ const Header = (props) => {
 	)
 }
 Header.propTypes = {
-	title: PropTypes.string
+	roomId: PropTypes.string
 }
 
 export default Header;

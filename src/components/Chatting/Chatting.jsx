@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { io } from "socket.io-client";
 import Header from "./Header/Header";
 import MessagesBody from "./MessagesBody/MessagesBody";
 import MessageForm from "./Input/MessageForm";
+import { backServer } from "../../serverconf"
 
 const Chatting = (props) => {
-  const roomId = 0;
+  const roomId = useParams().roomId;
 
   const [newMessage, setNewMessage] = useState("");
   const [chats, setChats] = useState([]);
@@ -41,9 +44,20 @@ const Chatting = (props) => {
     alert("새 메시지: " + messageStr);
   };
 
+  // socket conncet
+  const getSocket = () => {
+
+  }
+  useEffect(() => {
+    let _socket;
+    /*if(true){
+      _socket = io(backServer, { auth: { token: 123 } });
+    }*/
+  })
+
   return (
     <div>
-      <Header title="서울 같이 가요~" />
+      <Header roomId={ roomId } />
       <MessagesBody />
       <MessageForm
         newMessage={newMessage}
