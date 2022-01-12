@@ -16,32 +16,32 @@ const ChatMessage = ({ chatMessage, chatMessages, index }) => {
     chatMessages: PropTypes.any,
     index: PropTypes.number,
   };
-  const isAuthor = chatMessage.author === "Me!";
+  const isAuthor = chatMessage.author === "Me!"; // 만약 자신이라면 isAuthor는 true
+  const messageBoxStyle = isAuthor ? 
+    "chatMessage-myMessage" : 
+    "chatMessage-receivedMessage";
+  const chatMessageBodyStyle = isAuthor ?
+    "chatMessage-body-mine" :
+    "chatMessage-body-received";
   return (
-    <>
-      <div
-        className={`${
-          isAuthor ? "chatMessage-myMessage" : "chatMessage-receivedMessage"
-        }`}
-      >
-        {!isAuthor && (
-          <div className="chatMessage-avatar-container">
-            <UserAvatar
-              name={chatMessage.author}
-              chatMessage={chatMessage}
-              thumbnailUrl="dummy data"
-            ></UserAvatar>
-          </div>
-        )}
-        <div className="chatMessage-bodyContainer">
-          {!isAuthor && (
-            <div className="chatMessage-userName">{chatMessage.author}</div>
-          )}
-          <div className="chatMessage-body">{chatMessage.text}</div>
+    <div className={messageBoxStyle}>
+      {!isAuthor && (
+        <div className="chatMessage-avatar-container">
+          <UserAvatar
+            name={chatMessage.author}
+            chatMessage={chatMessage}
+            thumbnailUrl="dummy data"
+          ></UserAvatar>
         </div>
-        <div className="chatMessage-date">{chatMessage.time}</div>
+      )}
+      <div className="chatMessage-bodyContainer">
+        {!isAuthor && (
+          <div className="chatMessage-userName">{chatMessage.author}</div>
+        )}
+        <div className={chatMessageBodyStyle}>{chatMessage.text}</div>
       </div>
-    </>
+      <div className="chatMessage-date">{chatMessage.time}</div>
+    </div>
   );
 };
 

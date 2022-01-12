@@ -103,7 +103,7 @@ const Header = (props) => {
     top: "0px",
     left: "0px",
     width: "100%",
-    height: "100%",
+    height: "80px",
     background: `rgba(0,0,0,${isOpen ? 0.6 : 0})`,
   });
 
