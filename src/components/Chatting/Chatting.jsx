@@ -5,6 +5,7 @@ import Header from "./Header/Header";
 import MessagesBody from "./MessagesBody/MessagesBody";
 import MessageForm from "./Input/MessageForm";
 import { backServer } from "../../serverconf"
+import "./Style/Chatting.css"
 
 const Chatting = (props) => {
   const roomId = useParams().roomId;
@@ -56,7 +57,7 @@ const Chatting = (props) => {
   })
 
   return (
-    <div>
+    <div className="ChatRoomContainer">
       <Header roomId={ roomId } />
       <MessagesBody />
       <MessageForm

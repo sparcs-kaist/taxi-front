@@ -17,17 +17,20 @@ const MessagesBody = (props) => {
   ]);
 
   return (
-    <ol className="MessagesBody-container">
-      {chatMessages.map((message, i) => (
-        <li key={i}>
-          <ChatMessage
-            chatMessage={message}
-            chatMessages={chatMessages}
-            index={i}
-          ></ChatMessage>
-        </li>
-      ))}
-    </ol>
+    <div className="chattingMessagesBox">
+      <ol className="MessagesBody-container">
+        {chatMessages.map((message, i) => (
+          <li key={i}>
+            <ChatMessage
+              chatMessage={message}
+              chatMessages={chatMessages}
+              index={i}
+            ></ChatMessage>
+          </li>
+        ))}
+      </ol>
+    </div>
+    
   );
 };
 
