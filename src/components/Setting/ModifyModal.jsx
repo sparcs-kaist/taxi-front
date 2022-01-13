@@ -29,6 +29,12 @@ function ModifyModal(props) {
   const inputImage = useRef(null);
 
   const handleChangeNickname = async () => {
+    if (newNickname === props.user.nickname) {
+      props.handleModify();
+      return;
+    }
+
+    // 닉네임이 바뀐 경우
     const result = await axios.post(`/users/${props.user.id}/editNickname`, {
       nickname: newNickname,
     });

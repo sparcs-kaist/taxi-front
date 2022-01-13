@@ -21,7 +21,7 @@ import { Toast, ToastBody } from "react-bootstrap";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "../Tool/axios";
 
-class SearchOrAdd extends Component {
+class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -79,34 +79,15 @@ class SearchOrAdd extends Component {
     // 중복은 의도된 것, 추후 수정 필요
     if (this.props.isSearch) {
       let msg = "";
-      if (roomName === undefined || roomName === "")
-        msg = "방 이름을 입력해주세요.";
-      else if (depString === undefined || depString === "")
-        msg = "출발지를 입력해주세요.";
-      else if (arrString === undefined || arrString === "")
-        msg = "도착지를 입력해주세요.";
+      if (
+        (roomName === undefined || roomName === "") &&
+        (depString === undefined || depString === "") &&
+        (arrString === undefined || arrString === "") &&
+        (date[0] === undefined || date[1] === undefined)
+      )
+        msg = "검색 조건을 한 가지 이상 입력해주세요.";
       else if (depString === arrString)
         msg = "출발지와 도착지는 같을 수 없습니다.";
-      else if (date[0] === undefined || date[1] === undefined)
-        msg = "날짜를 입력해주세요.";
-
-      return {
-        isValid: msg === "",
-        msg,
-      };
-    } else {
-      let msg = "";
-      if (roomName === undefined || roomName === "")
-        msg = "방 이름을 입력해주세요.";
-      else if (depString === undefined || depString === "")
-        msg = "출발지를 입력해주세요.";
-      else if (arrString === undefined || arrString === "")
-        msg = "도착지를 입력해주세요.";
-      else if (depString === arrString)
-        msg = "출발지와 도착지는 같을 수 없습니다.";
-      else if (date[0] === undefined || date[1] === undefined)
-        msg = "날짜를 입력해주세요.";
-
       return {
         isValid: msg === "",
         msg,
@@ -268,65 +249,6 @@ class SearchOrAdd extends Component {
                 </div>
               </>
             )}
-            {!this.props.isSearch && (
-              <>
-                <Title img={svgAddSelected}>
-                  {!this.props.isSearch && "방 만들기"}
-                </Title>
-                <Button
-                  style={{
-                    marginRight: "10px",
-                    borderRadius: "15px",
-                    backgroundColor: "white",
-                    boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
-                    // backgroudColor: ,
-                  }}
-                  onClick={() =>
-                    this.setState({ nameOpen: !this.state.nameOpen })
-                  }
-                >
-                  방 제목
-                </Button>
-                <Button
-                  style={{
-                    marginRight: "10px",
-                    borderRadius: "15px",
-                    backgroundColor: "white",
-                    boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
-                  }}
-                  onClick={() =>
-                    this.setState({ placeOpen: !this.state.placeOpen })
-                  }
-                >
-                  출발/도착지
-                </Button>
-                <Button
-                  style={{
-                    marginRight: "10px",
-                    borderRadius: "15px",
-                    backgroundColor: "white",
-                    boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
-                  }}
-                  onClick={() =>
-                    this.setState({ dateOpen: !this.state.dateOpen })
-                  }
-                >
-                  날짜
-                </Button>
-                <Button
-                  style={{
-                    borderRadius: "15px",
-                    backgroundColor: "white",
-                    boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
-                  }}
-                  onClick={() =>
-                    this.setState({ timeOpen: !this.state.timeOpen })
-                  }
-                >
-                  시각
-                </Button>
-              </>
-            )}
             <div style={{ height: "20px" }} />
             {/* 방 제목으로 검색 */}
             {this.state.nameOpen && (
@@ -356,7 +278,6 @@ class SearchOrAdd extends Component {
                 <RoomTime handler={this.handleChangeTime}></RoomTime>
               </WhiteContainer>
             )}
-
             <SubmitButton onClick={this.onClickSearch}>
               {this.props.isSearch && "검색하기"}
               {!this.props.isSearch && "방 만들기"}
@@ -380,8 +301,8 @@ class SearchOrAdd extends Component {
   }
 }
 
-SearchOrAdd.propTypes = {
+Search.propTypes = {
   // FIXME specify type
   isSearch: PropTypes.boolean,
 };
-export default SearchOrAdd;
+export default Search;
