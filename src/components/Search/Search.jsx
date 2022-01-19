@@ -46,7 +46,7 @@ class Search extends Component {
       startDate: new Date(),
       openTime: false,
       roomName: undefined,
-      valueDate: [undefined, undefined],
+      valueDate: [undefined, undefined, undefined],
       valueGroupsDep: undefined,
       valueGroupsArr: undefined,
       valueGroupsTimeHour: undefined,
@@ -91,7 +91,7 @@ class Search extends Component {
         (roomName === undefined || roomName === "") &&
         (depString === undefined || depString === "") &&
         (arrString === undefined || arrString === "") &&
-        (date[0] === undefined || date[1] === undefined)
+        (date[0] === undefined || date[1] === undefined || date[2] === undefined)
       )
         msg = "검색 조건을 한 가지 이상 입력해주세요.";
       else if (depString === arrString)
@@ -117,9 +117,9 @@ class Search extends Component {
     // console.log(this.state.valueGroupsDep);
   }
 
-  handleChangeDate(month, date) {
+  handleChangeDate(year, month, date) {
     this.setState({
-      valueDate: [month, date],
+      valueDate: [year, month, date],
     });
   }
 
@@ -152,11 +152,12 @@ class Search extends Component {
 
     if (formValidity.isValid) {
       // date의 type 검증 필요
+      // console.log(new Date(`${ date[0] }-${ date[1] }-${ date[2] }`));
       try {
         const res = await this.getAPIRes(
           depString,
           arrString,
-          date,
+          new Date(`${ date[0] }-${ date[1] }-${ date[2] }`),
           roomName,
           []
         );
