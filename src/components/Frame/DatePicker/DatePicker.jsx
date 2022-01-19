@@ -60,7 +60,7 @@ const Date = (props) => {
   }
 
   const onClick = () => {
-    if (props.available) props.handler(props.month, props.date);
+    if (props.available) props.handler(props.year, props.month, props.date);
   };
   const background = useSpring({
     background: styleBox.background,
@@ -83,9 +83,10 @@ const Date = (props) => {
 };
 
 Date.propTypes = {
-  available: PropTypes.boolean,
-  selected: PropTypes.boolean,
+  available: PropTypes.any,
+  selected: PropTypes.any,
   handler: PropTypes.func,
+  year: PropTypes.any,
   month: PropTypes.any,
   date: PropTypes.any
 }
@@ -163,14 +164,14 @@ class DatePicker extends Component {
       marginBottom: "6px",
     };
 
-    this.state = { selectedDate: [undefined, undefined], showNext: false };
+    this.state = { selectedDate: [undefined, undefined, undefined], showNext: false };
     this.month1 = getDateInfo.getCurrent();
     this.month2 = getDateInfo.getNext();
   }
-  dateHandler(month, date) {
-    this.setState({ selectedDate: [month, date] });
+  dateHandler(year, month, date) {
+    this.setState({ selectedDate: [year, month, date] });
     if (this.props.handler) {
-      this.props.handler(month, date);
+      this.props.handler(year, month, date);
     }
   }
 
@@ -254,19 +255,20 @@ class DatePicker extends Component {
               {item.map((item, index) => {
                 let selected = false;
                 if (
-                  month === this.state.selectedDate[0] &&
-                  item.date === this.state.selectedDate[1]
+                  month === this.state.selectedDate[1] &&
+                  item.date === this.state.selectedDate[2]
                 )
                   selected = true;
                 return (
                   <Date
                     key={index}
                     index={index}
+                    year={item.year}
                     month={item.month}
                     date={item.date}
                     available={item.available}
                     selected={selected}
-                    handler={(x, y) => this.dateHandler(x, y)}
+                    handler={(x, y, z) => this.dateHandler(x, y, z)}
                   />
                 );
               })}
