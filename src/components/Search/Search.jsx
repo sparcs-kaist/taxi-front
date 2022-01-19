@@ -29,6 +29,14 @@ class Search extends Component {
       placeOpen: false,
       dateOpen: false,
       timeOpen: false,
+      nameColor: "white",
+      nameTextColor: "black",
+      placeColor: "white",
+      placeTextColor: "black",
+      timeColor: "white",
+      timeTextColor: "black",
+      dateColor: "white",
+      dateTextColor: "black",
       toastOpen: false,
       toastMessage: undefined,
       isResults: {
@@ -194,58 +202,91 @@ class Search extends Component {
                   }}
                 >
                   {/* <div style ={{color: }}> 어느 조건으로 검색하시겠습니까?</div> */}
-                  <Button
-                    style={{
-                      marginRight: "10px",
-                      borderRadius: "15px",
-                      backgroundColor: "white",
-                      boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
-                      // backgroudColor: ,
-                    }}
-                    onClick={() =>
-                      this.setState({ nameOpen: !this.state.nameOpen })
-                    }
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
                   >
-                    방 제목
-                  </Button>
-                  <Button
-                    style={{
-                      marginRight: "10px",
-                      borderRadius: "15px",
-                      backgroundColor: "white",
-                      boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
-                    }}
-                    onClick={() =>
-                      this.setState({ placeOpen: !this.state.placeOpen })
-                    }
-                  >
-                    출발/도착지
-                  </Button>
-                  <Button
-                    style={{
-                      marginRight: "10px",
-                      borderRadius: "15px",
-                      backgroundColor: "white",
-                      boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
-                    }}
-                    onClick={() =>
-                      this.setState({ dateOpen: !this.state.dateOpen })
-                    }
-                  >
-                    날짜
-                  </Button>
-                  <Button
-                    style={{
-                      borderRadius: "15px",
-                      backgroundColor: "white",
-                      boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
-                    }}
-                    onClick={() =>
-                      this.setState({ timeOpen: !this.state.timeOpen })
-                    }
-                  >
-                    시각
-                  </Button>
+                    <Button
+                      style={{
+                        marginRight: "10px",
+                        borderRadius: "15px",
+                        backgroundColor: this.state.nameColor,
+                        color: this.state.nameTextColor,
+                        boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
+                      }}
+                      onClick={() =>
+                        this.setState({
+                          nameOpen: !this.state.nameOpen,
+                          nameColor: this.state.nameOpen ? "white" : "#6E3678",
+                          nameTextColor: this.state.nameOpen
+                            ? "black"
+                            : "white",
+                        })
+                      }
+                    >
+                      방 이름
+                    </Button>
+                    <Button
+                      style={{
+                        marginRight: "10px",
+                        borderRadius: "15px",
+                        backgroundColor: this.state.placeColor,
+                        color: this.state.placeTextColor,
+                        boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
+                      }}
+                      onClick={() =>
+                        this.setState({
+                          placeOpen: !this.state.placeOpen,
+                          placeColor: this.state.placeOpen
+                            ? "white"
+                            : "#6E3678",
+                          placeTextColor: this.state.placeOpen
+                            ? "black"
+                            : "white",
+                        })
+                      }
+                    >
+                      출발 & 도착지
+                    </Button>
+                    <Button
+                      style={{
+                        marginRight: "10px",
+                        borderRadius: "15px",
+                        backgroundColor: this.state.dateColor,
+                        color: this.state.dateTextColor,
+                        boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
+                      }}
+                      onClick={() =>
+                        this.setState({
+                          dateOpen: !this.state.dateOpen,
+                          dateColor: this.state.dateOpen ? "white" : "#6E3678",
+                          dateTextColor: this.state.dateOpen
+                            ? "black"
+                            : "white",
+                        })
+                      }
+                    >
+                      날짜
+                    </Button>
+                    <Button
+                      style={{
+                        borderRadius: "15px",
+                        backgroundColor: this.state.timeColor,
+                        color: this.state.timeTextColor,
+                        boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
+                      }}
+                      onClick={() =>
+                        this.setState({
+                          timeOpen: !this.state.timeOpen,
+                          timeColor: this.state.timeOpen ? "white" : "#6E3678",
+                          timeTextColor: this.state.timeOpen
+                            ? "black"
+                            : "white",
+                        })
+                      }
+                    >
+                      시각
+                    </Button>
+                  </div>
                 </div>
               </>
             )}
