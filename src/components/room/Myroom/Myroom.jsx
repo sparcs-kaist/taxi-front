@@ -16,6 +16,7 @@ import "./Myroom.css";
 const Myroom = (props) => {
   const [currentRoomList, setCurrentRoomList] = useState([]);
   const [pastRoomList, setPastRoomList] = useState([]);
+  const [bodyWidth, setBodyWidth] = useState(document.body.clientWidth);
 
   const getUserRoom = async () => {
     const userRoom = await axios.get("rooms/searchByUser");
@@ -26,20 +27,45 @@ const Myroom = (props) => {
 
   useEffect(() => {
     getUserRoom();
-  });
+
+    const resizeEvent = () => {
+      const _bodyWidth = document.body.clientWidth;
+      if(bodyWidth != _bodyWidth) setBodyWidth(_bodyWidth);
+    }
+    resizeEvent();
+    window.addEventListener('resize', resizeEvent);
+
+    return () => {
+      window.removeEventListener('resize', resizeEvent);
+    }
+  }, []);
+
+  let styleMain = {};
+
+  console.log(bodyWidth);
+  if(bodyWidth >= 900){
+    styleMain = {
+      width: '900px', margin: 'auto'
+    }
+  }
+  else{
+    styleMain = {
+      width: 'clac(100% - 40px)', margin: 'auto'
+    }
+  }
 
   return (
     <div className="myroom">
       <div
-        className="lay_auto2 ND"
-        style={{ display: "flex", flexDirection: "column" }}
+        className="ND"
+        style={{ display: "flex", flexDirection: "column", ...styleMain }}
       >
         <div style={{ height: "20px" }} />
         <Title img={svgMyRoom}>내 방 리스트</Title>
         <div style={{ height: "20px" }} />
 
         <div className="web_layout">
-          <div style={{ flex: "1 1 0" }}>
+          <div style={{ flex: "1 1 0", position: "relative" }}>
             <WhiteContainer title="참여 중인 방" padding="20px">
               <div className="subCategoryTitle">참여 중인 방</div>
 
@@ -85,7 +111,7 @@ const Myroom = (props) => {
             </WhiteContainer>
           </div>
           <div style={{ width: "15px" }}></div>
-          <div style={{ flex: "1 1 0" }}>
+          <div style={{ flex: "1 1 0", position: "relative" }}>
             <WhiteContainer>
               {/* Title */}
               <div style={{ display: "flex", flexDirection: "row" }}>

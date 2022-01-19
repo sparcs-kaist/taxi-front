@@ -46,7 +46,7 @@ class Add extends Component {
       startDate: new Date(),
       openTime: false,
       roomName: undefined,
-      valueDate: [undefined, undefined],
+      valueDate: [undefined, undefined, undefined],
       valueGroupsDep: undefined,
       valueGroupsArr: undefined,
       valueGroupsTimeHour: undefined,
@@ -111,7 +111,7 @@ class Add extends Component {
         msg = "도착지를 입력해주세요.";
       else if (depString === arrString)
         msg = "출발지와 도착지는 같을 수 없습니다.";
-      else if (date[0] === undefined || date[1] === undefined)
+      else if (date[0] === undefined || date[1] === undefined || date[2] === undefined)
         msg = "날짜를 입력해주세요.";
 
       return {
@@ -135,9 +135,9 @@ class Add extends Component {
     // console.log(this.state.valueGroupsDep);
   }
 
-  handleChangeDate(month, date) {
+  handleChangeDate(year, month, date) {
     this.setState({
-      valueDate: [month, date],
+      valueDate: [year, month, date],
     });
   }
 
@@ -174,11 +174,11 @@ class Add extends Component {
         const res = await this.getAPIRes(
           depString,
           arrString,
-          date,
+          new Date(`${ date[0] }-${ date[1] }-${ date[2] }`),
           roomName,
           []
         );
-        console.log(res);
+        // console.log(res);
         if (res.status === 200) {
           this.setState({
             isResults: {

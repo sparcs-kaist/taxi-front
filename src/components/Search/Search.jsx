@@ -161,7 +161,7 @@ class Search extends Component {
           roomName,
           []
         );
-        console.log(res);
+
         if (res.status === 200) {
           this.setState({
             isResults: {
