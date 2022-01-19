@@ -1,0 +1,27 @@
+.subCategoryTitle {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 23px;
+  letter-spacing: 0.03em;
+
+  /* Purple */
+  color: #6e3678;
+
+  margin-top: 1px;
+}
+
+.dashedLine {
+  height: 1px;
+  background-image: linear-gradient(
+    to right,
+    #c8c8c8 50%,
+    rgba(255, 255, 255, 0) 0%
+  );
+  background-position: bottom;
+  background-size: 15px 1px;
+  background-repeat: repeat-x;
+
+  margin-top: 19px;
+}
