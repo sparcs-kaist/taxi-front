@@ -51,20 +51,56 @@ button:focus {
   height: 200px;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 605px) {
   .lay_auto {
     position: relative;
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: 25px;
+    margin-right: 25px;
     /*overflow-x: hidden; overflow-y: auto;*/
   }
-}
-@media (min-width: 768px) {
-  .lay_auto {
+
+  .lay_auto2 {
     position: relative;
-    width: 728px;
+  }
+
+  .web_layout {
+    display: none;
+    flex-direction: row;
+  }
+}
+
+@media (min-width: 606px) and (max-width: 814px) {
+  .lay_auto2 {
+    position: relative;
+    margin-left: 25px;
+    margin-right: 25px;
+    /*overflow-x: hidden; overflow-y: auto;*/
+  }
+
+  .web_layout {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .mobile_layout {
+    display: none;
+  }
+}
+@media (min-width: 815px) {
+  .lay_auto2 {
+    position: relative;
+    width: 765px;
     height: auto;
     margin: auto;
     /*overflow-x: hidden; overflow-y: auto;*/
+  }
+
+  .web_layout {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .mobile_layout {
+    display: none;
   }
 }

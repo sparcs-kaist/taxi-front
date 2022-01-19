@@ -1,24 +1,23 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-class WhiteContainer extends Component {
+class BackgroundPurpleContainer extends Component {
   render() {
     return (
       <div
-        className="lay_auto ND"
         style={{
-          marginBottom: "20px",
-          boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
-          borderRadius: "15px",
+          marginTop: "20px",
+          boxShadow:
+            "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.04), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.02), 0px 2px 3px -1px rgba(110, 54, 120, 0.1)",
+          borderRadius: "6px",
           overflow: "hidden",
-          minWidth: "270px",
         }}
       >
         <div
           style={{
             position: "relative",
             padding: this.props.padding,
-            background: "white",
+            background: "#FAF8FB",
           }}
         >
           {this.props.children}
@@ -28,13 +27,13 @@ class WhiteContainer extends Component {
   }
 }
 
-WhiteContainer.propTypes = {
+BackgroundPurpleContainer.propTypes = {
   // FIXME specify type
   children: PropTypes.any,
   padding: PropTypes.any,
 };
-WhiteContainer.defaultProps = {
-  padding: "20px",
+BackgroundPurpleContainer.defaultProps = {
+  padding: "11px",
 };
 
-export default WhiteContainer;
+export default BackgroundPurpleContainer;
