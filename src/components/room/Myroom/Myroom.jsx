@@ -40,18 +40,16 @@ const Myroom = (props) => {
     }
   }, []);
 
-  let styleMain = {};
-
-  console.log(bodyWidth);
-  if(bodyWidth >= 900){
-    styleMain = {
-      width: '900px', margin: 'auto'
-    }
+  const styleMain = {
+    width: (bodyWidth >= 1440 ? '1400px' : 'calc(100% - 40px)'),
+    margin: 'auto'
   }
-  else{
-    styleMain = {
-      width: 'clac(100% - 40px)', margin: 'auto'
-    }
+  const styleLeft = {
+    width: (bodyWidth >= 720 ? 'calc(50% - 10px)' : '100%')
+  }
+  const styleRight = {
+    width: (bodyWidth >= 720 ? 'calc(50% - 10px)' : '0px'),
+    display: (bodyWidth >= 720 ? 'block' : 'none'),
   }
 
   return (
@@ -60,15 +58,15 @@ const Myroom = (props) => {
         className="ND"
         style={{ display: "flex", flexDirection: "column", ...styleMain }}
       >
-        <div style={{ height: "20px" }} />
-        <Title img={svgMyRoom}>내 방 리스트</Title>
-        <div style={{ height: "20px" }} />
-
-        <div className="web_layout">
-          <div style={{ flex: "1 1 0", position: "relative" }}>
-            <WhiteContainer title="참여 중인 방" padding="20px">
+        <div style={{ paddingTop: "20px", paddingBottom: "20px" }}>
+        <Title img={svgMyRoom} unmargin>내 방 리스트</Title>
+        </div>
+        
+        <div style={{ display: "flex", justifyContent: "space-between", position: "relative" }}>
+          { /* Left Layout */ }
+          <div style={ styleLeft }>
+            <WhiteContainer title="참여 중인 방" padding="20px" layAuto={ false }>
               <div className="subCategoryTitle">참여 중인 방</div>
-
               <div className="dashedLine"></div>
 
               <BackgroundPurpleContainer title="_" padding="11px">
@@ -93,7 +91,7 @@ const Myroom = (props) => {
                 />
               </BackgroundPurpleContainer>
             </WhiteContainer>
-            <WhiteContainer title="과거 참여 방" padding="20px">
+            <WhiteContainer title="과거 참여 방" padding="20px" layAuto={ false }>
               <div className="subCategoryTitle">과거 참여 방</div>
               <div className="dashedLine"></div>
               {pastRoomList.map((item, index) => (
@@ -109,10 +107,12 @@ const Myroom = (props) => {
                 </BackgroundPurpleContainer>
               ))}
             </WhiteContainer>
+            <div style={{ width: "15px" }}></div>
           </div>
-          <div style={{ width: "15px" }}></div>
-          <div style={{ flex: "1 1 0", position: "relative" }}>
-            <WhiteContainer>
+
+          { /* Right Layout */}
+          <div style={ styleRight }>
+            <WhiteContainer layAuto={ false }>
               {/* Title */}
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <img src={svgMyRoom} />
@@ -135,27 +135,12 @@ const Myroom = (props) => {
         </div>
       </div>
 
-      <div className="mobile_layout">
-        {pastRoomList.map((item, index) => (
-          <WhiteContainer key={index} title="참여 중인 방" padding="11px">
-            <RoomEntry
-              title={item.name}
-              participants={item.part.length}
-              head={item.part[0].nickname}
-              from={item.from}
-              to={item.to}
-              date={item.time}
-            />
-          </WhiteContainer>
-        ))}
-      </div>
-
       <Footer />
     </div>
   );
 };
 {
-  /* <WhiteContainer title="탑승 예정 택시" padding="11px">
+  /* <WhiteContainer title="탑승 예정 택시" padding="11px" layAuto={ false }>
         <RoomEntry
           title="서울 같이 가요~"
           participants="2"
@@ -165,7 +150,7 @@ const Myroom = (props) => {
           date="2021년 7월 20일 09시 00분"
         />
       </WhiteContainer>
-      <WhiteContainer title="탑승 예정 택시" padding="11px">
+      <WhiteContainer title="탑승 예정 택시" padding="11px" layAuto={ false }>
         <RoomEntry
           title="둔산 갑니다"
           participants="1"
@@ -175,7 +160,7 @@ const Myroom = (props) => {
           date="2021년 7월 20일 17시 30분"
         />
       </WhiteContainer>
-      <WhiteContainer title="탑승 예정 택시" padding="11px">
+      <WhiteContainer title="탑승 예정 택시" padding="11px" layAuto={ false }>
         <RoomEntry
           title="대전역 ㄱ"
           participants="3"
