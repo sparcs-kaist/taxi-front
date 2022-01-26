@@ -7,6 +7,8 @@ import WhiteContainer from "../Frame/WhiteContainer/WhiteContainer.jsx";
 import Title from "../Frame/Title/Title";
 import SubmitButton from "../Frame/SubmitButton/SubmitButton";
 import SearchResult from "./SearchResult/SearchResult";
+import BackgroundPurpleContainer from "../Frame/BackgroundPurpleContainer/BackgroundPurpleContainer";
+import RoomEntry from "../Frame/RoomEntry/RoomEntry";
 
 import { Paper, Button } from "@material-ui/core";
 
@@ -51,6 +53,7 @@ class Search extends Component {
       valueGroupsArr: undefined,
       valueGroupsTimeHour: undefined,
       valueGroupsTimeMin: undefined,
+      bodyWidth: document.body.clientWidth,
     };
     this.handleChangeName = this.handleChangeName.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
@@ -91,7 +94,9 @@ class Search extends Component {
         (roomName === undefined || roomName === "") &&
         (depString === undefined || depString === "") &&
         (arrString === undefined || arrString === "") &&
-        (date[0] === undefined || date[1] === undefined || date[2] === undefined)
+        (date[0] === undefined ||
+          date[1] === undefined ||
+          date[2] === undefined)
       )
         msg = "검색 조건을 한 가지 이상 입력해주세요.";
       else if (depString === arrString)
@@ -157,7 +162,7 @@ class Search extends Component {
         const res = await this.getAPIRes(
           depString,
           arrString,
-          new Date(`${ date[0] }-${ date[1] }-${ date[2] }`),
+          new Date(`${date[0]}-${date[1]}-${date[2]}`),
           roomName,
           []
         );
@@ -181,6 +186,9 @@ class Search extends Component {
 
   render() {
     const isResults = this.state.isResults;
+    const styleLeft = {
+      width: this.state.bodyWidth >= 720 ? "calc(50% - 10px)" : "100%",
+    };
 
     return (
       <>
@@ -337,7 +345,31 @@ class Search extends Component {
           </div>
         )}
         {/* 지금은 그냥 방 추가일때도 이걸로 표시, 추후 내 방 리스트 프론트 만들어지면 그걸로 돌리면됨 */}
-        {isResults.is && <SearchResult searchResults={isResults.data} />}
+        {/* {isResults.is && <SearchResult searchResults={isResults.data} />} */}
+        {isResults.is && (
+          <>
+            <div style={{ height: "20px" }} />
+            <Title img={svgSearch}>
+              {this.props.isSearch && "방 검색결과"}
+            </Title>
+            <WhiteContainer padding="20px">
+              <div className="subCategoryTitle">과거 참여 방</div>
+              <div className="dashedLine"></div>
+              {isResults.data.map((item, index) => (
+                <BackgroundPurpleContainer key={index} title="_" padding="11px">
+                  <RoomEntry
+                    title={item.name}
+                    participants={item.part.length}
+                    head={item.part[0].nickname}
+                    from={item.from}
+                    to={item.to}
+                    date={item.time}
+                  />
+                </BackgroundPurpleContainer>
+              ))}
+            </WhiteContainer>
+          </>
+        )}
       </>
     );
   }

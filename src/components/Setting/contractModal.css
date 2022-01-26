@@ -1,0 +1,103 @@
+.modifyModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #00000080;
+  z-index: 10000;
+  display: flex;
+}
+.modalContainer {
+  margin: auto;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  display: flex;
+}
+.modifyModalL1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.modifyModalL1 .modalNickname {
+  margin-top: 12px;
+  font-size: 16pt;
+  font-weight: bold;
+  letter-spacing: 0.15rem;
+}
+.modifyModalL1 .modalProfile {
+  margin-top: 16px;
+}
+.modifyModalL1 .modalProfileModify {
+  margin-top: 12px;
+  color: #6e3678;
+  cursor: pointer;
+  font-weight: 400;
+  letter-spacing: 0.05rem;
+}
+.modalHorizon {
+  border: none;
+  border: 0.5px dashed #c8c8c8;
+  transform: rotate(180deg);
+  margin-top: 18px;
+  margin-bottom: 22px;
+}
+.modifyModalL2 {
+  display: flex;
+  flex-grow: row;
+}
+.modifyModalL2 .modalProfileTag {
+  color: #9b9b9b;
+  margin-left: 10px;
+  font-weight: normal;
+  letter-spacing: 0.05rem;
+  margin-bottom: 12px;
+}
+.modifyModalL2 .modalProfileTag_nickname {
+  color: #9b9b9b;
+  margin-left: 10px;
+  font-weight: normal;
+  letter-spacing: 0.05rem;
+  margin-top: 10px;
+  margin-bottom: 12px;
+}
+.modifyModalL2 .modalProfileContent {
+  color: #323232;
+  margin-left: 10px;
+  font-weight: normal;
+  letter-spacing: 0.05rem;
+  margin-bottom: 12px;
+}
+.modifyModalL2 .modalProfileContent_nickname {
+  color: #323232;
+  font-weight: normal;
+  letter-spacing: 0.05rem;
+  margin-top: 10px;
+  margin-bottom: 12px;
+
+  border-radius: 8px;
+  border-style: none;
+  background-color: #fafafa;
+  width: calc(100% - 110px);
+  height: 28px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-left: 10px;
+}
+.ModalButton {
+  display: flex;
+  flex-direction: row;
+}
+.ModalButton .ModalCancel {
+  flex-grow: 1;
+  margin-right: 10px;
+  margin-top: 15px;
+}
+.ModalButton .ModalSubmit {
+  flex-grow: 3;
+  margin-top: 15px;
+}
