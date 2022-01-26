@@ -8,7 +8,7 @@ const Title = (props) => {
       style={{
         position: "relative",
         paddingTop: "10px",
-        paddingBottom: "10px"
+        paddingBottom: "10px",
       }}
     >
       <img
@@ -17,17 +17,17 @@ const Title = (props) => {
           position: "absolute",
           top: "10px",
           left: "0px",
-          width: "37px",
-          height: "37px",
+          width: "20px",
+          height: "20px",
         }}
       />
       <div
         style={{
-          marginLeft: "45px",
-          lineHeight: "37px",
-          fontSize: "24px",
-          fontWeight: 900,
-          color: "#663D71",
+          marginLeft: "30px",
+          lineHeight: "23px",
+          fontSize: "20px",
+          fontWeight: "bold",
+          color: "#6E3678",
         }}
       >
         {props.children}
@@ -40,7 +40,7 @@ Title.propTypes = {
   // FIXME specify type
   img: PropTypes.any,
   children: PropTypes.any,
-  unmargin: PropTypes.any
+  unmargin: PropTypes.any,
 };
 
 export default Title;

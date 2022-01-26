@@ -9,6 +9,7 @@ import Title from "../../Frame/Title/Title";
 
 import axios from "../../Tool/axios";
 
+import svgChatIcon from "./chatIcon.svg";
 import svgMyRoom from "../../Frame/NavigationIcon/chat_selected.svg";
 
 import "./Myroom.css";
@@ -30,27 +31,29 @@ const Myroom = (props) => {
 
     const resizeEvent = () => {
       const _bodyWidth = document.body.clientWidth;
-      if(bodyWidth != _bodyWidth) setBodyWidth(_bodyWidth);
-    }
+      if (bodyWidth != _bodyWidth) setBodyWidth(_bodyWidth);
+    };
     resizeEvent();
-    window.addEventListener('resize', resizeEvent);
+    window.addEventListener("resize", resizeEvent);
 
     return () => {
-      window.removeEventListener('resize', resizeEvent);
-    }
+      window.removeEventListener("resize", resizeEvent);
+    };
   }, []);
 
-  const styleMain = {
-    width: (bodyWidth >= 1440 ? '1400px' : 'calc(100% - 40px)'),
-    margin: 'auto'
-  }
+  const resizeStyleMain = () => {
+    if (bodyWidth >= 755) return { width: "705px", margin: "auto" };
+    else return { width: "calc(100% - 50px)", margin: "auto" };
+  };
+
+  const styleMain = resizeStyleMain();
   const styleLeft = {
-    width: (bodyWidth >= 720 ? 'calc(50% - 10px)' : '100%')
-  }
+    width: bodyWidth >= 605 ? "calc(50% - 7.5px)" : "100%",
+  };
   const styleRight = {
-    width: (bodyWidth >= 720 ? 'calc(50% - 10px)' : '0px'),
-    display: (bodyWidth >= 720 ? 'block' : 'none'),
-  }
+    width: bodyWidth >= 605 ? "calc(50% - 7.5px)" : "0px",
+    display: bodyWidth >= 605 ? "block" : "none",
+  };
 
   return (
     <div className="myroom">
@@ -58,18 +61,39 @@ const Myroom = (props) => {
         className="ND"
         style={{ display: "flex", flexDirection: "column", ...styleMain }}
       >
-        <div style={{ paddingTop: "20px", paddingBottom: "20px" }}>
-        <Title img={svgMyRoom} unmargin>내 방 리스트</Title>
+        <div style={{ paddingTop: "20px", paddingBottom: "10px" }}>
+          <Title img={svgMyRoom} unmargin>
+            내 방 리스트
+          </Title>
         </div>
-        
-        <div style={{ display: "flex", justifyContent: "space-between", position: "relative" }}>
-          { /* Left Layout */ }
-          <div style={ styleLeft }>
-            <WhiteContainer title="참여 중인 방" padding="20px" layAuto={ false }>
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            position: "relative",
+          }}
+        >
+          {/* Left Layout */}
+          <div style={styleLeft}>
+            <WhiteContainer title="참여 중인 방" padding="20px" layAuto={false}>
               <div className="subCategoryTitle">참여 중인 방</div>
               <div className="dashedLine"></div>
 
-              <BackgroundPurpleContainer title="_" padding="11px">
+              {currentRoomList.map((item, index) => (
+                <BackgroundPurpleContainer key={index} title="_" padding="11px">
+                  <RoomEntry
+                    title={item.name}
+                    participants={item.part.length}
+                    head={item.part[0].nickname}
+                    from={item.from}
+                    to={item.to}
+                    date={item.time}
+                  />
+                </BackgroundPurpleContainer>
+              ))}
+
+              {/* <BackgroundPurpleContainer title="_" padding="11px">
                 <RoomEntry
                   title="서울 같이 가요~"
                   participants={2}
@@ -89,9 +113,9 @@ const Myroom = (props) => {
                   to="갤러리아"
                   date="2021년 7월 20일 오후 5시 30분"
                 />
-              </BackgroundPurpleContainer>
+              </BackgroundPurpleContainer> */}
             </WhiteContainer>
-            <WhiteContainer title="과거 참여 방" padding="20px" layAuto={ false }>
+            <WhiteContainer title="과거 참여 방" padding="20px" layAuto={false}>
               <div className="subCategoryTitle">과거 참여 방</div>
               <div className="dashedLine"></div>
               {pastRoomList.map((item, index) => (
@@ -110,12 +134,12 @@ const Myroom = (props) => {
             <div style={{ width: "15px" }}></div>
           </div>
 
-          { /* Right Layout */}
-          <div style={ styleRight }>
-            <WhiteContainer layAuto={ false }>
+          {/* Right Layout */}
+          <div style={styleRight}>
+            <WhiteContainer layAuto={false}>
               {/* Title */}
               <div style={{ display: "flex", flexDirection: "row" }}>
-                <img src={svgMyRoom} />
+                <img src={svgChatIcon} />
                 <div
                   style={{
                     marginLeft: "8.85px",
