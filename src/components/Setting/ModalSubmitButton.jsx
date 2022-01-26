@@ -26,7 +26,7 @@ const Button = (props) => {
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         onClick={props.onClick}
-        style={{ ...style, ...background }}
+        style={{ ...style, ...props.style, ...background }}
       >
         {props.children}
       </animated.div>
@@ -42,6 +42,7 @@ Button.propTypes = {
   onClick: PropTypes.any,
   children: PropTypes.any,
   className: PropTypes.any,
+  style: PropTypes.any,
 };
 
 Button.defaultProps = {
