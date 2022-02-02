@@ -72,7 +72,7 @@ function ModifyModal(props) {
           alert("프로필 사진 변경에 성공했습니다.");
         }
       })
-      .catch((err) => {
+      .catch(() => {
         alert("프로필 사진 변경에 실패했습니다.");
       });
     props.setUserModified(true);
@@ -124,19 +124,22 @@ function ModifyModal(props) {
               }}
             ></input>
           </div>
-          <div className="ModalButton">
+          <div style={{ display: "flex", flexDirection: "row" }}>
             <ModalSubmitButton
-              className="ModalCancel"
               onClick={props.handleModify}
-              background="#EEEEEE"
               backgroundHover="#E5E5E5"
-              fontColor="#9B9B9B"
+              style={{
+                flexGrow: 1,
+                marginRight: "10px",
+                marginTop: "15px",
+                backgroundColor: "#EEEEEE",
+              }}
             >
               취소
             </ModalSubmitButton>
             <ModalSubmitButton
               onClick={handleChangeNickname}
-              className="ModalSubmit"
+              style={{ flexGrow: 3, marginTop: "15px", color: "#FFFFFF" }}
               backgroundHover="#4e2b60"
             >
               수정 완료

@@ -13,6 +13,7 @@ import svgSparcs from "./svg_sparcs.svg";
 import svgLogout from "./svg_logout.svg";
 import svgHistory from "./svg_history.svg";
 import svgPeople from "./svg_people.svg";
+import TOSModal from "../TOS/TOSModal.jsx";
 import "./Setting.css";
 
 const profileImageStyle = {
@@ -35,6 +36,15 @@ function Setting() {
   const [userModified, setUserModified] = useState(false);
   const [modifyModal, setModifyModal] = useState(false);
   const history = useHistory();
+
+  const [isTosModalOpen, setIsTosModalOpen] = useState(false);
+  const [isTosAgreed, setIsTosAgreed] = useState(false);
+
+  useEffect(() => {
+    // 약관에 동의 했는지 여부 체크하는 로직 넣을 것.
+    // 아래 라인은 삭제할 것
+    setIsTosAgreed(false);
+  }, []);
 
   const handleModify = () => {
     setModifyModal(!modifyModal);
@@ -160,7 +170,7 @@ function Setting() {
       <WhiteContainer>
         <div>
           <MyPageMenu img={svgHistory}>과거 기록</MyPageMenu>
-          <MyPageMenu img={svgDocument}>
+          <MyPageMenu img={svgDocument} onClick={() => setIsTosModalOpen(true)}>
             사용 약관 및 개인정보 보호 규칙
           </MyPageMenu>
           <MyPageMenu img={svgSparcs}>만든 사람들</MyPageMenu>
@@ -169,6 +179,13 @@ function Setting() {
           </MyPageMenu>
         </div>
       </WhiteContainer>
+      <TOSModal
+        open={isTosModalOpen}
+        onClose={() => {
+          setIsTosModalOpen(false);
+        }}
+        isAgreed={isTosAgreed}
+      />
     </div>
   );
 }

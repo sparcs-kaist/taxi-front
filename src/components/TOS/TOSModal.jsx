@@ -24,22 +24,22 @@ const titleStyle = {
   fontFamily: "Roboto",
   fontStyle: "normal",
   fontWeight: "bold",
-  fontSize: "16px",
-  lineHeight: "19px",
+  fontSize: "18px",
+  lineHeight: "21px",
   marginLeft: "12px",
-  marginTop: "3px",
+  marginTop: "6px",
+  letterSpacing: "0.05em",
+  color: "#323232",
 };
 
 const titleTaxiStyle = {
+  fontFamily: "Raleway",
   fontSize: "20px",
   fontWeight: 800,
   color: "#6E3678",
   marginRight: "8px",
-};
-
-const buttonStyle = {
-  marginLeft: "10px",
-  width: "100px",
+  lineHeight: "23px",
+  letterSpacing: "-0.01em",
 };
 
 const dummyDivStyle = {
@@ -49,14 +49,19 @@ const dummyDivStyle = {
 const buttonsContainerStyle = {
   display: "flex",
   flexDirection: "row",
+  marginTop: "10px",
+  marginBottom: "8px",
 };
 
 const dialogContentStyle = {
   display: "flex",
   flexDirection: "column",
   minWidth: "270px",
-  maxWidth: "650px",
+  maxWidth: "365px",
+  maxHeight: "515px",
   padding: "18px",
+  borderRadius: "15px",
+  boxShadow: "0px 1px 7.5px 2px rgba(0, 0, 0, 0.05)",
 };
 
 const textFieldStyle = {
@@ -65,8 +70,11 @@ const textFieldStyle = {
   backgroundColor: "#EEE",
   borderRadius: "10px",
   boxShadow: "inset 2px 2px 5px -2px rgba(0, 0, 0, 0.075)",
-  padding: "38px",
+  padding: "28px",
   marginBottom: "12px",
+  fontSize: "13px",
+  lineHeight: "15px",
+  letterSpacing: "0.05em",
 };
 
 const alreadyAgreedStyle = {
@@ -78,7 +86,17 @@ const alreadyAgreedStyle = {
   textAlign: "center",
   letterSpacing: "0.05em",
   color: "#323232",
-  marginTop: "10px",
+};
+
+const buttonStyle = {
+  fontWeight: "bold",
+  fontSize: "15px",
+  lineHeight: "50px",
+  textAlign: "center",
+  letterSpacing: "0.05em",
+  color: "#FFFFFF",
+  width: "77px",
+  marginLeft: "10px",
 };
 
 const TOSModal = ({ open, onClose, isAgreed }) => {
@@ -113,8 +131,12 @@ const TOSModal = ({ open, onClose, isAgreed }) => {
           <div style={dummyDivStyle} />
           {!isAgreed ? (
             <>
-              <ModalSubmitButton style={buttonStyle}>취소</ModalSubmitButton>
-              <ModalSubmitButton style={buttonStyle}>동의</ModalSubmitButton>
+              <ModalSubmitButton style={buttonStyle} backgroundHover="#4e2b60">
+                취소
+              </ModalSubmitButton>
+              <ModalSubmitButton style={buttonStyle} backgroundHover="#4e2b60">
+                동의
+              </ModalSubmitButton>
             </>
           ) : (
             <p style={alreadyAgreedStyle}>이미 동의하셨습니다.</p>

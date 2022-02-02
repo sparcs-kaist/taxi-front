@@ -2,53 +2,54 @@ import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
 import PropTypes from "prop-types";
 
-const Button = (props) => {
+const baseStyle = {
+  minHeight: "50px",
+  lineHeight: "50px",
+  textAlign: "center",
+  fontSize: "16px",
+  fontWeight: "bold",
+  borderRadius: "15px",
+  letterSpacing: "0.05em",
+  fontColor: "white",
+  backgroundColor: "#6E3678",
+};
+
+const ModalSubmitButton = ({ backgroundHover, style, onClick, children }) => {
   const [isHover, setHover] = useState(false);
-  const style = {
-    minHeight: "50px",
-    lineHeight: "50px",
-    textAlign: "center",
-    fontSize: "16px",
-    color: props.fontColor,
-    fontWeight: "bold",
-    borderRadius: "15px",
-    letterSpacing: "0.05em",
+
+  const integratedStyle = {
+    ...baseStyle,
+    ...style,
   };
-  const background = useSpring({
-    background: isHover ? props.backgroundHover : props.background,
+
+  const backgroundAnimated = useSpring({
+    background: isHover ? backgroundHover : integratedStyle.backgroundColor,
     config: { duration: 100 },
   });
 
   return (
-    <div className={props.className}>
-      <animated.div
-        className="BTNC"
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-        onClick={props.onClick}
-        style={{ ...style, ...props.style, ...background }}
-      >
-        {props.children}
-      </animated.div>
-    </div>
+    <animated.div
+      className="BTNC"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      onClick={onClick}
+      style={{ ...integratedStyle, ...backgroundAnimated }}
+    >
+      {children}
+    </animated.div>
   );
 };
 
-Button.propTypes = {
+ModalSubmitButton.propTypes = {
   // FIXME specify type
-  fontColor: PropTypes.any,
   backgroundHover: PropTypes.any,
-  background: PropTypes.any,
   onClick: PropTypes.any,
   children: PropTypes.any,
-  className: PropTypes.any,
   style: PropTypes.any,
 };
 
-Button.defaultProps = {
-  background: "#6E3678",
+ModalSubmitButton.defaultProps = {
   backgroundHover: "white",
-  fontColor: "white",
-  onClick: () => {},
 };
-export default Button;
+
+export default ModalSubmitButton;
