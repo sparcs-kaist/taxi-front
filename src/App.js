@@ -24,7 +24,7 @@ import NewUser from "./components/user/newuser";
 import Chatting from "./components/Chatting/Chatting";
 import TOS from "./components/TOS/TOS";
 
-const SearchResultWithParam = (props) => (
+const SearchResultWithParam = () => (
   <Frame navi="search">
     <SearchResult param={useParams().pnum} />
   </Frame>
