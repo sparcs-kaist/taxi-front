@@ -1,115 +1,116 @@
-const buttonStyle = {
-  minHeight: "0",
-  fontWeight: "bold",
-  fontSize: "15px",
-  lineHeight: "36px",
-  textAlign: "center",
-  letterSpacing: "0.05em",
-  color: "#FFFFFF",
-  width: "77px",
-  height: "36px",
-  marginLeft: "10px",
-};
+import { css } from "@emotion/react";
 
-const flexColumn = {
-  display: "flex",
-  flexDirection: "column",
-};
+const buttonStyleBase = css`
+  min-height: 0;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 36px;
+  text-align: center;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  width: 77px;
+  height: 36px;
+  margin-left: 10px;
+`;
+
+const flexColumnBase = css`
+  display: flex;
+  flex-direction: column;
+`;
 
 const styles = {
-  logoStyle: {
-    width: "30px",
-    height: "30px",
-  },
+  logoStyle: css`
+    width: 30px;
+    height: 30px;
+  `,
 
-  xButtonStyle: {
-    width: "24px",
-    height: "24px",
-    position: "absolute",
-    top: "10px",
-    right: "10px",
-  },
+  xButtonStyle: css`
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  `,
 
-  titleStyle: {
-    display: "flex",
-    flexDirection: "row",
-    marginBottom: "20px",
-    fontFamily: "Roboto",
-    fontSize: "16px",
-    lineHeight: "21px",
-    marginLeft: "12px",
-    letterSpacing: "0.05em",
-    color: "#323232",
-  },
+  titleStyle: css`
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+    font-family: Roboto;
+    font-size: 16px;
+    line-height: 21px;
+    margin-left: 12px;
+    letter-spacing: 0.05em;
+    color: #323232;
+  `,
 
-  titleTaxiStyle: {
-    display: "flex",
-    flexDirection: "column",
-    fontFamily: "Raleway",
-    fontSize: "20px",
-    fontWeight: 800,
-    color: "#6E3678",
-    marginRight: "8px",
-    lineHeight: "23px",
-    letterSpacing: "-0.01em",
-  },
+  titleTaxiStyle: css`
+    display: flex;
+    flex-direction: column;
+    font-family: Raleway;
+    font-size: 20px;
+    font-weight: 800;
+    color: #6e3678;
+    margin-right: 8px;
+    line-height: 23px;
+    letter-spacing: -0.01em;
+  `,
 
-  dummyDivStyle: {
-    flex: 1,
-  },
+  dummyDivStyle: css`
+    flex: 1;
+  `,
 
-  buttonsContainerStyle: {
-    display: "flex",
-    flexDirection: "row",
-    marginBottom: "8px",
-  },
+  buttonsContainerStyle: css`
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 8px;
+  `,
 
-  flexColumn: {
-    ...flexColumn,
-  },
+  flexColumn: css`
+    ${flexColumnBase}
+  `,
 
-  dialogContentStyle: {
-    ...flexColumn,
-    minWidth: "270px",
-    maxWidth: "365px",
-    maxHeight: "515px",
-    padding: "18px",
-    borderRadius: "15px",
-    boxShadow: "0px 1px 7.5px 2px rgba(0, 0, 0, 0.05)",
-  },
+  dialogContentStyle: css`
+    ${flexColumnBase}
+    min-width: 270px;
+    max-width: 365px;
+    max-height: 515px;
+    padding: 18px;
+    border-radius: 15px;
+    box-shadow: 0px 1px 7.5px 2px rgba(0, 0, 0, 0.05);
+  `,
 
-  textFieldStyle: {
-    flex: 1,
-    overflowY: "scroll",
-    backgroundColor: "#EEE",
-    borderRadius: "10px",
-    boxShadow: "inset 2px 2px 5px -2px rgba(0, 0, 0, 0.075)",
-    padding: "28px",
-    marginBottom: "12px",
-    fontSize: "13px",
-    lineHeight: "15px",
-    letterSpacing: "0.05em",
-  },
+  textFieldStyle: css`
+    flex: 1;
+    overflow-y: scroll;
+    background-color: #eee;
+    border-radius: 10px;
+    box-shadow: inset 2px 2px 5px -2px rgba(0, 0, 0, 0.075);
+    padding: 28px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    line-height: 15px;
+    letter-spacing: 0.05em;
+  `,
 
-  alreadyAgreedStyle: {
-    fontFamily: "Roboto",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: "15px",
-    lineHeight: "18px",
-    textAlign: "center",
-    letterSpacing: "0.05em",
-    color: "#323232",
-  },
-  confirmButtonStyle: {
-    ...buttonStyle,
-  },
+  alreadyAgreedStyle: css`
+    font-family: Roboto;
+    font-size: 15px;
+    line-height: 18px;
+    text-align: center;
+    letter-spacing: 0.05em;
+    color: #323232;
+  `,
 
-  cancelButtonStyle: {
-    ...buttonStyle,
-    color: "#888888",
-    backgroundColor: "#EEEEEE",
-  },
+  confirmButtonStyle: css`
+    ${buttonStyleBase}
+  `,
+
+  cancelButtonStyle: css`
+    ${buttonStyleBase}
+    color: #888888;
+    background-color: #eeeeee;
+  `,
 };
 
 export default styles;

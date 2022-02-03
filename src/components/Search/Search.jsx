@@ -21,7 +21,7 @@ import { Toast, ToastBody } from "react-bootstrap";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "../Tool/axios";
 
-class Search extends Component {
+class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -38,19 +38,19 @@ class Search extends Component {
       dateColor: "white",
       dateTextColor: "black",
       toastOpen: false,
-      toastMessage: undefined,
+      toastMessage: null,
       isResults: {
         is: false,
         data: [],
       },
       startDate: new Date(),
       openTime: false,
-      roomName: undefined,
-      valueDate: [undefined, undefined, undefined],
-      valueGroupsDep: undefined,
-      valueGroupsArr: undefined,
-      valueGroupsTimeHour: undefined,
-      valueGroupsTimeMin: undefined,
+      roomName: null,
+      valueDate: [null, null, null],
+      valueGroupsDep: null,
+      valueGroupsArr: null,
+      valueGroupsTimeHour: null,
+      valueGroupsTimeMin: null,
     };
     this.handleChangeName = this.handleChangeName.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
@@ -91,7 +91,9 @@ class Search extends Component {
         (roomName === undefined || roomName === "") &&
         (depString === undefined || depString === "") &&
         (arrString === undefined || arrString === "") &&
-        (date[0] === undefined || date[1] === undefined || date[2] === undefined)
+        (date[0] === undefined ||
+          date[1] === undefined ||
+          date[2] === undefined)
       )
         msg = "검색 조건을 한 가지 이상 입력해주세요.";
       else if (depString === arrString)
@@ -157,7 +159,7 @@ class Search extends Component {
         const res = await this.getAPIRes(
           depString,
           arrString,
-          new Date(`${ date[0] }-${ date[1] }-${ date[2] }`),
+          new Date(`${date[0]}-${date[1]}-${date[2]}`),
           roomName,
           []
         );
@@ -344,7 +346,6 @@ class Search extends Component {
 }
 
 Search.propTypes = {
-  // FIXME specify type
-  isSearch: PropTypes.boolean,
+  isSearch: PropTypes.any,
 };
 export default Search;

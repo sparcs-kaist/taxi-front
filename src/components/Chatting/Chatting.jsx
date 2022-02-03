@@ -11,11 +11,6 @@ import axios from "../Tool/axios";
 // import "./Chatting.css"
 import { useLayoutEffect } from "react";
 
-Chatting.propTypes = {
-  // roomId: PropTypes.number,
-  exitRoom: PropTypes.func,
-};
-
 export default function Chatting(props) {
   // react router로부터 param을 받아온다.
   const { roomId } = useParams();
@@ -198,3 +193,8 @@ export default function Chatting(props) {
     </>
   );
 }
+
+Chatting.propTypes = {
+  // roomId: PropTypes.number,
+  exitRoom: PropTypes.func,
+};
