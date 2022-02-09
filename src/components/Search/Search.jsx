@@ -7,6 +7,8 @@ import WhiteContainer from "../Frame/WhiteContainer/WhiteContainer.jsx";
 import Title from "../Frame/Title/Title";
 import SubmitButton from "../Frame/SubmitButton/SubmitButton";
 import SearchResult from "./SearchResult/SearchResult";
+import BackgroundPurpleContainer from "../Frame/BackgroundPurpleContainer/BackgroundPurpleContainer";
+import RoomEntry from "../Frame/RoomEntry/RoomEntry";
 
 import { Paper, Button } from "@material-ui/core";
 
@@ -45,6 +47,7 @@ class Search extends React.Component {
       },
       startDate: new Date(),
       openTime: false,
+
       roomName: null,
       valueDate: [null, null, null],
       valueGroupsDep: null,
@@ -183,6 +186,9 @@ class Search extends React.Component {
 
   render() {
     const isResults = this.state.isResults;
+    const styleLeft = {
+      width: this.state.bodyWidth >= 720 ? "calc(50% - 10px)" : "100%",
+    };
 
     return (
       <>
@@ -339,7 +345,31 @@ class Search extends React.Component {
           </div>
         )}
         {/* 지금은 그냥 방 추가일때도 이걸로 표시, 추후 내 방 리스트 프론트 만들어지면 그걸로 돌리면됨 */}
-        {isResults.is && <SearchResult searchResults={isResults.data} />}
+        {/* {isResults.is && <SearchResult searchResults={isResults.data} />} */}
+        {isResults.is && (
+          <>
+            <div style={{ height: "20px" }} />
+            <Title img={svgSearch}>
+              {this.props.isSearch && "방 검색결과"}
+            </Title>
+            <WhiteContainer padding="20px">
+              <div className="subCategoryTitle">과거 참여 방</div>
+              <div className="dashedLine"></div>
+              {isResults.data.map((item, index) => (
+                <BackgroundPurpleContainer key={index} title="_" padding="11px">
+                  <RoomEntry
+                    title={item.name}
+                    participants={item.part.length}
+                    head={item.part[0].nickname}
+                    from={item.from}
+                    to={item.to}
+                    date={item.time}
+                  />
+                </BackgroundPurpleContainer>
+              ))}
+            </WhiteContainer>
+          </>
+        )}
       </>
     );
   }
