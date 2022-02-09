@@ -4,7 +4,7 @@ import getDateInfo from "./getDateInfo";
 import svgToday from "./svg_today.svg";
 import svgLeft from "./svg_left.svg";
 import svgRight from "./svg_right.svg";
-import PropTypes from "prop-types"
+import PropTypes from "prop-types";
 
 const Date = (props) => {
   const style = {
@@ -88,8 +88,8 @@ Date.propTypes = {
   handler: PropTypes.func,
   year: PropTypes.any,
   month: PropTypes.any,
-  date: PropTypes.any
-}
+  date: PropTypes.any,
+};
 
 class DatePicker extends Component {
   constructor(props) {
@@ -164,7 +164,10 @@ class DatePicker extends Component {
       marginBottom: "6px",
     };
 
-    this.state = { selectedDate: [undefined, undefined, undefined], showNext: false };
+    this.state = {
+      selectedDate: [undefined, undefined, undefined],
+      showNext: false,
+    };
     this.month1 = getDateInfo.getCurrent();
     this.month2 = getDateInfo.getNext();
   }
@@ -293,7 +296,7 @@ class DatePicker extends Component {
 
 DatePicker.propTypes = {
   // FIXME specify type
-  handler: PropTypes.any
-}
+  handler: PropTypes.any,
+};
 
 export default DatePicker;
