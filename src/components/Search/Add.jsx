@@ -111,7 +111,11 @@ class Add extends Component {
         msg = "도착지를 입력해주세요.";
       else if (depString === arrString)
         msg = "출발지와 도착지는 같을 수 없습니다.";
-      else if (date[0] === undefined || date[1] === undefined || date[2] === undefined)
+      else if (
+        date[0] === undefined ||
+        date[1] === undefined ||
+        date[2] === undefined
+      )
         msg = "날짜를 입력해주세요.";
 
       return {
@@ -174,7 +178,7 @@ class Add extends Component {
         const res = await this.getAPIRes(
           depString,
           arrString,
-          new Date(`${ date[0] }-${ date[1] }-${ date[2] }`),
+          new Date(`${date[0]}-${date[1]}-${date[2]}`),
           roomName,
           []
         );
@@ -362,6 +366,6 @@ class Add extends Component {
 
 Add.propTypes = {
   // FIXME specify type
-  isSearch: PropTypes.boolean,
+  isSearch: PropTypes.bool,
 };
 export default Add;

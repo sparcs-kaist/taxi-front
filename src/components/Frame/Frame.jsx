@@ -8,7 +8,7 @@ import axios from "../Tool/axios";
 import Navigation from "./Navigation";
 import Footer from "./Footer";
 import "./Frame.css";
-import PropTypes from "prop-types"
+import PropTypes from "prop-types";
 
 const TopBar = (props) => {
   return (
@@ -72,8 +72,8 @@ Frame.propTypes = {
   // navi: 하단 바에 어떤 항목이 선택되어있어야 하는가?
   // children: ??
   navi: PropTypes.string,
-  children: PropTypes.any
-}
+  children: PropTypes.any,
+};
 Frame.defaultProps = {
   children: <div></div>,
 };

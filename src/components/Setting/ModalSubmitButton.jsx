@@ -1,53 +1,45 @@
-import React, { useState } from "react";
-import { useSpring, animated } from "react-spring";
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import { jsx, css } from "@emotion/react";
 import PropTypes from "prop-types";
 
-const Button = (props) => {
-  const [isHover, setHover] = useState(false);
-  const style = {
-    minHeight: "50px",
-    lineHeight: "50px",
-    textAlign: "center",
-    fontSize: "16px",
-    color: props.fontColor,
-    fontWeight: "bold",
-    borderRadius: "15px",
-    letterSpacing: "0.05em",
-  };
-  const background = useSpring({
-    background: isHover ? props.backgroundHover : props.background,
-    config: { duration: 100 },
-  });
+const baseStyle = css`
+  min-height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 15px;
+  letter-spacing: 0.05em;
+  color: white;
+  background-color: #6e3678;
+`;
+
+const ModalSubmitButton = (
+  { backgroundHover, style, onClick, children } = { backgroundHover: "white" }
+) => {
+  const integratedStyle = css`
+    ${baseStyle}
+    ${style}
+
+    &:hover {
+      background-color: ${backgroundHover};
+    }
+  `;
 
   return (
-    <div className={props.className}>
-      <animated.div
-        className="BTNC"
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-        onClick={props.onClick}
-        style={{ ...style, ...background }}
-      >
-        {props.children}
-      </animated.div>
+    <div className="BTNC" onClick={onClick} css={integratedStyle}>
+      {children}
     </div>
   );
 };
 
-Button.propTypes = {
+ModalSubmitButton.propTypes = {
   // FIXME specify type
-  fontColor: PropTypes.any,
-  backgroundHover: PropTypes.any,
-  background: PropTypes.any,
-  onClick: PropTypes.any,
+  backgroundHover: PropTypes.string,
+  onClick: PropTypes.func,
   children: PropTypes.any,
-  className: PropTypes.any,
+  style: PropTypes.any,
 };
 
-Button.defaultProps = {
-  background: "#6E3678",
-  backgroundHover: "white",
-  fontColor: "white",
-  onClick: () => {},
-};
-export default Button;
+export default ModalSubmitButton;

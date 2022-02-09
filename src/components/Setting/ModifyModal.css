@@ -88,16 +88,12 @@
   padding-bottom: 6px;
   margin-left: 10px;
 }
-.ModalButton {
-  display: flex;
-  flex-direction: row;
-}
-.ModalButton .ModalCancel {
+.ModalCancel {
   flex-grow: 1;
   margin-right: 10px;
   margin-top: 15px;
 }
-.ModalButton .ModalSubmit {
+.ModalButton {
   flex-grow: 3;
   margin-top: 15px;
 }

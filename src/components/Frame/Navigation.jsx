@@ -75,8 +75,8 @@ const NavigationBtn = (props) => {
 NavigationBtn.propTypes = {
   selected: PropTypes.bool,
   to: PropTypes.string,
-  icon: PropTypes.element,
-  icon2: PropTypes.element,
+  icon: PropTypes.any,
+  icon2: PropTypes.any,
   name: PropTypes.string,
 };
 
