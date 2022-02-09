@@ -9,6 +9,9 @@
   background: white;
   box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.1);
 }
+.chattingRoomHeaderBox.open {
+  height: 160px;
+}
 .chattingRoomHeaderStyleLine {
   width: 100vw;
   height: 5px;

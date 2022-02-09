@@ -110,7 +110,7 @@ const Header = (props) => {
   return (
     <>
       <animated.div style={styleBgd} onClick={() => setOpen(false)} />
-      <div className="chattingRoomHeaderBox">
+      <div className={`chattingRoomHeaderBox ${isOpen ? "open" : ""}`}>
         <div className="chattingRoomHeaderStyleLine" />
         <div className="chattingRoomHeaderTitle">{props.roomId}</div>
         <TaxiInfoText start="시작점" end="종착점" />
