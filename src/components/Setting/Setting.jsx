@@ -38,13 +38,6 @@ function Setting() {
   const history = useHistory();
 
   const [isTosModalOpen, setIsTosModalOpen] = useState(false);
-  const [isTosAgreed, setIsTosAgreed] = useState(false);
-
-  useEffect(() => {
-    // 약관에 동의 했는지 여부 체크하는 로직 넣을 것.
-    // 아래 라인은 삭제할 것
-    setIsTosAgreed(false);
-  }, []);
 
   const handleModify = () => {
     setModifyModal(!modifyModal);
@@ -184,7 +177,6 @@ function Setting() {
         onClose={() => {
           setIsTosModalOpen(false);
         }}
-        isAgreed={isTosAgreed}
       />
     </div>
   );

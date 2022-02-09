@@ -9,11 +9,37 @@ import ModalSubmitButton from "../Setting/ModalSubmitButton";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "./TOSModalStyles";
 import React from "react";
+import axios from "../Tool/axios";
+import { useEffect, useState } from "react";
 
-const TOSModal = ({ open, onClose, isAgreed }) => {
+const TOSModal = ({ open, onClose }) => {
+  const [isAgreed, setIsAgreed] = useState(false);
   const onClickClose = () => {
     onClose();
   };
+
+  const getUserInfo = async () => {
+    const userInfo = await axios.get("/json/logininfo");
+    try {
+      const agree = await axios.get(
+        `/users/${userInfo.data.id}/agreeOnTermsOfService`
+      );
+      if (agree.status.code === 200) {
+        setIsAgreed(false);
+      }
+    } catch (e) {
+      // FIXME 곧 수정할 것
+      if (e.response.status === 400) {
+        setIsAgreed(true);
+      } else {
+        setIsAgreed(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   return (
     <Dialog open={open} onClose={onClose}>
