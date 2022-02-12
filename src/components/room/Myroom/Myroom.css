@@ -23,3 +23,53 @@
   background-size: 15px 1px;
   background-repeat: repeat-x;
 }
+
+.roomInfo1 {
+  margin-bottom: 5px;
+
+  font-style: normal;
+  font-weight: normal;
+  font-size: 8px;
+  line-height: 9px;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.03em;
+
+  color: #888888;
+}
+
+.roomInfo2 {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: 0.03em;
+}
+
+.participantsImage {
+  width: 21px;
+  height: 21px;
+  border-radius: 10.5px;
+  background: #c4c4c4;
+  margin-right: 4px;
+}
+
+.participantsNickname {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 4px 6px 3px;
+
+  background: #eeeeee;
+  border-radius: 6px;
+
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.03em;
+
+  color: #888888;
+}

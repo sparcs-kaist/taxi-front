@@ -89,7 +89,7 @@ const Myroom = () => {
         >
           {/* Left Layout */}
           <div style={styleLeft}>
-            <WhiteContainer title="참여 중인 방" padding="20px" layAuto={false}>
+            <WhiteContainer title="참여 중인 방" layAuto={false}>
               <div className="subCategoryTitle">참여 중인 방</div>
               <div className="dashedLine" style={{ marginTop: "19px" }}></div>
 
@@ -137,7 +137,7 @@ const Myroom = () => {
                 />
               </BackgroundPurpleContainer> */}
             </WhiteContainer>
-            <WhiteContainer title="과거 참여 방" padding="20px" layAuto={false}>
+            <WhiteContainer title="과거 참여 방" layAuto={false}>
               <div className="subCategoryTitle">과거 참여 방</div>
               <div className="dashedLine" style={{ marginTop: "19px" }}></div>
               {pastRoomList.map((item, index) => (
@@ -167,13 +167,20 @@ const Myroom = () => {
 
           {/* Right Layout */}
           <div style={styleRight}>
-            <WhiteContainer layAuto={false}>
+            <WhiteContainer layAuto={false} bottomMargin="15px">
               {/* Title */}
-              <div style={{ display: "flex", flexDirection: "row" }}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  marginLeft: "2px",
+                  marginTop: "1px",
+                }}
+              >
                 <img src={svgChatIcon} />
                 <div
                   style={{
-                    marginLeft: "8.85px",
+                    marginLeft: "10px",
                     lineHeight: "23px",
                     fontSize: "20px",
                     fontWeight: "bold",
@@ -183,9 +190,94 @@ const Myroom = () => {
                   채팅 창
                 </div>
               </div>
-              <div className="dashedLine" style={{ marginTop: "19px" }}></div>
-              <div style={{ minHeight: "600px" }}></div>
+
+              {/* <div className="dashedLine" style={{ marginTop: "19px" }}></div>
+              <div style={{ minHeight: "600px" }}></div> */}
             </WhiteContainer>
+
+            <WhiteContainer layAuto={false} bottomMargin="15px" padding="16px">
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  marginLeft: "2px",
+                }}
+              >
+                <div style={{ marginRight: "34px" }}>
+                  <div style={{ marginBottom: "12px" }}>
+                    <div className="roomInfo1">출발 시각 & 날짜</div>
+                    <div className="roomInfo2" style={{ color: "#323232" }}>
+                      2021. 7. 13. 오후 9시 45분
+                    </div>
+                  </div>
+                  <div style={{ marginBottom: "12px" }}>
+                    <div className="roomInfo1">개설자</div>
+                    <div className="roomInfo2" style={{ color: "#323232" }}>
+                      어궁동 패티
+                    </div>
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "row" }}>
+                    <div style={{ marginRight: "12px" }}>
+                      <div className="roomInfo1">정산 여부</div>
+                      <div className="roomInfo2" style={{ color: "#6E3678" }}>
+                        Yes
+                      </div>
+                    </div>
+                    <div>
+                      <div className="roomInfo1">결제자</div>
+                      <div className="roomInfo2" style={{ color: "#6E3678" }}>
+                        결제 미완료
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      marginBottom: "6px",
+                    }}
+                  >
+                    <div className="participantsImage"></div>
+                    <div className="participantsNickname">어은동 불주먹</div>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      marginBottom: "6px",
+                    }}
+                  >
+                    <div className="participantsImage"></div>
+                    <div className="participantsNickname">궁동 루피</div>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      marginBottom: "6px",
+                    }}
+                  >
+                    <div className="participantsImage"></div>
+                    <div className="participantsNickname">봉명동 크롱</div>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      marginBottom: "6px",
+                    }}
+                  >
+                    <div className="participantsImage"></div>
+                    <div className="participantsNickname">
+                      미쳐 날뛰는 어은동 패티
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </WhiteContainer>
+            <WhiteContainer layAuto={false}></WhiteContainer>
           </div>
         </div>
       </div>
