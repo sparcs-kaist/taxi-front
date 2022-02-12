@@ -5,7 +5,7 @@ class WhiteContainer extends Component {
   render() {
     return (
       <div
-        className={ this.props.layAuto ? "lay_auto ND" : "ND" }
+        className={this.props.layAuto ? "lay_auto ND" : "ND"}
         style={{
           marginBottom: "20px",
           boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
@@ -32,11 +32,11 @@ WhiteContainer.propTypes = {
   // FIXME specify type
   children: PropTypes.any,
   padding: PropTypes.any,
-  layAuto: PropTypes.bool
+  layAuto: PropTypes.bool,
 };
 WhiteContainer.defaultProps = {
   padding: "20px",
-  layAuto: true
+  layAuto: true,
 };
 
 export default WhiteContainer;

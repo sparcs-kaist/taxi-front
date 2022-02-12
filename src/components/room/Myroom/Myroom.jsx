@@ -14,16 +14,22 @@ import svgMyRoom from "../../Frame/NavigationIcon/chat_selected.svg";
 
 import "./Myroom.css";
 
-const Myroom = (props) => {
+const Myroom = () => {
   const [currentRoomList, setCurrentRoomList] = useState([]);
   const [pastRoomList, setPastRoomList] = useState([]);
   const [bodyWidth, setBodyWidth] = useState(document.body.clientWidth);
+  const [roomClicked, setRoomClicked] = useState([]);
 
   const getUserRoom = async () => {
     const userRoom = await axios.get("rooms/searchByUser");
     console.log(userRoom.data);
     setCurrentRoomList(userRoom.data.ongoing);
     setPastRoomList(userRoom.data.done);
+    setRoomClicked(
+      Array(userRoom.data.ongoing.length + userRoom.data.done.length).fill(
+        false
+      )
+    );
   };
 
   useEffect(() => {
@@ -40,6 +46,13 @@ const Myroom = (props) => {
       window.removeEventListener("resize", resizeEvent);
     };
   }, []);
+
+  const handleClick = (current, idx) => {
+    const newArr = Array(roomClicked.length).fill(false);
+    if (current) newArr[idx] = true;
+    else newArr[currentRoomList.length + idx] = true;
+    setRoomClicked(newArr);
+  };
 
   const resizeStyleMain = () => {
     if (bodyWidth >= 755) return { width: "705px", margin: "auto" };
@@ -78,10 +91,15 @@ const Myroom = (props) => {
           <div style={styleLeft}>
             <WhiteContainer title="참여 중인 방" padding="20px" layAuto={false}>
               <div className="subCategoryTitle">참여 중인 방</div>
-              <div className="dashedLine"></div>
+              <div className="dashedLine" style={{ marginTop: "19px" }}></div>
 
               {currentRoomList.map((item, index) => (
-                <BackgroundPurpleContainer key={index} title="_" padding="11px">
+                <BackgroundPurpleContainer
+                  key={index}
+                  title="_"
+                  padding="11px"
+                  isSelected={roomClicked[index]}
+                >
                   <RoomEntry
                     title={item.name}
                     participants={item.part.length}
@@ -89,6 +107,10 @@ const Myroom = (props) => {
                     from={item.from}
                     to={item.to}
                     date={item.time}
+                    clickEvent={handleClick}
+                    isCurrent={true}
+                    elementIndex={index}
+                    isSelected={roomClicked[index]}
                   />
                 </BackgroundPurpleContainer>
               ))}
@@ -117,9 +139,14 @@ const Myroom = (props) => {
             </WhiteContainer>
             <WhiteContainer title="과거 참여 방" padding="20px" layAuto={false}>
               <div className="subCategoryTitle">과거 참여 방</div>
-              <div className="dashedLine"></div>
+              <div className="dashedLine" style={{ marginTop: "19px" }}></div>
               {pastRoomList.map((item, index) => (
-                <BackgroundPurpleContainer key={index} title="_" padding="11px">
+                <BackgroundPurpleContainer
+                  key={index}
+                  title="_"
+                  padding="11px"
+                  isSelected={roomClicked[currentRoomList.length + index]}
+                >
                   <RoomEntry
                     title={item.name}
                     participants={item.part.length}
@@ -127,6 +154,10 @@ const Myroom = (props) => {
                     from={item.from}
                     to={item.to}
                     date={item.time}
+                    clickEvent={handleClick}
+                    isCurrent={false}
+                    elementIndex={index}
+                    isSelected={roomClicked[currentRoomList.length + index]}
                   />
                 </BackgroundPurpleContainer>
               ))}
@@ -152,7 +183,7 @@ const Myroom = (props) => {
                   채팅 창
                 </div>
               </div>
-              <div className="dashedLine"></div>
+              <div className="dashedLine" style={{ marginTop: "19px" }}></div>
               <div style={{ minHeight: "600px" }}></div>
             </WhiteContainer>
           </div>
