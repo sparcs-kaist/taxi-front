@@ -10,6 +10,8 @@ import Title from "../../Frame/Title/Title";
 import axios from "../../Tool/axios";
 
 import svgChatIcon from "./chatIcon.svg";
+import arrowBackIcon from "./ArrowBack.svg";
+import sendIcon from "./Send.svg";
 import svgMyRoom from "../../Frame/NavigationIcon/chat_selected.svg";
 
 import "./Myroom.css";
@@ -55,7 +57,7 @@ const Myroom = () => {
   };
 
   const resizeStyleMain = () => {
-    if (bodyWidth >= 755) return { width: "705px", margin: "auto" };
+    if (bodyWidth >= 755) return { width: "755px", margin: "auto" };
     else return { width: "calc(100% - 50px)", margin: "auto" };
   };
 
@@ -266,7 +268,6 @@ const Myroom = () => {
                     style={{
                       display: "flex",
                       flexDirection: "row",
-                      marginBottom: "6px",
                     }}
                   >
                     <div className="participantsImage"></div>
@@ -277,7 +278,56 @@ const Myroom = () => {
                 </div>
               </div>
             </WhiteContainer>
-            <WhiteContainer layAuto={false}></WhiteContainer>
+            <WhiteContainer padding="0px" layAuto={false}>
+              <div className="chatTop">
+                <img
+                  src={arrowBackIcon}
+                  style={{
+                    width: "16px",
+                    height: "16px",
+                  }}
+                />
+                <div className="chatRoomInfo">
+                  <div
+                    style={{
+                      fontStyle: "normal",
+                      fontWeight: "bold",
+                      fontSize: "18px",
+                      lineHeight: "21px",
+                      letterSpacing: "0.03em",
+
+                      marginBottom: "5px",
+                    }}
+                  >
+                    서울 같이 가요~
+                  </div>
+                  <div
+                    style={{
+                      fontStyle: "normal",
+                      fontWeight: "normal",
+                      fontSize: "12px",
+                      lineHeight: "14px",
+                    }}
+                  >
+                    택시 승강장 - 시외버스터미널
+                  </div>
+                </div>
+              </div>
+              <div style={{ height: "414px", padding: "0px 18px" }}></div>
+              <div className="chatBottom">
+                <div className="chattingInput">채팅을 입력해주세요</div>
+                <img
+                  src={sendIcon}
+                  style={{
+                    position: "absolute",
+                    top: "17.5px",
+                    right: "17.5px",
+                    width: "17.5px",
+                    height: "15px",
+                  }}
+                />
+              </div>
+            </WhiteContainer>
           </div>
         </div>
       </div>
