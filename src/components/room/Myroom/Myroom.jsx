@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
+
 import WhiteContainer from "../../Frame/WhiteContainer/WhiteContainer";
 import BackgroundPurpleContainer from "../../Frame/BackgroundPurpleContainer/BackgroundPurpleContainer";
-
 import RoomEntry from "../../Frame/RoomEntry/RoomEntry";
-
+import ChatRoomInfo from "./ChatRoomInfo";
 import Footer from "../../Frame/Footer";
 import Title from "../../Frame/Title/Title";
 
 import axios from "../../Tool/axios";
 
+import ArrowRightAltIcon from "./ArrowRightAltIcon.svg";
 import svgChatIcon from "./chatIcon.svg";
 import arrowBackIcon from "./ArrowBack.svg";
 import sendIcon from "./Send.svg";
@@ -21,10 +22,10 @@ const Myroom = () => {
   const [pastRoomList, setPastRoomList] = useState([]);
   const [bodyWidth, setBodyWidth] = useState(document.body.clientWidth);
   const [roomClicked, setRoomClicked] = useState([]);
+  const [clickedRoomInfo, setClickedRoomInfo] = useState();
 
   const getUserRoom = async () => {
     const userRoom = await axios.get("rooms/searchByUser");
-    console.log(userRoom.data);
     setCurrentRoomList(userRoom.data.ongoing);
     setPastRoomList(userRoom.data.done);
     setRoomClicked(
@@ -51,8 +52,13 @@ const Myroom = () => {
 
   const handleClick = (current, idx) => {
     const newArr = Array(roomClicked.length).fill(false);
-    if (current) newArr[idx] = true;
-    else newArr[currentRoomList.length + idx] = true;
+    if (current) {
+      newArr[idx] = true;
+      setClickedRoomInfo(currentRoomList[idx]);
+    } else {
+      newArr[currentRoomList.length + idx] = true;
+      setClickedRoomInfo(pastRoomList[idx]);
+    }
     setRoomClicked(newArr);
   };
 
@@ -116,28 +122,6 @@ const Myroom = () => {
                   />
                 </BackgroundPurpleContainer>
               ))}
-
-              {/* <BackgroundPurpleContainer title="_" padding="11px">
-                <RoomEntry
-                  title="서울 같이 가요~"
-                  participants={2}
-                  head="김넙죽"
-                  from="택시승강장"
-                  to="시외버스터미널"
-                  date="2021년 7월 20일 오전 9시 00분"
-                />
-              </BackgroundPurpleContainer>
-
-              <BackgroundPurpleContainer title="_" padding="11px">
-                <RoomEntry
-                  title="둔산 갑니다"
-                  participants={1}
-                  head="박야옹"
-                  from="택시승강장"
-                  to="갤러리아"
-                  date="2021년 7월 20일 오후 5시 30분"
-                />
-              </BackgroundPurpleContainer> */}
             </WhiteContainer>
             <WhiteContainer title="과거 참여 방" layAuto={false}>
               <div className="subCategoryTitle">과거 참여 방</div>
@@ -192,124 +176,64 @@ const Myroom = () => {
                   채팅 창
                 </div>
               </div>
-
-              {/* <div className="dashedLine" style={{ marginTop: "19px" }}></div>
-              <div style={{ minHeight: "600px" }}></div> */}
             </WhiteContainer>
 
             <WhiteContainer layAuto={false} bottomMargin="15px" padding="16px">
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  marginLeft: "2px",
-                }}
-              >
-                <div style={{ marginRight: "34px" }}>
-                  <div style={{ marginBottom: "12px" }}>
-                    <div className="roomInfo1">출발 시각 & 날짜</div>
-                    <div className="roomInfo2" style={{ color: "#323232" }}>
-                      2021. 7. 13. 오후 9시 45분
-                    </div>
-                  </div>
-                  <div style={{ marginBottom: "12px" }}>
-                    <div className="roomInfo1">개설자</div>
-                    <div className="roomInfo2" style={{ color: "#323232" }}>
-                      어궁동 패티
-                    </div>
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "row" }}>
-                    <div style={{ marginRight: "12px" }}>
-                      <div className="roomInfo1">정산 여부</div>
-                      <div className="roomInfo2" style={{ color: "#6E3678" }}>
-                        Yes
-                      </div>
-                    </div>
-                    <div>
-                      <div className="roomInfo1">결제자</div>
-                      <div className="roomInfo2" style={{ color: "#6E3678" }}>
-                        결제 미완료
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      marginBottom: "6px",
-                    }}
-                  >
-                    <div className="participantsImage"></div>
-                    <div className="participantsNickname">어은동 불주먹</div>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      marginBottom: "6px",
-                    }}
-                  >
-                    <div className="participantsImage"></div>
-                    <div className="participantsNickname">궁동 루피</div>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      marginBottom: "6px",
-                    }}
-                  >
-                    <div className="participantsImage"></div>
-                    <div className="participantsNickname">봉명동 크롱</div>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                    }}
-                  >
-                    <div className="participantsImage"></div>
-                    <div className="participantsNickname">
-                      미쳐 날뛰는 어은동 패티
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <ChatRoomInfo roomInfo={clickedRoomInfo}></ChatRoomInfo>
             </WhiteContainer>
             <WhiteContainer padding="0px" layAuto={false}>
               <div className="chatTop">
-                <img
-                  src={arrowBackIcon}
-                  style={{
-                    width: "16px",
-                    height: "16px",
-                  }}
-                />
-                <div className="chatRoomInfo">
-                  <div
+                <div
+                  style={
+                    clickedRoomInfo
+                      ? {
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "center",
+                        }
+                      : {
+                          display: "none",
+                        }
+                  }
+                >
+                  <img
+                    src={arrowBackIcon}
                     style={{
-                      fontStyle: "normal",
-                      fontWeight: "bold",
-                      fontSize: "18px",
-                      lineHeight: "21px",
-                      letterSpacing: "0.03em",
+                      width: "16px",
+                      height: "16px",
+                    }}
+                  />
+                  <div className="chatRoomInfo">
+                    <div
+                      style={{
+                        fontStyle: "normal",
+                        fontWeight: "bold",
+                        fontSize: "18px",
+                        lineHeight: "21px",
+                        letterSpacing: "0.03em",
 
-                      marginBottom: "5px",
-                    }}
-                  >
-                    서울 같이 가요~
-                  </div>
-                  <div
-                    style={{
-                      fontStyle: "normal",
-                      fontWeight: "normal",
-                      fontSize: "12px",
-                      lineHeight: "14px",
-                    }}
-                  >
-                    택시 승강장 - 시외버스터미널
+                        marginBottom: "5px",
+                      }}
+                    >
+                      {clickedRoomInfo ? clickedRoomInfo.name : ""}
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        fontStyle: "normal",
+                        fontWeight: "normal",
+                        fontSize: "12px",
+                        lineHeight: "14px",
+                      }}
+                    >
+                      <div>{clickedRoomInfo ? clickedRoomInfo.from : ""}</div>
+                      <img
+                        src={ArrowRightAltIcon}
+                        style={{ padding: "0px 6px" }}
+                      />
+                      <div>{clickedRoomInfo ? clickedRoomInfo.to : ""}</div>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./RoomEntry.css";
-import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
+
+import ArrowRightAltIcon from "./ArrowRightAltIcon.svg";
 import PropTypes from "prop-types";
 
 const RoomEntry = (props) => {
@@ -21,7 +22,7 @@ const RoomEntry = (props) => {
       onClick={() => props.clickEvent(props.isCurrent, props.elementIndex)}
     >
       <div className="flexSpaceBetween">
-        <div className="roomTitle">{props.title}</div>
+        <div className="roomTitle">{wordOverflow(props.title, 12)}</div>
         <div
           className="participantAndHead"
           style={{ display: "flex", flexDirection: "row" }}
@@ -42,13 +43,7 @@ const RoomEntry = (props) => {
         <div className="startAndEnd">
           <div className="spaceBold">{props.from}</div>
         </div>
-        <ArrowRightAltIcon
-          style={{
-            width: "40px",
-            height: "17px",
-            color: "#9B9B9B",
-          }}
-        />
+        <img src={ArrowRightAltIcon} />
         <div className="startAndEnd">
           <div className="spaceBold">{props.to}</div>
         </div>
