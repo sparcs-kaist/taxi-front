@@ -182,7 +182,7 @@ class Search extends React.Component {
       // date의 type 검증 필요
       // console.log(new Date(`${ date[0] }-${ date[1] }-${ date[2] }`));
       try {
-        const res = this.getAPIRes(
+        const res = await this.getAPIRes(
           depString,
           arrString,
           new Date(`${date[0]}-${date[1]}-${date[2]}`),
