@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import DatePicker from "../Frame/DatePicker/DatePicker";
 import RoomName from "../Frame/RoomName/RoomName";
 import RoomPlace from "../Frame/RoomPlace/RoomPlace";
@@ -39,21 +39,20 @@ class Search extends React.Component {
       timeTextColor: "black",
       dateColor: "white",
       dateTextColor: "black",
-      toastOpen: false,
-      toastMessage: null,
+      errorMessage: "검색 조건이 비어있습니다",
       isResults: {
         is: false,
         data: [],
       },
       startDate: new Date(),
       openTime: false,
-
-      roomName: null,
-      valueDate: [null, null, null],
-      valueGroupsDep: null,
-      valueGroupsArr: null,
-      valueGroupsTimeHour: null,
-      valueGroupsTimeMin: null,
+      // errorMessage: undefined,
+      roomName: undefined,
+      valueDate: [undefined, undefined, undefined],
+      valueGroupsDep: undefined,
+      valueGroupsArr: undefined,
+      valueGroupsTimeHour: undefined,
+      valueGroupsTimeMin: undefined,
     };
     this.handleChangeName = this.handleChangeName.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
@@ -89,7 +88,7 @@ class Search extends React.Component {
   validateForm({ roomName, depString, arrString, date }) {
     // 중복은 의도된 것, 추후 수정 필요
     if (this.props.isSearch) {
-      let msg = "";
+      let msg = "검색하기";
       if (
         (roomName === undefined || roomName === "") &&
         (depString === undefined || depString === "") &&
@@ -98,11 +97,15 @@ class Search extends React.Component {
           date[1] === undefined ||
           date[2] === undefined)
       )
+        // this.setState({
         msg = "검색 조건을 한 가지 이상 입력해주세요.";
+      // });
       else if (depString === arrString)
+        // this.setState({
         msg = "출발지와 도착지는 같을 수 없습니다.";
+      // });
       return {
-        isValid: msg === "",
+        isValid: msg === "검색하기",
         msg,
       };
     }
@@ -139,8 +142,7 @@ class Search extends React.Component {
     this.setState({ openName: !this.state.openName });
   }
 
-  // 뭐에 대한 onclick?
-  async onClickSearch() {
+  componentDidUpdate() {
     const roomName = this.state.roomName;
     const depString = this.state.valueGroupsDep;
     const arrString = this.state.valueGroupsArr;
@@ -154,19 +156,39 @@ class Search extends React.Component {
       arrString,
       date,
     });
+    // console.log(formValidity.msg);
+    if (this.state.errorMessage != formValidity.msg) {
+      this.setState({ errorMessage: formValidity.msg });
+    }
+  }
+
+  // 뭐에 대한 onclick?
+  async onClickSearch() {
+    const roomName = this.state.roomName;
+    const depString = this.state.valueGroupsDep;
+    const arrString = this.state.valueGroupsArr;
+    // const depTimeString = this.state.valueGroupsTimeHour;
+    // const arrTimeString = this.state.valueGroupsTimeMin;
+    const date = this.state.valueDate;
+
+    const formValidity = this.validateForm({
+      roomName,
+      depString,
+      arrString,
+      date,
+    });
 
     if (formValidity.isValid) {
       // date의 type 검증 필요
       // console.log(new Date(`${ date[0] }-${ date[1] }-${ date[2] }`));
       try {
-        const res = await this.getAPIRes(
+        const res = this.getAPIRes(
           depString,
           arrString,
           new Date(`${date[0]}-${date[1]}-${date[2]}`),
           roomName,
           []
         );
-
         if (res.status === 200) {
           this.setState({
             isResults: {
@@ -179,8 +201,6 @@ class Search extends React.Component {
         console.log("error occured while fetching API data");
         console.log(e);
       }
-    } else {
-      this.setState({ toastOpen: true, toastMessage: formValidity.msg });
     }
   }
 
@@ -329,19 +349,8 @@ class Search extends React.Component {
               </WhiteContainer>
             )}
             <SubmitButton onClick={this.onClickSearch}>
-              {this.props.isSearch && "검색하기"}
-              {!this.props.isSearch && "방 만들기"}
+              {this.props.isSearch && this.state.errorMessage}
             </SubmitButton>
-            {this.state.toastOpen && (
-              <Toast
-                onClose={() => this.setState({ openToast: false })}
-                autohide
-                delay={3000}
-              >
-                <Toast.Header>Warning</Toast.Header>
-                <Toast.Body> {this.state.toastMessage}</Toast.Body>
-              </Toast>
-            )}
           </div>
         )}
         {/* 지금은 그냥 방 추가일때도 이걸로 표시, 추후 내 방 리스트 프론트 만들어지면 그걸로 돌리면됨 */}
