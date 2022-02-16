@@ -19,27 +19,47 @@ const TOSModal = ({ open, onClose }) => {
     onClose();
   };
 
-  const getUserInfo = async () => {
-    const userInfo = await axios.get("/json/logininfo");
+  const getUserAgreeInfo = async () => {
     try {
-      const agree = await axios.get(
-        `/users/${userInfo.data.id}/agreeOnTermsOfService`
-      );
-      if (agree.status.code === 200) {
+      const agree = await axios.get(`/users/getAgreeOnTermsOfService`);
+      if (agree.data.agreeOnTermsOfService) {
+        setIsAgreed(true);
+      } else {
         setIsAgreed(false);
       }
     } catch (e) {
       // FIXME 곧 수정할 것
       if (e.response.status === 400) {
         setIsAgreed(true);
-      } else {
-        setIsAgreed(false);
       }
     }
   };
 
+  const agreeOnTos = async () => {
+    try {
+      const agree = await axios.post(`/users/agreeOnTermsOfService`);
+      if (agree.status === 200) {
+        setIsAgreed(true);
+        onClose();
+      }
+    } catch (e) {
+      if (e.response.status === 400) {
+        setIsAgreed(true);
+        onClose();
+      }
+    }
+  };
+
+  const onClickAgree = () => {
+    agreeOnTos();
+  };
+
+  const onClickCancel = () => {
+    onClose();
+  };
+
   useEffect(() => {
-    getUserInfo();
+    getUserAgreeInfo();
   }, []);
 
   return (
@@ -76,12 +96,14 @@ const TOSModal = ({ open, onClose }) => {
               <ModalSubmitButton
                 style={styles.cancelButtonStyle}
                 backgroundHover="#e5e5e5"
+                onClick={onClickCancel}
               >
                 취소
               </ModalSubmitButton>
               <ModalSubmitButton
                 style={styles.confirmButtonStyle}
                 backgroundHover="#4e2b60"
+                onClick={onClickAgree}
               >
                 동의
               </ModalSubmitButton>
