@@ -22,6 +22,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Toast, ToastBody } from "react-bootstrap";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "../Tool/axios";
+import { flexbox } from "@mui/system";
 
 class Search extends React.Component {
   constructor(props) {
@@ -198,22 +199,29 @@ class Search extends React.Component {
 
   render() {
     const isResults = this.state.isResults;
-    const styleLeft = {
-      width: this.state.bodyWidth >= 720 ? "calc(50% - 10px)" : "100%",
+    const styleMain = {
+      width: this.state.bodyWidth >= 805 ? "755px" : "calc(100% - 50px)",
+      margin: "auto",
     };
-    console.log(this.state.bodyWidth)
+    const styleLeft = {
+      width: this.state.bodyWidth >= 605 ? "calc(50% - 7.5px)" : "100%",
+    };
+    const styleRight = {
+      width: this.state.bodyWidth >= 605 ? "calc(50% - 7.5px)" : "100%",
+      // display: this.state.bodyWidth >= 720 ? "block" : "none",
+    };
     return (
-      <>
-        {!isResults.is && (
-          <div className="searchroom">
+      <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", ...styleMain}}>
+        {(!isResults.is || this.state.bodyWidth >= 605 )&& (
+          <div className="searchroom" style={{ ...styleLeft }}>
             <div style={{ height: "20px" }} />
             {this.props.isSearch && (
               <>
-                <Title img={svgSearch}>
+                <Title img={svgSearch} unmargin>
                   {this.props.isSearch && "방 검색하기"}
                 </Title>
                 <div
-                  className="lay_auto ND"
+                  className="ND"
                   style={{
                     position: "relative",
                     paddingTop: "10px",
@@ -314,13 +322,13 @@ class Search extends React.Component {
             <div style={{ height: "20px" }} />
             {/* 방 제목으로 검색 */}
             {this.state.nameOpen && (
-              <WhiteContainer title="방 검색">
+              <WhiteContainer title="방 검색" layAuto={false}>
                 <RoomName handler={this.handleChangeName} />
               </WhiteContainer>
             )}
             {/* 출발지, 도착지로검색 */}
             {this.state.placeOpen && (
-              <WhiteContainer title="장소">
+              <WhiteContainer title="장소" layAuto={false}>
                 <Paper style={{ height: "80px" }} elevation={0}>
                   <RoomPlace handler={this.handleChangePlace} />
                 </Paper>
@@ -329,18 +337,18 @@ class Search extends React.Component {
 
             {/* 날짜로 검색 */}
             {this.state.dateOpen && (
-              <WhiteContainer title="날짜 검색">
+              <WhiteContainer title="날짜 검색" layAuto={false}>
                 <DatePicker handler={this.handleChangeDate} />
               </WhiteContainer>
             )}
 
             {/* 시간으로 검색 */}
             {this.state.timeOpen && (
-              <WhiteContainer title="시간">
+              <WhiteContainer title="시간" layAuto={false}>
                 <RoomTime handler={this.handleChangeTime}></RoomTime>
               </WhiteContainer>
             )}
-            <SubmitButton onClick={this.onClickSearch}>
+            <SubmitButton onClick={this.onClickSearch} layAuto={false}>
               {this.props.isSearch && "검색하기"}
               {!this.props.isSearch && "방 만들기"}
             </SubmitButton>
@@ -359,13 +367,13 @@ class Search extends React.Component {
         {/* 지금은 그냥 방 추가일때도 이걸로 표시, 추후 내 방 리스트 프론트 만들어지면 그걸로 돌리면됨 */}
         {/* {isResults.is && <SearchResult searchResults={isResults.data} />} */}
         {isResults.is && (
-          <>
+          <div style={{ display: "flex", flexDirection: "column", ...styleRight }}>
             <div style={{ height: "20px" }} />
-            <Title img={svgSearch}>
+            <Title img={svgSearch} unmargin>
               {this.props.isSearch && "방 검색결과"}
             </Title>
-            <WhiteContainer padding="20px">
-              <div className="subCategoryTitle">과거 참여 방</div>
+            <WhiteContainer padding="20px" layAuto={false}>
+              <div className="subCategoryTitle">검색 결과</div>
               <div className="dashedLine"></div>
               {isResults.data.map((item, index) => (
                 <BackgroundPurpleContainer key={index} title="_" padding="11px">
@@ -380,9 +388,9 @@ class Search extends React.Component {
                 </BackgroundPurpleContainer>
               ))}
             </WhiteContainer>
-          </>
+          </div>
         )}
-      </>
+      </div>
     );
   }
 }
