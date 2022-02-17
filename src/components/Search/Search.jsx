@@ -47,6 +47,7 @@ class Search extends React.Component {
       },
       startDate: new Date(),
       openTime: false,
+      bodyWidth: null,
 
       roomName: null,
       valueDate: [null, null, null],
@@ -62,7 +63,18 @@ class Search extends React.Component {
     this.onClickSearch = this.onClickSearch.bind(this);
     this.getAPIRes = this.getAPIRes.bind(this);
     this.validateForm = this.validateForm.bind(this);
+    this.resizeEvent = this.resizeEvent.bind(this);
   }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.resizeEvent);
+    this.setState({ bodyWidth: document.body.clientWidth });
+  }
+
+  resizeEvent() {
+    const _bodyWidth = document.body.clientWidth;
+    if (this.state.bodyWidth != _bodyWidth) this.setState({ bodyWidth: _bodyWidth});
+  };
 
   getAPIRes(dep, arr, startDate, name, part) {
     if (this.props.isSearch) {
@@ -162,7 +174,7 @@ class Search extends React.Component {
         const res = await this.getAPIRes(
           depString,
           arrString,
-          new Date(`${date[0]}-${date[1]}-${date[2]}`),
+          new Date(`${date[0]}-02-${date[2]}`),
           roomName,
           []
         );
@@ -189,7 +201,7 @@ class Search extends React.Component {
     const styleLeft = {
       width: this.state.bodyWidth >= 720 ? "calc(50% - 10px)" : "100%",
     };
-
+    console.log(this.state.bodyWidth)
     return (
       <>
         {!isResults.is && (
