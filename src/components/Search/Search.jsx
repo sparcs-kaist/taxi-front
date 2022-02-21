@@ -175,7 +175,7 @@ class Search extends React.Component {
         const res = await this.getAPIRes(
           depString,
           arrString,
-          new Date(`${date[0]}-02-${date[2]}`),
+          new Date(`${date[0]}-${date[1]}-${date[2]}`),
           roomName,
           []
         );
@@ -211,10 +211,10 @@ class Search extends React.Component {
       // display: this.state.bodyWidth >= 720 ? "block" : "none",
     };
     return (
-      <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", ...styleMain}}>
+      <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", ...styleMain}}>
         {(!isResults.is || this.state.bodyWidth >= 605 )&& (
           <div className="searchroom" style={{ ...styleLeft }}>
-            <div style={{ height: "20px" }} />
+            <div style={{ height: "30px" }} />
             {this.props.isSearch && (
               <>
                 <Title img={svgSearch} unmargin>
@@ -224,20 +224,25 @@ class Search extends React.Component {
                   className="ND"
                   style={{
                     position: "relative",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
+                    paddingTop: "15px",
+                    // paddingBottom: "10px",
+                    minWidth: "55px",
                     display: "flex",
                     justifyContent: "flex-start",
                   }}
                 >
                   {/* <div style ={{color: }}> 어느 조건으로 검색하시겠습니까?</div> */}
                   <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
+                    style={{ display: "flex", justifyContent: "flex-start", flexWrap: "wrap" }}
                   >
                     <Button
                       style={{
                         marginRight: "10px",
                         borderRadius: "15px",
+                        fontSize: "13px",
+                        height: "30px",
+                        marginBottom: "10px",
+                        padding: "8px 15px 7px 15px",
                         backgroundColor: this.state.nameColor,
                         color: this.state.nameTextColor,
                         boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
@@ -257,7 +262,12 @@ class Search extends React.Component {
                     <Button
                       style={{
                         marginRight: "10px",
+                        fontSize: "13px",
+                        height: "30px",
                         borderRadius: "15px",
+                        minWidth: "55px",
+                        padding: "8px 15px 7px 15px",
+                        whiteSpace: "nowrap",
                         backgroundColor: this.state.placeColor,
                         color: this.state.placeTextColor,
                         boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
@@ -274,12 +284,16 @@ class Search extends React.Component {
                         })
                       }
                     >
-                      출발 & 도착지
+                      장소
                     </Button>
                     <Button
                       style={{
                         marginRight: "10px",
                         borderRadius: "15px",
+                        fontSize: "13px",
+                        height: "30px",
+                        minWidth: "55px",
+                        padding: "8px 15px 7px 15px",
                         backgroundColor: this.state.dateColor,
                         color: this.state.dateTextColor,
                         boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
@@ -299,6 +313,10 @@ class Search extends React.Component {
                     <Button
                       style={{
                         borderRadius: "15px",
+                        fontSize: "13px",
+                        height: "30px",
+                        minWidth: "55px",
+                        padding: "8px 15px 7px 15px",
                         backgroundColor: this.state.timeColor,
                         color: this.state.timeTextColor,
                         boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
@@ -319,7 +337,7 @@ class Search extends React.Component {
                 </div>
               </>
             )}
-            <div style={{ height: "20px" }} />
+            <div style={{ height: "5px" }} />
             {/* 방 제목으로 검색 */}
             {this.state.nameOpen && (
               <WhiteContainer title="방 검색" layAuto={false}>
@@ -367,11 +385,11 @@ class Search extends React.Component {
         {/* 지금은 그냥 방 추가일때도 이걸로 표시, 추후 내 방 리스트 프론트 만들어지면 그걸로 돌리면됨 */}
         {/* {isResults.is && <SearchResult searchResults={isResults.data} />} */}
         {isResults.is && (
-          <div style={{ display: "flex", flexDirection: "column", ...styleRight }}>
-            <div style={{ height: "20px" }} />
-            <Title img={svgSearch} unmargin>
+          <div style={{ display: "flex", flexDirection: "column", marginLeft: this.state.bodyWidth >= 605 ? "15px" : 0, ...styleRight }}>
+            <div style={{ height: this.state.bodyWidth < 605 ? "30px" : "147px" }} />
+            {this.state.bodyWidth < 605 && <Title img={svgSearch} unmargin>
               {this.props.isSearch && "방 검색결과"}
-            </Title>
+            </Title>}
             <WhiteContainer padding="20px" layAuto={false}>
               <div className="subCategoryTitle">검색 결과</div>
               <div className="dashedLine"></div>

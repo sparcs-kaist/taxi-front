@@ -10,7 +10,8 @@ const Button = (props) => {
     textAlign: "center",
     fontSize: "16px",
     color: props.fontColor,
-    fontWeight: 300,
+    fontWeight: 700,
+    letterSpacing: "0.1em",
     borderRadius: "15px",
   };
   const background = useSpring({
