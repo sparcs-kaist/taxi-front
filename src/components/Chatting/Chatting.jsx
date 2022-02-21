@@ -62,7 +62,7 @@ const Chatting = (props) => {
       console.log(chats);
     })
 
-    axios.get(`/chats/${ roomId }`).then(({ data }) => {
+    axios.get(`/rooms/${ roomId }/info`).then(({ data }) => {
       setHeaderInfo(data);
       socket.current.emit("chats-join", roomId);
     }).catch(() => {
