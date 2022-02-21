@@ -1,29 +1,25 @@
 import React, { useState } from "react";
 import "../Style/MessagesBody.css";
 import ChatMessage from "./ChatMessage";
-/*
-메세지 객체
-Chat{
-  author: Stirng,
-  text: String,
-  time: Date,
-}*/
+// Chat {
+//   roomId: ObjectId, //방의 objectId
+//   authorName: String, //작성자 닉네임 (사용자 입,퇴장 알림 등 전체 메시지일 때: null)
+//   authorId: String, //작성자 id (!==ObjectId) (전체 메시지일 때: null)
+//   text: String, //채팅 내용
+//   time: Date, //UTC 시각
+// }
 
-const MessagesBody = (props) => {
-  const [chatMessages, setChatMessages] = useState([
-    { author: "user1", text: "message1", time: "오후 1시 20분" },
-    { author: "user2", text: "message2", time: "오후 1시 40분" },
-    { author: "Me!", text: "message3", time: "오후 2시 10분" },
-  ]);
+const MessagesBody = (prop) => {
+  const chats = prop.chats
 
   return (
     <div className="chattingMessagesBox">
       <ol className="MessagesBody-container">
-        {chatMessages.map((message, i) => (
+        {chats.map((chat, i) => (
           <li key={i}>
             <ChatMessage
-              chatMessage={message}
-              chatMessages={chatMessages}
+              chat={chat}
+              chats={chats}
               index={i}
             ></ChatMessage>
           </li>

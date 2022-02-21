@@ -8,6 +8,27 @@ import { backServer } from "../../serverconf"
 import "./Style/Chatting.css"
 import axios from "../Tool/axios";
 
+// Reponse
+// {
+//   data: Chat[], // pageSize 개의 채팅 내역
+//   page: Number, // 페이지 번호
+//   totalPage: Number, //총 페이지 수(전체 채팅 수를 pageSize로 나눈 것)
+//   totalChats: Number, //총 채팅 개수
+// }
+const dummyDate = (new Date()).toISOString();
+const chatRoomResponse = {
+  data: [
+    { roomId: "roomId", authorName: "펭귄", authorId: "펭귄", text: "여러분 택시타요", time: dummyDate },
+    { roomId: "roomId", authorName: "펭귄", authorId: "펭귄", text: "택시 타", time: dummyDate },
+    { roomId: "roomId", authorName: "펭귄", authorId: "펭귄", text: "괜찮나요?", time: dummyDate },
+    { roomId: "roomId", authorName: "크롱", authorId: "크롱", text: "네 좋습니다", time: dummyDate },
+    { roomId: "roomId", authorName: "test1", authorId: "test1", text: "음 전 싫어요", time: dummyDate },
+  ],
+  // page: 0,
+  // totalPage: 0,
+  totalChats: 3,
+}
+
 const Chatting = (props) => {
   const roomId = useParams().roomId;
   const socket = useRef(undefined);
@@ -65,16 +86,19 @@ const Chatting = (props) => {
     axios.get(`/chats/${ roomId }`).then(({ data }) => {
       setHeaderInfo(data);
       socket.current.emit("chats-join", roomId);
+      
+      // setChats(data); 
     }).catch(() => {
       // when error !
     })
+    setChats(chatRoomResponse.data);
     
   }, [roomId])
 
   return (
     <div className="ChatRoomContainer">
       <Header info={ headerInfo } />
-      <MessagesBody />
+      <MessagesBody chats={chats}/>
       <MessageForm
         newMessage={newMessage}
         handleNewMessageChange={handleNewMessageChange}

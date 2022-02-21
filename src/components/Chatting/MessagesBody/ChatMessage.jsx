@@ -10,13 +10,27 @@ Chat{
   time: Date,
 }*/
 
-const ChatMessage = ({ chatMessage, chatMessages, index }) => {
+const ChatMessage = ({ chat, chats, index }) => {
   ChatMessage.propTypes = {
-    chatMessage: PropTypes.any,
-    chatMessages: PropTypes.any,
+    chat: PropTypes.any,
+    chats: PropTypes.any,
     index: PropTypes.number,
   };
-  const isAuthor = chatMessage.author === "Me!"; // 만약 자신이라면 isAuthor는 true
+  const {
+    roomId,
+    authorName,
+    authorId,
+    text,
+    time,
+  } = chat;
+
+  const chatDate = (new Date(time)).toLocaleString().slice(0,-3)
+  const prevChatDate = index!==0 ? (new Date(chats[index-1].time)).toLocaleString().slice(0,-3) : null
+  console.log(chatDate, prevChatDate)
+  const isAuthor = authorName === "test1"; // 만약 자신이라면 isAuthor는 true
+  const isSameMinute = prevChatDate && chatDate === prevChatDate
+  const isSameAuthor = index!==0 && authorId === chats[index-1].authorId
+  // console.log(isSameMinute, isSameAuthor)
   const messageBoxStyle = isAuthor ? 
     "chatMessage-myMessage" : 
     "chatMessage-receivedMessage";
@@ -25,22 +39,26 @@ const ChatMessage = ({ chatMessage, chatMessages, index }) => {
     "chatMessage-body-received";
   return (
     <div className={messageBoxStyle}>
-      {!isAuthor && (
+      {!isAuthor && !( isSameAuthor && isSameMinute ) && (
         <div className="chatMessage-avatar-container">
           <UserAvatar
-            name={chatMessage.author}
-            chatMessage={chatMessage}
+            name={authorName}
+            chat={chat}
             thumbnailUrl="dummy data"
           ></UserAvatar>
         </div>
       )}
       <div className="chatMessage-bodyContainer">
         {!isAuthor && (
-          <div className="chatMessage-userName">{chatMessage.author}</div>
+          <div className="chatMessage-userName">{authorName}</div>
         )}
-        <div className={chatMessageBodyStyle}>{chatMessage.text}</div>
+        <div className={chatMessageBodyStyle}>{text}</div>
       </div>
-      <div className="chatMessage-date">{chatMessage.time}</div>
+      {
+        !( isSameAuthor && isSameMinute ) && (
+          <div className="chatMessage-date">{chatDate.slice(-8)}</div>
+        )
+      }
     </div>
   );
 };
