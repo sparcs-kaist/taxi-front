@@ -48,12 +48,25 @@ const ChatMessage = ({ chat, chats, index }) => {
           ></UserAvatar>
         </div>
       )}
-      <div className="chatMessage-bodyContainer">
-        {!isAuthor && (
+      <div className={
+        !( isSameAuthor && isSameMinute ) ?
+        "chatMessage-bodyContainer" :
+        "chatMessage-bodyContainer-noProfile"
+      }>
+        {
+          !isAuthor && !( isSameAuthor && isSameMinute ) && (
+            <div className="chatMessage-userName">{authorName}</div>
+          )
+        }
+        <div className={chatMessageBodyStyle}>{text}</div>
+      </div>
+
+      {/* <div className="chatMessage-bodyContainer">
+        {!isAuthor && !( isSameAuthor && isSameMinute ) && (
           <div className="chatMessage-userName">{authorName}</div>
         )}
         <div className={chatMessageBodyStyle}>{text}</div>
-      </div>
+      </div> */}
       {
         !( isSameAuthor && isSameMinute ) && (
           <div className="chatMessage-date">{chatDate.slice(-8)}</div>

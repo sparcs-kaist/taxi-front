@@ -32,6 +32,10 @@
 .chatMessage-bodyContainer {
   max-width: 60%;
 }
+.chatMessage-bodyContainer-noProfile {
+  max-width: 60%;
+  margin-left: 57px;
+}
 .chatMessage-userName {
   margin-left: 10px;
   font-size: 0.75rem;
