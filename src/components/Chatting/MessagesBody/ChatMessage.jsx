@@ -25,15 +25,19 @@ const ChatMessage = ({ chat, chats, index, user }) => {
     time,
   } = chat;
 
-  const chatDate = (new Date(time)).toLocaleString().slice(0,-3) // date format minute 까지
-  const prevChatDate = index!==0 ? (new Date(chats[index-1].time)).toLocaleString().slice(0,-3) : null // 직전 메세지 minute까지
-  const nextChatDate = index!==chats.length-1 ? (new Date(chats[index+1].time)).toLocaleString().slice(0,-3) : null
+  const date = new Date(time);
+  const chatDate = (date).toLocaleString().slice(0,-3) // date format minute 까지
+  const dateString = `${(date).getFullYear()}년 ${(date).getMonth()}월 ${(date).getDay()}일`
+  console.log(dateString)
+  const prevChatDate = index!==0 ? (new Date(chats[index-1].time)).toLocaleString().slice(0,11) : null
+  const prevChatMinute = index!==0 ? (new Date(chats[index-1].time)).toLocaleString().slice(0,-3) : null // 직전 메세지 minute까지
+  const nextChatMinute = index!==chats.length-1 ? (new Date(chats[index+1].time)).toLocaleString().slice(0,-3) : null
   const isAuthor = authorId === user.id; // 만약 자신이라면 isAuthor는 true
-  const isSameTimePrev = prevChatDate && chatDate === prevChatDate
-  const isSameTimeNext = nextChatDate && chatDate === nextChatDate
+  const isSameDatePrev = prevChatDate && chatDate.slice(0,11) === prevChatDate
+  const isSameMinutePrev = prevChatMinute && chatDate === prevChatMinute
+  const isSameMinuteNext = nextChatMinute && chatDate === nextChatMinute
   const isSameAuthorPrev = index!==0 && authorId === chats[index-1].authorId
   const isSameAuthorNext = index!==chats.length-1 && authorId === chats[index+1].authorId
-  console.log(isSameTimeNext, isSameAuthorPrev)
   const messageBoxStyle = isAuthor ? 
     "chatMessage-myMessage" : 
     "chatMessage-receivedMessage";
@@ -41,8 +45,20 @@ const ChatMessage = ({ chat, chats, index, user }) => {
     "chatMessage-body-mine" :
     "chatMessage-body-received";
   return (
+    <>
+      {
+        !isSameDatePrev && (
+          <div className="chatMessage-newDateLineContainer">
+            <div className="newDateLine left"></div>
+            <div className="newDateText">
+              {dateString}
+            </div>
+            <div className="newDateLine right"></div>
+          </div>
+        )
+      }
     <div className={messageBoxStyle}>
-      {!isAuthor && !( isSameAuthorPrev && isSameTimePrev ) && (
+      {!isAuthor && !( isSameAuthorPrev && isSameMinutePrev ) && (
         <div className="chatMessage-avatar-container">
           <UserAvatar
             name={authorName}
@@ -52,23 +68,24 @@ const ChatMessage = ({ chat, chats, index, user }) => {
         </div>
       )}
       <div className={
-        isAuthor || !( isSameAuthorPrev && isSameTimePrev ) ?
+        isAuthor || !( isSameAuthorPrev && isSameMinutePrev ) ?
         "chatMessage-bodyContainer" :
         "chatMessage-bodyContainer-noProfile"
       }>
         {
-          !isAuthor && !( isSameAuthorPrev && isSameTimePrev ) && (
+          !isAuthor && !( isSameAuthorPrev && isSameMinutePrev ) && (
             <div className="chatMessage-userName">{authorName}</div>
           )
         }
         <div className={chatMessageBodyStyle}>{text}</div>
       </div>
       {
-        !( isSameAuthorNext && isSameTimeNext ) && (
+        !( isSameAuthorNext && isSameMinuteNext ) && (
           <div className="chatMessage-date">{chatDate.slice(-8)}</div>
         )
       }
     </div>
+    </>
   );
 };
 

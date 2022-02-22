@@ -1,7 +1,6 @@
 .chattingMessagesBox {
   margin-top: 80px;
   margin-bottom: 60px;
-  padding-top: 22px;
   width: 100%;
   height: 100%;
 }
@@ -72,4 +71,28 @@
   color: #9b9b9b;
   font-size: 5px;
   letter-spacing: 0.03em;
+}
+.chatMessage-newDateLineContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 17px;
+  margin-bottom: 17px;
+}
+.newDateLine {
+  width: 40%;
+  border: 0.5px dashed #c8c8c8;
+}
+
+.newDateText {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+  /* identical to box height */
+  text-align: center;
+  letter-spacing: 0.03em;
+  color: #888888;
 }
