@@ -10,7 +10,8 @@ import ChatMessage from "./ChatMessage";
 // }
 
 const MessagesBody = (prop) => {
-  const chats = prop.chats
+  const chats = prop.chats;
+  const user = prop.user;
 
   return (
     <div className="chattingMessagesBox">
@@ -21,6 +22,7 @@ const MessagesBody = (prop) => {
               chat={chat}
               chats={chats}
               index={i}
+              user={user}
             ></ChatMessage>
           </li>
         ))}

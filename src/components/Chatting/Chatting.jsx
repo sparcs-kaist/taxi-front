@@ -36,6 +36,34 @@ const Chatting = (props) => {
   const [newMessage, setNewMessage] = useState("");
   const [chats, setChats] = useState([]);
   const [headerInfo, setHeaderInfo] = useState(undefined);
+  const [user, setUser] = useState({
+    name: "",
+    id: "",
+    nickname: "",
+    profileImageUrl: "",
+  });
+
+  const getUserInfo = async () => {
+    let newUser = user;
+    // id, name, 프로필 사진의 url을 아직 불러오지 않은 경우에만 불러옴니다.
+    if (!user.id) {
+      const userInfo = await axios.get("/json/logininfo");
+      if (userInfo.data) {
+        newUser = userInfo.data;
+        newUser.profileImageUrl = `${backServer}/static/profile-images/${newUser.id}`;
+      }
+    }
+    // 닉네임을 불러옵니다.
+    const detailedUserInfo = await axios.get("/json/logininfo/detail");
+    if (detailedUserInfo.data) {
+      newUser.nickname = detailedUserInfo.data.nickname;
+    }
+    setUser(newUser);
+  };
+
+  useEffect(async () => {
+    await getUserInfo();
+  }, []);
 
   // MessageForm 관련 함수들 - 시작-----
   const handleNewMessageChange = (event) => {
@@ -98,7 +126,7 @@ const Chatting = (props) => {
   return (
     <div className="ChatRoomContainer">
       <Header info={ headerInfo } />
-      <MessagesBody chats={chats}/>
+      <MessagesBody chats={chats} user={user}/>
       <MessageForm
         newMessage={newMessage}
         handleNewMessageChange={handleNewMessageChange}

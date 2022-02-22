@@ -10,11 +10,12 @@ Chat{
   time: Date,
 }*/
 
-const ChatMessage = ({ chat, chats, index }) => {
+const ChatMessage = ({ chat, chats, index, user }) => {
   ChatMessage.propTypes = {
     chat: PropTypes.any,
     chats: PropTypes.any,
     index: PropTypes.number,
+    user: PropTypes.any,
   };
   const {
     roomId,
@@ -27,7 +28,7 @@ const ChatMessage = ({ chat, chats, index }) => {
   const chatDate = (new Date(time)).toLocaleString().slice(0,-3)
   const prevChatDate = index!==0 ? (new Date(chats[index-1].time)).toLocaleString().slice(0,-3) : null
   console.log(chatDate, prevChatDate)
-  const isAuthor = authorName === "test1"; // 만약 자신이라면 isAuthor는 true
+  const isAuthor = authorId === user.id; // 만약 자신이라면 isAuthor는 true
   const isSameMinute = prevChatDate && chatDate === prevChatDate
   const isSameAuthor = index!==0 && authorId === chats[index-1].authorId
   // console.log(isSameMinute, isSameAuthor)
