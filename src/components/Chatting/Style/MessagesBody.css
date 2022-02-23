@@ -96,3 +96,29 @@
   letter-spacing: 0.03em;
   color: #888888;
 }
+
+.chatMessage-newUserComeContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.chatMessage-newUserComeItem {
+  padding: 3px 8px;
+  background: #eeeeee;
+  border-radius: 30px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 9px;
+  line-height: 11px;
+  /* identical to box height */
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.03em;
+
+  color: #888888;
+}

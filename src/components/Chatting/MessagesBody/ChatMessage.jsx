@@ -10,6 +10,19 @@ Chat{
   time: Date,
 }*/
 
+const NewUserComeMessage = ({newUser}) => {
+  NewUserComeMessage.propTypes = {
+    newUser: PropTypes.string,
+  };
+  return (
+    <div className="chatMessage-newUserComeContainer">
+      <div className="chatMessage-newUserComeItem">
+        {`${newUser} 님이 입장했습니다`}
+      </div>
+    </div>
+  );
+}
+
 const ChatMessage = ({ chat, chats, index, user }) => {
   ChatMessage.propTypes = {
     chat: PropTypes.any,
@@ -48,6 +61,7 @@ const ChatMessage = ({ chat, chats, index, user }) => {
     <>
       {
         !isSameDatePrev && (
+          <>
           <div className="chatMessage-newDateLineContainer">
             <div className="newDateLine left"></div>
             <div className="newDateText">
@@ -55,6 +69,8 @@ const ChatMessage = ({ chat, chats, index, user }) => {
             </div>
             <div className="newDateLine right"></div>
           </div>
+          <NewUserComeMessage newUser={"루피"}/>
+          </>
         )
       }
     <div className={messageBoxStyle}>
