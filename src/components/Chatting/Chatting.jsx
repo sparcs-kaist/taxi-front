@@ -111,6 +111,7 @@ const Chatting = (props) => {
     socket.current = _socket;
     socket.current.on("chats-join", (chats) => {
       console.log(chats);
+      setChats(chats.chats)
     })
 
     axios.get(`/chats/${ roomId }`).then(({ data }) => {
@@ -121,7 +122,7 @@ const Chatting = (props) => {
     }).catch(() => {
       // when error !
     })
-    setChats(chatRoomResponse.data);
+    // setChats(chatRoomResponse.data);
     
   }, [roomId])
 
