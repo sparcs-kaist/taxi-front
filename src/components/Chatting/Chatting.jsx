@@ -122,8 +122,10 @@ const Chatting = (props) => {
     }).catch(() => {
       // when error !
     })
-    // setChats(chatRoomResponse.data);
     
+    axios.get(`/rooms/${ roomId }/info`).then(({data}) => {
+      console.log(data);
+    })
   }, [roomId])
 
   return (
