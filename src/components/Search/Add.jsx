@@ -17,8 +17,6 @@ import PropTypes from "prop-types";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Toast, ToastBody } from "react-bootstrap";
-import "react-toastify/dist/ReactToastify.css";
 import axios from "../Tool/axios";
 
 class Add extends Component {
@@ -29,8 +27,6 @@ class Add extends Component {
       placeOpen: false,
       dateOpen: false,
       timeOpen: false,
-      toastOpen: false,
-      toastMessage: undefined,
       nameColor: "white",
       nameTextColor: "black",
       placeColor: "white",
@@ -51,6 +47,7 @@ class Add extends Component {
       valueGroupsArr: undefined,
       valueGroupsTimeHour: undefined,
       valueGroupsTimeMin: undefined,
+      errorMessage: "조건을 모두 입력해주세요",
     };
     this.handleChangeName = this.handleChangeName.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
@@ -96,30 +93,21 @@ class Add extends Component {
         msg = "출발지와 도착지는 같을 수 없습니다.";
       else if (date[0] === undefined || date[1] === undefined)
         msg = "날짜를 입력해주세요.";
-
       return {
         isValid: msg === "",
         msg,
       };
     } else {
-      let msg = "";
+      let msg = "추가하기";
       if (roomName === undefined || roomName === "")
         msg = "방 이름을 입력해주세요.";
-      else if (depString === undefined || depString === "")
-        msg = "출발지를 입력해주세요.";
-      else if (arrString === undefined || arrString === "")
-        msg = "도착지를 입력해주세요.";
       else if (depString === arrString)
         msg = "출발지와 도착지는 같을 수 없습니다.";
-      else if (
-        date[0] === undefined ||
-        date[1] === undefined ||
-        date[2] === undefined
-      )
+      else if (date[0] === undefined || date[1] === undefined)
         msg = "날짜를 입력해주세요.";
 
       return {
-        isValid: msg === "",
+        isValid: msg === "추가하기",
         msg,
       };
     }
@@ -154,6 +142,26 @@ class Add extends Component {
 
   handleButton() {
     this.setState({ openName: !this.state.openName });
+  }
+
+  componentDidUpdate() {
+    const roomName = this.state.roomName;
+    const depString = this.state.valueGroupsDep;
+    const arrString = this.state.valueGroupsArr;
+    const depTimeString = this.state.valueGroupsTimeHour;
+    const arrTimeString = this.state.valueGroupsTimeMin;
+    const date = this.state.valueDate;
+
+    const formValidity = this.validateForm({
+      roomName,
+      depString,
+      arrString,
+      date,
+    });
+
+    if (this.state.errorMessage != formValidity.msg) {
+      this.setState({ errorMessage: formValidity.msg });
+    }
   }
 
   // 뭐에 대한 onclick?
@@ -195,8 +203,6 @@ class Add extends Component {
         console.log("error occured while fetching API data");
         console.log(e);
       }
-    } else {
-      this.setState({ toastOpen: true, toastMessage: formValidity.msg });
     }
   }
 
@@ -342,19 +348,8 @@ class Add extends Component {
             )}
 
             <SubmitButton onClick={this.onClickSearch}>
-              {this.props.isSearch && "검색하기"}
-              {!this.props.isSearch && "방 만들기"}
+              {!this.props.isSearch && this.state.errorMessage}
             </SubmitButton>
-            {this.state.toastOpen && (
-              <Toast
-                onClose={() => this.setState({ openToast: false })}
-                autohide
-                delay={3000}
-              >
-                <Toast.Header>Warning</Toast.Header>
-                <Toast.Body> {this.state.toastMessage}</Toast.Body>
-              </Toast>
-            )}
           </div>
         )}
         {/* 지금은 그냥 방 추가일때도 이걸로 표시, 추후 내 방 리스트 프론트 만들어지면 그걸로 돌리면됨 */}
