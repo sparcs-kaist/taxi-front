@@ -51,6 +51,7 @@ button:focus {
   height: 200px;
 }
 
+
 @media (max-width: 767px) {
   .lay_auto {
     position: relative;

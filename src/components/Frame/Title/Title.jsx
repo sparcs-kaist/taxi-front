@@ -4,11 +4,11 @@ import PropTypes from "prop-types";
 const Title = (props) => {
   return (
     <div
-      className="lay_auto ND"
+      className={props.unmargin ? "ND" : "lay_auto ND"}
       style={{
         position: "relative",
         paddingTop: "10px",
-        paddingBottom: "10px",
+        paddingBottom: "10px"
       }}
     >
       <img
@@ -40,6 +40,7 @@ Title.propTypes = {
   // FIXME specify type
   img: PropTypes.any,
   children: PropTypes.any,
+  unmargin: PropTypes.any
 };
 
 export default Title;
