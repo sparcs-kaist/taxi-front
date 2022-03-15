@@ -36,9 +36,11 @@
 .myPageMenu.myPageMenu {
   margin-top: 30px;
 }
+
 .myPageMenu:first-child {
   margin-top: 4px;
 }
+
 .myPageMenu:hover {
   cursor: pointer;
   /* background-color: #EEEEEE; */

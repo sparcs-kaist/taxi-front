@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./RoomEntry.css";
-import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
+
+import ArrowRightAltIcon from "./ArrowRightAltIcon.svg";
 import PropTypes from "prop-types";
 
 const RoomEntry = (props) => {
@@ -10,20 +11,28 @@ const RoomEntry = (props) => {
       ${dateKor.getDate()}일 ${dateKor.getHours()}시 ${dateKor.getMinutes()}분`;
   };
 
+  const wordOverflow = (target, length) => {
+    if (target.length > length) return target.substring(0, length) + "...";
+    else return target;
+  };
+
   return (
-    <div className="taxiRoom">
+    <div
+      className={`taxiRoom ${props.isSelected ? "true" : "false"}`}
+      onClick={() => props.clickEvent(props.isCurrent, props.elementIndex)}
+    >
       <div className="flexSpaceBetween">
-        <div className="roomTitle">{props.title}</div>
+        <div className="roomTitle">{wordOverflow(props.title, 12)}</div>
         <div
           className="participantAndHead"
           style={{ display: "flex", flexDirection: "row" }}
         >
-          <div className="grayBox">
+          <div className="whiteBox">
             남은 인원 :{" "}
             <span style={{ color: "#6E3678" }}>{props.participants} 명</span>
           </div>
-          <div className="grayBox" style={{ marginLeft: "5px" }}>
-            {props.head}
+          <div className="whiteBox" style={{ marginLeft: "5px" }}>
+            {wordOverflow(props.head, 5)}
           </div>
         </div>
       </div>
@@ -34,13 +43,7 @@ const RoomEntry = (props) => {
         <div className="startAndEnd">
           <div className="spaceBold">{props.from}</div>
         </div>
-        <ArrowRightAltIcon
-          style={{
-            width: "10px",
-            height: "5px",
-            color: "#9B9B9B",
-          }}
-        />
+        <img src={ArrowRightAltIcon} />
         <div className="startAndEnd">
           <div className="spaceBold">{props.to}</div>
         </div>
@@ -53,11 +56,18 @@ const RoomEntry = (props) => {
 
 RoomEntry.propTypes = {
   title: PropTypes.string,
-  participants: PropTypes.string,
+  participants: PropTypes.any,
   head: PropTypes.string,
   from: PropTypes.string,
   to: PropTypes.string,
   date: PropTypes.string,
+  clickEvent: PropTypes.func,
+  elementIndex: PropTypes.any,
+  isSelected: PropTypes.bool,
+  isCurrent: PropTypes.bool,
+};
+RoomEntry.defaultProps = {
+  head: "",
 };
 
 export default RoomEntry;
