@@ -7,6 +7,93 @@ import { backServer } from "../../../serverconf"
 import svgBack from "./svg_back.svg";
 import svgMenu from "./svg_menu.svg";
 import svgClose from "./svg_close.svg";
+import svgCloseGray from "./svg_closeGray.svg";
+
+const PopupToast = (props) => {
+  const styleBgd = useSpring({
+		position: 'fixed', top: '0px', left: '0px',
+		width: '100%', height: '100%', zIndex: 130,
+		background: `rgba(0,0,0,0.6)`,
+		opacity: props.isOpen ? 1 : 0,
+    pointerEvents: props.isOpen ? 'auto' : 'none',
+  })
+  const style = {
+    background: 'white', borderRadius: '15px'
+  }
+  const styleBtnClose = {
+    position: 'absolute', top: '10px', right: '10px',
+    width: '24px', height: '24px'
+  }
+  const styleTextLay = {
+    textAlign: 'center'
+  }
+  const styleTxt1 = {
+    fontSize: '16px', fontWeight: 'bold',
+  }
+  const styleTxt2 = {
+    fontSize: '16px', fontWeight: 300,
+  }
+  const styleTxt3 = {
+    fontSize: '16px', fontWeight: 'bold',
+    color: '#6E3678'
+  }
+  const styleTxtSub = {
+    textAlign: 'center',
+    fontSize: '12px', fontWeight: 300,
+    color: '#888888'
+  }
+  const styleBtmBtn = {
+    width: '49%', height: '36px', lineHeight: '36px',
+    textAlign: 'center', fontSize: '16px',
+    borderRadius: '8px', overflow: 'hidden'
+  }
+  const styleBtmBtn1 = useSpring({
+    color: '#888888',
+    background: '#EEEEEE'
+  })
+  const styleBtmBtn2 = useSpring({
+    color: 'white',
+    background: '#6E3678'
+  })
+
+  return (
+    <animated.div style={ styleBgd }>
+      <div style={{ position: 'absolute', top: '20%', left: '0px', width: '100%' }}>
+        <div style={ style } className="lay_auto">
+          <div style={{ height: '30px' }}>
+            <img src={ svgCloseGray } alt="close"
+            style={ styleBtnClose } className="BTNC"
+            onClick={ () => props.onClick1() }/>
+          </div>
+          <div style={ styleTextLay }>
+            <span style={ styleTxt1 }>탑승</span>
+            <span style={ styleTxt2 }>을 </span>
+            <span style={ styleTxt3 }>취소</span>
+            <span style={ styleTxt2 }>하시겠습니까?</span>
+          </div>
+          <div style={ styleTxtSub }>취소 후 재탑승이 가능합니다.</div>
+          <div style={{ display: 'flex', justifyContent: 'space-between',
+          paddingLeft: '12px', paddingRight: '12px',
+          paddingTop: '20px', paddingBottom: '12px' }}>
+            <animated.div style={{ ...styleBtmBtn, ...styleBtmBtn1 }}
+            className="BTNC" onClick={ () => props.onClick1() }>
+              돌아가기
+            </animated.div>
+            <animated.div style={{ ...styleBtmBtn, ...styleBtmBtn2 }}
+            className="BTNC" onClick={ () => props.onClick2() }>
+              취소하기
+            </animated.div>
+          </div>
+        </div>
+      </div>
+    </animated.div>
+  )
+}
+PopupToast.propTypes = {
+  isOpen: PropTypes.bool,
+  onClick1: PropTypes.func,
+  onClick2: PropTypes.func
+}
 
 const BtnBack = (props) => {
 	const [isHover, setHover] = useState(false);
@@ -32,6 +119,7 @@ const BtnBack = (props) => {
 
 const BtnCancel = (props) => {
   const [isHover, setHover] = useState(false);
+  const [isOpen, setOpen] = useState(false);
   const style = useSpring({
 		position: 'absolute', top: '25px', right: '70px',
 		height: '30px', lineHeight: '30px', borderRadius: '7px',
@@ -44,13 +132,21 @@ const BtnCancel = (props) => {
 
   const onClick = () => {
     if(props.info && props.isOpen){
-      // onClick event !!
+      setOpen(true);
     }
+  }
+  const onCancel = () => {
+
   }
 
   return (
-    <animated.div style={ style } onClick={ () => onClick() } className={ props.isOpen ?  "BTNC ND" : "ND" }
-    onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>탑승 취소</animated.div>
+    <>
+      <PopupToast isOpen={ isOpen }
+      onClick1={ () => setOpen(false) }
+      onClick2={ () => onCancel() }/>
+      <animated.div style={ style } onClick={ () => onClick() } className={ props.isOpen ?  "BTNC ND" : "ND" }
+      onMouseEnter={ () => setHover(true) } onMouseLeave={ () => setHover(false) }>탑승 취소</animated.div>
+    </>
   )
 }
 BtnCancel.propTypes = {
@@ -170,8 +266,8 @@ const HeaderBottom = (props) => {
     justifyContent: 'center', gap: '5px 10px',
   }
   
-   part.push({ id: '1234', nickname: 'hello world' }) // for test
-  //console.log(props.info);
+  // part.push({ id: '1234', nickname: 'hello world' }) // for test
+  // console.log(props.info);
   return (
     <div className="chatting-header-bottom">
       <div style={{ height: '10px' }}/>
@@ -212,7 +308,8 @@ const Header = (props) => {
 	const styleBgd = useSpring({
 		position: 'fixed', top: '0px', left: '0px',
 		width: '100%', height: '100%',
-		background: `rgba(0,0,0,${ isOpen ? 0.6 : 0 })`
+		background: `rgba(0,0,0,${ isOpen ? 0.6 : 0 })`,
+    pointerEvents: isOpen ? 'auto' : 'none',
 	});
 	const styleTitle = {
 		position: 'absolute', top: '17px', left: '70px', right: '70px',

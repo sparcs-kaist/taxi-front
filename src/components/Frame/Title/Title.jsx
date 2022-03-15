@@ -15,10 +15,10 @@ const Title = (props) => {
         src={props.img}
         style={{
           position: "absolute",
-          top: "10px",
+          top: "11px",
           left: "0px",
-          width: "20px",
-          height: "20px",
+          width: "24px",
+          height: "24px",
         }}
       />
       <div
