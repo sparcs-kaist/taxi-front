@@ -10,7 +10,8 @@ const Button = (props) => {
     textAlign: "center",
     fontSize: "16px",
     color: props.fontColor,
-    fontWeight: 300,
+    fontWeight: 700,
+    letterSpacing: "0.1em",
     borderRadius: "15px",
   };
   const background = useSpring({
@@ -19,7 +20,7 @@ const Button = (props) => {
   });
 
   return (
-    <div className="lay_auto ND">
+    <div className={ props.layAuto ? "lay_auto ND" : "ND" }>
       <animated.div
         className="BTNC"
         onMouseEnter={() => setHover(true)}
@@ -39,13 +40,15 @@ Button.propTypes = {
   backgroundHover: PropTypes.any,
   background: PropTypes.any,
   onClick: PropTypes.any,
-  children: PropTypes.any
+  children: PropTypes.any,
+  layAuto: PropTypes.any,
 }
 
 Button.defaultProps = {
   background: "#6E3678",
   backgroundHover: "white",
   fontColor: "white",
+  layAuto: true,
   onClick: () => { },
 };
 export default Button;
