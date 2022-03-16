@@ -147,6 +147,8 @@ function Setting() {
               <div className="profileTag">학번</div>
               <div style={{ fontWeight: "400" }}>20191111</div>
             </div>
+          </div>
+          <div className="flexLine2">
             <div className="flexLine1">
               <div className="profileTag">메일</div>
               <div style={{ fontWeight: "400" }}>emailname@kaist.ac.kr</div>

@@ -9,9 +9,10 @@ class WhiteContainer extends Component {
         style={{
           marginBottom: this.props.bottomMargin,
           boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
-          borderRadius: "15px",
+          borderRadius: "12px",
           overflow: "hidden",
           minWidth: "270px",
+          maxWidth: "378px",
         }}
       >
         <div
@@ -36,8 +37,8 @@ WhiteContainer.propTypes = {
   bottomMargin: PropTypes.any,
 };
 WhiteContainer.defaultProps = {
-  padding: "20px",
-  bottomMargin: "20px",
+  padding: "24px",
+  bottomMargin: "15px",
   layAuto: true,
 };
 

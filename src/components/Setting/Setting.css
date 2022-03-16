@@ -7,6 +7,11 @@
   flex-direction: row;
   align-items: center;
 }
+.flexLine2 {
+  padding-top: 15px;
+  display: flex;
+  justify-content: space-between;
+}
 .profileImage {
   display: flex;
   align-items: center;
@@ -17,11 +22,6 @@
   font-size: 16pt;
   font-weight: bold;
   letter-spacing: 0.3rem;
-}
-.flexLine2 {
-  padding-top: 15px;
-  display: flex;
-  justify-content: space-between;
 }
 .profileTag {
   color: #9b9b9b;
