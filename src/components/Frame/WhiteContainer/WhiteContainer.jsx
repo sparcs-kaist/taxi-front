@@ -12,7 +12,7 @@ class WhiteContainer extends Component {
           borderRadius: "12px",
           overflow: "hidden",
           minWidth: "270px",
-          maxWidth: "378px",
+          // maxWidth: "378px",
         }}
       >
         <div

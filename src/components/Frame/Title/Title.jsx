@@ -9,7 +9,7 @@ const Title = (props) => {
         position: "relative",
         paddingTop: "10px",
         paddingBottom: "10px",
-        maxWidth: "378px",
+        // maxWidth: "378px",
       }}
     >
       <img

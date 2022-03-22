@@ -17,9 +17,9 @@ import TOSModal from "../TOS/TOSModal.jsx";
 import "./Setting.css";
 
 const profileImageStyle = {
-  width: "60px",
-  height: "60px",
-  borderRadius: "30px",
+  width: "50px",
+  height: "50px",
+  borderRadius: "25px",
   flexGrow: 1,
   overflow: "hidden",
   background: "#EEEEEE",
@@ -76,10 +76,10 @@ function Setting() {
       <div className="myPageMenu" onClick={props.onClick}>
         <img
           src={props.img}
-          style={{ marginRight: "12px", width: "20px", height: "20px" }}
+          style={{ marginRight: "8px", width: "16px", height: "16px" }}
           alt="마이페이지 메뉴 아이콘"
         />
-        <div style={{ fontWeight: "400" }}>{props.children}</div>
+        <div style={{ fontWeight: "400", fontSize: "14px", lineHeight: "16px" }}>{props.children}</div>
       </div>
     );
   };
@@ -129,10 +129,12 @@ function Setting() {
             </div>
             <div className="nickname">{user.name}</div>
           </div>
-          <div className="flexLine2">
-            <div style={{ fontSize: "16px", fontWeight: "700px" }}>내 정보</div>
+          <div className="flexLine2" style={{ paddingTop: "18px" }}>
+            <div style={{ fontSize: "14px", lineHeight: "16px", fontWeight: "700" }}>내 정보</div>
             <div
               style={{
+                fontSize: "14px",
+                lineHeight: "16px",
                 color: "#6E3678",
                 cursor: "pointer",
                 fontWeight: "400",
@@ -163,8 +165,7 @@ function Setting() {
         </div>
       </WhiteContainer>
       <WhiteContainer>
-        <div>
-          <MyPageMenu img={svgHistory}>과거 기록</MyPageMenu>
+        <div className="myPageMenuList">
           <MyPageMenu img={svgDocument} onClick={() => setIsTosModalOpen(true)}>
             사용 약관 및 개인정보 보호 규칙
           </MyPageMenu>
