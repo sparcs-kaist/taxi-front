@@ -1,47 +1,45 @@
 .userInfoBox {
   display: flex;
   flex-direction: column;
+  margin-top: -8px;
 }
 .flexLine1 {
   display: flex;
   flex-direction: row;
   align-items: center;
+  font-size: 14px;
+}
+.flexLine2 {
+  padding-top: 16px;
+  display: flex;
+  justify-content: space-between;
 }
 .profileImage {
   display: flex;
   align-items: center;
   align-content: center;
-  margin-right: 20px;
+  margin-right: 12px;
 }
 .nickname {
-  font-size: 16pt;
+  font-size: 17px;
   font-weight: bold;
-  letter-spacing: 0.3rem;
-}
-.flexLine2 {
-  padding-top: 15px;
-  display: flex;
-  justify-content: space-between;
+  letter-spacing: 0.15rem;
 }
 .profileTag {
-  color: #9b9b9b;
+  color: #888888;
   padding-right: 10px;
+}
+.myPageMenuList{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 96px;
 }
 .myPageMenu {
   display: flex;
   flex-direction: row;
-  margin-left: 4px;
   align-items: center;
 }
-.myPageMenu.myPageMenu {
-  margin-top: 30px;
-}
-
-.myPageMenu:first-child {
-  margin-top: 4px;
-}
-
 .myPageMenu:hover {
   cursor: pointer;
-  /* background-color: #EEEEEE; */
 }
