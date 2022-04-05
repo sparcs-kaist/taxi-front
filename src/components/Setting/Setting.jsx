@@ -1,185 +1,159 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import WhiteContainer from "../Frame/WhiteContainer/WhiteContainer.jsx";
+import { animated, useSpring } from "react-spring";
+import { useHistory } from "react-router";
+import PropTypes from "prop-types";
 import Title from "../Frame/Title/Title";
-import ModifyModal from "./ModifyModal.jsx";
+import WhiteContainer from "../Frame/WhiteContainer/WhiteContainer";
+import PopupSparcs from './PopupSparcs/PopupSparcs';
+import PopupPolicy from './PopupPolicy/PopupPolicy';
+import PopupMypage from './PopupMypage/PopupMypage';
 import axios from "../Tool/axios";
 import { backServer } from "../../serverconf";
-import PropTypes from "prop-types";
 
 import svgMyPage from "./svg_myPage.svg";
 import svgDocument from "./svg_document.svg";
 import svgSparcs from "./svg_sparcs.svg";
 import svgLogout from "./svg_logout.svg";
-import svgHistory from "./svg_history.svg";
-import svgPeople from "./svg_people.svg";
-import TOSModal from "../TOS/TOSModal.jsx";
-import "./Setting.css";
 
-const profileImageStyle = {
-  width: "60px",
-  height: "60px",
-  borderRadius: "30px",
-  flexGrow: 1,
-  overflow: "hidden",
-  background: "#EEEEEE",
-  margin: "auto",
-};
+const BtnC = (props) => {
+  const [isHover, setHover] = useState(false);
+  const style = useSpring({
+    height: '35px', borderRadius: '8px',
+    overflow: 'hidden', position: 'relative',
+    background: `rgba(120,120,120,${ isHover ? 0.08 : 0 })`,
+    config: { duration: 100 }
+  })
+  const styleImg = {
+    position: 'absolute',
+    top: '8px', left: '8px',
+    width: '14px', height: '14px'
+  }
+  const styleText = {
+    height: '35px', lineHeight: '35px',
+    paddingLeft: '35px',
+    fontSize: '14px'
+  }
 
-function Setting() {
-  const [user, setUser] = useState({
-    name: "",
-    id: "",
-    nickname: "",
-    profileImageUrl: "",
-  });
-  const [userModified, setUserModified] = useState(false);
-  const [modifyModal, setModifyModal] = useState(false);
+  return (
+    <animated.div style={ style } className="BTNC"
+    onMouseEnter={ () => setHover(true) }
+    onMouseLeave={ () => setHover(false) }
+    onClick={ () => props.onClick() }>
+      <img src={ props.img } alt="" style={ styleImg }/>
+      <div style={ styleText }>{ props.children }</div>
+    </animated.div>
+  )
+}
+BtnC.propTypes = {
+  img: PropTypes.img,
+  children: PropTypes.any,
+  onClick: PropTypes.func
+}
+
+const Setting = (props) => {
+  const [userInfo, setUserInfo] = useState({});
+  const [userInfoD, setUserInfoD] = useState({});
+  const [isOpen1, setOpen1] = useState(false);
+  const [isOpen2, setOpen2] = useState(false);
+  const [isOpen3, setOpen3] = useState(false);
   const history = useHistory();
 
-  const [isTosModalOpen, setIsTosModalOpen] = useState(false);
+  useEffect(() => {
+    axios.get("/json/logininfo").then(({ data }) => {
+      setUserInfo(data);
+      console.log(data);
+    })
+    axios.get("/json/logininfo/detail").then(({ data }) => {
+      setUserInfoD(data);
+      console.log(data);
+    })
+  }, []);
 
-  const handleModify = () => {
-    setModifyModal(!modifyModal);
-  };
-
-  const getUserInfo = async () => {
-    let newUser = user;
-    // id, name, 프로필 사진의 url을 아직 불러오지 않은 경우에만 불러옴니다.
-    if (!user.id) {
-      const userInfo = await axios.get("/json/logininfo");
-      if (userInfo.data) {
-        newUser = userInfo.data;
-        newUser.profileImageUrl = `${backServer}/static/profile-images/${newUser.id}`;
-      }
-    }
-    // 닉네임을 불러옵니다.
-    const detailedUserInfo = await axios.get("/json/logininfo/detail");
-    if (detailedUserInfo.data) {
-      newUser.nickname = detailedUserInfo.data.nickname;
-    }
-    setUser(newUser);
-  };
+  const styleProfImg = {
+    position: 'absolute', top: '0px', left: '0px',
+    width: '50px', height: '50px', borderRadius: '26px',
+    background: '#EEEEEE', overflow: 'hidden'
+  }
+  const styleName = {
+    height: '50px', lineHeight: '50px',
+    fontSize: '17px', fontWeight: 'bold',
+    paddingLeft: '60px'
+  }
+  const styleT1 = {
+    fontSize: '14px', fontWeight: 'bold'
+  }
+  const styleT2 = {
+    fontSize: '14px', color: '#6E3678'
+  }
+  const styleT3 = {
+    fontSize: '14px', color: '#888888',
+    width: '50px'
+  }
+  const styleT4 = {
+    fontSize: '14px'
+  }
 
   const handleLogout = async () => {
     const response = await axios.get("/auth/logout");
     if (response.status === 200) {
-      alert("로그아웃 되었습니다.");
       history.push("/login");
-    } else {
+    }
+    else {
       alert("로그아웃에 실패했습니다.");
     }
-  };
-
-  const MyPageMenu = (props) => {
-    return (
-      <div className="myPageMenu" onClick={props.onClick}>
-        <img
-          src={props.img}
-          style={{ marginRight: "12px", width: "20px", height: "20px" }}
-          alt="마이페이지 메뉴 아이콘"
-        />
-        <div style={{ fontWeight: "400" }}>{props.children}</div>
-      </div>
-    );
-  };
-
-  MyPageMenu.propTypes = {
-    onClick: PropTypes.func,
-    img: PropTypes.any,
-    children: PropTypes.any,
-  };
-
-  useEffect(async () => {
-    await getUserInfo();
-  }, []);
-
-  useEffect(async () => {
-    if (userModified) {
-      await getUserInfo();
-      setUserModified(false);
-    }
-  }, [userModified]);
+  }
 
   return (
     <div>
-      {modifyModal && (
-        <ModifyModal
-          user={user}
-          setUser={setUser}
-          setUserModified={setUserModified}
-          handleModify={handleModify}
-          profileImageStyle={profileImageStyle}
-          profileImageUrl={user.profileImageUrl}
-        />
-      )}
       <div style={{ height: "20px" }} />
       <Title img={svgMyPage}>내 페이지</Title>
       <div style={{ height: "20px" }} />
-      {/* userInfo Box */}
       <WhiteContainer>
-        <div className="userInfoBox">
-          <div className="flexLine1">
-            <div className="profileImage">
-              <img
-                src={`${user.profileImageUrl}?${Date.now()}`} //이미지가 바뀌었을 때 다시 렌더링하도록 해시를 추가
-                style={profileImageStyle}
-                alt="프로필 사진"
-              />
-            </div>
-            <div className="nickname">{user.name}</div>
-          </div>
-          <div className="flexLine2">
-            <div style={{ fontSize: "16px", fontWeight: "700px" }}>내 정보</div>
-            <div
-              style={{
-                color: "#6E3678",
-                cursor: "pointer",
-                fontWeight: "400",
-              }}
-              onClick={handleModify}
-            >
-              수정하기
-            </div>
-          </div>
-          <div className="flexLine2">
-            <div className="flexLine1">
-              <div className="profileTag">학번</div>
-              <div style={{ fontWeight: "400" }}>20191111</div>
-            </div>
-            <div className="flexLine1">
-              <div className="profileTag">메일</div>
-              <div style={{ fontWeight: "400" }}>emailname@kaist.ac.kr</div>
-            </div>
-          </div>
-          <div className="flexLine2">
-            <div className="flexLine1">
-              <div className="profileTag">별명</div>
-              <div style={{ fontWeight: "400" }}>{user.nickname}</div>
-            </div>
-          </div>
+        <div style={{ position: 'relative' }}>
+          <img src={ `${ backServer }/static/profile-images/${ userInfo.id }?${ Date.now() }` }
+          style={ styleProfImg } alt="profile-img"/>
+          <div style={ styleName }>{ userInfo ? userInfo.name : '' }</div>
+        </div>
+        <div style={{ height: '15px' }}/>
+        <div style={{ display: 'flex', justifyContent: "space-between" }}>
+          <div style={ styleT1 }>내 정보</div>
+          <div style={ styleT2 } className="BTNC">수정하기</div>
+        </div>
+        <div style={{ height: '10px' }}/>
+        <div style={{ display: 'flex' }}>
+          <div style={ styleT3 }>학번</div>
+          <div style={ styleT4 }>{ userInfoD && userInfoD.subinfo && userInfoD.subinfo.kaist ? userInfoD.subinfo.kaist : '' }</div>
+        </div>
+        <div style={{ height: '10px' }}/>
+        <div style={{ display: 'flex' }}>
+          <div style={ styleT3 }>메일</div>
+          <div style={ styleT4 }>email!! 백에서 받아오기</div>
+        </div>
+        <div style={{ height: '10px' }}/>
+        <div style={{ display: 'flex' }}>
+          <div style={ styleT3 }>별명</div>
+          <div style={ styleT4 }>{ userInfoD ? userInfoD.nickname : '' }</div>
         </div>
       </WhiteContainer>
       <WhiteContainer>
-        <div>
-          <MyPageMenu img={svgHistory}>과거 기록</MyPageMenu>
-          <MyPageMenu img={svgDocument} onClick={() => setIsTosModalOpen(true)}>
-            사용 약관 및 개인정보 보호 규칙
-          </MyPageMenu>
-          <MyPageMenu img={svgSparcs}>만든 사람들</MyPageMenu>
-          <MyPageMenu img={svgLogout} onClick={handleLogout}>
-            로그아웃
-          </MyPageMenu>
-        </div>
+        <BtnC img={ svgDocument }
+        onClick={ () => setOpen2(true) }>
+          사용 약관 및 개인정보 보호 규칙
+        </BtnC>
+        <BtnC img={ svgSparcs }
+        onClick={ () => setOpen1(true) }>
+          만든 사람들
+        </BtnC>
+        <BtnC img={ svgLogout }
+        onClick={ handleLogout }>
+          로그아웃
+        </BtnC>
       </WhiteContainer>
-      <TOSModal
-        open={isTosModalOpen}
-        onClose={() => {
-          setIsTosModalOpen(false);
-        }}
-      />
+      <PopupSparcs isOpen={ isOpen1 } onClose={ () => setOpen1(false) }/>
+      <PopupPolicy isOpen={ isOpen2 } onClose={ () => setOpen2(false) }/>
+      <PopupMypage isOpen={ isOpen3 } onClose={ () => setOpen3(false) }/>
     </div>
-  );
+  )
 }
 
 export default Setting;
