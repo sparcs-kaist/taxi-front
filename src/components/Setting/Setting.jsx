@@ -51,6 +51,7 @@ BtnC.propTypes = {
 }
 
 const Setting = (props) => {
+  const [profToken, setProfToken] = useState(Date.now());
   const [userInfo, setUserInfo] = useState({});
   const [userInfoD, setUserInfoD] = useState({});
   const [isOpen1, setOpen1] = useState(false);
@@ -110,14 +111,17 @@ const Setting = (props) => {
       <div style={{ height: "20px" }} />
       <WhiteContainer>
         <div style={{ position: 'relative' }}>
-          <img src={ `${ backServer }/static/profile-images/${ userInfo.id }?${ Date.now() }` }
+          <img src={ `${ backServer }/static/profile-images/${ userInfo.id }?${ profToken }` }
           style={ styleProfImg } alt="profile-img"/>
           <div style={ styleName }>{ userInfo ? userInfo.name : '' }</div>
         </div>
         <div style={{ height: '15px' }}/>
         <div style={{ display: 'flex', justifyContent: "space-between" }}>
           <div style={ styleT1 }>내 정보</div>
-          <div style={ styleT2 } className="BTNC">수정하기</div>
+          <div style={ styleT2 } className="BTNC"
+          onClick={ () => setOpen3(true) }>
+            수정하기
+        </div>
         </div>
         <div style={{ height: '10px' }}/>
         <div style={{ display: 'flex' }}>
@@ -151,7 +155,10 @@ const Setting = (props) => {
       </WhiteContainer>
       <PopupSparcs isOpen={ isOpen1 } onClose={ () => setOpen1(false) }/>
       <PopupPolicy isOpen={ isOpen2 } onClose={ () => setOpen2(false) }/>
-      <PopupMypage isOpen={ isOpen3 } onClose={ () => setOpen3(false) }/>
+      <PopupMypage 
+        userInfo={ userInfo } userInfoD={ userInfoD } profToken={ profToken }
+        isOpen={ isOpen3 } onClose={ () => setOpen3(false) }
+      />
     </div>
   )
 }
