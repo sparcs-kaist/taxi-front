@@ -52,6 +52,26 @@ const BtnProfImg = (props) => {
 }
 
 const PopupMypage = (props) => {
+    const [nickName, setNickName] = useState('');
+    const [nickNameReal, setNickNameReal] = useState('');
+    useEffect(() => {
+        if(props.userInfoD.nickname){
+            setNickName(props.userInfoD.nickname);
+            setNickNameReal(props.userInfoD.nickname);
+        }
+    }, [props.userInfoD])
+
+    const onClose = () => {
+        setNickName(nickNameReal);
+        props.onClose();
+    }
+    const onClickEditNickName = async () => {
+        const result = await axios.post(`/users/editNickname`, {
+            nickname: nickName
+        });
+        // ~~~~~~
+    }
+
     const styleBgd = useSpring({
         position: 'fixed', top: '0px', left: '0px',
         width: '100%', height: '100%', zIndex: 50,
@@ -79,16 +99,34 @@ const PopupMypage = (props) => {
         backgroundRpeat: "repeat-x",
     }
 
+    const styleLay1 = {
+        position: 'relative', display: 'flex',
+        paddingLeft: '30px', paddingRight: '30px', marginBottom: '5px'
+    }
+    const styleLay1Left = {
+        fontSize: '14px', color: '#888888',
+        width: '40px'
+    }
+    const styleLay1Right = {
+        fontSize: '14px', color: 'black'
+    }
+    const styleNickname = {
+        height: '28px', lineHeight: '28px',
+        border: 'none', outline: 'none', borderRadius: '8px',
+        paddingLeft: '10px', paddingRight: '10px',
+        background: '#EEEEEE'
+    }
+
     const styleBtn1 = useSpring({
-        float: 'right',
-        height: '36px', width: '77px',
+        float: 'right', marginLeft: '10px',
+        height: '36px', width: 'calc(100% - 87px)',
         lineHeight: '36px', textAlign: 'center',
         borderRadius: '8px',
         background: '#6E3678',
         fontSize: '15px', color: 'white'
     })
     const styleBtn2 = useSpring({
-        float: 'right', marginRight: '10px',
+        float: 'right', 
         height: '36px', width: '77px',
         lineHeight: '36px', textAlign: 'center',
         borderRadius: '8px',
@@ -99,14 +137,14 @@ const PopupMypage = (props) => {
     return (
         <animated.div style={ styleBgd }>
             <div style={{ position: 'absolute', top: '0px', left: '0px', width: '100%', height: '100%' }}
-            onClick={ props.onClose }/>
+            onClick={ onClose }/>
             <div style={{ position: 'absolute', top: '120px', bottom: '40px', left: '0px', right: '0px' }}>
                 <div style={{ position: 'absolute', top: '0px', left: '0px', width: '100%', height: '100%' }}
-                onClick={ props.onClose }/>
+                onClick={ onClose }/>
                 <div style={ style } className="lay_auto">
                     <img src={ svgClose } alt="close"
                     style={ styleClose } className="BTNC"
-                    onClick={ props.onClose }/>
+                    onClick={ onClose }/>
                     <div style={ styleName }>{ props.userInfo.name ? props.userInfo.name : '' }</div>
                     <div style={{ height: '15px' }}/>
                     <ProfImg
@@ -115,13 +153,47 @@ const PopupMypage = (props) => {
                     />
                     <BtnProfImg/>
                     <div style={ styleLine }/>
+                    <div style={{ height: '15px' }}/>
+                    
+                    <div style={ styleLay1 }>
+                        <div style={ styleLay1Left }>학번</div>
+                        <div style={ styleLay1Right }>
+                            { props.userInfoD.subinfo ? props.userInfoD.subinfo.kaist : '' }
+                        </div>
+                    </div>
+                    <div style={ styleLay1 }>
+                        <div style={ styleLay1Left }>메일</div>
+                        <div style={ styleLay1Right }>이메일 백에서 받아오기</div>
+                    </div>
+                    <div style={ styleLay1 }>
+                        <div style={ styleLay1Left }>별명</div>
+                        <div style={ styleLay1Right }>
+                            <input style={ styleNickname }
+                            value={ nickName }
+                            onChange={ e => setNickName(e.target.value) }/>
+                        </div>
+                    </div>
 
+                    <div style={{ height: '10px' }}/>
                     <div style={{ position: 'relative',
                     paddingLeft: '15px', paddingRight: '15px', marginBottom: '15px', height: '36px' }}>
-                        <animated.div style={ styleBtn1 }
-                        className="BTNC ND">동의</animated.div>
-                        <animated.div style={ styleBtn2 }
-                        className="BTNC ND">취소</animated.div>
+                        {
+                            nickName == nickNameReal ?
+                            <>
+                                <animated.div style={{ ...styleBtn2, width: '100%' }}
+                                onClick={ onClose }
+                                className="BTNC ND">취소</animated.div>
+                            </> :
+                            <>
+                                <animated.div style={ styleBtn1 }
+                                onClick={ onClickEditNickName }
+                                className="BTNC ND">수정 하기</animated.div>
+                                <animated.div style={ styleBtn2 }
+                                onClick={ onClose }
+                                className="BTNC ND">취소</animated.div>
+                            </>
+                        }
+                        
                     </div>
                 </div>
             </div>

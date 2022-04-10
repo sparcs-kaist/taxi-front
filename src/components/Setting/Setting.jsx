@@ -62,11 +62,9 @@ const Setting = (props) => {
   useEffect(() => {
     axios.get("/json/logininfo").then(({ data }) => {
       setUserInfo(data);
-      console.log(data);
     })
     axios.get("/json/logininfo/detail").then(({ data }) => {
       setUserInfoD(data);
-      console.log(data);
     })
   }, []);
 
