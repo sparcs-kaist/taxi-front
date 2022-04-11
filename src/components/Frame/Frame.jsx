@@ -25,6 +25,10 @@ const TopBar = (props) => {
   );
 };
 
+/*const Frame = (props) => {
+
+}*/
+
 class Frame extends Component {
   constructor(props) {
     // constructor 에서 빼기
@@ -68,11 +72,8 @@ class Frame extends Component {
 }
 
 Frame.propTypes = {
-  // FIXME: specify type
-  // navi: 하단 바에 어떤 항목이 선택되어있어야 하는가?
-  // children: ??
   navi: PropTypes.string,
-  children: PropTypes.any,
+  children: PropTypes.element,
 };
 Frame.defaultProps = {
   children: <div></div>,
