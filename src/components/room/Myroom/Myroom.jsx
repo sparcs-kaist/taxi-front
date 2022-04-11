@@ -63,7 +63,7 @@ const Myroom = () => {
   };
 
   const resizeStyleMain = () => {
-    if (bodyWidth >= 755) return { width: "755px", margin: "auto" };
+    if (bodyWidth >= 768) return { width: "718px", margin: "auto" };
     else return { width: "calc(100% - 50px)", margin: "auto" };
   };
 

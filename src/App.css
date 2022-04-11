@@ -55,15 +55,15 @@ button:focus {
 @media (max-width: 767px) {
   .lay_auto {
     position: relative;
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: 25px;
+    margin-right: 25px;
     /*overflow-x: hidden; overflow-y: auto;*/
   }
 }
 @media (min-width: 768px) {
   .lay_auto {
     position: relative;
-    width: 728px;
+    width: 718px;
     height: auto;
     margin: auto;
     /*overflow-x: hidden; overflow-y: auto;*/
