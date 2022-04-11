@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { animated, useSpring } from "react-spring";
 import PropTypes from "prop-types";
 import axios from "../../Tool/axios";
@@ -38,20 +38,57 @@ ProfImg.propTypes = {
 }
 
 const BtnProfImg = (props) => {
+    const inputImage = useRef(null);
+
+    const handleUploadProfileImage = async () => {
+        try {
+            if (!inputImage.current.files[0]) {
+                return;
+            }
+            const formData = new FormData();
+            formData.append("profileImage", inputImage.current.files[0]);
+            
+            const result = await axios.post(`/users/uploadProfileImage`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+    
+            if (result.status !== 200) {
+                alert("프로필 사진 변경에 실패했습니다.");
+                return;
+            }
+            props.onUpdate();
+            //props.onClose();
+        } catch(e) {
+            alert("프로필 사진 변경에 실패했습니다.");
+        }
+    }
     const style = useSpring({
         fontSize: '10px', color: '#6E3678'
     });
 
     return (
         <div style={{ textAlign: 'center', marginTop: '10px' }}>
-            <animated.span style={ style } className="BTNC">
+            <input
+                type="file" accept="image/*" hidden
+                onChange={ handleUploadProfileImage }
+                ref={ inputImage }
+            ></input>
+            <animated.span style={ style } className="BTNC"
+            onClick={ () => inputImage.current.click() }>
                 프로필 사진 변경
             </animated.span>
         </div>
     )
 }
+BtnProfImg.propTypes = {
+    onUpdate: PropTypes.func,
+    onClose: PropTypes.func
+}
 
 const PopupMypage = (props) => {
+    const regexNickname = new RegExp("^[A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ0-9-_ ]{3,25}$");
     const [nickName, setNickName] = useState('');
     const [nickNameReal, setNickNameReal] = useState('');
     useEffect(() => {
@@ -69,7 +106,12 @@ const PopupMypage = (props) => {
         const result = await axios.post(`/users/editNickname`, {
             nickname: nickName
         });
-        // ~~~~~~
+        if (result.status !== 200) {
+            alert("닉네임 변경에 실패하였습니다.");
+            return;
+        }
+        props.onUpdate();
+        props.onClose();
     }
 
     const styleBgd = useSpring({
@@ -151,7 +193,10 @@ const PopupMypage = (props) => {
                         id={ props.userInfo.id ? props.userInfo.id : '' }
                         token={ props.profToken }
                     />
-                    <BtnProfImg/>
+                    <BtnProfImg
+                        onClose={ props.onClose }
+                        onUpdate={ props.onUpdate }
+                    />
                     <div style={ styleLine }/>
                     <div style={{ height: '15px' }}/>
                     
@@ -163,7 +208,9 @@ const PopupMypage = (props) => {
                     </div>
                     <div style={ styleLay1 }>
                         <div style={ styleLay1Left }>메일</div>
-                        <div style={ styleLay1Right }>이메일 백에서 받아오기</div>
+                        <div style={ styleLay1Right }>
+                            { props.userInfoD.email ? props.userInfoD.email : '' }
+                        </div>
                     </div>
                     <div style={ styleLay1 }>
                         <div style={ styleLay1Left }>별명</div>
@@ -178,7 +225,7 @@ const PopupMypage = (props) => {
                     <div style={{ position: 'relative',
                     paddingLeft: '15px', paddingRight: '15px', marginBottom: '15px', height: '36px' }}>
                         {
-                            nickName == nickNameReal ?
+                            nickName == nickNameReal || !regexNickname.test(nickName) ?
                             <>
                                 <animated.div style={{ ...styleBtn2, width: '100%' }}
                                 onClick={ onClose }
@@ -205,7 +252,8 @@ PopupMypage.propTypes = {
     userInfoD: PropTypes.any,
     profToken: PropTypes.any,
     isOpen: PropTypes.bool,
-    onClose: PropTypes.func
+    onClose: PropTypes.func,
+    onUpdate: PropTypes.func
 }
 
 export default PopupMypage;

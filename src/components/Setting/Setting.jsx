@@ -59,13 +59,27 @@ const Setting = (props) => {
   const [isOpen3, setOpen3] = useState(false);
   const history = useHistory();
 
-  useEffect(() => {
+  const handleLogout = async () => {
+    const response = await axios.get("/auth/logout");
+    if (response.status === 200) {
+      history.push("/login");
+    }
+    else {
+      alert("로그아웃에 실패했습니다.");
+    }
+  }
+  const handleUpdate = () => {
     axios.get("/json/logininfo").then(({ data }) => {
       setUserInfo(data);
     })
     axios.get("/json/logininfo/detail").then(({ data }) => {
       setUserInfoD(data);
     })
+    setProfToken(Date.now());
+  }
+
+  useEffect(() => {
+    handleUpdate();
   }, []);
 
   const styleProfImg = {
@@ -92,16 +106,6 @@ const Setting = (props) => {
     fontSize: '14px'
   }
 
-  const handleLogout = async () => {
-    const response = await axios.get("/auth/logout");
-    if (response.status === 200) {
-      history.push("/login");
-    }
-    else {
-      alert("로그아웃에 실패했습니다.");
-    }
-  }
-
   return (
     <div>
       <div style={{ height: "20px" }} />
@@ -109,8 +113,12 @@ const Setting = (props) => {
       <div style={{ height: "20px" }} />
       <WhiteContainer>
         <div style={{ position: 'relative' }}>
-          <img src={ `${ backServer }/static/profile-images/${ userInfo.id }?${ profToken }` }
-          style={ styleProfImg } alt="profile-img"/>
+          {
+            userInfo.id ?
+            <img src={ `${ backServer }/static/profile-images/${ userInfo.id }?${ profToken }` }
+            style={ styleProfImg } alt="profile-img"/> :
+            null
+          }
           <div style={ styleName }>{ userInfo ? userInfo.name : '' }</div>
         </div>
         <div style={{ height: '15px' }}/>
@@ -129,7 +137,7 @@ const Setting = (props) => {
         <div style={{ height: '10px' }}/>
         <div style={{ display: 'flex' }}>
           <div style={ styleT3 }>메일</div>
-          <div style={ styleT4 }>email!! 백에서 받아오기</div>
+          <div style={ styleT4 }>{ userInfoD && userInfoD.email ? userInfoD.email : '' }</div>
         </div>
         <div style={{ height: '10px' }}/>
         <div style={{ display: 'flex' }}>
@@ -154,8 +162,10 @@ const Setting = (props) => {
       <PopupSparcs isOpen={ isOpen1 } onClose={ () => setOpen1(false) }/>
       <PopupPolicy isOpen={ isOpen2 } onClose={ () => setOpen2(false) }/>
       <PopupMypage 
-        userInfo={ userInfo } userInfoD={ userInfoD } profToken={ profToken }
-        isOpen={ isOpen3 } onClose={ () => setOpen3(false) }
+        userInfo={ userInfo } userInfoD={ userInfoD }
+        profToken={ profToken } isOpen={ isOpen3 }
+        onClose={ () => setOpen3(false) }
+        onUpdate={ () => handleUpdate() }
       />
     </div>
   )

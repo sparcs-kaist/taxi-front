@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { animated, useSpring } from "react-spring";
+import { useHistory } from "react-router";
 import PropTypes from "prop-types";
+import axios from "../../Tool/axios";
 
 import svgSparcs from '../../../images/sparcs_logo.svg';
 import svgClose from './svg_close.svg';
@@ -96,7 +98,7 @@ const Policy = () => {
     )
 }
 
-const LayBottom = () => {
+const LayBottom = (props) => {
     const styleBtn1 = useSpring({
         float: 'right',
         height: '36px', width: '77px',
@@ -113,17 +115,69 @@ const LayBottom = () => {
         background: '#EEEEEE',
         fontSize: '15px', color: '#888888'
     })
-    return (
-        <div style={{ position: 'relative' }}>
-            <animated.div style={ styleBtn1 }
-            className="BTNC ND">동의</animated.div>
-            <animated.div style={ styleBtn2 }
-            className="BTNC ND">취소</animated.div>
-        </div>
-    )
+
+    const onAgree = async () => {
+        const result = await axios.post("/users/agreeOnTermsOfService");
+        console.log(result);
+        if (result.status !== 200) {
+            alert("약관 동의에 실패하였습니다.");
+            return;
+        }
+        props.onAgree();
+    }
+
+    if(props.didAgree === undefined) return null;
+    if(props.didAgree === true) {
+        return (
+            <div style={{ position: 'relative' }}>
+                <div style={{ textAlign: 'right' }}>이미 동의하셨습니다.</div>
+            </div>
+        )
+    }
+    else{
+        return (
+            <div style={{ position: 'relative' }}>
+                <animated.div style={ styleBtn1 }
+                className="BTNC ND" onClick={ onAgree }>
+                    동의
+                </animated.div>
+                <animated.div onClick={ props.onClose }
+                style={ styleBtn2 } className="BTNC ND">
+                    취소
+                </animated.div>
+            </div>
+        )
+    }
+}
+LayBottom.propTypes = {
+    didAgree: PropTypes.any,
+    onClose: PropTypes.func,
+    onAgree: PropTypes.func
 }
 
 const PopupPolicy = (props) => {
+    const history = useHistory();
+    const [didAgree, setDIdAgree] = useState(undefined);
+
+    useEffect(() => {
+        axios.get("/json/logininfo/detail").then(({ data }) => {
+            setDIdAgree(data.agreeOnTermsOfService);
+        })
+    }, []);
+
+    const onClose = async () => {
+        if(didAgree === null) return;
+        if(didAgree === true){ props.onClose(); return; }
+        
+        const response = await axios.get("/auth/logout");
+        if (response.status === 200) {
+            history.push("/login");
+        }
+        else {
+            alert("로그아웃에 실패했습니다.");
+        }
+    }
+
     const styleBgd = useSpring({
         position: 'fixed', top: '0px', left: '0px',
         width: '100%', height: '100%', zIndex: 50,
@@ -165,10 +219,10 @@ const PopupPolicy = (props) => {
     return (
         <animated.div style={ styleBgd }>
             <div style={{ position: 'absolute', top: '0px', left: '0px', width: '100%', height: '100%' }}
-            onClick={ props.onClose }/>
+            onClick={ onClose }/>
             <div style={{ position: 'absolute', top: '120px', bottom: '40px', left: '0px', right: '0px' }}>
                 <div style={{ position: 'absolute', top: '0px', left: '0px', width: '100%', height: '100%' }}
-                onClick={ props.onClose }/>
+                onClick={ onClose }/>
                 <div style={ style } className="lay_auto">
                     <img src={ svgSparcs } alt="" style={ styleSparcs }/>
                     <div style={ styleTaxi }>Taxi</div>
@@ -176,13 +230,17 @@ const PopupPolicy = (props) => {
                     <div style={ styleTitle }>이용 약관</div>
                     <img src={ svgClose } alt="close"
                     style={ styleClose } className="BTNC"
-                    onClick={ props.onClose }/>
+                    onClick={ onClose }/>
                     <div style={ styleInnerBox }>
                         <Policy/>
                     </div>
                     <div style={{ position: 'absolute', bottom: '15px', left: '15px', right: '15px',
                     height: '36px' }}>
-                        <LayBottom/>
+                        <LayBottom
+                            didAgree={ didAgree }
+                            onClose={ onClose }
+                            onAgree={ () => props.onClose() }
+                        />
                     </div>
                 </div>
             </div>
