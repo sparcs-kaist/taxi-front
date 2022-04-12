@@ -20,7 +20,7 @@ const Button = (props) => {
   });
 
   return (
-    <div className={ props.layAuto ? "lay_auto ND" : "ND" }>
+    <div className={props.layAuto ? "lay_auto ND" : "ND"}>
       <animated.div
         className="BTNC"
         onMouseEnter={() => setHover(true)}
@@ -42,13 +42,13 @@ Button.propTypes = {
   onClick: PropTypes.any,
   children: PropTypes.any,
   layAuto: PropTypes.any,
-}
+};
 
 Button.defaultProps = {
   background: "#6E3678",
   backgroundHover: "white",
   fontColor: "white",
   layAuto: true,
-  onClick: () => { },
+  onClick: () => {},
 };
 export default Button;
