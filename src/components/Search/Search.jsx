@@ -249,7 +249,7 @@ class Search extends React.Component {
             <div style={{ height: "30px" }} />
             {this.props.isSearch && (
               <>
-                <Title img={svgSearch} unmargin>
+                <Title img={svgSearch} marginAuto={false}>
                   {this.props.isSearch && "방 검색하기"}
                 </Title>
                 <div
@@ -423,7 +423,7 @@ class Search extends React.Component {
               style={{ height: this.state.bodyWidth < 605 ? "30px" : "147px" }}
             />
             {this.state.bodyWidth < 605 && (
-              <Title img={svgSearch} unmargin>
+              <Title img={svgSearch} marginAuto={false}>
                 {this.props.isSearch && "방 검색결과"}
               </Title>
             )}

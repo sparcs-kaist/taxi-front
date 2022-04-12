@@ -83,7 +83,7 @@ const Myroom = () => {
         style={{ display: "flex", flexDirection: "column", ...styleMain }}
       >
         <div style={{ paddingTop: "20px", paddingBottom: "10px" }}>
-          <Title img={svgMyRoom} unmargin>
+          <Title img={svgMyRoom} marginAuto={false}>
             내 방 리스트
           </Title>
         </div>
