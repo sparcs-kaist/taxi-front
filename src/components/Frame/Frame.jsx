@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
-import axios from "../Tool/axios";
 import Navigation from "./Navigation";
+import PopupPolicy from "../Setting/PopupPolicy/PopupPolicy";
 import Footer from "./Footer";
 import PropTypes from "prop-types";
+import axios from "../Tool/axios";
 
 const HeaderLine = () => {
   return (
@@ -22,6 +23,7 @@ const HeaderLine = () => {
 
 const Frame = (props) => {
   const [userId, setUserId] = useState(undefined);
+  const [showAgree, setShowAgree] = useState(false);
   const currentPath = window.location.pathname;
 
   const styleContainer = {
@@ -42,6 +44,13 @@ const Frame = (props) => {
       });
   }, [currentPath]);
 
+  // 로그인 정보 수정될 때 요청
+  useEffect(() => {
+    axios.get("/json/logininfo/detail").then(({ data }) => {
+      setShowAgree(data.agreeOnTermsOfService === false);
+    });
+  }, [userId]);
+
   if (userId === undefined) {
     return (
       <div style={styleContainer}>
@@ -58,6 +67,7 @@ const Frame = (props) => {
         <Footer />
         <Navigation selected={props.navi} />
         <HeaderLine />
+        <PopupPolicy isOpen={showAgree} onClose={() => setShowAgree(false)} />
       </div>
     );
   }
