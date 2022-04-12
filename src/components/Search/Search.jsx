@@ -402,7 +402,7 @@ class Search extends React.Component {
                 <RoomTime handler={this.handleChangeTime}></RoomTime>
               </WhiteContainer>
             )}
-            <SubmitButton onClick={this.onClickSearch} layAuto={false}>
+            <SubmitButton onClick={this.onClickSearch} marginAuto={false}>
               {this.props.isSearch && "검색하기"}
               {!this.props.isSearch && "방 만들기"}
             </SubmitButton>
