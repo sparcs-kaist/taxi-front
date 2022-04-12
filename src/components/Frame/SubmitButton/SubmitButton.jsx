@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
 import PropTypes from "prop-types";
+import RLayout from "../ReactiveLayout/RLayout";
 
 const Button = (props) => {
   const [isHover, setHover] = useState(false);
@@ -19,19 +20,21 @@ const Button = (props) => {
     config: { duration: 100 },
   });
 
-  return (
-    <div className={ props.layAuto ? "lay_auto ND" : "ND" }>
-      <animated.div
-        className="BTNC"
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-        onClick={props.onClick}
-        style={{ ...style, ...background }}
-      >
-        {props.children}
-      </animated.div>
-    </div>
+  const button = (
+    <animated.div
+      className="BTNC"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      onClick={props.onClick}
+      style={{ ...style, ...background }}
+    >
+      {props.children}
+    </animated.div>
   );
+  if (props.marginAuto) {
+    return <RLayout.R1>{button}</RLayout.R1>;
+  }
+  return button;
 };
 
 Button.propTypes = {
@@ -39,16 +42,16 @@ Button.propTypes = {
   fontColor: PropTypes.any,
   backgroundHover: PropTypes.any,
   background: PropTypes.any,
-  onClick: PropTypes.any,
+  onClick: PropTypes.func,
   children: PropTypes.any,
-  layAuto: PropTypes.any,
-}
+  marginAuto: PropTypes.any,
+};
 
 Button.defaultProps = {
   background: "#6E3678",
-  backgroundHover: "white",
+  backgroundHover: "#4E1658",
   fontColor: "white",
-  layAuto: true,
-  onClick: () => { },
+  marginAuto: true,
+  onClick: () => {},
 };
 export default Button;

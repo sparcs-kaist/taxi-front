@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { animated, useSpring } from "react-spring";
+import RLayout from "../../Frame/ReactiveLayout/RLayout";
 import PropTypes from "prop-types";
 import axios from "../../Tool/axios";
 import { backServer } from "../../../serverconf";
@@ -136,6 +137,7 @@ const PopupMypage = (props) => {
   });
   const style = {
     overflow: "auto",
+    position: "relative",
     maxHeight: "100%",
     background: "white",
     borderRadius: "15px",
@@ -247,89 +249,91 @@ const PopupMypage = (props) => {
           }}
           onClick={onClose}
         />
-        <div style={style} className="lay_auto">
-          <img
-            src={svgClose}
-            alt="close"
-            style={styleClose}
-            className="BTNC"
-            onClick={onClose}
-          />
-          <div style={styleName}>
-            {props.userInfo.name ? props.userInfo.name : ""}
-          </div>
-          <div style={{ height: "15px" }} />
-          <ProfImg
-            id={props.userInfo.id ? props.userInfo.id : ""}
-            token={props.profToken}
-          />
-          <BtnProfImg onClose={props.onClose} onUpdate={props.onUpdate} />
-          <div style={styleLine} />
-          <div style={{ height: "15px" }} />
+        <RLayout.R1 height="100%" position="static">
+          <div style={style}>
+            <img
+              src={svgClose}
+              alt="close"
+              style={styleClose}
+              className="BTNC"
+              onClick={onClose}
+            />
+            <div style={styleName}>
+              {props.userInfo.name ? props.userInfo.name : ""}
+            </div>
+            <div style={{ height: "15px" }} />
+            <ProfImg
+              id={props.userInfo.id ? props.userInfo.id : ""}
+              token={props.profToken}
+            />
+            <BtnProfImg onClose={props.onClose} onUpdate={props.onUpdate} />
+            <div style={styleLine} />
+            <div style={{ height: "15px" }} />
 
-          <div style={styleLay1}>
-            <div style={styleLay1Left}>학번</div>
-            <div style={styleLay1Right}>
-              {props.userInfoD.subinfo ? props.userInfoD.subinfo.kaist : ""}
+            <div style={styleLay1}>
+              <div style={styleLay1Left}>학번</div>
+              <div style={styleLay1Right}>
+                {props.userInfoD.subinfo ? props.userInfoD.subinfo.kaist : ""}
+              </div>
             </div>
-          </div>
-          <div style={styleLay1}>
-            <div style={styleLay1Left}>메일</div>
-            <div style={styleLay1Right}>
-              {props.userInfoD.email ? props.userInfoD.email : ""}
+            <div style={styleLay1}>
+              <div style={styleLay1Left}>메일</div>
+              <div style={styleLay1Right}>
+                {props.userInfoD.email ? props.userInfoD.email : ""}
+              </div>
             </div>
-          </div>
-          <div style={styleLay1}>
-            <div style={styleLay1Left}>별명</div>
-            <div style={styleLay1Right}>
-              <input
-                style={styleNickname}
-                value={nickName}
-                onChange={(e) => setNickName(e.target.value)}
-              />
+            <div style={styleLay1}>
+              <div style={styleLay1Left}>별명</div>
+              <div style={styleLay1Right}>
+                <input
+                  style={styleNickname}
+                  value={nickName}
+                  onChange={(e) => setNickName(e.target.value)}
+                />
+              </div>
             </div>
-          </div>
 
-          <div style={{ height: "10px" }} />
-          <div
-            style={{
-              position: "relative",
-              paddingLeft: "15px",
-              paddingRight: "15px",
-              marginBottom: "15px",
-              height: "36px",
-            }}
-          >
-            {nickName == nickNameReal || !regexNickname.test(nickName) ? (
-              <>
-                <animated.div
-                  style={{ ...styleBtn2, width: "100%" }}
-                  onClick={onClose}
-                  className="BTNC ND"
-                >
-                  취소
-                </animated.div>
-              </>
-            ) : (
-              <>
-                <animated.div
-                  style={styleBtn1}
-                  onClick={onClickEditNickName}
-                  className="BTNC ND"
-                >
-                  수정 하기
-                </animated.div>
-                <animated.div
-                  style={styleBtn2}
-                  onClick={onClose}
-                  className="BTNC ND"
-                >
-                  취소
-                </animated.div>
-              </>
-            )}
+            <div style={{ height: "10px" }} />
+            <div
+              style={{
+                position: "relative",
+                paddingLeft: "15px",
+                paddingRight: "15px",
+                marginBottom: "15px",
+                height: "36px",
+              }}
+            >
+              {nickName == nickNameReal || !regexNickname.test(nickName) ? (
+                <>
+                  <animated.div
+                    style={{ ...styleBtn2, width: "100%" }}
+                    onClick={onClose}
+                    className="BTNC ND"
+                  >
+                    취소
+                  </animated.div>
+                </>
+              ) : (
+                <>
+                  <animated.div
+                    style={styleBtn1}
+                    onClick={onClickEditNickName}
+                    className="BTNC ND"
+                  >
+                    수정 하기
+                  </animated.div>
+                  <animated.div
+                    style={styleBtn2}
+                    onClick={onClose}
+                    className="BTNC ND"
+                  >
+                    취소
+                  </animated.div>
+                </>
+              )}
+            </div>
           </div>
-        </div>
+        </RLayout.R1>
       </div>
     </animated.div>
   );

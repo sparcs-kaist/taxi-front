@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { animated, useSpring } from "react-spring";
+import RLayout from "../../Frame/ReactiveLayout/RLayout";
 import PropTypes from "prop-types";
 
 import svgSparcs from "./svg_sparcs1.svg";
@@ -118,31 +119,33 @@ const PopupSparcs = (props) => {
           }}
           onClick={props.onClose}
         />
-        <div style={style} className="lay_auto">
-          <img src={svgSparcs} alt="" style={styleSparcs} />
-          <div style={{ height: "15px" }} />
-          <div style={styleTitle}>만든 사람들</div>
-          <img
-            src={svgClose}
-            alt="close"
-            style={styleClose}
-            className="BTNC"
-            onClick={props.onClose}
-          />
-          <div style={styleLine} />
-          <div
-            style={{
-              margin: "15px",
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "10px",
-            }}
-          >
-            <Member name="이채영" />
-            <Member name="최준영" />
-            <Member name="최지헌" />
+        <RLayout.R1 height="100%">
+          <div style={style}>
+            <img src={svgSparcs} alt="" style={styleSparcs} />
+            <div style={{ height: "15px" }} />
+            <div style={styleTitle}>만든 사람들</div>
+            <img
+              src={svgClose}
+              alt="close"
+              style={styleClose}
+              className="BTNC"
+              onClick={props.onClose}
+            />
+            <div style={styleLine} />
+            <div
+              style={{
+                margin: "15px",
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "10px",
+              }}
+            >
+              <Member name="이채영" />
+              <Member name="최준영" />
+              <Member name="최지헌" />
+            </div>
           </div>
-        </div>
+        </RLayout.R1>
       </div>
     </animated.div>
   );

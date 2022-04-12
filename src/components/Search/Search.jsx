@@ -67,14 +67,15 @@ class Search extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.resizeEvent);
+    window.addEventListener("resize", this.resizeEvent);
     this.setState({ bodyWidth: document.body.clientWidth });
   }
 
   resizeEvent() {
     const _bodyWidth = document.body.clientWidth;
-    if (this.state.bodyWidth != _bodyWidth) this.setState({ bodyWidth: _bodyWidth});
-  };
+    if (this.state.bodyWidth != _bodyWidth)
+      this.setState({ bodyWidth: _bodyWidth });
+  }
 
   getAPIRes(dep, arr, startDate, name, part) {
     if (this.props.isSearch) {
@@ -198,7 +199,11 @@ class Search extends React.Component {
         const res = await this.getAPIRes(
           depString,
           arrString,
-          new Date(`${date[0]}-${date[1] < 10 ? "0" + date[1] : date[1]}-${date[2] < 10 ? "0" + date[2] : date[2]}`),
+          new Date(
+            `${date[0]}-${date[1] < 10 ? "0" + date[1] : date[1]}-${
+              date[2] < 10 ? "0" + date[2] : date[2]
+            }`
+          ),
           roomName,
           []
         );
@@ -231,13 +236,20 @@ class Search extends React.Component {
       // display: this.state.bodyWidth >= 720 ? "block" : "none",
     };
     return (
-      <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", ...styleMain}}>
-        {(!isResults.is || this.state.bodyWidth >= 605 )&& (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          ...styleMain,
+        }}
+      >
+        {(!isResults.is || this.state.bodyWidth >= 605) && (
           <div className="searchroom" style={{ ...styleLeft }}>
             <div style={{ height: "30px" }} />
             {this.props.isSearch && (
               <>
-                <Title img={svgSearch} unmargin>
+                <Title img={svgSearch} marginAuto={false}>
                   {this.props.isSearch && "방 검색하기"}
                 </Title>
                 <div
@@ -253,7 +265,11 @@ class Search extends React.Component {
                 >
                   {/* <div style ={{color: }}> 어느 조건으로 검색하시겠습니까?</div> */}
                   <div
-                    style={{ display: "flex", justifyContent: "flex-start", flexWrap: "wrap" }}
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-start",
+                      flexWrap: "wrap",
+                    }}
                   >
                     <Button
                       style={{
@@ -360,13 +376,13 @@ class Search extends React.Component {
             <div style={{ height: "5px" }} />
             {/* 방 제목으로 검색 */}
             {this.state.nameOpen && (
-              <WhiteContainer title="방 검색" layAuto={false}>
+              <WhiteContainer title="방 검색" marginAuto={false}>
                 <RoomName handler={this.handleChangeName} />
               </WhiteContainer>
             )}
             {/* 출발지, 도착지로검색 */}
             {this.state.placeOpen && (
-              <WhiteContainer title="장소" layAuto={false}>
+              <WhiteContainer title="장소" marginAuto={false}>
                 <Paper style={{ height: "80px" }} elevation={0}>
                   <RoomPlace handler={this.handleChangePlace} />
                 </Paper>
@@ -375,18 +391,18 @@ class Search extends React.Component {
 
             {/* 날짜로 검색 */}
             {this.state.dateOpen && (
-              <WhiteContainer title="날짜 검색" layAuto={false}>
+              <WhiteContainer title="날짜 검색" marginAuto={false}>
                 <DatePicker handler={this.handleChangeDate} />
               </WhiteContainer>
             )}
 
             {/* 시간으로 검색 */}
             {this.state.timeOpen && (
-              <WhiteContainer title="시간" layAuto={false}>
+              <WhiteContainer title="시간" marginAuto={false}>
                 <RoomTime handler={this.handleChangeTime}></RoomTime>
               </WhiteContainer>
             )}
-            <SubmitButton onClick={this.onClickSearch} layAuto={false}>
+            <SubmitButton onClick={this.onClickSearch} marginAuto={false}>
               {this.props.isSearch && "검색하기"}
               {!this.props.isSearch && "방 만들기"}
             </SubmitButton>
@@ -395,12 +411,23 @@ class Search extends React.Component {
         {/* 지금은 그냥 방 추가일때도 이걸로 표시, 추후 내 방 리스트 프론트 만들어지면 그걸로 돌리면됨 */}
         {/* {isResults.is && <SearchResult searchResults={isResults.data} />} */}
         {isResults.is && (
-          <div style={{ display: "flex", flexDirection: "column", marginLeft: this.state.bodyWidth >= 605 ? "15px" : 0, ...styleRight }}>
-            <div style={{ height: this.state.bodyWidth < 605 ? "30px" : "147px" }} />
-            {this.state.bodyWidth < 605 && <Title img={svgSearch} unmargin>
-              {this.props.isSearch && "방 검색결과"}
-            </Title>}
-            <WhiteContainer padding="20px" layAuto={false}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              marginLeft: this.state.bodyWidth >= 605 ? "15px" : 0,
+              ...styleRight,
+            }}
+          >
+            <div
+              style={{ height: this.state.bodyWidth < 605 ? "30px" : "147px" }}
+            />
+            {this.state.bodyWidth < 605 && (
+              <Title img={svgSearch} marginAuto={false}>
+                {this.props.isSearch && "방 검색결과"}
+              </Title>
+            )}
+            <WhiteContainer padding="20px" marginAuto={false}>
               <div className="subCategoryTitle">검색 결과</div>
               <div className="dashedLine"></div>
               {isResults.data.map((item, index) => (

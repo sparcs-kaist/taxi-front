@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { animated, useSpring } from "react-spring";
 import { useHistory } from "react-router";
+import RLayout from "../../Frame/ReactiveLayout/RLayout";
 import PropTypes from "prop-types";
 import axios from "../../Tool/axios";
 
@@ -330,37 +331,39 @@ const PopupPolicy = (props) => {
           }}
           onClick={onClose}
         />
-        <div style={style} className="lay_auto">
-          <img src={svgSparcs} alt="" style={styleSparcs} />
-          <div style={styleTaxi}>Taxi</div>
-          <div style={{ height: "15px" }} />
-          <div style={styleTitle}>이용 약관</div>
-          <img
-            src={svgClose}
-            alt="close"
-            style={styleClose}
-            className="BTNC"
-            onClick={onClose}
-          />
-          <div style={styleInnerBox}>
-            <Policy />
-          </div>
-          <div
-            style={{
-              position: "absolute",
-              bottom: "15px",
-              left: "15px",
-              right: "15px",
-              height: "36px",
-            }}
-          >
-            <LayBottom
-              didAgree={didAgree}
-              onClose={onClose}
-              onAgree={() => props.onClose()}
+        <RLayout.R1 height="100%">
+          <div style={style}>
+            <img src={svgSparcs} alt="" style={styleSparcs} />
+            <div style={styleTaxi}>Taxi</div>
+            <div style={{ height: "15px" }} />
+            <div style={styleTitle}>이용 약관</div>
+            <img
+              src={svgClose}
+              alt="close"
+              style={styleClose}
+              className="BTNC"
+              onClick={onClose}
             />
+            <div style={styleInnerBox}>
+              <Policy />
+            </div>
+            <div
+              style={{
+                position: "absolute",
+                bottom: "15px",
+                left: "15px",
+                right: "15px",
+                height: "36px",
+              }}
+            >
+              <LayBottom
+                didAgree={didAgree}
+                onClose={onClose}
+                onAgree={() => props.onClose()}
+              />
+            </div>
           </div>
-        </div>
+        </RLayout.R1>
       </div>
     </animated.div>
   );
