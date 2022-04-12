@@ -35,7 +35,8 @@ const R1 = (props) => {
     return (
       <div
         style={{
-          position: "relative",
+          position: props.position,
+          height: props.height,
           width: "755px",
           margin: "auto",
         }}
@@ -47,7 +48,8 @@ const R1 = (props) => {
     return (
       <div
         style={{
-          position: "relative",
+          position: props.position,
+          height: props.height,
           marginLeft: "20px",
           marginRight: "20px",
         }}
@@ -58,7 +60,12 @@ const R1 = (props) => {
   }
 };
 R1.propTypes = {
+  position: PropTypes.string,
   children: PropTypes.any,
+  height: PropTypes.any,
+};
+R1.defaultProps = {
+  position: "relative",
 };
 
 const R2 = () => {};
