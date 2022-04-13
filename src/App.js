@@ -14,9 +14,7 @@ import Login from "./components/Login/Login";
 import Search from "./components/Search/Search";
 import Add from "./components/Search/Add";
 import SearchResult from "./components/Search/SearchResult/SearchResult";
-import Roomlist from "./components/room/Roomlist/Roomlist";
-import Roominfo from "./components/room/Roominfo/Roominfo";
-import Myroom from "./components/room/Myroom/Myroom";
+import Myroom from "./components/Room/Myroom/Myroom";
 import Setting from "./components/Setting/Setting";
 //import Login from './components/user/login'
 import User from "./components/user/user";
@@ -53,12 +51,6 @@ function App() {
           <Frame navi="addroom">
             <Add isSearch={false} />
           </Frame>
-        </Route>
-        <Route exact path="/roomlist">
-          <Roomlist />
-        </Route>
-        <Route exact path="/roominfo">
-          <Roominfo />
         </Route>
         <Route exact path="/myroom">
           <Frame navi="myroom">
