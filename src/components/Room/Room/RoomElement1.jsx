@@ -4,6 +4,18 @@ import PropTypes from "prop-types";
 
 import svgArrow from "./svg_arrow.svg";
 
+const date2str = (x) => {
+  const date = new Date(x);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const hour = date.getHours();
+  let min = date.getMinutes();
+
+  if (min < 10) min = "0" + min;
+  return `${year}년 ${month}월 ${day}일 ${hour}시 ${min}분`;
+};
+
 const Room = (props) => {
   const [isHover, setHover] = useState(false);
   const style = {
@@ -11,6 +23,7 @@ const Room = (props) => {
     background: "#FAF8FB",
     overflow: "hidden",
     borderRadius: "12px",
+    marginTop: props.marginTop,
     boxShadow:
       isHover || props.selected
         ? "0px 2px 4px rgba(110, 54, 120, 0.2), 0px 1px 18px rgba(110, 54, 120, 0.12), 0px 6px 10px rgba(110, 54, 120, 0.14)"
@@ -86,7 +99,7 @@ const Room = (props) => {
         <img src={svgArrow} style={styleArrow} alt="->" />
         <div style={styleLay1Place}>{props.destination}</div>
       </div>
-      <div style={styleDate}>2021년 7월 20일 오전 9시 00분</div>
+      <div style={styleDate}>{date2str(props.date)}</div>
       <animated.div style={styleSelected} />
     </div>
   );
@@ -97,12 +110,15 @@ Room.propTypes = {
   creator: PropTypes.string,
   origin: PropTypes.string,
   destination: PropTypes.string,
+  date: PropTypes.any,
   selected: PropTypes.bool,
   onClick: PropTypes.func,
+  marginTop: PropTypes.string,
 };
 Room.defaultProps = {
   seleted: false,
   onClick: () => {},
+  marginTop: "0px",
 };
 
 export default Room;
