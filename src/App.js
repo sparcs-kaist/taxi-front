@@ -14,9 +14,9 @@ import Login from "./components/Login/Login";
 import Search from "./components/Search/Search";
 import Add from "./components/Search/Add";
 import SearchResult from "./components/Search/SearchResult/SearchResult";
-import Roomlist from "./components/room/Roomlist/Roomlist";
-import Roominfo from "./components/room/Roominfo/Roominfo";
-import Myroom from "./components/room/Myroom/Myroom";
+import Roomlist from "./components/Room/Roomlist/Roomlist";
+import Roominfo from "./components/Room/Roominfo/Roominfo";
+import Myroom from "./components/Room/Myroom/Myroom";
 import Setting from "./components/Setting/Setting";
 //import Login from './components/user/login'
 import User from "./components/user/user";
