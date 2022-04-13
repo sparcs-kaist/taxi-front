@@ -120,7 +120,7 @@ const R2 = (props) => {
           marginRight: "20px",
         }}
       >
-        {props.right}
+        {props.priority === "left" ? props.left : props.right}
       </div>
     );
   }
@@ -128,10 +128,12 @@ const R2 = (props) => {
 R2.propTypes = {
   left: PropTypes.any,
   right: PropTypes.any,
+  priority: PropTypes.string,
 };
 R2.defaultProps = {
   left: null,
   right: null,
+  priority: "right",
 };
 
 export default { useR1state, useR2state, R1, R2 };
