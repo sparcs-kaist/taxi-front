@@ -3,6 +3,7 @@ import DatePicker from "../Frame/DatePicker/DatePicker";
 import RoomName from "../Frame/RoomName/RoomName";
 import RoomPlace from "../Frame/RoomPlace/RoomPlace";
 import RoomTime from "../Frame/RoomTime/RoomTime";
+import RLayout from "../Frame/ReactiveLayout/RLayout";
 import WhiteContainer from "../Frame/WhiteContainer/WhiteContainer.jsx";
 import Title from "../Frame/Title/Title";
 import SubmitButton from "../Frame/SubmitButton/SubmitButton";
@@ -186,7 +187,11 @@ class Add extends Component {
         const res = await this.getAPIRes(
           depString,
           arrString,
-          new Date(`${date[0]}-${date[1] < 10 ? "0" + date[1] : date[1]}-${date[2] < 10 ? "0" + date[2] : date[2]}`),
+          new Date(
+            `${date[0]}-${date[1] < 10 ? "0" + date[1] : date[1]}-${
+              date[2] < 10 ? "0" + date[2] : date[2]
+            }`
+          ),
           roomName,
           []
         );
@@ -219,102 +224,112 @@ class Add extends Component {
                 <Title img={svgAddSelected}>
                   {!this.props.isSearch && "방 만들기"}
                 </Title>
-                <div
-                  className="lay_auto ND"
-                  style={{
-                    position: "relative",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
-                    display: "flex",
-                    justifyContent: "flex-start",
-                  }}
-                >
+                <RLayout.R1>
                   <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
+                    style={{
+                      position: "relative",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      display: "flex",
+                      justifyContent: "flex-start",
+                    }}
                   >
-                    <Button
+                    <div
                       style={{
-                        marginRight: "10px",
-                        borderRadius: "15px",
-                        backgroundColor: this.state.nameColor,
-                        color: this.state.nameTextColor,
-                        boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
+                        display: "flex",
+                        justifyContent: "space-between",
                       }}
-                      onClick={() =>
-                        this.setState({
-                          nameOpen: !this.state.nameOpen,
-                          nameColor: this.state.nameOpen ? "white" : "#6E3678",
-                          nameTextColor: this.state.nameOpen
-                            ? "black"
-                            : "white",
-                        })
-                      }
                     >
-                      방 이름
-                    </Button>
-                    <Button
-                      style={{
-                        marginRight: "10px",
-                        borderRadius: "15px",
-                        backgroundColor: this.state.placeColor,
-                        color: this.state.placeTextColor,
-                        boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
-                      }}
-                      onClick={() =>
-                        this.setState({
-                          placeOpen: !this.state.placeOpen,
-                          placeColor: this.state.placeOpen
-                            ? "white"
-                            : "#6E3678",
-                          placeTextColor: this.state.placeOpen
-                            ? "black"
-                            : "white",
-                        })
-                      }
-                    >
-                      출발 & 도착지
-                    </Button>
-                    <Button
-                      style={{
-                        marginRight: "10px",
-                        borderRadius: "15px",
-                        backgroundColor: this.state.dateColor,
-                        color: this.state.dateTextColor,
-                        boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
-                      }}
-                      onClick={() =>
-                        this.setState({
-                          dateOpen: !this.state.dateOpen,
-                          dateColor: this.state.dateOpen ? "white" : "#6E3678",
-                          dateTextColor: this.state.dateOpen
-                            ? "black"
-                            : "white",
-                        })
-                      }
-                    >
-                      날짜
-                    </Button>
-                    <Button
-                      style={{
-                        borderRadius: "15px",
-                        backgroundColor: this.state.timeColor,
-                        color: this.state.timeTextColor,
-                        boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
-                      }}
-                      onClick={() =>
-                        this.setState({
-                          timeOpen: !this.state.timeOpen,
-                          timeColor: this.state.timeOpen ? "white" : "#6E3678",
-                          timeTextColor: this.state.timeOpen
-                            ? "black"
-                            : "white",
-                        })
-                      }
-                    >
-                      시각
-                    </Button>
+                      <Button
+                        style={{
+                          marginRight: "10px",
+                          borderRadius: "15px",
+                          backgroundColor: this.state.nameColor,
+                          color: this.state.nameTextColor,
+                          boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
+                        }}
+                        onClick={() =>
+                          this.setState({
+                            nameOpen: !this.state.nameOpen,
+                            nameColor: this.state.nameOpen
+                              ? "white"
+                              : "#6E3678",
+                            nameTextColor: this.state.nameOpen
+                              ? "black"
+                              : "white",
+                          })
+                        }
+                      >
+                        방 이름
+                      </Button>
+                      <Button
+                        style={{
+                          marginRight: "10px",
+                          borderRadius: "15px",
+                          backgroundColor: this.state.placeColor,
+                          color: this.state.placeTextColor,
+                          boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
+                        }}
+                        onClick={() =>
+                          this.setState({
+                            placeOpen: !this.state.placeOpen,
+                            placeColor: this.state.placeOpen
+                              ? "white"
+                              : "#6E3678",
+                            placeTextColor: this.state.placeOpen
+                              ? "black"
+                              : "white",
+                          })
+                        }
+                      >
+                        출발 & 도착지
+                      </Button>
+                      <Button
+                        style={{
+                          marginRight: "10px",
+                          borderRadius: "15px",
+                          backgroundColor: this.state.dateColor,
+                          color: this.state.dateTextColor,
+                          boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
+                        }}
+                        onClick={() =>
+                          this.setState({
+                            dateOpen: !this.state.dateOpen,
+                            dateColor: this.state.dateOpen
+                              ? "white"
+                              : "#6E3678",
+                            dateTextColor: this.state.dateOpen
+                              ? "black"
+                              : "white",
+                          })
+                        }
+                      >
+                        날짜
+                      </Button>
+                      <Button
+                        style={{
+                          borderRadius: "15px",
+                          backgroundColor: this.state.timeColor,
+                          color: this.state.timeTextColor,
+                          boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
+                        }}
+                        onClick={() =>
+                          this.setState({
+                            timeOpen: !this.state.timeOpen,
+                            timeColor: this.state.timeOpen
+                              ? "white"
+                              : "#6E3678",
+                            timeTextColor: this.state.timeOpen
+                              ? "black"
+                              : "white",
+                          })
+                        }
+                      >
+                        시각
+                      </Button>
+                    </div>
                   </div>
-                </div>
+                </RLayout.R1>
               </>
             )}
             <div style={{ height: "20px" }} />

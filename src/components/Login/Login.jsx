@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
 import { backServer } from "../../serverconf";
+import RLayout from "../Frame/ReactiveLayout/RLayout";
+
 import svgLogo from "../../images/sparcs_logo.svg";
 
 const TaxiLogo = () => {
@@ -67,14 +69,11 @@ const Bottom = () => {
         height: "50px",
       }}
     >
-      <div
-        className="lay_auto"
-        style={{ height: "100%", position: "relative" }}
-      >
+      <RLayout.R1 height="100%">
         <div style={{ position: "absolute", top: "0px", right: "0px" }}>
           contact : taxi@sparcs.org
         </div>
-      </div>
+      </RLayout.R1>
     </div>
   );
 };
@@ -92,11 +91,11 @@ const Login = () => {
           left: "0px",
         }}
       />
-      <div className="lay_auto" style={{ height: "100%" }}>
+      <RLayout.R1 height="100%">
         <div style={{ height: "35%" }} />
         <TaxiLogo />
         <BtnLogin />
-      </div>
+      </RLayout.R1>
       <Bottom />
     </div>
   );

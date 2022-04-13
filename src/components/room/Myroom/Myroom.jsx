@@ -83,7 +83,7 @@ const Myroom = () => {
         style={{ display: "flex", flexDirection: "column", ...styleMain }}
       >
         <div style={{ paddingTop: "20px", paddingBottom: "10px" }}>
-          <Title img={svgMyRoom} unmargin>
+          <Title img={svgMyRoom} marginAuto={false}>
             내 방 리스트
           </Title>
         </div>
@@ -97,7 +97,7 @@ const Myroom = () => {
         >
           {/* Left Layout */}
           <div style={styleLeft}>
-            <WhiteContainer title="참여 중인 방" layAuto={false}>
+            <WhiteContainer title="참여 중인 방" marginAuto={false}>
               <div className="subCategoryTitle">참여 중인 방</div>
               <div className="dashedLine" style={{ marginTop: "19px" }}></div>
 
@@ -123,7 +123,7 @@ const Myroom = () => {
                 </BackgroundPurpleContainer>
               ))}
             </WhiteContainer>
-            <WhiteContainer title="과거 참여 방" layAuto={false}>
+            <WhiteContainer title="과거 참여 방" marginAuto={false}>
               <div className="subCategoryTitle">과거 참여 방</div>
               <div className="dashedLine" style={{ marginTop: "19px" }}></div>
               {pastRoomList.map((item, index) => (
@@ -153,7 +153,7 @@ const Myroom = () => {
 
           {/* Right Layout */}
           <div style={styleRight}>
-            <WhiteContainer layAuto={false} bottomMargin="15px">
+            <WhiteContainer marginAuto={false} marginBottom="15px">
               {/* Title */}
               <div
                 style={{
@@ -178,10 +178,14 @@ const Myroom = () => {
               </div>
             </WhiteContainer>
 
-            <WhiteContainer layAuto={false} bottomMargin="15px" padding="16px">
+            <WhiteContainer
+              marginAuto={false}
+              marginBottom="15px"
+              padding="16px"
+            >
               <ChatRoomInfo roomInfo={clickedRoomInfo}></ChatRoomInfo>
             </WhiteContainer>
-            <WhiteContainer padding="0px" layAuto={false}>
+            <WhiteContainer padding="0px" marginAuto={false}>
               <div className="chatTop">
                 <div
                   style={
@@ -261,7 +265,7 @@ const Myroom = () => {
   );
 };
 {
-  /* <WhiteContainer title="탑승 예정 택시" padding="11px" layAuto={ false }>
+  /* <WhiteContainer title="탑승 예정 택시" padding="11px" marginAuto={ false }>
         <RoomEntry
           title="서울 같이 가요~"
           participants="2"
@@ -271,7 +275,7 @@ const Myroom = () => {
           date="2021년 7월 20일 09시 00분"
         />
       </WhiteContainer>
-      <WhiteContainer title="탑승 예정 택시" padding="11px" layAuto={ false }>
+      <WhiteContainer title="탑승 예정 택시" padding="11px" marginAuto={ false }>
         <RoomEntry
           title="둔산 갑니다"
           participants="1"
@@ -281,7 +285,7 @@ const Myroom = () => {
           date="2021년 7월 20일 17시 30분"
         />
       </WhiteContainer>
-      <WhiteContainer title="탑승 예정 택시" padding="11px" layAuto={ false }>
+      <WhiteContainer title="탑승 예정 택시" padding="11px" marginAuto={ false }>
         <RoomEntry
           title="대전역 ㄱ"
           participants="3"

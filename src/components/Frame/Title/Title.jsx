@@ -1,15 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
+import RLayout from "../ReactiveLayout/RLayout";
 
 const Title = (props) => {
-  return (
+  const title = (
     <div
-      className={props.unmargin ? "ND" : "lay_auto ND"}
       style={{
         position: "relative",
         paddingTop: "10px",
         paddingBottom: "10px",
-        // maxWidth: "378px",
       }}
     >
       <img
@@ -35,13 +34,20 @@ const Title = (props) => {
       </div>
     </div>
   );
+
+  if (props.marginAuto) {
+    return <RLayout.R1>{title}</RLayout.R1>;
+  }
+  return title;
 };
 
 Title.propTypes = {
-  // FIXME specify type
   img: PropTypes.any,
   children: PropTypes.any,
-  unmargin: PropTypes.any,
+  marginAuto: PropTypes.bool,
+};
+Title.defaultProps = {
+  marginAuto: true,
 };
 
 export default Title;
