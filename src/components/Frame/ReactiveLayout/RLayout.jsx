@@ -26,7 +26,31 @@ const useR1state = () => {
   return state;
 };
 
-const useR2state = () => {};
+const useR2state = () => {
+  const getState = () => {
+    const width = document.body.clientWidth;
+    if (width >= 795) return 1;
+    if (width >= 595) return 2;
+    return 3;
+  };
+  const stateR = useRef(getState());
+  const [state, setState] = useState(stateR.current);
+
+  useEffect(() => {
+    const resizeEvent = () => {
+      const _state = getState();
+      if (stateR.current !== _state) {
+        stateR.current = _state;
+        setState(_state);
+      }
+    };
+    resizeEvent();
+    window.addEventListener("resize", resizeEvent);
+    return () => window.removeEventListener("resize", resizeEvent);
+  }, []);
+
+  return state;
+};
 
 const R1 = (props) => {
   const state = useR1state();
@@ -68,6 +92,48 @@ R1.defaultProps = {
   position: "relative",
 };
 
-const R2 = () => {};
+const R2 = (props) => {
+  const state = useR2state();
+
+  if (state == 1 || state == 2) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          gap: "15px",
+          justifyContent: "center",
+        }}
+      >
+        <div style={{ width: state == 1 ? "370px" : "calc(50% - 27.5px)" }}>
+          {props.left}
+        </div>
+        <div style={{ width: state == 1 ? "370px" : "calc(50% - 27.5px)" }}>
+          {props.right}
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <div
+        style={{
+          marginLeft: "20px",
+          marginRight: "20px",
+        }}
+      >
+        {props.priority === "left" ? props.left : props.right}
+      </div>
+    );
+  }
+};
+R2.propTypes = {
+  left: PropTypes.any,
+  right: PropTypes.any,
+  priority: PropTypes.string,
+};
+R2.defaultProps = {
+  left: null,
+  right: null,
+  priority: "right",
+};
 
 export default { useR1state, useR2state, R1, R2 };

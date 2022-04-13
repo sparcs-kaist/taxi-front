@@ -125,7 +125,7 @@ const Setting = (props) => {
 
   return (
     <div>
-      <div style={{ height: "20px" }} />
+      <div style={{ height: "30px" }} />
       <Title img={svgMyPage}>내 페이지</Title>
       <div style={{ height: "20px" }} />
       <WhiteContainer>
