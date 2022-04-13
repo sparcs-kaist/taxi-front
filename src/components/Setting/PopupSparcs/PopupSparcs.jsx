@@ -4,6 +4,7 @@ import RLayout from "../../Frame/ReactiveLayout/RLayout";
 import PropTypes from "prop-types";
 
 import svgSparcs from "./svg_sparcs1.svg";
+import svgSparcsYellow from "./svg_sparcs2.svg";
 import svgClose from "./svg_close.svg";
 
 const Member = (props) => {
@@ -12,29 +13,62 @@ const Member = (props) => {
     width: "145px",
     background: "#FAF8FB",
     position: "relative",
+    overflow: "hidden",
     borderRadius: "10px",
-    border: "1px solid rgba(110, 54, 120, 0.05)",
     boxShadow:
       "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
   };
-  const styleName = {
+  const styleLay1 = {
     position: "absolute",
-    top: "10px",
-    left: "10px",
+    top: "16px",
+    left: "14px",
+    height: "16px",
+  };
+  const styleName = {
+    display: "inline-block",
+    height: "16px",
+    lineHeight: "16px",
     fontSize: "14px",
     letterSpacing: "2px",
     color: "black",
     fontWeight: "bold",
   };
+  const styleSparcs = {
+    height: "17px",
+    paddingLeft: "8px",
+    paddingRight: "4px",
+  };
+  const styleId = {
+    display: "inline-block",
+    height: "16px",
+    lineHeight: "16px",
+    fontSize: "12px",
+    color: "#F2A024",
+    fontWeight: "bold",
+  };
+  const styleDes = {
+    position: "absolute",
+    bottom: "14px",
+    left: "14px",
+    color: "#888888",
+    fontSize: "10px",
+  };
 
   return (
     <div style={style}>
-      <div style={styleName}>{props.name}</div>
+      <div style={styleLay1}>
+        <span style={styleName}>{props.name}</span>
+        <img style={styleSparcs} src={svgSparcsYellow} alt="sparcs" />
+        <span style={styleId}>{props.id}</span>
+      </div>
+      <div style={styleDes}>{props.des}</div>
     </div>
   );
 };
 Member.propTypes = {
   name: PropTypes.string,
+  id: PropTypes.string,
+  des: PropTypes.string,
 };
 
 const PopupSparcs = (props) => {
@@ -79,6 +113,21 @@ const PopupSparcs = (props) => {
     backgroundPosition: "bottom",
     backgroundSize: "15px 1px",
     backgroundRpeat: "repeat-x",
+  };
+  const styleRole = {
+    fontSize: "14px",
+    fontWeight: "bold",
+    paddingLeft: "24px",
+    paddingRight: "24px",
+    paddingTop: "15px",
+    paddingBottom: "10px",
+  };
+  const styleMemberContainer = {
+    paddingLeft: "15px",
+    paddingRight: "15px",
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "10px",
   };
   const styleClose = {
     position: "absolute",
@@ -132,17 +181,34 @@ const PopupSparcs = (props) => {
               onClick={props.onClose}
             />
             <div style={styleLine} />
-            <div
-              style={{
-                margin: "15px",
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "10px",
-              }}
-            >
-              <Member name="이채영" />
-              <Member name="최준영" />
-              <Member name="최지헌" />
+            <div style={{ overflow: "auto", height: "calc(100% - 51px)" }}>
+              <div style={styleRole}>Project Manager</div>
+              <div style={styleMemberContainer}>
+                <Member name="김건" id="suwon" des="2022" />
+                <Member name="이채영" id="stitch" des="2021" />
+              </div>
+
+              <div style={styleRole}>Designer</div>
+              <div style={styleMemberContainer}>
+                <Member name="최지헌" id="agent" des="2021 - 2022" />
+                <Member name="이혜원" id="chillo" des="2021" />
+              </div>
+
+              <div style={styleRole}>Developer</div>
+              <div style={styleMemberContainer}>
+                <Member name="정상" id="macintosh" des="2021 - 2022" />
+                <Member name="김태우" id="toby" des="2021 - 2022" />
+                <Member name="최준영" id="dogma" des="2021" />
+                <Member name="최지헌" id="agent" des="2022" />
+                <Member name="이서완" id="swany" des="2022" />
+                <Member name="박진호" id="bread" des="2021" />
+                <Member name="송인화" id="ina" des="2021" />
+                <Member name="김건" id="suwon" des="2021 - 2022" />
+                <Member name="이채영" id="stitch" des="2021" />
+                <Member name="예상우" id="andy" des="2022" />
+                <Member name="신태현" id="kiko" des="2022" />
+              </div>
+              <div style={{ height: "40px" }} />
             </div>
           </div>
         </RLayout.R1>
