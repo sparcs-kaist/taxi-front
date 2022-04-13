@@ -7,7 +7,8 @@ const WhiteContainer = (props) => {
     <div
       style={{
         marginBottom: props.marginBottom,
-        boxShadow: "0px 1px 7.5px 2px rgba(0,0,0,0.05)",
+        boxShadow:
+          "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
         borderRadius: "12px",
         overflow: "hidden",
       }}

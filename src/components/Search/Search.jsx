@@ -13,7 +13,6 @@ import RoomEntry from "../Frame/RoomEntry/RoomEntry";
 import { Paper, Button } from "@material-ui/core";
 
 import svgSearch from "./svg_search.svg";
-import svgAddSelected from "./add_selected.svg";
 
 import PropTypes from "prop-types";
 
@@ -376,7 +375,7 @@ class Search extends React.Component {
             <div style={{ height: "5px" }} />
             {/* 방 제목으로 검색 */}
             {this.state.nameOpen && (
-              <WhiteContainer title="방 검색" marginAuto={false}>
+              <WhiteContainer title="방 검색" marginAuto={false} padding="9px">
                 <RoomName handler={this.handleChangeName} />
               </WhiteContainer>
             )}
