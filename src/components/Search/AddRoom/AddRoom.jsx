@@ -30,6 +30,10 @@ const AddRoom = (props) => {
     validatedMsg = "시간을 선택하세요";
   } else if (valueName === "") {
     validatedMsg = "방 이름을 입력하세요";
+  } else if (
+    !RegExp("^[A-Za-z0-9가-힣ㄱ-ㅎㅏ-ㅣ,.?! _-]{1,50}$").test(valueName)
+  ) {
+    validatedMsg = "방 이름으로 사용될 수 없습니다";
   }
   if (validatedMsg) btnBackground = ["#B89DBD", "#B89DBD"];
 
@@ -43,9 +47,11 @@ const AddRoom = (props) => {
           from: valuePlace[0],
           to: valuePlace[1],
           time: new Date(
-            `${valueDate[0]}-${
-              valueDate[1] < 10 ? "0" + valueDate[1] : valueDate[1]
-            }-${valueDate[2] < 10 ? "0" + valueDate[2] : valueDate[2]}`
+            valueDate[0],
+            valueDate[1] - 1,
+            valueDate[2],
+            valueTime[0],
+            valueTime[1]
           ),
         },
       });
