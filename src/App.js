@@ -11,7 +11,7 @@ import {
 } from "react-router-dom";
 import Frame from "./components/Frame/Frame";
 import Login from "./components/Login/Login";
-import Search from "./components/Search/Search";
+import Search from "./components/Search/Search/Search";
 import AddRoom from "./components/Search/AddRoom/AddRoom";
 import SearchResult from "./components/Search/SearchResult/SearchResult";
 import Myroom from "./components/Room/Myroom/Myroom";
