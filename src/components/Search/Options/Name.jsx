@@ -11,22 +11,22 @@ const Name = (props) => {
   };
   const styleIcon = {
     width: "14px",
-    height: "20px",
+    height: "28px",
     marginLeft: "15px",
-    marginTop: "2px",
-    fill: "black",
   };
   const styleName = {
-    marginLeft: "5px",
-    fontSize: "16px",
-    color: "black",
+    height: "28px",
+    lineHeight: "28px",
+    marginLeft: "6px",
+    width: "50px",
+    fontSize: "14px",
   };
   const styleInput = {
     height: "28px",
-    width: "calc(100% - 110px)",
+    width: "calc(100% - 100px)",
     marginLeft: "10px",
-    paddingLeft: "20px",
-    paddingRight: "20px",
+    paddingLeft: "10px",
+    paddingRight: "10px",
     borderRadius: "8px",
     border: "none",
     outline: "none",

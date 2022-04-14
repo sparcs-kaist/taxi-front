@@ -1,22 +1,59 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
 import PropTypes from "prop-types";
 import WhiteContainer from "../../Frame/WhiteContainer/WhiteContainer";
 import Popup from "./Popup";
+import Picker from "react-scrollable-picker";
+
+const optionList = [
+  "택시승강장",
+  "갤러리아 타임월드",
+  "서대전역",
+  "대전역",
+  "정부청사",
+];
 
 const PopupInput = (props) => {
+  const [value, setValue] = useState({ place: optionList[0] });
+  const optionGroup = {
+    place: optionList.map((x) => {
+      return { value: x, label: x };
+    }),
+  };
+
+  const resetValue = () => {
+    if (props.value) setValue({ place: props.value });
+    else setValue({ place: optionList[0] });
+  };
+  useEffect(() => {
+    if (props.isOpen) resetValue();
+  }, [props.isOpen]);
+
   const onClick = () => {
+    props.handler(value.place);
     props.onClose();
   };
+  const handler = (key, value) => {
+    setValue({ place: value });
+  };
+
   return (
     <Popup isOpen={props.isOpen} onClose={props.onClose} onClick={onClick}>
-      <div>출발 도착</div>
+      <div>
+        <Picker
+          optionGroups={optionGroup}
+          valueGroups={value}
+          onChange={handler}
+          height={216}
+        />
+      </div>
     </Popup>
   );
 };
 PopupInput.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
+  value: PropTypes.string,
   handler: PropTypes.func,
 };
 
@@ -71,7 +108,7 @@ const PlaceElement = (props) => {
   );
 };
 PlaceElement.propTypes = {
-  value: PropTypes.array,
+  value: PropTypes.string,
   type: PropTypes.string,
   onClick: PropTypes.func,
 };
@@ -115,12 +152,14 @@ const Place = (props) => {
       <PopupInput
         isOpen={isPopup1}
         onClose={() => setPopup1(false)}
-        handler={(x) => props.handler(x, props.value[1])}
+        value={props.value[0]}
+        handler={(x) => props.handler([x, props.value[1]])}
       />
       <PopupInput
         isOpen={isPopup2}
         onClose={() => setPopup2(false)}
-        handler={(x) => props.handler(props.value[0], x)}
+        value={props.value[1]}
+        handler={(x) => props.handler([props.value[0], x])}
       />
     </WhiteContainer>
   );

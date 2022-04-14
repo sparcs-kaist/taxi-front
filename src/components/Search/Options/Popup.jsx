@@ -78,7 +78,7 @@ const Popup = (props) => {
           onClick={props.onClose}
         />
         <RLayout.R1 height="100%" position="static">
-          <div style={style}>
+          <div style={style} className="ND">
             <div style={{ height: "calc(100% - 46px)" }}>{props.children}</div>
             <div
               style={{
