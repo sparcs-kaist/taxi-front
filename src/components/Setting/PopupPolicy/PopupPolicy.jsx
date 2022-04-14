@@ -177,7 +177,6 @@ const LayBottom = (props) => {
 
   const onAgree = async () => {
     const result = await axios.post("/users/agreeOnTermsOfService");
-    console.log(result);
     if (result.status !== 200) {
       alert("약관 동의에 실패하였습니다.");
       return;

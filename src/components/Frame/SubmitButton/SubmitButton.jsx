@@ -6,14 +6,17 @@ import RLayout from "../ReactiveLayout/RLayout";
 const Button = (props) => {
   const [isHover, setHover] = useState(false);
   const style = {
-    minHeight: "50px",
-    lineHeight: "50px",
+    paddingTop: "13px",
+    paddingBottom: "13px",
+    lineHeight: "24px",
     textAlign: "center",
     fontSize: "16px",
     color: props.fontColor,
-    fontWeight: 700,
+    fontWeight: "Bold",
     letterSpacing: "0.1em",
-    borderRadius: "15px",
+    borderRadius: "12px",
+    boxShadow:
+      "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
   };
   const background = useSpring({
     background: isHover ? props.backgroundHover : props.background,

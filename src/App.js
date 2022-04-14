@@ -12,7 +12,7 @@ import {
 import Frame from "./components/Frame/Frame";
 import Login from "./components/Login/Login";
 import Search from "./components/Search/Search";
-import Add from "./components/Search/Add";
+import AddRoom from "./components/Search/AddRoom/AddRoom";
 import SearchResult from "./components/Search/SearchResult/SearchResult";
 import Myroom from "./components/Room/Myroom/Myroom";
 import Setting from "./components/Setting/Setting";
@@ -49,7 +49,7 @@ function App() {
         </Route>
         <Route exact path="/addroom">
           <Frame navi="addroom">
-            <Add isSearch={false} />
+            <AddRoom />
           </Frame>
         </Route>
         <Route exact path="/myroom">

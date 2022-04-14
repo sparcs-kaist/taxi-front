@@ -32,7 +32,7 @@ const Date = (props) => {
     position: "absolute",
     top: "calc(50% - 12px)",
     left: "0px",
-    fontSize: "15px",
+    fontSize: "12px",
     fontWeight: 300,
     color: "#C8C8C8",
   };
