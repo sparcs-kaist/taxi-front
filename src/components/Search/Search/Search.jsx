@@ -1,7 +1,11 @@
 import React, { useState, useRef } from "react";
 import { animated, useSpring } from "react-spring";
+import { useHistory } from "react-router";
 import RLayout from "../../Frame/ReactiveLayout/RLayout";
 import Title from "../../Frame/Title/Title";
+import SubmitButton from "../../Frame/SubmitButton/SubmitButton";
+import SideResult from "../SearchResult/SideResult";
+import axios from "../../Tool/axios";
 import PropTypes from "prop-types";
 
 import OptionName from "../Options/Name";
@@ -86,6 +90,9 @@ SelectSearchOptions.propTypes = {
 };
 
 const Search = (props) => {
+  const history = useHistory();
+  const reactiveState = RLayout.useR2state();
+  const onCall = useRef(false);
   const [searchOptions, setSearchOptions] = useState({});
   const [valueName, setName] = useState("");
   const [valuePlace, setPlace] = useState([null, null]);
@@ -93,6 +100,17 @@ const Search = (props) => {
   const [valueTime, setTime] = useState(["9", "00"]);
 
   const [searchResult, setSearchResult] = useState(null);
+
+  const onClickSearch = () => {
+    if (!onCall.current) {
+      onCall.current = true;
+      setSearchResult([]);
+    }
+  };
+
+  if (reactiveState == 3 && searchResult !== null) {
+    history.push(`/search/result/123`);
+  }
 
   const leftLay = (
     <div>
@@ -112,9 +130,17 @@ const Search = (props) => {
       {searchOptions.time ? (
         <OptionTime value={valueTime} handler={setTime} />
       ) : null}
+      <SubmitButton
+        marginAuto={false}
+        background="#6E3678"
+        backgroundHover="#5E2668"
+        onClick={onClickSearch}
+      >
+        방 검색하기
+      </SubmitButton>
     </div>
   );
-  const rightLay = searchResult === null ? null : <div></div>;
+  const rightLay = searchResult === null ? null : <SideResult />;
 
   return (
     <div>
