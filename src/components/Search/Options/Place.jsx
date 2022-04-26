@@ -72,7 +72,7 @@ const PlaceElement = (props) => {
     width: "3px",
     height: "3px",
     borderRadius: "2px",
-    background: props.value ? "#888888" : "black",
+    background: props.value ? "#888888" : "#323232",
   };
   const styleType = {
     height: "14px",
@@ -80,7 +80,7 @@ const PlaceElement = (props) => {
     marginTop: "5px",
     textAlign: "center",
     fontSize: "12px",
-    color: props.value ? "#888888" : "black",
+    color: props.value ? "#888888" : "#323232",
   };
   const styleText = {
     height: "19px",
@@ -89,7 +89,7 @@ const PlaceElement = (props) => {
     textAlign: "center",
     fontSize: "16px",
     fontWeight: "bold",
-    color: props.value ? "black" : "#C8C8C8",
+    color: props.value ? "#323232" : "#C8C8C8",
   };
   return (
     <animated.div

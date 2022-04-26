@@ -18,22 +18,23 @@ const Name = (props) => {
     height: "28px",
     lineHeight: "28px",
     marginLeft: "6px",
-    width: "50px",
+    marginRight: "6px",
+    width: "fit-content",
+    whiteSpace: "nowrap",
     fontSize: "14px",
   };
   const styleInput = {
     height: "28px",
-    width: "calc(100% - 100px)",
-    marginLeft: "10px",
-    paddingLeft: "10px",
-    paddingRight: "10px",
+    width: "100%",
+    paddingLeft: "12px",
+    paddingRight: "12px",
     borderRadius: "8px",
     border: "none",
     outline: "none",
     backgroundColor: "#FAFAFA",
     boxShadow: "inset 1px 1px 2.5px -1px rgba(0, 0, 0, 0.075)",
-    color: "black",
     fontSize: "14px",
+    letterSpacing: "0.05em",
   };
   return (
     <WhiteContainer marginAuto={false} padding="9px">

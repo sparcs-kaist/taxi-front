@@ -57,7 +57,7 @@ const PopupInput = (props) => {
   const styleName = {
     alignSelf: "center",
     fontSize: "15px",
-    color: "black",
+    color: "#323232",
     paddingLeft: "6px",
     paddingRight: "6px",
   };

@@ -25,6 +25,7 @@ const Title = (props) => {
             lineHeight: "23px",
             fontSize: "20px",
             fontWeight: "bold",
+            letterSpacing: "0.03em",
             color: "#6E3678",
           }}
         >

@@ -129,7 +129,7 @@ class DatePicker extends Component {
       top: "0px",
       left: "44px",
       fontSize: "16px",
-      color: "black",
+      color: "#323232",
       height: "24px",
       lineHeight: "24px",
     };

@@ -18,16 +18,14 @@ import svgSearch from "./svg_search.svg";
 const SearchOption = (props) => {
   const [isHover, setHover] = useState(false);
   const style = useSpring({
-    height: "30px",
-    lineHeight: "30px",
+    height: "15px",
     borderRadius: "15px",
-    paddingLeft: "15px",
-    paddingRight: "15px",
+    padding: "8px 15px 7px 15px",
     boxShadow:
       "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
-    background: props.selected ? "#6E3678" : isHover ? "#F8EDFD" : "#FFFFFF",
+    background: props.selected ? "#6E3678" : isHover ? "#f4eaf6" : "#FFFFFF",
     fontSize: "13px",
-    color: props.selected ? "#FFFFFF" : "#000000",
+    color: props.selected ? "#FFFFFF" : "#323232",
     config: { duration: 100 },
   });
   return (
@@ -114,7 +112,9 @@ const Search = (props) => {
 
   const leftLay = (
     <div>
-      <div style={{ color: "#6E3678", fontSize: "14px" }}>
+      <div
+        style={{ color: "#6E3678", fontSize: "14px", letterSpacing: "0.03em" }}
+      >
         어떤 조건으로 검색할까요?
       </div>
       <SelectSearchOptions options={searchOptions} handler={setSearchOptions} />
@@ -146,7 +146,7 @@ const Search = (props) => {
     <div>
       <div style={{ height: "30px" }} />
       <Title img={svgSearch}>방 검색하기</Title>
-      <div style={{ height: "20px" }} />
+      <div style={{ height: "25px" }} />
       <RLayout.R2 left={leftLay} right={rightLay} priority="left" />
     </div>
   );

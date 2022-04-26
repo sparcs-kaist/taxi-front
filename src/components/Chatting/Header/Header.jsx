@@ -265,7 +265,7 @@ const Info = (props) => {
   const style2 = {
     fontSize: "13px",
     fontWeight: 300,
-    color: "black",
+    color: "#323232",
     textAlign: props.align,
   };
   return (
