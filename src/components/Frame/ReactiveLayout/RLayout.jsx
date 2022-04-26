@@ -96,6 +96,12 @@ const R2 = (props) => {
   const state = useR2state();
 
   if (state == 1 || state == 2) {
+    if (props.priority === "left" && props.right === null) {
+      return <R1>{props.left}</R1>;
+    }
+    if (props.priority === "right" && props.left === null) {
+      return <R1>{props.right}</R1>;
+    }
     return (
       <div
         style={{
