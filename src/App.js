@@ -14,7 +14,7 @@ import Login from "./components/Login/Login";
 import Search from "./components/Search/Search";
 import AddRoom from "./components/Search/AddRoom/AddRoom";
 import SearchResult from "./components/Search/SearchResult/SearchResult";
-import Myroom from "./components/Room/Myroom/Myroom";
+import Myroom from "./components/room/Myroom/Myroom";
 import Setting from "./components/Setting/Setting";
 //import Login from './components/user/login'
 import User from "./components/user/user";
