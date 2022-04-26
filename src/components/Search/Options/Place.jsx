@@ -61,8 +61,8 @@ const PlaceElement = (props) => {
   const [isHover, setHover] = useState(false);
 
   const style = useSpring({
-    width: "calc(50% - 5px)",
-    background: `rgba(120,120,120,${isHover ? 0.05 : 0})`,
+    width: "calc(50% - 10px)",
+    background: `rgba(0,0,0,${isHover ? 0.04 : 0})`,
     borderRadius: "8px",
     config: { duration: 100 },
   });
@@ -71,25 +71,31 @@ const PlaceElement = (props) => {
     marginTop: "18px",
     width: "3px",
     height: "3px",
-    borderRadius: "2px",
+    borderRadius: "1.5px",
     background: props.value ? "#888888" : "#323232",
   };
   const styleType = {
     height: "14px",
-    lineHeight: "14px",
     marginTop: "5px",
     textAlign: "center",
     fontSize: "12px",
+    letterSpacing: "0.03em",
     color: props.value ? "#888888" : "#323232",
   };
+  const styleTextGrid = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 49,
+  };
   const styleText = {
-    height: "19px",
     lineHeight: "19px",
-    marginTop: "15px",
     textAlign: "center",
     fontSize: "16px",
+    letterSpacing: "0.13em",
     fontWeight: "bold",
     color: props.value ? "#323232" : "#C8C8C8",
+    wordBreak: "keep-all",
   };
   return (
     <animated.div
@@ -101,8 +107,14 @@ const PlaceElement = (props) => {
     >
       <div style={styleCircle} />
       <div style={styleType}>{props.type}</div>
-      <div style={styleText}>
-        {props.value ? props.value : "어디로 가나요?"}
+      <div style={styleTextGrid}>
+        <div style={styleText}>
+          {props.value
+            ? props.value
+            : props.type == "출발지"
+            ? "어디서 가시나요?"
+            : "어디로 가시나요?"}
+        </div>
       </div>
     </animated.div>
   );
@@ -118,13 +130,12 @@ const Place = (props) => {
   const [isPopup2, setPopup2] = useState(false);
 
   const styleLine = {
-    width: "1px",
-    height: "100%",
+    width: 1,
+    height: "calc(100% + 5px)",
     backgroundImage:
       "linear-gradient(to bottom, #C8C8C8 50%, rgba(255,255,255,0) 0%)",
-    backgroundPosition: "up",
-    backgroundSize: "1px 14px",
-    backgroundRpeat: "repeat-y",
+    backgroundSize: "1px 10px",
+    marginTop: -2.5,
   };
 
   return (
@@ -135,6 +146,7 @@ const Place = (props) => {
           display: "flex",
           position: "relative",
           justifyContent: "space-between",
+          overflow: "hidden",
         }}
       >
         <PlaceElement
