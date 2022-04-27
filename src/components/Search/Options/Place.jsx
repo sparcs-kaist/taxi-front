@@ -3,7 +3,7 @@ import { useSpring, animated } from "react-spring";
 import PropTypes from "prop-types";
 import WhiteContainer from "../../Frame/WhiteContainer/WhiteContainer";
 import Popup from "./Popup";
-import Picker from "react-scrollable-picker";
+import Picker from "react-mobile-picker";
 
 const optionList = [
   "택시승강장",
@@ -15,11 +15,7 @@ const optionList = [
 
 const PopupInput = (props) => {
   const [value, setValue] = useState({ place: optionList[0] });
-  const optionGroup = {
-    place: optionList.map((x) => {
-      return { value: x, label: x };
-    }),
-  };
+  const optionGroups = { place: optionList };
 
   const resetValue = () => {
     if (props.value) setValue({ place: props.value });
@@ -41,10 +37,9 @@ const PopupInput = (props) => {
     <Popup isOpen={props.isOpen} onClose={props.onClose} onClick={onClick}>
       <div>
         <Picker
-          optionGroups={optionGroup}
+          optionGroups={optionGroups}
           valueGroups={value}
           onChange={handler}
-          height={216}
         />
       </div>
     </Popup>
