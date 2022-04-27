@@ -28,7 +28,6 @@ const MessagesBody = (prop) => {
         ))}
       </ol>
     </div>
-    
   );
 };
 
