@@ -4,8 +4,8 @@ import { io } from "socket.io-client";
 import Header from "./Header/Header";
 import MessagesBody from "./MessagesBody/MessagesBody";
 import MessageForm from "./Input/MessageForm";
-import { backServer } from "../../serverconf"
-import "./Style/Chatting.css"
+import { backServer } from "../../serverconf";
+import "./Style/Chatting.css";
 import axios from "../Tool/axios";
 
 // Reponse
@@ -15,21 +15,63 @@ import axios from "../Tool/axios";
 //   totalPage: Number, //총 페이지 수(전체 채팅 수를 pageSize로 나눈 것)
 //   totalChats: Number, //총 채팅 개수
 // }
-const dummyDate = (new Date()).toISOString();
+const dummyDate = new Date().toISOString();
 const chatRoomResponse = {
   data: [
-    { roomId: "roomId", authorName: "펭귄", authorId: "펭귄", text: "여러분 택시타요", time: dummyDate },
-    { roomId: "roomId", authorName: "펭귄", authorId: "펭귄", text: "택시 타", time: dummyDate },
-    { roomId: "roomId", authorName: "펭귄", authorId: "펭귄", text: "괜찮나요?", time: dummyDate },
-    { roomId: "roomId", authorName: "크롱", authorId: "크롱", text: "네 좋습니다", time: dummyDate },
-    { roomId: "roomId", authorName: "크롱", authorId: "크롱", text: "고고링", time: dummyDate },
-    { roomId: "roomId", authorName: "test1", authorId: "test1", text: "음 전 싫어요", time: dummyDate },
-    { roomId: "roomId", authorName: "test1", authorId: "test1", text: "크롱 있어서", time: dummyDate },
+    {
+      roomId: "roomId",
+      authorName: "펭귄",
+      authorId: "펭귄",
+      text: "여러분 택시타요",
+      time: dummyDate,
+    },
+    {
+      roomId: "roomId",
+      authorName: "펭귄",
+      authorId: "펭귄",
+      text: "택시 타",
+      time: dummyDate,
+    },
+    {
+      roomId: "roomId",
+      authorName: "펭귄",
+      authorId: "펭귄",
+      text: "괜찮나요?",
+      time: dummyDate,
+    },
+    {
+      roomId: "roomId",
+      authorName: "크롱",
+      authorId: "크롱",
+      text: "네 좋습니다",
+      time: dummyDate,
+    },
+    {
+      roomId: "roomId",
+      authorName: "크롱",
+      authorId: "크롱",
+      text: "고고링",
+      time: dummyDate,
+    },
+    {
+      roomId: "roomId",
+      authorName: "test1",
+      authorId: "test1",
+      text: "음 전 싫어요",
+      time: dummyDate,
+    },
+    {
+      roomId: "roomId",
+      authorName: "test1",
+      authorId: "test1",
+      text: "크롱 있어서",
+      time: dummyDate,
+    },
   ],
   // page: 0,
   // totalPage: 0,
   totalChats: 3,
-}
+};
 
 const Chatting = (props) => {
   const roomId = useParams().roomId;
@@ -79,59 +121,68 @@ const Chatting = (props) => {
   // MessageForm 관련 함수들 - 끝-------
 
   // Events
-  const endterRoom = () => {
-
-  }
-  const receiveMessage = () => {
-
-  }
-  const requestMoreChats = () => {
-
-  }
-  const incomeUser = () => {
-
-  }
-  const exitUser = () => {
-
-  }
+  const endterRoom = () => {};
+  const receiveMessage = () => {};
+  const requestMoreChats = () => {};
+  const incomeUser = () => {};
+  const exitUser = () => {};
   // const updateReadCnt = () => {}
   const sendMessage = (messageStr) => {
     socket.current.emit("chats-send", { roomId: roomId, content: messageStr });
+    console.log(messageStr);
   };
 
   // socket conncet
-  const getSocket = () => {
-
-  }
+  const getSocket = () => {};
   useEffect(() => {
     const _socket = io(backServer, {
-      withCredentials: true
+      withCredentials: true,
     });
-
     socket.current = _socket;
     socket.current.on("chats-join", (chats) => {
-      console.log(chats);
-      setChats(chats.chats)
-    })
+      setChats(chats.chats);
+    });
 
-    axios.get(`/rooms/${ roomId }/info`).then(({ data }) => {
-      setHeaderInfo(data);
-      socket.current.emit("chats-join", roomId);
-      
-      // setChats(data); 
-    }).catch(() => {
-      // when error !
-    })
-    
-    axios.get(`/rooms/${ roomId }/info`).then(({data}) => {
-      console.log(data);
-    })
-  }, [roomId])
+    axios
+      .get(`/rooms/${roomId}/info`)
+      .then(({ data }) => {
+        setHeaderInfo(data);
+        socket.current.emit("chats-join", roomId);
+
+        // setChats(data);
+      })
+      .catch(() => {
+        // when error !
+      });
+
+    axios.get(`/rooms/${roomId}/info`).then(({ data }) => {
+      // console.log(data);
+    });
+  }, [roomId]);
+
+  // recieve chats
+  useEffect(() => {
+    socket.current.on("chats-recieve", (chats) => {
+      if (chats) {
+        setChats(chats.chats);
+      }
+    });
+    socket.current.on("chats-load", (chats) => {
+      if (chats) {
+        setChats(chats.chats);
+      }
+    });
+  }, []);
+
+  // reload chats
+  useEffect(() => {
+    socket.current.emit("chats-load", new Date().toISOString());
+  }, [newMessage]);
 
   return (
     <div className="ChatRoomContainer">
-      <Header info={ headerInfo } />
-      <MessagesBody chats={chats} user={user}/>
+      <Header info={headerInfo} />
+      <MessagesBody chats={chats} user={user} />
       <MessageForm
         newMessage={newMessage}
         handleNewMessageChange={handleNewMessageChange}
