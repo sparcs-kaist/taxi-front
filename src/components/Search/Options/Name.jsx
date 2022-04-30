@@ -19,7 +19,6 @@ const Name = (props) => {
     lineHeight: "28px",
     marginLeft: "6px",
     marginRight: "6px",
-    width: "fit-content",
     whiteSpace: "nowrap",
     fontSize: "14px",
   };

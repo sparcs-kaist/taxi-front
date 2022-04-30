@@ -1,48 +1,41 @@
 import React, { Component } from "react";
 import { useSpring, animated } from "react-spring";
 import getDateInfo from "./getDateInfo";
-import svgToday from "./svg_today.svg";
-import svgLeft from "./svg_left.svg";
-import svgRight from "./svg_right.svg";
+import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
+import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
+import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import PropTypes from "prop-types";
 
 const Date = (props) => {
   const style = {
-    display: "inline-block",
-    position: "relative",
-    width: "14.2%",
+    width: "calc((100% - 36px) / 7)",
     height: "100%",
     overflow: "hidden",
   };
 
   let styleBox = {
-    width: "calc(100% - 6px)",
     height: "100%",
-    marginLeft: "3px",
-    borderRadius: "10px",
-    background: "#FAFAFA",
+    borderRadius: "6px",
+    background: "#fafafa",
     position: "relative",
+    display: "flex",
+    alignItems: "center",
   };
   let className = "";
   let styleDate = {
     width: "100%",
     textAlign: "center",
-    height: "24px",
-    lineHeight: "24px",
-    position: "absolute",
-    top: "calc(50% - 12px)",
-    left: "0px",
     fontSize: "12px",
-    fontWeight: 300,
+    lineHeight: "14px",
     color: "#C8C8C8",
   };
   let styleToday = {
-    width: "4px",
-    height: "4px",
-    borderRadius: "2px",
+    width: "3px",
+    height: "3px",
+    borderRadius: "1.5px",
     position: "absolute",
-    top: "calc(50% + 10px)",
-    left: "calc(50% - 2px)",
+    top: "calc(50% + 8.5px)",
+    left: "calc(50% - 1.5px)",
   };
 
   if (props.available) {
@@ -67,9 +60,9 @@ const Date = (props) => {
     config: { duration: 150 },
   });
 
-  if (!props.date) return <span style={style} />;
+  if (!props.date) return <div style={style} />;
   return (
-    <span style={style}>
+    <div style={style}>
       <animated.div
         style={{ ...styleBox, ...background }}
         className={className}
@@ -78,7 +71,7 @@ const Date = (props) => {
         <div style={styleDate}>{props.date}</div>
         <div style={styleToday} />
       </animated.div>
-    </span>
+    </div>
   );
 };
 
@@ -106,62 +99,58 @@ class DatePicker extends Component {
     ];
 
     this.styleLayTop = {
-      height: "44px",
-      position: "relative",
+      height: "25px",
+      display: "flex",
+      justifyContent: "space-between",
+      marginBottom: "10px",
+      paddingRight: "1px",
+    };
+    this.styleLayInfo = {
+      display: "flex",
+      alignItems: "center",
     };
     this.styleLayTopBorder = {
-      height: "1px",
+      height: "0.5px",
       backgroundImage:
         "linear-gradient(to right, #C8C8C8 50%, rgba(255,255,255,0) 0%)",
-      backgroundPosition: "bottom",
-      backgroundSize: "15px 1px",
-      backgroundRpeat: "repeat-x",
+      backgroundSize: "10px 1px",
     };
     this.styleLayTopImg = {
-      position: "absolute",
-      top: "2px",
-      left: "15px",
-      width: "20px",
-      height: "20px",
+      width: "14px",
+      height: "14px",
+      marginLeft: "9px",
     };
     this.styleLayTopTxt = {
-      position: "absolute",
-      top: "0px",
-      left: "44px",
-      fontSize: "16px",
-      color: "#323232",
-      height: "24px",
-      lineHeight: "24px",
+      fontSize: "14px",
+      marginLeft: "6px",
     };
-    this.styleLayTopLeft = {
-      position: "absolute",
-      top: "0px",
-      right: "40px",
-      width: "31px",
-      height: "31px",
+    this.styleLayArrow = {
+      width: "25px",
+      height: "25px",
+      fill: "var(--purple)",
     };
-    this.styleLayTopRight = {
-      position: "absolute",
-      top: "0px",
-      right: "0px",
-      width: "31px",
-      height: "31px",
+    this.styleLayArrowGrid = {
+      width: "60px",
+      display: "flex",
+      justifyContent: "space-between",
     };
     this.styleLayWeek = {
-      height: "19px",
-      position: "relative",
+      height: "12px",
+      display: "flex",
       marginTop: "10px",
       marginBottom: "10px",
+      gap: "6px",
     };
     this.styleWeekItem = {
-      display: "inline-block",
-      width: "14.2%",
-      fontSize: "13px",
+      width: "calc((100% - 36px) / 7)",
+      fontSize: "10px",
+      height: "12px",
       textAlign: "center",
     };
     this.styleLayOneWeek = {
-      position: "relative",
+      display: "flex",
       marginBottom: "6px",
+      gap: "6px",
     };
 
     this.state = {
@@ -179,12 +168,11 @@ class DatePicker extends Component {
   }
 
   resizeEvent() {
-    const bodyWidth = document.body.clientWidth;
+    // const bodyWidth = document.body.clientWidth;
     const weeks = document.getElementsByClassName("datepicker-week");
-
     if (weeks.length > 0) {
-      const width = weeks[0].clientWidth / 7 - 6;
-      const height = `${Math.min(width, 50)}px`;
+      const width = (weeks[0].clientWidth - 36) / 7;
+      const height = `${Math.min(width, 60)}px`;
       for (let i = 0; i < weeks.length; i++) {
         weeks[i].style.height = height;
       }
@@ -209,41 +197,41 @@ class DatePicker extends Component {
     };
 
     return (
-      <div>
+      <>
         <div style={this.styleLayTop}>
-          <img src={svgToday} style={this.styleLayTopImg} alt="" />
-          <div style={this.styleLayTopTxt}>
-            날짜 : {year}년 {month}월
+          <div style={this.styleLayInfo}>
+            <CalendarTodayIcon style={this.styleLayTopImg} />
+            <div style={this.styleLayTopTxt}>
+              날짜 : {year}년 {month}월
+            </div>
           </div>
-          <img
-            src={svgLeft}
-            style={this.styleLayTopLeft}
-            className="BTNC"
-            alt=""
-            onClick={onClickBack}
-          />
-          <img
-            src={svgRight}
-            style={this.styleLayTopRight}
-            className="BTNC"
-            alt=""
-            onClick={onClickNext}
-          />
+          <div style={this.styleLayArrowGrid}>
+            <KeyboardArrowLeftIcon
+              style={this.styleLayArrow}
+              className="BTNC"
+              onClick={onClickBack}
+            />
+            <KeyboardArrowRightIcon
+              style={this.styleLayArrow}
+              className="BTNC"
+              onClick={onClickNext}
+            />
+          </div>
         </div>
         <div style={this.styleLayTopBorder} />
         <div style={this.styleLayWeek}>
           {this.week.map((item, index) => {
             return (
-              <span
+              <div
                 key={index}
                 style={{
                   ...this.styleWeekItem,
                   color: item.color,
-                  opacity: 0.6,
+                  opacity: 0.632,
                 }}
               >
                 {item.text}
-              </span>
+              </div>
             );
           })}
         </div>
@@ -278,7 +266,7 @@ class DatePicker extends Component {
             </div>
           );
         })}
-      </div>
+      </>
     );
   }
   componentDidMount() {

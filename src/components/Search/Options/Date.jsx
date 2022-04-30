@@ -5,7 +5,7 @@ import DatePicker from "../../Frame/DatePicker/DatePicker";
 
 const Date = (props) => {
   return (
-    <WhiteContainer marginAuto={false}>
+    <WhiteContainer marginAuto={false} padding="10px 15px 9px">
       <DatePicker handler={(x, y, z) => props.handler([x, y, z])} />
     </WhiteContainer>
   );

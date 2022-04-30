@@ -62,7 +62,7 @@ const SelectSearchOptions = (props) => {
         display: "flex",
         flexWrap: "wrap",
         gap: "10px",
-        paddingTop: "8px",
+        paddingTop: "10px",
         paddingBottom: "15px",
       }}
     >
@@ -113,7 +113,11 @@ const Search = (props) => {
   const leftLay = (
     <div>
       <div
-        style={{ color: "#6E3678", fontSize: "14px", letterSpacing: "0.03em" }}
+        style={{
+          color: "#6E3678",
+          fontSize: "14px",
+          letterSpacing: "0.03em",
+        }}
       >
         어떤 조건으로 검색할까요?
       </div>

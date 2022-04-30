@@ -26,7 +26,7 @@ const Title = (props) => {
             fontSize: "20px",
             fontWeight: "bold",
             letterSpacing: "0.03em",
-            color: "#6E3678",
+            color: "var(--purple)",
           }}
         >
           {props.children}

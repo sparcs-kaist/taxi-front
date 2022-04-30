@@ -6,14 +6,13 @@ import RLayout from "../ReactiveLayout/RLayout";
 const Button = (props) => {
   const [isHover, setHover] = useState(false);
   const style = {
-    paddingTop: "13px",
+    paddingTop: "14px",
     paddingBottom: "13px",
-    lineHeight: "24px",
+    lineHeight: "19px",
     textAlign: "center",
     fontSize: "16px",
     color: props.fontColor,
-    fontWeight: "Bold",
-    letterSpacing: "0.1em",
+    fontWeight: "bold",
     borderRadius: "12px",
     boxShadow:
       "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)",

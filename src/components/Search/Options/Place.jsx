@@ -130,7 +130,7 @@ const Place = (props) => {
   const [isPopup2, setPopup2] = useState(false);
 
   const styleLine = {
-    width: 1,
+    width: "0.5px",
     height: "calc(100% + 5px)",
     backgroundImage:
       "linear-gradient(to bottom, #C8C8C8 50%, rgba(255,255,255,0) 0%)",
