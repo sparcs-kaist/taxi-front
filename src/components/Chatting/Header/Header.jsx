@@ -133,7 +133,7 @@ PopupToast.propTypes = {
   onClick2: PropTypes.func,
 };
 
-const BtnBack = (props) => {
+const BtnBack = () => {
   const [isHover, setHover] = useState(false);
   const history = useHistory();
   const style = useSpring({

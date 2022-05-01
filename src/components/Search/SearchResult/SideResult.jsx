@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import WhiteContainer from "../../Frame/WhiteContainer/WhiteContainer";
 import Title from "../../Frame/Title/Title";
 import Room from "../../Room/Room/RoomElement1";
-import Proptypes from "prop-types";
+import PropTypes from "prop-types";
 
 import svgResult from "./svg_result.svg";
 
@@ -22,9 +22,24 @@ const Result = (props) => {
       </Title>
       <div style={{ height: "7px" }} />
       <div style={styleLine} />
-      <Room marginTop="15px" />
+      {props.result.map((room, index) => {
+        return (
+          <Room
+            name={room.name}
+            origin={room.from}
+            destination={room.to}
+            date={room.time}
+            key={index}
+            marginTop="15px"
+          />
+        );
+      })}
     </WhiteContainer>
   );
+};
+
+Result.propTypes = {
+  result: PropTypes.array,
 };
 
 export default Result;

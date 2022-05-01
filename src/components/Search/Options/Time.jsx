@@ -9,7 +9,7 @@ const optionsHour = [...Array(24).keys()].map((x) => x.toString());
 const optionsMin = ["00", "15", "30", "45"];
 
 const PopupInput = (props) => {
-  const [value1, setValue1] = useState({ hour: optionsHour[9] });
+  const [value1, setValue1] = useState({ hour: optionsHour[0] });
   const [value2, setValue2] = useState({ min: optionsMin[0] });
   const option1Group = {
     hour: optionsHour.map((x) => {

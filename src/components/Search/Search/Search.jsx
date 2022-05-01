@@ -102,7 +102,7 @@ SelectSearchOptions.propTypes = {
   handler: PropTypes.func,
 };
 
-const Search = (props) => {
+const Search = () => {
   const history = useHistory();
   const reactiveState = RLayout.useR2state();
   const onCall = useRef(false);
@@ -110,15 +110,39 @@ const Search = (props) => {
   const [valueName, setName] = useState("");
   const [valuePlace, setPlace] = useState([null, null]);
   const [valueDate, setDate] = useState([null, null, null]);
-  const [valueTime, setTime] = useState(["9", "00"]);
+  const [valueTime, setTime] = useState(["0", "00"]);
 
   const [searchResult, setSearchResult] = useState(null);
-
-  const onClickSearch = () => {
+  const onClickSearch = async () => {
     if (!onCall.current) {
       onCall.current = true;
       setSearchResult([]);
     }
+    var date = null;
+    if (valueDate[0] !== null) {
+      date = new Date(
+        valueDate[0],
+        valueDate[1],
+        valueDate[2],
+        valueTime[0],
+        valueTime[1]
+      );
+    }
+    await axios
+      .get("rooms/search", {
+        params: {
+          from: valuePlace[0],
+          to: valuePlace[1],
+          time: date ? date.toISOString() : null,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        setSearchResult(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   if (reactiveState == 3 && searchResult !== null) {
@@ -159,7 +183,12 @@ const Search = (props) => {
       </SubmitButton>
     </div>
   );
-  const rightLay = searchResult === null ? null : <SideResult />;
+  const rightLay =
+    searchResult === null || searchResult.length ? (
+      <SideResult result={searchResult} />
+    ) : (
+      "결과 없음"
+    );
 
   return (
     <div>
