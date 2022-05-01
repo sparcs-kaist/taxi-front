@@ -26,7 +26,7 @@ const Date = (props) => {
     width: "100%",
     textAlign: "center",
     fontSize: "12px",
-    lineHeight: "14px",
+    marginTop: "1px",
     color: "#C8C8C8",
   };
   let styleToday = {
@@ -46,6 +46,7 @@ const Date = (props) => {
     if (props.available === "today") styleToday.background = "#B89DBD";
   }
   if (props.selected) {
+    styleBox.boxShadow = "inset 2px 2px 5px -2px rgba(0, 0, 0, 0.25)";
     styleBox.background = "#6E3678";
     styleDate.color = "white";
     styleDate.fontWeight = 500;
@@ -57,7 +58,7 @@ const Date = (props) => {
   };
   const background = useSpring({
     background: styleBox.background,
-    config: { duration: 150 },
+    config: { duration: 100 },
   });
 
   if (!props.date) return <div style={style} />;
@@ -119,6 +120,7 @@ class DatePicker extends Component {
       width: "14px",
       height: "14px",
       marginLeft: "9px",
+      marginBottom: "1px",
     };
     this.styleLayTopTxt = {
       fontSize: "14px",
@@ -172,7 +174,7 @@ class DatePicker extends Component {
     const weeks = document.getElementsByClassName("datepicker-week");
     if (weeks.length > 0) {
       const width = (weeks[0].clientWidth - 36) / 7;
-      const height = `${Math.min(width, 60)}px`;
+      const height = `${Math.min(width, 56)}px`;
       for (let i = 0; i < weeks.length; i++) {
         weeks[i].style.height = height;
       }

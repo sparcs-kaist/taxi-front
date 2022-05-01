@@ -107,16 +107,20 @@ PopupInput.propTypes = {
 const Time = (props) => {
   const [isPopup, setPopup] = useState(false);
 
+  const style = {
+    display: "flex",
+    alignItems: "center",
+  };
   const styleIcon = {
-    width: "18px",
-    height: "28px",
+    width: "14px",
+    height: "14px",
     marginLeft: "15px",
   };
   const styleName = {
     height: "28px",
     lineHeight: "28px",
     marginLeft: "6px",
-    width: "50px",
+    whiteSpace: "nowrap",
     fontSize: "14px",
   };
   const styleInput = {
@@ -126,19 +130,18 @@ const Time = (props) => {
     marginLeft: "6px",
     background: "#FAF8FB",
     boxShadow: "inset 1px 1px 2.5px -1px rgba(110, 54, 120, 0.1)",
-    borderRadius: "8px",
+    borderRadius: "6px",
     fontSize: "14px",
     textAlign: "center",
   };
   const styleText = {
-    height: "28px",
     lineHeight: "28px",
     marginLeft: "6px",
     fontSize: "14px",
   };
   return (
     <WhiteContainer marginAuto={false} padding="9px">
-      <div style={{ display: "flex" }}>
+      <div style={style}>
         <AccessTimeIcon style={styleIcon} />
         <div style={styleName}>시간 :</div>
         <div style={styleInput} className="BTNC" onClick={() => setPopup(true)}>

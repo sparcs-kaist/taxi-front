@@ -6,13 +6,13 @@ import WhiteContainer from "../../Frame/WhiteContainer/WhiteContainer";
 const Name = (props) => {
   const style = {
     display: "flex",
-    alignContent: "row",
-    alginItems: "center",
+    alignItems: "center",
   };
   const styleIcon = {
     width: "14px",
-    height: "28px",
+    height: "14px",
     marginLeft: "15px",
+    marginBottom: "2px",
   };
   const styleName = {
     height: "28px",
@@ -33,7 +33,6 @@ const Name = (props) => {
     backgroundColor: "#FAFAFA",
     boxShadow: "inset 1px 1px 2.5px -1px rgba(0, 0, 0, 0.075)",
     fontSize: "14px",
-    letterSpacing: "0.05em",
   };
   return (
     <WhiteContainer marginAuto={false} padding="9px">
