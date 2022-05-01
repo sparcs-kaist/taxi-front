@@ -26,7 +26,7 @@ const PopupInput = (props) => {
     else setValue({ place: optionList[0] });
   };
   useEffect(() => {
-    if (props.isOpen) resetValue();
+    resetValue();
   }, [props.isOpen]);
 
   const onClick = () => {

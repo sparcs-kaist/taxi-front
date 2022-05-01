@@ -23,7 +23,13 @@ const SearchOption = (props) => {
     padding: "8px 15px 7px 15px",
     boxShadow:
       "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
-    background: props.selected ? "#6E3678" : isHover ? "#f4eaf6" : "#FFFFFF",
+    background: props.selected
+      ? isHover
+        ? "#572A5E"
+        : "#6E3678"
+      : isHover
+      ? "#F4EAF6"
+      : "#FFFFFF",
     fontSize: "13px",
     color: props.selected ? "#FFFFFF" : "#323232",
     config: { duration: 100 },
@@ -32,7 +38,7 @@ const SearchOption = (props) => {
     <animated.div
       style={style}
       className="BTNC ND"
-      onClick={() => props.onClick()}
+      onClick={() => props.onClick(props.id)}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
@@ -42,6 +48,7 @@ const SearchOption = (props) => {
 };
 SearchOption.propTypes = {
   children: PropTypes.string,
+  id: PropTypes.string,
   selected: PropTypes.bool,
   onClick: PropTypes.func,
 };
@@ -68,13 +75,21 @@ const SelectSearchOptions = (props) => {
     >
       {options.map((item, index) => {
         const selected = props.options[item.id] ? true : false;
-        const onClick = () => {
+        const onClick = (id) => {
           const _options = { ...props.options };
           _options[item.id] = !selected;
+          if (id == "date" && _options.date == false && _options.time == true) {
+            _options.time = false;
+          }
           props.handler(_options);
         };
         return (
-          <SearchOption key={index} onClick={onClick} selected={selected}>
+          <SearchOption
+            key={index}
+            id={item.id}
+            onClick={onClick}
+            selected={selected}
+          >
             {item.name}
           </SearchOption>
         );
@@ -137,7 +152,7 @@ const Search = (props) => {
       <SubmitButton
         marginAuto={false}
         background="#6E3678"
-        backgroundHover="#5E2668"
+        backgroundHover="#572A5E"
         onClick={onClickSearch}
       >
         방 검색하기

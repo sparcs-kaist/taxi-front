@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { useSpring, animated } from "react-spring";
 import getDateInfo from "./getDateInfo";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
@@ -7,6 +7,8 @@ import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import PropTypes from "prop-types";
 
 const Date = (props) => {
+  const [isHover, setHover] = useState(false);
+
   const style = {
     width: "calc((100% - 36px) / 7)",
     height: "100%",
@@ -40,14 +42,14 @@ const Date = (props) => {
 
   if (props.available) {
     styleBox.boxShadow = "inset 1px 1px 2.5px -1px rgba(110, 54, 120, 0.1)";
-    styleBox.background = "#FAF8FB";
+    styleBox.background = isHover ? "#F4EAF6" : "#FAF6FB";
     className = "BTNC";
     styleDate.color = "#323232";
     if (props.available === "today") styleToday.background = "#B89DBD";
   }
   if (props.selected) {
     styleBox.boxShadow = "inset 2px 2px 5px -2px rgba(0, 0, 0, 0.25)";
-    styleBox.background = "#6E3678";
+    styleBox.background = isHover ? "#572A5E" : "#6E3678";
     styleDate.color = "white";
     styleDate.fontWeight = 500;
     if (props.available === "today") styleToday.background = "white";
@@ -67,6 +69,8 @@ const Date = (props) => {
       <animated.div
         style={{ ...styleBox, ...background }}
         className={className}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
         onClick={onClick}
       >
         <div style={styleDate}>{props.date}</div>

@@ -23,13 +23,11 @@ const PopupInput = (props) => {
   };
 
   const resetValue = () => {
-    if (props.value[0]) setValue1({ hour: props.value[0] });
-    else setValue1({ hour: optionsHour[9] });
-    if (props.value[1]) setValue2({ min: props.value[1] });
-    else setValue2({ min: optionsMin[0] });
+    setValue1({ hour: props.value[0] });
+    setValue2({ min: props.value[1] });
   };
   useEffect(() => {
-    if (props.isOpen) resetValue();
+    resetValue();
   }, [props.isOpen]);
 
   const onClick = () => {
