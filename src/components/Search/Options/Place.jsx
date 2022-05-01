@@ -44,7 +44,7 @@ const PopupInput = (props) => {
 
   return (
     <Popup isOpen={props.isOpen} onClose={props.onClose} onClick={onClick}>
-      <div>
+      <div style={{ width: "calc(100% - 20px)", marginLeft: "10px" }}>
         <Picker
           optionGroups={optionGroup}
           valueGroups={value}

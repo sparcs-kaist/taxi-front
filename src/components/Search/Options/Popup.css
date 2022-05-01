@@ -1,6 +1,7 @@
 .picker-item {
     font-size: 15px;
     letter-spacing: 0.13em;
+    line-height: 32px !important;
 }
 
 .picker-container .picker-highlight:before, .picker-container .picker-highlight:after {
@@ -10,13 +11,12 @@
 .picker-container .picker-highlight {
     z-index: -1;
     background-color: #EEEEEE;
-    width: calc(100% - 20px) !important;
-    left: 10px !important;
     border-radius: 6px;
 }
 
 .picker-container .picker-inner {
     -webkit-mask-box-image: linear-gradient(0deg,transparent,transparent 5%,#fff 45%,#fff 55%,transparent 95%,transparent) !important;
+    padding: 0 !important;
 }
 
 .picker-container .picker-column .picker-item.picker-item-selected {

@@ -44,37 +44,33 @@ const PopupInput = (props) => {
     if (key === "min") setValue2({ min: value });
   };
 
-  const height = 176;
   const stylePicker = {
-    width: "100px",
-    height: `${height}px`,
-    background: "#EEEEEE",
+    width: "75px",
     borderRadius: "6px",
-    overflow: "hiddne",
+    marginLeft: "5px",
   };
   const styleIcon = {
     alignSelf: "center",
     width: "18px",
     height: "18px",
+    marginBottom: "1px",
   };
   const styleName = {
     alignSelf: "center",
     fontSize: "15px",
     color: "#323232",
     paddingLeft: "6px",
-    paddingRight: "6px",
+    paddingRight: "1px",
   };
   const styleText = {
     alignSelf: "center",
     fontSize: "15px",
     color: "#888888",
     paddingLeft: "5px",
-    paddingRight: "5px",
   };
 
   return (
     <Popup isOpen={props.isOpen} onClose={props.onClose} onClick={onClick}>
-      <div style={{ height: `${(216 - height) / 2}px` }} />
       <div style={{ display: "flex", justifyContent: "center" }}>
         <AccessTimeIcon style={styleIcon} />
         <div style={styleName}>시간 :</div>
@@ -83,7 +79,8 @@ const PopupInput = (props) => {
             optionGroups={option1Group}
             valueGroups={value1}
             onChange={handler}
-            height={height}
+            itemHeight={30}
+            height={216}
           />
         </div>
         <div style={styleText}>시</div>
@@ -92,7 +89,8 @@ const PopupInput = (props) => {
             optionGroups={option2Group}
             valueGroups={value2}
             onChange={handler}
-            height={height}
+            itemHeight={30}
+            height={216}
           />
         </div>
         <div style={styleText}>분</div>
