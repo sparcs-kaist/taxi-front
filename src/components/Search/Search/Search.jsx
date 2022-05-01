@@ -184,12 +184,11 @@ const Search = () => {
     </div>
   );
   const rightLay =
-    searchResult === null || searchResult.length ? (
-      <SideResult result={searchResult} />
-    ) : (
+    searchResult === null || !searchResult.length ? (
       "결과 없음"
+    ) : (
+      <SideResult result={searchResult} />
     );
-
   return (
     <div>
       <div style={{ height: "30px" }} />
