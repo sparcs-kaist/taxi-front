@@ -49,6 +49,7 @@ const PopupInput = (props) => {
           optionGroups={optionGroup}
           valueGroups={value}
           onChange={handler}
+          itemHeight={30}
           height={216}
         />
       </div>

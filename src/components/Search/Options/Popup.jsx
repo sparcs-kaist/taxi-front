@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { animated, useSpring } from "react-spring";
 import RLayout from "../../Frame/ReactiveLayout/RLayout";
 import PropTypes from "prop-types";
+import "./Popup.css";
 
 const Popup = (props) => {
   const styleBgd = useSpring({
     position: "fixed",
+    display: "flex",
     top: "0px",
     left: "0px",
     width: "100%",
@@ -22,10 +24,10 @@ const Popup = (props) => {
     background: "white",
     borderRadius: "15px",
   };
-  const styleBtnCancle = {
+  const styleBtnCancel = {
     height: "36px",
     lineHeight: "36px",
-    width: "calc(30% - 10px)",
+    width: "calc(35% - 10px)",
     background: "#EEEEEE",
     boxShadow: "inset 2px 2px 5px -2px rgba(0, 0, 0, 0.075)",
     borderRadius: "8px",
@@ -36,13 +38,13 @@ const Popup = (props) => {
   const styleBtnSelect = {
     height: "36px",
     lineHeight: "36px",
-    width: "70%",
+    width: "65%",
     background: "#6E3678",
     boxShadow: "inset 2px 2px 5px -2px rgba(0, 0, 0, 0.25)",
     borderRadius: "8px",
     textAlign: "center",
     fontSize: "15px",
-    fontWeight: "bold",
+    fontWeight: 500,
     color: "white",
   };
 
@@ -60,11 +62,10 @@ const Popup = (props) => {
       />
       <div
         style={{
-          position: "absolute",
-          top: "120px",
+          position: "relative",
           height: "262px",
-          left: "0px",
-          right: "0px",
+          width: "100%",
+          margin: "auto",
         }}
       >
         <div
@@ -77,7 +78,7 @@ const Popup = (props) => {
           }}
           onClick={props.onClose}
         />
-        <RLayout.R1 height="100%" position="static">
+        <RLayout.Popup>
           <div style={style} className="ND">
             <div style={{ height: "calc(100% - 46px)" }}>{props.children}</div>
             <div
@@ -91,7 +92,7 @@ const Popup = (props) => {
               }}
             >
               <div
-                style={styleBtnCancle}
+                style={styleBtnCancel}
                 className="BTNC"
                 onClick={props.onClose}
               >
@@ -102,11 +103,11 @@ const Popup = (props) => {
                 className="BTNC"
                 onClick={props.onClick}
               >
-                선택 하기
+                선택하기
               </div>
             </div>
           </div>
-        </RLayout.R1>
+        </RLayout.Popup>
       </div>
     </animated.div>
   );
