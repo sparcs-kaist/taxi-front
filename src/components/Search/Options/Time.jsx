@@ -28,6 +28,11 @@ const PopupInput = (props) => {
   };
   useEffect(() => {
     resetValue();
+    if (props.isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
   }, [props.isOpen]);
 
   const onClick = () => {
