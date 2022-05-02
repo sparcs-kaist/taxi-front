@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
+import PropTypes from "prop-types";
 import { io } from "socket.io-client";
 import Header from "./Header/Header";
 import MessagesBody from "./MessagesBody/MessagesBody";
@@ -16,8 +17,11 @@ import axios from "../Tool/axios";
 //   totalChats: Number, //총 채팅 개수
 // }
 
-const Chatting = () => {
-  const roomId = useParams().roomId;
+const Chatting = (prop) => {
+  
+  const isSideChat = prop?.roomId !== undefined;
+  console.log(isSideChat)
+  const roomId = isSideChat ? prop.roomId : useParams().roomId;
   const socket = useRef(undefined);
 
   const [newMessage, setNewMessage] = useState("");
@@ -91,6 +95,7 @@ const Chatting = () => {
 
   return (
     <div className="ChatRoomContainer">
+      roomId is {roomId}
       <Header info={ headerInfo } />
       <MessagesBody chats={chats} user={user}/>
       <MessageForm
