@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import PropTypes from "prop-types";
 import { io } from "socket.io-client";
 import Header from "./Header/Header";
 import MessagesBody from "./MessagesBody/MessagesBody";
@@ -16,8 +16,8 @@ import axios from "../Tool/axios";
 //   totalChats: Number, //총 채팅 개수
 // }
 
-const Chatting = (props) => {
-  const roomId = useParams().roomId;
+const Chatting = ({roomId}) => {
+  //const roomId = useParams().roomId;
   const socket = useRef(undefined);
 
   const [newMessage, setNewMessage] = useState("");
@@ -100,6 +100,9 @@ const Chatting = (props) => {
       />
     </div>
   );
+};
+Chatting.propTypes = {
+  roomId: PropTypes.string,
 };
 
 export default Chatting;
