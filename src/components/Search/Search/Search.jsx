@@ -120,8 +120,10 @@ const Search = () => {
     if (!Object.values(searchOptions).some((option) => option == true)) {
       setMessage("검색 조건을 선택해주세요");
       setDisable(true);
+    } else if (searchOptions.name && valueName == "") {
+      setMessage("방 이름을 입력해주세요");
+      setDisable(true);
     } else if (
-      (searchOptions.name && valueName == "") ||
       (searchOptions.place && valuePlace.some((place) => place == null)) ||
       (searchOptions.date && valueDate.some((date) => date == null)) ||
       (searchOptions.time && valueTime.some((time) => time == null))
@@ -154,21 +156,10 @@ const Search = () => {
     }
   }, [searchOptions.time]);
 
-  console.log(valueName, valuePlace, valueDate, valueTime);
   const onClickSearch = async () => {
     if (!onCall.current) {
       onCall.current = true;
       setSearchResult([]);
-    }
-    var date = null;
-    if (valueDate[0] !== null) {
-      date = new Date(
-        valueDate[0],
-        valueDate[1] - 1,
-        valueDate[2],
-        valueTime[0],
-        valueTime[1]
-      );
     }
     // if (searchOptions.name) {
     //   await axios
@@ -178,14 +169,22 @@ const Search = () => {
     //       },
     //     })
     //     .then((res) => {
-    //       console.log(res);
-    //       // setSearchResult(res.data);
+    //       setSearchResult(res.data);
     //     })
     //     .catch((err) => {
     //       console.log(err);
     //     });
     // }
-    console.log(date.toISOString());
+
+    // Discuss : 검색지와 도착지가 필수인지 의논 필요
+    // if (searchOptions.place)
+    const date = new Date(
+      valueDate[0],
+      valueDate[1] - 1,
+      valueDate[2],
+      valueTime[0],
+      valueTime[1]
+    );
     await axios
       .get("rooms/search", {
         params: {
@@ -195,8 +194,11 @@ const Search = () => {
         },
       })
       .then((res) => {
-        // 이름으로 검색한 것 필터링
-        setSearchResult(res.data);
+        if (searchOptions.name) {
+          setSearchResult(res.data.filter((room) => room.name == valueName));
+        } else {
+          setSearchResult(res.data);
+        }
       })
       .catch((err) => {
         console.log(err);
