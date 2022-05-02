@@ -83,7 +83,7 @@ const AddRoom = (props) => {
         >
           {validatedMsg
             ? validatedMsg
-            : `${valueDate[1]}월 ${valueDate[2]}일 ${valueTime[0]}시 ${valueTime[1]}분 이후 방 개설하기`}
+            : `${valueDate[1]}월 ${valueDate[2]}일 ${valueTime[0]}시 ${valueTime[1]}분 방 개설하기`}
         </SubmitButton>
       </RLayout.R1>
     </div>

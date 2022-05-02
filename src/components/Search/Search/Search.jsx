@@ -161,20 +161,21 @@ const Search = () => {
       onCall.current = true;
       setSearchResult([]);
     }
-    // if (searchOptions.name) {
-    //   await axios
-    //     .get("rooms/searchByName", {
-    //       params: {
-    //         name: valueName,
-    //       },
-    //     })
-    //     .then((res) => {
-    //       setSearchResult(res.data);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // }
+    if (searchOptions.name && !searchOptions.place && !searchOptions.date) {
+      await axios
+        .get("rooms/searchByName", {
+          params: {
+            name: valueName,
+          },
+        })
+        .then((res) => {
+          setSearchResult(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      return;
+    }
 
     // Discuss : 검색지와 도착지가 필수인지 의논 필요
     // if (searchOptions.place)
@@ -205,9 +206,9 @@ const Search = () => {
       });
   };
 
-  if (reactiveState == 3 && searchResult !== null) {
-    history.push(`/search/result/123`);
-  }
+  // if (reactiveState == 3 && searchResult !== null) {
+  //   history.push(`/search/result/123`);
+  // }
 
   const leftLay = (
     <div>
@@ -245,17 +246,21 @@ const Search = () => {
     </div>
   );
   const rightLay =
-    searchResult === null ? null : !searchResult.length ? (
-      "결과 없음"
-    ) : (
-      <SideResult result={searchResult} />
+    searchResult === null ? null : (
+      <SideResult result={searchResult} mobile={reactiveState == 3} />
     );
   return (
     <div>
       <div style={{ height: "30px" }} />
       <Title img={svgSearch}>방 검색하기</Title>
       <div style={{ height: "25px" }} />
-      <RLayout.R2 left={leftLay} right={rightLay} priority="left" />
+      <RLayout.R2
+        left={reactiveState == 3 && searchResult !== null ? null : leftLay}
+        right={rightLay}
+        priority={
+          reactiveState == 3 && searchResult !== null ? "right" : "left"
+        }
+      />
     </div>
   );
 };
