@@ -110,9 +110,13 @@ const Search = () => {
   const [valueName, setName] = useState("");
   const [valuePlace, setPlace] = useState([null, null]);
   const [valueDate, setDate] = useState([null, null, null]);
-  const [valueTime, setTime] = useState(["0", "00"]);
-
+  const today = new Date();
+  const [valueTime, setTime] = useState([
+    today.getHours(),
+    (parseInt(today.getMinutes() / 10) * 10).toString(),
+  ]);
   const [searchResult, setSearchResult] = useState(null);
+
   const onClickSearch = async () => {
     if (!onCall.current) {
       onCall.current = true;
@@ -128,16 +132,31 @@ const Search = () => {
         valueTime[1]
       );
     }
+    if (searchOptions.name) {
+      await axios
+        .get("rooms/searchByName", {
+          params: {
+            name: valueName,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          // setSearchResult(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
     await axios
       .get("rooms/search", {
         params: {
           from: valuePlace[0],
           to: valuePlace[1],
-          time: date ? date.toISOString() : null,
+          time: searchOptions.date ? (date ? date.toISOString() : null) : null,
         },
       })
       .then((res) => {
-        console.log(res);
+        // 이름으로 검색한 것 필터링
         setSearchResult(res.data);
       })
       .catch((err) => {
@@ -184,7 +203,7 @@ const Search = () => {
     </div>
   );
   const rightLay =
-    searchResult === null || !searchResult.length ? (
+    searchResult === null ? null : !searchResult.length ? (
       "결과 없음"
     ) : (
       <SideResult result={searchResult} />

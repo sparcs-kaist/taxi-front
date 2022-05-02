@@ -6,7 +6,7 @@ import Popup from "./Popup";
 import Picker from "react-scrollable-picker";
 
 const optionsHour = [...Array(24).keys()].map((x) => x.toString());
-const optionsMin = ["00", "15", "30", "45"];
+const optionsMin = ["0", "10", "20", "30", "40", "50"];
 
 const PopupInput = (props) => {
   const [value1, setValue1] = useState({ hour: optionsHour[0] });
