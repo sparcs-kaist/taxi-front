@@ -1,9 +1,16 @@
 # SPARCS Taxi
 
-## Introduction
+## About
+...
+
+## Prerequisites
 ...
 
 ## Project Setup
+...
+
+## License
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Accompanying Project
  - frontend : https://github.com/sparcs-kaist/taxi-front
