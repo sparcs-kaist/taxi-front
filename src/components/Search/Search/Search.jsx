@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { animated, useSpring } from "react-spring";
 import { useHistory } from "react-router";
 import RLayout from "../../Frame/ReactiveLayout/RLayout";
@@ -111,12 +111,50 @@ const Search = () => {
   const [valuePlace, setPlace] = useState([null, null]);
   const [valueDate, setDate] = useState([null, null, null]);
   const today = new Date();
-  const [valueTime, setTime] = useState([
-    today.getHours(),
-    (parseInt(today.getMinutes() / 10) * 10).toString(),
-  ]);
+  const [valueTime, setTime] = useState(["0", "00"]);
   const [searchResult, setSearchResult] = useState(null);
+  const [disable, setDisable] = useState(true);
+  const [message, setMessage] = useState("검색 조건을 선택해주세요");
 
+  useEffect(() => {
+    if (!Object.values(searchOptions).some((option) => option == true)) {
+      setMessage("검색 조건을 선택해주세요");
+      setDisable(true);
+    } else if (
+      (searchOptions.name && valueName == "") ||
+      (searchOptions.place && valuePlace.some((place) => place == null)) ||
+      (searchOptions.date && valueDate.some((date) => date == null)) ||
+      (searchOptions.time && valueTime.some((time) => time == null))
+    ) {
+      setMessage("선택을 완료해주세요");
+      setDisable(true);
+    } else {
+      setMessage("방 검색하기");
+      setDisable(false);
+    }
+  }, [searchOptions, valueName, valuePlace, valueDate, valueTime]);
+
+  useEffect(() => {
+    setName("");
+  }, [searchOptions.name]);
+  useEffect(() => {
+    setPlace([null, null]);
+  }, [searchOptions.place]);
+  useEffect(() => {
+    setDate([null, null, null]);
+  }, [searchOptions.date]);
+  useEffect(() => {
+    if (searchOptions.time) {
+      setTime([
+        today.getHours().toString(),
+        (parseInt(today.getMinutes() / 10) * 10).toString(),
+      ]);
+    } else {
+      setTime(["0", "00"]);
+    }
+  }, [searchOptions.time]);
+
+  console.log(valueName, valuePlace, valueDate, valueTime);
   const onClickSearch = async () => {
     if (!onCall.current) {
       onCall.current = true;
@@ -126,27 +164,28 @@ const Search = () => {
     if (valueDate[0] !== null) {
       date = new Date(
         valueDate[0],
-        valueDate[1],
+        valueDate[1] - 1,
         valueDate[2],
         valueTime[0],
         valueTime[1]
       );
     }
-    if (searchOptions.name) {
-      await axios
-        .get("rooms/searchByName", {
-          params: {
-            name: valueName,
-          },
-        })
-        .then((res) => {
-          console.log(res);
-          // setSearchResult(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+    // if (searchOptions.name) {
+    //   await axios
+    //     .get("rooms/searchByName", {
+    //       params: {
+    //         name: valueName,
+    //       },
+    //     })
+    //     .then((res) => {
+    //       console.log(res);
+    //       // setSearchResult(res.data);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // }
+    console.log(date.toISOString());
     await axios
       .get("rooms/search", {
         params: {
@@ -197,8 +236,9 @@ const Search = () => {
         background="#6E3678"
         backgroundHover="#572A5E"
         onClick={onClickSearch}
+        disable={disable}
       >
-        방 검색하기
+        {message}
       </SubmitButton>
     </div>
   );

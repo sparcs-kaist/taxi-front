@@ -11,24 +11,31 @@ const Button = (props) => {
     lineHeight: "19px",
     textAlign: "center",
     fontSize: "16px",
-    color: props.fontColor,
+    color: props.disable ? "#888888" : "white",
     fontWeight: "bold",
     borderRadius: "12px",
     boxShadow:
       "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
   };
   const background = useSpring({
-    background: isHover ? props.backgroundHover : props.background,
+    background: props.disable
+      ? "#EEEEEE"
+      : isHover
+      ? props.backgroundHover
+      : props.background,
     config: { duration: 100 },
   });
 
   const button = (
     <animated.div
-      className="BTNC"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      onClick={props.onClick}
-      style={{ ...style, ...background }}
+      onClick={props.disable ? null : props.onClick}
+      style={{
+        ...style,
+        ...background,
+        cursor: props.disable ? "not-allowed" : "pointer",
+      }}
     >
       {props.children}
     </animated.div>
@@ -41,19 +48,19 @@ const Button = (props) => {
 
 Button.propTypes = {
   // FIXME specify type
-  fontColor: PropTypes.any,
   backgroundHover: PropTypes.any,
   background: PropTypes.any,
   onClick: PropTypes.func,
   children: PropTypes.any,
   marginAuto: PropTypes.any,
+  disable: PropTypes.bool,
 };
 
 Button.defaultProps = {
   background: "#6E3678",
-  backgroundHover: "#4E1658",
-  fontColor: "white",
+  backgroundHover: "#572A5E",
   marginAuto: true,
   onClick: () => {},
+  disable: true,
 };
 export default Button;

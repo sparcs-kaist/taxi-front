@@ -16,10 +16,13 @@ const AddRoom = (props) => {
   const [valueName, setName] = useState("");
   const [valuePlace, setPlace] = useState([null, null]);
   const [valueDate, setDate] = useState([null, null, null]);
-  const [valueTime, setTime] = useState(["9", "00"]);
+  const today = new Date();
+  const [valueTime, setTime] = useState([
+    today.getHours().toString(),
+    (parseInt(today.getMinutes() / 10) * 10).toString(),
+  ]);
 
   let validatedMsg = null;
-  let btnBackground = ["#6E3678", "#5E2668"];
   if (!valuePlace[0] || !valuePlace[1]) {
     validatedMsg = "출발지와 도착지를 선택하세요";
   } else if (valuePlace[0] == valuePlace[1]) {
@@ -35,7 +38,6 @@ const AddRoom = (props) => {
   ) {
     validatedMsg = "방 이름으로 사용될 수 없습니다";
   }
-  if (validatedMsg) btnBackground = ["#B89DBD", "#B89DBD"];
 
   const onClickAdd = async () => {
     if (!onCall.current) {
@@ -76,9 +78,8 @@ const AddRoom = (props) => {
         <OptionTime value={valueTime} handler={setTime} />
         <SubmitButton
           marginAuto={false}
-          background={btnBackground[0]}
-          backgroundHover={btnBackground[1]}
           onClick={validatedMsg ? () => {} : onClickAdd}
+          disable={validatedMsg ? true : false}
         >
           {validatedMsg
             ? validatedMsg
