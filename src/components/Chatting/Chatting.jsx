@@ -129,7 +129,7 @@ const Chatting = (props) => {
   // const updateReadCnt = () => {}
   const sendMessage = (messageStr) => {
     socket.current.emit("chats-send", { roomId: roomId, content: messageStr });
-    let chatComp = {
+    const chatComp = {
       authorId: user.id,
       authorName: user.nickname,
       text: messageStr,
@@ -176,7 +176,6 @@ const Chatting = (props) => {
     socket.current.on("chats-load", (chats) => {
       if (chats) {
         setChats(chats.chats);
-        console.log(chats.chats);
       }
     });
   }, []);
