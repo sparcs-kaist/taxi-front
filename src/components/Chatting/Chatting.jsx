@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import { io } from "socket.io-client";
 import Header from "./Header/Header";
+import SideChatHeader from "./Header/SideChatHeader"
 import MessagesBody from "./MessagesBody/MessagesBody";
 import MessageForm from "./Input/MessageForm";
 import { backServer } from "../../serverconf"
@@ -20,7 +21,6 @@ import axios from "../Tool/axios";
 const Chatting = (prop) => {
   
   const isSideChat = prop?.roomId !== undefined;
-  console.log(isSideChat)
   const roomId = isSideChat ? prop.roomId : useParams().roomId;
   const socket = useRef(undefined);
 
@@ -94,15 +94,22 @@ const Chatting = (prop) => {
   }, [roomId])
 
   return (
-    <div className="ChatRoomContainer">
-      roomId is {roomId}
-      <Header info={ headerInfo } />
-      <MessagesBody chats={chats} user={user}/>
-      <MessageForm
-        newMessage={newMessage}
-        handleNewMessageChange={handleNewMessageChange}
-        handleSendMessage={handleSendMessage}
-      />
+    <div className="ChatContainer">
+      {isSideChat ?
+          <div className="ChatRoomContainer">
+            <SideChatHeader info={ headerInfo }/>
+          </div>
+        :
+        <div className="ChatRoomContainer">
+          <Header info={ headerInfo } />
+          <MessagesBody chats={chats} user={user}/>
+          <MessageForm
+            newMessage={newMessage}
+            handleNewMessageChange={handleNewMessageChange}
+            handleSendMessage={handleSendMessage}
+          />
+        </div>
+      }
     </div>
   );
 };
