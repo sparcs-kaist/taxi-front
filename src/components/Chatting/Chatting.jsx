@@ -52,7 +52,6 @@ const Chatting = (props) => {
     await getUserInfo();
   }, []);
 
-  // MessageForm 관련 함수들 - 시작-----
   const handleNewMessageChange = (event) => {
     setNewMessage(event.target.value);
   };
@@ -61,33 +60,11 @@ const Chatting = (props) => {
     if (newMessage) sendMessage(newMessage);
     setNewMessage("");
   };
-  // MessageForm 관련 함수들 - 끝-------
 
-  // Events
-  const endterRoom = () => {
-
-  }
-  const receiveMessage = () => {
-
-  }
-  const requestMoreChats = () => {
-
-  }
-  const incomeUser = () => {
-
-  }
-  const exitUser = () => {
-
-  }
-  // const updateReadCnt = () => {}
   const sendMessage = (messageStr) => {
     socket.current.emit("chats-send", { roomId: roomId, content: messageStr });
   };
 
-  // socket conncet
-  const getSocket = () => {
-
-  }
   useEffect(() => {
     const _socket = io(backServer, {
       withCredentials: true
@@ -102,10 +79,9 @@ const Chatting = (props) => {
     axios.get(`/rooms/${ roomId }/info`).then(({ data }) => {
       setHeaderInfo(data);
       socket.current.emit("chats-join", roomId);
-      
-      // setChats(data); 
+
     }).catch(() => {
-      // when error !
+
     })
     
     axios.get(`/rooms/${ roomId }/info`).then(({data}) => {
