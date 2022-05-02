@@ -129,7 +129,13 @@ const Chatting = (props) => {
   // const updateReadCnt = () => {}
   const sendMessage = (messageStr) => {
     socket.current.emit("chats-send", { roomId: roomId, content: messageStr });
-    console.log(messageStr);
+    const chatComp = {
+      authorId: user.id,
+      authorName: user.nickname,
+      text: messageStr,
+      time: new Date().toISOString(),
+    };
+    setChats([...chats, chatComp]);
   };
 
   // socket conncet
@@ -173,11 +179,6 @@ const Chatting = (props) => {
       }
     });
   }, []);
-
-  // reload chats
-  useEffect(() => {
-    socket.current.emit("chats-load", new Date().toISOString());
-  }, [newMessage]);
 
   return (
     <div className="ChatRoomContainer">
