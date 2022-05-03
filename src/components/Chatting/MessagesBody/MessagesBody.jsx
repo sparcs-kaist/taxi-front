@@ -13,7 +13,6 @@ const MessagesBody = (prop) => {
   const chats = prop.chats;
   const user = prop.user;
   const isSideChat = prop.isSideChat;
-  console.log(isSideChat);
 
   return (
     <div className={isSideChat ? "sideChatMessagesBox" : "chatMessagesBox"}>
