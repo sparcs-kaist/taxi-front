@@ -42,7 +42,7 @@ export default function MessageForm({
             onClick={handleSendMessage}
           >
             {" "}
-            <IoMdSend className="MessageForm-send-icon" />
+            <IoMdSend fontSize={17.5}/>
           </button>
         </form>
       </div>
