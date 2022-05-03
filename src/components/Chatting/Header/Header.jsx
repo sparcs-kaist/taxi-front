@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSpring, animated } from "react-spring";
 import { useHistory } from "react-router";
 import RLayout from "../../Frame/ReactiveLayout/RLayout";
@@ -378,7 +378,7 @@ const HeaderBottom = (props) => {
   // part.push({ id: '1234', nickname: 'hello world' }) // for test
   // console.log(props.info);
   return (
-    <div className="chatting-header-bottom">
+    <div ref={props.refContent}>
       <div style={{ height: "10px" }} />
       <div style={styleLay1}>
         <Info title="출발 시각 & 날짜" align="left">
@@ -407,6 +407,7 @@ const HeaderBottom = (props) => {
   );
 };
 HeaderBottom.propTypes = {
+  refContent: PropTypes.any,
   info: PropTypes.any,
 };
 
@@ -466,22 +467,27 @@ const Header = (props) => {
     backgroundRpeat: "repeat-x",
   };
 
+  /* Resize Event */
+  const headerBottomLay = useRef();
+  const headerBottomLayPast = useRef(0);
+  const resizeEvent = () => {
+    //const _bodyWidth = document.body.clientWidth;
+    const btmHeight = headerBottomLay.current.offsetHeight;
+    if (btmHeight > 0 && btmHeight !== headerBottomLayPast.current) {
+      headerBottomLayPast.current = btmHeight;
+      setBtmSize(btmHeight);
+    }
+  };
   useEffect(() => {
-    const resizeEvent = () => {
-      //const _bodyWidth = document.body.clientWidth;
-      const btmLay = document.getElementsByClassName("chatting-header-bottom");
-      if (btmLay.length > 0) {
-        const _btmSize = btmLay[0].offsetHeight;
-        if (btmSize !== _btmSize) setBtmSize(_btmSize);
-      }
-    };
     resizeEvent();
     window.addEventListener("resize", resizeEvent);
-
     return () => {
       window.removeEventListener("resize", resizeEvent);
     };
   }, []);
+  useEffect(() => {
+    resizeEvent();
+  }, [props.info]);
 
   return (
     <>
@@ -498,7 +504,7 @@ const Header = (props) => {
           <BtnMenu token={isOpen} onClick={() => setOpen(!isOpen)} />
         </div>
         <div style={styleBorder} />
-        <HeaderBottom info={props.info} />
+        <HeaderBottom info={props.info} refContent={headerBottomLay} />
       </animated.div>
     </>
   );

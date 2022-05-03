@@ -12,10 +12,12 @@ import ChatMessage from "./ChatMessage";
 const MessagesBody = (prop) => {
   const chats = prop.chats;
   const user = prop.user;
+  const isSideChat = prop.isSideChat;
+  console.log(isSideChat);
 
   return (
-    <div className="chattingMessagesBox">
-      <ol className="MessagesBody-container">
+    <div className={isSideChat ? "sideChatMessagesBox" : "chatMessagesBox"}>
+      <ul className="MessagesBody-container">
         {chats.map((chat, i) => (
           <li key={i}>
             <ChatMessage
@@ -26,9 +28,8 @@ const MessagesBody = (prop) => {
             ></ChatMessage>
           </li>
         ))}
-      </ol>
+      </ul>
     </div>
-    
   );
 };
 

@@ -6,8 +6,9 @@ import Header from "./Header/Header";
 import SideChatHeader from "./Header/SideChatHeader"
 import MessagesBody from "./MessagesBody/MessagesBody";
 import MessageForm from "./Input/MessageForm";
-import { backServer } from "../../serverconf"
-import "./Style/Chatting.css"
+import SideChatMessageForm from "./Input/SideChatMessageForm";
+import { backServer } from "../../serverconf";
+import "./Style/Chatting.css";
 import axios from "../Tool/axios";
 
 // Reponse
@@ -67,42 +68,71 @@ const Chatting = (prop) => {
 
   const sendMessage = (messageStr) => {
     socket.current.emit("chats-send", { roomId: roomId, content: messageStr });
+    const chatComp = {
+      authorId: user.id,
+      authorName: user.nickname,
+      text: messageStr,
+      time: new Date().toISOString(),
+    };
+    setChats([...chats, chatComp]);
   };
 
   useEffect(() => {
     const _socket = io(backServer, {
-      withCredentials: true
+      withCredentials: true,
     });
-
     socket.current = _socket;
     socket.current.on("chats-join", (chats) => {
-      console.log(chats);
-      setChats(chats.chats)
-    })
+      setChats(chats.chats);
+    });
 
-    axios.get(`/rooms/${ roomId }/info`).then(({ data }) => {
-      setHeaderInfo(data);
-      socket.current.emit("chats-join", roomId);
+    axios
+      .get(`/rooms/${roomId}/info`)
+      .then(({ data }) => {
+        setHeaderInfo(data);
+        socket.current.emit("chats-join", roomId);
 
-    }).catch(() => {
+        // setChats(data);
+      })
+      .catch(() => {
+        // when error !
+      });
 
-    })
-    
-    axios.get(`/rooms/${ roomId }/info`).then(({data}) => {
-      console.log(data);
-    })
-  }, [roomId])
+    axios.get(`/rooms/${roomId}/info`).then(({ data }) => {
+      // console.log(data);
+    });
+  }, [roomId]);
+
+  // recieve chats
+  useEffect(() => {
+    socket.current.on("chats-recieve", (chats) => {
+      if (chats) {
+        setChats(chats.chats);
+      }
+    });
+    socket.current.on("chats-load", (chats) => {
+      if (chats) {
+        setChats(chats.chats);
+      }
+    });
+  }, []);
 
   return (
     <div className="ChatContainer">
       {isSideChat ?
           <div className="ChatRoomContainer">
             <SideChatHeader info={ headerInfo }/>
+            <MessagesBody chats={chats} user={user} isSideChat={isSideChat}/>
+            <SideChatMessageForm
+              newMessage={newMessage}
+              handleNewMessageChange={handleNewMessageChange}
+              handleSendMessage={handleSendMessage}
+            />
           </div>
         :
         <div className="ChatRoomContainer">
           <Header info={ headerInfo } />
-          <MessagesBody chats={chats} user={user}/>
+          <MessagesBody chats={chats} user={user} isSideChat={isSideChat}/>
           <MessageForm
             newMessage={newMessage}
             handleNewMessageChange={handleNewMessageChange}
