@@ -127,6 +127,7 @@ const Chatting = (props) => {
   const incomeUser = () => {};
   const exitUser = () => {};
   // const updateReadCnt = () => {}
+
   const sendMessage = (messageStr) => {
     socket.current.emit("chats-send", { roomId: roomId, content: messageStr });
     const chatComp = {
@@ -136,8 +137,13 @@ const Chatting = (props) => {
       time: new Date().toISOString(),
     };
     setChats([...chats, chatComp]);
-    window.scrollTo(0, document.body.scrollHeight);
   };
+
+  //scroll to bottom
+  useEffect(() => {
+    var box = document.getElementsByClassName("chattingMessagesBox")[0];
+    box.scrollTop = box.scrollHeight;
+  }, [newMessage]);
 
   // socket conncet
   const getSocket = () => {};
