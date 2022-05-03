@@ -3,7 +3,7 @@ import { useSpring, animated } from "react-spring";
 import { useHistory } from "react-router";
 import "../Style/SideChatHeader.css";
 import PropTypes from "prop-types";
-import svgBackWhite from "./svg_back_white.svg";
+import { IoMdArrowBack } from "react-icons/io";
 
 const BtnBack = (props) => {
   const history = useHistory();
@@ -13,7 +13,7 @@ const BtnBack = (props) => {
       className="SideChatBackBtnContainer"
       onClick={() => history.goBack()}
     >
-      <img src={svgBackWhite} alt="back" />
+      <IoMdArrowBack fontSize={16} color={'#ffffff'}/>
     </div>
   );
 };
