@@ -136,6 +136,7 @@ const Chatting = (props) => {
       time: new Date().toISOString(),
     };
     setChats([...chats, chatComp]);
+    window.scrollTo(0, document.body.scrollHeight);
   };
 
   // socket conncet
