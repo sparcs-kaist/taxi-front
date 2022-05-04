@@ -76,6 +76,7 @@ const chatRoomResponse = {
 const Chatting = (props) => {
   const roomId = useParams().roomId;
   const socket = useRef(undefined);
+  const chattingMessagesBox = useRef();
 
   const [newMessage, setNewMessage] = useState("");
   const [chats, setChats] = useState([]);
@@ -135,15 +136,18 @@ const Chatting = (props) => {
       authorName: user.nickname,
       text: messageStr,
       time: new Date().toISOString(),
+      local: true,
     };
     setChats([...chats, chatComp]);
   };
 
   //scroll to bottom
   useEffect(() => {
-    var box = document.getElementsByClassName("chattingMessagesBox")[0];
-    box.scrollTop = box.scrollHeight;
-  }, [newMessage]);
+    if (chats.length && chats[chats.length - 1].authorId == user.id) {
+      const box = chattingMessagesBox.current;
+      box.scrollTop = box.scrollHeight;
+    }
+  }, [chats]);
 
   // socket conncet
   const getSocket = () => {};
@@ -190,7 +194,11 @@ const Chatting = (props) => {
   return (
     <div className="ChatRoomContainer">
       <Header info={headerInfo} />
-      <MessagesBody chats={chats} user={user} />
+      <MessagesBody
+        chats={chats}
+        user={user}
+        forwardedRef={chattingMessagesBox}
+      />
       <MessageForm
         newMessage={newMessage}
         handleNewMessageChange={handleNewMessageChange}

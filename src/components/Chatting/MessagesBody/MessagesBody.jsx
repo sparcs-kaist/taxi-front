@@ -12,9 +12,10 @@ import ChatMessage from "./ChatMessage";
 const MessagesBody = (prop) => {
   const chats = prop.chats;
   const user = prop.user;
+  const forwardedRef = prop.forwardedRef;
 
   return (
-    <div className="chattingMessagesBox">
+    <div className="chattingMessagesBox" ref={forwardedRef}>
       <ol className="MessagesBody-container">
         {chats.map((chat, i) => (
           <li key={i}>
