@@ -200,4 +200,4 @@ Popup.propTypes = {
   children: PropTypes.any,
 };
 
-export default { useR1state, useR2state, R1, R2, Popup };
+export default { useR1state, useR2state, usePopupstate, R1, R2, Popup };

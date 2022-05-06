@@ -5,7 +5,6 @@ import RLayout from "../ReactiveLayout/RLayout";
 const Title = (props) => {
   const title = (
     <>
-      {/* <div style={{ height: props.paddingTop }} /> */}
       <div
         style={{
           display: "flex",
@@ -32,7 +31,6 @@ const Title = (props) => {
           {props.children}
         </div>
       </div>
-      {/* <div style={{ height: props.paddingBottom }} /> */}
     </>
   );
 
@@ -46,13 +44,9 @@ Title.propTypes = {
   img: PropTypes.any,
   children: PropTypes.any,
   marginAuto: PropTypes.bool,
-  paddingTop: PropTypes.string,
-  paddingBottom: PropTypes.string,
 };
 Title.defaultProps = {
   marginAuto: true,
-  paddingTop: "0px",
-  paddingBottom: "0px",
 };
 
 export default Title;
