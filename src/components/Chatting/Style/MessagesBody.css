@@ -1,10 +1,19 @@
-.chattingMessagesBox {
+.chatMessagesBox {
   margin-top: 80px;
-  margin-bottom: 80px;
+  margin-bottom: 40px;
   width: 100%;
   overflow-y: auto;
+  /* height: 100%; */
+}
+.sideChatMessagesBox {
+  margin-top: 64px;
+  margin-bottom: 50px;
+  width: 100%;
+  overflow: auto;
+  /* height: 100%; */
 }
 .MessagesBody-container {
+  list-style: none;
 }
 /* chat Message */
 .chatMessage-myMessage {
@@ -44,7 +53,7 @@
   padding: 7px 12px 7px 12px;
   margin: 0px 5px;
   word-break: break-word;
-  background-color: #6e3678;
+  background-color: #6E3678;
   color: #ffffff;
   border-radius: 8px;
   font-size: 13px;

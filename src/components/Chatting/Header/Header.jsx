@@ -133,7 +133,7 @@ PopupToast.propTypes = {
   onClick2: PropTypes.func,
 };
 
-const BtnBack = (props) => {
+const BtnBack = () => {
   const [isHover, setHover] = useState(false);
   const history = useHistory();
   const style = useSpring({
@@ -265,7 +265,7 @@ const Info = (props) => {
   const style2 = {
     fontSize: "13px",
     fontWeight: 300,
-    color: "black",
+    color: "#323232",
     textAlign: props.align,
   };
   return (

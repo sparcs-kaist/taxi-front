@@ -30,7 +30,7 @@ const Member = (props) => {
     lineHeight: "16px",
     fontSize: "14px",
     letterSpacing: "2px",
-    color: "black",
+    color: "#323232",
     fontWeight: "bold",
   };
   const styleSparcs = {

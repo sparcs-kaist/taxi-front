@@ -101,7 +101,7 @@ const Myroom = () => {
       </WhiteContainer>
       <div style={{ height: "500px", position: "relative" }}>
         {chatRoomId ? (
-          <SideChat id={chatRoomId} onClose={() => setChatRoomId(null)} />
+          <SideChat roomId={chatRoomId} onClose={() => setChatRoomId(null)} />
         ) : null}
       </div>
     </div>

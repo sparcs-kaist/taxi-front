@@ -181,7 +181,7 @@ const PopupMypage = (props) => {
   };
   const styleLay1Right = {
     fontSize: "14px",
-    color: "black",
+    color: "#323232",
   };
   const styleNickname = {
     height: "28px",

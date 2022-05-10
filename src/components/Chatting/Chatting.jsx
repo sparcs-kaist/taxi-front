@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
+import PropTypes from "prop-types";
 import { io } from "socket.io-client";
 import Header from "./Header/Header";
+import SideChatHeader from "./Header/SideChatHeader"
 import MessagesBody from "./MessagesBody/MessagesBody";
 import MessageForm from "./Input/MessageForm";
+import SideChatMessageForm from "./Input/SideChatMessageForm";
 import { backServer } from "../../serverconf";
 import "./Style/Chatting.css";
 import axios from "../Tool/axios";
@@ -15,66 +18,11 @@ import axios from "../Tool/axios";
 //   totalPage: Number, //총 페이지 수(전체 채팅 수를 pageSize로 나눈 것)
 //   totalChats: Number, //총 채팅 개수
 // }
-const dummyDate = new Date().toISOString();
-const chatRoomResponse = {
-  data: [
-    {
-      roomId: "roomId",
-      authorName: "펭귄",
-      authorId: "펭귄",
-      text: "여러분 택시타요",
-      time: dummyDate,
-    },
-    {
-      roomId: "roomId",
-      authorName: "펭귄",
-      authorId: "펭귄",
-      text: "택시 타",
-      time: dummyDate,
-    },
-    {
-      roomId: "roomId",
-      authorName: "펭귄",
-      authorId: "펭귄",
-      text: "괜찮나요?",
-      time: dummyDate,
-    },
-    {
-      roomId: "roomId",
-      authorName: "크롱",
-      authorId: "크롱",
-      text: "네 좋습니다",
-      time: dummyDate,
-    },
-    {
-      roomId: "roomId",
-      authorName: "크롱",
-      authorId: "크롱",
-      text: "고고링",
-      time: dummyDate,
-    },
-    {
-      roomId: "roomId",
-      authorName: "test1",
-      authorId: "test1",
-      text: "음 전 싫어요",
-      time: dummyDate,
-    },
-    {
-      roomId: "roomId",
-      authorName: "test1",
-      authorId: "test1",
-      text: "크롱 있어서",
-      time: dummyDate,
-    },
-  ],
-  // page: 0,
-  // totalPage: 0,
-  totalChats: 3,
-};
 
-const Chatting = (props) => {
-  const roomId = useParams().roomId;
+const Chatting = (prop) => {
+  
+  const isSideChat = prop?.roomId !== undefined;
+  const roomId = isSideChat ? prop.roomId : useParams().roomId;
   const socket = useRef(undefined);
   const chattingMessagesBox = useRef();
 
@@ -110,7 +58,6 @@ const Chatting = (props) => {
     await getUserInfo();
   }, []);
 
-  // MessageForm 관련 함수들 - 시작-----
   const handleNewMessageChange = (event) => {
     setNewMessage(event.target.value);
   };
@@ -119,15 +66,6 @@ const Chatting = (props) => {
     if (newMessage) sendMessage(newMessage);
     setNewMessage("");
   };
-  // MessageForm 관련 함수들 - 끝-------
-
-  // Events
-  const endterRoom = () => {};
-  const receiveMessage = () => {};
-  const requestMoreChats = () => {};
-  const incomeUser = () => {};
-  const exitUser = () => {};
-  // const updateReadCnt = () => {}
 
   const sendMessage = (messageStr) => {
     socket.current.emit("chats-send", { roomId: roomId, content: messageStr });
@@ -149,8 +87,6 @@ const Chatting = (props) => {
     }
   }, [chats]);
 
-  // socket conncet
-  const getSocket = () => {};
   useEffect(() => {
     const _socket = io(backServer, {
       withCredentials: true,
@@ -192,18 +128,38 @@ const Chatting = (props) => {
   }, []);
 
   return (
-    <div className="ChatRoomContainer">
-      <Header info={headerInfo} />
-      <MessagesBody
-        chats={chats}
-        user={user}
-        forwardedRef={chattingMessagesBox}
-      />
-      <MessageForm
-        newMessage={newMessage}
-        handleNewMessageChange={handleNewMessageChange}
-        handleSendMessage={handleSendMessage}
-      />
+    <div className="ChatContainer">
+      {isSideChat ?
+          <div className="ChatRoomContainer">
+            <SideChatHeader info={ headerInfo }/>
+            <MessagesBody
+              chats={chats}
+              user={user}
+              isSideChat={isSideChat}
+              forwardedRef={chattingMessagesBox}
+              />
+            <SideChatMessageForm
+              newMessage={newMessage}
+              handleNewMessageChange={handleNewMessageChange}
+              handleSendMessage={handleSendMessage}
+            />
+          </div>
+        :
+        <div className="ChatRoomContainer">
+          <Header info={ headerInfo } />
+          <MessagesBody
+            chats={chats}
+            user={user}
+            isSideChat={isSideChat}
+            forwardedRef={chattingMessagesBox}
+          />
+          <MessageForm
+            newMessage={newMessage}
+            handleNewMessageChange={handleNewMessageChange}
+            handleSendMessage={handleSendMessage}
+          />
+        </div>
+      }
     </div>
   );
 };

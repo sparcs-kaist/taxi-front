@@ -12,11 +12,12 @@ import ChatMessage from "./ChatMessage";
 const MessagesBody = (prop) => {
   const chats = prop.chats;
   const user = prop.user;
+  const isSideChat = prop.isSideChat;
   const forwardedRef = prop.forwardedRef;
 
   return (
-    <div className="chattingMessagesBox" ref={forwardedRef}>
-      <ol className="MessagesBody-container">
+    <div className={isSideChat ? "sideChatMessagesBox" : "chatMessagesBox"} ref={forwardedRef}>
+      <ul className="MessagesBody-container">
         {chats.map((chat, i) => (
           <li key={i}>
             <ChatMessage
@@ -27,7 +28,7 @@ const MessagesBody = (prop) => {
             ></ChatMessage>
           </li>
         ))}
-      </ol>
+      </ul>
     </div>
   );
 };

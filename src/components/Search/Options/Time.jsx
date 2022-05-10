@@ -6,10 +6,10 @@ import Popup from "./Popup";
 import Picker from "react-scrollable-picker";
 
 const optionsHour = [...Array(24).keys()].map((x) => x.toString());
-const optionsMin = ["00", "15", "30", "45"];
+const optionsMin = ["0", "10", "20", "30", "40", "50"];
 
 const PopupInput = (props) => {
-  const [value1, setValue1] = useState({ hour: optionsHour[9] });
+  const [value1, setValue1] = useState({ hour: optionsHour[0] });
   const [value2, setValue2] = useState({ min: optionsMin[0] });
   const option1Group = {
     hour: optionsHour.map((x) => {
@@ -23,13 +23,16 @@ const PopupInput = (props) => {
   };
 
   const resetValue = () => {
-    if (props.value[0]) setValue1({ hour: props.value[0] });
-    else setValue1({ hour: optionsHour[9] });
-    if (props.value[1]) setValue2({ min: props.value[1] });
-    else setValue2({ min: optionsMin[0] });
+    setValue1({ hour: props.value[0] });
+    setValue2({ min: props.value[1] });
   };
   useEffect(() => {
-    if (props.isOpen) resetValue();
+    resetValue();
+    if (props.isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
   }, [props.isOpen]);
 
   const onClick = () => {
@@ -41,37 +44,33 @@ const PopupInput = (props) => {
     if (key === "min") setValue2({ min: value });
   };
 
-  const height = 176;
   const stylePicker = {
-    width: "100px",
-    height: `${height}px`,
-    background: "#EEEEEE",
+    width: "75px",
     borderRadius: "6px",
-    overflow: "hiddne",
+    marginLeft: "5px",
   };
   const styleIcon = {
     alignSelf: "center",
     width: "18px",
     height: "18px",
+    marginBottom: "1px",
   };
   const styleName = {
     alignSelf: "center",
     fontSize: "15px",
-    color: "black",
+    color: "#323232",
     paddingLeft: "6px",
-    paddingRight: "6px",
+    paddingRight: "1px",
   };
   const styleText = {
     alignSelf: "center",
     fontSize: "15px",
     color: "#888888",
     paddingLeft: "5px",
-    paddingRight: "5px",
   };
 
   return (
     <Popup isOpen={props.isOpen} onClose={props.onClose} onClick={onClick}>
-      <div style={{ height: `${(216 - height) / 2}px` }} />
       <div style={{ display: "flex", justifyContent: "center" }}>
         <AccessTimeIcon style={styleIcon} />
         <div style={styleName}>시간 :</div>
@@ -80,7 +79,8 @@ const PopupInput = (props) => {
             optionGroups={option1Group}
             valueGroups={value1}
             onChange={handler}
-            height={height}
+            itemHeight={30}
+            height={216}
           />
         </div>
         <div style={styleText}>시</div>
@@ -89,7 +89,8 @@ const PopupInput = (props) => {
             optionGroups={option2Group}
             valueGroups={value2}
             onChange={handler}
-            height={height}
+            itemHeight={30}
+            height={216}
           />
         </div>
         <div style={styleText}>분</div>
@@ -107,16 +108,20 @@ PopupInput.propTypes = {
 const Time = (props) => {
   const [isPopup, setPopup] = useState(false);
 
+  const style = {
+    display: "flex",
+    alignItems: "center",
+  };
   const styleIcon = {
-    width: "18px",
-    height: "28px",
+    width: "14px",
+    height: "14px",
     marginLeft: "15px",
   };
   const styleName = {
     height: "28px",
     lineHeight: "28px",
     marginLeft: "6px",
-    width: "50px",
+    whiteSpace: "nowrap",
     fontSize: "14px",
   };
   const styleInput = {
@@ -126,19 +131,18 @@ const Time = (props) => {
     marginLeft: "6px",
     background: "#FAF8FB",
     boxShadow: "inset 1px 1px 2.5px -1px rgba(110, 54, 120, 0.1)",
-    borderRadius: "8px",
+    borderRadius: "6px",
     fontSize: "14px",
     textAlign: "center",
   };
   const styleText = {
-    height: "28px",
     lineHeight: "28px",
     marginLeft: "6px",
     fontSize: "14px",
   };
   return (
     <WhiteContainer marginAuto={false} padding="9px">
-      <div style={{ display: "flex" }}>
+      <div style={style}>
         <AccessTimeIcon style={styleIcon} />
         <div style={styleName}>시간 :</div>
         <div style={styleInput} className="BTNC" onClick={() => setPopup(true)}>
