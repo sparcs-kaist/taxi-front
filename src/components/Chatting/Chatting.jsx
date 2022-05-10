@@ -24,6 +24,7 @@ const Chatting = (prop) => {
   const isSideChat = prop?.roomId !== undefined;
   const roomId = isSideChat ? prop.roomId : useParams().roomId;
   const socket = useRef(undefined);
+  const chattingMessagesBox = useRef();
 
   const [newMessage, setNewMessage] = useState("");
   const [chats, setChats] = useState([]);
@@ -73,9 +74,18 @@ const Chatting = (prop) => {
       authorName: user.nickname,
       text: messageStr,
       time: new Date().toISOString(),
+      local: true,
     };
     setChats([...chats, chatComp]);
   };
+
+  //scroll to bottom
+  useEffect(() => {
+    if (chats.length && chats[chats.length - 1].authorId == user.id) {
+      const box = chattingMessagesBox.current;
+      box.scrollTop = box.scrollHeight;
+    }
+  }, [chats]);
 
   useEffect(() => {
     const _socket = io(backServer, {
@@ -122,7 +132,12 @@ const Chatting = (prop) => {
       {isSideChat ?
           <div className="ChatRoomContainer">
             <SideChatHeader info={ headerInfo }/>
-            <MessagesBody chats={chats} user={user} isSideChat={isSideChat}/>
+            <MessagesBody
+              chats={chats}
+              user={user}
+              isSideChat={isSideChat}
+              forwardedRef={chattingMessagesBox}
+              />
             <SideChatMessageForm
               newMessage={newMessage}
               handleNewMessageChange={handleNewMessageChange}
@@ -132,7 +147,12 @@ const Chatting = (prop) => {
         :
         <div className="ChatRoomContainer">
           <Header info={ headerInfo } />
-          <MessagesBody chats={chats} user={user} isSideChat={isSideChat}/>
+          <MessagesBody
+            chats={chats}
+            user={user}
+            isSideChat={isSideChat}
+            forwardedRef={chattingMessagesBox}
+          />
           <MessageForm
             newMessage={newMessage}
             handleNewMessageChange={handleNewMessageChange}

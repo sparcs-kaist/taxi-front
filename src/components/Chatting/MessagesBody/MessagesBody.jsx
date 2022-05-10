@@ -13,9 +13,10 @@ const MessagesBody = (prop) => {
   const chats = prop.chats;
   const user = prop.user;
   const isSideChat = prop.isSideChat;
+  const forwardedRef = prop.forwardedRef;
 
   return (
-    <div className={isSideChat ? "sideChatMessagesBox" : "chatMessagesBox"}>
+    <div className={isSideChat ? "sideChatMessagesBox" : "chatMessagesBox"} ref={forwardedRef}>
       <ul className="MessagesBody-container">
         {chats.map((chat, i) => (
           <li key={i}>

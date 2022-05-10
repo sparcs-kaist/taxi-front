@@ -2,7 +2,7 @@
   margin-top: 80px;
   margin-bottom: 40px;
   width: 100%;
-  overflow: auto;
+  overflow-y: auto;
   /* height: 100%; */
 }
 .sideChatMessagesBox {
