@@ -1,32 +1,41 @@
 .MessageForm-container {
-}
-.MessageForm {
   position: fixed;
   bottom: 0px;
   width: 100%;
-  height: 60px;
+  height: 40px;
+}
+.MessageForm {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  height: 40px;
   background-color: white;
   display: flex;
-  box-shadow: -5px 5px 10px #dfdfdf;
-  align-items: stretch;
-  padding-left: 48px;
-  padding-top: 11px;
-  padding-bottom: 11px;
+  box-shadow: inset 1px 1px 2.5px -1px rgba(0, 0, 0, 0.075);
+  align-items: center;
 }
 
 .MessageForm-input-field {
   flex-grow: 1;
-  font-size: 1rem;
-  font-weight: normal;
-  letter-spacing: 0.05rem;
-  height: 100%;
+  height: 28px;
   resize: none;
-  border-radius: 10px;
-  padding: 2px 20px;
-  color: black;
   border: none;
-  font-family: NanumSquareR;
-  background-color: #fafafa;
+  margin-left: 44px;
+  padding-left: 12px;
+
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.05em;
+
+  color: #888888;
+
+
+  background: #EEEEEE;
+  box-shadow: inset 1px 1px 2.5px -1px rgba(0, 0, 0, 0.075);
+  border-radius: 8px;
 }
 
 .MessageForm-send-icon-container {
@@ -35,13 +44,6 @@
   align-items: center;
   align-content: center;
   cursor: pointer;
-}
-.MessageForm-send-icon {
-  margin-right: 17px;
-  margin-left: 14px;
-  width: 30px;
-  height: 30px;
-  color: #323232;
-  align-items: center;
-  justify-content: center;
+  margin-right: 17.5px;
+  margin-left: 12.5px;
 }
