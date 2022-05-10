@@ -53,7 +53,7 @@
   padding: 7px 12px 7px 12px;
   margin: 0px 5px;
   word-break: break-word;
-  background-color: #6E3678;
+  background-color: #6e3678;
   color: #ffffff;
   border-radius: 8px;
   font-size: 13px;
@@ -66,6 +66,7 @@
   word-break: break-word;
   background-color: #ffffff;
   color: #323232;
+  width: fit-content;
   border-radius: 8px;
   font-size: 13px;
   letter-spacing: 0.05em;

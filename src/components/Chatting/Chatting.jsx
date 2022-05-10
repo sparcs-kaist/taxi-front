@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import { io } from "socket.io-client";
 import Header from "./Header/Header";
-import SideChatHeader from "./Header/SideChatHeader"
+import SideChatHeader from "./Header/SideChatHeader";
 import MessagesBody from "./MessagesBody/MessagesBody";
 import MessageForm from "./Input/MessageForm";
 import SideChatMessageForm from "./Input/SideChatMessageForm";
@@ -20,7 +20,6 @@ import axios from "../Tool/axios";
 // }
 
 const Chatting = (prop) => {
-  
   const isSideChat = prop?.roomId !== undefined;
   const roomId = isSideChat ? prop.roomId : useParams().roomId;
   const socket = useRef(undefined);
@@ -74,9 +73,10 @@ const Chatting = (prop) => {
       authorName: user.nickname,
       text: messageStr,
       time: new Date().toISOString(),
-      local: true,
     };
-    setChats([...chats, chatComp]);
+    setChats((chats) => {
+      return [...chats, chatComp];
+    });
   };
 
   //scroll to bottom
@@ -115,38 +115,34 @@ const Chatting = (prop) => {
 
   // recieve chats
   useEffect(() => {
-    socket.current.on("chats-recieve", (chats) => {
-      if (chats) {
-        setChats(chats.chats);
-      }
-    });
-    socket.current.on("chats-load", (chats) => {
-      if (chats) {
-        setChats(chats.chats);
-      }
+    socket.current.on("chats-receive", (receiveChats) => {
+      console.log(1);
+      setChats((chats) => {
+        return [...chats, receiveChats.chat];
+      });
     });
   }, []);
 
   return (
     <div className="ChatContainer">
-      {isSideChat ?
-          <div className="ChatRoomContainer">
-            <SideChatHeader info={ headerInfo }/>
-            <MessagesBody
-              chats={chats}
-              user={user}
-              isSideChat={isSideChat}
-              forwardedRef={chattingMessagesBox}
-              />
-            <SideChatMessageForm
-              newMessage={newMessage}
-              handleNewMessageChange={handleNewMessageChange}
-              handleSendMessage={handleSendMessage}
-            />
-          </div>
-        :
+      {isSideChat ? (
         <div className="ChatRoomContainer">
-          <Header info={ headerInfo } />
+          <SideChatHeader info={headerInfo} />
+          <MessagesBody
+            chats={chats}
+            user={user}
+            isSideChat={isSideChat}
+            forwardedRef={chattingMessagesBox}
+          />
+          <SideChatMessageForm
+            newMessage={newMessage}
+            handleNewMessageChange={handleNewMessageChange}
+            handleSendMessage={handleSendMessage}
+          />
+        </div>
+      ) : (
+        <div className="ChatRoomContainer">
+          <Header info={headerInfo} />
           <MessagesBody
             chats={chats}
             user={user}
@@ -159,7 +155,7 @@ const Chatting = (prop) => {
             handleSendMessage={handleSendMessage}
           />
         </div>
-      }
+      )}
     </div>
   );
 };
