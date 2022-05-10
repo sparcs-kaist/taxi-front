@@ -16,26 +16,28 @@ const AddRoom = (props) => {
   const [valueName, setName] = useState("");
   const [valuePlace, setPlace] = useState([null, null]);
   const [valueDate, setDate] = useState([null, null, null]);
-  const [valueTime, setTime] = useState(["9", "00"]);
+  const today = new Date();
+  const [valueTime, setTime] = useState([
+    today.getHours().toString(),
+    (parseInt(today.getMinutes() / 10) * 10).toString(),
+  ]);
 
   let validatedMsg = null;
-  let btnBackground = ["#6E3678", "#5E2668"];
   if (!valuePlace[0] || !valuePlace[1]) {
-    validatedMsg = "출발지와 도착지를 선택하세요";
+    validatedMsg = "출발지와 도착지를 선택해 주세요";
   } else if (valuePlace[0] == valuePlace[1]) {
     validatedMsg = "출발지와 도착지는 같을 수 없습니다";
   } else if (!valueDate[0] || !valueDate[1] || !valueDate[2]) {
-    validatedMsg = "날짜를 선택하세요";
+    validatedMsg = "날짜를 선택해 주세요";
   } else if (!valueTime[0] || !valueTime[1]) {
-    validatedMsg = "시간을 선택하세요";
+    validatedMsg = "시간을 선택해 주세요";
   } else if (valueName === "") {
-    validatedMsg = "방 이름을 입력하세요";
+    validatedMsg = "방 이름을 입력해 주세요";
   } else if (
     !RegExp("^[A-Za-z0-9가-힣ㄱ-ㅎㅏ-ㅣ,.?! _-]{1,50}$").test(valueName)
   ) {
     validatedMsg = "방 이름으로 사용될 수 없습니다";
   }
-  if (validatedMsg) btnBackground = ["#B89DBD", "#B89DBD"];
 
   const onClickAdd = async () => {
     if (!onCall.current) {
@@ -76,13 +78,12 @@ const AddRoom = (props) => {
         <OptionTime value={valueTime} handler={setTime} />
         <SubmitButton
           marginAuto={false}
-          background={btnBackground[0]}
-          backgroundHover={btnBackground[1]}
           onClick={validatedMsg ? () => {} : onClickAdd}
+          disable={validatedMsg ? true : false}
         >
           {validatedMsg
             ? validatedMsg
-            : `${valueDate[1]}월 ${valueDate[2]}일 ${valueTime[0]}시 ${valueTime[1]}분 이후 방 개설하기`}
+            : `${valueDate[1]}월 ${valueDate[2]}일 ${valueTime[0]}시 ${valueTime[1]}분 방 개설하기`}
         </SubmitButton>
       </RLayout.R1>
     </div>

@@ -20,10 +20,11 @@ const Room = (props) => {
   const [isHover, setHover] = useState(false);
   const style = {
     position: "relative",
-    background: "#FAF8FB",
+    background: props.mobile ? "white" : "#FAF8FB",
     overflow: "hidden",
     borderRadius: "12px",
     marginTop: props.marginTop,
+    marginBottom: props.marginBottom,
     boxShadow:
       isHover || props.selected
         ? "0px 2px 4px rgba(110, 54, 120, 0.2), 0px 1px 18px rgba(110, 54, 120, 0.12), 0px 6px 10px rgba(110, 54, 120, 0.14)"
@@ -114,11 +115,14 @@ Room.propTypes = {
   selected: PropTypes.bool,
   onClick: PropTypes.func,
   marginTop: PropTypes.string,
+  marginBottom: PropTypes.string,
+  mobile: PropTypes.bool,
 };
 Room.defaultProps = {
   seleted: false,
   onClick: () => {},
   marginTop: "0px",
+  marginBottom: "0px",
 };
 
 export default Room;

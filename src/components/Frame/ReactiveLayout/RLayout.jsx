@@ -52,6 +52,31 @@ const useR2state = () => {
   return state;
 };
 
+const usePopupstate = () => {
+  const getState = () => {
+    const width = document.body.clientWidth;
+    if (width >= 375) return 1;
+    return 2;
+  };
+  const stateR = useRef(getState());
+  const [state, setState] = useState(stateR.current);
+
+  useEffect(() => {
+    const resizeEvent = () => {
+      const _state = getState();
+      if (stateR.current !== _state) {
+        stateR.current = _state;
+        setState(_state);
+      }
+    };
+    resizeEvent();
+    window.addEventListener("resize", resizeEvent);
+    return () => window.removeEventListener("resize", resizeEvent);
+  }, []);
+
+  return state;
+};
+
 const R1 = (props) => {
   const state = useR1state();
 
@@ -142,4 +167,37 @@ R2.defaultProps = {
   priority: "right",
 };
 
-export default { useR1state, useR2state, R1, R2 };
+const Popup = (props) => {
+  const state = usePopupstate();
+
+  if (state == 1) {
+    return (
+      <div
+        style={{
+          height: "100%",
+          width: "335px",
+          margin: "auto",
+        }}
+      >
+        {props.children}
+      </div>
+    );
+  } else {
+    return (
+      <div
+        style={{
+          height: "100%",
+          marginLeft: "20px",
+          marginRight: "20px",
+        }}
+      >
+        {props.children}
+      </div>
+    );
+  }
+};
+Popup.propTypes = {
+  children: PropTypes.any,
+};
+
+export default { useR1state, useR2state, usePopupstate, R1, R2, Popup };
