@@ -9,7 +9,7 @@ import OptionPlace from "../Options/Place";
 import OptionDate from "../Options/Date";
 import OptionTime from "../Options/Time";
 
-import svgAdd from "./svg_add.svg";
+import LibraryAddRoundedIcon from "@mui/icons-material/LibraryAddRounded";
 
 const AddRoom = (props) => {
   const onCall = useRef(false);
@@ -69,7 +69,9 @@ const AddRoom = (props) => {
   return (
     <div>
       <div style={{ height: "30px" }} />
-      <Title img={svgAdd}>방 개설하기</Title>
+      <Title icon={(style) => <LibraryAddRoundedIcon style={style} />}>
+        방 개설하기
+      </Title>
       <div style={{ height: "20px" }} />
       <RLayout.R1>
         <OptionPlace value={valuePlace} handler={setPlace} />

@@ -7,7 +7,7 @@ import Room from "../Room/RoomElement1";
 import SideChat from "./SideChat";
 import axios from "../../Tool/axios";
 
-import svgRoom from "./svg_room.svg";
+import LibraryBooksRoundedIcon from "@material-ui/icons/LibraryBooksRounded";
 
 const Myroom = () => {
   const history = useHistory();
@@ -45,7 +45,10 @@ const Myroom = () => {
   const leftLay = (
     <div>
       <WhiteContainer marginAuto={false} padding="20px">
-        <Title img={svgRoom} marginAuto={false} paddingTop="0px">
+        <Title
+          icon={(style) => <LibraryBooksRoundedIcon style={style} />}
+          marginAuto={false}
+        >
           참여 중인 방
         </Title>
 
@@ -68,7 +71,10 @@ const Myroom = () => {
         ))}
       </WhiteContainer>
       <WhiteContainer marginAuto={false} padding="20px">
-        <Title img={svgRoom} marginAuto={false} paddingTop="0px">
+        <Title
+          icon={(style) => <LibraryBooksRoundedIcon style={style} />}
+          marginAuto={false}
+        >
           과거 참여 방
         </Title>
 
@@ -95,7 +101,10 @@ const Myroom = () => {
   const rightLay = (
     <div>
       <WhiteContainer marginAuto={false} padding="20px">
-        <Title img={svgRoom} marginAuto={false} paddingTop="0px">
+        <Title
+          icon={(style) => <LibraryBooksRoundedIcon style={style} />}
+          marginAuto={false}
+        >
           채팅 창
         </Title>
       </WhiteContainer>
@@ -110,7 +119,9 @@ const Myroom = () => {
   return (
     <div>
       <div style={{ height: "30px" }} />
-      <Title img={svgRoom}>내 방 리스트</Title>
+      <Title icon={(style) => <LibraryBooksRoundedIcon style={style} />}>
+        내 방 리스트
+      </Title>
       <div style={{ height: "20px" }} />
       <RLayout.R2 priority="left" left={leftLay} right={rightLay} />
     </div>

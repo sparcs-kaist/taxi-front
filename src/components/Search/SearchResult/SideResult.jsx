@@ -1,10 +1,10 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import WhiteContainer from "../../Frame/WhiteContainer/WhiteContainer";
 import Title from "../../Frame/Title/Title";
 import Room from "../../Room/Room/RoomElement1";
 import PropTypes from "prop-types";
 
-import svgResult from "./svg_result.svg";
+import ListAltRoundedIcon from "@material-ui/icons/ListAltRounded";
 
 const Result = (props) => {
   const styleLine = {
@@ -25,7 +25,10 @@ const Result = (props) => {
       <>
         <div style={{ height: "26px" }}></div>
         <WhiteContainer marginAuto={false} padding="20px 20px 22px">
-          <Title img={svgResult} marginAuto={false}>
+          <Title
+            icon={(style) => <ListAltRoundedIcon style={style} />}
+            marginAuto={false}
+          >
             검색 결과
           </Title>
           <div style={{ height: "19px" }} />

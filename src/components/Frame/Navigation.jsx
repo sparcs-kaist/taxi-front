@@ -4,6 +4,10 @@ import { useSpring, animated } from "react-spring";
 import RLayout from "./ReactiveLayout/RLayout";
 import "./Navigation.css";
 
+import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
+import LibraryAddRoundedIcon from "@mui/icons-material/LibraryAddRounded";
+import LibraryBooksRoundedIcon from "@material-ui/icons/LibraryBooksRounded";
+import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
 import svgSearch from "./NavigationIcon/search.svg";
 import svgAddroom from "./NavigationIcon/add.svg";
 import svgMyroom from "./NavigationIcon/chat.svg";
