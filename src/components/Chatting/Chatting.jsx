@@ -116,7 +116,6 @@ const Chatting = (prop) => {
   // recieve chats
   useEffect(() => {
     socket.current.on("chats-receive", (receiveChats) => {
-      console.log(1);
       setChats((chats) => {
         return [...chats, receiveChats.chat];
       });
