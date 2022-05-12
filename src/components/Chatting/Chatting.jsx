@@ -74,8 +74,8 @@ const Chatting = (prop) => {
       text: messageStr,
       time: new Date().toISOString(),
     };
-    setChats((chats) => {
-      return [...chats, chatComp];
+    setChats((prevChats) => {
+      return [...prevChats, chatComp];
     });
   };
 
@@ -116,8 +116,8 @@ const Chatting = (prop) => {
   // recieve chats
   useEffect(() => {
     socket.current.on("chats-receive", (receiveChats) => {
-      setChats((chats) => {
-        return [...chats, receiveChats.chat];
+      setChats((prevChats) => {
+        return [...prevChats, receiveChats.chat];
       });
     });
   }, []);
