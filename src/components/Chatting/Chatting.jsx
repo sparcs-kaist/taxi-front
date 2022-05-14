@@ -10,7 +10,7 @@ import SideChatMessageForm from "./Input/SideChatMessageForm";
 import { backServer } from "../../serverconf";
 import "./Style/Chatting.css";
 import axios from "../Tool/axios";
-
+import { useScroll } from "../../hooks/useScroll";
 // Reponse
 // {
 //   data: Chat[], // pageSize 개의 채팅 내역
@@ -24,6 +24,7 @@ const Chatting = (prop) => {
   const roomId = isSideChat ? prop.roomId : useParams().roomId;
   const socket = useRef(undefined);
   const chattingMessagesBox = useRef();
+  const { scroll } = useScroll(chattingMessagesBox);
 
   const [newMessage, setNewMessage] = useState("");
   const [chats, setChats] = useState([]);
@@ -34,6 +35,7 @@ const Chatting = (prop) => {
     nickname: "",
     profileImageUrl: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const getUserInfo = async () => {
     let newUser = user;
@@ -66,6 +68,12 @@ const Chatting = (prop) => {
     setNewMessage("");
   };
 
+  useEffect(() => {
+    if (!newMessage) {
+      scrollToBottom();
+    }
+  }, [newMessage]);
+
   const sendMessage = (messageStr) => {
     socket.current.emit("chats-send", { roomId: roomId, content: messageStr });
     const chatComp = {
@@ -79,13 +87,13 @@ const Chatting = (prop) => {
     });
   };
 
-  //scroll to bottom
-  useEffect(() => {
-    if (chats.length && chats[chats.length - 1].authorId == user.id) {
-      const box = chattingMessagesBox.current;
-      box.scrollTop = box.scrollHeight;
+  // scroll to bottom
+  const scrollToBottom = () => {
+    if (chattingMessagesBox.current) {
+      chattingMessagesBox.current.scrollTop =
+        chattingMessagesBox.current.scrollHeight;
     }
-  }, [chats]);
+  };
 
   useEffect(() => {
     const _socket = io(backServer, {
@@ -94,6 +102,8 @@ const Chatting = (prop) => {
     socket.current = _socket;
     socket.current.on("chats-join", (chats) => {
       setChats(chats.chats);
+      // scroll to bottom on join
+      scrollToBottom();
     });
 
     axios
@@ -112,6 +122,29 @@ const Chatting = (prop) => {
       // console.log(data);
     });
   }, [roomId]);
+
+  // check if scroll is at the top, send chats-load event
+  useEffect(() => {
+    if (scroll === 0 && !isLoading && chats.length > 0) {
+      setIsLoading(true);
+      socket.current.emit("chats-load", chats[0].time, 30);
+    }
+  }, [scroll]);
+
+  // load more chats upon recieving chats-load event (infinite scroll)
+  useEffect(() => {
+    socket.current.on("chats-load", (loadChats) => {
+      const bottom =
+        chattingMessagesBox.current.scrollHeight -
+        chattingMessagesBox.current.scrollTop;
+      setChats((prevChats) => {
+        return [...loadChats.chats, ...prevChats];
+      });
+      setIsLoading(false);
+      chattingMessagesBox.current.scrollTop =
+        chattingMessagesBox.current.scrollHeight - bottom;
+    });
+  }, []);
 
   // recieve chats
   useEffect(() => {
