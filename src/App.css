@@ -3,9 +3,12 @@
   padding: 0px;
   font-family: "NanumSquare", sans-serif;
   font-weight: 300;
-  color: #323232;
   letter-spacing: 0.05em;
   --purple: #6E3678;
+}
+
+div {
+  color: #323232;
 }
 
 html {

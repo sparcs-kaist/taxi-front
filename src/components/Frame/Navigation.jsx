@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 import { useSpring, animated } from "react-spring";
 import RLayout from "./ReactiveLayout/RLayout";
 import "./Navigation.css";
@@ -16,32 +17,42 @@ const NavigationBtn = (props) => {
   const layStyle = {
     width: "25%",
     height: "100%",
+    textDecoration: "unset",
+  };
+  const iconGrid = {
+    height: 19,
+    marginTop: 8,
   };
   const icon = {
-    width: "19px",
-    height: "19px",
+    height: 19,
     color: "currentColor",
   };
   const text = {
-    lineHeight: "20px",
+    fontSize: 8,
+    lineHeight: "9px",
+    fontWeight: "bold",
+    marginTop: 5,
     textAlign: "center",
-    fontSize: "8px",
     color: "#9B9B9B",
   };
   const hover = useSpring({
     color: isHover || props.selected ? "#6E3678" : "#888888",
     config: { duration: 150 },
+    textAlign: "center",
   });
   return (
-    <div
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      style={layStyle}
-      onClick={() => history.push(props.to)}
-    >
-      <animated.div style={{ ...hover }}>{props.icon(icon)}</animated.div>
-      <animated.div style={{ ...text, ...hover }}>{props.name}</animated.div>
-    </div>
+    <Link to={props.to} style={{ ...layStyle }}>
+      <div
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        onClick={() => history.push(props.to)}
+      >
+        <animated.div style={{ ...icon, ...hover, marginTop: 8 }}>
+          {props.icon(icon)}
+        </animated.div>
+        <animated.div style={{ ...text, ...hover }}>{props.name}</animated.div>
+      </div>
+    </Link>
   );
 };
 NavigationBtn.propTypes = {
