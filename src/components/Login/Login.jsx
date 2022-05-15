@@ -3,7 +3,7 @@ import { useSpring, animated } from "react-spring";
 import { backServer } from "../../serverconf";
 import RLayout from "../Frame/ReactiveLayout/RLayout";
 
-import svgLogo from "../../images/sparcs_logo.svg";
+import sparcsLogo from "../../asset/sparcs_logo.svg";
 
 const TaxiLogo = () => {
   const styleImg = {
@@ -19,7 +19,7 @@ const TaxiLogo = () => {
   };
   return (
     <div style={{ position: "relative", height: "90px", textAlign: "center" }}>
-      <img src={svgLogo} alt="" style={styleImg} />
+      <img src={sparcsLogo} alt="" style={styleImg} />
       <span style={styleTxt}>Taxi</span>
     </div>
   );

@@ -7,7 +7,7 @@ import Login from "./components/Login/Login";
 import Search from "./components/Search/Search/Search";
 import AddRoom from "./components/Search/AddRoom/AddRoom";
 import Myroom from "./components/Room/Myroom/Myroom";
-import Setting from "./components/Setting/Setting";
+import MyPage from "./components/MyPage/MyPage";
 //import Login from './components/user/login'
 import User from "./components/user/user";
 import NewUser from "./components/user/newuser";
@@ -40,9 +40,9 @@ function App() {
             <Myroom />
           </Frame>
         </Route>
-        <Route exact path="/setting">
-          <Frame navi="setting">
-            <Setting />
+        <Route exact path="/MyPage">
+          <Frame navi="MyPage">
+            <MyPage />
           </Frame>
         </Route>
         <Route exact path="/users">

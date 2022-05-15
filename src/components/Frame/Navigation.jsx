@@ -28,11 +28,7 @@ const NavigationBtn = (props) => {
     fontSize: "8px",
     color: "#9B9B9B",
   };
-  const textHover = useSpring({
-    color: isHover || props.selected ? "#6E3678" : "#888888",
-    config: { duration: 150 },
-  });
-  const iconHover = useSpring({
+  const hover = useSpring({
     color: isHover || props.selected ? "#6E3678" : "#888888",
     config: { duration: 150 },
   });
@@ -43,10 +39,8 @@ const NavigationBtn = (props) => {
       style={layStyle}
       onClick={() => history.push(props.to)}
     >
-      <animated.div style={{ ...iconHover }}>{props.icon(icon)}</animated.div>
-      <animated.div style={{ ...text, ...textHover }}>
-        {props.name}
-      </animated.div>
+      <animated.div style={{ ...hover }}>{props.icon(icon)}</animated.div>
+      <animated.div style={{ ...text, ...hover }}>{props.name}</animated.div>
     </div>
   );
 };
@@ -85,12 +79,12 @@ const Navigation = (props) => {
             selected={props.selected === "myroom"}
           />
           <NavigationBtn
-            to="/setting"
-            name="설정"
+            to="/mypage"
+            name="마이 페이지"
             icon={(style) => (
-              <AccountCircleRoundedIcon style={style} alt="setting" />
+              <AccountCircleRoundedIcon style={style} alt="mypage" />
             )}
-            selected={props.selected === "setting"}
+            selected={props.selected === "mypage"}
           />
         </div>
       </RLayout.R1>
