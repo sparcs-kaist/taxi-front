@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import { animated, useSpring } from "react-spring";
-import { useHistory } from "react-router";
 import RLayout from "../../Frame/ReactiveLayout/RLayout";
 import Title from "../../Frame/Title/Title";
 import SubmitButton from "../../Frame/SubmitButton/SubmitButton";
@@ -103,7 +102,6 @@ SelectSearchOptions.propTypes = {
 };
 
 const Search = () => {
-  const history = useHistory();
   const reactiveState = RLayout.useR2state();
   const onCall = useRef(false);
   const [searchOptions, setSearchOptions] = useState({});

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { useSpring, animated } from "react-spring";
 import RLayout from "./ReactiveLayout/RLayout";
@@ -13,7 +12,6 @@ import PropTypes from "prop-types";
 
 const NavigationBtn = (props) => {
   const [isHover, setHover] = useState(false);
-  const history = useHistory();
   const layStyle = {
     width: "25%",
     height: "100%",

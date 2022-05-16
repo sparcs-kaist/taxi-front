@@ -58,7 +58,7 @@ BtnC.propTypes = {
   onClick: PropTypes.func,
 };
 
-const Setting = (props) => {
+const Setting = () => {
   const [profToken, setProfToken] = useState(Date.now());
   const [userInfo, setUserInfo] = useState({});
   const [userInfoD, setUserInfoD] = useState({});
