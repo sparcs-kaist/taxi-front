@@ -13,7 +13,7 @@ import { backServer } from "../../serverconf";
 import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
 import LibraryBooksRoundedIcon from "@material-ui/icons/LibraryBooksRounded";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
-import sparcsLogo from "../../asset/sparcs_logo.svg";
+import SparcsLogoBlack from "../../asset/SparcsLogoBlack.svg";
 
 const BtnC = (props) => {
   const [isHover, setHover] = useState(false);
@@ -177,7 +177,7 @@ const Setting = (props) => {
         >
           사용 약관 및 개인정보 보호 규칙
         </BtnC>
-        <BtnC img={sparcsLogo} onClick={() => setOpen1(true)}>
+        <BtnC img={SparcsLogoBlack} onClick={() => setOpen1(true)}>
           만든 사람들
         </BtnC>
         <BtnC

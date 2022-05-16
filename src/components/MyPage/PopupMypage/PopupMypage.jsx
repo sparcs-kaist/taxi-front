@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import axios from "../../Tool/axios";
 import { backServer } from "../../../serverconf";
 
-import svgClose from "./svg_close.svg";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const ProfImg = (props) => {
   const style = {
@@ -251,13 +251,7 @@ const PopupMypage = (props) => {
         />
         <RLayout.R1 height="100%" position="static">
           <div style={style}>
-            <img
-              src={svgClose}
-              alt="close"
-              style={styleClose}
-              className="BTNC"
-              onClick={onClose}
-            />
+            <CloseRoundedIcon style={styleClose} onClick={onClose} />
             <div style={styleName}>
               {props.userInfo.name ? props.userInfo.name : ""}
             </div>

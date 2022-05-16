@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSpring, animated } from "react-spring";
 import PropTypes from "prop-types";
 
-import svgArrow from "./svg_arrow.svg";
+import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 
 const date2str = (x) => {
   const date = new Date(x);
@@ -97,7 +97,7 @@ const Room = (props) => {
       <div style={styleLine} />
       <div style={styleLay1}>
         <div style={styleLay1Place}>{props.origin}</div>
-        <img src={svgArrow} style={styleArrow} alt="->" />
+        <ArrowRightAltRoundedIcon style={styleArrow} />
         <div style={styleLay1Place}>{props.destination}</div>
       </div>
       <div style={styleDate}>{date2str(props.date)}</div>

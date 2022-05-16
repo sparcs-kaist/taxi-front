@@ -19,10 +19,6 @@ const NavigationBtn = (props) => {
     height: "100%",
     textDecoration: "unset",
   };
-  const iconGrid = {
-    height: 19,
-    marginTop: 8,
-  };
   const icon = {
     height: 19,
     color: "currentColor",
@@ -45,7 +41,6 @@ const NavigationBtn = (props) => {
       <div
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
-        onClick={() => history.push(props.to)}
       >
         <animated.div style={{ ...icon, ...hover, marginTop: 8 }}>
           {props.icon(icon)}

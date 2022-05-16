@@ -5,10 +5,9 @@ import RLayout from "../../Frame/ReactiveLayout/RLayout";
 import PropTypes from "prop-types";
 import { backServer } from "../../../serverconf";
 
-import svgBack from "./svg_back.svg";
-import svgMenu from "./svg_menu.svg";
-import svgClose from "./svg_close.svg";
-import svgCloseGray from "./svg_closeGray.svg";
+import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
+import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const PopupToast = (props) => {
   const styleBgd = useSpring({
@@ -32,6 +31,7 @@ const PopupToast = (props) => {
     right: "10px",
     width: "24px",
     height: "24px",
+    fill: "#888888",
   };
   const styleTextLay = {
     textAlign: "center",
@@ -81,11 +81,8 @@ const PopupToast = (props) => {
         <RLayout.R1>
           <div style={style}>
             <div style={{ height: "30px" }}>
-              <img
-                src={svgCloseGray}
-                alt="close"
+              <CloseRoundedIcon
                 style={styleBtnClose}
-                className="BTNC"
                 onClick={() => props.onClick1()}
               />
             </div>
@@ -152,6 +149,7 @@ const BtnBack = () => {
     left: "calc(50% - 15px)",
     width: "30px",
     height: "30px",
+    fill: "var(--purple)",
   };
 
   return (
@@ -162,7 +160,7 @@ const BtnBack = () => {
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
-      <img src={svgBack} alt="back" style={styleImg} />
+      <ArrowBackRoundedIcon style={styleImg} />
     </animated.div>
   );
 };
@@ -236,6 +234,7 @@ const BtnMenu = (props) => {
     left: "calc(50% - 15px)",
     width: "30px",
     height: "30px",
+    fill: "var(--purple)",
   };
 
   return (
@@ -246,7 +245,11 @@ const BtnMenu = (props) => {
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
-      <img src={props.token ? svgClose : svgMenu} alt="menu" style={styleImg} />
+      {props.token ? (
+        <CloseRoundedIcon style={styleImg} />
+      ) : (
+        <MenuRoundedIcon style={styleImg} />
+      )}
     </animated.div>
   );
 };
