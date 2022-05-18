@@ -3,18 +3,7 @@ import { useSpring, animated } from "react-spring";
 import PropTypes from "prop-types";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
-
-const date2str = (x) => {
-  const date = new Date(x);
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const hour = date.getHours();
-  let min = date.getMinutes();
-
-  if (min < 10) min = "0" + min;
-  return `${year}년 ${month}월 ${day}일 ${hour}시 ${min}분`;
-};
+import date2str from "../../Tool/date2str";
 
 const Room = (props) => {
   const [isHover, setHover] = useState(false);
