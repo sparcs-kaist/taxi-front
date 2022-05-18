@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import "../Style/MessagesBody.css";
 import ChatMessage from "./ChatMessage";
+import PropTypes from "prop-types";
 // Chat {
 //   roomId: ObjectId, //방의 objectId
 //   authorName: String, //작성자 닉네임 (사용자 입,퇴장 알림 등 전체 메시지일 때: null)
@@ -9,14 +10,17 @@ import ChatMessage from "./ChatMessage";
 //   time: Date, //UTC 시각
 // }
 
-const MessagesBody = (prop) => {
-  const chats = prop.chats;
-  const user = prop.user;
-  const isSideChat = prop.isSideChat;
-  const forwardedRef = prop.forwardedRef;
+const MessagesBody = (props) => {
+  const chats = props.chats;
+  const user = props.user;
+  const isSideChat = props.isSideChat;
+  const forwardedRef = props.forwardedRef;
 
   return (
-    <div className={isSideChat ? "sideChatMessagesBox" : "chatMessagesBox"} ref={forwardedRef}>
+    <div
+      className={isSideChat ? "sideChatMessagesBox" : "chatMessagesBox"}
+      ref={forwardedRef}
+    >
       <ul className="MessagesBody-container">
         {chats.map((chat, i) => (
           <li key={i}>
@@ -31,6 +35,13 @@ const MessagesBody = (prop) => {
       </ul>
     </div>
   );
+};
+
+MessagesBody.propTypes = {
+  chats: PropTypes.array,
+  user: PropTypes.object,
+  isSideChat: PropTypes.bool,
+  forwardedRef: PropTypes.any,
 };
 
 export default MessagesBody;
