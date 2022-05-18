@@ -10,7 +10,7 @@ import SideChatMessageForm from "./Input/SideChatMessageForm";
 import { backServer } from "../../serverconf";
 import "./Style/Chatting.css";
 import axios from "../Tool/axios";
-import { useScroll } from "../../hooks/useScroll";
+import { useScroll } from "./Hooks/useScroll";
 // Reponse
 // {
 //   data: Chat[], // pageSize 개의 채팅 내역
