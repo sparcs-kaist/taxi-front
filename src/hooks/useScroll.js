@@ -4,7 +4,9 @@ export function useScroll(ref) {
   const [scroll, setScroll] = useState(0);
 
   const listener = () => {
-    setScroll(ref.current.scrollTop);
+    if (ref.current) {
+      setScroll(ref.current.scrollTop);
+    }
   };
 
   useEffect(() => {
