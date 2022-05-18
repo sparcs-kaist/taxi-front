@@ -5,8 +5,8 @@ import RLayout from "../../Frame/ReactiveLayout/RLayout";
 import PropTypes from "prop-types";
 import axios from "../../Tool/axios";
 
-import svgSparcs from "../../../images/sparcs_logo.svg";
-import svgClose from "./svg_close.svg";
+import SparcsLogoBlack from "../../../asset/SparcsLogoBlack.svg";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const Policy = () => {
   const styleT1 = {
@@ -329,17 +329,11 @@ const PopupPolicy = (props) => {
         />
         <RLayout.R1 height="100%">
           <div style={style}>
-            <img src={svgSparcs} alt="" style={styleSparcs} />
+            <img src={SparcsLogoBlack} alt="" style={styleSparcs} />
             <div style={styleTaxi}>Taxi</div>
             <div style={{ height: "15px" }} />
             <div style={styleTitle}>이용 약관</div>
-            <img
-              src={svgClose}
-              alt="close"
-              style={styleClose}
-              className="BTNC"
-              onClick={onClose}
-            />
+            <CloseRoundedIcon style={styleClose} onClick={onClose} />
             <div style={styleInnerBox}>
               <Policy />
             </div>

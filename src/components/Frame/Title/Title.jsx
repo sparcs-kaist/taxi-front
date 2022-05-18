@@ -11,13 +11,11 @@ const Title = (props) => {
           alignItems: "flex-end",
         }}
       >
-        <img
-          src={props.img}
-          style={{
-            width: "24px",
-            height: "24px",
-          }}
-        />
+        {props.icon({
+          width: "24px",
+          height: "24px",
+          color: "var(--purple)",
+        })}
         <div
           style={{
             marginLeft: "8px",
@@ -41,7 +39,7 @@ const Title = (props) => {
 };
 
 Title.propTypes = {
-  img: PropTypes.any,
+  icon: PropTypes.any,
   children: PropTypes.any,
   marginAuto: PropTypes.bool,
 };

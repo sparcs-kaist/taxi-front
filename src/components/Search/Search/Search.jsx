@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import { animated, useSpring } from "react-spring";
-import { useHistory } from "react-router";
 import RLayout from "../../Frame/ReactiveLayout/RLayout";
 import Title from "../../Frame/Title/Title";
 import SubmitButton from "../../Frame/SubmitButton/SubmitButton";
@@ -13,7 +12,7 @@ import OptionPlace from "../Options/Place";
 import OptionDate from "../Options/Date";
 import OptionTime from "../Options/Time";
 
-import svgSearch from "./svg_search.svg";
+import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 
 const SearchOption = (props) => {
   const [isHover, setHover] = useState(false);
@@ -103,7 +102,6 @@ SelectSearchOptions.propTypes = {
 };
 
 const Search = () => {
-  const history = useHistory();
   const reactiveState = RLayout.useR2state();
   const onCall = useRef(false);
   const [searchOptions, setSearchOptions] = useState({});
@@ -252,7 +250,9 @@ const Search = () => {
   return (
     <div>
       <div style={{ height: "30px" }} />
-      <Title img={svgSearch}>방 검색하기</Title>
+      <Title icon={(style) => <SearchRoundedIcon style={style} />}>
+        방 검색하기
+      </Title>
       <div style={{ height: "25px" }} />
       <RLayout.R2
         left={reactiveState == 3 && searchResult !== null ? null : leftLay}

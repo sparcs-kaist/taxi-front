@@ -10,10 +10,10 @@ import PopupMypage from "./PopupMypage/PopupMypage";
 import axios from "../Tool/axios";
 import { backServer } from "../../serverconf";
 
-import svgMyPage from "./svg_myPage.svg";
-import svgDocument from "./svg_document.svg";
-import svgSparcs from "./svg_sparcs.svg";
-import svgLogout from "./svg_logout.svg";
+import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
+import LibraryBooksRoundedIcon from "@material-ui/icons/LibraryBooksRounded";
+import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
+import SparcsLogoBlack from "../../asset/SparcsLogoBlack.svg";
 
 const BtnC = (props) => {
   const [isHover, setHover] = useState(false);
@@ -58,7 +58,7 @@ BtnC.propTypes = {
   onClick: PropTypes.func,
 };
 
-const Setting = (props) => {
+const Setting = () => {
   const [profToken, setProfToken] = useState(Date.now());
   const [userInfo, setUserInfo] = useState({});
   const [userInfoD, setUserInfoD] = useState({});
@@ -126,7 +126,9 @@ const Setting = (props) => {
   return (
     <div>
       <div style={{ height: "30px" }} />
-      <Title img={svgMyPage}>내 페이지</Title>
+      <Title icon={(style) => <AccountCircleRoundedIcon style={style} />}>
+        마이 페이지
+      </Title>
       <div style={{ height: "20px" }} />
       <WhiteContainer>
         <div style={{ position: "relative" }}>
@@ -169,13 +171,19 @@ const Setting = (props) => {
         </div>
       </WhiteContainer>
       <WhiteContainer>
-        <BtnC img={svgDocument} onClick={() => setOpen2(true)}>
+        <BtnC
+          img={(style) => <LibraryBooksRoundedIcon style={style} />}
+          onClick={() => setOpen2(true)}
+        >
           사용 약관 및 개인정보 보호 규칙
         </BtnC>
-        <BtnC img={svgSparcs} onClick={() => setOpen1(true)}>
+        <BtnC img={SparcsLogoBlack} onClick={() => setOpen1(true)}>
           만든 사람들
         </BtnC>
-        <BtnC img={svgLogout} onClick={handleLogout}>
+        <BtnC
+          img={(style) => <ExitToAppRoundedIcon style={style} />}
+          onClick={handleLogout}
+        >
           로그아웃
         </BtnC>
       </WhiteContainer>

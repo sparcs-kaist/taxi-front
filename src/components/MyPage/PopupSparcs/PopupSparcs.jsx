@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { animated, useSpring } from "react-spring";
 import RLayout from "../../Frame/ReactiveLayout/RLayout";
 import PropTypes from "prop-types";
 
-import svgSparcs from "./svg_sparcs1.svg";
-import svgSparcsYellow from "./svg_sparcs2.svg";
-import svgClose from "./svg_close.svg";
+import SparcsLogoBlack from "../../../asset/SparcsLogoBlack.svg";
+import SparcsLogoYellow from "../../../asset/SparcsLogoYellow.svg";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const Member = (props) => {
   const style = {
@@ -58,7 +58,7 @@ const Member = (props) => {
     <div style={style}>
       <div style={styleLay1}>
         <span style={styleName}>{props.name}</span>
-        <img style={styleSparcs} src={svgSparcsYellow} alt="sparcs" />
+        <img style={styleSparcs} src={SparcsLogoYellow} alt="sparcs" />
         <span style={styleId}>{props.id}</span>
       </div>
       <div style={styleDes}>{props.des}</div>
@@ -170,16 +170,10 @@ const PopupSparcs = (props) => {
         />
         <RLayout.R1 height="100%">
           <div style={style}>
-            <img src={svgSparcs} alt="" style={styleSparcs} />
+            <img src={SparcsLogoBlack} alt="" style={styleSparcs} />
             <div style={{ height: "15px" }} />
             <div style={styleTitle}>만든 사람들</div>
-            <img
-              src={svgClose}
-              alt="close"
-              style={styleClose}
-              className="BTNC"
-              onClick={props.onClose}
-            />
+            <CloseRoundedIcon style={styleClose} onClick={props.onClose} />
             <div style={styleLine} />
             <div style={{ overflow: "auto", height: "calc(100% - 51px)" }}>
               <div style={styleRole}>Project Manager</div>
