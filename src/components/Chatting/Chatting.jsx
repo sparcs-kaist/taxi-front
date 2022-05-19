@@ -24,7 +24,7 @@ const Chatting = (prop) => {
   const socket = useRef(undefined);
   const messagesBody = useRef();
 
-  const [newMessage, setNewMessage] = useState("");
+  const [inputStr, setInputStr] = useState("");
   const [chats, setChats] = useState([]);
   const [headerInfo, setHeaderInfo] = useState(undefined);
   const [user, setUser] = useState({
@@ -34,6 +34,14 @@ const Chatting = (prop) => {
     profileImageUrl: "",
   });
   const isInfScrollLoading = useRef(false);
+
+  // scroll functions
+  const scrollToBottom = (bottom = 0) => {
+    if (messagesBody.current) {
+      messagesBody.current.scrollTop =
+        messagesBody.current.scrollHeight - bottom;
+    }
+  };
 
   // get user info
   useEffect(async () => {
@@ -103,31 +111,21 @@ const Chatting = (prop) => {
     const roomInfo = await axios.get(`/rooms/${roomId}/info`);
     setHeaderInfo(roomInfo.data);
     socket.current.emit("chats-join", roomId);
+
+    // disconnect socket
+    return () => {
+      if (socket.current) socket.current.disconnect();
+    };
   }, [roomId]);
 
   // when there is new message, scroll to bottom
   useEffect(() => {
-    if (!newMessage) {
+    if (!inputStr) {
       scrollToBottom();
     }
-  }, [newMessage]);
-
-  // scroll function
-  const scrollToBottom = () => {
-    if (messagesBody.current) {
-      messagesBody.current.scrollTop = messagesBody.current.scrollHeight;
-    }
-  };
+  }, [chats]);
 
   // handler
-  const handleNewMessageChange = (event) => {
-    setNewMessage(event.target.value);
-  };
-  const handleSendMessage = (event) => {
-    event?.preventDefault();
-    if (newMessage) sendMessage(newMessage);
-    setNewMessage("");
-  };
   const sendMessage = (messageStr) => {
     socket.current.emit("chats-send", { roomId: roomId, content: messageStr });
     const chatComp = {
@@ -136,9 +134,20 @@ const Chatting = (prop) => {
       text: messageStr,
       time: new Date().toISOString(),
     };
+    // 보내졌는지 확인 여부 필요함?
     setChats((prevChats) => {
       return [...prevChats, chatComp];
     });
+  };
+  const handleInputStr = (event) => {
+    setInputStr(event.target.value);
+  };
+  const handleSendMessage = (event) => {
+    event?.preventDefault();
+    if (inputStr) {
+      sendMessage(inputStr);
+      setInputStr("");
+    }
   };
 
   return (
@@ -159,14 +168,14 @@ const Chatting = (prop) => {
 
         {isSideChat ? (
           <SideChatMessageForm
-            newMessage={newMessage}
-            handleNewMessageChange={handleNewMessageChange}
+            newMessage={inputStr}
+            handleNewMessageChange={handleInputStr}
             handleSendMessage={handleSendMessage}
           />
         ) : (
           <MessageForm
-            newMessage={newMessage}
-            handleNewMessageChange={handleNewMessageChange}
+            newMessage={inputStr}
+            handleNewMessageChange={handleInputStr}
             handleSendMessage={handleSendMessage}
           />
         )}
