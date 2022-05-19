@@ -67,14 +67,17 @@ const Chatting = (prop) => {
       const scrollTop = messagesBody.current.scrollTop;
 
       // check if scroll is at the top, send chats-load event
-      if (scrollTop === 0 && !isInfScrollLoading.current && chats.length > 0) {
+      // 맨 상단의 경우 인피니티 스크롤 요청을 call하면 안됨
+      if (scrollTop <= 0 && !isInfScrollLoading.current && chats.length > 0) {
         isInfScrollLoading.current = true;
         socket.current.emit("chats-load", chats[0].time, 30);
       }
     };
     messagesBody.current.addEventListener("scroll", scrollListener);
     return () => {
-      messagesBody.current.removeEventListener("scroll", scrollListener);
+      if (messagesBody.current) {
+        messagesBody.current.removeEventListener("scroll", scrollListener);
+      }
     };
   }, []);
 
@@ -112,6 +115,7 @@ const Chatting = (prop) => {
     // init
     const roomInfo = await axios.get(`/rooms/${roomId}/info`);
     setHeaderInfo(roomInfo.data);
+    setChats([]);
     socket.current.emit("chats-join", roomId);
 
     // disconnect socket
@@ -146,7 +150,7 @@ const Chatting = (prop) => {
   };
   const handleSendMessage = (event) => {
     event?.preventDefault();
-    if (regExpTest(inputStr)) {
+    if (regExpTest.chatMsg(inputStr)) {
       sendMessage(inputStr);
       setInputStr("");
     }
