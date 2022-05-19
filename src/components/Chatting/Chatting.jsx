@@ -62,24 +62,16 @@ const Chatting = (prop) => {
   }, []);
 
   // scroll event
-  useEffect(() => {
-    const scrollListener = () => {
-      const scrollTop = messagesBody.current.scrollTop;
-
-      // check if scroll is at the top, send chats-load event
-      // 맨 상단의 경우 인피니티 스크롤 요청을 call하면 안됨
-      if (scrollTop <= 0 && !isInfScrollLoading.current && chats.length > 0) {
-        isInfScrollLoading.current = true;
-        socket.current.emit("chats-load", chats[0].time, 30);
-      }
-    };
-    messagesBody.current.addEventListener("scroll", scrollListener);
-    return () => {
-      if (messagesBody.current) {
-        messagesBody.current.removeEventListener("scroll", scrollListener);
-      }
-    };
-  }, []);
+  const handleScroll = () => {
+    const scrollTop = messagesBody.current.scrollTop;
+    // check if scroll is at the top, send chats-load event
+    // 맨 상단의 경우 인피니티 스크롤 요청을 call하면 안됨
+    if (scrollTop <= 0 && !isInfScrollLoading.current && chats.length > 0) {
+      console.log(1);
+      isInfScrollLoading.current = true;
+      socket.current.emit("chats-load", chats[0].time, 30);
+    }
+  };
 
   // socket setting
   useEffect(async () => {
@@ -104,6 +96,7 @@ const Chatting = (prop) => {
     socket.current.on("chats-load", (loadChats) => {
       const bottom =
         messagesBody.current.scrollHeight - messagesBody.current.scrollTop;
+      console.log(bottom);
       setChats((prevChats) => {
         return [...loadChats.chats, ...prevChats];
       });
@@ -129,7 +122,7 @@ const Chatting = (prop) => {
     if (!inputStr) {
       scrollToBottom();
     }
-  }, [chats]);
+  }, [inputStr]);
 
   // handler
   const sendMessage = (messageStr) => {
@@ -170,6 +163,7 @@ const Chatting = (prop) => {
           user={user}
           isSideChat={isSideChat}
           forwardedRef={messagesBody}
+          handleScroll={handleScroll}
         />
 
         {isSideChat ? (

@@ -15,11 +15,13 @@ const MessagesBody = (props) => {
   const user = props.user;
   const isSideChat = props.isSideChat;
   const forwardedRef = props.forwardedRef;
+  const handleScroll = props.handleScroll;
 
   return (
     <div
       className={isSideChat ? "sideChatMessagesBox" : "chatMessagesBox"}
       ref={forwardedRef}
+      onScroll={handleScroll}
     >
       <ul className="MessagesBody-container">
         {chats.map((chat, i) => (
@@ -42,6 +44,7 @@ MessagesBody.propTypes = {
   user: PropTypes.object,
   isSideChat: PropTypes.bool,
   forwardedRef: PropTypes.any,
+  handleScroll: PropTypes.func,
 };
 
 export default MessagesBody;
