@@ -7,9 +7,11 @@ import SideChatHeader from "./Header/SideChatHeader";
 import MessagesBody from "./MessagesBody/MessagesBody";
 import MessageForm from "./Input/MessageForm";
 import SideChatMessageForm from "./Input/SideChatMessageForm";
-import { backServer } from "../../serverconf";
-import "./Style/Chatting.css";
+import regExpTest from "../Tool/regExpTest";
 import axios from "../Tool/axios";
+import { backServer } from "../../serverconf";
+
+import "./Style/Chatting.css";
 // Reponse
 // {
 //   data: Chat[], // pageSize 개의 채팅 내역
@@ -144,7 +146,7 @@ const Chatting = (prop) => {
   };
   const handleSendMessage = (event) => {
     event?.preventDefault();
-    if (inputStr) {
+    if (regExpTest(inputStr)) {
       sendMessage(inputStr);
       setInputStr("");
     }
