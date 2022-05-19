@@ -67,7 +67,6 @@ const Chatting = (prop) => {
     // check if scroll is at the top, send chats-load event
     // 맨 상단의 경우 인피니티 스크롤 요청을 call하면 안됨
     if (scrollTop <= 0 && !isInfScrollLoading.current && chats.length > 0) {
-      console.log(1);
       isInfScrollLoading.current = true;
       socket.current.emit("chats-load", chats[0].time, 30);
     }
