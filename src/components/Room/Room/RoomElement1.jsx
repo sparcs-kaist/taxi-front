@@ -3,7 +3,7 @@ import { useSpring, animated } from "react-spring";
 import PropTypes from "prop-types";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
-import date2str from "../../Tool/date2str";
+import date2str from "../../Tool/trans";
 
 const Room = (props) => {
   const [isHover, setHover] = useState(false);
