@@ -3,8 +3,8 @@ import "moment/locale/ko";
 
 moment.locale("ko");
 
-const date2str = (date) => {
-  return moment(date).format("LLLL");
+const date2str = (date, format = "LLLL") => {
+  return moment(date).format(format);
 };
 
 export default date2str;

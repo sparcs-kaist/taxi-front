@@ -3,6 +3,7 @@ import RLayout from "../../Frame/ReactiveLayout/RLayout";
 import Title from "../../Frame/Title/Title";
 import SubmitButton from "../../Frame/SubmitButton/SubmitButton";
 import axios from "../../Tool/axios";
+import date2str from "../../Tool/trans";
 
 import OptionName from "../Options/Name";
 import OptionPlace from "../Options/Place";
@@ -85,7 +86,15 @@ const AddRoom = (props) => {
         >
           {validatedMsg
             ? validatedMsg
-            : `${valueDate[1]}월 ${valueDate[2]}일 ${valueTime[0]}시 ${valueTime[1]}분 방 개설하기`}
+            : `${date2str(
+                new Date(
+                  valueDate[0],
+                  valueDate[1] - 1,
+                  valueDate[2],
+                  valueTime[0],
+                  valueTime[1]
+                )
+              )}분 방 개설하기`}
         </SubmitButton>
       </RLayout.R1>
     </div>
