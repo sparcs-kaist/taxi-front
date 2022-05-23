@@ -1,6 +1,7 @@
 import React from "react";
 import "../Style/MessagesBody.css";
 import ChatMessage from "./ChatMessage";
+import NewMessage from "./NewMessage";
 import PropTypes from "prop-types";
 // Chat {
 //   roomId: ObjectId, //방의 objectId
@@ -16,6 +17,8 @@ const MessagesBody = (props) => {
   const isSideChat = props.isSideChat;
   const forwardedRef = props.forwardedRef;
   const handleScroll = props.handleScroll;
+  const onClick = props.onClick;
+  const isReceieveChat = props.isReceieveChat;
 
   return (
     <div
@@ -35,6 +38,7 @@ const MessagesBody = (props) => {
           </li>
         ))}
       </ul>
+      <NewMessage isReceieveChat={isReceieveChat} onClick={onClick} />
     </div>
   );
 };
@@ -45,6 +49,8 @@ MessagesBody.propTypes = {
   isSideChat: PropTypes.bool,
   forwardedRef: PropTypes.any,
   handleScroll: PropTypes.func,
+  isReceieveChat: PropTypes.bool,
+  onClick: PropTypes.func,
 };
 
 export default MessagesBody;

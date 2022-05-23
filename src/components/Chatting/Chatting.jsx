@@ -10,6 +10,7 @@ import SideChatMessageForm from "./Input/SideChatMessageForm";
 import regExpTest from "../Tool/regExpTest";
 import axios from "../Tool/axios";
 import { backServer } from "../../serverconf";
+import NewMessage from "./MessagesBody/NewMessage";
 
 import "./Style/Chatting.css";
 // Reponse
@@ -26,6 +27,7 @@ const Chatting = (prop) => {
   const socket = useRef(undefined);
   const messagesBody = useRef();
 
+  const [isReceieveChat, setIsReceiveChat] = useState(false);
   const [inputStr, setInputStr] = useState("");
   const [chats, setChats] = useState([]);
   const [headerInfo, setHeaderInfo] = useState(undefined);
@@ -64,11 +66,18 @@ const Chatting = (prop) => {
   // scroll event
   const handleScroll = () => {
     const scrollTop = messagesBody.current.scrollTop;
+
     // check if scroll is at the top, send chats-load event
     // 맨 상단의 경우 인피니티 스크롤 요청을 call하면 안됨
     if (scrollTop <= 0 && !isInfScrollLoading.current && chats.length > 0) {
       isInfScrollLoading.current = true;
       socket.current.emit("chats-load", chats[0].time, 30);
+    } else if (
+      messagesBody.current.scrollHeight - scrollTop <
+        50 + messagesBody.current.clientHeight - 10 &&
+      isReceieveChat
+    ) {
+      setIsReceiveChat(false);
     }
   };
 
@@ -87,6 +96,7 @@ const Chatting = (prop) => {
     // when receive chats
     socket.current.on("chats-receive", (receiveChats) => {
       setChats((prevChats) => {
+        setIsReceiveChat(true);
         return [...prevChats, receiveChats.chat];
       });
     });
@@ -148,6 +158,11 @@ const Chatting = (prop) => {
     }
   };
 
+  const onClick = (event) => {
+    setIsReceiveChat(false);
+    scrollToBottom();
+  };
+
   return (
     <div className="ChatContainer">
       <div className="ChatRoomContainer">
@@ -156,15 +171,15 @@ const Chatting = (prop) => {
         ) : (
           <Header info={headerInfo} />
         )}
-
         <MessagesBody
           chats={chats}
           user={user}
           isSideChat={isSideChat}
+          isReceieveChat={isReceieveChat}
+          onClick={onClick}
           forwardedRef={messagesBody}
           handleScroll={handleScroll}
         />
-
         {isSideChat ? (
           <SideChatMessageForm
             newMessage={inputStr}
