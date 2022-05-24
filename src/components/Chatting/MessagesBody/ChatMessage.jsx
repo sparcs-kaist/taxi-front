@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../Style/MessagesBody.css";
 import PropTypes from "prop-types";
 import UserAvatar from "./UserAvatar";
+import { date2str } from "../../Tool/trans";
 /*
 메세지 객체
 Chat{
@@ -34,7 +35,7 @@ const ChatMessage = ({ chat, chats, index, user }) => {
 
   const date = new Date(time);
   const chatDate = date.toLocaleString().slice(0, -3); // date format minute 까지
-  const dateString = `${date.getFullYear()}년 ${date.getMonth()}월 ${date.getDay()}일`;
+  const dateString = date2str(date);
   // console.log(dateString)
   const prevChatDate =
     index !== 0
