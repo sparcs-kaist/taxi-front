@@ -116,8 +116,8 @@ const Search = () => {
 
   useEffect(() => {
     if (!Object.values(searchOptions).some((option) => option == true)) {
-      setMessage("검색 조건을 선택해주세요");
-      setDisable(true);
+      setMessage("모든 방 검색하기");
+      setDisable(false);
     } else if (searchOptions.name && valueName == "") {
       setMessage("방 이름을 입력해주세요");
       setDisable(true);
@@ -159,6 +159,21 @@ const Search = () => {
       onCall.current = true;
       setSearchResult([]);
     }
+
+    if (!Object.values(searchOptions).some((option) => option == true)) {
+      await axios
+        .get("rooms/search", {
+          params: {},
+        })
+        .then((res) => {
+          setSearchResult(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      return;
+    }
+
     if (searchOptions.name && !searchOptions.place && !searchOptions.date) {
       await axios
         .get("rooms/searchByName", {
