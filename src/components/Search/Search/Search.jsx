@@ -133,13 +133,9 @@ const Search = () => {
       searchOptions.time &
       !valueDate.some((date) => date == null) &
       moment(
-        new Date(
-          valueDate[0],
-          valueDate[1] - 1,
-          valueDate[2],
-          valueTime[0],
-          valueTime[1]
-        )
+        `${valueDate[0]}-${
+          valueDate[1] < 10 ? "0" + valueDate[1] : valueDate[1]
+        }-${valueDate[2]} ${valueTime[0]}:${valueTime[1]}`
       ).isBefore(moment(), "minute")
     ) {
       setMessage("과거 시점은 검색할 수 없습니다.");
@@ -178,9 +174,7 @@ const Search = () => {
 
     if (!Object.values(searchOptions).some((option) => option == true)) {
       await axios
-        .get("rooms/search", {
-          params: {},
-        })
+        .get("rooms/search")
         .then((res) => {
           setSearchResult(res.data);
         })
@@ -190,45 +184,30 @@ const Search = () => {
       return;
     }
 
-    if (searchOptions.name && !searchOptions.place && !searchOptions.date) {
-      await axios
-        .get("rooms/searchByName", {
-          params: {
-            name: valueName,
-          },
-        })
-        .then((res) => {
-          setSearchResult(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      return;
-    }
-
-    // Discuss : 검색지와 도착지가 필수인지 의논 필요
-    // if (searchOptions.place)
-    const date = new Date(
-      valueDate[0],
-      valueDate[1] - 1,
-      valueDate[2],
-      valueTime[0],
-      valueTime[1]
+    const date = moment(
+      `${valueDate[0]}-${
+        valueDate[1] < 10 ? "0" + valueDate[1] : valueDate[1]
+      }-${valueDate[2]}`
     );
+    if (searchOptions.time) {
+      date.hour(valueTime[0]);
+      date.minute(valueTime[1]);
+    } else if (date.isSame(moment(), "day")) {
+      date.hour(moment().hour());
+      date.minute(moment().minute());
+    }
+
     await axios
       .get("rooms/search", {
         params: {
-          from: valuePlace[0],
-          to: valuePlace[1],
-          time: searchOptions.date ? (date ? date.toISOString() : null) : null,
+          name: searchOptions.name ? valueName : null,
+          from: searchOptions.place ? valuePlace[0] : null,
+          to: searchOptions.place ? valuePlace[1] : null,
+          time: searchOptions.date ? date.toISOString() : null,
         },
       })
       .then((res) => {
-        if (searchOptions.name) {
-          setSearchResult(res.data.filter((room) => room.name == valueName));
-        } else {
-          setSearchResult(res.data);
-        }
+        setSearchResult(res.data);
       })
       .catch((err) => {
         console.log(err);
