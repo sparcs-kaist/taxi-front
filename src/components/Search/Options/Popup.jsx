@@ -1,7 +1,8 @@
 import React from "react";
 import { animated, useSpring } from "react-spring";
-import RLayout from "../../Frame/ReactiveLayout/RLayout";
+import RLayout from "components/Frame/ReactiveLayout/RLayout";
 import PropTypes from "prop-types";
+
 import "./Popup.css";
 
 const Popup = (props) => {

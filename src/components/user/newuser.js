@@ -1,6 +1,6 @@
 import axios from "axios";
 import React from "react";
-import { backServer } from "../../serverconf";
+import { backServer } from "serverconf";
 // new user form and submit event
 
 class NewUser extends React.Component {

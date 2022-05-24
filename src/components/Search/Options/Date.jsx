@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import WhiteContainer from "../../Frame/WhiteContainer/WhiteContainer";
-import DatePicker from "../../Frame/DatePicker/DatePicker";
+import WhiteContainer from "components/Frame/WhiteContainer/WhiteContainer";
+import DatePicker from "components/Frame/DatePicker/DatePicker";
 
 const Date = (props) => {
   return (

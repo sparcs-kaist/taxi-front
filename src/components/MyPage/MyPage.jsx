@@ -2,18 +2,18 @@ import React, { useEffect, useState } from "react";
 import { animated, useSpring } from "react-spring";
 import { useHistory } from "react-router";
 import PropTypes from "prop-types";
-import Title from "../Frame/Title/Title";
-import WhiteContainer from "../Frame/WhiteContainer/WhiteContainer";
+import Title from "components/Frame/Title/Title";
+import WhiteContainer from "components/Frame/WhiteContainer/WhiteContainer";
 import PopupSparcs from "./PopupSparcs/PopupSparcs";
 import PopupPolicy from "./PopupPolicy/PopupPolicy";
 import PopupMypage from "./PopupMypage/PopupMypage";
-import axios from "../Tool/axios";
-import { backServer } from "../../serverconf";
+import axios from "components/Tool/axios";
+import { backServer } from "serverconf";
 
 import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
 import LibraryBooksRoundedIcon from "@material-ui/icons/LibraryBooksRounded";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
-import SparcsLogoBlack from "../../asset/SparcsLogoBlack.svg";
+import SparcsLogoBlack from "asset/SparcsLogoBlack.svg";
 
 const BtnC = (props) => {
   const [isHover, setHover] = useState(false);

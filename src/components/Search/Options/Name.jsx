@@ -1,7 +1,8 @@
 import React from "react";
-import CreateIcon from "@material-ui/icons/Create";
 import PropTypes from "prop-types";
-import WhiteContainer from "../../Frame/WhiteContainer/WhiteContainer";
+import WhiteContainer from "components/Frame/WhiteContainer/WhiteContainer";
+
+import CreateIcon from "@material-ui/icons/Create";
 
 const Name = (props) => {
   const style = {
