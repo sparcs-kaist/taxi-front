@@ -7,4 +7,4 @@ const date2str = (date, format = "LLLL") => {
   return moment(date).format(format);
 };
 
-export default date2str;
+export { date2str };

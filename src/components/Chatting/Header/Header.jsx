@@ -4,11 +4,11 @@ import { useHistory } from "react-router";
 import RLayout from "../../Frame/ReactiveLayout/RLayout";
 import PropTypes from "prop-types";
 import { backServer } from "../../../serverconf";
+import { date2str } from "../../Tool/trans";
 
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import date2str from "../../Tool/trans";
 
 const PopupToast = (props) => {
   const styleBgd = useSpring({

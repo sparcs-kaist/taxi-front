@@ -3,7 +3,7 @@ import RLayout from "../../Frame/ReactiveLayout/RLayout";
 import Title from "../../Frame/Title/Title";
 import SubmitButton from "../../Frame/SubmitButton/SubmitButton";
 import axios from "../../Tool/axios";
-import date2str from "../../Tool/trans";
+import { date2str } from "../../Tool/trans";
 
 import OptionName from "../Options/Name";
 import OptionPlace from "../Options/Place";
