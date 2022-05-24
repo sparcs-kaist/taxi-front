@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSpring, animated } from "react-spring";
-import RLayout from "./ReactiveLayout/RLayout";
+import RLayout from "components/Frame/ReactiveLayout/RLayout";
 import "./Navigation.css";
 
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
