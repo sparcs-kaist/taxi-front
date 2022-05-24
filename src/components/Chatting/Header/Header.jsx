@@ -4,6 +4,7 @@ import { useHistory } from "react-router";
 import RLayout from "../../Frame/ReactiveLayout/RLayout";
 import PropTypes from "prop-types";
 import { backServer } from "../../../serverconf";
+import { date2str } from "../../Tool/trans";
 
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
@@ -341,21 +342,9 @@ User.propTypes = {
   nickname: PropTypes.string,
 };
 
-const transDate = (x) => {
-  const date = new Date(x);
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const week = ["일", "월", "화", "수", "목", "금", "토"][date.getDay()];
-  const hour = date.getHours();
-  const min = date.getMinutes();
-  return `${year}년 ${month}월 ${day}일(${week}) ${
-    hour >= 12 ? "오후" : "오전"
-  } ${hour > 12 ? hour - 12 : hour}시 ${min}분`;
-};
 const HeaderBottom = (props) => {
   const part = props.info ? props.info.part : [];
-  const madeat = props.info ? transDate(props.info.madeat) : "";
+  const madeat = props.info ? date2str(props.info.madeat) : "";
   const styleLay1 = {
     marginLeft: "25px",
     marginRight: "25px",
