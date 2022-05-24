@@ -93,7 +93,8 @@ const AddRoom = (props) => {
                   valueDate[2],
                   valueTime[0],
                   valueTime[1]
-                )
+                ),
+                "MMM Do [(]dd[)] a h[시] m[분]"
               )} 방 개설하기`}
         </SubmitButton>
       </RLayout.R1>
