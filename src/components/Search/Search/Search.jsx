@@ -5,6 +5,7 @@ import Title from "../../Frame/Title/Title";
 import SubmitButton from "../../Frame/SubmitButton/SubmitButton";
 import SideResult from "../SearchResult/SideResult";
 import axios from "../../Tool/axios";
+import moment from "moment";
 import PropTypes from "prop-types";
 
 import OptionName from "../Options/Name";
@@ -128,6 +129,21 @@ const Search = () => {
     ) {
       setMessage("선택을 완료해주세요");
       setDisable(true);
+    } else if (
+      searchOptions.time &
+      !valueDate.some((date) => date == null) &
+      moment(
+        new Date(
+          valueDate[0],
+          valueDate[1] - 1,
+          valueDate[2],
+          valueTime[0],
+          valueTime[1]
+        )
+      ).isBefore(moment(), "minute")
+    ) {
+      setMessage("과거 시점은 검색할 수 없습니다.");
+      setDisable(true);
     } else {
       setMessage("방 검색하기");
       setDisable(false);
@@ -147,7 +163,7 @@ const Search = () => {
     if (searchOptions.time) {
       setTime([
         today.getHours().toString(),
-        (parseInt(today.getMinutes() / 10) * 10).toString(),
+        ((parseInt(today.getMinutes() / 10) + 1) * 10).toString(),
       ]);
     } else {
       setTime(["0", "00"]);
