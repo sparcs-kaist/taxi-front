@@ -109,7 +109,7 @@ const Search = () => {
   const [valueName, setName] = useState("");
   const [valuePlace, setPlace] = useState([null, null]);
   const [valueDate, setDate] = useState([null, null, null]);
-  const today = new Date();
+  const today = moment();
   const [valueTime, setTime] = useState(["0", "00"]);
   const [searchResult, setSearchResult] = useState(null);
   const [disable, setDisable] = useState(true);
@@ -147,7 +147,7 @@ const Search = () => {
   }, [searchOptions, valueName, valuePlace, valueDate, valueTime]);
 
   useEffect(() => {
-    setName("");
+    setName(null);
   }, [searchOptions.name]);
   useEffect(() => {
     setPlace([null, null]);
@@ -157,10 +157,7 @@ const Search = () => {
   }, [searchOptions.date]);
   useEffect(() => {
     if (searchOptions.time) {
-      setTime([
-        today.getHours().toString(),
-        ((parseInt(today.getMinutes() / 10) + 1) * 10).toString(),
-      ]);
+      setTime([today.hour().toString(), today.minute().toString()]);
     } else {
       setTime(["0", "00"]);
     }
@@ -196,14 +193,14 @@ const Search = () => {
       date.hour(moment().hour());
       date.minute(moment().minute());
     }
-
+    console.log(valueName, valuePlace[0], valuePlace[1], date.toISOString());
     await axios
       .get("rooms/search", {
         params: {
-          name: searchOptions.name ? valueName : null,
-          from: searchOptions.place ? valuePlace[0] : null,
-          to: searchOptions.place ? valuePlace[1] : null,
-          time: searchOptions.date ? date.toISOString() : null,
+          name: valueName,
+          from: valuePlace[0],
+          to: valuePlace[1],
+          time: date.toISOString(),
         },
       })
       .then((res) => {
