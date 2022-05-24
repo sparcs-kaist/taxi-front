@@ -115,7 +115,9 @@ const Chatting = (prop) => {
     });
 
     // init
-    const roomInfo = await axios.get('/rooms/info', { params: { roomId: {roomId}}});
+    const roomInfo = await axios.get("/rooms/info", {
+      params: { id: roomId },
+    });
     setHeaderInfo(roomInfo.data);
     setChats([]);
     socket.current.emit("chats-join", roomId);
