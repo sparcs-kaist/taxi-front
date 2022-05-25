@@ -1,7 +1,7 @@
 import React from "react";
-import WhiteContainer from "components/Frame/WhiteContainer/WhiteContainer";
-import Title from "components/Frame/Title/Title";
-import Room from "components/Room/Room/RoomElement1";
+import WhiteContainer from "@frames/WhiteContainer/WhiteContainer";
+import Title from "@frames/Title/Title";
+import Room from "@components/Room/Room/RoomElement1";
 import PropTypes from "prop-types";
 
 import ListAltRoundedIcon from "@material-ui/icons/ListAltRounded";

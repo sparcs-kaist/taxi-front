@@ -1,15 +1,15 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import Frame from "components/Frame/Frame";
-import Login from "components/Login/Login";
-import Search from "components/Search/Search/Search";
-import AddRoom from "components/Search/AddRoom/AddRoom";
-import Myroom from "components/Room/Myroom/Myroom";
-import MyPage from "components/MyPage/MyPage";
-//import Login from './components/user/login'
-import User from "components/user/user";
-import NewUser from "components/user/newuser";
-import Chatting from "components/Chatting/Chatting";
+import Frame from "@frames/Frame";
+import Login from "@components/Login/Login";
+import Search from "@components/Search/Search/Search";
+import AddRoom from "@components/Search/AddRoom/AddRoom";
+import Myroom from "@components/Room/Myroom/Myroom";
+import MyPage from "@components/MyPage/MyPage";
+//import Login from '@components/user/login'
+import User from "@components/user/user";
+import NewUser from "@components/user/newuser";
+import Chatting from "@components/Chatting/Chatting";
 
 import "App.css";
 import "Font.css";

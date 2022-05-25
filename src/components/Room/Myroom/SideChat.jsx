@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import Chatting from "components/Chatting/Chatting";
+import Chatting from "@components/Chatting/Chatting";
 
 const SideChat = ({ roomId, onClose }) => {
   const styleSideChat = {

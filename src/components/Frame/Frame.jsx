@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
-import Navigation from "components/Frame/Navigation";
-import PopupPolicy from "components/MyPage/PopupPolicy/PopupPolicy";
-import Footer from "components/Frame/Footer";
+import Navigation from "@frames/Navigation";
+import PopupPolicy from "@components/MyPage/PopupPolicy/PopupPolicy";
+import Footer from "@frames/Footer";
 import PropTypes from "prop-types";
-import axios from "components/Tool/axios";
+import axios from "@tools/axios";
 
 const HeaderLine = () => {
   return (

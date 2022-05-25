@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSpring, animated } from "react-spring";
 import { useHistory } from "react-router";
-import RLayout from "components/Frame/ReactiveLayout/RLayout";
+import RLayout from "@frames/ReactiveLayout/RLayout";
 import PropTypes from "prop-types";
 import { backServer } from "serverconf";
-import { date2str } from "components/Tool/trans";
+import { date2str } from "@tools/trans";
 
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";

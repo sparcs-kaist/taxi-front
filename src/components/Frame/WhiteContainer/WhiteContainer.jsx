@@ -1,5 +1,5 @@
 import React from "react";
-import RLayout from "components/Frame/ReactiveLayout/RLayout";
+import RLayout from "@frames/ReactiveLayout/RLayout";
 import PropTypes from "prop-types";
 
 const WhiteContainer = (props) => {

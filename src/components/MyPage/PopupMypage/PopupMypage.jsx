@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { animated, useSpring } from "react-spring";
-import RLayout from "components/Frame/ReactiveLayout/RLayout";
-import axios from "components/Tool/axios";
+import RLayout from "@frames/ReactiveLayout/RLayout";
+import axios from "@tools/axios";
 import { backServer } from "serverconf";
 import PropTypes from "prop-types";
 

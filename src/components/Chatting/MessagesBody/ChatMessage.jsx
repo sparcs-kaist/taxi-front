@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../Style/MessagesBody.css";
 import PropTypes from "prop-types";
 import UserAvatar from "./UserAvatar";
-import { date2str } from "components/Tool/trans";
+import { date2str } from "@tools/trans";
 /*
 메세지 객체
 Chat{

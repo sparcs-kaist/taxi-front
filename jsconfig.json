@@ -2,6 +2,9 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "paths": {
+      "@components/*": ["components/*"],
+      "@frames/*": ["components/Frame/*"],
+      "@tools/*": ["components/Tool/*"]
     }
   },
   "exclude": ["node_modules"]

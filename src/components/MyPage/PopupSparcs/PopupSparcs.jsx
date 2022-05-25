@@ -1,6 +1,6 @@
 import React from "react";
 import { animated, useSpring } from "react-spring";
-import RLayout from "components/Frame/ReactiveLayout/RLayout";
+import RLayout from "@frames/ReactiveLayout/RLayout";
 import PropTypes from "prop-types";
 
 import SparcsLogoBlack from "asset/SparcsLogoBlack.svg";
