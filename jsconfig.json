@@ -4,7 +4,7 @@
     "paths": {
       "@components/*": ["components/*"],
       "@frames/*": ["components/Frame/*"],
-      "@tools/*": ["components/Tool/*"]
+      "@tools/*": ["tools/*"]
     }
   },
   "exclude": ["node_modules"]
