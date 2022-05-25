@@ -116,7 +116,7 @@ const Chatting = (prop) => {
 
     // init
     const roomInfo = await axios.get("/rooms/info", {
-      params: { roomId: { roomId } },
+      params: { id: roomId },
     });
     setHeaderInfo(roomInfo.data);
     setChats([]);

@@ -44,22 +44,18 @@ const AddRoom = (props) => {
     if (!onCall.current) {
       onCall.current = true;
       const result = await axios.post("/rooms/create", {
-        // Fixme from back => api 변경, 시간이 안쓰임??
-        data: {
-          name: valueName,
-          from: valuePlace[0],
-          to: valuePlace[1],
-          time: new Date(
-            valueDate[0],
-            valueDate[1] - 1,
-            valueDate[2],
-            valueTime[0],
-            valueTime[1]
-          ),
-        },
+        name: valueName,
+        from: valuePlace[0],
+        to: valuePlace[1],
+        time: new Date(
+          valueDate[0],
+          valueDate[1] - 1,
+          valueDate[2],
+          valueTime[0],
+          valueTime[1]
+        ),
       });
       if (result.status === 200) {
-        //console.log(result);
         alert("방이 개설됨!!");
       } else {
         console.log("add room error");
