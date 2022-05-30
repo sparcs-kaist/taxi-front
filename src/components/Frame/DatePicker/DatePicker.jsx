@@ -46,6 +46,8 @@ const Date = (props) => {
     className = "BTNC";
     styleDate.color = "#323232";
     if (props.available === "today") styleToday.background = "#B89DBD";
+  } else {
+    styleBox.cursor = "not-allowed";
   }
   if (props.selected) {
     styleBox.boxShadow = "inset 2px 2px 5px -2px rgba(0, 0, 0, 0.25)";
