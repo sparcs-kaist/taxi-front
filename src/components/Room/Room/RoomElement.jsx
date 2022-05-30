@@ -113,6 +113,7 @@ Room.defaultProps = {
   onClick: () => {},
   marginTop: "0px",
   marginBottom: "0px",
+  mobile: false,
 };
 
 export default Room;
