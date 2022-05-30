@@ -193,7 +193,6 @@ const Search = () => {
       date.hour(moment().hour());
       date.minute(moment().minute());
     }
-    console.log(valueName, valuePlace[0], valuePlace[1], date.toISOString());
     await axios
       .get("rooms/search", {
         params: {
