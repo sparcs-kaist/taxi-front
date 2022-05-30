@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import WhiteContainer from "../../Frame/WhiteContainer/WhiteContainer";
 import Title from "../../Frame/Title/Title";
 import RLayout from "../../Frame/ReactiveLayout/RLayout";
-import Room from "../Room/RoomElement1";
+import Room from "../Room/RoomElement";
 import SideChat from "./SideChat";
 import axios from "../../Tool/axios";
 
