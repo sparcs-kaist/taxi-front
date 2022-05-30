@@ -113,6 +113,7 @@ class DatePicker extends Component {
     this.styleLayInfo = {
       display: "flex",
       alignItems: "center",
+      paddingTop: "1px",
     };
     this.styleLayTopBorder = {
       height: "0.5px",
@@ -143,8 +144,8 @@ class DatePicker extends Component {
     this.styleLayWeek = {
       height: "12px",
       display: "flex",
-      marginTop: "10px",
-      marginBottom: "10px",
+      marginTop: "10.5px",
+      marginBottom: "8px",
       gap: "6px",
     };
     this.styleWeekItem = {
