@@ -74,7 +74,7 @@ const AddRoom = (props) => {
         <OptionPlace value={valuePlace} handler={setPlace} />
         <OptionDate value={valueDate} handler={setDate} />
         <OptionName value={valueName} handler={setName} />
-        <OptionTime value={valueTime} handler={setTime} />
+        <OptionTime value={valueTime} handler={setTime} page="add" />
         <SubmitButton
           marginAuto={false}
           onClick={validatedMsg ? () => {} : onClickAdd}

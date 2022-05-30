@@ -230,7 +230,7 @@ const Search = () => {
         <OptionDate value={valueDate} handler={setDate} />
       ) : null}
       {searchOptions.time ? (
-        <OptionTime value={valueTime} handler={setTime} />
+        <OptionTime value={valueTime} handler={setTime} page="search" />
       ) : null}
       <SubmitButton
         marginAuto={false}
