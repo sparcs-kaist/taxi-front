@@ -61,7 +61,12 @@ BtnC.propTypes = {
 const Setting = () => {
   const [profToken, setProfToken] = useState(Date.now());
   const [userInfo, setUserInfo] = useState({});
-  const [userInfoD, setUserInfoD] = useState({});
+  const [userInfoDetail, setUserInfoDetail] = useState({});
+  const [userInfoList, setUserInfoList] = useState([
+    { type: "학번", content: "" },
+    { type: "메일", content: "" },
+    { type: "별명", content: "" },
+  ]);
   const [isOpen1, setOpen1] = useState(false);
   const [isOpen2, setOpen2] = useState(false);
   const [isOpen3, setOpen3] = useState(false);
@@ -80,7 +85,7 @@ const Setting = () => {
       setUserInfo(data);
     });
     axios.get("/json/logininfo/detail").then(({ data }) => {
-      setUserInfoD(data);
+      setUserInfoDetail(data);
     });
     setProfToken(Date.now());
   };
@@ -89,86 +94,82 @@ const Setting = () => {
     handleUpdate();
   }, []);
 
+  useEffect(() => {
+    if (Object.keys(userInfoDetail).length) {
+      setUserInfoList([
+        { type: "학번", content: userInfoDetail.subinfo.kaist },
+        { type: "메일", content: userInfoDetail.email },
+        { type: "별명", content: userInfoDetail.nickname },
+      ]);
+    }
+  }, [userInfoDetail]);
+
   const styleProfImg = {
-    position: "absolute",
-    top: "0px",
-    left: "0px",
     width: "50px",
     height: "50px",
-    borderRadius: "26px",
-    background: "#EEEEEE",
+    borderRadius: "25px",
+    backgroundColor: "#EEEEEE",
     overflow: "hidden",
   };
   const styleName = {
-    height: "50px",
-    lineHeight: "50px",
     fontSize: "17px",
+    lineHeight: "20px",
     fontWeight: "bold",
-    paddingLeft: "60px",
+    marginLeft: "12px",
   };
-  const styleT1 = {
+  const myInfo = {
     fontSize: "14px",
     fontWeight: "bold",
   };
-  const styleT2 = {
+  const modify = {
     fontSize: "14px",
     color: "#6E3678",
   };
-  const styleT3 = {
+  const infoTitle = {
     fontSize: "14px",
     color: "#888888",
-    width: "50px",
+    marginRight: "12px",
   };
-  const styleT4 = {
+  const infoContent = {
     fontSize: "14px",
   };
 
   return (
-    <div>
-      <div style={{ height: "30px" }} />
-      <Title icon={(style) => <AccountCircleRoundedIcon style={style} />}>
-        마이 페이지
-      </Title>
-      <div style={{ height: "20px" }} />
-      <WhiteContainer>
-        <div style={{ position: "relative" }}>
-          {userInfo.id ? (
-            <img
-              src={`${backServer}/static/profile-images/${userInfo.id}?${profToken}`}
-              style={styleProfImg}
-              alt="profile-img"
-            />
-          ) : null}
+    <>
+      <div style={{ marginTop: "30px", marginBottom: "20px" }}>
+        <Title icon={(style) => <AccountCircleRoundedIcon style={style} />}>
+          마이 페이지
+        </Title>
+      </div>
+      <WhiteContainer padding="16px 24px 24px">
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <img
+            src={`${backServer}/static/profile-images/${userInfo.id}?${profToken}`}
+            style={styleProfImg}
+            alt="profile-img"
+          />
           <div style={styleName}>{userInfo ? userInfo.name : ""}</div>
         </div>
-        <div style={{ height: "15px" }} />
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <div style={styleT1}>내 정보</div>
-          <div style={styleT2} className="BTNC" onClick={() => setOpen3(true)}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: "15px",
+          }}
+        >
+          <div style={myInfo}>내 정보</div>
+          <div style={modify} className="BTNC" onClick={() => setOpen3(true)}>
             수정하기
           </div>
         </div>
-        <div style={{ height: "10px" }} />
-        <div style={{ display: "flex" }}>
-          <div style={styleT3}>학번</div>
-          <div style={styleT4}>
-            {userInfoD && userInfoD.subinfo && userInfoD.subinfo.kaist
-              ? userInfoD.subinfo.kaist
-              : ""}
-          </div>
-        </div>
-        <div style={{ height: "10px" }} />
-        <div style={{ display: "flex" }}>
-          <div style={styleT3}>메일</div>
-          <div style={styleT4}>
-            {userInfoD && userInfoD.email ? userInfoD.email : ""}
-          </div>
-        </div>
-        <div style={{ height: "10px" }} />
-        <div style={{ display: "flex" }}>
-          <div style={styleT3}>별명</div>
-          <div style={styleT4}>{userInfoD ? userInfoD.nickname : ""}</div>
-        </div>
+        {userInfoList.map((info, index) => {
+          return (
+            <div key={index} style={{ display: "flex", marginTop: "16px" }}>
+              <p style={infoTitle}>{info.type}</p>
+              <p style={infoContent}>{info.content}</p>
+            </div>
+          );
+        })}
       </WhiteContainer>
       <WhiteContainer>
         <BtnC
@@ -191,13 +192,13 @@ const Setting = () => {
       <PopupPolicy isOpen={isOpen2} onClose={() => setOpen2(false)} />
       <PopupMypage
         userInfo={userInfo}
-        userInfoD={userInfoD}
+        userInfoD={userInfoDetail}
         profToken={profToken}
         isOpen={isOpen3}
         onClose={() => setOpen3(false)}
         onUpdate={() => handleUpdate()}
       />
-    </div>
+    </>
   );
 };
 
