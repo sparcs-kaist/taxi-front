@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import RLayout from "../../Frame/ReactiveLayout/RLayout";
 import Title from "../../Frame/Title/Title";
 import SubmitButton from "../../Frame/SubmitButton/SubmitButton";
@@ -14,13 +15,14 @@ import LibraryAddRoundedIcon from "@mui/icons-material/LibraryAddRounded";
 
 const AddRoom = (props) => {
   const onCall = useRef(false);
+  const history = useHistory();
   const [valueName, setName] = useState("");
   const [valuePlace, setPlace] = useState([null, null]);
   const [valueDate, setDate] = useState([null, null, null]);
   const today = new Date();
   const [valueTime, setTime] = useState([
     today.getHours().toString(),
-    (parseInt(today.getMinutes() / 10) * 10).toString(),
+    today.getMinutes().toString(),
   ]);
 
   let validatedMsg = null;
@@ -56,9 +58,9 @@ const AddRoom = (props) => {
         ),
       });
       if (result.status === 200) {
-        alert("방이 개설됨!!");
+        history.push("/myroom");
       } else {
-        console.log("add room error");
+        alert("add room error");
       }
     }
   };
