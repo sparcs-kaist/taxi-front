@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import WhiteContainer from "../../Frame/WhiteContainer/WhiteContainer";
-import Title from "../../Frame/Title/Title";
-import RLayout from "../../Frame/ReactiveLayout/RLayout";
-import Room from "../Room/RoomElement1";
+import WhiteContainer from "@frames/WhiteContainer/WhiteContainer";
+import Title from "@frames/Title/Title";
+import RLayout from "@frames/ReactiveLayout/RLayout";
+import Room from "@components/Room/Room/RoomElement1";
 import SideChat from "./SideChat";
-import axios from "../../Tool/axios";
+import axios from "@tools/axios";
 
 import LibraryBooksRoundedIcon from "@material-ui/icons/LibraryBooksRounded";
 

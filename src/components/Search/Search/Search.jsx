@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { animated, useSpring } from "react-spring";
-import RLayout from "../../Frame/ReactiveLayout/RLayout";
-import Title from "../../Frame/Title/Title";
-import SubmitButton from "../../Frame/SubmitButton/SubmitButton";
+import RLayout from "@frames/ReactiveLayout/RLayout";
+import Title from "@frames/Title/Title";
+import SubmitButton from "@frames/SubmitButton/SubmitButton";
 import SideResult from "../SearchResult/SideResult";
-import axios from "../../Tool/axios";
+import axios from "@tools/axios";
 import PropTypes from "prop-types";
 
 import OptionName from "../Options/Name";

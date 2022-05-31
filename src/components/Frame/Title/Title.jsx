@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import RLayout from "../ReactiveLayout/RLayout";
+import RLayout from "@frames/ReactiveLayout/RLayout";
 
 const Title = (props) => {
   const title = (

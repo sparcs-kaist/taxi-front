@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
 import PropTypes from "prop-types";
-import { date2str } from "../../Tool/trans";
+import { date2str } from "@tools/trans";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 
@@ -94,6 +94,7 @@ const Room = (props) => {
     </div>
   );
 };
+
 Room.propTypes = {
   name: PropTypes.string,
   left: PropTypes.number,

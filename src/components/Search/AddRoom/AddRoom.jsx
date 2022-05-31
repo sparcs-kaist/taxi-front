@@ -1,9 +1,9 @@
 import React, { useState, useRef } from "react";
-import RLayout from "../../Frame/ReactiveLayout/RLayout";
-import Title from "../../Frame/Title/Title";
-import SubmitButton from "../../Frame/SubmitButton/SubmitButton";
-import axios from "../../Tool/axios";
-import { date2str } from "../../Tool/trans";
+import RLayout from "@frames/ReactiveLayout/RLayout";
+import Title from "@frames/Title/Title";
+import SubmitButton from "@frames/SubmitButton/SubmitButton";
+import axios from "@tools/axios";
+import { date2str } from "@tools/trans";
 
 import OptionName from "../Options/Name";
 import OptionPlace from "../Options/Place";
