@@ -40,11 +40,15 @@ const Myroom = () => {
         icon={(style) => <LibraryBooksRoundedIcon style={style} />}
         title="참여 중인 방"
         list={roomList1}
+        onClick={(id) => setChatRoomId(id)}
+        selected={chatRoomId}
       />
       <RoomList
         icon={(style) => <HistoryRoundedIcon style={style} />}
         title="과거 참여 방"
         list={roomList2}
+        onClick={(id) => setChatRoomId(id)}
+        selected={chatRoomId}
       />
     </div>
   );

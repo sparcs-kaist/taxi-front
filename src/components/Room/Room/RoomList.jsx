@@ -39,12 +39,16 @@ const RoomList = (props) => {
         props.list.map((room, index) => {
           return (
             <Room
+              key={index}
               name={room.name}
               origin={room.from}
               destination={room.to}
               date={room.time}
-              key={index}
               marginTop="15px"
+              onClick={
+                props.onClick != null ? () => props.onClick(room._id) : () => {}
+              }
+              selected={props.selected == room._id}
             />
           );
         })
@@ -57,6 +61,8 @@ RoomList.propTypes = {
   icon: PropTypes.func,
   title: PropTypes.string,
   list: PropTypes.array,
+  onClick: PropTypes.func,
+  selected: PropTypes.string,
 };
 
 export default RoomList;
