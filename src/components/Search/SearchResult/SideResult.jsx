@@ -15,14 +15,13 @@ const Result = (props) => {
   };
   if (!props.mobile) {
     return (
-      <>
-        <div style={{ height: "26px" }}></div>
+      <div style={{ marginTop: 26 }}>
         <RoomList
           icon={(style) => <ListAltRoundedIcon style={style} />}
           title="검색 결과"
           list={props.result}
         />
-      </>
+      </div>
     );
   } else {
     return (
