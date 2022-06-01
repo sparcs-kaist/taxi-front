@@ -62,11 +62,6 @@ const Setting = () => {
   const [profToken, setProfToken] = useState(Date.now());
   const [userInfo, setUserInfo] = useState({});
   const [userInfoDetail, setUserInfoDetail] = useState({});
-  const [userInfoList, setUserInfoList] = useState([
-    { type: "학번", content: "" },
-    { type: "메일", content: "" },
-    { type: "별명", content: "" },
-  ]);
   const [isOpen1, setOpen1] = useState(false);
   const [isOpen2, setOpen2] = useState(false);
   const [isOpen3, setOpen3] = useState(false);
@@ -93,16 +88,6 @@ const Setting = () => {
   useEffect(() => {
     handleUpdate();
   }, []);
-
-  useEffect(() => {
-    if (Object.keys(userInfoDetail).length) {
-      setUserInfoList([
-        { type: "학번", content: userInfoDetail.subinfo.kaist },
-        { type: "메일", content: userInfoDetail.email },
-        { type: "별명", content: userInfoDetail.nickname },
-      ]);
-    }
-  }, [userInfoDetail]);
 
   const styleProfImg = {
     width: "50px",
@@ -162,14 +147,22 @@ const Setting = () => {
             수정하기
           </div>
         </div>
-        {userInfoList.map((info, index) => {
-          return (
-            <div key={index} style={{ display: "flex", marginTop: "16px" }}>
-              <p style={infoTitle}>{info.type}</p>
-              <p style={infoContent}>{info.content}</p>
+        {userInfoDetail.subinfo && (
+          <>
+            <div style={{ display: "flex", marginTop: "16px" }}>
+              <p style={infoTitle}>학번</p>
+              <p style={infoContent}>{userInfoDetail.subinfo.kaist}</p>
             </div>
-          );
-        })}
+            <div style={{ display: "flex", marginTop: "16px" }}>
+              <p style={infoTitle}>메일</p>
+              <p style={infoContent}>{userInfoDetail.email}</p>
+            </div>
+            <div style={{ display: "flex", marginTop: "16px" }}>
+              <p style={infoTitle}>별명</p>
+              <p style={infoContent}>{userInfoDetail.nickname}</p>
+            </div>
+          </>
+        )}
       </WhiteContainer>
       <WhiteContainer>
         <BtnC
