@@ -111,12 +111,14 @@ const Setting = () => {
     color: "#6E3678",
   };
   const infoTitle = {
+    display: "flex",
     fontSize: "14px",
     color: "#888888",
-    marginRight: "12px",
+    marginTop: "16px",
   };
   const infoContent = {
     fontSize: "14px",
+    marginLeft: "12px",
   };
 
   return (
@@ -149,17 +151,17 @@ const Setting = () => {
         </div>
         {userInfoDetail.subinfo && (
           <>
-            <div style={{ display: "flex", marginTop: "16px" }}>
-              <p style={infoTitle}>학번</p>
-              <p style={infoContent}>{userInfoDetail.subinfo.kaist}</p>
+            <div style={infoTitle}>
+              학번
+              <div style={infoContent}>{userInfoDetail.subinfo.kaist}</div>
             </div>
-            <div style={{ display: "flex", marginTop: "16px" }}>
-              <p style={infoTitle}>메일</p>
-              <p style={infoContent}>{userInfoDetail.email}</p>
+            <div style={infoTitle}>
+              메일
+              <div style={infoContent}>{userInfoDetail.email}</div>
             </div>
-            <div style={{ display: "flex", marginTop: "16px" }}>
-              <p style={infoTitle}>별명</p>
-              <p style={infoContent}>{userInfoDetail.nickname}</p>
+            <div style={infoTitle}>
+              별명
+              <div style={infoContent}>{userInfoDetail.nickname}</div>
             </div>
           </>
         )}
