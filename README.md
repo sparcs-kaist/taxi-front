@@ -26,7 +26,7 @@ $ git clone https://github.com/sparcs-kaist/taxi-back
 ```bash
 $ npm install
 ```
-### Set Environment Variables
+### Set Environment Configuration
 See [notion page](https://www.notion.so/sparcs/Environment-Variables-1b404bd385fa495bac6d5517b57d72bf).
 
 ## License
