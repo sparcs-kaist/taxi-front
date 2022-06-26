@@ -65,9 +65,9 @@ const AddRoom = (props) => {
 
   return (
     <div>
-      <div style={{ height: "30px" }} />
-      <Title icon="add">방 개설하기</Title>
-      <div style={{ height: "20px" }} />
+      <Title icon="add" header={true}>
+        방 개설하기
+      </Title>
       <RLayout.R1>
         <OptionPlace value={valuePlace} handler={setPlace} />
         <OptionDate value={valueDate} handler={setDate} />

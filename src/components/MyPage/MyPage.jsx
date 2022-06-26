@@ -135,9 +135,9 @@ const Setting = () => {
 
   return (
     <>
-      <div style={{ marginTop: "30px", marginBottom: "20px" }}>
-        <Title icon="mypage">마이 페이지</Title>
-      </div>
+      <Title icon="mypage" header={true}>
+        마이 페이지
+      </Title>
       <WhiteContainer padding="16px 24px 24px">
         <div style={{ display: "flex", alignItems: "center" }}>
           <img

@@ -47,14 +47,11 @@ const Title = (props) => {
         style={{
           display: "flex",
           alignItems: "flex-end",
+          marginTop: props.header ? "30px" : "0px",
+          marginBottom: props.header ? "25px" : "0px",
         }}
       >
         {getIcon(props.icon)}
-        {/* {props.icon({
-          width: "24px",
-          height: "24px",
-          color: "var(--purple)",
-        })} */}
         <div
           style={{
             marginLeft: "8px",
@@ -81,9 +78,11 @@ Title.propTypes = {
   icon: PropTypes.string,
   children: PropTypes.node,
   marginAuto: PropTypes.bool,
+  header: PropTypes.bool,
 };
 Title.defaultProps = {
   marginAuto: true,
+  header: false,
 };
 
 export default Title;

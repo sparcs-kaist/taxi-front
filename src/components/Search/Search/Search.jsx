@@ -247,9 +247,9 @@ const Search = () => {
     );
   return (
     <div>
-      <div style={{ height: "30px" }} />
-      <Title icon="search">방 검색하기</Title>
-      <div style={{ height: "25px" }} />
+      <Title icon="search" header={true}>
+        방 검색하기
+      </Title>
       <RLayout.R2
         left={reactiveState == 3 && searchResult !== null ? null : leftLay}
         right={rightLay}
