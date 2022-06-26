@@ -4,8 +4,6 @@ import Room from "../../Room/Room/RoomElement";
 import RoomList from "../../Room/Room/RoomList";
 import PropTypes from "prop-types";
 
-import ListAltRoundedIcon from "@material-ui/icons/ListAltRounded";
-
 const Result = (props) => {
   const styleEmpty = {
     color: "#888888",
@@ -16,11 +14,7 @@ const Result = (props) => {
   if (!props.mobile) {
     return (
       <div style={{ marginTop: 26 }}>
-        <RoomList
-          icon={(style) => <ListAltRoundedIcon style={style} />}
-          title="검색 결과"
-          list={props.result}
-        />
+        <RoomList icon="search_result" title="검색 결과" list={props.result} />
       </div>
     );
   } else {

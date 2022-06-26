@@ -58,7 +58,7 @@ const RoomList = (props) => {
 };
 
 RoomList.propTypes = {
-  icon: PropTypes.func,
+  icon: PropTypes.string,
   title: PropTypes.string,
   list: PropTypes.array,
   onClick: PropTypes.func,

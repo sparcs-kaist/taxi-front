@@ -7,9 +7,6 @@ import RoomList from "../../Room/Room/RoomList";
 import SideChat from "./SideChat";
 import axios from "../../Tool/axios";
 
-import LibraryBooksRoundedIcon from "@material-ui/icons/LibraryBooksRounded";
-import HistoryRoundedIcon from "@material-ui/icons/HistoryRounded";
-
 const Myroom = () => {
   const history = useHistory();
   const reactiveState = RLayout.useR2state();
@@ -37,14 +34,14 @@ const Myroom = () => {
   const leftLay = (
     <div>
       <RoomList
-        icon={(style) => <LibraryBooksRoundedIcon style={style} />}
+        icon="current"
         title="참여 중인 방"
         list={roomList1}
         onClick={(id) => setChatRoomId(id)}
         selected={chatRoomId}
       />
       <RoomList
-        icon={(style) => <HistoryRoundedIcon style={style} />}
+        icon="past"
         title="과거 참여 방"
         list={roomList2}
         onClick={(id) => setChatRoomId(id)}
@@ -55,10 +52,7 @@ const Myroom = () => {
   const rightLay = (
     <div>
       <WhiteContainer marginAuto={false} padding="20px">
-        <Title
-          icon={(style) => <LibraryBooksRoundedIcon style={style} />}
-          marginAuto={false}
-        >
+        <Title icon="chat" marginAuto={false}>
           채팅 창
         </Title>
       </WhiteContainer>
@@ -73,9 +67,7 @@ const Myroom = () => {
   return (
     <div>
       <div style={{ height: "30px" }} />
-      <Title icon={(style) => <LibraryBooksRoundedIcon style={style} />}>
-        내 방 리스트
-      </Title>
+      <Title icon="myroom">내 방 리스트</Title>
       <div style={{ height: "20px" }} />
       <RLayout.R2 priority="left" left={leftLay} right={rightLay} />
     </div>

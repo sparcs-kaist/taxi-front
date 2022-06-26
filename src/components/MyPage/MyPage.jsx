@@ -10,7 +10,6 @@ import PopupMypage from "./PopupMypage/PopupMypage";
 import axios from "../Tool/axios";
 import { backServer } from "../../serverconf";
 
-import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
 import LibraryBooksRoundedIcon from "@material-ui/icons/LibraryBooksRounded";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
 import SparcsLogoBlack from "../../asset/SparcsLogoBlack.svg";
@@ -124,9 +123,7 @@ const Setting = () => {
   return (
     <>
       <div style={{ marginTop: "30px", marginBottom: "20px" }}>
-        <Title icon={(style) => <AccountCircleRoundedIcon style={style} />}>
-          마이 페이지
-        </Title>
+        <Title icon="mypage">마이 페이지</Title>
       </div>
       <WhiteContainer padding="16px 24px 24px">
         <div style={{ display: "flex", alignItems: "center" }}>
