@@ -10,7 +10,7 @@ import PopupMypage from "./PopupMypage/PopupMypage";
 import axios from "../Tool/axios";
 import { backServer } from "../../serverconf";
 
-import LibraryBooksRoundedIcon from "@material-ui/icons/LibraryBooksRounded";
+import AssignmentRoundedIcon from "@material-ui/icons/AssignmentRounded";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
 import SparcsLogoBlack from "../../asset/SparcsLogoBlack.svg";
 
@@ -28,14 +28,27 @@ const BtnC = (props) => {
     position: "absolute",
     top: "8px",
     left: "8px",
-    width: "14px",
-    height: "14px",
+    width: "16px",
+    height: "16px",
   };
   const styleText = {
     height: "35px",
     lineHeight: "35px",
     paddingLeft: "35px",
     fontSize: "14px",
+  };
+
+  const getIcon = (icon) => {
+    switch (icon) {
+      case "rule":
+        return <AssignmentRoundedIcon style={styleImg} />;
+      case "logo":
+        return <img src={SparcsLogoBlack} alt="" style={styleImg} />;
+      case "logout":
+        return <ExitToAppRoundedIcon style={styleImg} />;
+      default:
+        return <></>;
+    }
   };
 
   return (
@@ -46,13 +59,13 @@ const BtnC = (props) => {
       onMouseLeave={() => setHover(false)}
       onClick={() => props.onClick()}
     >
-      <img src={props.img} alt="" style={styleImg} />
+      {getIcon(props.icon)}
       <div style={styleText}>{props.children}</div>
     </animated.div>
   );
 };
 BtnC.propTypes = {
-  img: PropTypes.img,
+  icon: PropTypes.string,
   children: PropTypes.any,
   onClick: PropTypes.func,
 };
@@ -164,19 +177,11 @@ const Setting = () => {
         )}
       </WhiteContainer>
       <WhiteContainer>
-        <BtnC
-          img={(style) => <LibraryBooksRoundedIcon style={style} />}
-          onClick={() => setOpen2(true)}
-        >
+        <BtnC icon="rule" onClick={() => setOpen2(true)}>
           사용 약관 및 개인정보 보호 규칙
         </BtnC>
-        <BtnC img={SparcsLogoBlack} onClick={() => setOpen1(true)}>
-          만든 사람들
-        </BtnC>
-        <BtnC
-          img={(style) => <ExitToAppRoundedIcon style={style} />}
-          onClick={handleLogout}
-        >
+        <BtnC icon="logo">만든 사람들</BtnC>
+        <BtnC icon="logout" onClick={handleLogout}>
           로그아웃
         </BtnC>
       </WhiteContainer>
