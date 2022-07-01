@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
 import PropTypes from "prop-types";
-import RLayout from "../ReactiveLayout/RLayout";
+import RLayout from "@frames/ReactiveLayout/RLayout";
 
 const Button = (props) => {
   const [isHover, setHover] = useState(false);

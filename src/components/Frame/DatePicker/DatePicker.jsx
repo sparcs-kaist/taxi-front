@@ -1,10 +1,11 @@
 import React, { Component, useState } from "react";
 import { useSpring, animated } from "react-spring";
 import getDateInfo from "./getDateInfo";
+import PropTypes from "prop-types";
+
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
-import PropTypes from "prop-types";
 
 const Date = (props) => {
   const [isHover, setHover] = useState(false);

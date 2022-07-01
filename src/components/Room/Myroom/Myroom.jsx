@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import WhiteContainer from "../../Frame/WhiteContainer/WhiteContainer";
-import Title from "../../Frame/Title/Title";
-import RLayout from "../../Frame/ReactiveLayout/RLayout";
-import RoomList from "../../Room/Room/RoomList";
+// import { useHistory } from "react-router-dom";
+import WhiteContainer from "@frames/WhiteContainer/WhiteContainer";
+import Title from "@frames/Title/Title";
+import RLayout from "@frames/ReactiveLayout/RLayout";
+import RoomList from "@components/Room/Room/RoomList";
 import SideChat from "./SideChat";
-import axios from "../../Tool/axios";
+import axios from "@tools/axios";
 
-import Chatting from "../../../components/Chatting/Chatting";
+// import Chatting from "../../../components/Chatting/Chatting";
 
 const Myroom = () => {
-  const history = useHistory();
-  const reactiveState = RLayout.useR2state();
+  // const history = useHistory();
+  // const reactiveState = RLayout.useR2state();
   const [chatRoomId, setChatRoomId] = useState(null);
   const [currentRoom, setCurrentRoom] = useState([]);
   const [pastRoom, setPastRoom] = useState([]);

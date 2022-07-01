@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import PropTypes from "prop-types";
-import WhiteContainer from "../../Frame/WhiteContainer/WhiteContainer";
+import WhiteContainer from "@frames/WhiteContainer/WhiteContainer";
 import Popup from "./Popup";
 import Picker from "react-scrollable-picker";
+
+import AccessTimeIcon from "@material-ui/icons/AccessTime";
 
 const optionsHour = [...Array(24).keys()].map((x) => x.toString());
 const optionsMin = ["0", "10", "20", "30", "40", "50"];

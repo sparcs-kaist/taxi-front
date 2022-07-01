@@ -1,7 +1,7 @@
 import React from "react";
-import WhiteContainer from "../../Frame/WhiteContainer/WhiteContainer";
-import Room from "../../Room/Room/RoomElement";
-import RoomList from "../../Room/Room/RoomList";
+import WhiteContainer from "@frames/WhiteContainer/WhiteContainer";
+import Room from "@components/Room/Room/RoomElement";
+import RoomList from "@components/Room/Room/RoomList";
 import PropTypes from "prop-types";
 
 const Result = (props) => {
