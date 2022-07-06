@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import WhiteContainer from "@frames/WhiteContainer/WhiteContainer";
 import Title from "@frames/Title/Title";
 import RLayout from "@frames/ReactiveLayout/RLayout";
 import Room from "@components/Room/Room/RoomElement1";
 import SideChat from "./SideChat";
+import Chat from "./Chat";
 import axios from "@tools/axios";
-
+import PropTypes from "prop-types";
 import LibraryBooksRoundedIcon from "@material-ui/icons/LibraryBooksRounded";
 
-const Myroom = () => {
+const Myroom = (props) => {
   const history = useHistory();
   const reactiveState = RLayout.useR2state();
-  const [chatRoomId, setChatRoomId] = useState(null);
+  const [chatRoomId, setChatRoomId] = useState(props.param);
   const [roomList1, setRoomList1] = useState([]);
   const [roomList2, setRoomList2] = useState([]);
+
+  useEffect(() => {
+    setChatRoomId(props.param);
+  }, [props.param]);
 
   const updateRoomList = async () => {
     const result = await axios.get("rooms/searchByUser");
@@ -38,10 +43,6 @@ const Myroom = () => {
     backgroundRpeat: "repeat-x",
   };
 
-  if (reactiveState == 3 && chatRoomId) {
-    history.push(`/chatting/${chatRoomId}`);
-  }
-
   const leftLay = (
     <div>
       <WhiteContainer marginAuto={false} padding="20px">
@@ -56,18 +57,24 @@ const Myroom = () => {
         <div style={styleLine} />
 
         {roomList1.map((item, index) => (
-          <Room
+          <Link
             key={index}
-            name={item.name}
-            left={0}
-            creater="백에서 가져오기"
-            origin={item.from}
-            destination={item.to}
-            date={item.time}
-            onClick={() => setChatRoomId(item._id)}
-            selected={chatRoomId === item._id}
-            marginTop="15px"
-          />
+            to={`/myroom/${item._id}`}
+            style={{ textDecoration: "none" }}
+          >
+            <Room
+              key={index}
+              name={item.name}
+              left={0}
+              creater="백에서 가져오기"
+              origin={item.from}
+              destination={item.to}
+              date={item.time}
+              onClick={() => setChatRoomId(item._id)}
+              selected={chatRoomId === item._id}
+              marginTop="15px"
+            />
+          </Link>
         ))}
       </WhiteContainer>
       <WhiteContainer marginAuto={false} padding="20px">
@@ -90,7 +97,6 @@ const Myroom = () => {
             origin={item.from}
             destination={item.to}
             date={item.time}
-            onClick={() => setChatRoomId(item._id)}
             selected={chatRoomId === item._id}
             marginTop="15px"
           />
@@ -110,11 +116,21 @@ const Myroom = () => {
       </WhiteContainer>
       <div style={{ height: "500px", position: "relative" }}>
         {chatRoomId ? (
-          <SideChat roomId={chatRoomId} onClose={() => setChatRoomId(null)} />
+          <SideChat
+            roomId={chatRoomId}
+            onClose={() => setChatRoomId(null)}
+            setChatRoomId={setChatRoomId}
+          />
         ) : null}
       </div>
     </div>
   );
+
+  useEffect(() => {
+    if (reactiveState == 3) {
+      props.setShowFH(false);
+    }
+  }, [reactiveState]);
 
   return (
     <div>
@@ -123,9 +139,22 @@ const Myroom = () => {
         내 방 리스트
       </Title>
       <div style={{ height: "20px" }} />
-      <RLayout.R2 priority="left" left={leftLay} right={rightLay} />
+      {reactiveState === 3 && chatRoomId ? (
+        <Chat
+          roomId={chatRoomId}
+          onClose={() => setChatRoomId(null)}
+          setChatRoomId={setChatRoomId}
+        />
+      ) : (
+        <RLayout.R2 priority="left" left={leftLay} right={rightLay} />
+      )}
     </div>
   );
+};
+
+Myroom.propTypes = {
+  param: PropTypes.string,
+  setShowFH: PropTypes.func,
 };
 
 export default Myroom;

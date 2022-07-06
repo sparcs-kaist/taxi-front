@@ -22,8 +22,8 @@ import "./Style/Chatting.css";
 // }
 
 const Chatting = (prop) => {
-  const isSideChat = prop?.roomId !== undefined;
-  const roomId = isSideChat ? prop.roomId : useParams().roomId;
+  const isSideChat = true;
+  const roomId = prop.roomId;
   const socket = useRef(undefined);
   const messagesBody = useRef();
 
@@ -83,6 +83,8 @@ const Chatting = (prop) => {
 
   // socket setting
   useEffect(async () => {
+    socket.current?.disconnect();
+
     socket.current = io(backServer, {
       withCredentials: true,
     });
@@ -135,6 +137,17 @@ const Chatting = (prop) => {
     }
   }, [inputStr]);
 
+  useEffect(() => {
+    return () => {
+      socket.current?.disconnect();
+    };
+  }, []);
+
+  const onUnmount = () => {
+    socket.current?.disconnect();
+    console.log("unmount");
+  };
+
   // handler
   const sendMessage = (messageStr) => {
     socket.current.emit("chats-send", { roomId: roomId, content: messageStr });
@@ -169,7 +182,7 @@ const Chatting = (prop) => {
     <div className="ChatContainer">
       <div className="ChatRoomContainer">
         {isSideChat ? (
-          <SideChatHeader info={headerInfo} />
+          <SideChatHeader info={headerInfo} onUnmount={onUnmount} />
         ) : (
           <Header info={headerInfo} />
         )}
