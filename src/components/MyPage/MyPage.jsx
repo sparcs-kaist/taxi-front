@@ -180,7 +180,9 @@ const Setting = () => {
         <BtnC icon="rule" onClick={() => setOpen2(true)}>
           사용 약관 및 개인정보 보호 규칙
         </BtnC>
-        <BtnC icon="logo">만든 사람들</BtnC>
+        <BtnC icon="logo" onClick={() => setOpen1(true)}>
+          만든 사람들
+        </BtnC>
         <BtnC icon="logout" onClick={handleLogout}>
           로그아웃
         </BtnC>
