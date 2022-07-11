@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import RLayout from "@frames/ReactiveLayout/RLayout";
 import Title from "@frames/Title/Title";
 import SubmitButton from "@frames/SubmitButton/SubmitButton";
@@ -10,17 +11,16 @@ import OptionPlace from "../Options/Place";
 import OptionDate from "../Options/Date";
 import OptionTime from "../Options/Time";
 
-import LibraryAddRoundedIcon from "@mui/icons-material/LibraryAddRounded";
-
-const AddRoom = (props) => {
+const AddRoom = () => {
   const onCall = useRef(false);
+  const history = useHistory();
   const [valueName, setName] = useState("");
   const [valuePlace, setPlace] = useState([null, null]);
   const [valueDate, setDate] = useState([null, null, null]);
   const today = new Date();
   const [valueTime, setTime] = useState([
     today.getHours().toString(),
-    (parseInt(today.getMinutes() / 10) * 10).toString(),
+    today.getMinutes().toString(),
   ]);
 
   let validatedMsg = null;
@@ -56,25 +56,23 @@ const AddRoom = (props) => {
         ),
       });
       if (result.status === 200) {
-        alert("방이 개설됨!!");
+        history.push("/myroom");
       } else {
-        console.log("add room error");
+        alert("add room error");
       }
     }
   };
 
   return (
     <div>
-      <div style={{ height: "30px" }} />
-      <Title icon={(style) => <LibraryAddRoundedIcon style={style} />}>
+      <Title icon="add" header={true}>
         방 개설하기
       </Title>
-      <div style={{ height: "20px" }} />
       <RLayout.R1>
         <OptionPlace value={valuePlace} handler={setPlace} />
         <OptionDate value={valueDate} handler={setDate} />
         <OptionName value={valueName} handler={setName} />
-        <OptionTime value={valueTime} handler={setTime} />
+        <OptionTime value={valueTime} handler={setTime} page="add" />
         <SubmitButton
           marginAuto={false}
           onClick={validatedMsg ? () => {} : onClickAdd}

@@ -153,7 +153,9 @@ const Time = (props) => {
         <div style={styleInput} className="BTNC" onClick={() => setPopup(true)}>
           {props.value[1]}
         </div>
-        <div style={styleText}>분 이후</div>
+        <div style={styleText}>
+          {props.value == "search" ? "분 이후" : "분 출발"}
+        </div>
       </div>
       <PopupInput
         isOpen={isPopup}
@@ -167,6 +169,7 @@ const Time = (props) => {
 Time.propTypes = {
   value: PropTypes.array,
   handler: PropTypes.func,
+  page: PropTypes.string,
 };
 
 export default Time;

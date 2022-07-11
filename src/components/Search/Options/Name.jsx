@@ -28,7 +28,7 @@ const Name = (props) => {
     width: "100%",
     paddingLeft: "12px",
     paddingRight: "12px",
-    borderRadius: "8px",
+    borderRadius: "6px",
     border: "none",
     outline: "none",
     backgroundColor: "#FAFAFA",
