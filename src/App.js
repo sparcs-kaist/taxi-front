@@ -7,8 +7,6 @@ import AddRoom from "@components/Search/AddRoom/AddRoom";
 import Myroom from "@components/Room/Myroom/Myroom";
 import MyPage from "@components/MyPage/MyPage";
 //import Login from '@components/user/login'
-import User from "@components/user/user";
-import NewUser from "@components/user/newuser";
 import Chatting from "@components/Chatting/Chatting";
 
 import "App.css";
@@ -45,13 +43,6 @@ function App() {
           <Frame navi="MyPage">
             <MyPage />
           </Frame>
-        </Route>
-        <Route exact path="/users">
-          <User />
-          <Link to="/users/new">New user</Link>
-        </Route>
-        <Route exact path="/users/new">
-          <NewUser />
         </Route>
         <Route exact path="/chatting/:roomId">
           <Chatting />
