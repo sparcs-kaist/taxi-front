@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSpring, animated } from "react-spring";
-import RLayout from "./ReactiveLayout/RLayout";
+import RLayout from "@frames/ReactiveLayout/RLayout";
 import "./Navigation.css";
 
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
@@ -17,7 +17,7 @@ const NavigationBtn = (props) => {
     height: "100%",
     textDecoration: "unset",
   };
-  const icon = {
+  const iconStyle = {
     height: 19,
     color: "currentColor",
   };
@@ -34,14 +34,29 @@ const NavigationBtn = (props) => {
     config: { duration: 150 },
     textAlign: "center",
   });
+  const getIcon = (icon) => {
+    switch (icon) {
+      case "search":
+        return <SearchRoundedIcon style={iconStyle} alt="search" />;
+      case "add":
+        return <LibraryAddRoundedIcon style={iconStyle} alt="search" />;
+      case "myroom":
+        return <LibraryBooksRoundedIcon style={iconStyle} alt="search" />;
+      case "mypage":
+        return <AccountCircleRoundedIcon style={iconStyle} alt="search" />;
+      default:
+        return <></>;
+    }
+  };
+
   return (
     <Link to={props.to} style={{ ...layStyle }}>
       <div
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
-        <animated.div style={{ ...icon, ...hover, marginTop: 8 }}>
-          {props.icon(icon)}
+        <animated.div style={{ ...iconStyle, ...hover, marginTop: 8 }}>
+          {getIcon(props.icon)}
         </animated.div>
         <animated.div style={{ ...text, ...hover }}>{props.name}</animated.div>
       </div>
@@ -63,31 +78,25 @@ const Navigation = (props) => {
           <NavigationBtn
             to="/search"
             name="검색"
-            icon={(style) => <SearchRoundedIcon style={style} alt="search" />}
+            icon="search"
             selected={props.selected === "search"}
           />
           <NavigationBtn
             to="/addroom"
             name="방 개설"
-            icon={(style) => (
-              <LibraryAddRoundedIcon style={style} alt="addroom" />
-            )}
+            icon="add"
             selected={props.selected === "addroom"}
           />
           <NavigationBtn
             to="/myroom"
             name="내 방"
-            icon={(style) => (
-              <LibraryBooksRoundedIcon style={style} alt="myroom" />
-            )}
+            icon="myroom"
             selected={props.selected === "myroom"}
           />
           <NavigationBtn
             to="/mypage"
             name="마이 페이지"
-            icon={(style) => (
-              <AccountCircleRoundedIcon style={style} alt="mypage" />
-            )}
+            icon="mypage"
             selected={props.selected === "mypage"}
           />
         </div>

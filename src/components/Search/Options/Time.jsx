@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import PropTypes from "prop-types";
-import WhiteContainer from "../../Frame/WhiteContainer/WhiteContainer";
+import WhiteContainer from "@frames/WhiteContainer/WhiteContainer";
 import Popup from "./Popup";
 import Picker from "react-scrollable-picker";
+
+import AccessTimeIcon from "@material-ui/icons/AccessTime";
 
 const optionsHour = [...Array(24).keys()].map((x) => x.toString());
 const optionsMin = ["0", "10", "20", "30", "40", "50"];
@@ -152,7 +153,9 @@ const Time = (props) => {
         <div style={styleInput} className="BTNC" onClick={() => setPopup(true)}>
           {props.value[1]}
         </div>
-        <div style={styleText}>분 이후</div>
+        <div style={styleText}>
+          {props.value == "search" ? "분 이후" : "분 출발"}
+        </div>
       </div>
       <PopupInput
         isOpen={isPopup}
@@ -166,6 +169,7 @@ const Time = (props) => {
 Time.propTypes = {
   value: PropTypes.array,
   handler: PropTypes.func,
+  page: PropTypes.string,
 };
 
 export default Time;

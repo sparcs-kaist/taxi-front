@@ -1,7 +1,8 @@
 import React from "react";
-import CreateIcon from "@material-ui/icons/Create";
 import PropTypes from "prop-types";
-import WhiteContainer from "../../Frame/WhiteContainer/WhiteContainer";
+import WhiteContainer from "@frames/WhiteContainer/WhiteContainer";
+
+import CreateIcon from "@material-ui/icons/Create";
 
 const Name = (props) => {
   const style = {
@@ -27,7 +28,7 @@ const Name = (props) => {
     width: "100%",
     paddingLeft: "12px",
     paddingRight: "12px",
-    borderRadius: "8px",
+    borderRadius: "6px",
     border: "none",
     outline: "none",
     backgroundColor: "#FAFAFA",

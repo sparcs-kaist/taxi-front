@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { useState, useEffect } from "react";
-import { backServer } from "../../serverconf";
+import { backServer } from "serverconf";
 // login function
 
 const Login = () => {

@@ -1,26 +1,26 @@
 import React, { useState, useRef } from "react";
-import RLayout from "../../Frame/ReactiveLayout/RLayout";
-import Title from "../../Frame/Title/Title";
-import SubmitButton from "../../Frame/SubmitButton/SubmitButton";
-import axios from "../../Tool/axios";
-import { date2str } from "../../Tool/trans";
+import { useHistory } from "react-router-dom";
+import RLayout from "@frames/ReactiveLayout/RLayout";
+import Title from "@frames/Title/Title";
+import SubmitButton from "@frames/SubmitButton/SubmitButton";
+import axios from "@tools/axios";
+import { date2str } from "@tools/trans";
 
 import OptionName from "../Options/Name";
 import OptionPlace from "../Options/Place";
 import OptionDate from "../Options/Date";
 import OptionTime from "../Options/Time";
 
-import LibraryAddRoundedIcon from "@mui/icons-material/LibraryAddRounded";
-
-const AddRoom = (props) => {
+const AddRoom = () => {
   const onCall = useRef(false);
+  const history = useHistory();
   const [valueName, setName] = useState("");
   const [valuePlace, setPlace] = useState([null, null]);
   const [valueDate, setDate] = useState([null, null, null]);
   const today = new Date();
   const [valueTime, setTime] = useState([
     today.getHours().toString(),
-    (parseInt(today.getMinutes() / 10) * 10).toString(),
+    today.getMinutes().toString(),
   ]);
 
   let validatedMsg = null;
@@ -44,41 +44,35 @@ const AddRoom = (props) => {
     if (!onCall.current) {
       onCall.current = true;
       const result = await axios.post("/rooms/create", {
-        // Fixme from back => api 변경, 시간이 안쓰임??
-        data: {
-          name: valueName,
-          from: valuePlace[0],
-          to: valuePlace[1],
-          time: new Date(
-            valueDate[0],
-            valueDate[1] - 1,
-            valueDate[2],
-            valueTime[0],
-            valueTime[1]
-          ),
-        },
+        name: valueName,
+        from: valuePlace[0],
+        to: valuePlace[1],
+        time: new Date(
+          valueDate[0],
+          valueDate[1] - 1,
+          valueDate[2],
+          valueTime[0],
+          valueTime[1]
+        ),
       });
       if (result.status === 200) {
-        //console.log(result);
-        alert("방이 개설됨!!");
+        history.push("/myroom");
       } else {
-        console.log("add room error");
+        alert("add room error");
       }
     }
   };
 
   return (
     <div>
-      <div style={{ height: "30px" }} />
-      <Title icon={(style) => <LibraryAddRoundedIcon style={style} />}>
+      <Title icon="add" header={true}>
         방 개설하기
       </Title>
-      <div style={{ height: "20px" }} />
       <RLayout.R1>
         <OptionPlace value={valuePlace} handler={setPlace} />
         <OptionDate value={valueDate} handler={setDate} />
         <OptionName value={valueName} handler={setName} />
-        <OptionTime value={valueTime} handler={setTime} />
+        <OptionTime value={valueTime} handler={setTime} page="add" />
         <SubmitButton
           marginAuto={false}
           onClick={validatedMsg ? () => {} : onClickAdd}
@@ -93,7 +87,8 @@ const AddRoom = (props) => {
                   valueDate[2],
                   valueTime[0],
                   valueTime[1]
-                )
+                ),
+                "MMM Do [(]dd[)] a h[시] m[분]"
               )} 방 개설하기`}
         </SubmitButton>
       </RLayout.R1>

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
 import PropTypes from "prop-types";
-import { date2str } from "../../Tool/trans";
+import { date2str } from "@tools/trans";
+import "./RoomElement.css";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 
@@ -17,7 +18,7 @@ const Room = (props) => {
     boxShadow:
       isHover || props.selected
         ? "0px 2px 4px rgba(110, 54, 120, 0.2), 0px 1px 18px rgba(110, 54, 120, 0.12), 0px 6px 10px rgba(110, 54, 120, 0.14)"
-        : "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
+        : "",
   };
   const styleName = {
     height: "39px",
@@ -77,7 +78,7 @@ const Room = (props) => {
   return (
     <div
       style={style}
-      className="BTNC"
+      className="BTNC container"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       onClick={props.onClick}
@@ -94,6 +95,7 @@ const Room = (props) => {
     </div>
   );
 };
+
 Room.propTypes = {
   name: PropTypes.string,
   left: PropTypes.number,
@@ -112,6 +114,7 @@ Room.defaultProps = {
   onClick: () => {},
   marginTop: "0px",
   marginBottom: "0px",
+  mobile: false,
 };
 
 export default Room;

@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { animated, useSpring } from "react-spring";
-import RLayout from "../../Frame/ReactiveLayout/RLayout";
-import Title from "../../Frame/Title/Title";
-import SubmitButton from "../../Frame/SubmitButton/SubmitButton";
+import RLayout from "@frames/ReactiveLayout/RLayout";
+import Title from "@frames/Title/Title";
+import SubmitButton from "@frames/SubmitButton/SubmitButton";
 import SideResult from "../SearchResult/SideResult";
-import axios from "../../Tool/axios";
+import axios from "@tools/axios";
 import moment from "moment";
 import PropTypes from "prop-types";
 
@@ -12,8 +12,6 @@ import OptionName from "../Options/Name";
 import OptionPlace from "../Options/Place";
 import OptionDate from "../Options/Date";
 import OptionTime from "../Options/Time";
-
-import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 
 const SearchOption = (props) => {
   const [isHover, setHover] = useState(false);
@@ -236,7 +234,7 @@ const Search = () => {
         <OptionDate value={valueDate} handler={setDate} />
       ) : null}
       {searchOptions.time ? (
-        <OptionTime value={valueTime} handler={setTime} />
+        <OptionTime value={valueTime} handler={setTime} page="search" />
       ) : null}
       <SubmitButton
         marginAuto={false}
@@ -255,11 +253,9 @@ const Search = () => {
     );
   return (
     <div>
-      <div style={{ height: "30px" }} />
-      <Title icon={(style) => <SearchRoundedIcon style={style} />}>
+      <Title icon="search" header={true}>
         방 검색하기
       </Title>
-      <div style={{ height: "25px" }} />
       <RLayout.R2
         left={reactiveState == 3 && searchResult !== null ? null : leftLay}
         right={rightLay}

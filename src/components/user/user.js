@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { backServer } from "../../serverconf";
+import { backServer } from "serverconf";
 
 const User = () => {
   const [users, setUsers] = useState([]);

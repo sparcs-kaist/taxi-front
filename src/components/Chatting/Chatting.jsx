@@ -7,9 +7,9 @@ import SideChatHeader from "./Header/SideChatHeader";
 import MessagesBody from "./MessagesBody/MessagesBody";
 import MessageForm from "./Input/MessageForm";
 import SideChatMessageForm from "./Input/SideChatMessageForm";
-import regExpTest from "../Tool/regExpTest";
-import axios from "../Tool/axios";
-import { backServer } from "../../serverconf";
+import regExpTest from "@tools/regExpTest";
+import axios from "@tools/axios";
+import { backServer } from "serverconf";
 import NewMessage from "./MessagesBody/NewMessage";
 
 import "./Style/Chatting.css";
@@ -115,7 +115,9 @@ const Chatting = (prop) => {
     });
 
     // init
-    const roomInfo = await axios.get(`/rooms/${roomId}/info`);
+    const roomInfo = await axios.get("/rooms/info", {
+      params: { id: roomId },
+    });
     setHeaderInfo(roomInfo.data);
     setChats([]);
     socket.current.emit("chats-join", roomId);

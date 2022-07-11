@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
-import { backServer } from "../../serverconf";
-import RLayout from "../Frame/ReactiveLayout/RLayout";
+import { backServer } from "serverconf";
+import RLayout from "@frames/ReactiveLayout/RLayout";
 
-import SparcsLogoPurple from "../../asset/SparcsLogoPurple.svg";
+import SparcsLogoPurple from "asset/SparcsLogoPurple.svg";
 
 const TaxiLogo = () => {
   const styleImg = {

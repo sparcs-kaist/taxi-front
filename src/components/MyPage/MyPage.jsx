@@ -2,18 +2,17 @@ import React, { useEffect, useState } from "react";
 import { animated, useSpring } from "react-spring";
 import { useHistory } from "react-router";
 import PropTypes from "prop-types";
-import Title from "../Frame/Title/Title";
-import WhiteContainer from "../Frame/WhiteContainer/WhiteContainer";
+import Title from "@frames/Title/Title";
+import WhiteContainer from "@frames/WhiteContainer/WhiteContainer";
 import PopupSparcs from "./PopupSparcs/PopupSparcs";
 import PopupPolicy from "./PopupPolicy/PopupPolicy";
 import PopupMypage from "./PopupMypage/PopupMypage";
-import axios from "../Tool/axios";
-import { backServer } from "../../serverconf";
+import axios from "@tools/axios";
+import { backServer } from "serverconf";
 
-import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
-import LibraryBooksRoundedIcon from "@material-ui/icons/LibraryBooksRounded";
+import AssignmentRoundedIcon from "@material-ui/icons/AssignmentRounded";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
-import SparcsLogoBlack from "../../asset/SparcsLogoBlack.svg";
+import SparcsLogoBlack from "asset/SparcsLogoBlack.svg";
 
 const BtnC = (props) => {
   const [isHover, setHover] = useState(false);
@@ -29,14 +28,27 @@ const BtnC = (props) => {
     position: "absolute",
     top: "8px",
     left: "8px",
-    width: "14px",
-    height: "14px",
+    width: "16px",
+    height: "16px",
   };
   const styleText = {
     height: "35px",
     lineHeight: "35px",
     paddingLeft: "35px",
     fontSize: "14px",
+  };
+
+  const getIcon = (icon) => {
+    switch (icon) {
+      case "rule":
+        return <AssignmentRoundedIcon style={styleImg} />;
+      case "logo":
+        return <img src={SparcsLogoBlack} alt="" style={styleImg} />;
+      case "logout":
+        return <ExitToAppRoundedIcon style={styleImg} />;
+      default:
+        return <></>;
+    }
   };
 
   return (
@@ -47,13 +59,13 @@ const BtnC = (props) => {
       onMouseLeave={() => setHover(false)}
       onClick={() => props.onClick()}
     >
-      <img src={props.img} alt="" style={styleImg} />
+      {getIcon(props.icon)}
       <div style={styleText}>{props.children}</div>
     </animated.div>
   );
 };
 BtnC.propTypes = {
-  img: PropTypes.img,
+  icon: PropTypes.string,
   children: PropTypes.any,
   onClick: PropTypes.func,
 };
@@ -61,7 +73,7 @@ BtnC.propTypes = {
 const Setting = () => {
   const [profToken, setProfToken] = useState(Date.now());
   const [userInfo, setUserInfo] = useState({});
-  const [userInfoD, setUserInfoD] = useState({});
+  const [userInfoDetail, setUserInfoDetail] = useState({});
   const [isOpen1, setOpen1] = useState(false);
   const [isOpen2, setOpen2] = useState(false);
   const [isOpen3, setOpen3] = useState(false);
@@ -80,7 +92,7 @@ const Setting = () => {
       setUserInfo(data);
     });
     axios.get("/json/logininfo/detail").then(({ data }) => {
-      setUserInfoD(data);
+      setUserInfoDetail(data);
     });
     setProfToken(Date.now());
   };
@@ -90,100 +102,88 @@ const Setting = () => {
   }, []);
 
   const styleProfImg = {
-    position: "absolute",
-    top: "0px",
-    left: "0px",
     width: "50px",
     height: "50px",
-    borderRadius: "26px",
-    background: "#EEEEEE",
+    borderRadius: "25px",
+    backgroundColor: "#EEEEEE",
     overflow: "hidden",
   };
   const styleName = {
-    height: "50px",
-    lineHeight: "50px",
     fontSize: "17px",
+    lineHeight: "20px",
     fontWeight: "bold",
-    paddingLeft: "60px",
+    marginLeft: "12px",
   };
-  const styleT1 = {
+  const myInfo = {
     fontSize: "14px",
     fontWeight: "bold",
   };
-  const styleT2 = {
+  const modify = {
     fontSize: "14px",
     color: "#6E3678",
   };
-  const styleT3 = {
+  const infoTitle = {
+    display: "flex",
     fontSize: "14px",
     color: "#888888",
-    width: "50px",
+    marginTop: "16px",
   };
-  const styleT4 = {
+  const infoContent = {
     fontSize: "14px",
+    marginLeft: "12px",
   };
 
   return (
-    <div>
-      <div style={{ height: "30px" }} />
-      <Title icon={(style) => <AccountCircleRoundedIcon style={style} />}>
+    <>
+      <Title icon="mypage" header={true}>
         마이 페이지
       </Title>
-      <div style={{ height: "20px" }} />
-      <WhiteContainer>
-        <div style={{ position: "relative" }}>
-          {userInfo.id ? (
-            <img
-              src={`${backServer}/static/profile-images/${userInfo.id}?${profToken}`}
-              style={styleProfImg}
-              alt="profile-img"
-            />
-          ) : null}
+      <WhiteContainer padding="16px 24px 24px">
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <img
+            src={`${backServer}/static/profile-images/${userInfo.id}?${profToken}`}
+            style={styleProfImg}
+            alt="profile-img"
+          />
           <div style={styleName}>{userInfo ? userInfo.name : ""}</div>
         </div>
-        <div style={{ height: "15px" }} />
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <div style={styleT1}>내 정보</div>
-          <div style={styleT2} className="BTNC" onClick={() => setOpen3(true)}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: "15px",
+          }}
+        >
+          <div style={myInfo}>내 정보</div>
+          <div style={modify} className="BTNC" onClick={() => setOpen3(true)}>
             수정하기
           </div>
         </div>
-        <div style={{ height: "10px" }} />
-        <div style={{ display: "flex" }}>
-          <div style={styleT3}>학번</div>
-          <div style={styleT4}>
-            {userInfoD && userInfoD.subinfo && userInfoD.subinfo.kaist
-              ? userInfoD.subinfo.kaist
-              : ""}
-          </div>
-        </div>
-        <div style={{ height: "10px" }} />
-        <div style={{ display: "flex" }}>
-          <div style={styleT3}>메일</div>
-          <div style={styleT4}>
-            {userInfoD && userInfoD.email ? userInfoD.email : ""}
-          </div>
-        </div>
-        <div style={{ height: "10px" }} />
-        <div style={{ display: "flex" }}>
-          <div style={styleT3}>별명</div>
-          <div style={styleT4}>{userInfoD ? userInfoD.nickname : ""}</div>
-        </div>
+        {userInfoDetail.subinfo && (
+          <>
+            <div style={infoTitle}>
+              학번
+              <div style={infoContent}>{userInfoDetail.subinfo.kaist}</div>
+            </div>
+            <div style={infoTitle}>
+              메일
+              <div style={infoContent}>{userInfoDetail.email}</div>
+            </div>
+            <div style={infoTitle}>
+              별명
+              <div style={infoContent}>{userInfoDetail.nickname}</div>
+            </div>
+          </>
+        )}
       </WhiteContainer>
       <WhiteContainer>
-        <BtnC
-          img={(style) => <LibraryBooksRoundedIcon style={style} />}
-          onClick={() => setOpen2(true)}
-        >
+        <BtnC icon="rule" onClick={() => setOpen2(true)}>
           사용 약관 및 개인정보 보호 규칙
         </BtnC>
-        <BtnC img={SparcsLogoBlack} onClick={() => setOpen1(true)}>
+        <BtnC icon="logo" onClick={() => setOpen1(true)}>
           만든 사람들
         </BtnC>
-        <BtnC
-          img={(style) => <ExitToAppRoundedIcon style={style} />}
-          onClick={handleLogout}
-        >
+        <BtnC icon="logout" onClick={handleLogout}>
           로그아웃
         </BtnC>
       </WhiteContainer>
@@ -191,13 +191,13 @@ const Setting = () => {
       <PopupPolicy isOpen={isOpen2} onClose={() => setOpen2(false)} />
       <PopupMypage
         userInfo={userInfo}
-        userInfoD={userInfoD}
+        userInfoD={userInfoDetail}
         profToken={profToken}
         isOpen={isOpen3}
         onClose={() => setOpen3(false)}
         onUpdate={() => handleUpdate()}
       />
-    </div>
+    </>
   );
 };
 

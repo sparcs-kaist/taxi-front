@@ -1,10 +1,11 @@
 import React, { Component, useState } from "react";
 import { useSpring, animated } from "react-spring";
 import getDateInfo from "./getDateInfo";
+import PropTypes from "prop-types";
+
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
-import PropTypes from "prop-types";
 
 const Date = (props) => {
   const [isHover, setHover] = useState(false);
@@ -46,6 +47,8 @@ const Date = (props) => {
     className = "BTNC";
     styleDate.color = "#323232";
     if (props.available === "today") styleToday.background = "#B89DBD";
+  } else {
+    styleBox.cursor = "not-allowed";
   }
   if (props.selected) {
     styleBox.boxShadow = "inset 2px 2px 5px -2px rgba(0, 0, 0, 0.25)";
@@ -113,6 +116,7 @@ class DatePicker extends Component {
     this.styleLayInfo = {
       display: "flex",
       alignItems: "center",
+      paddingTop: "1px",
     };
     this.styleLayTopBorder = {
       height: "0.5px",
@@ -143,8 +147,8 @@ class DatePicker extends Component {
     this.styleLayWeek = {
       height: "12px",
       display: "flex",
-      marginTop: "10px",
-      marginBottom: "10px",
+      marginTop: "10.5px",
+      marginBottom: "8px",
       gap: "6px",
     };
     this.styleWeekItem = {
