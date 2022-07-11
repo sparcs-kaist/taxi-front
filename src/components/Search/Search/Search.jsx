@@ -177,35 +177,35 @@ const Search = () => {
           console.log(err);
         });
       return;
+    } else {
+      const date = moment(
+        `${valueDate[0]}-${
+          valueDate[1] < 10 ? "0" + valueDate[1] : valueDate[1]
+        }-${valueDate[2]}`
+      );
+      if (searchOptions.time) {
+        date.hour(valueTime[0]);
+        date.minute(valueTime[1]);
+      } else if (date.isSame(moment(), "day")) {
+        date.hour(moment().hour());
+        date.minute(moment().minute());
+      }
+      await axios
+        .get("rooms/search", {
+          params: {
+            name: valueName,
+            from: valuePlace[0],
+            to: valuePlace[1],
+            time: date.toISOString(),
+          },
+        })
+        .then((res) => {
+          setSearchResult(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-
-    const date = moment(
-      `${valueDate[0]}-${
-        valueDate[1] < 10 ? "0" + valueDate[1] : valueDate[1]
-      }-${valueDate[2]}`
-    );
-    if (searchOptions.time) {
-      date.hour(valueTime[0]);
-      date.minute(valueTime[1]);
-    } else if (date.isSame(moment(), "day")) {
-      date.hour(moment().hour());
-      date.minute(moment().minute());
-    }
-    await axios
-      .get("rooms/search", {
-        params: {
-          name: valueName,
-          from: valuePlace[0],
-          to: valuePlace[1],
-          time: date.toISOString(),
-        },
-      })
-      .then((res) => {
-        setSearchResult(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   // if (reactiveState == 3 && searchResult !== null) {
