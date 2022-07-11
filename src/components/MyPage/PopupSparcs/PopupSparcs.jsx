@@ -20,6 +20,8 @@ const Member = (props) => {
   };
   const styleLay1 = {
     position: "absolute",
+    display: "flex",
+    width: "150px",
     top: "16px",
     left: "14px",
     height: "16px",
@@ -35,8 +37,8 @@ const Member = (props) => {
   };
   const styleSparcs = {
     height: "17px",
-    paddingLeft: "8px",
-    paddingRight: "4px",
+    paddingLeft: "6px",
+    paddingRight: "3px",
   };
   const styleId = {
     display: "inline-block",
@@ -191,16 +193,18 @@ const PopupSparcs = (props) => {
               <div style={styleRole}>Developer</div>
               <div style={styleMemberContainer}>
                 <Member name="정상" id="macintosh" des="2021 - 2022" />
-                <Member name="김태우" id="toby" des="2021 - 2022" />
                 <Member name="최준영" id="dogma" des="2021" />
                 <Member name="최지헌" id="agent" des="2022" />
+                <Member name="김태우" id="toby" des="2021 - 2022" />
                 <Member name="이서완" id="swany" des="2022" />
+                <Member name="신태현" id="kiko" des="2022" />
+                <Member name="예상우" id="andy" des="2022" />
+                <Member name="이진우" id="jaydub" des="2022" />
+                <Member name="손성민" id="happycastle" des="2022" />
                 <Member name="박진호" id="bread" des="2021" />
                 <Member name="송인화" id="ina" des="2021" />
                 <Member name="김건" id="suwon" des="2021 - 2022" />
                 <Member name="이채영" id="stitch" des="2021" />
-                <Member name="예상우" id="andy" des="2022" />
-                <Member name="신태현" id="kiko" des="2022" />
               </div>
               <div style={{ height: "40px" }} />
             </div>
