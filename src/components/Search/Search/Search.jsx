@@ -5,6 +5,7 @@ import Title from "@frames/Title/Title";
 import SubmitButton from "@frames/SubmitButton/SubmitButton";
 import SideResult from "../SearchResult/SideResult";
 import axios from "@tools/axios";
+import moment from "moment";
 import PropTypes from "prop-types";
 
 import OptionName from "../Options/Name";
@@ -106,7 +107,7 @@ const Search = () => {
   const [valueName, setName] = useState("");
   const [valuePlace, setPlace] = useState([null, null]);
   const [valueDate, setDate] = useState([null, null, null]);
-  const today = new Date();
+  const today = moment();
   const [valueTime, setTime] = useState(["0", "00"]);
   const [searchResult, setSearchResult] = useState(null);
   const [disable, setDisable] = useState(true);
@@ -114,8 +115,8 @@ const Search = () => {
 
   useEffect(() => {
     if (!Object.values(searchOptions).some((option) => option == true)) {
-      setMessage("검색 조건을 선택해주세요");
-      setDisable(true);
+      setMessage("모든 방 검색하기");
+      setDisable(false);
     } else if (searchOptions.name && valueName == "") {
       setMessage("방 이름을 입력해주세요");
       setDisable(true);
@@ -126,6 +127,17 @@ const Search = () => {
     ) {
       setMessage("선택을 완료해주세요");
       setDisable(true);
+    } else if (
+      searchOptions.time &
+      !valueDate.some((date) => date == null) &
+      moment(
+        `${valueDate[0]}-${
+          valueDate[1] < 10 ? "0" + valueDate[1] : valueDate[1]
+        }-${valueDate[2]} ${valueTime[0]}:${valueTime[1]}`
+      ).isBefore(moment(), "minute")
+    ) {
+      setMessage("과거 시점은 검색할 수 없습니다.");
+      setDisable(true);
     } else {
       setMessage("방 검색하기");
       setDisable(false);
@@ -133,7 +145,7 @@ const Search = () => {
   }, [searchOptions, valueName, valuePlace, valueDate, valueTime]);
 
   useEffect(() => {
-    setName("");
+    setName(null);
   }, [searchOptions.name]);
   useEffect(() => {
     setPlace([null, null]);
@@ -143,10 +155,7 @@ const Search = () => {
   }, [searchOptions.date]);
   useEffect(() => {
     if (searchOptions.time) {
-      setTime([
-        today.getHours().toString(),
-        (parseInt(today.getMinutes() / 10) * 10).toString(),
-      ]);
+      setTime([today.hour().toString(), today.minute().toString()]);
     } else {
       setTime(["0", "00"]);
     }
@@ -157,11 +166,37 @@ const Search = () => {
       onCall.current = true;
       setSearchResult([]);
     }
-    if (searchOptions.name && !searchOptions.place && !searchOptions.date) {
+
+    if (!Object.values(searchOptions).some((option) => option == true)) {
       await axios
-        .get("rooms/searchByName", {
+        .get("rooms/search")
+        .then((res) => {
+          setSearchResult(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      return;
+    } else {
+      const date = moment(
+        `${valueDate[0]}-${
+          valueDate[1] < 10 ? "0" + valueDate[1] : valueDate[1]
+        }-${valueDate[2]}`
+      );
+      if (searchOptions.time) {
+        date.hour(valueTime[0]);
+        date.minute(valueTime[1]);
+      } else if (date.isSame(moment(), "day")) {
+        date.hour(moment().hour());
+        date.minute(moment().minute());
+      }
+      await axios
+        .get("rooms/search", {
           params: {
             name: valueName,
+            from: valuePlace[0],
+            to: valuePlace[1],
+            time: date.toISOString(),
           },
         })
         .then((res) => {
@@ -170,36 +205,7 @@ const Search = () => {
         .catch((err) => {
           console.log(err);
         });
-      return;
     }
-
-    // Discuss : 검색지와 도착지가 필수인지 의논 필요
-    // if (searchOptions.place)
-    const date = new Date(
-      valueDate[0],
-      valueDate[1] - 1,
-      valueDate[2],
-      valueTime[0],
-      valueTime[1]
-    );
-    await axios
-      .get("rooms/search", {
-        params: {
-          from: valuePlace[0],
-          to: valuePlace[1],
-          time: searchOptions.date ? (date ? date.toISOString() : null) : null,
-        },
-      })
-      .then((res) => {
-        if (searchOptions.name) {
-          setSearchResult(res.data.filter((room) => room.name == valueName));
-        } else {
-          setSearchResult(res.data);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   // if (reactiveState == 3 && searchResult !== null) {
