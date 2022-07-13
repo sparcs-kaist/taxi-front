@@ -6,7 +6,6 @@ import Search from "@components/Search/Search/Search";
 import AddRoom from "@components/Search/AddRoom/AddRoom";
 import Myroom from "@components/Room/Myroom/Myroom";
 import MyPage from "@components/MyPage/MyPage";
-//import Login from '@components/user/login'
 import Chatting from "@components/Chatting/Chatting";
 
 import "App.css";

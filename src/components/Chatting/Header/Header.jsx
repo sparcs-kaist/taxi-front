@@ -367,8 +367,6 @@ const HeaderBottom = (props) => {
     gap: "5px 10px",
   };
 
-  // part.push({ id: '1234', nickname: 'hello world' }) // for test
-  // console.log(props.info);
   return (
     <div ref={props.refContent}>
       <div style={{ height: "10px" }} />
@@ -463,7 +461,6 @@ const Header = (props) => {
   const headerBottomLay = useRef();
   const headerBottomLayPast = useRef(0);
   const resizeEvent = () => {
-    //const _bodyWidth = document.body.clientWidth;
     const btmHeight = headerBottomLay.current.offsetHeight;
     if (btmHeight > 0 && btmHeight !== headerBottomLayPast.current) {
       headerBottomLayPast.current = btmHeight;

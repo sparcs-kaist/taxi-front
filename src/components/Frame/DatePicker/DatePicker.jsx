@@ -178,7 +178,6 @@ class DatePicker extends Component {
   }
 
   resizeEvent() {
-    // const bodyWidth = document.body.clientWidth;
     const weeks = document.getElementsByClassName("datepicker-week");
     if (weeks.length > 0) {
       const width = (weeks[0].clientWidth - 36) / 7;
