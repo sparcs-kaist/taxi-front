@@ -1,9 +1,11 @@
 {
     "env": {
         "browser": true,
-        "es2021": true
+        "es2021": true,
+        "cypress/globals": true
     },
     "extends": [
+        "plugin:cypress/recommended",
         "eslint:recommended",
         "plugin:react/recommended",
         "prettier"
@@ -16,7 +18,8 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
+        "cypress"
     ],
     "rules": {
         "no-unused-vars": 1
