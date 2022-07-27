@@ -6,6 +6,10 @@ import login from "../utils/login";
 const TEST_DATETIME = new Date();
 const TEST_ROOM_NAME =
   "test room " + TEST_DATETIME.toLocaleTimeString().replace(/:/g, "_");
+const CREATE_ROOM_INFO = {
+  from: "갤러리아",
+  to: "택시승강장",
+};
 let createdRoomId: null | number = null;
 
 describe("Create room tests", () => {
@@ -29,11 +33,17 @@ describe("Create room tests", () => {
     cy.contains("방 개설").click();
 
     cy.contains("출발지").click();
-    cy.react("PopupInput").filter(":visible").contains("갤러리아").click();
+    cy.react("PopupInput")
+      .filter(":visible")
+      .contains(CREATE_ROOM_INFO.from)
+      .click();
     cy.react("PopupInput").filter(":visible").contains("선택하기").click();
 
     cy.contains("도착지").click();
-    cy.react("PopupInput").filter(":visible").contains("택시승강장").click();
+    cy.react("PopupInput")
+      .filter(":visible")
+      .contains(CREATE_ROOM_INFO.to)
+      .click();
     cy.react("PopupInput").filter(":visible").contains("선택하기").click();
 
     cy.react("DatePicker")
@@ -69,6 +79,32 @@ describe("Create room tests", () => {
     login();
     cy.visit("/myroom");
     cy.waitForReact();
+
+    cy.react("Room").contains(TEST_ROOM_NAME).should("exist");
+  });
+
+  it("Check created room at search by name", () => {
+    login();
+    cy.visit("/search");
+    cy.waitForReact();
+
+    cy.contains("장소").click();
+
+    cy.contains("출발지").click();
+    cy.react("PopupInput")
+      .filter(":visible")
+      .contains(CREATE_ROOM_INFO.from)
+      .click();
+    cy.react("PopupInput").filter(":visible").contains("선택하기").click();
+
+    cy.contains("도착지").click();
+    cy.react("PopupInput")
+      .filter(":visible")
+      .contains(CREATE_ROOM_INFO.to)
+      .click();
+    cy.react("PopupInput").filter(":visible").contains("선택하기").click();
+
+    cy.contains("어떤 조건").siblings().contains("방 검색하기").click();
 
     cy.react("Room").contains(TEST_ROOM_NAME).should("exist");
   });
