@@ -8,7 +8,7 @@ import PopupSparcs from "./PopupSparcs/PopupSparcs";
 import PopupPolicy from "./PopupPolicy/PopupPolicy";
 import PopupMypage from "./PopupMypage/PopupMypage";
 import axios from "@tools/axios";
-import { backServer } from "serverconf";
+import { getS3Url } from "@tools/trans";
 
 import AssignmentRoundedIcon from "@material-ui/icons/AssignmentRounded";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
@@ -141,7 +141,9 @@ const Setting = () => {
       <WhiteContainer padding="16px 24px 24px">
         <div style={{ display: "flex", alignItems: "center" }}>
           <img
-            src={`${backServer}/static/profile-images/${userInfo.id}?${profToken}`}
+            src={getS3Url(
+              `/profile-img/${userInfoDetail.profileImgUrl}?token=${profToken}`
+            )}
             style={styleProfImg}
             alt="profile-img"
           />

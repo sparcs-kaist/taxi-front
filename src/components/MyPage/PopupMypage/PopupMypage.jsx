@@ -2,7 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { animated, useSpring } from "react-spring";
 import RLayout from "@frames/ReactiveLayout/RLayout";
 import axios from "@tools/axios";
-import { backServer } from "serverconf";
+import axiosOri from "axios";
+import { getS3Url } from "@tools/trans";
 import PropTypes from "prop-types";
 
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
@@ -27,9 +28,11 @@ const ProfImg = (props) => {
 
   return (
     <div style={style}>
-      {props.id ? (
+      {props.profileImgUrl ? (
         <img
-          src={`${backServer}/static/profile-images/${props.id}?${props.token}`}
+          src={getS3Url(
+            `/profile-img/${props.profileImgUrl}?token=${props.token}`
+          )}
           style={styleImg}
         />
       ) : null}
@@ -37,7 +40,7 @@ const ProfImg = (props) => {
   );
 };
 ProfImg.propTypes = {
-  id: PropTypes.string,
+  profileImgUrl: PropTypes.string,
   token: PropTypes.any,
 };
 
@@ -46,24 +49,36 @@ const BtnProfImg = (props) => {
 
   const handleUploadProfileImage = async () => {
     try {
-      if (!inputImage.current.files[0]) {
-        return;
-      }
-      const formData = new FormData();
-      formData.append("profileImage", inputImage.current.files[0]);
-
-      const result = await axios.post(`/users/uploadProfileImage`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      if (result.status !== 200) {
-        alert("프로필 사진 변경에 실패했습니다.");
-        return;
-      }
-      props.onUpdate();
-      //props.onClose();
+      const image = inputImage.current?.files?.[0];
+      if (!image) return;
+      axios
+        .post("/users/editProfileImg/getPUrl", { type: image.type })
+        .then(async ({ data }) => {
+          if (data.url && data.fields) {
+            const formData = new FormData();
+            for (const key in data.fields) {
+              formData.append(key, data.fields[key]);
+            }
+            formData.append("file", image);
+            const res = await axiosOri.post(data.url, formData);
+            if (res.status === 204) {
+              const res2 = await axios.get("/users/editProfileImg/done");
+              if (res2.data.result) {
+                alert("프로필 사진이 변경되었습니다.");
+                props.onUpdate();
+              } else {
+                // FIXME
+                alert("프로필 사진 변경에 실패했습니다.");
+              }
+            } else {
+              // FIXME
+              alert("프로필 사진 변경에 실패했습니다.");
+            }
+          } else {
+            // FIXME
+            alert("프로필 사진 변경에 실패했습니다.");
+          }
+        });
     } catch (e) {
       alert("프로필 사진 변경에 실패했습니다.");
     }
@@ -77,11 +92,11 @@ const BtnProfImg = (props) => {
     <div style={{ textAlign: "center", marginTop: "10px" }}>
       <input
         type="file"
-        accept="image/*"
+        accept="image/jpg, image/png, image/jpeg"
         hidden
         onChange={handleUploadProfileImage}
         ref={inputImage}
-      ></input>
+      />
       <animated.span
         style={style}
         className="BTNC"
@@ -257,7 +272,7 @@ const PopupMypage = (props) => {
             </div>
             <div style={{ height: "15px" }} />
             <ProfImg
-              id={props.userInfo.id ? props.userInfo.id : ""}
+              profileImgUrl={props.userInfoD?.profileImgUrl}
               token={props.profToken}
             />
             <BtnProfImg onClose={props.onClose} onUpdate={props.onUpdate} />

@@ -7,4 +7,8 @@ const date2str = (date, format = "LLLL") => {
   return moment(date).format(format);
 };
 
-export { date2str };
+const getS3Url = (x) => {
+  return `${process.env.REACT_APP_S3_URL}${x}`;
+};
+
+export { date2str, getS3Url };
