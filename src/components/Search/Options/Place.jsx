@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
 import PropTypes from "prop-types";
-import WhiteContainer from "../../Frame/WhiteContainer/WhiteContainer";
+import WhiteContainer from "@frames/WhiteContainer/WhiteContainer";
 import Popup from "./Popup";
-import Picker from "react-mobile-picker";
+import Picker from "react-scrollable-picker";
 
 const optionList = [
   "택시승강장",
@@ -15,14 +15,23 @@ const optionList = [
 
 const PopupInput = (props) => {
   const [value, setValue] = useState({ place: optionList[0] });
-  const optionGroups = { place: optionList };
+  const optionGroup = {
+    place: optionList.map((x) => {
+      return { value: x, label: x };
+    }),
+  };
 
   const resetValue = () => {
     if (props.value) setValue({ place: props.value });
     else setValue({ place: optionList[0] });
   };
   useEffect(() => {
-    if (props.isOpen) resetValue();
+    resetValue();
+    if (props.isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
   }, [props.isOpen]);
 
   const onClick = () => {
@@ -35,11 +44,13 @@ const PopupInput = (props) => {
 
   return (
     <Popup isOpen={props.isOpen} onClose={props.onClose} onClick={onClick}>
-      <div>
+      <div style={{ width: "calc(100% - 20px)", marginLeft: "10px" }}>
         <Picker
-          optionGroups={optionGroups}
+          optionGroups={optionGroup}
           valueGroups={value}
           onChange={handler}
+          itemHeight={30}
+          height={216}
         />
       </div>
     </Popup>
@@ -56,8 +67,8 @@ const PlaceElement = (props) => {
   const [isHover, setHover] = useState(false);
 
   const style = useSpring({
-    width: "calc(50% - 5px)",
-    background: `rgba(120,120,120,${isHover ? 0.05 : 0})`,
+    width: "calc(50% - 10px)",
+    background: `rgba(0,0,0,${isHover ? 0.04 : 0})`,
     borderRadius: "8px",
     config: { duration: 100 },
   });
@@ -66,25 +77,31 @@ const PlaceElement = (props) => {
     marginTop: "18px",
     width: "3px",
     height: "3px",
-    borderRadius: "2px",
-    background: props.value ? "#888888" : "black",
+    borderRadius: "1.5px",
+    background: props.value ? "#888888" : "#323232",
   };
   const styleType = {
     height: "14px",
-    lineHeight: "14px",
     marginTop: "5px",
     textAlign: "center",
     fontSize: "12px",
-    color: props.value ? "#888888" : "black",
+    letterSpacing: "0.03em",
+    color: props.value ? "#888888" : "#323232",
+  };
+  const styleTextGrid = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 49,
   };
   const styleText = {
-    height: "19px",
     lineHeight: "19px",
-    marginTop: "15px",
     textAlign: "center",
     fontSize: "16px",
+    letterSpacing: "0.13em",
     fontWeight: "bold",
-    color: props.value ? "black" : "#C8C8C8",
+    color: props.value ? "#323232" : "#C8C8C8",
+    wordBreak: "keep-all",
   };
   return (
     <animated.div
@@ -96,8 +113,14 @@ const PlaceElement = (props) => {
     >
       <div style={styleCircle} />
       <div style={styleType}>{props.type}</div>
-      <div style={styleText}>
-        {props.value ? props.value : "어디로 가나요?"}
+      <div style={styleTextGrid}>
+        <div style={styleText}>
+          {props.value
+            ? props.value
+            : props.type == "출발지"
+            ? "어디서 가시나요?"
+            : "어디로 가시나요?"}
+        </div>
       </div>
     </animated.div>
   );
@@ -113,13 +136,12 @@ const Place = (props) => {
   const [isPopup2, setPopup2] = useState(false);
 
   const styleLine = {
-    width: "1px",
-    height: "100%",
+    width: "0.5px",
+    height: "calc(100% + 5px)",
     backgroundImage:
       "linear-gradient(to bottom, #C8C8C8 50%, rgba(255,255,255,0) 0%)",
-    backgroundPosition: "up",
-    backgroundSize: "1px 14px",
-    backgroundRpeat: "repeat-y",
+    backgroundSize: "1px 10px",
+    marginTop: -2.5,
   };
 
   return (
@@ -130,6 +152,7 @@ const Place = (props) => {
           display: "flex",
           position: "relative",
           justifyContent: "space-between",
+          overflow: "hidden",
         }}
       >
         <PlaceElement

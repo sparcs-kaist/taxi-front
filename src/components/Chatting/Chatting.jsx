@@ -1,13 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
+import PropTypes from "prop-types";
 import { io } from "socket.io-client";
 import Header from "./Header/Header";
+import SideChatHeader from "./Header/SideChatHeader";
 import MessagesBody from "./MessagesBody/MessagesBody";
 import MessageForm from "./Input/MessageForm";
-import { backServer } from "../../serverconf"
-import "./Style/Chatting.css"
-import axios from "../Tool/axios";
+import SideChatMessageForm from "./Input/SideChatMessageForm";
+import regExpTest from "@tools/regExpTest";
+import axios from "@tools/axios";
+import { backServer } from "serverconf";
+import NewMessage from "./MessagesBody/NewMessage";
 
+import "./Style/Chatting.css";
 // Reponse
 // {
 //   data: Chat[], // pageSize 개의 채팅 내역
@@ -15,27 +20,15 @@ import axios from "../Tool/axios";
 //   totalPage: Number, //총 페이지 수(전체 채팅 수를 pageSize로 나눈 것)
 //   totalChats: Number, //총 채팅 개수
 // }
-const dummyDate = (new Date()).toISOString();
-const chatRoomResponse = {
-  data: [
-    { roomId: "roomId", authorName: "펭귄", authorId: "펭귄", text: "여러분 택시타요", time: dummyDate },
-    { roomId: "roomId", authorName: "펭귄", authorId: "펭귄", text: "택시 타", time: dummyDate },
-    { roomId: "roomId", authorName: "펭귄", authorId: "펭귄", text: "괜찮나요?", time: dummyDate },
-    { roomId: "roomId", authorName: "크롱", authorId: "크롱", text: "네 좋습니다", time: dummyDate },
-    { roomId: "roomId", authorName: "크롱", authorId: "크롱", text: "고고링", time: dummyDate },
-    { roomId: "roomId", authorName: "test1", authorId: "test1", text: "음 전 싫어요", time: dummyDate },
-    { roomId: "roomId", authorName: "test1", authorId: "test1", text: "크롱 있어서", time: dummyDate },
-  ],
-  // page: 0,
-  // totalPage: 0,
-  totalChats: 3,
-}
 
-const Chatting = (props) => {
-  const roomId = useParams().roomId;
+const Chatting = (prop) => {
+  const isSideChat = prop?.roomId !== undefined;
+  const roomId = isSideChat ? prop.roomId : useParams().roomId;
   const socket = useRef(undefined);
+  const messagesBody = useRef();
 
-  const [newMessage, setNewMessage] = useState("");
+  const [isReceieveChat, setIsReceiveChat] = useState(false);
+  const [inputStr, setInputStr] = useState("");
   const [chats, setChats] = useState([]);
   const [headerInfo, setHeaderInfo] = useState(undefined);
   const [user, setUser] = useState({
@@ -44,99 +37,165 @@ const Chatting = (props) => {
     nickname: "",
     profileImageUrl: "",
   });
+  const isInfScrollLoading = useRef(false);
 
-  const getUserInfo = async () => {
-    let newUser = user;
-    // id, name, 프로필 사진의 url을 아직 불러오지 않은 경우에만 불러옴니다.
-    if (!user.id) {
-      const userInfo = await axios.get("/json/logininfo");
-      if (userInfo.data) {
-        newUser = userInfo.data;
-        newUser.profileImageUrl = `${backServer}/static/profile-images/${newUser.id}`;
-      }
+  // scroll functions
+  const scrollToBottom = (bottom = 0) => {
+    if (messagesBody.current) {
+      messagesBody.current.scrollTop =
+        messagesBody.current.scrollHeight - bottom;
     }
-    // 닉네임을 불러옵니다.
-    const detailedUserInfo = await axios.get("/json/logininfo/detail");
-    if (detailedUserInfo.data) {
-      newUser.nickname = detailedUserInfo.data.nickname;
-    }
-    setUser(newUser);
   };
 
+  // get user info
   useEffect(async () => {
-    await getUserInfo();
+    const userInfo = await axios.get("/json/logininfo");
+    if (userInfo.data) {
+      const detailedUserInfo = await axios.get("/json/logininfo/detail");
+      if (detailedUserInfo.data) {
+        setUser({
+          name: userInfo.data.name,
+          id: userInfo.data.id,
+          profileImageUrl: `${backServer}/static/profile-images/${userInfo.data.id}`,
+          nickname: detailedUserInfo.data.nickname,
+        });
+      }
+    }
   }, []);
 
-  // MessageForm 관련 함수들 - 시작-----
-  const handleNewMessageChange = (event) => {
-    setNewMessage(event.target.value);
+  // scroll event
+  const handleScroll = () => {
+    const scrollTop = messagesBody.current.scrollTop;
+
+    // check if scroll is at the top, send chats-load event
+    // 맨 상단의 경우 인피니티 스크롤 요청을 call하면 안됨
+    if (scrollTop <= 0 && !isInfScrollLoading.current && chats.length > 0) {
+      isInfScrollLoading.current = true;
+      socket.current.emit("chats-load", chats[0].time, 30);
+    } else if (
+      messagesBody.current.scrollHeight - scrollTop <
+        50 + messagesBody.current.clientHeight - 10 &&
+      isReceieveChat
+    ) {
+      setIsReceiveChat(false);
+    }
+  };
+
+  // socket setting
+  useEffect(async () => {
+    socket.current = io(backServer, {
+      withCredentials: true,
+    });
+
+    socket.current.on("chats-join", (chats) => {
+      setChats(chats.chats);
+      // scroll to bottom on join
+      scrollToBottom();
+    });
+
+    // when receive chats
+    socket.current.on("chats-receive", (receiveChats) => {
+      setChats((prevChats) => {
+        setIsReceiveChat(true);
+        return [...prevChats, receiveChats.chat];
+      });
+    });
+
+    // load more chats upon receiving chats-load event (infinite scroll)
+    socket.current.on("chats-load", (loadChats) => {
+      const bottom =
+        messagesBody.current.scrollHeight - messagesBody.current.scrollTop;
+      console.log(bottom);
+      setChats((prevChats) => {
+        return [...loadChats.chats, ...prevChats];
+      });
+      isInfScrollLoading.current = false;
+      messagesBody.current.scrollTop =
+        messagesBody.current.scrollHeight - bottom;
+    });
+
+    // init
+    const roomInfo = await axios.get("/rooms/info", {
+      params: { id: roomId },
+    });
+    setHeaderInfo(roomInfo.data);
+    setChats([]);
+    socket.current.emit("chats-join", roomId);
+
+    // disconnect socket
+    return () => {
+      if (socket.current) socket.current.disconnect();
+    };
+  }, [roomId]);
+
+  // when there is new message, scroll to bottom
+  useEffect(() => {
+    if (!inputStr) {
+      scrollToBottom();
+    }
+  }, [inputStr]);
+
+  // handler
+  const sendMessage = (messageStr) => {
+    socket.current.emit("chats-send", { roomId: roomId, content: messageStr });
+    const chatComp = {
+      authorId: user.id,
+      authorName: user.nickname,
+      text: messageStr,
+      time: new Date().toISOString(),
+    };
+    // 보내졌는지 확인 여부 필요함?
+    setChats((prevChats) => {
+      return [...prevChats, chatComp];
+    });
+  };
+  const handleInputStr = (event) => {
+    setInputStr(event.target.value);
   };
   const handleSendMessage = (event) => {
     event?.preventDefault();
-    if (newMessage) sendMessage(newMessage);
-    setNewMessage("");
-  };
-  // MessageForm 관련 함수들 - 끝-------
-
-  // Events
-  const endterRoom = () => {
-
-  }
-  const receiveMessage = () => {
-
-  }
-  const requestMoreChats = () => {
-
-  }
-  const incomeUser = () => {
-
-  }
-  const exitUser = () => {
-
-  }
-  // const updateReadCnt = () => {}
-  const sendMessage = (messageStr) => {
-    socket.current.emit("chats-send", { roomId: roomId, content: messageStr });
+    if (regExpTest.chatMsg(inputStr)) {
+      sendMessage(inputStr);
+      setInputStr("");
+    }
   };
 
-  // socket conncet
-  const getSocket = () => {
-
-  }
-  useEffect(() => {
-    const _socket = io(backServer, {
-      withCredentials: true
-    });
-
-    socket.current = _socket;
-    socket.current.on("chats-join", (chats) => {
-      console.log(chats);
-      setChats(chats.chats)
-    })
-
-    axios.get(`/rooms/${ roomId }/info`).then(({ data }) => {
-      setHeaderInfo(data);
-      socket.current.emit("chats-join", roomId);
-      
-      // setChats(data); 
-    }).catch(() => {
-      // when error !
-    })
-    
-    axios.get(`/rooms/${ roomId }/info`).then(({data}) => {
-      console.log(data);
-    })
-  }, [roomId])
+  const onClick = (event) => {
+    setIsReceiveChat(false);
+    scrollToBottom();
+  };
 
   return (
-    <div className="ChatRoomContainer">
-      <Header info={ headerInfo } />
-      <MessagesBody chats={chats} user={user}/>
-      <MessageForm
-        newMessage={newMessage}
-        handleNewMessageChange={handleNewMessageChange}
-        handleSendMessage={handleSendMessage}
-      />
+    <div className="ChatContainer">
+      <div className="ChatRoomContainer">
+        {isSideChat ? (
+          <SideChatHeader info={headerInfo} />
+        ) : (
+          <Header info={headerInfo} />
+        )}
+        <MessagesBody
+          chats={chats}
+          user={user}
+          isSideChat={isSideChat}
+          isReceieveChat={isReceieveChat}
+          onClick={onClick}
+          forwardedRef={messagesBody}
+          handleScroll={handleScroll}
+        />
+        {isSideChat ? (
+          <SideChatMessageForm
+            newMessage={inputStr}
+            handleNewMessageChange={handleInputStr}
+            handleSendMessage={handleSendMessage}
+          />
+        ) : (
+          <MessageForm
+            newMessage={inputStr}
+            handleNewMessageChange={handleInputStr}
+            handleSendMessage={handleSendMessage}
+          />
+        )}
+      </div>
     </div>
   );
 };

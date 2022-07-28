@@ -1,30 +1,54 @@
-import React, { useState, useRef } from "react";
-import WhiteContainer from "../../Frame/WhiteContainer/WhiteContainer";
-import Title from "../../Frame/Title/Title";
-import Room from "../../Room/Room/RoomElement1";
-import Proptypes from "prop-types";
-
-import svgResult from "./svg_result.svg";
+import React from "react";
+import WhiteContainer from "@frames/WhiteContainer/WhiteContainer";
+import Room from "@components/Room/Room/RoomElement";
+import RoomList from "@components/Room/Room/RoomList";
+import PropTypes from "prop-types";
 
 const Result = (props) => {
-  const styleLine = {
-    height: "1px",
-    backgroundImage:
-      "linear-gradient(to right, #C8C8C8 50%, rgba(255,255,255,0) 0%)",
-    backgroundPosition: "bottom",
-    backgroundSize: "15px 1px",
-    backgroundRpeat: "repeat-x",
+  const styleEmpty = {
+    color: "#888888",
+    fontWeight: "700",
+    textAlign: "center",
+    margin: "50px 0px 30px",
   };
-  return (
-    <WhiteContainer marginAuto={false} padding="20px">
-      <Title img={svgResult} marginAuto={false} paddingTop="0px">
-        검색 결과
-      </Title>
-      <div style={{ height: "7px" }} />
-      <div style={styleLine} />
-      <Room marginTop="15px" />
-    </WhiteContainer>
-  );
+  if (!props.mobile) {
+    return (
+      <div style={{ marginTop: 26 }}>
+        <RoomList icon="search_result" title="검색 결과" list={props.result} />
+      </div>
+    );
+  } else {
+    return (
+      <>
+        {props.result.length == 0 ? (
+          <WhiteContainer marginAuto={false} style={styleEmpty}>
+            <div style={styleEmpty}>검색 결과가 없습니다</div>
+          </WhiteContainer>
+        ) : (
+          props.result.length != 0 &&
+          props.result.map((room, index) => {
+            return (
+              <Room
+                name={room.name}
+                origin={room.from}
+                destination={room.to}
+                date={room.time}
+                key={index}
+                marginTop="0px"
+                marginBottom="15px"
+                mobile={props.mobile}
+              />
+            );
+          })
+        )}
+      </>
+    );
+  }
+};
+
+Result.propTypes = {
+  result: PropTypes.array,
+  mobile: PropTypes.bool,
 };
 
 export default Result;

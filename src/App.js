@@ -1,31 +1,15 @@
 import React from "react";
-import "./App.css";
-import "./Font.css";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useParams,
-  HashRouter,
-} from "react-router-dom";
-import Frame from "./components/Frame/Frame";
-import Login from "./components/Login/Login";
-import Search from "./components/Search/Search/Search";
-import AddRoom from "./components/Search/AddRoom/AddRoom";
-import SearchResult from "./components/Search/SearchResult/SearchResult";
-import Myroom from "./components/Room/Myroom/Myroom";
-import Setting from "./components/Setting/Setting";
-//import Login from './components/user/login'
-import User from "./components/user/user";
-import NewUser from "./components/user/newuser";
-import Chatting from "./components/Chatting/Chatting";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Frame from "@frames/Frame";
+import Login from "@components/Login/Login";
+import Search from "@components/Search/Search/Search";
+import AddRoom from "@components/Search/AddRoom/AddRoom";
+import Myroom from "@components/Room/Myroom/Myroom";
+import MyPage from "@components/MyPage/MyPage";
+import Chatting from "@components/Chatting/Chatting";
 
-const SearchResultWithParam = () => (
-  <Frame navi="search">
-    <SearchResult param={useParams().pnum} />
-  </Frame>
-);
+import "App.css";
+import "Font.css";
 
 function App() {
   return (
@@ -44,9 +28,6 @@ function App() {
             <Search isSearch={true} />
           </Frame>
         </Route>
-        <Route exact path="/search/result/:pnum">
-          <SearchResultWithParam />
-        </Route>
         <Route exact path="/addroom">
           <Frame navi="addroom">
             <AddRoom />
@@ -57,17 +38,10 @@ function App() {
             <Myroom />
           </Frame>
         </Route>
-        <Route exact path="/setting">
-          <Frame navi="setting">
-            <Setting />
+        <Route exact path="/MyPage">
+          <Frame navi="MyPage">
+            <MyPage />
           </Frame>
-        </Route>
-        <Route exact path="/users">
-          <User />
-          <Link to="/users/new">New user</Link>
-        </Route>
-        <Route exact path="/users/new">
-          <NewUser />
         </Route>
         <Route exact path="/chatting/:roomId">
           <Chatting />

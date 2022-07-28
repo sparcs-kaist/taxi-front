@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import "../Style/MessagesBody.css";
 import ChatMessage from "./ChatMessage";
+import NewMessage from "./NewMessage";
+import PropTypes from "prop-types";
 // Chat {
 //   roomId: ObjectId, //방의 objectId
 //   authorName: String, //작성자 닉네임 (사용자 입,퇴장 알림 등 전체 메시지일 때: null)
@@ -9,13 +11,22 @@ import ChatMessage from "./ChatMessage";
 //   time: Date, //UTC 시각
 // }
 
-const MessagesBody = (prop) => {
-  const chats = prop.chats;
-  const user = prop.user;
+const MessagesBody = (props) => {
+  const chats = props.chats;
+  const user = props.user;
+  const isSideChat = props.isSideChat;
+  const forwardedRef = props.forwardedRef;
+  const handleScroll = props.handleScroll;
+  const onClick = props.onClick;
+  const isReceieveChat = props.isReceieveChat;
 
   return (
-    <div className="chattingMessagesBox">
-      <ol className="MessagesBody-container">
+    <div
+      className={isSideChat ? "sideChatMessagesBox" : "chatMessagesBox"}
+      ref={forwardedRef}
+      onScroll={handleScroll}
+    >
+      <ul className="MessagesBody-container">
         {chats.map((chat, i) => (
           <li key={i}>
             <ChatMessage
@@ -26,10 +37,20 @@ const MessagesBody = (prop) => {
             ></ChatMessage>
           </li>
         ))}
-      </ol>
+      </ul>
+      <NewMessage isReceieveChat={isReceieveChat} onClick={onClick} />
     </div>
-    
   );
+};
+
+MessagesBody.propTypes = {
+  chats: PropTypes.array,
+  user: PropTypes.object,
+  isSideChat: PropTypes.bool,
+  forwardedRef: PropTypes.any,
+  handleScroll: PropTypes.func,
+  isReceieveChat: PropTypes.bool,
+  onClick: PropTypes.func,
 };
 
 export default MessagesBody;

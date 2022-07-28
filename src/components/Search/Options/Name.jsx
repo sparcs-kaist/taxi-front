@@ -1,38 +1,38 @@
-import React, { useState } from "react";
-import CreateIcon from "@material-ui/icons/Create";
+import React from "react";
 import PropTypes from "prop-types";
-import WhiteContainer from "../../Frame/WhiteContainer/WhiteContainer";
+import WhiteContainer from "@frames/WhiteContainer/WhiteContainer";
+
+import CreateIcon from "@material-ui/icons/Create";
 
 const Name = (props) => {
   const style = {
     display: "flex",
-    alignContent: "row",
-    alginItems: "center",
+    alignItems: "center",
   };
   const styleIcon = {
     width: "14px",
-    height: "28px",
+    height: "14px",
     marginLeft: "15px",
+    marginBottom: "2px",
   };
   const styleName = {
     height: "28px",
     lineHeight: "28px",
     marginLeft: "6px",
-    width: "50px",
+    marginRight: "6px",
+    whiteSpace: "nowrap",
     fontSize: "14px",
   };
   const styleInput = {
     height: "28px",
-    width: "calc(100% - 100px)",
-    marginLeft: "10px",
-    paddingLeft: "10px",
-    paddingRight: "10px",
-    borderRadius: "8px",
+    width: "100%",
+    paddingLeft: "12px",
+    paddingRight: "12px",
+    borderRadius: "6px",
     border: "none",
     outline: "none",
     backgroundColor: "#FAFAFA",
     boxShadow: "inset 1px 1px 2.5px -1px rgba(0, 0, 0, 0.075)",
-    color: "black",
     fontSize: "14px",
   };
   return (

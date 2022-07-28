@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^6.4.3",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@material-ui/core": "^4.11.4",
@@ -14,9 +15,14 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
+    "browser-image-compression": "^2.0.0",
+    "craco-alias": "^3.0.1",
     "cross-env": "^7.0.3",
+    "dotenv": "^16.0.0",
+    "heic2any": "^0.0.3",
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
+    "moment": "^2.29.3",
     "prop-types": "^15.8.1",
     "react": "^17.0.1",
     "react-bootstrap": "^2.0.2",
@@ -38,11 +44,11 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "craco start",
+    "build": "craco build",
     "buildC": "cross-env GENERATE_SOURCEMAP=false react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "craco test",
+    "eject": "craco eject"
   },
   "eslintConfig": {
     "extends": [

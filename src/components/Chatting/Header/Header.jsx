@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSpring, animated } from "react-spring";
 import { useHistory } from "react-router";
-import RLayout from "../../Frame/ReactiveLayout/RLayout";
+import RLayout from "@frames/ReactiveLayout/RLayout";
 import PropTypes from "prop-types";
-import { backServer } from "../../../serverconf";
+import { backServer } from "serverconf";
+import { date2str } from "@tools/trans";
 
-import svgBack from "./svg_back.svg";
-import svgMenu from "./svg_menu.svg";
-import svgClose from "./svg_close.svg";
-import svgCloseGray from "./svg_closeGray.svg";
+import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
+import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const PopupToast = (props) => {
   const styleBgd = useSpring({
@@ -32,6 +32,7 @@ const PopupToast = (props) => {
     right: "10px",
     width: "24px",
     height: "24px",
+    fill: "#888888",
   };
   const styleTextLay = {
     textAlign: "center",
@@ -81,11 +82,8 @@ const PopupToast = (props) => {
         <RLayout.R1>
           <div style={style}>
             <div style={{ height: "30px" }}>
-              <img
-                src={svgCloseGray}
-                alt="close"
+              <CloseRoundedIcon
                 style={styleBtnClose}
-                className="BTNC"
                 onClick={() => props.onClick1()}
               />
             </div>
@@ -133,7 +131,7 @@ PopupToast.propTypes = {
   onClick2: PropTypes.func,
 };
 
-const BtnBack = (props) => {
+const BtnBack = () => {
   const [isHover, setHover] = useState(false);
   const history = useHistory();
   const style = useSpring({
@@ -152,6 +150,7 @@ const BtnBack = (props) => {
     left: "calc(50% - 15px)",
     width: "30px",
     height: "30px",
+    fill: "var(--purple)",
   };
 
   return (
@@ -162,7 +161,7 @@ const BtnBack = (props) => {
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
-      <img src={svgBack} alt="back" style={styleImg} />
+      <ArrowBackRoundedIcon style={styleImg} />
     </animated.div>
   );
 };
@@ -236,6 +235,7 @@ const BtnMenu = (props) => {
     left: "calc(50% - 15px)",
     width: "30px",
     height: "30px",
+    fill: "var(--purple)",
   };
 
   return (
@@ -246,7 +246,11 @@ const BtnMenu = (props) => {
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
-      <img src={props.token ? svgClose : svgMenu} alt="menu" style={styleImg} />
+      {props.token ? (
+        <CloseRoundedIcon style={styleImg} />
+      ) : (
+        <MenuRoundedIcon style={styleImg} />
+      )}
     </animated.div>
   );
 };
@@ -265,7 +269,7 @@ const Info = (props) => {
   const style2 = {
     fontSize: "13px",
     fontWeight: 300,
-    color: "black",
+    color: "#323232",
     textAlign: props.align,
   };
   return (
@@ -338,21 +342,9 @@ User.propTypes = {
   nickname: PropTypes.string,
 };
 
-const transDate = (x) => {
-  const date = new Date(x);
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const week = ["일", "월", "화", "수", "목", "금", "토"][date.getDay()];
-  const hour = date.getHours();
-  const min = date.getMinutes();
-  return `${year}년 ${month}월 ${day}일(${week}) ${
-    hour >= 12 ? "오후" : "오전"
-  } ${hour > 12 ? hour - 12 : hour}시 ${min}분`;
-};
 const HeaderBottom = (props) => {
   const part = props.info ? props.info.part : [];
-  const madeat = props.info ? transDate(props.info.madeat) : "";
+  const madeat = props.info ? date2str(props.info.madeat) : "";
   const styleLay1 = {
     marginLeft: "25px",
     marginRight: "25px",
@@ -375,10 +367,8 @@ const HeaderBottom = (props) => {
     gap: "5px 10px",
   };
 
-  // part.push({ id: '1234', nickname: 'hello world' }) // for test
-  // console.log(props.info);
   return (
-    <div className="chatting-header-bottom">
+    <div ref={props.refContent}>
       <div style={{ height: "10px" }} />
       <div style={styleLay1}>
         <Info title="출발 시각 & 날짜" align="left">
@@ -407,6 +397,7 @@ const HeaderBottom = (props) => {
   );
 };
 HeaderBottom.propTypes = {
+  refContent: PropTypes.any,
   info: PropTypes.any,
 };
 
@@ -466,22 +457,26 @@ const Header = (props) => {
     backgroundRpeat: "repeat-x",
   };
 
+  /* Resize Event */
+  const headerBottomLay = useRef();
+  const headerBottomLayPast = useRef(0);
+  const resizeEvent = () => {
+    const btmHeight = headerBottomLay.current.offsetHeight;
+    if (btmHeight > 0 && btmHeight !== headerBottomLayPast.current) {
+      headerBottomLayPast.current = btmHeight;
+      setBtmSize(btmHeight);
+    }
+  };
   useEffect(() => {
-    const resizeEvent = () => {
-      //const _bodyWidth = document.body.clientWidth;
-      const btmLay = document.getElementsByClassName("chatting-header-bottom");
-      if (btmLay.length > 0) {
-        const _btmSize = btmLay[0].offsetHeight;
-        if (btmSize !== _btmSize) setBtmSize(_btmSize);
-      }
-    };
     resizeEvent();
     window.addEventListener("resize", resizeEvent);
-
     return () => {
       window.removeEventListener("resize", resizeEvent);
     };
   }, []);
+  useEffect(() => {
+    resizeEvent();
+  }, [props.info]);
 
   return (
     <>
@@ -498,7 +493,7 @@ const Header = (props) => {
           <BtnMenu token={isOpen} onClick={() => setOpen(!isOpen)} />
         </div>
         <div style={styleBorder} />
-        <HeaderBottom info={props.info} />
+        <HeaderBottom info={props.info} refContent={headerBottomLay} />
       </animated.div>
     </>
   );
