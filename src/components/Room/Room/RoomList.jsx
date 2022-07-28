@@ -3,6 +3,7 @@ import WhiteContainer from "../../Frame/WhiteContainer/WhiteContainer";
 import Title from "../../Frame/Title/Title";
 import Room from "../../Room/Room/RoomElement";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const RoomList = (props) => {
   const styleLine = {
@@ -38,18 +39,20 @@ const RoomList = (props) => {
         props.list.length != 0 &&
         props.list.map((room, index) => {
           return (
-            <Room
+            <Link
               key={index}
-              name={room.name}
-              origin={room.from}
-              destination={room.to}
-              date={room.time}
-              marginTop="15px"
-              onClick={
-                props.onClick != null ? () => props.onClick(room._id) : () => {}
-              }
-              selected={props.selected == room._id}
-            />
+              to={`/myroom/${room._id}`}
+              style={{ textDecoration: "none" }}
+            >
+              <Room
+                name={room.name}
+                origin={room.from}
+                destination={room.to}
+                date={room.time}
+                marginTop="15px"
+                selected={props.selected == room._id}
+              />
+            </Link>
           );
         })
       )}

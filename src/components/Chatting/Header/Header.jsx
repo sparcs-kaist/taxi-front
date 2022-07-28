@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSpring, animated } from "react-spring";
-import { useHistory } from "react-router";
+import { useHistory, Link } from "react-router";
 import RLayout from "@frames/ReactiveLayout/RLayout";
 import PropTypes from "prop-types";
 import { backServer } from "serverconf";
