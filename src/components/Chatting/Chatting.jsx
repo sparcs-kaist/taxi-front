@@ -11,7 +11,6 @@ import regExpTest from "@tools/regExpTest";
 import axios from "@tools/axios";
 import { backServer } from "serverconf";
 import NewMessage from "./MessagesBody/NewMessage";
-
 import "./Style/Chatting.css";
 // Reponse
 // {
@@ -21,19 +20,11 @@ import "./Style/Chatting.css";
 //   totalChats: Number, //총 채팅 개수
 // }
 
-const Chatting = (prop) => {
-  const isSideChat = true;
-  let roomId;
+const Chatting = (props) => {
   const socket = useRef(undefined);
   const messagesBody = useRef();
-  let param = useParams();
 
   // check to see if side chat
-  if (param.roomId) {
-    roomId = param.roomId;
-  } else {
-    roomId = prop.roomId;
-  }
 
   const [isReceieveChat, setIsReceiveChat] = useState(false);
   const [inputStr, setInputStr] = useState("");
@@ -126,17 +117,17 @@ const Chatting = (prop) => {
 
     // init
     const roomInfo = await axios.get("/rooms/info", {
-      params: { id: roomId },
+      id: props.roomId,
     });
     setHeaderInfo(roomInfo.data);
     setChats([]);
-    socket.current.emit("chats-join", roomId);
+    socket.current.emit("chats-join", props.roomId);
 
     // disconnect socket
     return () => {
       if (socket.current) socket.current.disconnect();
     };
-  }, [roomId]);
+  }, []);
 
   // when there is new message, scroll to bottom
   useEffect(() => {
@@ -158,7 +149,10 @@ const Chatting = (prop) => {
 
   // handler
   const sendMessage = (messageStr) => {
-    socket.current.emit("chats-send", { roomId: roomId, content: messageStr });
+    socket.current.emit("chats-send", {
+      roomId: props.roomId,
+      content: messageStr,
+    });
     const chatComp = {
       authorId: user.id,
       authorName: user.nickname,
@@ -186,10 +180,12 @@ const Chatting = (prop) => {
     scrollToBottom();
   };
 
+  console.log(props.isSideChat);
+
   return (
     <div className="ChatContainer">
       <div className="ChatRoomContainer">
-        {isSideChat ? (
+        {props.isSideChat ? (
           <SideChatHeader info={headerInfo} onUnmount={onUnmount} />
         ) : (
           <Header info={headerInfo} />
@@ -197,13 +193,13 @@ const Chatting = (prop) => {
         <MessagesBody
           chats={chats}
           user={user}
-          isSideChat={isSideChat}
+          isSideChat={props.isSideChat}
           isReceieveChat={isReceieveChat}
           onClick={onClick}
           forwardedRef={messagesBody}
           handleScroll={handleScroll}
         />
-        {isSideChat ? (
+        {props.isSideChat ? (
           <SideChatMessageForm
             newMessage={inputStr}
             handleNewMessageChange={handleInputStr}
@@ -219,6 +215,11 @@ const Chatting = (prop) => {
       </div>
     </div>
   );
+};
+
+Chatting.propTypes = {
+  isSideChat: PropTypes.bool,
+  roomId: PropTypes.string,
 };
 
 export default Chatting;

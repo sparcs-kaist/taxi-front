@@ -18,7 +18,7 @@ import MyPage from "@components/MyPage/MyPage";
 import User from "@components/user/user";
 import NewUser from "@components/user/newuser";
 import Chatting from "@components/Chatting/Chatting";
-
+import NormalChat from "@components/Chatting/NormalChat";
 import "App.css";
 import "Font.css";
 
@@ -26,7 +26,9 @@ function App() {
   return (
     <BrowserRouter>
       <Route exact path="/login" component={Login} />
-      <Route exact path="/chatting/:roomId" component={Chatting} />
+      <Route exact path="/chatting/:roomId">
+        <NormalChat isSideChat={false} />
+      </Route>
       <Route>
         <Switch>
           <Route exact path="/" component={Search} />
