@@ -1,12 +1,18 @@
 import heic2any from "heic2any";
+import imageCompression from "browser-image-compression";
 
-const convertImg = async (imgOri) => {
+const convertImg = async (image) => {
   try {
-    if (!imgOri) return null;
-    if (/^image\/heic$/i.test(imgOri.type)) {
-      imgOri = await heic2any({ blob: imgOri, toType: "image/jpg" });
+    if (!image) return null;
+    if (/^image\/heic$/i.test(image.type)) {
+      image = await heic2any({ blob: image, toType: "image/jpg" });
     }
-    return imgOri;
+    const imageAfter = await imageCompression(image, {
+      maxSizeMb: 1,
+      maxWidthOrHeight: 1000,
+      maxIteration: 30,
+    });
+    return imageAfter;
   } catch (e) {
     // FIXME
     return null;
