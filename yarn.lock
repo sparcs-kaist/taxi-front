@@ -6392,6 +6392,11 @@
   "resolved" "https://registry.npmjs.org/he/-/he-1.2.0.tgz"
   "version" "1.2.0"
 
+"heic2any@^0.0.3":
+  "integrity" "sha512-1KG0LzZuIPiqyJjwLgGlgrgWd3UBwUE9g5+tOuHy8PbeH2hF0U4gc4ZWT4ChlCmcdISr1xVRimSehsTOPdRXnQ=="
+  "resolved" "https://registry.npmjs.org/heic2any/-/heic2any-0.0.3.tgz"
+  "version" "0.0.3"
+
 "hex-color-regex@^1.1.0":
   "integrity" "sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ=="
   "resolved" "https://registry.npmjs.org/hex-color-regex/-/hex-color-regex-1.1.0.tgz"

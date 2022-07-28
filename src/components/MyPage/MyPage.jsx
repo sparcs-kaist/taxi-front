@@ -71,7 +71,7 @@ BtnC.propTypes = {
 };
 
 const Setting = () => {
-  const [profToken, setProfToken] = useState(Date.now());
+  const [profToken, setProfToken] = useState(Date.now().toString());
   const [userInfo, setUserInfo] = useState({});
   const [userInfoDetail, setUserInfoDetail] = useState({});
   const [isOpen1, setOpen1] = useState(false);
@@ -94,7 +94,7 @@ const Setting = () => {
     axios.get("/json/logininfo/detail").then(({ data }) => {
       setUserInfoDetail(data);
     });
-    setProfToken(Date.now());
+    setProfToken(Date.now().toString());
   };
 
   useEffect(() => {

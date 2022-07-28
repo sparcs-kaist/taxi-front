@@ -4,6 +4,7 @@ import RLayout from "@frames/ReactiveLayout/RLayout";
 import ProfileImg from "../ProfileImg";
 import axios from "@tools/axios";
 import axiosOri from "axios";
+import convertImg from "@tools/convertImg";
 import PropTypes from "prop-types";
 
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
@@ -38,7 +39,7 @@ const BtnProfImg = (props) => {
 
   const handleUploadProfileImage = async () => {
     try {
-      const image = inputImage.current?.files?.[0];
+      const image = await convertImg(inputImage.current?.files?.[0]);
       if (!image) return;
       axios
         .post("/users/editProfileImg/getPUrl", { type: image.type })
@@ -81,7 +82,7 @@ const BtnProfImg = (props) => {
     <div style={{ textAlign: "center", marginTop: "10px" }}>
       <input
         type="file"
-        accept="image/jpg, image/png, image/jpeg"
+        accept="image/jpg, image/png, image/jpeg, image/heic"
         hidden
         onChange={handleUploadProfileImage}
         ref={inputImage}
