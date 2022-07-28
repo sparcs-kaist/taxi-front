@@ -7,8 +7,8 @@ import WhiteContainer from "@frames/WhiteContainer/WhiteContainer";
 import PopupSparcs from "./PopupSparcs/PopupSparcs";
 import PopupPolicy from "./PopupPolicy/PopupPolicy";
 import PopupMypage from "./PopupMypage/PopupMypage";
+import ProfileImg from "./ProfileImg";
 import axios from "@tools/axios";
-import { getS3Url } from "@tools/trans";
 
 import AssignmentRoundedIcon from "@material-ui/icons/AssignmentRounded";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
@@ -105,7 +105,6 @@ const Setting = () => {
     width: "50px",
     height: "50px",
     borderRadius: "25px",
-    backgroundColor: "#EEEEEE",
     overflow: "hidden",
   };
   const styleName = {
@@ -140,13 +139,9 @@ const Setting = () => {
       </Title>
       <WhiteContainer padding="16px 24px 24px">
         <div style={{ display: "flex", alignItems: "center" }}>
-          <img
-            src={getS3Url(
-              `/profile-img/${userInfoDetail.profileImgUrl}?token=${profToken}`
-            )}
-            style={styleProfImg}
-            alt="profile-img"
-          />
+          <div style={styleProfImg}>
+            <ProfileImg path={userInfoDetail.profileImgUrl} token={profToken} />
+          </div>
           <div style={styleName}>{userInfo ? userInfo.name : ""}</div>
         </div>
         <div

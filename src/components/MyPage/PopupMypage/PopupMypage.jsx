@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import { animated, useSpring } from "react-spring";
 import RLayout from "@frames/ReactiveLayout/RLayout";
+import ProfileImg from "../ProfileImg";
 import axios from "@tools/axios";
 import axiosOri from "axios";
-import { getS3Url } from "@tools/trans";
 import PropTypes from "prop-types";
 
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
@@ -16,25 +16,14 @@ const ProfImg = (props) => {
     height: "110px",
     borderRadius: "55px",
     overflow: "hidden",
-    background: "#EEEEEE",
-  };
-  const styleImg = {
-    position: "absolute",
-    top: "0px",
-    left: "0px",
-    width: "100%",
-    height: "100%",
   };
 
   return (
     <div style={style}>
       {props.profileImgUrl ? (
-        <img
-          src={getS3Url(
-            `/profile-img/${props.profileImgUrl}?token=${props.token}`
-          )}
-          style={styleImg}
-        />
+        <div style={style}>
+          <ProfileImg path={props.profileImgUrl} token={props.token} />
+        </div>
       ) : null}
     </div>
   );
