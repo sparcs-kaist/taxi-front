@@ -54,6 +54,7 @@ const AddRoom = () => {
           valueTime[0],
           valueTime[1]
         ),
+        maxPartLength: 4,
       });
       if (result.status === 200) {
         history.push("/myroom");
