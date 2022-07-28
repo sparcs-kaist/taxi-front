@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, useLocation } from "react-router-dom";
 import Navigation from "@frames/Navigation";
 import PopupPolicy from "@components/MyPage/PopupPolicy/PopupPolicy";
 import Footer from "@frames/Footer";
@@ -21,10 +21,11 @@ const HeaderLine = () => {
   );
 };
 
-const Frame = (props) => {
+const Frame = () => {
   const [userId, setUserId] = useState(undefined);
   const [showAgree, setShowAgree] = useState(false);
-  const currentPath = window.location.pathname;
+
+  let location = useLocation();
 
   const styleContainer = {
     width: "100%",
@@ -42,7 +43,7 @@ const Frame = (props) => {
       .catch((error) => {
         console.log("Frame error : " + error); // FIXME: 추후 수정 바람
       });
-  }, [currentPath]);
+  }, [location]);
 
   // 로그인 정보 수정될 때 요청
   useEffect(() => {
@@ -54,31 +55,27 @@ const Frame = (props) => {
   if (userId === undefined) {
     return (
       <div style={styleContainer}>
-        <Navigation selected={props.navi} />
+        <Navigation selected={location} />
         <HeaderLine />
       </div>
     );
   } else if (userId === null) {
     return <Redirect to={"/login?redirect=" + window.location.pathname} />;
+  } else if (
+    location.pathname.split("/")[1] === "login" ||
+    location.pathname.split("/")[1] === "chatting"
+  ) {
+    return <div></div>;
   } else {
     return (
       <div style={styleContainer}>
-        {props.children}
         <Footer />
-        <Navigation selected={props.navi} />
+        <Navigation selected={location} />
         <HeaderLine />
         <PopupPolicy isOpen={showAgree} onClose={() => setShowAgree(false)} />
       </div>
     );
   }
-};
-
-Frame.propTypes = {
-  navi: PropTypes.string,
-  children: PropTypes.element,
-};
-Frame.defaultProps = {
-  children: <div></div>,
 };
 
 export default Frame;

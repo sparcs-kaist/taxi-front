@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory, Link, Redirect, useParams } from "react-router-dom";
 import WhiteContainer from "@frames/WhiteContainer/WhiteContainer";
 import Title from "@frames/Title/Title";
 import RLayout from "@frames/ReactiveLayout/RLayout";
@@ -10,16 +10,13 @@ import axios from "@tools/axios";
 import PropTypes from "prop-types";
 import LibraryBooksRoundedIcon from "@material-ui/icons/LibraryBooksRounded";
 
-const Myroom = (props) => {
-  const history = useHistory();
+const Myroom = () => {
+  let history = useHistory();
   const reactiveState = RLayout.useR2state();
-  const [chatRoomId, setChatRoomId] = useState(props.param);
+  const [chatRoomId, setChatRoomId] = useState(useParams().roomId);
   const [roomList1, setRoomList1] = useState([]);
   const [roomList2, setRoomList2] = useState([]);
-
-  useEffect(() => {
-    setChatRoomId(props.param);
-  }, [props.param]);
+  let param = useParams();
 
   const updateRoomList = async () => {
     const result = await axios.get("rooms/searchByUser");
@@ -70,8 +67,8 @@ const Myroom = (props) => {
               origin={item.from}
               destination={item.to}
               date={item.time}
-              onClick={() => setChatRoomId(item._id)}
-              selected={chatRoomId === item._id}
+              // onClick={() => setChatRoomId(item._id)}
+              selected={param.roomId === item._id}
               marginTop="15px"
             />
           </Link>
@@ -97,7 +94,7 @@ const Myroom = (props) => {
             origin={item.from}
             destination={item.to}
             date={item.time}
-            selected={chatRoomId === item._id}
+            selected={param.roomId === item._id}
             marginTop="15px"
           />
         ))}
@@ -115,20 +112,15 @@ const Myroom = (props) => {
         </Title>
       </WhiteContainer>
       <div style={{ height: "500px", position: "relative" }}>
-        {chatRoomId ? (
-          <SideChat
-            roomId={chatRoomId}
-            onClose={() => setChatRoomId(null)}
-            setChatRoomId={setChatRoomId}
-          />
-        ) : null}
+        {param.roomId ? <SideChat roomId={param.roomId} /> : null}
       </div>
     </div>
   );
 
   useEffect(() => {
     if (reactiveState == 3) {
-      props.setShowFH(false);
+      console.log("reactiveState == 3");
+      history.push("/chatting/" + param.roomId);
     }
   }, [reactiveState]);
 
@@ -139,22 +131,9 @@ const Myroom = (props) => {
         내 방 리스트
       </Title>
       <div style={{ height: "20px" }} />
-      {reactiveState === 3 && chatRoomId ? (
-        <Chat
-          roomId={chatRoomId}
-          onClose={() => setChatRoomId(null)}
-          setChatRoomId={setChatRoomId}
-        />
-      ) : (
-        <RLayout.R2 priority="left" left={leftLay} right={rightLay} />
-      )}
+      <RLayout.R2 priority="left" left={leftLay} right={rightLay} />
     </div>
   );
-};
-
-Myroom.propTypes = {
-  param: PropTypes.string,
-  setShowFH: PropTypes.func,
 };
 
 export default Myroom;

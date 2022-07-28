@@ -64,7 +64,7 @@ const Navigation = (props) => {
             to="/search"
             name="검색"
             icon={(style) => <SearchRoundedIcon style={style} alt="search" />}
-            selected={props.selected === "search"}
+            selected={props.selected.pathname === "/search"}
           />
           <NavigationBtn
             to="/addroom"
@@ -72,7 +72,7 @@ const Navigation = (props) => {
             icon={(style) => (
               <LibraryAddRoundedIcon style={style} alt="addroom" />
             )}
-            selected={props.selected === "addroom"}
+            selected={props.selected.pathname === "/addroom"}
           />
           <NavigationBtn
             to="/myroom"
@@ -80,7 +80,7 @@ const Navigation = (props) => {
             icon={(style) => (
               <LibraryBooksRoundedIcon style={style} alt="myroom" />
             )}
-            selected={props.selected === "myroom"}
+            selected={props.selected.pathname === "/myroom"}
           />
           <NavigationBtn
             to="/mypage"
@@ -88,7 +88,7 @@ const Navigation = (props) => {
             icon={(style) => (
               <AccountCircleRoundedIcon style={style} alt="mypage" />
             )}
-            selected={props.selected === "mypage"}
+            selected={props.selected.pathname === "/mypage"}
           />
         </div>
       </RLayout.R1>
@@ -97,7 +97,7 @@ const Navigation = (props) => {
 };
 
 Navigation.propTypes = {
-  selected: PropTypes.string,
+  selected: PropTypes.object,
 };
 
 export default Navigation;

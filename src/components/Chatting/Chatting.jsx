@@ -23,9 +23,17 @@ import "./Style/Chatting.css";
 
 const Chatting = (prop) => {
   const isSideChat = true;
-  const roomId = prop.roomId;
+  let roomId;
   const socket = useRef(undefined);
   const messagesBody = useRef();
+  let param = useParams();
+
+  // check to see if side chat
+  if (param.roomId) {
+    roomId = param.roomId;
+  } else {
+    roomId = prop.roomId;
+  }
 
   const [isReceieveChat, setIsReceiveChat] = useState(false);
   const [inputStr, setInputStr] = useState("");
