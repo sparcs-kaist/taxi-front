@@ -70,7 +70,7 @@ BtnC.propTypes = {
   onClick: PropTypes.func,
 };
 
-const Setting = () => {
+const Mypage = () => {
   const [profToken, setProfToken] = useState(Date.now().toString());
   const [userInfo, setUserInfo] = useState({});
   const [userInfoDetail, setUserInfoDetail] = useState({});
@@ -198,4 +198,4 @@ const Setting = () => {
   );
 };
 
-export default Setting;
+export default Mypage;

@@ -5,8 +5,9 @@ import Login from "@components/Login/Login";
 import Search from "@components/Search/Search/Search";
 import AddRoom from "@components/Search/AddRoom/AddRoom";
 import Myroom from "@components/Room/Myroom/Myroom";
-import MyPage from "@components/MyPage/MyPage";
+import Mypage from "@components/Mypage/Mypage";
 import WrapChat from "@components/Chatting/WrapChat";
+
 import "App.css";
 import "Font.css";
 
@@ -21,7 +22,7 @@ function App() {
           <Route exact path="/addroom" component={AddRoom} />
           <Route exact path="/myroom" component={Myroom} />
           <Route exact path="/myroom/:roomId" component={Myroom} />
-          <Route exact path="/MyPage" component={MyPage} />
+          <Route exact path="/MyPage" component={Mypage} />
           <Route exact path="/chatting/:roomId" component={WrapChat} />
         </Switch>
       </Skeleton>
