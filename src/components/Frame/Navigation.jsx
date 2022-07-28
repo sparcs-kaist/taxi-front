@@ -79,25 +79,25 @@ const Navigation = (props) => {
             to="/search"
             name="검색"
             icon="search"
-            selected={props.selected === "search"}
+            selected={props.path.startsWith("/search")}
           />
           <NavigationBtn
             to="/addroom"
             name="방 개설"
             icon="add"
-            selected={props.selected === "addroom"}
+            selected={props.path.startsWith("/addroom")}
           />
           <NavigationBtn
             to="/myroom"
             name="내 방"
             icon="myroom"
-            selected={props.selected === "myroom"}
+            selected={props.path.startsWith("/myroom")}
           />
           <NavigationBtn
             to="/mypage"
             name="마이 페이지"
             icon="mypage"
-            selected={props.selected === "mypage"}
+            selected={props.path.startsWith("/mypage")}
           />
         </div>
       </RLayout.R1>
@@ -106,7 +106,7 @@ const Navigation = (props) => {
 };
 
 Navigation.propTypes = {
-  selected: PropTypes.string,
+  path: PropTypes.string,
 };
 
 export default Navigation;
