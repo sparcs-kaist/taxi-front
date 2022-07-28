@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
-// import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import WhiteContainer from "@frames/WhiteContainer/WhiteContainer";
 import Title from "@frames/Title/Title";
 import RLayout from "@frames/ReactiveLayout/RLayout";
 import RoomList from "@components/Room/Room/RoomList";
-import SideChat from "./SideChat";
+import SideChat from "../../Chatting/SideChat";
 import axios from "@tools/axios";
 
 // import Chatting from "../../../components/Chatting/Chatting";
 
 const Myroom = () => {
-  // const history = useHistory();
-  // const reactiveState = RLayout.useR2state();
-  const [chatRoomId, setChatRoomId] = useState(null);
+  const history = useHistory();
+  const reactiveState = RLayout.useR2state();
   const [currentRoom, setCurrentRoom] = useState([]);
   const [pastRoom, setPastRoom] = useState([]);
+  const param = useParams();
 
   const updateRoomList = async () => {
     const result = await axios.get("rooms/searchByUser");
@@ -29,9 +29,11 @@ const Myroom = () => {
     updateRoomList();
   }, []);
 
-  // if (reactiveState == 3 && chatRoomId) {
-  //   history.push(`/chatting/${chatRoomId}`);
-  // }
+  useEffect(() => {
+    if (reactiveState == 3 && param.roomId) {
+      history.replace("/chatting/" + param.roomId);
+    }
+  });
 
   const leftLay = (
     <div>
@@ -39,15 +41,13 @@ const Myroom = () => {
         icon="current"
         title="참여 중인 방"
         list={currentRoom}
-        onClick={(id) => setChatRoomId(id)}
-        selected={chatRoomId}
+        selected={param.roomId}
       />
       <RoomList
         icon="past"
         title="과거 참여 방"
         list={pastRoom}
-        onClick={(id) => setChatRoomId(id)}
-        selected={chatRoomId}
+        selected={param.roomId}
       />
     </div>
   );
@@ -59,9 +59,7 @@ const Myroom = () => {
         </Title>
       </WhiteContainer>
       <div style={{ height: "500px", position: "relative" }}>
-        {chatRoomId ? (
-          <SideChat roomId={chatRoomId} onClose={() => setChatRoomId(null)} />
-        ) : null}
+        {param.roomId ? <SideChat roomId={param.roomId} /> : null}
       </div>
     </div>
   );
