@@ -7,8 +7,8 @@ import WhiteContainer from "@frames/WhiteContainer/WhiteContainer";
 import PopupSparcs from "./PopupSparcs/PopupSparcs";
 import PopupPolicy from "./PopupPolicy/PopupPolicy";
 import PopupMypage from "./PopupMypage/PopupMypage";
+import ProfileImg from "./ProfileImg";
 import axios from "@tools/axios";
-import { backServer } from "serverconf";
 
 import AssignmentRoundedIcon from "@material-ui/icons/AssignmentRounded";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
@@ -71,7 +71,7 @@ BtnC.propTypes = {
 };
 
 const Setting = () => {
-  const [profToken, setProfToken] = useState(Date.now());
+  const [profToken, setProfToken] = useState(Date.now().toString());
   const [userInfo, setUserInfo] = useState({});
   const [userInfoDetail, setUserInfoDetail] = useState({});
   const [isOpen1, setOpen1] = useState(false);
@@ -94,7 +94,7 @@ const Setting = () => {
     axios.get("/json/logininfo/detail").then(({ data }) => {
       setUserInfoDetail(data);
     });
-    setProfToken(Date.now());
+    setProfToken(Date.now().toString());
   };
 
   useEffect(() => {
@@ -105,7 +105,6 @@ const Setting = () => {
     width: "50px",
     height: "50px",
     borderRadius: "25px",
-    backgroundColor: "#EEEEEE",
     overflow: "hidden",
   };
   const styleName = {
@@ -140,11 +139,9 @@ const Setting = () => {
       </Title>
       <WhiteContainer padding="16px 24px 24px">
         <div style={{ display: "flex", alignItems: "center" }}>
-          <img
-            src={`${backServer}/static/profile-images/${userInfo.id}?${profToken}`}
-            style={styleProfImg}
-            alt="profile-img"
-          />
+          <div style={styleProfImg}>
+            <ProfileImg path={userInfoDetail.profileImgUrl} token={profToken} />
+          </div>
           <div style={styleName}>{userInfo ? userInfo.name : ""}</div>
         </div>
         <div
