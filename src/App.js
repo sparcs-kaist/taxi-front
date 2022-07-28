@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import Frame from "@frames/Frame";
+import Skeleton from "@frames/Skeleton/Skeleton";
 import Login from "@components/Login/Login";
 import Search from "@components/Search/Search/Search";
 import AddRoom from "@components/Search/AddRoom/AddRoom";
@@ -14,39 +14,31 @@ import "Font.css";
 function App() {
   return (
     <Router>
-      <Switch>
-        <Route exact path="/login">
-          <Login />
-        </Route>
-        <Route exact path="/">
-          <Frame navi="search">
+      <Skeleton>
+        <Switch>
+          <Route exact path="/login">
+            <Login />
+          </Route>
+          <Route exact path="/">
             <Search isSearch={true} />
-          </Frame>
-        </Route>
-        <Route exact path="/search">
-          <Frame navi="search">
+          </Route>
+          <Route exact path="/search">
             <Search isSearch={true} />
-          </Frame>
-        </Route>
-        <Route exact path="/addroom">
-          <Frame navi="addroom">
+          </Route>
+          <Route exact path="/addroom">
             <AddRoom />
-          </Frame>
-        </Route>
-        <Route exact path="/myroom">
-          <Frame navi="myroom">
+          </Route>
+          <Route exact path="/myroom">
             <Myroom />
-          </Frame>
-        </Route>
-        <Route exact path="/MyPage">
-          <Frame navi="MyPage">
+          </Route>
+          <Route exact path="/MyPage">
             <MyPage />
-          </Frame>
-        </Route>
-        <Route exact path="/chatting/:roomId">
-          <Chatting />
-        </Route>
-      </Switch>
+          </Route>
+          <Route exact path="/chatting/:roomId">
+            <Chatting />
+          </Route>
+        </Switch>
+      </Skeleton>
     </Router>
   );
 }
