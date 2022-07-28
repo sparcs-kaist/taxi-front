@@ -4,7 +4,7 @@ import WhiteContainer from "@frames/WhiteContainer/WhiteContainer";
 import Title from "@frames/Title/Title";
 import RLayout from "@frames/ReactiveLayout/RLayout";
 import RoomList from "@components/Room/Room/RoomList";
-import SideChat from "../../Chatting/SideChat";
+import SideChat from "@components/Chatting/SideChat";
 import axios from "@tools/axios";
 
 // import Chatting from "../../../components/Chatting/Chatting";
