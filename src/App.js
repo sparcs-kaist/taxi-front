@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Skeleton from "@frames/Skeleton/Skeleton";
 import Login from "@components/Login/Login";
 import Search from "@components/Search/Search/Search";
@@ -22,7 +22,7 @@ function App() {
           <Route exact path="/addroom" component={AddRoom} />
           <Route exact path="/myroom" component={Myroom} />
           <Route exact path="/myroom/:roomId" component={Myroom} />
-          <Route exact path="/MyPage" component={Mypage} />
+          <Route exact path="/mypage" component={Mypage} />
           <Route exact path="/chatting/:roomId" component={WrapChat} />
         </Switch>
       </Skeleton>
