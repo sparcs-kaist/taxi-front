@@ -1,6 +1,8 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import ScrollRestoration from "react-scroll-restoration";
 import Skeleton from "@frames/Skeleton/Skeleton";
+
 import Login from "@components/Login/Login";
 import Search from "@components/Search/Search/Search";
 import AddRoom from "@components/Search/AddRoom/AddRoom";
@@ -11,9 +13,10 @@ import WrapChat from "@components/Chatting/WrapChat";
 import "App.css";
 import "Font.css";
 
-function App() {
+const App = () => {
   return (
     <Router>
+      <ScrollRestoration />
       <Skeleton>
         <Switch>
           <Route exact path="/login" component={Login} />
@@ -28,6 +31,6 @@ function App() {
       </Skeleton>
     </Router>
   );
-}
+};
 
 export default App;
