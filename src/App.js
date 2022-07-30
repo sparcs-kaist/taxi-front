@@ -25,7 +25,7 @@ const App = () => {
           <Route exact path="/addroom" component={AddRoom} />
           <Route exact path="/myroom" component={Myroom} />
           <Route exact path="/myroom/:roomId" component={Myroom} />
-          <Route exact path="/MyPage" component={Mypage} />
+          <Route exact path="/mypage" component={Mypage} />
           <Route exact path="/chatting/:roomId" component={WrapChat} />
         </Switch>
       </Skeleton>

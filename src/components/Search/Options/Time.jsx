@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import WhiteContainer from "@frames/WhiteContainer/WhiteContainer";
 import Popup from "./Popup";
-import Picker from "react-scrollable-picker";
+import Picker from "react-mobile-picker-mod";
 
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 
@@ -14,12 +14,12 @@ const PopupInput = (props) => {
   const [value2, setValue2] = useState({ min: optionsMin[0] });
   const option1Group = {
     hour: optionsHour.map((x) => {
-      return { value: x, label: x };
+      return x;
     }),
   };
   const option2Group = {
     min: optionsMin.map((x) => {
-      return { value: x, label: x };
+      return x;
     }),
   };
 
