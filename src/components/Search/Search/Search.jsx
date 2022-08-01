@@ -6,6 +6,7 @@ import SubmitButton from "@frames/SubmitButton/SubmitButton";
 import SideResult from "../SearchResult/SideResult";
 import axios from "@tools/axios";
 import moment from "moment";
+import { getToday10 } from "@tools/trans";
 import PropTypes from "prop-types";
 
 import OptionName from "../Options/Name";
@@ -107,7 +108,6 @@ const Search = () => {
   const [valueName, setName] = useState("");
   const [valuePlace, setPlace] = useState([null, null]);
   const [valueDate, setDate] = useState([null, null, null]);
-  const today = moment();
   const [valueTime, setTime] = useState(["0", "00"]);
   const [searchResult, setSearchResult] = useState(null);
   const [disable, setDisable] = useState(true);
@@ -155,6 +155,7 @@ const Search = () => {
   }, [searchOptions.date]);
   useEffect(() => {
     if (searchOptions.time) {
+      const today = getToday10();
       setTime([today.hour().toString(), today.minute().toString()]);
     } else {
       setTime(["0", "00"]);
@@ -207,10 +208,6 @@ const Search = () => {
         });
     }
   };
-
-  // if (reactiveState == 3 && searchResult !== null) {
-  //   history.push(`/search/result/123`);
-  // }
 
   const leftLay = (
     <div>
