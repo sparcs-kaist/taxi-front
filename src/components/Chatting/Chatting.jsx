@@ -11,6 +11,8 @@ import regExpTest from "@tools/regExpTest";
 import axios from "@tools/axios";
 import { backServer } from "serverconf";
 import NewMessage from "./MessagesBody/NewMessage";
+import convertImg from "@tools/convertImg";
+import axiosOri from "axios";
 
 import "./Style/Chatting.css";
 // Reponse
@@ -26,16 +28,19 @@ const Chatting = (props) => {
   const messagesBody = useRef();
 
   const [isReceieveChat, setIsReceiveChat] = useState(false);
+  const [isSendingChat, setIsSendingChat] = useState("");
   const [inputStr, setInputStr] = useState("");
   const [chats, setChats] = useState([]);
   const [headerInfo, setHeaderInfo] = useState(undefined);
   const [user, setUser] = useState({
-    name: "",
     id: "",
     nickname: "",
     profileImageUrl: "",
   });
   const isInfScrollLoading = useRef(false);
+  const inputImage = useRef(null);
+
+  console.log(chats);
 
   // scroll functions
   const scrollToBottom = (bottom = 0) => {
@@ -47,17 +52,13 @@ const Chatting = (props) => {
 
   // get user info
   useEffect(async () => {
-    const userInfo = await axios.get("/json/logininfo");
-    if (userInfo.data) {
-      const detailedUserInfo = await axios.get("/json/logininfo/detail");
-      if (detailedUserInfo.data) {
-        setUser({
-          name: userInfo.data.name,
-          id: userInfo.data.id,
-          profileImageUrl: `${backServer}/static/profile-images/${userInfo.data.id}`,
-          nickname: detailedUserInfo.data.nickname,
-        });
-      }
+    const detailedUserInfo = await axios.get("/json/logininfo/detail");
+    if (detailedUserInfo.data) {
+      setUser({
+        id: detailedUserInfo.data.oid,
+        profileImageUrl: detailedUserInfo.data.profileImageUrl,
+        nickname: detailedUserInfo.data.nickname,
+      });
     }
   }, []);
 
@@ -94,17 +95,21 @@ const Chatting = (props) => {
 
     // when receive chats
     socket.current.on("chats-receive", (receiveChats) => {
-      setChats((prevChats) => {
+      console.log(receiveChats);
+      if (receiveChats.chat?.authorId === user.id) {
+        setIsSendingChat("");
+      } else {
         setIsReceiveChat(true);
-        return [...prevChats, receiveChats.chat];
-      });
+        setChats((prevChats) => {
+          return [...prevChats, receiveChats.chat];
+        });
+      }
     });
 
     // load more chats upon receiving chats-load event (infinite scroll)
     socket.current.on("chats-load", (loadChats) => {
       const bottom =
         messagesBody.current.scrollHeight - messagesBody.current.scrollTop;
-      console.log(bottom);
       setChats((prevChats) => {
         return [...loadChats.chats, ...prevChats];
       });
@@ -125,7 +130,7 @@ const Chatting = (props) => {
     return () => {
       if (socket.current) socket.current.disconnect();
     };
-  }, []);
+  }, [user.id]);
 
   // when there is new message, scroll to bottom
   useEffect(() => {
@@ -141,12 +146,15 @@ const Chatting = (props) => {
       content: messageStr,
     });
     const chatComp = {
+      roomId: props.roomId,
       authorId: user.id,
       authorName: user.nickname,
-      text: messageStr,
+      content: messageStr,
       time: new Date().toISOString(),
+      type: "text",
     };
     // 보내졌는지 확인 여부 필요함?
+    setIsSendingChat(user.id);
     setChats((prevChats) => {
       return [...prevChats, chatComp];
     });
@@ -156,15 +164,55 @@ const Chatting = (props) => {
   };
   const handleSendMessage = (event) => {
     event?.preventDefault();
-    if (regExpTest.chatMsg(inputStr)) {
+    if (regExpTest.chatMsg(inputStr) && isSendingChat !== user.id) {
       sendMessage(inputStr);
       setInputStr("");
     }
   };
-
   const onClick = (event) => {
     setIsReceiveChat(false);
     scrollToBottom();
+  };
+
+  // handle image upload
+  const handleSendImage = async (image) => {
+    console.log(image);
+    try {
+      if (!image) return;
+      axios
+        .post("chats/uploadChatImg/getPUrl", { type: image.type })
+        .then(async ({ data }) => {
+          console.log(data);
+          if (data.url && data.fields) {
+            const formData = new FormData();
+            for (const key in data.fields) {
+              formData.append(key, data.fields[key]);
+            }
+            formData.append("file", image);
+            const res = await axiosOri.post(data.url, formData);
+            if (res.status === 204) {
+              const res2 = await axios.post("chats/uploadChatImg/done", {
+                id: data.id,
+              });
+
+              if (res2.data.result) {
+                alert("채팅 사진이 업로드");
+              } else {
+                // FIXME
+                alert("실패");
+              }
+            } else {
+              // FIXME
+              alert("실패");
+            }
+          } else {
+            // FIXME
+            alert("실패");
+          }
+        });
+    } catch (e) {
+      alert("실패");
+    }
   };
 
   return (
@@ -195,6 +243,8 @@ const Chatting = (props) => {
             newMessage={inputStr}
             handleNewMessageChange={handleInputStr}
             handleSendMessage={handleSendMessage}
+            handleSendImage={handleSendImage}
+            inputImage={inputImage}
           />
         )}
       </div>

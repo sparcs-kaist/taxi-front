@@ -3,7 +3,7 @@ import "../Style/UserAvatar.css";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-const UserAvatar = ({ name, thumbnailUrl, chatMessage }) => {
+const UserAvatar = ({ name, thumbnailUrl }) => {
   UserAvatar.propTypes = {
     name: PropTypes.string,
     thumbnailUrl: PropTypes.string,
@@ -12,7 +12,7 @@ const UserAvatar = ({ name, thumbnailUrl, chatMessage }) => {
   return (
     <>
       <img
-        src={"/testCat.jpeg"}
+        src={thumbnailUrl}
         alt={name}
         title={name}
         className={"avatar"}
