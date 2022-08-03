@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import Chatting from "@components/Chatting/Chatting";
 
-const SideChat = ({ roomId, onClose }) => {
+const SideChat = ({ roomId }) => {
   const styleSideChat = {
     width: "100%",
     height: "100%",
@@ -13,14 +13,13 @@ const SideChat = ({ roomId, onClose }) => {
   };
   return (
     <div style={styleSideChat}>
-      <Chatting roomId={roomId} />
+      <Chatting roomId={roomId} isSideChat={true} />
     </div>
   );
 };
 
 SideChat.propTypes = {
   roomId: PropTypes.string,
-  onClose: PropTypes.func,
 };
 
 export default SideChat;

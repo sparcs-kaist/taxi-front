@@ -4,7 +4,7 @@ import RLayout from "@frames/ReactiveLayout/RLayout";
 import Title from "@frames/Title/Title";
 import SubmitButton from "@frames/SubmitButton/SubmitButton";
 import axios from "@tools/axios";
-import { date2str } from "@tools/trans";
+import { date2str, getToday10 } from "@tools/trans";
 
 import OptionName from "../Options/Name";
 import OptionPlace from "../Options/Place";
@@ -17,10 +17,10 @@ const AddRoom = () => {
   const [valueName, setName] = useState("");
   const [valuePlace, setPlace] = useState([null, null]);
   const [valueDate, setDate] = useState([null, null, null]);
-  const today = new Date();
+  const today = getToday10();
   const [valueTime, setTime] = useState([
-    today.getHours().toString(),
-    today.getMinutes().toString(),
+    today.hour().toString(),
+    today.minute().toString(),
   ]);
 
   let validatedMsg = null;
@@ -54,6 +54,7 @@ const AddRoom = () => {
           valueTime[0],
           valueTime[1]
         ),
+        maxPartLength: 4,
       });
       if (result.status === 200) {
         history.push("/myroom");
