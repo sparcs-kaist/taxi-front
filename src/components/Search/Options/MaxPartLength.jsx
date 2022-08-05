@@ -5,7 +5,7 @@ import Counter from "../../Frame/Counter/Counter";
 
 import PeopleIcon from "@material-ui/icons/PeopleAlt";
 
-const PeopleNumber = (props) => {
+const MaxPartLength = (props) => {
   const { value, handler } = props;
 
   const style = {
@@ -45,9 +45,9 @@ const PeopleNumber = (props) => {
   );
 };
 
-PeopleNumber.propTypes = {
+MaxPartLength.propTypes = {
   value: PropTypes.number,
   handler: PropTypes.func,
 };
 
-export default PeopleNumber;
+export default MaxPartLength;

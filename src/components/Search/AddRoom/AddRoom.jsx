@@ -10,7 +10,7 @@ import OptionName from "../Options/Name";
 import OptionPlace from "../Options/Place";
 import OptionDate from "../Options/Date";
 import OptionTime from "../Options/Time";
-import OptionPeopleNumber from "../Options/PeopleNumber";
+import OptionMaxPartLength from "../Options/MaxPartLength";
 
 const AddRoom = () => {
   const onCall = useRef(false);
@@ -76,7 +76,7 @@ const AddRoom = () => {
         <OptionDate value={valueDate} handler={setDate} />
         <OptionName value={valueName} handler={setName} />
         <OptionTime value={valueTime} handler={setTime} page="add" />
-        <OptionPeopleNumber
+        <OptionMaxPartLength
           value={valueMaxPartLength}
           handler={setMaxPartLength}
         />
