@@ -73,13 +73,17 @@ BtnC.propTypes = {
 
 const Mypage = () => {
   const [profToken, setProfToken] = useState(Date.now().toString());
-  const [userInfoDetail, setUserInfoDetail] = useState({});
   const [isOpen1, setOpen1] = useState(false);
   const [isOpen2, setOpen2] = useState(false);
   const [isOpen3, setOpen3] = useState(false);
   const history = useHistory();
 
   const [errorUserInfo, userInfo] = useTaxiAPI.get("/json/logininfo");
+  const [errorUserInfoDetail, userInfoDetail] = useTaxiAPI.get(
+    "/json/logininfo/detail",
+    {},
+    [profToken]
+  );
 
   const handleLogout = async () => {
     const response = await axios.get("/auth/logout");
@@ -89,16 +93,7 @@ const Mypage = () => {
       alert("로그아웃에 실패했습니다.");
     }
   };
-  const handleUpdate = () => {
-    axios.get("/json/logininfo/detail").then(({ data }) => {
-      setUserInfoDetail(data);
-    });
-    setProfToken(Date.now().toString());
-  };
-
-  useEffect(() => {
-    handleUpdate();
-  }, []);
+  const handleUpdate = () => setProfToken(Date.now().toString());
 
   const styleProfImg = {
     width: "50px",
