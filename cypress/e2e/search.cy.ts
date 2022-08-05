@@ -15,11 +15,11 @@ let createdRoomId: null | number = null;
 describe("Create room tests", () => {
   before(() => {
     login();
-    cy.request("GET", "http://localhost:4000/rooms/removeAllRoom");
+    cy.request("GET", `${Cypress.env("backendUrl")}/rooms/removeAllRoom`);
   });
 
   it("Create room", () => {
-    cy.intercept("POST", "http://localhost:4000/rooms/create", (req) => {
+    cy.intercept("POST", `${Cypress.env("backendUrl")}/rooms/create`, (req) => {
       req.continue((res) => {
         expect(res.statusCode).to.eq(200);
         console.log("Room created: ", res.body._id);
