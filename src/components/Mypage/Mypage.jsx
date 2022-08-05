@@ -8,6 +8,7 @@ import PopupSparcs from "./PopupSparcs/PopupSparcs";
 import PopupPolicy from "./PopupPolicy/PopupPolicy";
 import PopupMypage from "./PopupMypage/PopupMypage";
 import ProfileImg from "./ProfileImg";
+import useTaxiAPI from "@components/Frame/useTaxiAPI/useTaxiAPI";
 import axios from "@tools/axios";
 
 import AssignmentRoundedIcon from "@material-ui/icons/AssignmentRounded";
@@ -72,12 +73,13 @@ BtnC.propTypes = {
 
 const Mypage = () => {
   const [profToken, setProfToken] = useState(Date.now().toString());
-  const [userInfo, setUserInfo] = useState({});
   const [userInfoDetail, setUserInfoDetail] = useState({});
   const [isOpen1, setOpen1] = useState(false);
   const [isOpen2, setOpen2] = useState(false);
   const [isOpen3, setOpen3] = useState(false);
   const history = useHistory();
+
+  const [errorUserInfo, userInfo] = useTaxiAPI.get("/json/logininfo");
 
   const handleLogout = async () => {
     const response = await axios.get("/auth/logout");
@@ -88,9 +90,6 @@ const Mypage = () => {
     }
   };
   const handleUpdate = () => {
-    axios.get("/json/logininfo").then(({ data }) => {
-      setUserInfo(data);
-    });
     axios.get("/json/logininfo/detail").then(({ data }) => {
       setUserInfoDetail(data);
     });
@@ -140,7 +139,12 @@ const Mypage = () => {
       <WhiteContainer padding="16px 24px 24px">
         <div style={{ display: "flex", alignItems: "center" }}>
           <div style={styleProfImg}>
-            <ProfileImg path={userInfoDetail.profileImgUrl} token={profToken} />
+            {userInfoDetail?.profileImgUrl && profToken ? (
+              <ProfileImg
+                path={userInfoDetail?.profileImgUrl}
+                token={profToken}
+              />
+            ) : null}
           </div>
           <div style={styleName}>{userInfo ? userInfo.name : ""}</div>
         </div>
@@ -156,7 +160,7 @@ const Mypage = () => {
             수정하기
           </div>
         </div>
-        {userInfoDetail.subinfo && (
+        {userInfoDetail?.subinfo && (
           <>
             <div style={infoTitle}>
               학번
