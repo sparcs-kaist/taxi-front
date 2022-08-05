@@ -8,6 +8,7 @@ import PopupSparcs from "./PopupSparcs/PopupSparcs";
 import PopupPolicy from "./PopupPolicy/PopupPolicy";
 import PopupMypage from "./PopupMypage/PopupMypage";
 import ProfileImg from "./ProfileImg";
+import useTaxiAPI from "@components/Frame/useTaxiAPI/useTaxiAPI";
 import axios from "@tools/axios";
 
 import AssignmentRoundedIcon from "@material-ui/icons/AssignmentRounded";
@@ -72,8 +73,12 @@ BtnC.propTypes = {
 
 const Mypage = () => {
   const [profToken, setProfToken] = useState(Date.now().toString());
-  const [userInfo, setUserInfo] = useState({});
-  const [userInfoDetail, setUserInfoDetail] = useState({});
+  const [errorUserInfo, userInfo] = useTaxiAPI.get("/json/logininfo");
+  const [errorUserInfoDetail, userInfoDetail] = useTaxiAPI.get(
+    "/json/logininfo/detail",
+    {},
+    [profToken]
+  );
   const [isOpen1, setOpen1] = useState(false);
   const [isOpen2, setOpen2] = useState(false);
   const [isOpen3, setOpen3] = useState(false);
@@ -87,19 +92,7 @@ const Mypage = () => {
       alert("로그아웃에 실패했습니다.");
     }
   };
-  const handleUpdate = () => {
-    axios.get("/json/logininfo").then(({ data }) => {
-      setUserInfo(data);
-    });
-    axios.get("/json/logininfo/detail").then(({ data }) => {
-      setUserInfoDetail(data);
-    });
-    setProfToken(Date.now().toString());
-  };
-
-  useEffect(() => {
-    handleUpdate();
-  }, []);
+  const handleUpdate = () => setProfToken(Date.now().toString());
 
   const styleProfImg = {
     width: "50px",
@@ -140,7 +133,12 @@ const Mypage = () => {
       <WhiteContainer padding="16px 24px 24px">
         <div style={{ display: "flex", alignItems: "center" }}>
           <div style={styleProfImg}>
-            <ProfileImg path={userInfoDetail.profileImgUrl} token={profToken} />
+            {userInfoDetail?.profileImgUrl && profToken ? (
+              <ProfileImg
+                path={userInfoDetail?.profileImgUrl}
+                token={profToken}
+              />
+            ) : null}
           </div>
           <div style={styleName}>{userInfo ? userInfo.name : ""}</div>
         </div>
@@ -156,7 +154,7 @@ const Mypage = () => {
             수정하기
           </div>
         </div>
-        {userInfoDetail.subinfo && (
+        {userInfoDetail?.subinfo && (
           <>
             <div style={infoTitle}>
               학번
