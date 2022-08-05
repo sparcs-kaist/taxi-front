@@ -35,7 +35,7 @@ const Counter = (props) => {
     alignItems: "center",
     fontSize: "14px",
     borderRadius: "3px",
-    boxShadow: "1px 1px 2.5px -0.5px rgba(110, 54, 120, 0.15);",
+    boxShadow: "1px 1px 2.5px -0.5px rgba(110, 54, 120, 0.15)",
   };
   const styledDecreaseButton = {
     ...styleButton,
