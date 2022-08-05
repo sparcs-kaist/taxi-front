@@ -107,9 +107,9 @@ const PopupMypage = (props) => {
   const [nickName, setNickName] = useState("");
   const [nickNameReal, setNickNameReal] = useState("");
   useEffect(() => {
-    if (props.userInfoD?.nickname) {
-      setNickName(props.userInfoD?.nickname);
-      setNickNameReal(props.userInfoD?.nickname);
+    if (props.userInfoD.nickname) {
+      setNickName(props.userInfoD.nickname);
+      setNickNameReal(props.userInfoD.nickname);
     }
   }, [props.userInfoD]);
 
@@ -257,7 +257,9 @@ const PopupMypage = (props) => {
         <RLayout.R1 height="100%" position="static">
           <div style={style}>
             <CloseRoundedIcon style={styleClose} onClick={onClose} />
-            <div style={styleName}>{props.userInfo?.name}</div>
+            <div style={styleName}>
+              {props.userInfo.name ? props.userInfo.name : ""}
+            </div>
             <div style={{ height: "15px" }} />
             <ProfImg
               profileImgUrl={props.userInfoD?.profileImgUrl}
@@ -270,12 +272,14 @@ const PopupMypage = (props) => {
             <div style={styleLay1}>
               <div style={styleLay1Left}>학번</div>
               <div style={styleLay1Right}>
-                {props.userInfoD?.subinfo?.kaist}
+                {props.userInfoD.subinfo ? props.userInfoD.subinfo.kaist : ""}
               </div>
             </div>
             <div style={styleLay1}>
               <div style={styleLay1Left}>메일</div>
-              <div style={styleLay1Right}>{props.userInfoD?.email}</div>
+              <div style={styleLay1Right}>
+                {props.userInfoD.email ? props.userInfoD.email : ""}
+              </div>
             </div>
             <div style={styleLay1}>
               <div style={styleLay1Left}>별명</div>
