@@ -30,6 +30,12 @@ $ npm install
 See [notion page](https://www.notion.so/sparcs/Environment-Variables-1b404bd385fa495bac6d5517b57d72bf).
 Refer to [.env.example](.env.example) and write your own `.env`.
 
+## Testing
+
+This project contains E2E tests with Cypress. To run the test, start React development server with `npm start` and run test script by `npm run test` on another shell.
+
+> **Currently, test only supports local environment**
+
 ## License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
