@@ -42,7 +42,7 @@
   "scripts": {
     "start": "craco start",
     "build": "cross-env GENERATE_SOURCEMAP=false craco build",
-    "test": "craco test",
+    "test": "cypress open",
     "eject": "craco eject"
   },
   "eslintConfig": {
@@ -64,12 +64,16 @@
     ]
   },
   "devDependencies": {
+    "cypress": "^10.3.1",
+    "cypress-react-selector": "^3.0.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.26.1",
-    "eslint-plugin-react-hooks": "^4.2.0"
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "typescript": "^4.7.4"
   }
 }
