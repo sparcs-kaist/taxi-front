@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import moment from "moment";
 import ChatSet from "./ChatSet";
+import ChatDate from "./ChatDate";
 import NewMessage from "./NewMessage";
 import PropTypes from "prop-types";
 
@@ -21,28 +22,33 @@ const MessagesBody = (props) => {
     const list = [];
     let momentCache = null;
     let chatsCache = null;
+    const dateFormat = "YYYY.MM.DD";
+    const minFormat = "YYYY.MM.DD HH:mm";
     props.chats.forEach((item) => {
       const currentMoment = moment(item.time);
       if (!momentCache) {
         momentCache = currentMoment.clone();
         momentCache.subtract(1, "years");
       }
-      if (momentCache.date() !== currentMoment.date()) {
-        // 년 월 푸쉬
+      if (momentCache.format(dateFormat) !== currentMoment.format(dateFormat)) {
+        list.push(<ChatDate date={currentMoment} background={""} />);
       }
       if (item.type === "in" || item.type === "out") {
         // 입장 표시
         console.log(item);
       } else if (item.type === "text" || item.type === "s3img") {
-        // chat
-        if (chatsCache && chatsCache[0].authorId !== item.authorId) {
+        if (
+          chatsCache &&
+          (chatsCache[0].authorId !== item.authorId ||
+            moment(chatsCache[0].time).format(minFormat) !==
+              currentMoment.format(minFormat))
+        ) {
           list.push(<ChatSet chats={chatsCache} />);
           chatsCache = null;
         }
         if (!chatsCache) chatsCache = [];
         chatsCache.push(item);
       }
-
       momentCache = currentMoment.clone();
     });
     if (chatsCache) {
