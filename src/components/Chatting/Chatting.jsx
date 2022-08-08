@@ -15,27 +15,19 @@ import axiosOri from "axios";
 import useTaxiAPI from "@components/Frame/useTaxiAPI/useTaxiAPI";
 
 import "./Style/Chatting.css";
-// Reponse
-// {
-//   data: Chat[], // pageSize 개의 채팅 내역
-//   page: Number, // 페이지 번호
-//   totalPage: Number, //총 페이지 수(전체 채팅 수를 pageSize로 나눈 것)
-//   totalChats: Number, //총 채팅 개수
-// }
 
 const Chatting = (props) => {
   const sendingMessage = useRef();
   const messagesBody = useRef();
 
   const [chats, setChats] = useState([]);
-  const [isReceieveChat, setIsReceiveChat] = useState(false);
   const isInfScrollLoading = useRef(false);
 
   const socket = useRef(undefined);
   const [, userInfoDetail] = useTaxiAPI.get("/json/logininfo/detail");
   const [, headerInfo] = useTaxiAPI.get(`/rooms/info?id=${props.roomId}`);
 
-  // scroll functions
+  // message Body functions
   const scrollToBottom = (bottom = 0) => {
     if (messagesBody.current) {
       messagesBody.current.scrollTop =
@@ -54,10 +46,10 @@ const Chatting = (props) => {
       socket.current.emit("chats-load", chats[0].time, 30);
     } else if (
       messagesBody.current.scrollHeight - scrollTop <
-        50 + messagesBody.current.clientHeight - 10 &&
-      isReceieveChat
+      50 + messagesBody.current.clientHeight - 10
+      //isReceieveChat
     ) {
-      setIsReceiveChat(false);
+      //setIsReceiveChat(false);
     }
   };
 
@@ -106,13 +98,6 @@ const Chatting = (props) => {
       if (socket.current) socket.current.disconnect();
     };
   }, [headerInfo]);
-
-  // when there is new message, scroll to bottom
-  /*useEffect(() => {
-    if (!inputStr) {
-      scrollToBottom();
-    }
-  }, [inputStr]);*/
 
   const handleSendMessage = (text) => {
     if (regExpTest.chatMsg(text) && !sendingMessage.current) {
@@ -170,12 +155,6 @@ const Chatting = (props) => {
     }
   };
 
-  // FIXME
-  const onClickNewMessage = (event) => {
-    setIsReceiveChat(false);
-    scrollToBottom();
-  };
-
   return (
     <div className="ChatContainer">
       <div className="ChatRoomContainer">
@@ -188,8 +167,6 @@ const Chatting = (props) => {
           chats={chats}
           user={userInfoDetail}
           isSideChat={props.isSideChat}
-          isReceieveChat={isReceieveChat}
-          onClickNewMessage={onClickNewMessage}
           forwardedRef={messagesBody}
           handleScroll={handleScroll}
         />

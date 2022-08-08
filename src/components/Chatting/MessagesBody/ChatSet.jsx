@@ -64,7 +64,7 @@ const ChatSet = (props) => {
     gap: "4px",
   };
   const styleChat = {
-    maxWidth: "calc(100% - 50px)",
+    maxWidth: "calc(100% - 70px)",
     background: itsme ? "#6E3678" : "#FFFFFF",
     padding: "8px 12px 7px",
     boxShadow:

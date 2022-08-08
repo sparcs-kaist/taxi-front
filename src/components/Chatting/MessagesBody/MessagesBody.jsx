@@ -3,7 +3,6 @@ import moment from "moment";
 import ChatSet from "./ChatSet";
 import ChatDate from "./ChatDate";
 import ChatInOut from "./ChatInOut";
-import NewMessage from "./NewMessage";
 import PropTypes from "prop-types";
 
 import "../Style/MessagesBody.css";
@@ -68,10 +67,6 @@ const MessagesBody = (props) => {
           <div key={index}>{chat}</div>
         ))}
       </div>
-      <NewMessage
-        isReceieveChat={props.isReceieveChat}
-        onClick={props.onClickNewMessage}
-      />
     </div>
   );
 };
@@ -82,8 +77,6 @@ MessagesBody.propTypes = {
   isSideChat: PropTypes.bool,
   forwardedRef: PropTypes.any,
   handleScroll: PropTypes.func,
-  isReceieveChat: PropTypes.bool,
-  onClickNewMessage: PropTypes.func,
 };
 
 MessagesBody.defaultProps = {
