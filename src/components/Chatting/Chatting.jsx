@@ -13,6 +13,7 @@ import { backServer } from "serverconf";
 import NewMessage from "./MessagesBody/NewMessage";
 import convertImg from "@tools/convertImg";
 import axiosOri from "axios";
+import useTaxiAPI from "@components/Frame/useTaxiAPI/useTaxiAPI";
 
 import "./Style/Chatting.css";
 // Reponse
@@ -31,14 +32,11 @@ const Chatting = (props) => {
   const [isSendingChat, setIsSendingChat] = useState("");
   const [inputStr, setInputStr] = useState("");
   const [chats, setChats] = useState([]);
-  const [headerInfo, setHeaderInfo] = useState(undefined);
-  const [user, setUser] = useState({
-    id: "",
-    nickname: "",
-    profileImageUrl: "",
-  });
   const isInfScrollLoading = useRef(false);
   const inputImage = useRef(null);
+
+  const [, userInfoDetail] = useTaxiAPI.get("/json/logininfo/detail");
+  const [, headerInfo] = useTaxiAPI.get(`/rooms/info?id=${props.roomId}`);
 
   // scroll functions
   const scrollToBottom = (bottom = 0) => {
@@ -47,19 +45,6 @@ const Chatting = (props) => {
         messagesBody.current.scrollHeight - bottom;
     }
   };
-
-  // get user info
-  useEffect(() => {
-    axios.get("/json/logininfo/detail").then(({ data }) => {
-      if (data.id) {
-        setUser({
-          id: data.oid,
-          profileImageUrl: data.profileImageUrl,
-          nickname: data.nickname,
-        });
-      }
-    });
-  }, []);
 
   // scroll event
   const handleScroll = () => {
@@ -80,94 +65,93 @@ const Chatting = (props) => {
   };
 
   // socket setting
-  useEffect(async () => {
-    socket.current?.disconnect();
-    socket.current = io(backServer, {
-      withCredentials: true,
-    });
-
-    socket.current.on("chats-join", (chats) => {
-      setChats(chats.chats);
-      // scroll to bottom on join
-      scrollToBottom();
-    });
-
-    // when receive chats
-    socket.current.on("chats-receive", (receiveChats) => {
-      if (receiveChats.chat?.authorId === user.id) {
-        setIsSendingChat("");
-      } else {
-        setIsReceiveChat(true);
-        setChats((prevChats) => {
-          return [...prevChats, receiveChats.chat];
-        });
-      }
-    });
-
-    // load more chats upon receiving chats-load event (infinite scroll)
-    socket.current.on("chats-load", (loadChats) => {
-      const bottom =
-        messagesBody.current.scrollHeight - messagesBody.current.scrollTop;
-      setChats((prevChats) => {
-        return [...loadChats.chats, ...prevChats];
+  useEffect(() => {
+    if (headerInfo) {
+      socket.current?.disconnect();
+      socket.current = io(backServer, {
+        withCredentials: true,
       });
-      isInfScrollLoading.current = false;
-      messagesBody.current.scrollTop =
-        messagesBody.current.scrollHeight - bottom;
-    });
 
-    // init
-    const roomInfo = await axios.get("/rooms/info", {
-      params: { id: props.roomId },
-    });
-    setHeaderInfo(roomInfo.data);
-    setChats([]);
-    socket.current.emit("chats-join", props.roomId);
+      // when join chatting
+      socket.current.on("chats-join", (data) => {
+        setChats(data.chats);
+        scrollToBottom();
+      });
 
-    // disconnect socket
+      // when receive chat
+      socket.current.on("chats-receive", (data) => {
+        // FIXME 내가 받았을때 pendding
+        setChats((prevChats) => {
+          return [...prevChats, data.chat];
+        });
+      });
+
+      // load more chats upon receiving chats-load event (infinite scroll)
+      socket.current.on("chats-load", (loadChats) => {
+        /*const bottom =
+          messagesBody.current.scrollHeight - messagesBody.current.scrollTop;
+        setChats((prevChats) => {
+          return [...loadChats.chats, ...prevChats];
+        });
+        isInfScrollLoading.current = false;
+        messagesBody.current.scrollTop =
+          messagesBody.current.scrollHeight - bottom;*/
+      });
+
+      socket.current.emit("chats-join", props.roomId);
+    }
+    // FIXME : when error
+
     return () => {
       if (socket.current) socket.current.disconnect();
     };
-  }, [user.id]);
+  }, [headerInfo]);
 
   // when there is new message, scroll to bottom
-  useEffect(() => {
+  /*useEffect(() => {
     if (!inputStr) {
       scrollToBottom();
     }
-  }, [inputStr]);
+  }, [inputStr]);*/
 
   // handler
   const sendMessage = (messageStr) => {
+    // FIXME
     socket.current.emit("chats-send", {
       roomId: props.roomId,
       content: messageStr,
     });
     const chatComp = {
       roomId: props.roomId,
-      authorId: user.id,
-      authorName: user.nickname,
+      authorId: userInfoDetail?.id,
+      authorName: userInfoDetail?.nickname,
       content: messageStr,
       time: new Date().toISOString(),
       type: "text",
     };
     // 보내졌는지 확인 여부 필요함?
-    setIsSendingChat(user.id);
+    setIsSendingChat(userInfoDetail?.id);
     setChats((prevChats) => {
       return [...prevChats, chatComp];
     });
   };
+
+  // FIXME
   const handleInputStr = (event) => {
     setInputStr(event.target.value);
   };
+
+  // FIXME
   const handleSendMessage = (event) => {
     event?.preventDefault();
-    if (regExpTest.chatMsg(inputStr) && isSendingChat !== user.id) {
+    if (regExpTest.chatMsg(inputStr) && isSendingChat !== userInfoDetail?.id) {
       sendMessage(inputStr);
       setInputStr("");
     }
   };
-  const onClick = (event) => {
+
+  // FIXME
+  const onClickNewMessage = (event) => {
     setIsReceiveChat(false);
     scrollToBottom();
   };
@@ -221,10 +205,10 @@ const Chatting = (props) => {
         )}
         <MessagesBody
           chats={chats}
-          user={user}
+          user={userInfoDetail}
           isSideChat={props.isSideChat}
           isReceieveChat={isReceieveChat}
-          onClick={onClick}
+          onClickNewMessage={onClickNewMessage}
           forwardedRef={messagesBody}
           handleScroll={handleScroll}
         />
