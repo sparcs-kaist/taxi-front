@@ -43,7 +43,7 @@ const MessagesBody = (props) => {
             moment(chatsCache[0].time).format(minFormat) !==
               currentMoment.format(minFormat))
         ) {
-          list.push(<ChatSet chats={chatsCache} />);
+          list.push(<ChatSet chats={chatsCache} authorId={props.user.oid} />);
           chatsCache = null;
         }
         if (!chatsCache) chatsCache = [];
@@ -52,10 +52,10 @@ const MessagesBody = (props) => {
       momentCache = currentMoment.clone();
     });
     if (chatsCache) {
-      list.push(<ChatSet chats={chatsCache} />);
+      list.push(<ChatSet chats={chatsCache} authorId={props.user.oid} />);
     }
     return list;
-  }, [props.chats]);
+  }, [props.chats, props.user]);
 
   return (
     <div

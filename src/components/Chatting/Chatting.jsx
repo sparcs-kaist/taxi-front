@@ -10,7 +10,6 @@ import SideChatMessageForm from "./Input/SideChatMessageForm";
 import regExpTest from "@tools/regExpTest";
 import axios from "@tools/axios";
 import { backServer } from "serverconf";
-import NewMessage from "./MessagesBody/NewMessage";
 import convertImg from "@tools/convertImg";
 import axiosOri from "axios";
 import useTaxiAPI from "@components/Frame/useTaxiAPI/useTaxiAPI";
@@ -25,16 +24,14 @@ import "./Style/Chatting.css";
 // }
 
 const Chatting = (props) => {
-  const socket = useRef(undefined);
+  const sendingMessage = useRef();
   const messagesBody = useRef();
 
-  const [isReceieveChat, setIsReceiveChat] = useState(false);
-  const [isSendingChat, setIsSendingChat] = useState("");
-  const [inputStr, setInputStr] = useState("");
   const [chats, setChats] = useState([]);
+  const [isReceieveChat, setIsReceiveChat] = useState(false);
   const isInfScrollLoading = useRef(false);
-  const inputImage = useRef(null);
 
+  const socket = useRef(undefined);
   const [, userInfoDetail] = useTaxiAPI.get("/json/logininfo/detail");
   const [, headerInfo] = useTaxiAPI.get(`/rooms/info?id=${props.roomId}`);
 
@@ -80,7 +77,10 @@ const Chatting = (props) => {
 
       // when receive chat
       socket.current.on("chats-receive", (data) => {
-        // FIXME 내가 받았을때 pendding
+        if (data.chat.authorId === userInfoDetail.oid) {
+          sendingMessage.current = null;
+        }
+        console.log(data.chat);
         setChats((prevChats) => {
           return [...prevChats, data.chat];
         });
@@ -114,39 +114,59 @@ const Chatting = (props) => {
     }
   }, [inputStr]);*/
 
-  // handler
-  const sendMessage = (messageStr) => {
-    // FIXME
-    socket.current.emit("chats-send", {
-      roomId: props.roomId,
-      content: messageStr,
-    });
-    const chatComp = {
-      roomId: props.roomId,
-      authorId: userInfoDetail?.id,
-      authorName: userInfoDetail?.nickname,
-      content: messageStr,
-      time: new Date().toISOString(),
-      type: "text",
-    };
-    // 보내졌는지 확인 여부 필요함?
-    setIsSendingChat(userInfoDetail?.id);
-    setChats((prevChats) => {
-      return [...prevChats, chatComp];
-    });
+  const handleSendMessage = (text) => {
+    if (regExpTest.chatMsg(text) && !sendingMessage.current) {
+      sendingMessage.current = true;
+      socket.current.emit("chats-send", {
+        roomId: props.roomId,
+        content: text,
+      });
+      return true;
+    }
+    return false;
   };
-
-  // FIXME
-  const handleInputStr = (event) => {
-    setInputStr(event.target.value);
-  };
-
-  // FIXME
-  const handleSendMessage = (event) => {
-    event?.preventDefault();
-    if (regExpTest.chatMsg(inputStr) && isSendingChat !== userInfoDetail?.id) {
-      sendMessage(inputStr);
-      setInputStr("");
+  const handleSendImage = async (image) => {
+    if (!sendingMessage.current) {
+      sendingMessage.current = true;
+      const onFail = () => {
+        sendingMessage.current = null;
+      };
+      try {
+        image = await convertImg(image);
+        if (!image) {
+          onFail();
+          return;
+        }
+        axios
+          .post("chats/uploadChatImg/getPUrl", { type: image.type })
+          .then(async ({ data }) => {
+            if (data.url && data.fields) {
+              const formData = new FormData();
+              for (const key in data.fields) {
+                formData.append(key, data.fields[key]);
+              }
+              formData.append("file", image);
+              const res = await axiosOri.post(data.url, formData);
+              if (res.status === 204) {
+                const res2 = await axios.post("chats/uploadChatImg/done", {
+                  id: data.id,
+                });
+                if (!res2.data.result) onFail();
+              } else {
+                onFail();
+              }
+            } else {
+              onFail();
+            }
+          })
+          .catch((e) => {
+            onFail();
+          });
+      } catch (e) {
+        // FIXME
+        onFail();
+        console.log(e);
+      }
     }
   };
 
@@ -154,45 +174,6 @@ const Chatting = (props) => {
   const onClickNewMessage = (event) => {
     setIsReceiveChat(false);
     scrollToBottom();
-  };
-
-  // handle image upload
-  const handleSendImage = async (image) => {
-    try {
-      if (!image) return;
-      axios
-        .post("chats/uploadChatImg/getPUrl", { type: image.type })
-        .then(async ({ data }) => {
-          if (data.url && data.fields) {
-            const formData = new FormData();
-            for (const key in data.fields) {
-              formData.append(key, data.fields[key]);
-            }
-            formData.append("file", image);
-            const res = await axiosOri.post(data.url, formData);
-            if (res.status === 204) {
-              const res2 = await axios.post("chats/uploadChatImg/done", {
-                id: data.id,
-              });
-
-              if (res2.data.result) {
-                alert("채팅 사진이 업로드");
-              } else {
-                // FIXME
-                alert("실패");
-              }
-            } else {
-              // FIXME
-              alert("실패");
-            }
-          } else {
-            // FIXME
-            alert("실패");
-          }
-        });
-    } catch (e) {
-      alert("실패");
-    }
   };
 
   return (
@@ -213,18 +194,11 @@ const Chatting = (props) => {
           handleScroll={handleScroll}
         />
         {props.isSideChat ? (
-          <SideChatMessageForm
-            newMessage={inputStr}
-            handleNewMessageChange={handleInputStr}
-            handleSendMessage={handleSendMessage}
-          />
+          <SideChatMessageForm handleSendMessage={handleSendMessage} />
         ) : (
           <MessageForm
-            newMessage={inputStr}
-            handleNewMessageChange={handleInputStr}
             handleSendMessage={handleSendMessage}
             handleSendImage={handleSendImage}
-            inputImage={inputImage}
           />
         )}
       </div>
