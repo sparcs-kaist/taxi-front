@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, Redirect } from "react-router-dom";
 import Navigation from "@frames/Navigation";
 import Footer from "@frames/Footer";
-import PopupPolicy from "@components/MyPage/PopupPolicy/PopupPolicy";
+import PopupPolicy from "@components/Mypage/PopupPolicy/PopupPolicy";
 import PropTypes from "prop-types";
 import axios from "@tools/axios";
 

@@ -7,6 +7,5 @@
       "@assets/*": ["asset/*"],
       "@tools/*": ["tools/*"]
     }
-  },
-  "exclude": ["node_modules"]
+  }
 }

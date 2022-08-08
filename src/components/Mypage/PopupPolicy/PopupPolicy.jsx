@@ -345,6 +345,7 @@ const PopupPolicy = (props) => {
                 right: "15px",
                 height: "36px",
               }}
+              data-cy="agreement-bottom"
             >
               <LayBottom
                 didAgree={didAgree}

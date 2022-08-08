@@ -26,27 +26,23 @@
     "prop-types": "^15.8.1",
     "react": "^17.0.1",
     "react-bootstrap": "^2.0.2",
-    "react-datepicker": "^4.1.0",
     "react-dom": "^17.0.1",
     "react-icons": "^4.3.1",
-    "react-mobile-picker-scroll": "^0.2.14",
-    "react-picker": "^1.2.17",
+    "react-mobile-picker-mod": "^0.1.18",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
-    "react-scrollable-picker": "^1.0.2",
+    "react-scroll-restoration": "^1.0.10",
     "react-select": "^4.3.1",
     "react-spring": "^9.1.2",
     "react-toast-notifications": "^2.5.1",
     "react-toastify": "^8.1.0",
-    "rmc-picker-scroll": "^5.0.10",
     "socket.io-client": "^4.3.2",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
     "start": "craco start",
-    "build": "craco build",
-    "buildC": "cross-env GENERATE_SOURCEMAP=false react-scripts build",
-    "test": "craco test",
+    "build": "cross-env GENERATE_SOURCEMAP=false craco build",
+    "test": "cypress open",
     "eject": "craco eject"
   },
   "eslintConfig": {
@@ -68,12 +64,16 @@
     ]
   },
   "devDependencies": {
+    "cypress": "^10.3.1",
+    "cypress-react-selector": "^3.0.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.26.1",
-    "eslint-plugin-react-hooks": "^4.2.0"
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "typescript": "^4.7.4"
   }
 }

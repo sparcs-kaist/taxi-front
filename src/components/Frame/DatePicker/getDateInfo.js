@@ -1,44 +1,47 @@
-const widing = (date, currentMonth = false) => {
-  const year = date.getFullYear(),
-    month = date.getMonth() + 1;
-  const day = date.getDate();
-  const w = date,
-    result = [];
+import { getToday10 } from "@tools/trans";
 
-  while (w.getDate() > 1) w.setDate(w.getDate() - 1);
-  while (w.getMonth() + 1 === month) {
+const widing = (startDate, currentMonth = false) => {
+  const date = startDate.clone().date(1);
+  const year = date.year();
+  const month = date.month() + 1;
+  const calendar = [];
+
+  while (date.month() + 1 === month) {
     const week = [];
     for (let i = 0; i < 7; i++) {
-      if (w.getMonth() + 1 === month && w.getDay() === i) {
+      if (date.month() + 1 === month && date.day() === i) {
         let available = null;
-        if (w.getDate() === day && currentMonth) available = "today";
-        else if (w.getDate() >= day) available = true;
+        if (date.date() === startDate.date() && currentMonth) {
+          available = "today";
+        } else if (date.date() >= startDate.date() || !currentMonth) {
+          available = true;
+        }
+
         week.push({
           year: year,
           month: month,
-          date: w.getDate(),
+          date: date.date(),
           available: available,
         });
-        w.setDate(w.getDate() + 1);
+        date.add(1, "day");
       } else {
         week.push({ date: null });
       }
     }
-    result.push(week);
+    calendar.push(week);
   }
-  return result;
+  return calendar;
 };
 
 const getCurrent = () => {
-  const today = new Date();
+  const today = getToday10();
   const currentMonth = widing(today, true);
   return currentMonth;
 };
+
 const getNext = () => {
-  let date = new Date();
-  const month = date.getMonth() + 1;
-  while (date.getMonth() + 1 === month) date.setDate(date.getDate() + 1);
-  const nextMonth = widing(date);
+  const date = getToday10().add(1, "month");
+  const nextMonth = widing(date, false);
   return nextMonth;
 };
 
