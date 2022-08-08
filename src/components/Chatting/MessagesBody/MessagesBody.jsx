@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import moment from "moment";
 import ChatSet from "./ChatSet";
 import ChatDate from "./ChatDate";
+import ChatInOut from "./ChatInOut";
 import NewMessage from "./NewMessage";
 import PropTypes from "prop-types";
 
@@ -34,8 +35,7 @@ const MessagesBody = (props) => {
         list.push(<ChatDate date={currentMoment} background={""} />);
       }
       if (item.type === "in" || item.type === "out") {
-        // 입장 표시
-        console.log(item);
+        list.push(<ChatInOut type={item.type} users={item.inOutNames} />);
       } else if (item.type === "text" || item.type === "s3img") {
         if (
           chatsCache &&

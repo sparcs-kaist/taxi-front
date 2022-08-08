@@ -8,7 +8,7 @@ const ChatDate = (props) => {
 
   return (
     <div>
-      <div style={{ height: "10px" }} />
+      <div style={{ height: "5px" }} />
       <div
         style={{
           position: "relative",
@@ -57,7 +57,7 @@ const ChatDate = (props) => {
           {year}년 {month}월 {date}일
         </div>
       </div>
-      <div style={{ height: "10px" }} />
+      <div style={{ height: "5px" }} />
     </div>
   );
 };
