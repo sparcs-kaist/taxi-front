@@ -26,7 +26,7 @@ const MessageForm = (props) => {
             type="file"
             accept="image/jpg, image/png, image/jpeg, image/heic"
             hidden
-            onChange={(e) => props.handleSendImage(e.target.files[0])}
+            onChange={(e) => props.handleSendImage(e.target?.files?.[0])}
             id="upload-image"
           />
           <button

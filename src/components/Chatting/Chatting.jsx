@@ -40,8 +40,6 @@ const Chatting = (props) => {
   const isInfScrollLoading = useRef(false);
   const inputImage = useRef(null);
 
-  console.log(chats);
-
   // scroll functions
   const scrollToBottom = (bottom = 0) => {
     if (messagesBody.current) {
@@ -51,15 +49,16 @@ const Chatting = (props) => {
   };
 
   // get user info
-  useEffect(async () => {
-    const detailedUserInfo = await axios.get("/json/logininfo/detail");
-    if (detailedUserInfo.data) {
-      setUser({
-        id: detailedUserInfo.data.oid,
-        profileImageUrl: detailedUserInfo.data.profileImageUrl,
-        nickname: detailedUserInfo.data.nickname,
-      });
-    }
+  useEffect(() => {
+    axios.get("/json/logininfo/detail").then(({ data }) => {
+      if (data.id) {
+        setUser({
+          id: data.oid,
+          profileImageUrl: data.profileImageUrl,
+          nickname: data.nickname,
+        });
+      }
+    });
   }, []);
 
   // scroll event
@@ -95,7 +94,6 @@ const Chatting = (props) => {
 
     // when receive chats
     socket.current.on("chats-receive", (receiveChats) => {
-      console.log(receiveChats);
       if (receiveChats.chat?.authorId === user.id) {
         setIsSendingChat("");
       } else {
@@ -176,13 +174,11 @@ const Chatting = (props) => {
 
   // handle image upload
   const handleSendImage = async (image) => {
-    console.log(image);
     try {
       if (!image) return;
       axios
         .post("chats/uploadChatImg/getPUrl", { type: image.type })
         .then(async ({ data }) => {
-          console.log(data);
           if (data.url && data.fields) {
             const formData = new FormData();
             for (const key in data.fields) {

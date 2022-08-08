@@ -3,7 +3,7 @@ import "../Style/MessagesBody.css";
 import PropTypes from "prop-types";
 import UserAvatar from "./UserAvatar";
 import { date2str } from "@tools/trans";
-import ProfileImg from "@components/MyPage/ProfileImg";
+import ProfileImg from "@components/Mypage/ProfileImg";
 // Chat {
 //   roomId: ObjectId, //방의 objectId
 //   authorName: String, //작성자 닉네임 (사용자 입,퇴장 알림 등 전체 메시지일 때: null)
@@ -39,7 +39,6 @@ const ChatMessage = ({ chat, chats, index, user }) => {
   const date = new Date(time);
   const chatDate = date.toLocaleString().slice(0, -3); // date format minute 까지
   const dateString = date2str(date);
-  // console.log(dateString)
   const prevChatDate =
     index !== 0
       ? new Date(chats[index - 1]?.time)?.toLocaleString().slice(0, 11)
@@ -81,7 +80,7 @@ const ChatMessage = ({ chat, chats, index, user }) => {
       <div className={messageBoxStyle}>
         {!isAuthor && !(isSameAuthorPrev && isSameMinutePrev) && (
           <div className="chatMessage-avatar-container">
-            <div className={"avatar"}>
+            <div className="avatar">
               <ProfileImg path={authorProfileUrl}></ProfileImg>
             </div>
           </div>
