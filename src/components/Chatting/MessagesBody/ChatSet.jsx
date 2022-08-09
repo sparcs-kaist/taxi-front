@@ -9,7 +9,6 @@ const ChatImageLoading = (props) => {
     <div
       style={{
         width: "150px",
-        //height: "100px",
         padding: "8px 12px 7px",
       }}
     >
@@ -35,7 +34,7 @@ const ChatImage = (props) => {
   useEffect(() => {
     const imageObj = new Image();
     imageObj.onload = () => {
-      const doScroll = props.isBottomOnScroll();
+      const doScroll = props.isBottomOnScroll(40);
       setImage(
         <img
           src={getS3Url(`/chat-img/${props.id}`)}

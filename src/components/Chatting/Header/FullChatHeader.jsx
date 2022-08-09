@@ -409,10 +409,11 @@ const Header = (props) => {
     top: "0px",
     left: "0px",
     width: "100%",
-    height: isOpen ? `${80 + btmSize}px` : "80px",
+    height: isOpen ? `${70 + btmSize}px` : "70px",
     background: "white",
     overflow: "hidden",
     boxShadow: "0px 0px 12px rgba(0,0,0,0.1)",
+    zIndex: 120,
   });
   const styleLine = {
     width: "100%",
@@ -427,6 +428,7 @@ const Header = (props) => {
     height: "100%",
     background: `rgba(0,0,0,${isOpen ? 0.6 : 0})`,
     pointerEvents: isOpen ? "auto" : "none",
+    zIndex: 110,
   });
   const styleTitle = {
     position: "absolute",
@@ -482,7 +484,7 @@ const Header = (props) => {
     <>
       <animated.div style={styleBgd} onClick={() => setOpen(false)} />
       <animated.div style={style}>
-        <div style={{ position: "relative", height: "80px" }}>
+        <div style={{ position: "relative", height: "70px" }}>
           <div style={styleLine} />
           <div style={styleTitle}>{props.info ? props.info.name : ""}</div>
           <div style={styleSubtitle}>

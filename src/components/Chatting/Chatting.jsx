@@ -2,8 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 import PropTypes from "prop-types";
 import { io } from "socket.io-client";
-import FullChatHeader from "./Header/FullChatHeader";
-import SideChatHeader from "./Header/SideChatHeader";
+import Header from "./Header/Header";
 import MessagesBody from "./MessagesBody/MessagesBody";
 import MessageForm from "./Input/MessageForm";
 import regExpTest from "@tools/regExpTest";
@@ -28,22 +27,22 @@ const Chatting = (props) => {
   const [, headerInfo] = useTaxiAPI.get(`/rooms/info?id=${props.roomId}`);
 
   // scroll event
-  const isTopOnScroll = () => {
+  const isTopOnScroll = (tol = 20) => {
     if (messagesBody.current) {
       const scrollTop = Math.max(messagesBody.current.scrollTop, 0);
-      if (scrollTop <= 20) {
+      if (scrollTop <= tol) {
         return true;
       }
     }
     return false;
   };
-  const isBottomOnScroll = () => {
+  const isBottomOnScroll = (tol = 20) => {
     if (messagesBody.current) {
       const scrollHeight = messagesBody.current.scrollHeight;
       const scrollTop = Math.max(messagesBody.current.scrollTop, 0);
       const clientHeight = messagesBody.current.clientHeight;
       const scrollBottom = Math.max(scrollHeight - clientHeight - scrollTop, 0);
-      if (scrollBottom <= 20) {
+      if (scrollBottom <= tol) {
         return true;
       }
     }
@@ -65,13 +64,15 @@ const Chatting = (props) => {
   const scrollToBottom = (doAnimation = false) => {
     setShowNewMessage(false);
     if (messagesBody.current) {
+      const scrollTop =
+        messagesBody.current.scrollHeight - messagesBody.current.clientHeight;
       if (doAnimation) {
         messagesBody.current.scroll({
           behavior: "smooth",
-          top: messagesBody.current.scrollHeight,
+          top: scrollTop,
         });
       } else {
-        messagesBody.current.scrollTop = messagesBody.current.scrollHeight;
+        messagesBody.current.scrollTop = scrollTop;
       }
     }
   };
@@ -135,7 +136,6 @@ const Chatting = (props) => {
     return false;
   };
   const handleSendImage = async (image) => {
-    console.log(image);
     if (!sendingMessage.current) {
       sendingMessage.current = true;
       const onFail = () => {
@@ -183,11 +183,7 @@ const Chatting = (props) => {
   return (
     <div className="ChatContainer">
       <div className="ChatRoomContainer">
-        {props.isSideChat ? (
-          <SideChatHeader info={headerInfo} />
-        ) : (
-          <FullChatHeader info={headerInfo} />
-        )}
+        <Header isSideChat={props.isSideChat} info={headerInfo} />
         <MessagesBody
           isSideChat={props.isSideChat}
           chats={chats}

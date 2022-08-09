@@ -5,8 +5,6 @@ import ChatDate from "./ChatDate";
 import ChatInOut from "./ChatInOut";
 import PropTypes from "prop-types";
 
-import "../Style/MessagesBody.css";
-
 // Chat {
 //   roomId: ObjectId, // 방의 objectId
 //   authorId: ObjectId, // 작성자 objectId
@@ -86,7 +84,14 @@ const MessagesBody = (props) => {
 
   return (
     <div
-      className={props.isSideChat ? "sideChatMessagesBox" : "chatMessagesBox"}
+      style={{
+        marginTop: props.isSideChat ? "64px" : "70px",
+        marginBottom: "40px",
+        width: "100%",
+        overflow: "auto",
+        //display: "flex",
+        //flexDirection: "column-reverse",
+      }}
       ref={props.forwardedRef}
       onScroll={props.handleScroll}
     >
