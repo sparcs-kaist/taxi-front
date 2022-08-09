@@ -1,43 +1,39 @@
-import React, { useState } from "react";
-import "../Style/SideChatMessageForm.css";
+import React from "react";
 import PropTypes from "prop-types";
+
 import { IoMdSend } from "react-icons/io";
+import "../Style/SideChatMessageForm.css";
 
 const SideChatMessageForm = (props) => {
-  const [inputStr, setInputStr] = useState("");
-
-  const onSend = (e) => {
-    e?.preventDefault();
-    const result = props.handleSendMessage(inputStr);
-    if (result) setInputStr("");
-  };
-
   return (
     <>
       <div className="SideChatMessageForm-container">
-        <form className="SideChatMessageForm">
+        <div className="SideChatMessageForm">
           <input
             type="text"
-            value={inputStr}
-            onChange={(e) => setInputStr(e.target.value)}
+            value={props.message}
+            onChange={props.onChangeMessage}
             placeholder="채팅을 입력해주세요..."
             className="SideChatMessageForm-input-field"
           />
           <button
             className="SideChatMessageForm-send-icon-container"
             type="submit"
-            onClick={onSend}
+            onClick={props.onSend}
           >
             <IoMdSend fontSize={17.5} />
           </button>
-        </form>
+        </div>
       </div>
     </>
   );
 };
 
 SideChatMessageForm.propTypes = {
-  handleSendMessage: PropTypes.func,
+  message: PropTypes.string,
+  onChangeMessage: PropTypes.func,
+  onChangeImage: PropTypes.func,
+  onSend: PropTypes.func,
 };
 
 export default SideChatMessageForm;

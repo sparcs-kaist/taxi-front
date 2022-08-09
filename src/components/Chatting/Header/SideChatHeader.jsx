@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useSpring, animated } from "react-spring";
-import { useHistory } from "react-router";
-import "../Style/SideChatHeader.css";
+import React from "react";
 import PropTypes from "prop-types";
 import { IoMdArrowBack } from "react-icons/io";
 import { Link } from "react-router-dom";
+
+import "../Style/SideChatHeader.css";
 
 const SideChatHeader = (props) => {
   return (

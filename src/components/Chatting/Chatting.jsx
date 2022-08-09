@@ -2,15 +2,15 @@ import React, { useState, useEffect, useRef } from "react";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 import PropTypes from "prop-types";
 import { io } from "socket.io-client";
-import Header from "./Header/Header";
+import FullChatHeader from "./Header/FullChatHeader";
 import SideChatHeader from "./Header/SideChatHeader";
 import MessagesBody from "./MessagesBody/MessagesBody";
 import MessageForm from "./Input/MessageForm";
-import SideChatMessageForm from "./Input/SideChatMessageForm";
 import regExpTest from "@tools/regExpTest";
-import axios from "@tools/axios";
+
 import { backServer } from "serverconf";
 import convertImg from "@tools/convertImg";
+import axios from "@tools/axios";
 import axiosOri from "axios";
 import useTaxiAPI from "@components/Frame/useTaxiAPI/useTaxiAPI";
 
@@ -28,6 +28,15 @@ const Chatting = (props) => {
   const [, headerInfo] = useTaxiAPI.get(`/rooms/info?id=${props.roomId}`);
 
   // scroll event
+  const isTopOnScroll = () => {
+    if (messagesBody.current) {
+      const scrollTop = Math.max(messagesBody.current.scrollTop, 0);
+      if (scrollTop <= 20) {
+        return true;
+      }
+    }
+    return false;
+  };
   const isBottomOnScroll = () => {
     if (messagesBody.current) {
       const scrollHeight = messagesBody.current.scrollHeight;
@@ -41,20 +50,15 @@ const Chatting = (props) => {
     return false;
   };
   const handleScroll = () => {
-    const scrollHeight = messagesBody.current.scrollHeight;
-    const scrollTop = Math.max(messagesBody.current.scrollTop, 0);
-    const clientHeight = messagesBody.current.clientHeight;
-    const scrollBottom = Math.max(scrollHeight - clientHeight - scrollTop, 0);
-
     // check if scroll is at the top, send chats-load event
     // 맨 상단의 경우 인피니티 스크롤 요청을 call하면 안됨
-    if (scrollTop <= 0 && !isInfScrollLoading.current && chats.length > 0) {
+    if (isTopOnScroll() && !isInfScrollLoading.current && chats.length > 0) {
       isInfScrollLoading.current = true;
       socket.current.emit("chats-load", chats[0].time, 30);
     }
   };
 
-  // message Body functions
+  // message Body auto scroll functions
   const scrollToBottom = (doAnimation = false) => {
     if (messagesBody.current) {
       if (doAnimation) {
@@ -173,23 +177,20 @@ const Chatting = (props) => {
         {props.isSideChat ? (
           <SideChatHeader info={headerInfo} />
         ) : (
-          <Header info={headerInfo} />
+          <FullChatHeader info={headerInfo} />
         )}
         <MessagesBody
+          isSideChat={props.isSideChat}
           chats={chats}
           user={userInfoDetail}
-          isSideChat={props.isSideChat}
           forwardedRef={messagesBody}
           handleScroll={handleScroll}
         />
-        {props.isSideChat ? (
-          <SideChatMessageForm handleSendMessage={handleSendMessage} />
-        ) : (
-          <MessageForm
-            handleSendMessage={handleSendMessage}
-            handleSendImage={handleSendImage}
-          />
-        )}
+        <MessageForm
+          isSideChat={props.isSideChat}
+          handleSendMessage={handleSendMessage}
+          handleSendImage={handleSendImage}
+        />
       </div>
     </div>
   );
