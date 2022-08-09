@@ -23,6 +23,22 @@ const MessagesBody = (props) => {
     const dateFormat = "YYYY.MM.DD";
     const minFormat = "YYYY.MM.DD HH:mm";
     props.chats.forEach((item) => {
+      if (item.type === "inf-checkout") {
+        list.push(
+          <ChatSet
+            key={"chat" + momentCache}
+            chats={chatsCache}
+            authorId={props.user.oid}
+            isBottomOnScroll={props.isBottomOnScroll}
+            scrollToBottom={props.scrollToBottom}
+          />
+        );
+        chatsCache = null;
+
+        list.push(<div key={"checkout" + momentCache} chatcheckout="true" />);
+        return;
+      }
+
       const currentMoment = moment(item.time);
       if (!momentCache) {
         momentCache = currentMoment.clone();
@@ -71,7 +87,7 @@ const MessagesBody = (props) => {
     if (chatsCache) {
       list.push(
         <ChatSet
-          key={"chat" + chatsCache[0].time}
+          key={"chatLast" + chatsCache[0].time}
           chats={chatsCache}
           authorId={props.user.oid}
           isBottomOnScroll={props.isBottomOnScroll}
@@ -95,11 +111,7 @@ const MessagesBody = (props) => {
       ref={props.forwardedRef}
       onScroll={props.handleScroll}
     >
-      <div>
-        {chats.map((chat) => (
-          <div key={chat.time}>{chat}</div>
-        ))}
-      </div>
+      <div>{chats}</div>
     </div>
   );
 };

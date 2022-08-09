@@ -17,6 +17,7 @@ import "./Style/Chatting.css";
 
 const Chatting = (props) => {
   const sendingMessage = useRef();
+  const callingInfScroll = useRef();
   const messagesBody = useRef();
 
   const [chats, setChats] = useStateWithCallbackLazy([]);
@@ -49,14 +50,16 @@ const Chatting = (props) => {
     return false;
   };
   const handleScroll = () => {
-    // check if scroll is at the top, send chats-load event
-    // 맨 상단의 경우 인피니티 스크롤 요청을 call하면 안됨
-    /*if (isTopOnScroll() && !isInfScrollLoading.current && chats.length > 0) {
-      isInfScrollLoading.current = true;
-      socket.current.emit("chats-load", chats[0].time, 30);
-    }*/
     if (isBottomOnScroll()) {
       if (showNewMessage) setShowNewMessage(false);
+    }
+    if (
+      isTopOnScroll() &&
+      chats.length > 0 &&
+      callingInfScroll.current == false
+    ) {
+      callingInfScroll.current = true;
+      socket.current.emit("chats-load", chats[0].time, 30);
     }
   };
 
@@ -87,7 +90,10 @@ const Chatting = (props) => {
 
       // when join chatting
       socket.current.on("chats-join", (data) => {
-        setChats(data.chats, () => scrollToBottom());
+        setChats(data.chats, () => {
+          scrollToBottom();
+          callingInfScroll.current = false;
+        });
       });
 
       // when receive chat
@@ -104,15 +110,26 @@ const Chatting = (props) => {
       });
 
       // load more chats upon receiving chats-load event (infinite scroll)
-      socket.current.on("chats-load", (loadChats) => {
-        /*const bottom =
-          messagesBody.current.scrollHeight - messagesBody.current.scrollTop;
-        setChats((prevChats) => {
-          return [...loadChats.chats, ...prevChats];
-        });
-        isInfScrollLoading.current = false;
-        messagesBody.current.scrollTop =
-          messagesBody.current.scrollHeight - bottom;*/
+      socket.current.on("chats-load", (data) => {
+        if (data.chats.length === 0) {
+          callingInfScroll.current = null;
+          return;
+        }
+
+        const checkoutChat = { type: "inf-checkout" };
+        setChats(
+          (prevChats) => [...data.chats, checkoutChat, ...prevChats],
+          () => {
+            let scrollTop = 0;
+            const bodyChildren = messagesBody.current.children[0].children;
+            for (let i = 0; i < bodyChildren.length; i++) {
+              if (bodyChildren[i].getAttribute("chatcheckout")) break;
+              scrollTop += bodyChildren[i].clientHeight;
+            }
+            messagesBody.current.scrollTop = scrollTop;
+            callingInfScroll.current = false;
+          }
+        );
       });
 
       socket.current.emit("chats-join", props.roomId);

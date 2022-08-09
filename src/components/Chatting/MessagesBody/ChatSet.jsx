@@ -43,12 +43,14 @@ const ChatImage = (props) => {
             maxHeight: "400px",
             verticalAlign: "middle",
           }}
+          //loading="lazy"
           onLoad={() => {
             if (doScroll) props.scrollToBottom();
           }}
         />
       );
     };
+    imageObj.loading = "eager";
     imageObj.src = getS3Url(`/chat-img/${props.id}`);
   }, [props.id]);
 
