@@ -4,30 +4,51 @@ import ProfileImg from "@components/Mypage/ProfileImg";
 import { getS3Url } from "@tools/trans";
 import PropTypes from "prop-types";
 
-// FIXME : default 이미지 변경
-import defaultImg from "@assets/profileImgOnError.png";
+const ChatImageLoading = (props) => {
+  return <div>이미지 불러오는 중...</div>;
+};
 
 const ChatImage = (props) => {
-  const getSrc = () => getS3Url(`/chat-img/${props.id}`);
-  const [src, setSrc] = useState(getSrc());
+  const [image, setImage] = useState(null);
+
   useEffect(() => {
-    setSrc(getSrc());
+    const imageObj = new Image();
+    imageObj.onload = () => {
+      setImage(
+        <img
+          src={getS3Url(`/chat-img/${props.id}`)}
+          style={{ maxWidth: "100%", maxHeight: "400px" }}
+        />
+      );
+    };
+    imageObj.src = getS3Url(`/chat-img/${props.id}`);
+    //setSrc(image);
   }, [props.id]);
 
-  return (
-    <img
-      src={src}
-      alt={`/chat-img/${props.id}`}
-      onError={() => setSrc(defaultImg)}
-      style={{
-        maxWidth: "100%",
-        maxHeight: "400px",
-      }}
-    />
-  );
+  return image ? image : <ChatImageLoading />;
 };
 ChatImage.propTypes = {
   id: PropTypes.string,
+};
+
+const ChatText = (props) => {
+  return (
+    <div
+      style={{
+        padding: "8px 12px 7px",
+        color: props.itsme ? "#FFFFFF" : "#323232",
+        wordBreak: "break-all",
+        letterSpacing: "0.05em",
+        fontSize: "13px",
+      }}
+    >
+      {props.text}
+    </div>
+  );
+};
+ChatText.propTypes = {
+  itsme: PropTypes.bool,
+  text: PropTypes.string,
 };
 
 const ChatSet = (props) => {
@@ -66,16 +87,11 @@ const ChatSet = (props) => {
   const styleChat = {
     maxWidth: "calc(100% - 70px)",
     background: itsme ? "#6E3678" : "#FFFFFF",
-    padding: "8px 12px 7px",
     boxShadow:
       "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
     borderRadius: "8px",
-    fontSize: "13px",
     lineHeight: "15px",
-    color: itsme ? "#FFFFFF" : "#323232",
     overflow: "hidden",
-    wordBreak: "break-all",
-    letterSpacing: "0.05em",
   };
   const styleTime = {
     height: "11px",
@@ -103,14 +119,9 @@ const ChatSet = (props) => {
         <div style={styleName}>{props.chats[0].authorName}</div>
         {props.chats.map((chat, index) => (
           <div key={index} style={styleChatCont}>
-            <div
-              style={{
-                ...styleChat,
-                padding: chat.type === "text" ? "8px 12px 7px" : null,
-              }}
-            >
+            <div style={styleChat}>
               {chat.type === "text" ? (
-                chat.content
+                <ChatText itsme={itsme} text={chat.content} />
               ) : (
                 <ChatImage id={chat.content} />
               )}

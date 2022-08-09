@@ -193,6 +193,7 @@ const Chatting = (props) => {
           user={userInfoDetail}
           forwardedRef={messagesBody}
           handleScroll={handleScroll}
+          isBottomOnScroll={isBottomOnScroll}
         />
         <MessageForm
           isSideChat={props.isSideChat}

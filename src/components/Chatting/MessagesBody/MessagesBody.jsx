@@ -31,10 +31,22 @@ const MessagesBody = (props) => {
         momentCache.subtract(1, "years");
       }
       if (momentCache.format(dateFormat) !== currentMoment.format(dateFormat)) {
-        list.push(<ChatDate date={currentMoment} background={""} />);
+        list.push(
+          <ChatDate
+            key={"date" + currentMoment}
+            date={currentMoment}
+            background={""}
+          />
+        );
       }
       if (item.type === "in" || item.type === "out") {
-        list.push(<ChatInOut type={item.type} users={item.inOutNames} />);
+        list.push(
+          <ChatInOut
+            key={"inout" + currentMoment}
+            type={item.type}
+            users={item.inOutNames}
+          />
+        );
       } else if (item.type === "text" || item.type === "s3img") {
         if (
           chatsCache &&
@@ -42,7 +54,14 @@ const MessagesBody = (props) => {
             moment(chatsCache[0].time).format(minFormat) !==
               currentMoment.format(minFormat))
         ) {
-          list.push(<ChatSet chats={chatsCache} authorId={props.user.oid} />);
+          list.push(
+            <ChatSet
+              key={"chat" + currentMoment}
+              chats={chatsCache}
+              authorId={props.user.oid}
+              isBottomOnScroll={props.isBottomOnScroll}
+            />
+          );
           chatsCache = null;
         }
         if (!chatsCache) chatsCache = [];
@@ -51,7 +70,14 @@ const MessagesBody = (props) => {
       momentCache = currentMoment.clone();
     });
     if (chatsCache) {
-      list.push(<ChatSet chats={chatsCache} authorId={props.user.oid} />);
+      list.push(
+        <ChatSet
+          key={"chat" + chatsCache[0].time}
+          chats={chatsCache}
+          authorId={props.user.oid}
+          isBottomOnScroll={props.isBottomOnScroll}
+        />
+      );
     }
     return list;
   }, [props.chats, props.user]);
@@ -77,6 +103,7 @@ MessagesBody.propTypes = {
   isSideChat: PropTypes.bool,
   forwardedRef: PropTypes.any,
   handleScroll: PropTypes.func,
+  isBottomOnScroll: PropTypes.func,
 };
 
 MessagesBody.defaultProps = {
