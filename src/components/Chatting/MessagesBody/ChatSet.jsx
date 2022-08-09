@@ -5,7 +5,28 @@ import { getS3Url } from "@tools/trans";
 import PropTypes from "prop-types";
 
 const ChatImageLoading = (props) => {
-  return <div>이미지 불러오는 중...</div>;
+  return (
+    <div
+      style={{
+        width: "150px",
+        //height: "100px",
+        padding: "8px 12px 7px",
+      }}
+    >
+      <div
+        style={{
+          color: props.itsme ? "#FFFFFF" : "#323232",
+          fontSize: "13px",
+          textAlign: "center",
+        }}
+      >
+        이미지 불러오는 중...
+      </div>
+    </div>
+  );
+};
+ChatImageLoading.propTypes = {
+  itsme: PropTypes.bool,
 };
 
 const ChatImage = (props) => {
@@ -18,7 +39,11 @@ const ChatImage = (props) => {
       setImage(
         <img
           src={getS3Url(`/chat-img/${props.id}`)}
-          style={{ maxWidth: "100%", maxHeight: "400px" }}
+          style={{
+            maxWidth: "100%",
+            maxHeight: "400px",
+            verticalAlign: "middle",
+          }}
           onLoad={() => {
             if (doScroll) props.scrollToBottom();
           }}
@@ -26,12 +51,12 @@ const ChatImage = (props) => {
       );
     };
     imageObj.src = getS3Url(`/chat-img/${props.id}`);
-    //setSrc(image);
   }, [props.id]);
 
-  return image ? image : <ChatImageLoading />;
+  return image ? image : <ChatImageLoading itsme={props.itsme} />;
 };
 ChatImage.propTypes = {
+  itsme: PropTypes.bool,
   id: PropTypes.string,
   isBottomOnScroll: PropTypes.func,
   scrollToBottom: PropTypes.func,
@@ -130,6 +155,7 @@ const ChatSet = (props) => {
                 <ChatText itsme={itsme} text={chat.content} />
               ) : (
                 <ChatImage
+                  itsme={itsme}
                   id={chat.content}
                   isBottomOnScroll={props.isBottomOnScroll}
                   scrollToBottom={props.scrollToBottom}
