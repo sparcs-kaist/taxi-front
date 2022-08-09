@@ -60,6 +60,7 @@ const MessagesBody = (props) => {
               chats={chatsCache}
               authorId={props.user.oid}
               isBottomOnScroll={props.isBottomOnScroll}
+              scrollToBottom={props.scrollToBottom}
             />
           );
           chatsCache = null;
@@ -76,6 +77,7 @@ const MessagesBody = (props) => {
           chats={chatsCache}
           authorId={props.user.oid}
           isBottomOnScroll={props.isBottomOnScroll}
+          scrollToBottom={props.scrollToBottom}
         />
       );
     }
@@ -104,6 +106,7 @@ MessagesBody.propTypes = {
   forwardedRef: PropTypes.any,
   handleScroll: PropTypes.func,
   isBottomOnScroll: PropTypes.func,
+  scrollToBottom: PropTypes.func,
 };
 
 MessagesBody.defaultProps = {

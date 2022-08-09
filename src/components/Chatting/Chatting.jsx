@@ -135,6 +135,7 @@ const Chatting = (props) => {
     return false;
   };
   const handleSendImage = async (image) => {
+    console.log(image);
     if (!sendingMessage.current) {
       sendingMessage.current = true;
       const onFail = () => {
@@ -194,6 +195,7 @@ const Chatting = (props) => {
           forwardedRef={messagesBody}
           handleScroll={handleScroll}
           isBottomOnScroll={isBottomOnScroll}
+          scrollToBottom={() => scrollToBottom(false)}
         />
         <MessageForm
           isSideChat={props.isSideChat}

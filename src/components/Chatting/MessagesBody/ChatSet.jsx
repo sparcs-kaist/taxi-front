@@ -14,10 +14,14 @@ const ChatImage = (props) => {
   useEffect(() => {
     const imageObj = new Image();
     imageObj.onload = () => {
+      const doScroll = props.isBottomOnScroll();
       setImage(
         <img
           src={getS3Url(`/chat-img/${props.id}`)}
           style={{ maxWidth: "100%", maxHeight: "400px" }}
+          onLoad={() => {
+            if (doScroll) props.scrollToBottom();
+          }}
         />
       );
     };
@@ -29,6 +33,8 @@ const ChatImage = (props) => {
 };
 ChatImage.propTypes = {
   id: PropTypes.string,
+  isBottomOnScroll: PropTypes.func,
+  scrollToBottom: PropTypes.func,
 };
 
 const ChatText = (props) => {
@@ -123,7 +129,11 @@ const ChatSet = (props) => {
               {chat.type === "text" ? (
                 <ChatText itsme={itsme} text={chat.content} />
               ) : (
-                <ChatImage id={chat.content} />
+                <ChatImage
+                  id={chat.content}
+                  isBottomOnScroll={props.isBottomOnScroll}
+                  scrollToBottom={props.scrollToBottom}
+                />
               )}
             </div>
             {index === props.chats.length - 1 ? (
@@ -140,6 +150,8 @@ const ChatSet = (props) => {
 ChatSet.propTypes = {
   chats: PropTypes.array,
   authorId: PropTypes.string,
+  isBottomOnScroll: PropTypes.func,
+  scrollToBottom: PropTypes.func,
 };
 
 export default ChatSet;
