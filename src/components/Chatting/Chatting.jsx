@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useStateWithCallbackLazy } from "use-state-with-callback";
 import PropTypes from "prop-types";
 import { io } from "socket.io-client";
 import Header from "./Header/Header";
@@ -20,36 +20,48 @@ const Chatting = (props) => {
   const sendingMessage = useRef();
   const messagesBody = useRef();
 
-  const [chats, setChats] = useState([]);
+  const [chats, setChats] = useStateWithCallbackLazy([]);
   const isInfScrollLoading = useRef(false);
 
   const socket = useRef(undefined);
   const [, userInfoDetail] = useTaxiAPI.get("/json/logininfo/detail");
   const [, headerInfo] = useTaxiAPI.get(`/rooms/info?id=${props.roomId}`);
 
-  // message Body functions
-  const scrollToBottom = (bottom = 0) => {
-    if (messagesBody.current) {
-      messagesBody.current.scrollTop =
-        messagesBody.current.scrollHeight - bottom;
-    }
-  };
-
   // scroll event
+  const isBottomOnScroll = () => {
+    if (messagesBody.current) {
+      const scrollHeight = messagesBody.current.scrollHeight;
+      const scrollTop = Math.max(messagesBody.current.scrollTop, 0);
+      const clientHeight = messagesBody.current.clientHeight;
+      const scrollBottom = Math.max(scrollHeight - clientHeight - scrollTop, 0);
+      if (scrollBottom <= 20) {
+        return true;
+      }
+    }
+    return false;
+  };
   const handleScroll = () => {
-    const scrollTop = messagesBody.current.scrollTop;
+    const scrollHeight = messagesBody.current.scrollHeight;
+    const scrollTop = Math.max(messagesBody.current.scrollTop, 0);
+    const clientHeight = messagesBody.current.clientHeight;
+    const scrollBottom = Math.max(scrollHeight - clientHeight - scrollTop, 0);
 
     // check if scroll is at the top, send chats-load event
     // 맨 상단의 경우 인피니티 스크롤 요청을 call하면 안됨
     if (scrollTop <= 0 && !isInfScrollLoading.current && chats.length > 0) {
       isInfScrollLoading.current = true;
       socket.current.emit("chats-load", chats[0].time, 30);
-    } else if (
-      messagesBody.current.scrollHeight - scrollTop <
-      50 + messagesBody.current.clientHeight - 10
-      //isReceieveChat
-    ) {
-      //setIsReceiveChat(false);
+    }
+  };
+
+  // message Body functions
+  const scrollToBottom = (doAnimation = false) => {
+    if (messagesBody.current) {
+      if (doAnimation) {
+        messagesBody.current.scrollTop = messagesBody.current.scrollHeight;
+      } else {
+        messagesBody.current.scrollTop = messagesBody.current.scrollHeight;
+      }
     }
   };
 
@@ -63,19 +75,19 @@ const Chatting = (props) => {
 
       // when join chatting
       socket.current.on("chats-join", (data) => {
-        setChats(data.chats);
-        scrollToBottom();
+        setChats(data.chats, () => scrollToBottom());
       });
 
       // when receive chat
       socket.current.on("chats-receive", (data) => {
+        let callback = () => {};
         if (data.chat.authorId === userInfoDetail.oid) {
           sendingMessage.current = null;
         }
-        console.log(data.chat);
-        setChats((prevChats) => {
-          return [...prevChats, data.chat];
-        });
+        if (isBottomOnScroll()) {
+          callback = () => scrollToBottom(true);
+        }
+        setChats((prevChats) => [...prevChats, data.chat], callback);
       });
 
       // load more chats upon receiving chats-load event (infinite scroll)

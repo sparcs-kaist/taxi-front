@@ -63,8 +63,8 @@ const MessagesBody = (props) => {
       onScroll={props.handleScroll}
     >
       <div>
-        {chats.map((chat, index) => (
-          <div key={index}>{chat}</div>
+        {chats.map((chat) => (
+          <div key={chat.time}>{chat}</div>
         ))}
       </div>
     </div>
