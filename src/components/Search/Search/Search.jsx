@@ -111,7 +111,7 @@ const Search = () => {
   const [valuePlace, setPlace] = useState([null, null]);
   const [valueDate, setDate] = useState([null, null, null]);
   const [valueTime, setTime] = useState(["0", "00"]);
-  const [valueMaxPartLength, setMaxPartLength] = useState(4);
+  const [valueMaxPartLength, setMaxPartLength] = useState(null);
   const [searchResult, setSearchResult] = useState(null);
   const [disable, setDisable] = useState(true);
   const [message, setMessage] = useState("검색 조건을 선택해주세요");
@@ -164,6 +164,10 @@ const Search = () => {
       setTime(["0", "00"]);
     }
   }, [searchOptions.time]);
+  useEffect(() => {
+    if (searchOptions.maxPartLength) setMaxPartLength(4);
+    else setMaxPartLength(null);
+  }, [searchOptions.maxPartLength]);
 
   const onClickSearch = async () => {
     if (!onCall.current) {
