@@ -18,7 +18,7 @@ const AddRoom = () => {
   const [valueName, setName] = useState("");
   const [valuePlace, setPlace] = useState([null, null]);
   const [valueDate, setDate] = useState([null, null, null]);
-  const [valueMaxPartLength, setMaxPartLength] = useState(2);
+  const [valueMaxPartLength, setMaxPartLength] = useState(4);
   const today = getToday10();
   const [valueTime, setTime] = useState([
     today.hour().toString(),
