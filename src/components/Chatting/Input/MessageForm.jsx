@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import SideChatMessageForm from "./SideChatMessageForm";
 import FullChatMessageForm from "./FullChatMessageForm";
+import NewMessage from "./NewMessage";
 import PropTypes from "prop-types";
 
 const MessageForm = (props) => {
@@ -19,22 +20,54 @@ const MessageForm = (props) => {
   };
 
   return (
-    <>
-      {props.isSideChat ? (
-        <SideChatMessageForm
-          message={message}
-          onChangeMessage={onChangeMessage}
-          onSend={onSend}
+    <div
+      style={{
+        width: "100%",
+        height: "76px",
+        position: props.isSideChat ? "absolute" : "fixed",
+        left: "0px",
+        bottom: "0px",
+      }}
+    >
+      <div
+        style={{
+          position: "absolute",
+          width: "100%",
+          height: "36px",
+          left: "0px",
+          top: "0px",
+        }}
+      >
+        <NewMessage
+          show={props.showNewMessage}
+          onClick={props.onClickNewMessage}
         />
-      ) : (
-        <FullChatMessageForm
-          message={message}
-          onChangeMessage={onChangeMessage}
-          onChangeImage={onChangeImage}
-          onSend={onSend}
-        />
-      )}
-    </>
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          width: "100%",
+          height: "40px",
+          left: "0px",
+          bottom: "0px",
+        }}
+      >
+        {props.isSideChat ? (
+          <SideChatMessageForm
+            message={message}
+            onChangeMessage={onChangeMessage}
+            onSend={onSend}
+          />
+        ) : (
+          <FullChatMessageForm
+            message={message}
+            onChangeMessage={onChangeMessage}
+            onChangeImage={onChangeImage}
+            onSend={onSend}
+          />
+        )}
+      </div>
+    </div>
   );
 };
 
@@ -42,6 +75,8 @@ MessageForm.propTypes = {
   isSideChat: PropTypes.bool,
   handleSendMessage: PropTypes.func,
   handleSendImage: PropTypes.func,
+  showNewMessage: PropTypes.bool,
+  onClickNewMessage: PropTypes.func,
 };
 
 export default MessageForm;

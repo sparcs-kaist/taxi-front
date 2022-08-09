@@ -8,7 +8,7 @@ import "../Style/MessageForm.css";
 const FullChatMessageForm = (props) => {
   return (
     <>
-      <div className="MessageForm-container">
+      <div>
         <div className="MessageForm">
           <input
             type="text"

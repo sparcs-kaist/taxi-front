@@ -7,7 +7,7 @@ import "../Style/SideChatMessageForm.css";
 const SideChatMessageForm = (props) => {
   return (
     <>
-      <div className="SideChatMessageForm-container">
+      <div>
         <div className="SideChatMessageForm">
           <input
             type="text"

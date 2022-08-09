@@ -21,7 +21,7 @@ const Chatting = (props) => {
   const messagesBody = useRef();
 
   const [chats, setChats] = useStateWithCallbackLazy([]);
-  const isInfScrollLoading = useRef(false);
+  const [showNewMessage, setShowNewMessage] = useState(false);
 
   const socket = useRef(undefined);
   const [, userInfoDetail] = useTaxiAPI.get("/json/logininfo/detail");
@@ -52,17 +52,24 @@ const Chatting = (props) => {
   const handleScroll = () => {
     // check if scroll is at the top, send chats-load event
     // 맨 상단의 경우 인피니티 스크롤 요청을 call하면 안됨
-    if (isTopOnScroll() && !isInfScrollLoading.current && chats.length > 0) {
+    /*if (isTopOnScroll() && !isInfScrollLoading.current && chats.length > 0) {
       isInfScrollLoading.current = true;
       socket.current.emit("chats-load", chats[0].time, 30);
+    }*/
+    if (isBottomOnScroll()) {
+      if (showNewMessage) setShowNewMessage(false);
     }
   };
 
   // message Body auto scroll functions
   const scrollToBottom = (doAnimation = false) => {
+    setShowNewMessage(false);
     if (messagesBody.current) {
       if (doAnimation) {
-        messagesBody.current.scrollTop = messagesBody.current.scrollHeight;
+        messagesBody.current.scroll({
+          behavior: "smooth",
+          top: messagesBody.current.scrollHeight,
+        });
       } else {
         messagesBody.current.scrollTop = messagesBody.current.scrollHeight;
       }
@@ -84,13 +91,14 @@ const Chatting = (props) => {
 
       // when receive chat
       socket.current.on("chats-receive", (data) => {
-        let callback = () => {};
         if (data.chat.authorId === userInfoDetail.oid) {
           sendingMessage.current = null;
         }
-        if (isBottomOnScroll()) {
-          callback = () => scrollToBottom(true);
-        }
+        const callback =
+          data.chat.authorId === userInfoDetail.oid || isBottomOnScroll()
+            ? () => scrollToBottom(true)
+            : () => setShowNewMessage(true);
+
         setChats((prevChats) => [...prevChats, data.chat], callback);
       });
 
@@ -190,6 +198,8 @@ const Chatting = (props) => {
           isSideChat={props.isSideChat}
           handleSendMessage={handleSendMessage}
           handleSendImage={handleSendImage}
+          showNewMessage={showNewMessage}
+          onClickNewMessage={() => scrollToBottom(true)}
         />
       </div>
     </div>

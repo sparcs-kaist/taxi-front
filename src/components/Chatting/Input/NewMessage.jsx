@@ -1,24 +1,37 @@
 import React from "react";
-import "../Style/NewMessage.css";
-import { IoArrowDown } from "react-icons/io5";
+import { useSpring, animated } from "react-spring";
 import PropTypes from "prop-types";
 
+import { IoArrowDown } from "react-icons/io5";
+
 const NewMessage = (props) => {
-  const isReceieveChat = props.isReceieveChat;
-  const onClick = props.onClick;
+  const style = useSpring({
+    position: "absolute",
+    top: props.show ? "0px" : "50px",
+    left: "calc(50% - 55px)",
+    width: "110px",
+    height: "24px",
+    borderRadius: "13px",
+    background: "#FFFFFF",
+    border: "0.5px solid #6E3678",
+    boxShadow:
+      "0px 2px 4px rgba(110, 54, 120, 0.2), 0px 1px 18px rgba(110, 54, 120, 0.12), 0px 6px 10px rgba(110, 54, 120, 0.14)",
+    fontSize: "12px",
+    lineHeight: "24px",
+    color: "#6E3678",
+    textAlign: "center",
+    config: { duration: 200 },
+  });
   return (
-    <div
-      className={"newMessage " + (isReceieveChat ? "on" : "off")}
-      onClick={onClick}
-    >
-      <IoArrowDown className="arrow" />
-      새로운 메시지
-    </div>
+    <animated.div style={style} onClick={props.onClick} className="BTNC">
+      <IoArrowDown style={{ verticalAlign: "middle", marginTop: "-1px" }} />
+      &nbsp;새로운 메시지&nbsp;
+    </animated.div>
   );
 };
 
 NewMessage.propTypes = {
-  isReceieveChat: PropTypes.any,
-  onClick: PropTypes.any,
+  show: PropTypes.bool,
+  onClick: PropTypes.func,
 };
 export default NewMessage;
