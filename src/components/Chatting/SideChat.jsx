@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Chatting from "@components/Chatting/Chatting";
+import Chatting from "components/Chatting/Chatting";
 
 const SideChat = ({ roomId }) => {
   const styleSideChat = {

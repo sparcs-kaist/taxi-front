@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { animated, useSpring } from "react-spring";
 import { useHistory } from "react-router";
-import RLayout from "@frames/ReactiveLayout/RLayout";
+import RLayout from "components/common/RLayout";
 import PropTypes from "prop-types";
-import axios from "@tools/axios";
+import axios from "tools/axios";
 
-import SparcsLogoBlack from "asset/SparcsLogoBlack.svg";
+import SparcsLogoBlack from "static/assets/SparcsLogoBlack.svg";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const Policy = () => {
