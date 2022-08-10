@@ -1,0 +1,161 @@
+import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import Title from "components/common/Title";
+import WhiteContainer from "components/common/WhiteContainer";
+import SideChat from "components/Chatting/SideChat";
+import Room from "components/common/room/Room";
+import RLayout from "components/common/RLayout";
+import PropTypes from "prop-types";
+
+const R2Myroom = (props) => {
+  const refTitle = useRef();
+  const refHeader = useRef();
+
+  const bodyHeightRef = useRef("0px");
+  const [bodyHeight, setBodyHeight] = useState(bodyHeightRef.current);
+  const chatHeightRef = useRef("0px");
+  const [chatHeight, setChatHeight] = useState(chatHeightRef.current);
+
+  const styleLine = {
+    height: "0.5px",
+    backgroundImage:
+      "linear-gradient(to right, #C8C8C8 50%, rgba(255,255,255,0) 0%)",
+    backgroundSize: "10px 1px",
+    marginTop: "19px",
+    marginBottom: "19.5px",
+  };
+  const styleEmpty = {
+    color: "#888888",
+    fontSize: "14px",
+    lineHeight: "109px",
+    textAlign: "center",
+    height: "109px",
+  };
+
+  useEffect(() => {
+    const resizeEvent = () => {
+      try {
+        const height1 = refTitle.current.clientHeight;
+        const height2 = document.getElementById("navigation-body").clientHeight;
+        const height3 = refHeader.current.clientHeight;
+        const height4 = document.body.clientHeight;
+
+        const newHeight = `${height4 - height1 - height2}px`;
+        if (bodyHeightRef.current !== newHeight) {
+          bodyHeightRef.current = newHeight;
+          setBodyHeight(newHeight);
+        }
+
+        const newChatHeight = `${height4 - height1 - height2 - height3 - 30}px`;
+        if (chatHeightRef.current !== newChatHeight) {
+          chatHeightRef.current = newChatHeight;
+          setChatHeight(newChatHeight);
+        }
+      } catch (e) {
+        console.log(e);
+        // FIXME
+      }
+    };
+    resizeEvent();
+    window.addEventListener("resize", resizeEvent);
+    return () => {
+      window.removeEventListener("resize", resizeEvent);
+    };
+  }, []);
+
+  return (
+    <div style={{ position: "fixed", width: "100%", height: "100%" }}>
+      <div ref={refTitle}>
+        <Title icon="myroom" header={true}>
+          내 방 리스트
+        </Title>
+      </div>
+      <div
+        style={{
+          height: bodyHeight,
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <RLayout.R2
+          priority="left"
+          left={
+            <div style={{ height: bodyHeight, overflow: "auto" }}>
+              <WhiteContainer marginAuto={false} padding="20px 20px 22px">
+                <Title icon="current" marginAuto={false}>
+                  참여 중인 방
+                </Title>
+                <div style={styleLine} />
+                {props.ongoing.length === 0 ? (
+                  <div style={styleEmpty}>참여 중인 방이 없습니다.</div>
+                ) : (
+                  props.ongoing.map((item) => (
+                    <Link key={item._id} to={`/myroom/${item._id}`}>
+                      <Room
+                        data={item}
+                        selected={props.roomId === item._id}
+                        theme="purple"
+                        marginTop="15px"
+                      />
+                    </Link>
+                  ))
+                )}
+              </WhiteContainer>
+              <WhiteContainer marginAuto={false} padding="20px 20px 22px">
+                <Title icon="past" marginAuto={false}>
+                  과거 참여 방
+                </Title>
+                <div style={styleLine} />
+                {props.done.length === 0 ? (
+                  <div style={styleEmpty}>과거 참여했던 방이 없습니다.</div>
+                ) : (
+                  props.done.map((item) => (
+                    <Link key={item._id} to={`/myroom/${item._id}`}>
+                      <Room
+                        data={item}
+                        selected={props.roomId === item._id}
+                        theme="purple"
+                        marginTop="15px"
+                      />
+                    </Link>
+                  ))
+                )}
+              </WhiteContainer>
+              <div style={{ height: "50px" }} />
+            </div>
+          }
+          right={
+            <div>
+              <div ref={refHeader}>
+                <WhiteContainer marginAuto={false} padding="20px">
+                  <Title icon="chat" marginAuto={false}>
+                    채팅 창
+                  </Title>
+                </WhiteContainer>
+              </div>
+              {props.roomId ? (
+                <WhiteContainer marginAuto={false} padding="0px">
+                  <div style={{ height: chatHeight, position: "relative" }}>
+                    <SideChat roomId={props.roomId} />
+                  </div>
+                </WhiteContainer>
+              ) : null}
+            </div>
+          }
+        />
+      </div>
+    </div>
+  );
+};
+
+R2Myroom.propTypes = {
+  roomId: PropTypes.string,
+  ongoing: PropTypes.array,
+  done: PropTypes.array,
+};
+R2Myroom.defaultProps = {
+  ongoing: [],
+  done: [],
+};
+
+export default R2Myroom;
