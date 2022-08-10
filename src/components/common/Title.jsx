@@ -2,14 +2,15 @@ import React from "react";
 import PropTypes from "prop-types";
 import RLayout from "components/common/RLayout";
 
-import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
-import ListAltRoundedIcon from "@material-ui/icons/ListAltRounded";
-import LibraryBooksRoundedIcon from "@material-ui/icons/LibraryBooksRounded";
-import HistoryRoundedIcon from "@material-ui/icons/HistoryRounded";
-import QuestionAnswerRoundedIcon from "@material-ui/icons/QuestionAnswerRounded";
-import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
-import LocalTaxiRoundedIcon from "@material-ui/icons/LocalTaxiRounded";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import ListAltRoundedIcon from "@mui/icons-material/ListAltRounded";
+import LibraryBooksRoundedIcon from "@mui/icons-material/LibraryBooksRounded";
+import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
+import QuestionAnswerRoundedIcon from "@mui/icons-material/QuestionAnswerRounded";
+import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
+import LocalTaxiRoundedIcon from "@mui/icons-material/LocalTaxiRounded";
 import LibraryAddRoundedIcon from "@mui/icons-material/LibraryAddRounded";
+import ErrorOutlineRounded from "@mui/icons-material/ErrorOutlineRounded";
 
 const iconStyle = {
   width: "24px",
@@ -35,6 +36,8 @@ const getIcon = (icon) => {
       return <QuestionAnswerRoundedIcon style={iconStyle} />;
     case "mypage":
       return <AccountCircleRoundedIcon style={iconStyle} />;
+    case "error":
+      return <ErrorOutlineRounded style={iconStyle} />;
     default:
       return <></>;
   }
