@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
-import RLayout from "@frames/ReactiveLayout/RLayout";
+import RLayout from "components/common/RLayout";
 import Title from "@frames/Title/Title";
 import SubmitButton from "@frames/SubmitButton/SubmitButton";
 import axios from "@tools/axios";

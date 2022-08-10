@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { animated, useSpring } from "react-spring";
-import RLayout from "@frames/ReactiveLayout/RLayout";
+import RLayout from "components/common/RLayout";
 import ProfileImg from "../ProfileImg";
 import axios from "@tools/axios";
 import axiosOri from "axios";

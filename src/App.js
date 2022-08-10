@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ScrollRestoration from "react-scroll-restoration";
-import Skeleton from "@frames/Skeleton/Skeleton";
+import Skeleton from "@components/Skeleton/Skeleton";
 
 import Login from "@components/Login/Login";
 import Search from "@components/Search/Search/Search";

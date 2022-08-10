@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSpring, animated } from "react-spring";
-import RLayout from "@frames/ReactiveLayout/RLayout";
-import "./Navigation.css";
+import RLayout from "components/common/RLayout";
 
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import LibraryAddRoundedIcon from "@mui/icons-material/LibraryAddRounded";
@@ -72,7 +71,19 @@ NavigationBtn.propTypes = {
 
 const Navigation = (props) => {
   return (
-    <div id="navigation" className="ND">
+    <div
+      className="ND"
+      style={{
+        position: "fixed",
+        left: "0px",
+        bottom: "0px",
+        width: "100%",
+        height: "50px",
+        paddingBottom: "calc(env(safe-area-inset-bottom))",
+        boxShadow: "0 0 4px rgba(0, 0, 0, 0.1)",
+        backgroundColor: "white",
+      }}
+    >
       <RLayout.R1 height="100%">
         <div style={{ display: "flex" }}>
           <NavigationBtn

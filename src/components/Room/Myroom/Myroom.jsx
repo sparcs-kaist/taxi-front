@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import WhiteContainer from "@frames/WhiteContainer/WhiteContainer";
 import Title from "@frames/Title/Title";
-import RLayout from "@frames/ReactiveLayout/RLayout";
+import RLayout from "components/common/RLayout";
 import RoomList from "@components/Room/Room/RoomList";
 import SideChat from "@components/Chatting/SideChat";
 import axios from "@tools/axios";

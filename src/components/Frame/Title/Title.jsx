@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import RLayout from "@frames/ReactiveLayout/RLayout";
+import RLayout from "components/common/RLayout";
 
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import ListAltRoundedIcon from "@material-ui/icons/ListAltRounded";

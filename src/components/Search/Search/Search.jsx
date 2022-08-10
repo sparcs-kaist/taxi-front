@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { animated, useSpring } from "react-spring";
-import RLayout from "@frames/ReactiveLayout/RLayout";
+import { useR2state } from "hooks/useReactiveState";
+import RLayout from "components/common/RLayout";
 import Title from "@frames/Title/Title";
 import SubmitButton from "@frames/SubmitButton/SubmitButton";
 import SideResult from "../SearchResult/SideResult";
@@ -104,7 +105,7 @@ SelectSearchOptions.propTypes = {
 };
 
 const Search = () => {
-  const reactiveState = RLayout.useR2state();
+  const reactiveState = useR2state();
   const onCall = useRef(false);
   const [searchOptions, setSearchOptions] = useState({});
   const [valueName, setName] = useState("");

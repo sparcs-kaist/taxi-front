@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSpring, animated } from "react-spring";
 import { useHistory, Link } from "react-router";
-import RLayout from "@frames/ReactiveLayout/RLayout";
+import RLayout from "components/common/RLayout";
 import PropTypes from "prop-types";
 import { backServer } from "serverconf";
 import { date2str } from "@tools/trans";

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
 import { backServer } from "serverconf";
-import RLayout from "@frames/ReactiveLayout/RLayout";
+import RLayout from "components/common/RLayout";
 
 import SparcsLogoPurple from "static/assets/SparcsLogoPurple.svg";
 
