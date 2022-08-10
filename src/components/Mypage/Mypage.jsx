@@ -13,7 +13,7 @@ import axios from "@tools/axios";
 
 import AssignmentRoundedIcon from "@material-ui/icons/AssignmentRounded";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
-import SparcsLogoBlack from "asset/SparcsLogoBlack.svg";
+import SparcsLogoBlack from "static/assets/SparcsLogoBlack.svg";
 
 const BtnC = (props) => {
   const [isHover, setHover] = useState(false);

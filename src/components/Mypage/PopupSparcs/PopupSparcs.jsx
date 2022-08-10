@@ -3,8 +3,8 @@ import { animated, useSpring } from "react-spring";
 import RLayout from "@frames/ReactiveLayout/RLayout";
 import PropTypes from "prop-types";
 
-import SparcsLogoBlack from "asset/SparcsLogoBlack.svg";
-import SparcsLogoYellow from "asset/SparcsLogoYellow.svg";
+import SparcsLogoBlack from "static/assets/SparcsLogoBlack.svg";
+import SparcsLogoYellow from "static/assets/SparcsLogoYellow.svg";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const Member = (props) => {

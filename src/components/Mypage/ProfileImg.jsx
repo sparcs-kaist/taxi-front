@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getS3Url } from "@tools/trans";
 import PropTypes from "prop-types";
 
-import defaultImg from "@assets/profileImgOnError.png";
+import defaultImg from "static/assets/profileImgOnError.png";
 
 const ProfileImg = (props) => {
   const getSrc = () =>

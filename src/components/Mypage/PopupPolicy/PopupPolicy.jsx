@@ -5,7 +5,7 @@ import RLayout from "@frames/ReactiveLayout/RLayout";
 import PropTypes from "prop-types";
 import axios from "@tools/axios";
 
-import SparcsLogoBlack from "asset/SparcsLogoBlack.svg";
+import SparcsLogoBlack from "static/assets/SparcsLogoBlack.svg";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const Policy = () => {
