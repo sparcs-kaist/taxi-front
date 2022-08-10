@@ -1,6 +1,6 @@
 import React from "react";
-import WhiteContainer from "../../Frame/WhiteContainer/WhiteContainer";
-import Title from "../../Frame/Title/Title";
+import WhiteContainer from "components/common/WhiteContainer";
+import Title from "components/common/Title";
 import Room from "../../Room/Room/RoomElement";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";

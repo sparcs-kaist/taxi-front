@@ -1,8 +1,8 @@
 import React, { useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import RLayout from "components/common/RLayout";
-import Title from "@frames/Title/Title";
-import SubmitButton from "@frames/SubmitButton/SubmitButton";
+import Title from "components/common/Title";
+import SubmitButton from "components/common/roomOptions/SubmitButton";
 import axios from "@tools/axios";
 import { date2str, getToday10 } from "@tools/trans";
 

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import WhiteContainer from "@frames/WhiteContainer/WhiteContainer";
+import WhiteContainer from "components/common/WhiteContainer";
 
 import CreateIcon from "@material-ui/icons/Create";
 

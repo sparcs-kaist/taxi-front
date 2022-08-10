@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import WhiteContainer from "@frames/WhiteContainer/WhiteContainer";
-import Title from "@frames/Title/Title";
+import WhiteContainer from "components/common/WhiteContainer";
+import Title from "components/common/Title";
 import RLayout from "components/common/RLayout";
+import { useR2state } from "hooks/useReactiveState";
 import RoomList from "@components/Room/Room/RoomList";
 import SideChat from "@components/Chatting/SideChat";
 import axios from "@tools/axios";
@@ -11,7 +12,7 @@ import axios from "@tools/axios";
 
 const Myroom = () => {
   const history = useHistory();
-  const reactiveState = RLayout.useR2state();
+  const reactiveState = useR2state();
   const [currentRoom, setCurrentRoom] = useState([]);
   const [pastRoom, setPastRoom] = useState([]);
   const param = useParams();

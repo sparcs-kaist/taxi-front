@@ -11,7 +11,7 @@ import { backServer } from "serverconf";
 import convertImg from "@tools/convertImg";
 import axios from "@tools/axios";
 import axiosOri from "axios";
-import useTaxiAPI from "@components/Frame/useTaxiAPI/useTaxiAPI";
+import useTaxiAPI from "hooks/useTaxiAPI";
 
 import "./Style/Chatting.css";
 

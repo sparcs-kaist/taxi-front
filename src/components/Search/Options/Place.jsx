@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
 import PropTypes from "prop-types";
-import WhiteContainer from "@frames/WhiteContainer/WhiteContainer";
+import WhiteContainer from "components/common/WhiteContainer";
 import Popup from "./Popup";
 import Picker from "react-mobile-picker-mod";
 

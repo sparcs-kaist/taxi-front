@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import WhiteContainer from "@frames/WhiteContainer/WhiteContainer";
+import WhiteContainer from "components/common/WhiteContainer";
 
 import PeopleIcon from "@material-ui/icons/PeopleAlt";
 import RemoveIcon from "@material-ui/icons/Remove";
