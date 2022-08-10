@@ -5,11 +5,11 @@ import { io } from "socket.io-client";
 import Header from "./Header/Header";
 import MessagesBody from "./MessagesBody/MessagesBody";
 import MessageForm from "./Input/MessageForm";
-import regExpTest from "@tools/regExpTest";
+import regExpTest from "tools/regExpTest";
 
 import { backServer } from "serverconf";
-import convertImg from "@tools/convertImg";
-import axios from "@tools/axios";
+import convertImg from "tools/convertImg";
+import axios from "tools/axios";
 import axiosOri from "axios";
 import useTaxiAPI from "hooks/useTaxiAPI";
 

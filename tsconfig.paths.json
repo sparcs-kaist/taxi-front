@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
     "baseUrl": "./src",
-    "paths": {
-      "@components/*": ["components/*"],
-      "@frames/*": ["components/Frame/*"],
-      "@tools/*": ["tools/*"]
-    }
+    "paths": {}
   }
 }

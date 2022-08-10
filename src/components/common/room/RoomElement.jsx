@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
 import PropTypes from "prop-types";
-import { date2str } from "@tools/trans";
+import { date2str } from "tools/trans";
 import "./RoomElement.css";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 
-const Room = (props) => {
+const RoomElement = (props) => {
   const [isHover, setHover] = useState(false);
   const style = {
     position: "relative",
@@ -96,7 +96,7 @@ const Room = (props) => {
   );
 };
 
-Room.propTypes = {
+RoomElement.propTypes = {
   name: PropTypes.string,
   left: PropTypes.number,
   creator: PropTypes.string,
@@ -109,7 +109,7 @@ Room.propTypes = {
   marginBottom: PropTypes.string,
   mobile: PropTypes.bool,
 };
-Room.defaultProps = {
+RoomElement.defaultProps = {
   seleted: false,
   onClick: () => {},
   marginTop: "0px",
@@ -117,4 +117,4 @@ Room.defaultProps = {
   mobile: false,
 };
 
-export default Room;
+export default RoomElement;

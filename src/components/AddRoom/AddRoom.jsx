@@ -3,14 +3,14 @@ import { useHistory } from "react-router-dom";
 import RLayout from "components/common/RLayout";
 import Title from "components/common/Title";
 import SubmitButton from "components/common/roomOptions/SubmitButton";
-import axios from "@tools/axios";
-import { date2str, getToday10 } from "@tools/trans";
+import axios from "tools/axios";
+import { date2str, getToday10 } from "tools/trans";
 
-import OptionName from "../Options/Name";
-import OptionPlace from "../Options/Place";
-import OptionDate from "../Options/Date";
-import OptionTime from "../Options/Time";
-import OptionMaxPartLength from "../Options/MaxPartLength";
+import OptionName from "components/common/roomOptions/Name";
+import OptionPlace from "components/common/roomOptions/Place";
+import OptionDate from "components/common/roomOptions/Date";
+import OptionTime from "components/common/roomOptions/Time";
+import OptionMaxPartLength from "components/common/roomOptions/MaxPartLength";
 
 const AddRoom = () => {
   const onCall = useRef(false);

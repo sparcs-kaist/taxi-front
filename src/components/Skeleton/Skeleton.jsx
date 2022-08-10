@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, Redirect } from "react-router-dom";
-import Navigation from "@components/Skeleton/Navigation";
-import Footer from "@components/Skeleton/Footer";
-import PopupPolicy from "@components/Mypage/PopupPolicy/PopupPolicy";
+import Navigation from "components/Skeleton/Navigation";
+import Footer from "components/Skeleton/Footer";
+import PopupPolicy from "components/Mypage/PopupPolicy/PopupPolicy";
 import PropTypes from "prop-types";
-import axios from "@tools/axios";
+import axios from "tools/axios";
 
 const Container = (props) => {
   return (

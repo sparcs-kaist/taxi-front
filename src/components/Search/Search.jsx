@@ -4,17 +4,17 @@ import { useR2state } from "hooks/useReactiveState";
 import RLayout from "components/common/RLayout";
 import Title from "components/common/Title";
 import SubmitButton from "components/common/roomOptions/SubmitButton";
-import SideResult from "../SearchResult/SideResult";
-import axios from "@tools/axios";
+import SideResult from "./SideResult";
+import axios from "tools/axios";
 import moment from "moment";
-import { getToday10 } from "@tools/trans";
+import { getToday10 } from "tools/trans";
 import PropTypes from "prop-types";
 
-import OptionName from "../Options/Name";
-import OptionPlace from "../Options/Place";
-import OptionDate from "../Options/Date";
-import OptionTime from "../Options/Time";
-import OptionMaxPartLength from "../Options/MaxPartLength";
+import OptionName from "components/common/roomOptions/Name";
+import OptionPlace from "components/common/roomOptions/Place";
+import OptionDate from "components/common/roomOptions/Date";
+import OptionTime from "components/common/roomOptions/Time";
+import OptionMaxPartLength from "components/common/roomOptions/MaxPartLength";
 
 const SearchOption = (props) => {
   const [isHover, setHover] = useState(false);

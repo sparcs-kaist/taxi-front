@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import axios from "@tools/axios";
+import axios from "tools/axios";
 
 const wrapUseTaxiAPI =
   (method) =>

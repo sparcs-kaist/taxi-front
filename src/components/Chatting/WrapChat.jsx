@@ -1,5 +1,5 @@
 import React from "react";
-import Chatting from "@components/Chatting/Chatting";
+import Chatting from "components/Chatting/Chatting";
 import { useParams } from "react-router-dom";
 
 const WrapChat = () => {

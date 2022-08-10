@@ -2,9 +2,9 @@ import React, { useEffect, useState, useRef } from "react";
 import { animated, useSpring } from "react-spring";
 import RLayout from "components/common/RLayout";
 import ProfileImg from "../ProfileImg";
-import axios from "@tools/axios";
+import axios from "tools/axios";
 import axiosOri from "axios";
-import convertImg from "@tools/convertImg";
+import convertImg from "tools/convertImg";
 import PropTypes from "prop-types";
 
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";

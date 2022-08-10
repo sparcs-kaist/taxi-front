@@ -4,7 +4,7 @@ import { useHistory, Link } from "react-router";
 import RLayout from "components/common/RLayout";
 import PropTypes from "prop-types";
 import { backServer } from "serverconf";
-import { date2str } from "@tools/trans";
+import { date2str } from "tools/trans";
 
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";

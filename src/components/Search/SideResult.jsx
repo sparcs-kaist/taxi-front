@@ -1,10 +1,10 @@
 import React from "react";
 import WhiteContainer from "components/common/WhiteContainer";
-import Room from "@components/Room/Room/RoomElement";
-import RoomList from "@components/Room/Room/RoomList";
+import Room from "components/common/room/RoomElement";
+import RoomList from "components/common/room/RoomList";
 import PropTypes from "prop-types";
 
-const Result = (props) => {
+const SideResult = (props) => {
   const styleEmpty = {
     color: "#888888",
     fontWeight: "700",
@@ -46,9 +46,9 @@ const Result = (props) => {
   }
 };
 
-Result.propTypes = {
+SideResult.propTypes = {
   result: PropTypes.array,
   mobile: PropTypes.bool,
 };
 
-export default Result;
+export default SideResult;

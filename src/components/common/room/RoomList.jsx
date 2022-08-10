@@ -1,7 +1,7 @@
 import React from "react";
 import WhiteContainer from "components/common/WhiteContainer";
 import Title from "components/common/Title";
-import Room from "../../Room/Room/RoomElement";
+import Room from "./RoomElement";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 

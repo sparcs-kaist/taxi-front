@@ -4,9 +4,9 @@ import WhiteContainer from "components/common/WhiteContainer";
 import Title from "components/common/Title";
 import RLayout from "components/common/RLayout";
 import { useR2state } from "hooks/useReactiveState";
-import RoomList from "@components/Room/Room/RoomList";
-import SideChat from "@components/Chatting/SideChat";
-import axios from "@tools/axios";
+import RoomList from "components/common/room/RoomList";
+import SideChat from "components/Chatting/SideChat";
+import axios from "tools/axios";
 
 // import Chatting from "../../../components/Chatting/Chatting";
 

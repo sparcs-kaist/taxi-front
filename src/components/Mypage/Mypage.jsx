@@ -9,7 +9,7 @@ import PopupPolicy from "./PopupPolicy/PopupPolicy";
 import PopupMypage from "./PopupMypage/PopupMypage";
 import ProfileImg from "./ProfileImg";
 import useTaxiAPI from "hooks/useTaxiAPI";
-import axios from "@tools/axios";
+import axios from "tools/axios";
 
 import AssignmentRoundedIcon from "@material-ui/icons/AssignmentRounded";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
