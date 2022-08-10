@@ -1,9 +1,3 @@
-.MessageForm-container {
-  position: fixed;
-  bottom: 0px;
-  width: 100%;
-  height: 40px;
-}
 .MessageForm {
   position: absolute;
   bottom: 0px;
@@ -44,6 +38,6 @@
   align-items: center;
   align-content: center;
   cursor: pointer;
-  margin-right: 17.5px;
-  margin-left: 12.5px;
+  margin-right: 10px;
+  margin-left: 10px;
 }
