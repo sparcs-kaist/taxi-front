@@ -50,7 +50,7 @@ Button.propTypes = {
   // FIXME specify type
   backgroundHover: PropTypes.any,
   background: PropTypes.any,
-  textColor: PropTypes.any,
+  textColor: PropTypes.string,
   onClick: PropTypes.func,
   children: PropTypes.any,
   marginAuto: PropTypes.any,
