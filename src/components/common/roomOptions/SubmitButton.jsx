@@ -11,7 +11,7 @@ const Button = (props) => {
     lineHeight: "19px",
     textAlign: "center",
     fontSize: "16px",
-    color: props.disable ? "#888888" : "white",
+    color: props.disable ? "#888888" : props.textColor,
     fontWeight: "bold",
     borderRadius: "12px",
     boxShadow:
@@ -50,6 +50,7 @@ Button.propTypes = {
   // FIXME specify type
   backgroundHover: PropTypes.any,
   background: PropTypes.any,
+  textColor: PropTypes.string,
   onClick: PropTypes.func,
   children: PropTypes.any,
   marginAuto: PropTypes.any,
@@ -60,6 +61,7 @@ Button.defaultProps = {
   background: "#6E3678",
   backgroundHover: "#572A5E",
   marginAuto: true,
+  textColor: "white",
   onClick: () => {},
   disable: true,
 };
