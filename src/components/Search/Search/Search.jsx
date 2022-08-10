@@ -13,6 +13,7 @@ import OptionName from "../Options/Name";
 import OptionPlace from "../Options/Place";
 import OptionDate from "../Options/Date";
 import OptionTime from "../Options/Time";
+import OptionMaxPartLength from "../Options/MaxPartLength";
 
 const SearchOption = (props) => {
   const [isHover, setHover] = useState(false);
@@ -58,6 +59,7 @@ const SelectSearchOptions = (props) => {
     { name: "장소", id: "place" },
     { name: "날짜", id: "date" },
     { name: "시간", id: "time" },
+    { name: "최대 인원", id: "maxPartLength" },
   ];
   if (props.options.time && !props.options.date) {
     props.handler({ ...props.options, date: true });
@@ -109,6 +111,7 @@ const Search = () => {
   const [valuePlace, setPlace] = useState([null, null]);
   const [valueDate, setDate] = useState([null, null, null]);
   const [valueTime, setTime] = useState(["0", "00"]);
+  const [valueMaxPartLength, setMaxPartLength] = useState(null);
   const [searchResult, setSearchResult] = useState(null);
   const [disable, setDisable] = useState(true);
   const [message, setMessage] = useState("검색 조건을 선택해주세요");
@@ -161,6 +164,10 @@ const Search = () => {
       setTime(["0", "00"]);
     }
   }, [searchOptions.time]);
+  useEffect(() => {
+    if (searchOptions.maxPartLength) setMaxPartLength(4);
+    else setMaxPartLength(null);
+  }, [searchOptions.maxPartLength]);
 
   const onClickSearch = async () => {
     if (!onCall.current) {
@@ -198,6 +205,7 @@ const Search = () => {
             from: valuePlace[0],
             to: valuePlace[1],
             time: date.toISOString(),
+            maxPartLength: valueMaxPartLength,
           },
         })
         .then((res) => {
@@ -232,6 +240,12 @@ const Search = () => {
       ) : null}
       {searchOptions.time ? (
         <OptionTime value={valueTime} handler={setTime} page="search" />
+      ) : null}
+      {searchOptions.maxPartLength ? (
+        <OptionMaxPartLength
+          value={valueMaxPartLength}
+          handler={setMaxPartLength}
+        />
       ) : null}
       <SubmitButton
         marginAuto={false}

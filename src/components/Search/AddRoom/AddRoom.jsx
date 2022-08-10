@@ -10,6 +10,7 @@ import OptionName from "../Options/Name";
 import OptionPlace from "../Options/Place";
 import OptionDate from "../Options/Date";
 import OptionTime from "../Options/Time";
+import OptionMaxPartLength from "../Options/MaxPartLength";
 
 const AddRoom = () => {
   const onCall = useRef(false);
@@ -17,6 +18,7 @@ const AddRoom = () => {
   const [valueName, setName] = useState("");
   const [valuePlace, setPlace] = useState([null, null]);
   const [valueDate, setDate] = useState([null, null, null]);
+  const [valueMaxPartLength, setMaxPartLength] = useState(4);
   const today = getToday10();
   const [valueTime, setTime] = useState([
     today.hour().toString(),
@@ -54,7 +56,7 @@ const AddRoom = () => {
           valueTime[0],
           valueTime[1]
         ),
-        maxPartLength: 4,
+        maxPartLength: valueMaxPartLength,
       });
       if (result.status === 200) {
         history.push("/myroom");
@@ -74,6 +76,10 @@ const AddRoom = () => {
         <OptionDate value={valueDate} handler={setDate} />
         <OptionName value={valueName} handler={setName} />
         <OptionTime value={valueTime} handler={setTime} page="add" />
+        <OptionMaxPartLength
+          value={valueMaxPartLength}
+          handler={setMaxPartLength}
+        />
         <SubmitButton
           marginAuto={false}
           onClick={validatedMsg ? () => {} : onClickAdd}
