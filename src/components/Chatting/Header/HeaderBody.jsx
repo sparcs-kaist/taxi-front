@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import PopupCancel from "./Popup/PopupCancel";
 import { date2str } from "tools/trans";
 import PropTypes from "prop-types";
 
@@ -44,7 +45,7 @@ const BtnSide = (props) => {
     position: "relative",
   };
   return (
-    <div style={style}>
+    <div style={style} onClick={props.onClick}>
       <div
         style={{
           height: "21px",
@@ -63,6 +64,7 @@ const BtnSide = (props) => {
 BtnSide.propTypes = {
   enable: PropTypes.bool,
   children: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 const User = (props) => {
@@ -99,7 +101,9 @@ User.propTypes = {
 
 const HeaderBody = (props) => {
   const users = props.info?.part || [];
-  console.log(props.info);
+
+  const [popupCancel, setPopupCancel] = useState(false);
+
   return (
     <div>
       <div>
@@ -128,9 +132,15 @@ const HeaderBody = (props) => {
           ))}
         </div>
         <div style={{ width: "67px" }}>
-          <BtnSide enable={true}>정산하기</BtnSide>
+          <BtnSide enable={true} onClick={() => setPopupCancel(true)}>
+            탑승취소
+          </BtnSide>
         </div>
       </div>
+      <PopupCancel
+        popup={popupCancel}
+        onClickClose={() => setPopupCancel(false)}
+      />
     </div>
   );
 };

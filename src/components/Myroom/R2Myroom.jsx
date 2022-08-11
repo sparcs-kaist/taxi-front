@@ -84,7 +84,13 @@ const R2Myroom = (props) => {
   }, [props.roomId]);
 
   return (
-    <div style={{ position: "fixed", width: "100%", height: "100%" }}>
+    <div
+      style={{
+        position: "absolute",
+        width: "100%",
+        height: "calc(100% - 50px)",
+      }}
+    >
       <div ref={refTitle}>
         <Title icon="myroom" header={true}>
           내 방 리스트
