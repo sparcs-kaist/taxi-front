@@ -22,6 +22,8 @@ const Chatting = (props) => {
 
   const [chats, setChats] = useStateWithCallbackLazy([]);
   const [showNewMessage, setShowNewMessage] = useState(false);
+  const [messageFormHeight, setMessageFormHeight] =
+    useStateWithCallbackLazy("40px");
 
   const socket = useRef(undefined);
   const [, userInfoDetail] = useTaxiAPI.get("/json/logininfo/detail");
@@ -78,6 +80,14 @@ const Chatting = (props) => {
         messagesBody.current.scrollTop = scrollTop;
       }
     }
+  };
+
+  // messageFrom Height function
+  const handleMessageFormHeight = (height) => {
+    let isBottom = isBottomOnScroll();
+    setMessageFormHeight(height, () => {
+      if (isBottom) scrollToBottom();
+    });
   };
 
   // socket setting
@@ -209,6 +219,7 @@ const Chatting = (props) => {
           handleScroll={handleScroll}
           isBottomOnScroll={isBottomOnScroll}
           scrollToBottom={() => scrollToBottom(false)}
+          marginBottom={messageFormHeight}
         />
         <MessageForm
           isSideChat={props.isSideChat}
@@ -216,6 +227,7 @@ const Chatting = (props) => {
           handleSendImage={handleSendImage}
           showNewMessage={showNewMessage}
           onClickNewMessage={() => scrollToBottom(true)}
+          setContHeight={handleMessageFormHeight}
         />
       </div>
     </div>

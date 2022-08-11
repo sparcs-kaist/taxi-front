@@ -102,7 +102,7 @@ const MessagesBody = (props) => {
     <div
       style={{
         marginTop: props.isSideChat ? "64px" : "70px",
-        marginBottom: "40px",
+        marginBottom: props.marginBottom,
         width: "100%",
         overflow: "auto",
         //display: "flex",
@@ -124,6 +124,7 @@ MessagesBody.propTypes = {
   handleScroll: PropTypes.func,
   isBottomOnScroll: PropTypes.func,
   scrollToBottom: PropTypes.func,
+  marginBottom: PropTypes.string,
 };
 
 MessagesBody.defaultProps = {
