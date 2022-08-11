@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { io } from "socket.io-client";
 import Header from "./Header/Header";
 import MessagesBody from "./MessagesBody/MessagesBody";
-import MessageForm from "./Input/MessageForm";
+import MessageForm from "./MessageForm/MessageForm";
 import regExpTest from "tools/regExpTest";
 
 import { backServer } from "serverconf";

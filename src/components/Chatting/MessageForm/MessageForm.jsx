@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import SideChatMessageForm from "./SideChatMessageForm";
 import FullChatMessageForm from "./FullChatMessageForm";
 import NewMessage from "./NewMessage";
 import PropTypes from "prop-types";
@@ -35,7 +34,7 @@ const MessageForm = (props) => {
           width: "100%",
           height: "36px",
           left: "0px",
-          top: "0px",
+          bottom: "40px",
         }}
       >
         <NewMessage
@@ -52,20 +51,12 @@ const MessageForm = (props) => {
           bottom: "0px",
         }}
       >
-        {props.isSideChat ? (
-          <SideChatMessageForm
-            message={message}
-            onChangeMessage={onChangeMessage}
-            onSend={onSend}
-          />
-        ) : (
-          <FullChatMessageForm
-            message={message}
-            onChangeMessage={onChangeMessage}
-            onChangeImage={onChangeImage}
-            onSend={onSend}
-          />
-        )}
+        <FullChatMessageForm
+          message={message}
+          onChangeMessage={onChangeMessage}
+          onChangeImage={onChangeImage}
+          onSend={onSend}
+        />
       </div>
     </div>
   );
