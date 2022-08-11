@@ -45,13 +45,12 @@ const getIcon = (icon) => {
 
 const Title = (props) => {
   const title = (
-    <>
+    <div>
+      <div style={{ height: props.header ? "30px" : "0px" }} />
       <div
         style={{
           display: "flex",
           alignItems: "flex-end",
-          marginTop: props.header ? "30px" : "0px",
-          marginBottom: props.header ? "25px" : "0px",
         }}
       >
         {getIcon(props.icon)}
@@ -68,7 +67,8 @@ const Title = (props) => {
           {props.children}
         </div>
       </div>
-    </>
+      <div style={{ height: props.header ? "25px" : "0px" }} />
+    </div>
   );
 
   if (props.marginAuto) {

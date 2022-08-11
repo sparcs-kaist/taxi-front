@@ -72,6 +72,7 @@ NavigationBtn.propTypes = {
 const Navigation = (props) => {
   return (
     <div
+      id="navigation-body"
       className="ND"
       style={{
         position: "fixed",

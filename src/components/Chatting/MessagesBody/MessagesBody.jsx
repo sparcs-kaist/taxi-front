@@ -26,7 +26,7 @@ const MessagesBody = (props) => {
       if (item.type === "inf-checkout") {
         list.push(
           <ChatSet
-            key={"chat" + momentCache}
+            key={"chat" + chatsCache[0].time}
             chats={chatsCache}
             authorId={props.user.oid}
             isBottomOnScroll={props.isBottomOnScroll}
@@ -70,7 +70,7 @@ const MessagesBody = (props) => {
         ) {
           list.push(
             <ChatSet
-              key={"chat" + currentMoment}
+              key={"chat" + chatsCache[0].time}
               chats={chatsCache}
               authorId={props.user.oid}
               isBottomOnScroll={props.isBottomOnScroll}

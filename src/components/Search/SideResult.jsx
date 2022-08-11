@@ -1,10 +1,17 @@
 import React from "react";
 import WhiteContainer from "components/common/WhiteContainer";
+import Title from "components/common/Title";
 import Room from "components/common/room/RoomElement";
-import RoomList from "components/common/room/RoomList";
 import PropTypes from "prop-types";
 
 const SideResult = (props) => {
+  const styleEmpty2 = {
+    color: "#888888",
+    fontSize: "14px",
+    lineHeight: "109px",
+    textAlign: "center",
+    height: "109px",
+  };
   const styleEmpty = {
     color: "#888888",
     fontWeight: "700",
@@ -14,7 +21,26 @@ const SideResult = (props) => {
   if (!props.mobile) {
     return (
       <div style={{ marginTop: 26 }}>
-        <RoomList icon="search_result" title="검색 결과" list={props.result} />
+        <WhiteContainer marginAuto={false} padding="20px 20px 22px">
+          <Title icon="search_result" marginAuto={false}>
+            검색 결과
+          </Title>
+          {props.result.length == 0 ? (
+            <div style={styleEmpty}>검색 결과가 없습니다.</div>
+          ) : (
+            props.result.map((room, index) => (
+              <Room
+                name={room.name}
+                origin={room.from}
+                destination={room.to}
+                date={room.time}
+                key={index}
+                marginTop="15px"
+                mobile={props.mobile}
+              />
+            ))
+          )}
+        </WhiteContainer>
       </div>
     );
   } else {
