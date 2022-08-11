@@ -74,7 +74,6 @@ const User = (props) => {
           height: "21px",
           borderRadius: "11px",
           background: "#C4C4C4",
-          marginBottom: "1px",
         }}
       ></div>
       <div
@@ -86,6 +85,7 @@ const User = (props) => {
           color: "#888888",
           background: "#EEEEEE",
           borderRadius: "6px",
+          marginTop: "1px",
         }}
       >
         {props.nickname}
