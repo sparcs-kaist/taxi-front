@@ -24,15 +24,17 @@ const MessagesBody = (props) => {
     const minFormat = "YYYY.MM.DD HH:mm";
     props.chats.forEach((item) => {
       if (item.type === "inf-checkout") {
-        list.push(
-          <ChatSet
-            key={"chat" + chatsCache[0].time}
-            chats={chatsCache}
-            authorId={props.user.oid}
-            isBottomOnScroll={props.isBottomOnScroll}
-            scrollToBottom={props.scrollToBottom}
-          />
-        );
+        if (chatsCache) {
+          list.push(
+            <ChatSet
+              key={"chat" + chatsCache[0].time}
+              chats={chatsCache}
+              authorId={props.user.oid}
+              isBottomOnScroll={props.isBottomOnScroll}
+              scrollToBottom={props.scrollToBottom}
+            />
+          );
+        }
         chatsCache = null;
 
         list.push(<div key={"checkout" + momentCache} chatcheckout="true" />);

@@ -1,19 +1,58 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSpring, animated } from "react-spring";
+import regExpTest from "tools/regExpTest";
 import PropTypes from "prop-types";
 
 import { IoMdSend } from "react-icons/io";
 import { BsImageFill } from "react-icons/bs";
-import regExpTest from "tools/regExpTest";
 
 const BtnSend = (props) => {
-  const style = useSpring({});
-  return <animated.div style={style}></animated.div>;
+  const style = useSpring({
+    position: "absolute",
+    width: "20px",
+    height: "20px",
+    bottom: "4px",
+    right: "7px",
+  });
+  return (
+    <animated.div style={style} className="BTNC" onClick={props.onClick}>
+      <IoMdSend
+        style={{
+          width: "100%",
+          height: "100%",
+          fill: props.enable ? "#323232" : "#888888",
+        }}
+      />
+    </animated.div>
+  );
+};
+BtnSend.propTypes = {
+  enable: PropTypes.bool,
+  onClick: PropTypes.func,
+};
+
+const BtnImage = (props) => {
+  const style = useSpring({
+    position: "absolute",
+    width: "16px",
+    height: "16px",
+    bottom: "12px",
+    left: "19px",
+  });
+  return (
+    <animated.div style={style} className="BTNC" onClick={props.onClick}>
+      <BsImageFill style={{ width: "100%", height: "100%", fill: "#323232" }} />
+    </animated.div>
+  );
+};
+BtnImage.propTypes = {
+  onClick: PropTypes.func,
 };
 
 const FullChatMessageForm = (props) => {
   const textareaContRef = useRef();
   const textareaRef = useRef();
+  const inputImage = useRef();
   const [message, setMessage] = useState("");
   const [formHeight, setFormHeight] = useState("28px");
 
@@ -88,6 +127,14 @@ const FullChatMessageForm = (props) => {
         minHeight: "40px",
       }}
     >
+      <input
+        type="file"
+        accept="image/jpg, image/png, image/jpeg, image/heic"
+        hidden
+        ref={inputImage}
+        onChange={onChangeImage}
+      />
+      <BtnImage onClick={() => inputImage.current.click()} />
       <div style={{ height: "6px" }} />
       <div
         ref={textareaContRef}
@@ -112,7 +159,7 @@ const FullChatMessageForm = (props) => {
           onKeyDown={onKeyDown}
           onKeyUp={onKeyUp}
           style={{
-            width: "calc(100% - 12px)",
+            width: "calc(100% - 46px)",
             height: "calc(100% - 12px)",
             background: "none",
             border: "none",
@@ -123,9 +170,10 @@ const FullChatMessageForm = (props) => {
             paddingTop: "6px",
             paddingBottom: "6px",
             paddingLeft: "12px",
+            paddingRight: "34px",
           }}
         />
-        <BtnSend />
+        <BtnSend onClick={onSend} enable={isMessageValid()} />
       </div>
       <div style={{ height: "6px" }} />
     </div>
