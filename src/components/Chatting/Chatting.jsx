@@ -25,7 +25,7 @@ const Chatting = (props) => {
 
   const socket = useRef(undefined);
   const [, userInfoDetail] = useTaxiAPI.get("/json/logininfo/detail");
-  const [, headerInfo] = useTaxiAPI.get(`/rooms/info?id=${props.roomId}`);
+  const [, headerInfo] = useTaxiAPI.get(`/rooms/v2/info?id=${props.roomId}`);
 
   // scroll event
   const isTopOnScroll = (tol = 20) => {
