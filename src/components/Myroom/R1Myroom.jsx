@@ -23,7 +23,11 @@ const R1Myroom = (props) => {
         <div style={styleEmpty}>참여 중인 방이 없습니다.</div>
       ) : (
         props.ongoing.map((item) => (
-          <Link key={item._id} to={`/myroom/${item._id}`}>
+          <Link
+            key={item._id}
+            to={`/myroom/${item._id}`}
+            style={{ textDecoration: "none" }}
+          >
             <Room
               data={item}
               selected={props.roomId === item._id}
@@ -40,7 +44,11 @@ const R1Myroom = (props) => {
         <div style={styleEmpty}>과거 참여했던 방이 없습니다.</div>
       ) : (
         props.done.map((item) => (
-          <Link key={item._id} to={`/myroom/${item._id}`}>
+          <Link
+            key={item._id}
+            to={`/myroom/${item._id}`}
+            style={{ textDecoration: "none" }}
+          >
             <Room
               data={item}
               selected={props.roomId === item._id}
