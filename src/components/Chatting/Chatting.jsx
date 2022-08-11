@@ -18,6 +18,7 @@ import "./Style/Chatting.css";
 const Chatting = (props) => {
   const sendingMessage = useRef();
   const callingInfScroll = useRef();
+  const isBottomOnScrollCache = useRef(true);
   const messagesBody = useRef();
 
   const [chats, setChats] = useStateWithCallbackLazy([]);
@@ -54,7 +55,11 @@ const Chatting = (props) => {
   const handleScroll = () => {
     if (isBottomOnScroll()) {
       if (showNewMessage) setShowNewMessage(false);
+      isBottomOnScrollCache.current = true;
+    } else {
+      isBottomOnScrollCache.current = false;
     }
+
     if (
       isTopOnScroll() &&
       chats.length > 0 &&
@@ -151,6 +156,19 @@ const Chatting = (props) => {
     };
   }, [headerInfo]);
 
+  // resize event
+  const resizeEvent = () => {
+    if (isBottomOnScrollCache.current) scrollToBottom();
+  };
+  useEffect(() => {
+    resizeEvent();
+    window.addEventListener("resize", resizeEvent);
+    return () => {
+      window.removeEventListener("resize", resizeEvent);
+    };
+  }, []);
+
+  // message function
   const handleSendMessage = (text) => {
     if (regExpTest.chatMsg(text) && !sendingMessage.current) {
       sendingMessage.current = true;
