@@ -9,6 +9,7 @@ import AddRoom from "components/AddRoom/AddRoom";
 import Myroom from "components/Myroom/Myroom";
 import Mypage from "components/Mypage/Mypage";
 import WrapChat from "components/Chatting/WrapChat";
+import Error from "components/Error/Error";
 
 import "App.css";
 import "Font.css";
@@ -27,6 +28,8 @@ const App = () => {
           <Route exact path="/myroom/:roomId" component={Myroom} />
           <Route exact path="/mypage" component={Mypage} />
           <Route exact path="/chatting/:roomId" component={WrapChat} />
+          <Route exact path="/error/:error" component={Error} />
+          <Route path="*" component={Error} />
         </Switch>
       </Skeleton>
     </Router>
