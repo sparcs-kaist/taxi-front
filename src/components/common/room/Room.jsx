@@ -86,9 +86,9 @@ const Room = (props) => {
       <div style={styleName}>{props.data?.name}</div>
       <div style={styleLine} />
       <div style={styleLay1}>
-        <div style={styleLay1Place}>{1}</div>
+        <div style={styleLay1Place}>{props.data?.from?.koName}</div>
         <ArrowRightAltRoundedIcon style={styleArrow} />
-        <div style={styleLay1Place}>{1}</div>
+        <div style={styleLay1Place}>{props.data?.to?.koName}</div>
       </div>
       <div style={styleDate}>{date2str(props.data?.time)}</div>
       <animated.div style={styleSelected} />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useR2state } from "hooks/useReactiveState";
 import useTaxiAPI from "hooks/useTaxiAPI";
@@ -18,7 +18,11 @@ const Myroom = () => {
   useEffect(() => {}, []);
 
   return reactiveState === 3 ? (
-    <R1Myroom />
+    <R1Myroom
+      roomId={roomId}
+      ongoing={roomList?.ongoing}
+      done={roomList?.done}
+    />
   ) : (
     <R2Myroom
       roomId={roomId}
