@@ -75,7 +75,6 @@ const Room = (props) => {
     config: { duration: 100 },
   });
 
-  console.log(props.data);
   return (
     <div
       style={style}
