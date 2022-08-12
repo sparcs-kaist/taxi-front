@@ -149,7 +149,7 @@ const Search = () => {
   }, [searchOptions, valueName, valuePlace, valueDate, valueTime]);
 
   useEffect(() => {
-    setName(null);
+    setName("");
   }, [searchOptions.name]);
   useEffect(() => {
     setPlace([null, null]);
