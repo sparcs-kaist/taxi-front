@@ -14,19 +14,14 @@ const optionList = [
 ];
 
 const PopupInput = (props) => {
-  const [value, setValue] = useState({ place: optionList[0] });
+  const [value, setValue] = useState({ place: props?.value ?? optionList[0] });
   const optionGroup = {
     place: optionList.map((x) => {
       return x;
     }),
   };
 
-  const resetValue = () => {
-    if (props.value) setValue({ place: props.value });
-    else setValue({ place: optionList[0] });
-  };
   useEffect(() => {
-    resetValue();
     if (props.isOpen) {
       document.body.style.overflow = "hidden";
     } else {
