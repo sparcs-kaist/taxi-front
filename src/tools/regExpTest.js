@@ -2,7 +2,7 @@
 // https://www.notion.so/sparcs/Input-value-Regular-Expression-4f3e778c3b884cfe9a1b5a733c8da8fb
 
 const chatMsg = (x) => {
-  return RegExp("^.{1,500}$").test(x);
+  return RegExp("^[\\s\\S]{1,500}$").test(x);
 };
 
 const nickname = (x) => {

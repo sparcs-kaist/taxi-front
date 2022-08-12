@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { io } from "socket.io-client";
 import Header from "./Header/Header";
 import MessagesBody from "./MessagesBody/MessagesBody";
-import MessageForm from "./Input/MessageForm";
+import MessageForm from "./MessageForm/MessageForm";
 import regExpTest from "tools/regExpTest";
 
 import { backServer } from "serverconf";
@@ -18,10 +18,13 @@ import "./Style/Chatting.css";
 const Chatting = (props) => {
   const sendingMessage = useRef();
   const callingInfScroll = useRef();
+  const isBottomOnScrollCache = useRef(true);
   const messagesBody = useRef();
 
   const [chats, setChats] = useStateWithCallbackLazy([]);
   const [showNewMessage, setShowNewMessage] = useState(false);
+  const [messageFormHeight, setMessageFormHeight] =
+    useStateWithCallbackLazy("40px");
 
   const socket = useRef(undefined);
   const [, userInfoDetail] = useTaxiAPI.get("/json/logininfo/detail");
@@ -52,7 +55,11 @@ const Chatting = (props) => {
   const handleScroll = () => {
     if (isBottomOnScroll()) {
       if (showNewMessage) setShowNewMessage(false);
+      isBottomOnScrollCache.current = true;
+    } else {
+      isBottomOnScrollCache.current = false;
     }
+
     if (
       isTopOnScroll() &&
       chats.length > 0 &&
@@ -78,6 +85,14 @@ const Chatting = (props) => {
         messagesBody.current.scrollTop = scrollTop;
       }
     }
+  };
+
+  // messageFrom Height function
+  const handleMessageFormHeight = (height) => {
+    let isBottom = isBottomOnScroll();
+    setMessageFormHeight(height, () => {
+      if (isBottom) scrollToBottom();
+    });
   };
 
   // socket setting
@@ -141,6 +156,19 @@ const Chatting = (props) => {
     };
   }, [headerInfo]);
 
+  // resize event
+  const resizeEvent = () => {
+    if (isBottomOnScrollCache.current) scrollToBottom();
+  };
+  useEffect(() => {
+    resizeEvent();
+    window.addEventListener("resize", resizeEvent);
+    return () => {
+      window.removeEventListener("resize", resizeEvent);
+    };
+  }, []);
+
+  // message function
   const handleSendMessage = (text) => {
     if (regExpTest.chatMsg(text) && !sendingMessage.current) {
       sendingMessage.current = true;
@@ -209,6 +237,7 @@ const Chatting = (props) => {
           handleScroll={handleScroll}
           isBottomOnScroll={isBottomOnScroll}
           scrollToBottom={() => scrollToBottom(false)}
+          marginBottom={messageFormHeight}
         />
         <MessageForm
           isSideChat={props.isSideChat}
@@ -216,6 +245,7 @@ const Chatting = (props) => {
           handleSendImage={handleSendImage}
           showNewMessage={showNewMessage}
           onClickNewMessage={() => scrollToBottom(true)}
+          setContHeight={handleMessageFormHeight}
         />
       </div>
     </div>

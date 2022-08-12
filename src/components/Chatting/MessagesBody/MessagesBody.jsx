@@ -24,15 +24,17 @@ const MessagesBody = (props) => {
     const minFormat = "YYYY.MM.DD HH:mm";
     props.chats.forEach((item) => {
       if (item.type === "inf-checkout") {
-        list.push(
-          <ChatSet
-            key={"chat" + chatsCache[0].time}
-            chats={chatsCache}
-            authorId={props.user.oid}
-            isBottomOnScroll={props.isBottomOnScroll}
-            scrollToBottom={props.scrollToBottom}
-          />
-        );
+        if (chatsCache) {
+          list.push(
+            <ChatSet
+              key={"chat" + chatsCache[0].time}
+              chats={chatsCache}
+              authorId={props.user.oid}
+              isBottomOnScroll={props.isBottomOnScroll}
+              scrollToBottom={props.scrollToBottom}
+            />
+          );
+        }
         chatsCache = null;
 
         list.push(<div key={"checkout" + momentCache} chatcheckout="true" />);
@@ -102,7 +104,7 @@ const MessagesBody = (props) => {
     <div
       style={{
         marginTop: props.isSideChat ? "64px" : "70px",
-        marginBottom: "40px",
+        marginBottom: props.marginBottom,
         width: "100%",
         overflow: "auto",
         //display: "flex",
@@ -124,6 +126,7 @@ MessagesBody.propTypes = {
   handleScroll: PropTypes.func,
   isBottomOnScroll: PropTypes.func,
   scrollToBottom: PropTypes.func,
+  marginBottom: PropTypes.string,
 };
 
 MessagesBody.defaultProps = {

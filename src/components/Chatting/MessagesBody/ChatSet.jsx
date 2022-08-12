@@ -72,6 +72,7 @@ const ChatText = (props) => {
         wordBreak: "break-all",
         letterSpacing: "0.05em",
         fontSize: "13px",
+        whiteSpace: "pre-line",
       }}
     >
       {props.text}
