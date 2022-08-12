@@ -28,8 +28,8 @@ const AddRoom = () => {
   let validatedMsg = null;
   if (!valuePlace[0] || !valuePlace[1]) {
     validatedMsg = "출발지와 도착지를 선택해 주세요";
-  } else if (valuePlace[0] == valuePlace[1]) {
-    validatedMsg = "출발지와 도착지는 같을 수 없습니다";
+  } else if (valuePlace[0]?._id === valuePlace[1]?._id) {
+    validatedMsg = "출발지와 도착지는 달라야 합니다";
   } else if (!valueDate[0] || !valueDate[1] || !valueDate[2]) {
     validatedMsg = "날짜를 선택해 주세요";
   } else if (!valueTime[0] || !valueTime[1]) {
@@ -45,10 +45,10 @@ const AddRoom = () => {
   const onClickAdd = async () => {
     if (!onCall.current) {
       onCall.current = true;
-      const result = await axios.post("/rooms/create", {
+      const result = await axios.post("/rooms/v2/create", {
         name: valueName,
-        from: valuePlace[0],
-        to: valuePlace[1],
+        from: valuePlace[0]._id,
+        to: valuePlace[1]._id,
         time: new Date(
           valueDate[0],
           valueDate[1] - 1,
