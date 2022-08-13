@@ -55,7 +55,7 @@ const AddRoom = () => {
           valueDate[2],
           valueTime[0],
           valueTime[1]
-        ),
+        ).toISOString(),
         maxPartLength: valueMaxPartLength,
       });
       if (result.status === 200) {
