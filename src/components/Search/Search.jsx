@@ -184,7 +184,7 @@ const Search = () => {
 
     if (!Object.values(searchOptions).some((option) => option == true)) {
       await axios
-        .get("rooms/search")
+        .get("rooms/v2/search")
         .then((res) => {
           setSearchResult(res.data);
         })
