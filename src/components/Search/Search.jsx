@@ -209,8 +209,8 @@ const Search = () => {
         .get("rooms/v2/search", {
           params: {
             name: valueName.length ? valueName : null,
-            from: valuePlace[0]._id,
-            to: valuePlace[1]._id,
+            from: valuePlace[0]?._id,
+            to: valuePlace[1]?._id,
             time: date.toISOString(),
             maxPartLength: valueMaxPartLength,
           },
