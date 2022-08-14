@@ -5,19 +5,16 @@ import Room from "components/common/room/RoomElement";
 import PropTypes from "prop-types";
 
 const SideResult = (props) => {
-  const styleEmpty2 = {
-    color: "#888888",
-    fontSize: "14px",
-    lineHeight: "109px",
-    textAlign: "center",
-    height: "109px",
-  };
   const styleEmpty = {
     color: "#888888",
     fontWeight: "700",
     textAlign: "center",
     margin: "50px 0px 30px",
   };
+
+  // TODO: 언어 선택에 따라 enName 반환
+  const getLocationName = (location) => location.koName;
+
   if (!props.mobile) {
     return (
       <div style={{ marginTop: 26 }}>
@@ -31,8 +28,8 @@ const SideResult = (props) => {
             props.result.map((room, index) => (
               <Room
                 name={room.name}
-                origin={room.from}
-                destination={room.to}
+                origin={getLocationName(room.from)}
+                destination={getLocationName(room.to)}
                 date={room.time}
                 key={index}
                 marginTop="15px"

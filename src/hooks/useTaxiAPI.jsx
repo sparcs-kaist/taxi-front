@@ -5,12 +5,11 @@ const wrapUseTaxiAPI =
   (method) =>
   (url, data, dep = []) => {
     const [res, setRes] = useState({});
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const latestReqID = useRef(0);
 
     useEffect(() => {
       const currentReqID = ++latestReqID.current;
-      setLoading(true);
       let isUnmounted = false;
       const asyncFun = async () => {
         const res = await axios({ url, method, data });
