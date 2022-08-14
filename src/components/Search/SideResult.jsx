@@ -53,8 +53,8 @@ const SideResult = (props) => {
             return (
               <Room
                 name={room.name}
-                origin={room.from}
-                destination={room.to}
+                origin={getLocationName(room.from)}
+                destination={getLocationName(room.to)}
                 date={room.time}
                 key={index}
                 marginTop="0px"
