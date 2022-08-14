@@ -132,6 +132,12 @@ const Search = () => {
       setMessage("선택을 완료해주세요");
       setDisable(true);
     } else if (
+      (valuePlace[0] !== null || valuePlace[0] !== null) &&
+      valuePlace[0]?._id === valuePlace[1]?._id
+    ) {
+      setMessage("출발지와 도착지는 달라야 합니다");
+      setDisable(true);
+    } else if (
       searchOptions.time &
       !valueDate.some((date) => date == null) &
       moment(
@@ -149,7 +155,7 @@ const Search = () => {
   }, [searchOptions, valueName, valuePlace, valueDate, valueTime]);
 
   useEffect(() => {
-    setName(null);
+    setName("");
   }, [searchOptions.name]);
   useEffect(() => {
     setPlace([null, null]);
@@ -178,7 +184,7 @@ const Search = () => {
 
     if (!Object.values(searchOptions).some((option) => option == true)) {
       await axios
-        .get("rooms/search")
+        .get("rooms/v2/search")
         .then((res) => {
           setSearchResult(res.data);
         })
@@ -200,11 +206,11 @@ const Search = () => {
         date.minute(moment().minute());
       }
       await axios
-        .get("rooms/search", {
+        .get("rooms/v2/search", {
           params: {
-            name: valueName,
-            from: valuePlace[0],
-            to: valuePlace[1],
+            name: valueName.length ? valueName : null,
+            from: valuePlace[0]?._id,
+            to: valuePlace[1]?._id,
             time: date.toISOString(),
             maxPartLength: valueMaxPartLength,
           },

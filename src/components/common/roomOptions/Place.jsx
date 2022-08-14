@@ -5,28 +5,20 @@ import WhiteContainer from "components/common/WhiteContainer";
 import Popup from "./Popup";
 import Picker from "react-mobile-picker-mod";
 
-const optionList = [
-  "택시승강장",
-  "갤러리아 타임월드",
-  "서대전역",
-  "대전역",
-  "정부청사",
-];
+import useTaxiAPI from "hooks/useTaxiAPI";
 
 const PopupInput = (props) => {
-  const [value, setValue] = useState({ place: optionList[0] });
+  const [value, setValue] = useState({
+    place: props.value ?? props.placeOptions?.[0]?.name ?? "",
+  });
+
   const optionGroup = {
-    place: optionList.map((x) => {
-      return x;
+    place: props.placeOptions.map((x) => {
+      return x.name;
     }),
   };
 
-  const resetValue = () => {
-    if (props.value) setValue({ place: props.value });
-    else setValue({ place: optionList[0] });
-  };
   useEffect(() => {
-    resetValue();
     if (props.isOpen) {
       document.body.style.overflow = "hidden";
     } else {
@@ -35,11 +27,15 @@ const PopupInput = (props) => {
   }, [props.isOpen]);
 
   const onClick = () => {
-    props.handler(value.place);
+    props.handler(
+      props.placeOptions.find((place) => place.name === value.place) ?? null
+    );
     props.onClose();
   };
-  const handler = (key, value) => {
-    setValue({ place: value });
+
+  const handler = (_, changedValue) => {
+    if (changedValue && value.place !== changedValue)
+      setValue({ place: changedValue });
   };
 
   return (
@@ -61,6 +57,7 @@ PopupInput.propTypes = {
   onClose: PropTypes.func,
   value: PropTypes.string,
   handler: PropTypes.func,
+  placeOptions: PropTypes.array,
 };
 
 const PlaceElement = (props) => {
@@ -134,6 +131,7 @@ PlaceElement.propTypes = {
 const Place = (props) => {
   const [isPopup1, setPopup1] = useState(false);
   const [isPopup2, setPopup2] = useState(false);
+  const [, placeOptions, placeOptionsLoading] = useTaxiAPI.get("/locations");
 
   const styleLine = {
     width: "0.5px",
@@ -143,6 +141,16 @@ const Place = (props) => {
     backgroundSize: "1px 10px",
     marginTop: -2.5,
   };
+
+  // TODO: 언어 모드에 따라 enName을 name으로 설정 (setPlaceName, getPlaceName)
+  const setPlaceName = (places) =>
+    places.reduce((acc, place) => {
+      place.name = place.koName;
+      acc.push(place);
+      return acc;
+    }, []);
+
+  const getPlaceName = (place) => place?.koName;
 
   return (
     <WhiteContainer marginAuto={false} padding="10px">
@@ -156,13 +164,13 @@ const Place = (props) => {
         }}
       >
         <PlaceElement
-          value={props.value[0]}
+          value={getPlaceName(props.value[0])}
           onClick={() => setPopup1(true)}
           type="출발지"
         />
         <div style={styleLine} />
         <PlaceElement
-          value={props.value[1]}
+          value={getPlaceName(props.value[1])}
           onClick={() => setPopup2(true)}
           type="도착지"
         />
@@ -170,14 +178,20 @@ const Place = (props) => {
       <PopupInput
         isOpen={isPopup1}
         onClose={() => setPopup1(false)}
-        value={props.value[0]}
+        value={getPlaceName(props.value[0])}
         handler={(x) => props.handler([x, props.value[1]])}
+        placeOptions={
+          placeOptionsLoading ? [] : setPlaceName(placeOptions.locations)
+        }
       />
       <PopupInput
         isOpen={isPopup2}
         onClose={() => setPopup2(false)}
-        value={props.value[1]}
+        value={getPlaceName(props.value[1])}
         handler={(x) => props.handler([props.value[0], x])}
+        placeOptions={
+          placeOptionsLoading ? [] : setPlaceName(placeOptions.locations)
+        }
       />
     </WhiteContainer>
   );
