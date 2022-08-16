@@ -72,6 +72,8 @@ const InfoSection = (props) => {
     display: "flex",
     flexDirection: "column",
     alignItems: props.isAlignLeft ? "flex-start" : "flex-end",
+    maxWidth: "fit-content",
+    flex: props.isBold || props.isColored ? "1 0" : "1 1",
   };
   const styleTitle = {
     fontSize: "12px",
@@ -174,7 +176,15 @@ const RoomSelectionModal = (props) => {
         />
         <InfoSection title="개설자" text="이름" />
         <div style={styleMultipleInfo}>
-          <InfoSection title="동승자" text="동승자1, 동승자2" />
+          <InfoSection
+            title="동승자"
+            text={roomInfo.part
+              .reduce((acc, user) => {
+                acc.push(user.nickname);
+                return acc;
+              }, [])
+              .join(", ")}
+          />
           <InfoSection
             title="남은 인원"
             text={`${roomInfo.maxPartLength - roomInfo.part.length}명`}
