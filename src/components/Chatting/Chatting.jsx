@@ -7,7 +7,7 @@ import MessagesBody from "./MessagesBody/MessagesBody";
 import MessageForm from "./MessageForm/MessageForm";
 import regExpTest from "tools/regExpTest";
 
-import { backServer } from "serverconf";
+import { ioServer } from "serverconf";
 import convertImg from "tools/convertImg";
 import axios from "tools/axios";
 import axiosOri from "axios";
@@ -99,7 +99,7 @@ const Chatting = (props) => {
   useEffect(() => {
     if (headerInfo) {
       socket.current?.disconnect();
-      socket.current = io(backServer, {
+      socket.current = io(ioServer, {
         withCredentials: true,
       });
 

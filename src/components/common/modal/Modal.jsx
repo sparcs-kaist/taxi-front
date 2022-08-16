@@ -112,7 +112,7 @@ Modal.propTypes = {
   btnCloseDisplay: PropTypes.bool,
 };
 Modal.defaultProps = {
-  onClickClose: () => console.log(123),
+  onClickClose: () => {},
   top: "120px",
   bottom: "40px",
   maxWidth: "100%",
