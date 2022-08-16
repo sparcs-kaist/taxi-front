@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { date2str } from "tools/trans";
 import Title from "components/common/Title";
 import Modal from "components/common/modal/Modal";
+import SubmitButton from "components/common/roomOptions/SubmitButton";
 import PropTypes from "prop-types";
+import axios from "tools/axios";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 import CircleIcon from "@mui/icons-material/Circle";
@@ -104,6 +107,7 @@ InfoSection.defaultProps = {
 const RoomSelectionModal = (props) => {
   if (!props?.roomInfo) return <></>;
   const { roomInfo } = props;
+  const history = useHistory();
 
   const stylePlace = {
     width: "100%",
@@ -125,6 +129,25 @@ const RoomSelectionModal = (props) => {
   };
 
   const getLocationName = (location) => location?.koName;
+
+  const requestJoin = async () => {
+    // TODO: request join api
+    try {
+      const {
+        data: { oid: userId },
+      } = await axios.get("/json/logininfo/detail");
+      // history.push("/abc");
+      // const result = await axios.post("", {
+      //   roomId: roomInfo._id,
+      //   user: userId,
+      // });
+      // console.log(result);
+      // if (result.status === 200) history.push(`/chatting/${roomInfo._id}`);
+      // else throw Error();
+    } catch (_) {
+      // TODO: move to error page
+    }
+  };
 
   return (
     <Modal
@@ -160,6 +183,9 @@ const RoomSelectionModal = (props) => {
           />
         </div>
       </div>
+      <SubmitButton onClick={requestJoin} disable={false}>
+        참여 신청
+      </SubmitButton>
     </Modal>
   );
 };
