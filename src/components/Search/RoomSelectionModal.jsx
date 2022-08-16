@@ -1,4 +1,5 @@
 import React from "react";
+import { date2str } from "tools/trans";
 import Title from "components/common/Title";
 import Modal from "components/common/modal/Modal";
 import PropTypes from "prop-types";
@@ -44,7 +45,7 @@ const PlaceSection = (props) => {
     lineHeight: "16px",
     textAlign: "center",
     fontSize: "16px",
-    fontWeight: "bold",
+    fontWeight: 700,
     color: "#6E3678",
     margin: "11px 0",
   };
@@ -62,6 +63,44 @@ PlaceSection.propTypes = {
   name: PropTypes.string.isRequired,
 };
 
+const InfoSection = (props) => {
+  const style = {
+    margin: "12px 0",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: props.isAlignLeft ? "flex-start" : "flex-end",
+  };
+  const styleTitle = {
+    fontSize: "12px",
+    color: "#888888",
+    marginBottom: "8px",
+  };
+  const styleText = {
+    fontSize: "15px",
+    color: props.isColored ? "#6E3678" : "#323232",
+    fontWeight: props.isBold || props.isColored ? 700 : 400,
+  };
+
+  return (
+    <div style={style}>
+      <p style={styleTitle}>{props.title}</p>
+      <p style={styleText}>{props.text}</p>
+    </div>
+  );
+};
+InfoSection.propTypes = {
+  title: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  isBold: PropTypes.bool,
+  isColored: PropTypes.bool,
+  isAlignLeft: PropTypes.bool,
+};
+InfoSection.defaultProps = {
+  isBold: false,
+  isColored: false,
+  isAlignLeft: true,
+};
+
 const RoomSelectionModal = (props) => {
   if (!props?.roomInfo) return <></>;
   const { roomInfo } = props;
@@ -77,6 +116,13 @@ const RoomSelectionModal = (props) => {
     width: "15px",
     color: "#888888",
   };
+  const styleInfoSectionWrapper = {
+    padding: "8px 20px",
+  };
+  const styleMultipleInfo = {
+    display: "flex",
+    justifyContent: "space-between",
+  };
 
   const getLocationName = (location) => location?.koName;
 
@@ -87,7 +133,9 @@ const RoomSelectionModal = (props) => {
       onClickClose={props.onClose}
       padding={props.isMobile ? "0 10px 10px 10px" : "0 15px 15px 15px"}
     >
-      <Title header={true}>{roomInfo.name}</Title>
+      <div style={{ height: "25px" }} />
+      <Title>{roomInfo.name}</Title>
+      <div style={{ height: "15px" }} />
       <Border />
       <div style={stylePlace}>
         <PlaceSection isFrom={true} name={getLocationName(roomInfo?.from)} />
@@ -95,6 +143,23 @@ const RoomSelectionModal = (props) => {
         <PlaceSection isFrom={false} name={getLocationName(roomInfo?.to)} />
       </div>
       <Border />
+      <div style={styleInfoSectionWrapper}>
+        <InfoSection
+          title="출발 시각 & 날짜"
+          text={date2str(roomInfo.time)}
+          isBold
+        />
+        <InfoSection title="개설자" text="이름" />
+        <div style={styleMultipleInfo}>
+          <InfoSection title="동승자" text="동승자1, 동승자2" />
+          <InfoSection
+            title="남은 인원"
+            text={`${roomInfo.maxPartLength - roomInfo.part.length}명`}
+            isAlignLeft={false}
+            isColored
+          />
+        </div>
+      </div>
     </Modal>
   );
 };
