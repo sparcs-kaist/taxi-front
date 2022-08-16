@@ -1,7 +1,7 @@
 import React from "react";
 import WhiteContainer from "components/common/WhiteContainer";
 import Title from "components/common/Title";
-import Room from "components/common/room/RoomElement";
+import Room from "components/common/room/Room";
 import PropTypes from "prop-types";
 
 const SideResult = (props) => {
@@ -11,9 +11,6 @@ const SideResult = (props) => {
     textAlign: "center",
     margin: "50px 0px 30px",
   };
-
-  // TODO: 언어 선택에 따라 enName 반환
-  const getLocationName = (location) => location.koName;
 
   if (!props.mobile) {
     return (
@@ -27,13 +24,10 @@ const SideResult = (props) => {
           ) : (
             props.result.map((room, index) => (
               <Room
-                name={room.name}
-                origin={getLocationName(room.from)}
-                destination={getLocationName(room.to)}
-                date={room.time}
                 key={index}
                 marginTop="15px"
                 mobile={props.mobile}
+                data={room}
               />
             ))
           )}
@@ -52,10 +46,7 @@ const SideResult = (props) => {
           props.result.map((room, index) => {
             return (
               <Room
-                name={room.name}
-                origin={room.from}
-                destination={room.to}
-                date={room.time}
+                data={room}
                 key={index}
                 marginTop="0px"
                 marginBottom="15px"
