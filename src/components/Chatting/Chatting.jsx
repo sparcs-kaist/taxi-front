@@ -97,7 +97,7 @@ const Chatting = (props) => {
 
   // socket setting
   useEffect(() => {
-    if (headerInfo) {
+    if (headerInfo && userInfoDetail) {
       socket.current?.disconnect();
       socket.current = io(ioServer, {
         withCredentials: true,
@@ -154,7 +154,7 @@ const Chatting = (props) => {
     return () => {
       if (socket.current) socket.current.disconnect();
     };
-  }, [headerInfo]);
+  }, [headerInfo, userInfoDetail]);
 
   // resize event
   const resizeEvent = () => {
