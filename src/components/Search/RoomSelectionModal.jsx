@@ -135,17 +135,11 @@ const RoomSelectionModal = (props) => {
   const requestJoin = async () => {
     // TODO: request join api
     try {
-      const {
-        data: { oid: userId },
-      } = await axios.get("/json/logininfo/detail");
-      // history.push("/abc");
-      // const result = await axios.post("", {
-      //   roomId: roomInfo._id,
-      //   user: userId,
-      // });
-      // console.log(result);
-      // if (result.status === 200) history.push(`/chatting/${roomInfo._id}`);
-      // else throw Error();
+      const result = await axios.post("/rooms/v2/join", {
+        roomId: roomInfo._id,
+      });
+      if (result.status === 200) history.push(`/chatting/${roomInfo._id}`);
+      else throw Error();
     } catch (_) {
       // TODO: move to error page
     }
@@ -174,7 +168,6 @@ const RoomSelectionModal = (props) => {
           text={date2str(roomInfo.time)}
           isBold
         />
-        <InfoSection title="개설자" text="이름" />
         <div style={styleMultipleInfo}>
           <InfoSection
             title="동승자"
