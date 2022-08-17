@@ -110,6 +110,7 @@ const RoomSelectionModal = (props) => {
   if (!props?.roomInfo) return <></>;
   const { roomInfo } = props;
   const history = useHistory();
+  const [isAlreadyJoined, setIsAlreadyJoined] = useState(false);
 
   const stylePlace = {
     width: "100%",
@@ -130,6 +131,14 @@ const RoomSelectionModal = (props) => {
     justifyContent: "space-between",
   };
 
+  useEffect(async () => {
+    const {
+      data: { oid: userId },
+    } = await axios.get("/json/logininfo/detail");
+    if (roomInfo.part.some((user) => user._id === userId))
+      setIsAlreadyJoined(true);
+  }, [roomInfo]);
+
   const getLocationName = (location) => location?.koName;
 
   const requestJoin = async () => {
@@ -141,7 +150,10 @@ const RoomSelectionModal = (props) => {
       if (result.status === 200) history.push(`/chatting/${roomInfo._id}`);
       else throw Error();
     } catch (_) {
-      // TODO: move to error page
+      /**
+       * @todo move to error page
+       * - 409: already joined
+       */
     }
   };
 
@@ -186,8 +198,8 @@ const RoomSelectionModal = (props) => {
           />
         </div>
       </div>
-      <SubmitButton onClick={requestJoin} disable={false}>
-        참여 신청
+      <SubmitButton onClick={requestJoin} disable={isAlreadyJoined}>
+        {isAlreadyJoined ? "이미 참여 중입니다" : "참여 신청"}
       </SubmitButton>
     </Modal>
   );
