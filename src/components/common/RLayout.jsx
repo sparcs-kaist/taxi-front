@@ -12,6 +12,7 @@ const R1 = (props) => {
           position: props.position,
           height: props.height,
           width: "755px",
+          maxWidth: "100%",
           margin: "auto",
         }}
       >
