@@ -1,18 +1,19 @@
 import React, { useEffect } from "react";
 import ChannelService from "tools/channelService";
 import { channelTalkPluginKey } from "serverconf";
+import { useLocation } from "react-router-dom";
 
 const ChannelTalk = () => {
+  const location = useLocation();
+  const pathname = location.pathname;
+
   useEffect(() => {
     ChannelService.boot({
-      pluginKey: channelTalkPluginKey, //please fill with your plugin key
-      hideChannelButtonOnBoot: true,
+      pluginKey: channelTalkPluginKey,
+      hideChannelButtonOnBoot: !pathname.startsWith("/login"),
       customLauncherSelector: ".popup-channeltalk",
     });
-    return () => {
-      ChannelService.shutdown();
-    };
-  }, []);
+  }, [pathname]);
   return null;
 };
 
