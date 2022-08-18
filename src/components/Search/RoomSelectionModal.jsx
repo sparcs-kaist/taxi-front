@@ -112,6 +112,11 @@ const RoomSelectionModal = (props) => {
   const history = useHistory();
   const [isAlreadyJoined, setIsAlreadyJoined] = useState(false);
 
+  const styleTitleWrapper = {
+    padding: "0 20px 0 10px",
+    maxWidth: "100%",
+    overflowWrap: "anywhere",
+  };
   const stylePlace = {
     width: "100%",
     display: "flex",
@@ -167,7 +172,9 @@ const RoomSelectionModal = (props) => {
       padding={props.isMobile ? "0 10px 10px 10px" : "0 15px 15px 15px"}
     >
       <div style={{ height: "25px" }} />
-      <Title>{roomInfo.name}</Title>
+      <div style={styleTitleWrapper}>
+        <Title marginAuto={false}>{roomInfo.name}</Title>
+      </div>
       <div style={{ height: "15px" }} />
       <Border />
       <div style={stylePlace}>
