@@ -110,7 +110,8 @@ const RoomSelectionModal = (props) => {
   if (!props?.roomInfo) return <></>;
   const { roomInfo } = props;
   const history = useHistory();
-  const [isAlreadyJoined, setIsAlreadyJoined] = useState(false);
+  const [disableJoinBtn, setDisableJoinBtn] = useState(false);
+  const isRoomFull = roomInfo.maxPartLength - roomInfo.part.length === 0;
 
   const styleTitleWrapper = {
     padding: "0 20px 0 10px",
@@ -142,7 +143,7 @@ const RoomSelectionModal = (props) => {
         data: { oid: userId },
       } = res;
       if (roomInfo.part.some((user) => user._id === userId))
-        setIsAlreadyJoined(true);
+        setDisableJoinBtn(true);
     });
   }, [roomInfo]);
 
@@ -209,10 +210,14 @@ const RoomSelectionModal = (props) => {
       </div>
       <SubmitButton
         onClick={requestJoin}
-        disable={isAlreadyJoined}
+        disable={isRoomFull || disableJoinBtn}
         marginAuto={false}
       >
-        {isAlreadyJoined ? "이미 참여 중입니다" : "참여 신청"}
+        {disableJoinBtn
+          ? "이미 참여 중입니다"
+          : isRoomFull
+          ? "인원이 0명인 방은 참여할 수 없습니다"
+          : "참여 신청"}
       </SubmitButton>
     </Modal>
   );
