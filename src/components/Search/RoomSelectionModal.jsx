@@ -200,7 +200,11 @@ const RoomSelectionModal = (props) => {
           />
         </div>
       </div>
-      <SubmitButton onClick={requestJoin} disable={isAlreadyJoined}>
+      <SubmitButton
+        onClick={requestJoin}
+        disable={isAlreadyJoined}
+        marginAuto={false}
+      >
         {isAlreadyJoined ? "이미 참여 중입니다" : "참여 신청"}
       </SubmitButton>
     </Modal>
