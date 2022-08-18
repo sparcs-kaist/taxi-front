@@ -33,9 +33,9 @@ const SideResult = (props) => {
           {props.result.length == 0 ? (
             <div style={styleEmpty}>검색 결과가 없습니다.</div>
           ) : (
-            props.result.map((room, index) => (
+            props.result.map((room) => (
               <Room
-                key={index}
+                key={room._id}
                 marginTop="15px"
                 mobile={props.mobile}
                 data={room}
@@ -65,11 +65,11 @@ const SideResult = (props) => {
           </WhiteContainer>
         ) : (
           props.result.length != 0 &&
-          props.result.map((room, index) => {
+          props.result.map((room) => {
             return (
               <Room
                 data={room}
-                key={index}
+                key={room._id}
                 marginTop="0px"
                 marginBottom="15px"
                 mobile={props.mobile}
