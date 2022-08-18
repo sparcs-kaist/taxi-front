@@ -6,7 +6,6 @@ import RoomSelectionModal from "./RoomSelectionModal";
 import PropTypes from "prop-types";
 
 const SideResult = (props) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRoomInfo, setSelectedRoomInfo] = useState(null);
 
   const styleEmpty = {
@@ -20,10 +19,9 @@ const SideResult = (props) => {
     return (
       <div style={{ marginTop: 26 }}>
         <RoomSelectionModal
-          isOpen={isModalOpen}
+          isOpen={!!selectedRoomInfo}
           isMobile={false}
           onClose={() => {
-            setIsModalOpen(false);
             setSelectedRoomInfo(null);
           }}
           roomInfo={selectedRoomInfo}
@@ -42,7 +40,6 @@ const SideResult = (props) => {
                 mobile={props.mobile}
                 data={room}
                 onClick={() => {
-                  setIsModalOpen(!isModalOpen);
                   setSelectedRoomInfo(room);
                 }}
               />
@@ -55,10 +52,9 @@ const SideResult = (props) => {
     return (
       <>
         <RoomSelectionModal
-          isOpen={isModalOpen}
+          isOpen={!!selectedRoomInfo}
           isMobile={true}
           onClose={() => {
-            setIsModalOpen(false);
             setSelectedRoomInfo(null);
           }}
           roomInfo={selectedRoomInfo}
@@ -78,7 +74,6 @@ const SideResult = (props) => {
                 marginBottom="15px"
                 mobile={props.mobile}
                 onClick={() => {
-                  setIsModalOpen(!isModalOpen);
                   setSelectedRoomInfo(room);
                 }}
               />
