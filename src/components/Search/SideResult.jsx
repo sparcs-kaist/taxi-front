@@ -42,6 +42,7 @@ const SideResult = (props) => {
                 onClick={() => {
                   setSelectedRoomInfo(room);
                 }}
+                theme="purple"
               />
             ))
           )}
