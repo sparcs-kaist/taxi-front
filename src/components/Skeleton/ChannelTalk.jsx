@@ -12,7 +12,7 @@ const ChannelTalk = () => {
     return () => {
       ChannelService.shutdown();
     };
-  });
+  }, []);
   return null;
 };
 
