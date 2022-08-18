@@ -131,12 +131,14 @@ const RoomSelectionModal = (props) => {
     justifyContent: "space-between",
   };
 
-  useEffect(async () => {
-    const {
-      data: { oid: userId },
-    } = await axios.get("/json/logininfo/detail");
-    if (roomInfo.part.some((user) => user._id === userId))
-      setIsAlreadyJoined(true);
+  useEffect(() => {
+    axios.get("/json/logininfo/detail").then((res) => {
+      const {
+        data: { oid: userId },
+      } = res;
+      if (roomInfo.part.some((user) => user._id === userId))
+        setIsAlreadyJoined(true);
+    });
   }, [roomInfo]);
 
   const getLocationName = (location) => location?.koName;
