@@ -24,6 +24,7 @@ const Room = (props) => {
   const styleName = {
     display: "flex",
     alignItems: "center",
+    justifyContent: "flex-end",
     height: "39px",
     lineHeight: "39px",
     fontSize: "12px",
@@ -90,8 +91,8 @@ const Room = (props) => {
     gap: "3px",
     height: "18px",
     lineHeight: "18px",
-    marginLeft: "auto",
     fontSize: "10px",
+    margin: "3px",
   };
 
   const numLeftTag = (
@@ -113,6 +114,8 @@ const Room = (props) => {
     </div>
   );
 
+  const creatorTag = <div style={tagStyle}>{props.data?.part[0].nickname}</div>;
+
   return (
     <div
       style={style}
@@ -122,8 +125,10 @@ const Room = (props) => {
       onClick={props.onClick}
     >
       <div style={styleName}>
-        {props.data?.name}
+        <div style={{ marginRight: "auto" }}>{props.data?.name}</div>
+
         {props.data.isDeparted ? isDoneTag : numLeftTag}
+        {creatorTag}
       </div>
       <div style={styleLine} />
       <div style={styleLay1}>
