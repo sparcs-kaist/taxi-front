@@ -7,6 +7,7 @@ import "./RoomElement.css";
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 
 const Room = (props) => {
+  console.log(props);
   const [isHover, setHover] = useState(false);
   const style = {
     position: "relative",
@@ -21,6 +22,8 @@ const Room = (props) => {
         : "",
   };
   const styleName = {
+    display: "flex",
+    alignItems: "center",
     height: "39px",
     lineHeight: "39px",
     fontSize: "12px",
@@ -75,6 +78,30 @@ const Room = (props) => {
     config: { duration: 100 },
   });
 
+  const tagStyle = {
+    boxShadow:
+      "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
+    borderRadius: "4px",
+    background: "#FFFFFF",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    padding: "3.5px 5px 2.5px",
+    gap: "3px",
+    height: "18px",
+    lineHeight: "18px",
+    marginLeft: "auto",
+  };
+
+  const numLeftTag = (
+    <div style={tagStyle}>
+      <div>남은 인원: </div>
+      <div style={{ color: "#6E3678", fontWeight: "400" }}>
+        {props.data.maxPartLength - props.data.part?.length} 명
+      </div>
+    </div>
+  );
+
   return (
     <div
       style={style}
@@ -83,7 +110,10 @@ const Room = (props) => {
       onMouseLeave={() => setHover(false)}
       onClick={props.onClick}
     >
-      <div style={styleName}>{props.data?.name}</div>
+      <div style={styleName}>
+        {props.data?.name}
+        {numLeftTag}
+      </div>
       <div style={styleLine} />
       <div style={styleLay1}>
         <div style={styleLay1Place}>{props.data?.from?.koName}</div>
