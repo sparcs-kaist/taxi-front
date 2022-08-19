@@ -58,26 +58,6 @@ const BtnLogin = () => {
   );
 };
 
-const Bottom = () => {
-  return (
-    <div
-      style={{
-        position: "fixed",
-        bottom: "0px",
-        left: "0px",
-        width: "100%",
-        height: "50px",
-      }}
-    >
-      <RLayout.R1 height="100%">
-        <div style={{ position: "absolute", top: "0px", right: "0px" }}>
-          contact : taxi@sparcs.org
-        </div>
-      </RLayout.R1>
-    </div>
-  );
-};
-
 const Login = () => {
   return (
     <div className="ND" style={{ width: "100%", height: "100%" }}>
@@ -96,7 +76,6 @@ const Login = () => {
         <TaxiLogo />
         <BtnLogin />
       </RLayout.R1>
-      <Bottom />
     </div>
   );
 };

@@ -107,7 +107,7 @@ Modal.propTypes = {
   top: PropTypes.string,
   bottom: PropTypes.string,
   maxWidth: PropTypes.string,
-  padding: PropTypes.padding,
+  padding: PropTypes.string,
   children: PropTypes.any,
   btnCloseDisplay: PropTypes.bool,
 };
