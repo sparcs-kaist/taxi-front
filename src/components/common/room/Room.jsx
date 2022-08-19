@@ -123,7 +123,6 @@ const Room = (props) => {
     >
       <div style={styleName}>
         <div style={{ marginRight: "auto" }}>{props.data?.name}</div>
-
         {props.data.isDeparted ? isDoneTag : numLeftTag}
       </div>
       <div style={styleLine} />
