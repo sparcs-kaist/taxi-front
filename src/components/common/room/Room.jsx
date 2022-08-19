@@ -82,7 +82,7 @@ const Room = (props) => {
     boxShadow:
       "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
     borderRadius: "4px",
-    background: "#FFFFFF",
+    background: props.theme == "purple" ? "#FFFFFF" : "#FAF8FB",
     display: "flex",
     flexDirection: "row",
     alignItems: "flex-start",
@@ -91,6 +91,7 @@ const Room = (props) => {
     height: "18px",
     lineHeight: "18px",
     marginLeft: "auto",
+    fontSize: "10px",
   };
 
   const numLeftTag = (
@@ -99,6 +100,16 @@ const Room = (props) => {
       <div style={{ color: "#6E3678", fontWeight: "400" }}>
         {props.data.maxPartLength - props.data.part?.length} 명
       </div>
+    </div>
+  );
+
+  const isDoneTag = (
+    <div style={tagStyle}>
+      {props.data?.isOver ? (
+        <div style={{ color: "#6E3678", fontWeight: "400" }}>정산 미완료</div>
+      ) : (
+        <div>정산완료</div>
+      )}
     </div>
   );
 
@@ -112,7 +123,7 @@ const Room = (props) => {
     >
       <div style={styleName}>
         {props.data?.name}
-        {numLeftTag}
+        {props.data.isDeparted ? isDoneTag : numLeftTag}
       </div>
       <div style={styleLine} />
       <div style={styleLay1}>
