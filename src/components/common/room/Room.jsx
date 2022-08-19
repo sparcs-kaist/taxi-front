@@ -7,7 +7,6 @@ import "./RoomElement.css";
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 
 const Room = (props) => {
-  console.log(props);
   const [isHover, setHover] = useState(false);
   const style = {
     position: "relative",
@@ -114,8 +113,6 @@ const Room = (props) => {
     </div>
   );
 
-  const creatorTag = <div style={tagStyle}>{props.data?.part[0].nickname}</div>;
-
   return (
     <div
       style={style}
@@ -128,7 +125,6 @@ const Room = (props) => {
         <div style={{ marginRight: "auto" }}>{props.data?.name}</div>
 
         {props.data.isDeparted ? isDoneTag : numLeftTag}
-        {creatorTag}
       </div>
       <div style={styleLine} />
       <div style={styleLay1}>
