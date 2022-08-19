@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { animated, useSpring } from "react-spring";
 import { useHistory } from "react-router";
-import RLayout from "components/common/RLayout";
+import { useBodySize } from "hooks/useReactiveState";
 import PropTypes from "prop-types";
+import Modal from "components/common/modal/Modal";
 import axios from "tools/axios";
 
-import SparcsLogoBlack from "static/assets/SparcsLogoBlack.svg";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import TaxiLogo from "static/assets/SparcsLogoPurple.svg";
 
 const Policy = () => {
   const styleT1 = {
@@ -214,6 +214,7 @@ LayBottom.propTypes = {
 const PopupPolicy = (props) => {
   const history = useHistory();
   const [didAgree, setDIdAgree] = useState(undefined);
+  const [, bodyHeight] = useBodySize();
 
   useEffect(() => {
     axios.get("/json/logininfo/detail").then(({ data }) => {
@@ -236,34 +237,15 @@ const PopupPolicy = (props) => {
     }
   };
 
-  const styleBgd = useSpring({
-    position: "fixed",
-    top: "0px",
-    left: "0px",
-    width: "100%",
-    height: "100%",
-    zIndex: 50,
-    background: `rgba(0,0,0,0.6)`,
-    opacity: props.isOpen ? 1 : 0,
-    pointerEvents: props.isOpen ? "auto" : "none",
-  });
-  const style = {
-    height: "100%",
-    overflow: "hidden",
-    background: "white",
-    borderRadius: "15px",
-  };
-  const styleSparcs = {
-    position: "absolute",
-    top: "15px",
-    left: "15px",
-    width: "25px",
+  const styleTop = {
     height: "25px",
+    display: "flex",
   };
-  const styleTaxi = {
-    position: "absolute",
-    top: "15px",
-    left: "39px",
+  const styleLogo = {
+    height: "25px",
+    width: "25px",
+  };
+  const styleTaxiText = {
     fontSize: "20px",
     fontWeight: "bold",
     height: "25px",
@@ -271,92 +253,51 @@ const PopupPolicy = (props) => {
     color: "#6E3678",
   };
   const styleTitle = {
+    paddingLeft: "5px",
     fontSize: "18px",
     fontWeight: "bold",
-    paddingLeft: "85px",
     height: "25px",
     lineHeight: "25px",
   };
-  const styleClose = {
-    position: "absolute",
-    top: "10px",
-    right: "10px",
-    width: "24px",
-    height: "24px",
-  };
   const styleInnerBox = {
-    position: "absolute",
     overflow: "auto",
-    top: "55px",
-    bottom: "66px",
-    left: "15px",
-    right: "15px",
     background: "#EEEEEE",
     borderRadius: "10px",
     boxShadow: "inset 2px 2px 5px -2px rgba(0, 0, 0, 0.075)",
+    maxHeight: `calc(${bodyHeight}px - 281px)`,
+  };
+  const styleBottom = {
+    position: "relative",
+    height: "36px",
   };
 
   return (
-    <animated.div style={styleBgd}>
-      <div
-        style={{
-          position: "absolute",
-          top: "0px",
-          left: "0px",
-          width: "100%",
-          height: "100%",
-        }}
-        onClick={onClose}
-      />
-      <div
-        style={{
-          position: "absolute",
-          top: "120px",
-          bottom: "40px",
-          left: "0px",
-          right: "0px",
-        }}
-      >
-        <div
-          style={{
-            position: "absolute",
-            top: "0px",
-            left: "0px",
-            width: "100%",
-            height: "100%",
-          }}
-          onClick={onClose}
-        />
-        <RLayout.R1 height="100%">
-          <div style={style}>
-            <img src={SparcsLogoBlack} alt="" style={styleSparcs} />
-            <div style={styleTaxi}>Taxi</div>
-            <div style={{ height: "15px" }} />
-            <div style={styleTitle}>이용 약관</div>
-            <CloseRoundedIcon style={styleClose} onClick={onClose} />
-            <div style={styleInnerBox}>
-              <Policy />
-            </div>
-            <div
-              style={{
-                position: "absolute",
-                bottom: "15px",
-                left: "15px",
-                right: "15px",
-                height: "36px",
-              }}
-              data-cy="agreement-bottom"
-            >
-              <LayBottom
-                didAgree={didAgree}
-                onClose={onClose}
-                onAgree={() => props.onClose()}
-              />
-            </div>
-          </div>
-        </RLayout.R1>
+    <Modal
+      display={props.isOpen}
+      btnCloseDisplay={true}
+      onClickClose={onClose}
+      padding="15px"
+      top="120px"
+      bottom="40px"
+    >
+      <div style={styleTop}>
+        <img src={TaxiLogo} alt="taxi-logo" style={styleLogo} />
+        <div style={styleTaxiText}>Taxi</div>
+        <div style={styleTitle}>이용 약관</div>
       </div>
-    </animated.div>
+      <div style={{ height: "15px" }} />
+      <div style={styleInnerBox}>
+        <Policy />
+      </div>
+      <div style={{ height: "15px" }} />
+      <div style={styleBottom} data-cy="agreement-bottom">
+        <LayBottom
+          didAgree={didAgree}
+          onClose={onClose}
+          onAgree={() => props.onClose()}
+        />
+      </div>
+    </Modal>
   );
 };
 PopupPolicy.propTypes = {
