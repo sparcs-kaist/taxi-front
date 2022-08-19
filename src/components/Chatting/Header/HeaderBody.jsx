@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import PopupCancel from "./Popup/PopupCancel";
 import { date2str } from "tools/trans";
 import PropTypes from "prop-types";
+import ProfileImg from "components/Mypage/ProfileImg";
+
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import PaymentRoundedIcon from "@mui/icons-material/PaymentRounded";
 
 const InfoSide = (props) => {
   return (
@@ -40,10 +44,26 @@ const BtnSide = (props) => {
     width: "67px",
     height: "21px",
     borderRadius: "6px",
-    background: props.enable ? "#6E3678" : "#EEEEEE",
+    background: "#6E3678",
     overflow: "hidden",
     position: "relative",
   };
+  const styleIcon = {
+    position: "absolute",
+    top: "3px",
+    right: "3px",
+    width: "15px",
+    height: "15px",
+    fill: "white",
+  };
+
+  let icon = null;
+  if (props.icon === "cancel") {
+    icon = <LogoutRoundedIcon style={styleIcon} />;
+  } else if (props.icon === "card") {
+    icon = <PaymentRoundedIcon style={styleIcon} />;
+  }
+
   return (
     <div style={style} onClick={props.onClick}>
       <div
@@ -51,18 +71,19 @@ const BtnSide = (props) => {
           height: "21px",
           lineHeight: "21px",
           fontSize: "10px",
-          color: props.enable ? "#FFFFFF" : "#888888",
+          color: "#FFFFFF",
           paddingLeft: "6px",
         }}
         className="BTNC"
       >
         {props.children}
       </div>
+      {icon}
     </div>
   );
 };
 BtnSide.propTypes = {
-  enable: PropTypes.bool,
+  icon: PropTypes.string,
   children: PropTypes.string,
   onClick: PropTypes.func,
 };
@@ -72,37 +93,62 @@ const User = (props) => {
     <div style={{ display: "flex", position: "relative", gap: "4px" }}>
       <div
         style={{
+          position: "relative",
           width: "21px",
           height: "21px",
           borderRadius: "11px",
-          background: "#C4C4C4",
+          background: props.info.isSettlement ? "#6E3678" : "#C4C4C4",
+          overflow: "hidden",
         }}
-      ></div>
+      >
+        <ProfileImg path={props.info.profileImageUrl} />
+      </div>
       <div
         style={{
           height: "12px",
           lineHeight: "12px",
           fontSize: "10px",
           padding: "4px 6px 3px",
-          color: "#888888",
+          color: props.info.isSettlement ? "#FFFFFF" : "#888888",
           background: "#EEEEEE",
           borderRadius: "6px",
           marginTop: "1px",
         }}
       >
-        {props.nickname}
+        {props.info.nickname}
+        {props.isDeparted && !props.info.isSettlement ? (
+          <span style={{ fontSize: "8px" }}>&nbsp;&#40;미정산&#41;</span>
+        ) : null}
       </div>
     </div>
   );
 };
 User.propTypes = {
-  nickname: PropTypes.string,
+  info: PropTypes.object,
+  isDeparted: PropTypes.bool,
 };
 
 const HeaderBody = (props) => {
   const users = props.info?.part || [];
-
   const [popupCancel, setPopupCancel] = useState(false);
+
+  let btnContBody = null;
+  if (!props.info?.isDeparted) {
+    btnContBody = (
+      <BtnSide icon="cancel" onClick={() => setPopupCancel(true)}>
+        탑승취소
+      </BtnSide>
+    );
+  } else if (!props.info?.settlementTotal) {
+    /**
+     * @todo API에서 정산자 받아오기
+     */
+    btnContBody = (
+      <BtnSide icon="card" onClick={() => setPopupCancel(true)}>
+        결제하기
+      </BtnSide>
+    );
+  }
 
   return (
     <div>
@@ -117,6 +163,7 @@ const HeaderBody = (props) => {
           display: "flex",
           position: "relative",
           justifyContent: "space-between",
+          alignItems: "flex-end",
         }}
       >
         <div
@@ -128,13 +175,22 @@ const HeaderBody = (props) => {
           }}
         >
           {users.map((item) => (
-            <User key={item.id} nickname={item.nickname} />
+            <User
+              key={item.id}
+              info={item}
+              isDeparted={props.info?.isDeparted}
+            />
           ))}
         </div>
-        <div style={{ width: "67px" }}>
-          <BtnSide enable={true} onClick={() => setPopupCancel(true)}>
-            탑승취소
-          </BtnSide>
+        <div
+          style={{
+            width: "67px",
+            display: "flex",
+            gap: "6px",
+            flexDirection: "column",
+          }}
+        >
+          {btnContBody}
         </div>
       </div>
       <PopupCancel
