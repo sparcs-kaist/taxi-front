@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ScrollRestoration from "react-scroll-restoration";
 import Skeleton from "components/Skeleton/Skeleton";
+import ChannelTalk from "components/Skeleton/ChannelTalk";
 
 import Login from "components/Login/Login";
 import Search from "components/Search/Search";
@@ -18,6 +19,7 @@ const App = () => {
   return (
     <Router>
       <ScrollRestoration />
+      <ChannelTalk />
       <Skeleton>
         <Switch>
           <Route exact path="/login" component={Login} />

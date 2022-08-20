@@ -113,6 +113,9 @@ const Room = (props) => {
     </div>
   );
 
+  // TODO: 언어 선택에 따라 enName 반환
+  const getLocationName = (location) => location?.koName;
+
   return (
     <div
       style={style}
@@ -127,9 +130,9 @@ const Room = (props) => {
       </div>
       <div style={styleLine} />
       <div style={styleLay1}>
-        <div style={styleLay1Place}>{props.data?.from?.koName}</div>
+        <div style={styleLay1Place}>{getLocationName(props.data?.from)}</div>
         <ArrowRightAltRoundedIcon style={styleArrow} />
-        <div style={styleLay1Place}>{props.data?.to?.koName}</div>
+        <div style={styleLay1Place}>{getLocationName(props.data?.to)}</div>
       </div>
       <div style={styleDate}>{date2str(props.data?.time)}</div>
       <animated.div style={styleSelected} />

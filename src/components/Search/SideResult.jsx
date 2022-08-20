@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import WhiteContainer from "components/common/WhiteContainer";
 import Title from "components/common/Title";
-import Room from "components/common/room/RoomElement";
+import Room from "components/common/room/Room";
+import RoomSelectionModal from "./RoomSelectionModal";
 import PropTypes from "prop-types";
 
 const SideResult = (props) => {
+  const [selectedRoomInfo, setSelectedRoomInfo] = useState(null);
+
   const styleEmpty = {
     color: "#888888",
     fontWeight: "700",
@@ -12,12 +15,17 @@ const SideResult = (props) => {
     margin: "50px 0px 30px",
   };
 
-  // TODO: 언어 선택에 따라 enName 반환
-  const getLocationName = (location) => location.koName;
-
   if (!props.mobile) {
     return (
       <div style={{ marginTop: 26 }}>
+        <RoomSelectionModal
+          isOpen={!!selectedRoomInfo}
+          isMobile={false}
+          onClose={() => {
+            setSelectedRoomInfo(null);
+          }}
+          roomInfo={selectedRoomInfo}
+        />
         <WhiteContainer marginAuto={false} padding="20px 20px 22px">
           <Title icon="search_result" marginAuto={false}>
             검색 결과
@@ -25,15 +33,16 @@ const SideResult = (props) => {
           {props.result.length == 0 ? (
             <div style={styleEmpty}>검색 결과가 없습니다.</div>
           ) : (
-            props.result.map((room, index) => (
+            props.result.map((room) => (
               <Room
-                name={room.name}
-                origin={getLocationName(room.from)}
-                destination={getLocationName(room.to)}
-                date={room.time}
-                key={index}
+                key={room._id}
                 marginTop="15px"
                 mobile={props.mobile}
+                data={room}
+                onClick={() => {
+                  setSelectedRoomInfo(room);
+                }}
+                theme="purple"
               />
             ))
           )}
@@ -43,23 +52,31 @@ const SideResult = (props) => {
   } else {
     return (
       <>
+        <RoomSelectionModal
+          isOpen={!!selectedRoomInfo}
+          isMobile={true}
+          onClose={() => {
+            setSelectedRoomInfo(null);
+          }}
+          roomInfo={selectedRoomInfo}
+        />
         {props.result.length == 0 ? (
           <WhiteContainer marginAuto={false} style={styleEmpty}>
             <div style={styleEmpty}>검색 결과가 없습니다</div>
           </WhiteContainer>
         ) : (
           props.result.length != 0 &&
-          props.result.map((room, index) => {
+          props.result.map((room) => {
             return (
               <Room
-                name={room.name}
-                origin={room.from}
-                destination={room.to}
-                date={room.time}
-                key={index}
+                data={room}
+                key={room._id}
                 marginTop="0px"
                 marginBottom="15px"
                 mobile={props.mobile}
+                onClick={() => {
+                  setSelectedRoomInfo(room);
+                }}
               />
             );
           })

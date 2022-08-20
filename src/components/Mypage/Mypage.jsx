@@ -13,6 +13,7 @@ import axios from "tools/axios";
 
 import AssignmentRoundedIcon from "@material-ui/icons/AssignmentRounded";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
+import ContactSupportRoundedIcon from "@material-ui/icons/ContactSupportRounded";
 import SparcsLogoBlack from "static/assets/SparcsLogoBlack.svg";
 
 const BtnC = (props) => {
@@ -45,6 +46,8 @@ const BtnC = (props) => {
         return <AssignmentRoundedIcon style={styleImg} />;
       case "logo":
         return <img src={SparcsLogoBlack} alt="" style={styleImg} />;
+      case "support":
+        return <ContactSupportRoundedIcon style={styleImg} />;
       case "logout":
         return <ExitToAppRoundedIcon style={styleImg} />;
       default:
@@ -178,6 +181,11 @@ const Mypage = () => {
         <BtnC icon="logo" onClick={() => setOpen1(true)}>
           만든 사람들
         </BtnC>
+        <a className="popup-channeltalk">
+          <BtnC icon="support" onClick={() => {}}>
+            문의하기
+          </BtnC>
+        </a>
         <BtnC icon="logout" onClick={handleLogout}>
           로그아웃
         </BtnC>
