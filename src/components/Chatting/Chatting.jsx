@@ -28,7 +28,7 @@ const Chatting = (props) => {
 
   const socket = useRef(undefined);
   const [, userInfoDetail] = useTaxiAPI.get("/json/logininfo/detail");
-  const [, headerInfo] = useTaxiAPI.get(`/rooms/info?id=${props.roomId}`);
+  const [, headerInfo] = useTaxiAPI.get(`/rooms/v2/info?id=${props.roomId}`);
 
   // scroll event
   const isTopOnScroll = (tol = 20) => {
@@ -97,7 +97,7 @@ const Chatting = (props) => {
 
   // socket setting
   useEffect(() => {
-    if (headerInfo) {
+    if (headerInfo && userInfoDetail) {
       socket.current?.disconnect();
       socket.current = io(ioServer, {
         withCredentials: true,
@@ -154,7 +154,7 @@ const Chatting = (props) => {
     return () => {
       if (socket.current) socket.current.disconnect();
     };
-  }, [headerInfo]);
+  }, [headerInfo, userInfoDetail]);
 
   // resize event
   const resizeEvent = () => {

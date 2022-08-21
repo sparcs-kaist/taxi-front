@@ -2,10 +2,32 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Title from "components/common/Title";
 import WhiteContainer from "components/common/WhiteContainer";
+import ChatHeaderBody from "components/Chatting/Header/HeaderBody";
 import SideChat from "components/Chatting/SideChat";
 import Room from "components/common/room/Room";
 import RLayout from "components/common/RLayout";
+import useTaxiAPI from "hooks/useTaxiAPI";
 import PropTypes from "prop-types";
+
+const ChatHeader = (props) => {
+  const [, headerInfo] = useTaxiAPI.get(`/rooms/v2/info?id=${props.roomId}`);
+
+  useEffect(() => {
+    props.resizeEvent();
+  }, [headerInfo]);
+
+  return (
+    <div>
+      <div style={{ height: "19px" }} />
+      <ChatHeaderBody info={headerInfo} />
+    </div>
+  );
+};
+
+ChatHeader.propTypes = {
+  roomId: PropTypes.string,
+  resizeEvent: PropTypes.func,
+};
 
 const R2Myroom = (props) => {
   const refTitle = useRef();
@@ -21,8 +43,6 @@ const R2Myroom = (props) => {
     backgroundImage:
       "linear-gradient(to right, #C8C8C8 50%, rgba(255,255,255,0) 0%)",
     backgroundSize: "10px 1px",
-    marginTop: "19px",
-    marginBottom: "19.5px",
   };
   const styleEmpty = {
     color: "#888888",
@@ -32,39 +52,45 @@ const R2Myroom = (props) => {
     height: "109px",
   };
 
-  useEffect(() => {
-    const resizeEvent = () => {
-      try {
-        const height1 = refTitle.current.clientHeight;
-        const height2 = document.getElementById("navigation-body").clientHeight;
-        const height3 = refHeader.current.clientHeight;
-        const height4 = document.body.clientHeight;
+  const resizeEvent = () => {
+    try {
+      const height1 = refTitle.current.clientHeight;
+      const height2 = document.getElementById("navigation-body").clientHeight;
+      const height3 = refHeader.current.clientHeight;
+      const height4 = document.body.clientHeight;
 
-        const newHeight = `${height4 - height1 - height2}px`;
-        if (bodyHeightRef.current !== newHeight) {
-          bodyHeightRef.current = newHeight;
-          setBodyHeight(newHeight);
-        }
-
-        const newChatHeight = `${height4 - height1 - height2 - height3 - 30}px`;
-        if (chatHeightRef.current !== newChatHeight) {
-          chatHeightRef.current = newChatHeight;
-          setChatHeight(newChatHeight);
-        }
-      } catch (e) {
-        console.log(e);
-        // FIXME
+      const newHeight = `${height4 - height1 - height2}px`;
+      if (bodyHeightRef.current !== newHeight) {
+        bodyHeightRef.current = newHeight;
+        setBodyHeight(newHeight);
       }
-    };
+
+      const newChatHeight = `${height4 - height1 - height2 - height3 - 30}px`;
+      if (chatHeightRef.current !== newChatHeight) {
+        chatHeightRef.current = newChatHeight;
+        setChatHeight(newChatHeight);
+      }
+    } catch (e) {
+      console.log(e);
+      // FIXME
+    }
+  };
+  useEffect(() => {
     resizeEvent();
     window.addEventListener("resize", resizeEvent);
     return () => {
       window.removeEventListener("resize", resizeEvent);
     };
-  }, []);
+  }, [props.roomId]);
 
   return (
-    <div style={{ position: "fixed", width: "100%", height: "100%" }}>
+    <div
+      style={{
+        position: "absolute",
+        width: "100%",
+        height: "calc(100% - 50px)",
+      }}
+    >
       <div ref={refTitle}>
         <Title icon="myroom" header={true}>
           내 방 리스트
@@ -85,6 +111,7 @@ const R2Myroom = (props) => {
                 <Title icon="current" marginAuto={false}>
                   참여 중인 방
                 </Title>
+                <div style={{ height: "19px" }} />
                 <div style={styleLine} />
                 {props.ongoing.length === 0 ? (
                   <div style={styleEmpty}>참여 중인 방이 없습니다.</div>
@@ -109,6 +136,7 @@ const R2Myroom = (props) => {
                 <Title icon="past" marginAuto={false}>
                   과거 참여 방
                 </Title>
+                <div style={{ height: "19px" }} />
                 <div style={styleLine} />
                 {props.done.length === 0 ? (
                   <div style={styleEmpty}>과거 참여했던 방이 없습니다.</div>
@@ -139,6 +167,16 @@ const R2Myroom = (props) => {
                   <Title icon="chat" marginAuto={false}>
                     채팅 창
                   </Title>
+                  <div style={{ height: "19px" }} />
+                  <div style={styleLine} />
+                  {props.roomId ? (
+                    <ChatHeader
+                      roomId={props.roomId}
+                      resizeEvent={resizeEvent}
+                    />
+                  ) : (
+                    <div style={styleEmpty}>방을 선택하세요.</div>
+                  )}
                 </WhiteContainer>
               </div>
               {props.roomId ? (

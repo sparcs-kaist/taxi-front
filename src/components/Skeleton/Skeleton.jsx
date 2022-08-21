@@ -81,9 +81,9 @@ const Skeleton = (props) => {
   }
   return (
     <Container>
+      <Navigation path={pathname} />
       {props.children}
       <Footer />
-      <Navigation path={pathname} />
       <HeaderLine />
       <PopupPolicy isOpen={showAgree} onClose={() => setShowAgree(false)} />
     </Container>
