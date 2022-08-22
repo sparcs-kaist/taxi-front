@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, Redirect } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import taxiLocationAtom from "@/recoil/taxiLocation";
 import Navigation from "components/Skeleton/Navigation";
 import Footer from "components/Skeleton/Footer";
 import PopupPolicy from "components/Mypage/PopupPolicy/PopupPolicy";
@@ -35,9 +37,18 @@ const HeaderLine = () => {
 const Skeleton = (props) => {
   const [userId, setUserId] = useState(undefined);
   const [showAgree, setShowAgree] = useState(false);
+  const setTaxiLocation = useSetRecoilState(taxiLocationAtom);
   const location = useLocation();
   const pathname = location.pathname;
   const currentPath = location.pathname + location.search;
+
+  useEffect(() => {
+    if (userId) {
+      axios.get("/locations").then(({ data }) => {
+        setTaxiLocation(data.locations);
+      });
+    }
+  }, [userId]);
 
   // path가 수정될 때 마다 logininfo 요청
   useEffect(() => {
