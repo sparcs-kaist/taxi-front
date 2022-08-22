@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ScrollRestoration from "react-scroll-restoration";
+import { RecoilRoot } from "recoil";
 import Skeleton from "components/Skeleton/Skeleton";
 import ChannelTalk from "components/Skeleton/ChannelTalk";
 
@@ -17,24 +18,26 @@ import "Font.css";
 
 const App = () => {
   return (
-    <Router>
-      <ScrollRestoration />
-      <ChannelTalk />
-      <Skeleton>
-        <Switch>
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/" component={Search} />
-          <Route exact path="/search" component={Search} />
-          <Route exact path="/addroom" component={AddRoom} />
-          <Route exact path="/myroom" component={Myroom} />
-          <Route exact path="/myroom/:roomId" component={Myroom} />
-          <Route exact path="/mypage" component={Mypage} />
-          <Route exact path="/chatting/:roomId" component={WrapChat} />
-          <Route exact path="/error/:error" component={Error} />
-          <Route path="*" component={Error} />
-        </Switch>
-      </Skeleton>
-    </Router>
+    <RecoilRoot>
+      <Router>
+        <ScrollRestoration />
+        <ChannelTalk />
+        <Skeleton>
+          <Switch>
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/" component={Search} />
+            <Route exact path="/search" component={Search} />
+            <Route exact path="/addroom" component={AddRoom} />
+            <Route exact path="/myroom" component={Myroom} />
+            <Route exact path="/myroom/:roomId" component={Myroom} />
+            <Route exact path="/mypage" component={Mypage} />
+            <Route exact path="/chatting/:roomId" component={WrapChat} />
+            <Route exact path="/error/:error" component={Error} />
+            <Route path="*" component={Error} />
+          </Switch>
+        </Skeleton>
+      </Router>
+    </RecoilRoot>
   );
 };
 
