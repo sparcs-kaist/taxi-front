@@ -1,6 +1,6 @@
 import { selector } from "recoil";
 import taxiLocationAtom from "./atom";
-import preferenceAtom from "../preference";
+import preferenceAtom from "recoil/preference";
 
 const taxiLocataionWithName = selector({
   key: "locationWithName",

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, Redirect } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import taxiLocationAtom from "@/recoil/taxiLocation";
+import taxiLocationAtom from "recoil/taxiLocation";
 import Navigation from "components/Skeleton/Navigation";
 import Footer from "components/Skeleton/Footer";
 import PopupPolicy from "components/Mypage/PopupPolicy/PopupPolicy";
