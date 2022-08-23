@@ -206,8 +206,10 @@ const HeaderBody = (props) => {
         </div>
       </div>
       <PopupCancel
+        roomId={props.info?._id}
         popup={popupCancel}
         onClickClose={() => setPopupCancel(false)}
+        recallEvent={props.recallEvent}
       />
     </div>
   );
@@ -215,6 +217,10 @@ const HeaderBody = (props) => {
 
 HeaderBody.propTypes = {
   info: PropTypes.any,
+  recallEvent: PropTypes.func,
+};
+HeaderBody.defaultProps = {
+  recallEvent: () => {},
 };
 
 export default HeaderBody;

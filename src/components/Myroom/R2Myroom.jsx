@@ -19,7 +19,7 @@ const ChatHeader = (props) => {
   return (
     <div>
       <div style={{ height: "19px" }} />
-      <ChatHeaderBody info={headerInfo} />
+      <ChatHeaderBody info={headerInfo} recallEvent={props.recallEvent} />
     </div>
   );
 };
@@ -27,6 +27,7 @@ const ChatHeader = (props) => {
 ChatHeader.propTypes = {
   roomId: PropTypes.string,
   resizeEvent: PropTypes.func,
+  recallEvent: PropTypes.func,
 };
 
 const R2Myroom = (props) => {
@@ -173,6 +174,7 @@ const R2Myroom = (props) => {
                     <ChatHeader
                       roomId={props.roomId}
                       resizeEvent={resizeEvent}
+                      recallEvent={props.recallEvent}
                     />
                   ) : (
                     <div style={styleEmpty}>방을 선택하세요.</div>
@@ -198,6 +200,7 @@ R2Myroom.propTypes = {
   roomId: PropTypes.string,
   ongoing: PropTypes.array,
   done: PropTypes.array,
+  recallEvent: PropTypes.func,
 };
 R2Myroom.defaultProps = {
   ongoing: [],

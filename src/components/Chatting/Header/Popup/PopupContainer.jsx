@@ -19,6 +19,7 @@ const PopupContainer = (props) => {
         nameCancel="돌아가기"
         nameOk={props.nameOk}
         onClickCancel={props.onClickClose}
+        onClickOk={props.onClickOk}
       />
     </Modal>
   );
@@ -27,6 +28,7 @@ const PopupContainer = (props) => {
 PopupContainer.propTypes = {
   popup: PropTypes.bool,
   onClickClose: PropTypes.func,
+  onClickOk: PropTypes.func,
   children: PropTypes.node,
   nameOk: PropTypes.string,
 };

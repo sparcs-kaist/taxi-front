@@ -1,6 +1,8 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import PopupContainer from "./PopupContainer";
 import PropTypes from "prop-types";
+import axios from "tools/axios";
 
 const PopupCancel = (props) => {
   const styleTextCont = {
@@ -27,10 +29,25 @@ const PopupCancel = (props) => {
     color: "#6E3678",
   };
 
+  const history = useHistory();
+  const onClick = async () => {
+    const res = await axios.post("/rooms/v2/abort", {
+      roomId: props.roomId,
+    });
+    if (res.status === 200) {
+      props.recallEvent();
+      history.push("/myroom");
+    } else {
+      // FIXME
+      alert("탑승 취소를 실패하였습니다");
+    }
+  };
+
   return (
     <PopupContainer
       popup={props.popup}
       onClickClose={props.onClickClose}
+      onClickOk={onClick}
       nameOk="취소하기"
     >
       <div style={styleTextCont}>
@@ -45,8 +62,10 @@ const PopupCancel = (props) => {
 };
 
 PopupCancel.propTypes = {
+  roomId: PropTypes.string,
   popup: PropTypes.bool,
   onClickClose: PropTypes.func,
+  recallEvent: PropTypes.func,
 };
 
 export default PopupCancel;
