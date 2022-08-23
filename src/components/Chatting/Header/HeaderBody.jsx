@@ -89,19 +89,27 @@ BtnSide.propTypes = {
 };
 
 const User = (props) => {
+  const isSettlement =
+    props.info?.isSettlement === "paid" || props.info?.isSettlement === "sent";
   return (
-    <div style={{ display: "flex", position: "relative", gap: "4px" }}>
+    <div
+      style={{
+        display: "flex",
+        position: "relative",
+        gap: "4px",
+      }}
+    >
       <div
         style={{
           position: "relative",
           width: "21px",
           height: "21px",
           borderRadius: "11px",
-          background: props.info.isSettlement ? "#6E3678" : "#C4C4C4",
+          background: isSettlement ? "#6E3678" : "#C4C4C4",
           overflow: "hidden",
         }}
       >
-        <ProfileImg path={props.info.profileImageUrl} />
+        <ProfileImg path={props.info?.profileImageUrl} />
       </div>
       <div
         style={{
@@ -109,14 +117,17 @@ const User = (props) => {
           lineHeight: "12px",
           fontSize: "10px",
           padding: "4px 6px 3px",
-          color: props.info.isSettlement ? "#FFFFFF" : "#888888",
+          color: isSettlement ? "#FFFFFF" : "#888888",
           background: "#EEEEEE",
           borderRadius: "6px",
           marginTop: "1px",
+          overflow: "hidden",
+          whiteSpace: "nowrap",
+          textOverflow: "ellipsis",
         }}
       >
-        {props.info.nickname}
-        {props.isDeparted && !props.info.isSettlement ? (
+        {props.info?.nickname}
+        {props.isDeparted && !isSettlement ? (
           <span style={{ fontSize: "8px" }}>&nbsp;&#40;미정산&#41;</span>
         ) : null}
       </div>
@@ -171,12 +182,13 @@ const HeaderBody = (props) => {
             width: "calc(100% - 87px)",
             display: "flex",
             gap: "9px",
-            flexWrap: "Wrap",
+            flexWrap: "wrap",
+            overflow: "hidden",
           }}
         >
           {users.map((item) => (
             <User
-              key={item.id}
+              key={item._id}
               info={item}
               isDeparted={props.info?.isDeparted}
             />

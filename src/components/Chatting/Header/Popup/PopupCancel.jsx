@@ -28,7 +28,11 @@ const PopupCancel = (props) => {
   };
 
   return (
-    <PopupContainer popup={props.popup} onClickClose={props.onClickClose}>
+    <PopupContainer
+      popup={props.popup}
+      onClickClose={props.onClickClose}
+      nameOk="취소하기"
+    >
       <div style={styleTextCont}>
         <span style={styleTxt1}>탑승</span>
         <span style={styleTxt2}>을 </span>
