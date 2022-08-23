@@ -10,16 +10,26 @@ import useTaxiAPI from "hooks/useTaxiAPI";
 import PropTypes from "prop-types";
 
 const ChatHeader = (props) => {
-  const [, headerInfo] = useTaxiAPI.get(`/rooms/v2/info?id=${props.roomId}`);
+  const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
+  const [, headerInfo] = useTaxiAPI.get(
+    `/rooms/v2/info?id=${props.roomId}`,
+    {},
+    [headerInfToken]
+  );
 
   useEffect(() => {
     props.resizeEvent();
   }, [headerInfo]);
 
+  const recallEvent = () => {
+    setHeaderInfToken(Date.now().toString());
+    props.recallEvent();
+  };
+
   return (
     <div>
       <div style={{ height: "19px" }} />
-      <ChatHeaderBody info={headerInfo} recallEvent={props.recallEvent} />
+      <ChatHeaderBody info={headerInfo} recallEvent={recallEvent} />
     </div>
   );
 };

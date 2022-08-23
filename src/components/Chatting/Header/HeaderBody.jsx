@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import PopupCancel from "./Popup/PopupCancel";
 import { date2str } from "tools/trans";
 import PropTypes from "prop-types";
@@ -6,6 +6,8 @@ import ProfileImg from "components/Mypage/ProfileImg";
 
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import PaymentRoundedIcon from "@mui/icons-material/PaymentRounded";
+import PopupPay from "./Popup/PopupPay";
+import useTaxiAPI from "hooks/useTaxiAPI";
 
 const InfoSide = (props) => {
   return (
@@ -44,9 +46,10 @@ const BtnSide = (props) => {
     width: "67px",
     height: "21px",
     borderRadius: "6px",
-    background: "#6E3678",
+    background: props.disable ? "#EEEEEE" : "#6E3678",
     overflow: "hidden",
     position: "relative",
+    cursor: props.disable ? "not-allowed" : "pointer",
   };
   const styleIcon = {
     position: "absolute",
@@ -54,7 +57,7 @@ const BtnSide = (props) => {
     right: "3px",
     width: "15px",
     height: "15px",
-    fill: "white",
+    fill: props.disable ? "#888888" : "#FFFFFF",
   };
 
   let icon = null;
@@ -71,10 +74,9 @@ const BtnSide = (props) => {
           height: "21px",
           lineHeight: "21px",
           fontSize: "10px",
-          color: "#FFFFFF",
+          color: props.disable ? "#888888" : "#FFFFFF",
           paddingLeft: "6px",
         }}
-        className="BTNC"
       >
         {props.children}
       </div>
@@ -86,6 +88,11 @@ BtnSide.propTypes = {
   icon: PropTypes.string,
   children: PropTypes.string,
   onClick: PropTypes.func,
+  disable: PropTypes.bool,
+};
+BtnSide.defaultProps = {
+  onClick: () => {},
+  disable: false,
 };
 
 const User = (props) => {
@@ -105,7 +112,7 @@ const User = (props) => {
           width: "21px",
           height: "21px",
           borderRadius: "11px",
-          background: isSettlement ? "#6E3678" : "#C4C4C4",
+          background: "#EEEEEE",
           overflow: "hidden",
         }}
       >
@@ -118,7 +125,7 @@ const User = (props) => {
           fontSize: "10px",
           padding: "4px 6px 3px",
           color: isSettlement ? "#FFFFFF" : "#888888",
-          background: "#EEEEEE",
+          background: isSettlement ? "#6E3678" : "#EEEEEE",
           borderRadius: "6px",
           marginTop: "1px",
           overflow: "hidden",
@@ -140,8 +147,16 @@ User.propTypes = {
 };
 
 const HeaderBody = (props) => {
+  const [, userInfoDetail] = useTaxiAPI.get("/json/logininfo/detail");
   const users = props.info?.part || [];
   const [popupCancel, setPopupCancel] = useState(false);
+  const [popupPay, setPopupPay] = useState(false);
+  const isSettlementForMe = useMemo(
+    () =>
+      users.filter((user) => user._id === userInfoDetail.oid)?.[0]
+        ?.isSettlement,
+    [userInfoDetail?.oid, JSON.stringify(users)]
+  );
 
   let btnContBody = null;
   if (!props.info?.isDeparted) {
@@ -151,12 +166,15 @@ const HeaderBody = (props) => {
       </BtnSide>
     );
   } else if (!props.info?.settlementTotal) {
-    /**
-     * @todo API에서 정산자 받아오기
-     */
     btnContBody = (
-      <BtnSide icon="card" onClick={() => setPopupCancel(true)}>
+      <BtnSide icon="card" onClick={() => setPopupPay(true)}>
         결제하기
+      </BtnSide>
+    );
+  } else if (isSettlementForMe === "paid") {
+    btnContBody = (
+      <BtnSide icon="card" disable={true}>
+        결제완료
       </BtnSide>
     );
   }
@@ -209,6 +227,12 @@ const HeaderBody = (props) => {
         roomId={props.info?._id}
         popup={popupCancel}
         onClickClose={() => setPopupCancel(false)}
+        recallEvent={props.recallEvent}
+      />
+      <PopupPay
+        roomId={props.info?._id}
+        popup={popupPay}
+        onClickClose={() => setPopupPay(false)}
         recallEvent={props.recallEvent}
       />
     </div>
