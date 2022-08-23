@@ -155,7 +155,7 @@ const RoomSelectionModal = (props) => {
       const result = await axios.post("/rooms/v2/join", {
         roomId: roomInfo._id,
       });
-      if (result.status === 200) history.push(`/chatting/${roomInfo._id}`);
+      if (result.status === 200) history.push(`/myroom/${roomInfo._id}`);
       else throw Error();
     } catch (_) {
       /**
