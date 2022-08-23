@@ -1,12 +1,14 @@
 import React, { useState, useMemo } from "react";
 import PopupCancel from "./Popup/PopupCancel";
+import PopupPay from "./Popup/PopupPay";
+import PopupSend from "./Popup/PopupSend";
 import { date2str } from "tools/trans";
 import PropTypes from "prop-types";
 import ProfileImg from "components/Mypage/ProfileImg";
 
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import PaymentRoundedIcon from "@mui/icons-material/PaymentRounded";
-import PopupPay from "./Popup/PopupPay";
+import PeopleRoundedIcon from "@mui/icons-material/EmojiPeopleRounded";
 import useTaxiAPI from "hooks/useTaxiAPI";
 
 const InfoSide = (props) => {
@@ -65,6 +67,8 @@ const BtnSide = (props) => {
     icon = <LogoutRoundedIcon style={styleIcon} />;
   } else if (props.icon === "card") {
     icon = <PaymentRoundedIcon style={styleIcon} />;
+  } else if (props.icon === "people") {
+    icon = <PeopleRoundedIcon style={styleIcon} />;
   }
 
   return (
@@ -151,6 +155,7 @@ const HeaderBody = (props) => {
   const users = props.info?.part || [];
   const [popupCancel, setPopupCancel] = useState(false);
   const [popupPay, setPopupPay] = useState(false);
+  const [popupSend, setPopupSend] = useState(false);
   const isSettlementForMe = useMemo(
     () =>
       users.filter((user) => user._id === userInfoDetail.oid)?.[0]
@@ -167,14 +172,26 @@ const HeaderBody = (props) => {
     );
   } else if (!props.info?.settlementTotal) {
     btnContBody = (
-      <BtnSide icon="card" onClick={() => setPopupPay(true)}>
+      <BtnSide icon="people" onClick={() => setPopupPay(true)}>
         결제하기
+      </BtnSide>
+    );
+  } else if (isSettlementForMe === "send-required") {
+    btnContBody = (
+      <BtnSide icon="card" onClick={() => setPopupSend(true)}>
+        정산하기
       </BtnSide>
     );
   } else if (isSettlementForMe === "paid") {
     btnContBody = (
-      <BtnSide icon="card" disable={true}>
+      <BtnSide icon="people" disable={true}>
         결제완료
+      </BtnSide>
+    );
+  } else if (isSettlementForMe === "sent") {
+    btnContBody = (
+      <BtnSide icon="card" disable={true}>
+        정산완료
       </BtnSide>
     );
   }
@@ -233,6 +250,12 @@ const HeaderBody = (props) => {
         roomId={props.info?._id}
         popup={popupPay}
         onClickClose={() => setPopupPay(false)}
+        recallEvent={props.recallEvent}
+      />
+      <PopupSend
+        roomId={props.info?._id}
+        popup={popupSend}
+        onClickClose={() => setPopupSend(false)}
         recallEvent={props.recallEvent}
       />
     </div>
