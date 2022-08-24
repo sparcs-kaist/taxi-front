@@ -1,5 +1,6 @@
 import React from "react";
 import Modal from "components/common/modal/Modal";
+import ButtonCancelOk from "components/common/modal/ButtonCancelOk";
 import PropTypes from "prop-types";
 
 const PopupContainer = (props) => {
@@ -14,6 +15,12 @@ const PopupContainer = (props) => {
       <div style={{ height: "26px" }} />
       {props.children}
       <div style={{ height: "24px" }} />
+      <ButtonCancelOk
+        nameCancel="돌아가기"
+        nameOk={props.nameOk}
+        onClickCancel={props.onClickClose}
+        onClickOk={props.onClickOk}
+      />
     </Modal>
   );
 };
@@ -21,7 +28,9 @@ const PopupContainer = (props) => {
 PopupContainer.propTypes = {
   popup: PropTypes.bool,
   onClickClose: PropTypes.func,
-  children: PropTypes.any,
+  onClickOk: PropTypes.func,
+  children: PropTypes.node,
+  nameOk: PropTypes.string,
 };
 
 export default PopupContainer;

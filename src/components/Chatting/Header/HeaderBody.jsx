@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import PopupCancel from "./Popup/PopupCancel";
+import PopupPay from "./Popup/PopupPay";
+import PopupSend from "./Popup/PopupSend";
 import { date2str } from "tools/trans";
 import PropTypes from "prop-types";
 import ProfileImg from "components/Mypage/ProfileImg";
 
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import PaymentRoundedIcon from "@mui/icons-material/PaymentRounded";
+import PeopleRoundedIcon from "@mui/icons-material/EmojiPeopleRounded";
+import useTaxiAPI from "hooks/useTaxiAPI";
 
 const InfoSide = (props) => {
   return (
@@ -44,9 +48,10 @@ const BtnSide = (props) => {
     width: "67px",
     height: "21px",
     borderRadius: "6px",
-    background: "#6E3678",
+    background: props.disable ? "#EEEEEE" : "#6E3678",
     overflow: "hidden",
     position: "relative",
+    cursor: props.disable ? "not-allowed" : "pointer",
   };
   const styleIcon = {
     position: "absolute",
@@ -54,7 +59,7 @@ const BtnSide = (props) => {
     right: "3px",
     width: "15px",
     height: "15px",
-    fill: "white",
+    fill: props.disable ? "#888888" : "#FFFFFF",
   };
 
   let icon = null;
@@ -62,6 +67,8 @@ const BtnSide = (props) => {
     icon = <LogoutRoundedIcon style={styleIcon} />;
   } else if (props.icon === "card") {
     icon = <PaymentRoundedIcon style={styleIcon} />;
+  } else if (props.icon === "people") {
+    icon = <PeopleRoundedIcon style={styleIcon} />;
   }
 
   return (
@@ -71,10 +78,9 @@ const BtnSide = (props) => {
           height: "21px",
           lineHeight: "21px",
           fontSize: "10px",
-          color: "#FFFFFF",
+          color: props.disable ? "#888888" : "#FFFFFF",
           paddingLeft: "6px",
         }}
-        className="BTNC"
       >
         {props.children}
       </div>
@@ -86,22 +92,35 @@ BtnSide.propTypes = {
   icon: PropTypes.string,
   children: PropTypes.string,
   onClick: PropTypes.func,
+  disable: PropTypes.bool,
+};
+BtnSide.defaultProps = {
+  onClick: () => {},
+  disable: false,
 };
 
 const User = (props) => {
+  const isSettlement =
+    props.info?.isSettlement === "paid" || props.info?.isSettlement === "sent";
   return (
-    <div style={{ display: "flex", position: "relative", gap: "4px" }}>
+    <div
+      style={{
+        display: "flex",
+        position: "relative",
+        gap: "4px",
+      }}
+    >
       <div
         style={{
           position: "relative",
           width: "21px",
           height: "21px",
           borderRadius: "11px",
-          background: props.info.isSettlement ? "#6E3678" : "#C4C4C4",
+          background: "#EEEEEE",
           overflow: "hidden",
         }}
       >
-        <ProfileImg path={props.info.profileImageUrl} />
+        <ProfileImg path={props.info?.profileImageUrl} />
       </div>
       <div
         style={{
@@ -109,14 +128,17 @@ const User = (props) => {
           lineHeight: "12px",
           fontSize: "10px",
           padding: "4px 6px 3px",
-          color: props.info.isSettlement ? "#FFFFFF" : "#888888",
-          background: "#EEEEEE",
+          color: isSettlement ? "#FFFFFF" : "#888888",
+          background: isSettlement ? "#6E3678" : "#EEEEEE",
           borderRadius: "6px",
           marginTop: "1px",
+          overflow: "hidden",
+          whiteSpace: "nowrap",
+          textOverflow: "ellipsis",
         }}
       >
-        {props.info.nickname}
-        {props.isDeparted && !props.info.isSettlement ? (
+        {props.info?.nickname}
+        {props.isDeparted && !isSettlement ? (
           <span style={{ fontSize: "8px" }}>&nbsp;&#40;미정산&#41;</span>
         ) : null}
       </div>
@@ -129,8 +151,17 @@ User.propTypes = {
 };
 
 const HeaderBody = (props) => {
+  const [, userInfoDetail] = useTaxiAPI.get("/json/logininfo/detail");
   const users = props.info?.part || [];
   const [popupCancel, setPopupCancel] = useState(false);
+  const [popupPay, setPopupPay] = useState(false);
+  const [popupSend, setPopupSend] = useState(false);
+  const isSettlementForMe = useMemo(
+    () =>
+      users.filter((user) => user._id === userInfoDetail.oid)?.[0]
+        ?.isSettlement,
+    [userInfoDetail?.oid, JSON.stringify(users)]
+  );
 
   let btnContBody = null;
   if (!props.info?.isDeparted) {
@@ -140,12 +171,27 @@ const HeaderBody = (props) => {
       </BtnSide>
     );
   } else if (!props.info?.settlementTotal) {
-    /**
-     * @todo API에서 정산자 받아오기
-     */
     btnContBody = (
-      <BtnSide icon="card" onClick={() => setPopupCancel(true)}>
+      <BtnSide icon="people" onClick={() => setPopupPay(true)}>
         결제하기
+      </BtnSide>
+    );
+  } else if (isSettlementForMe === "send-required") {
+    btnContBody = (
+      <BtnSide icon="card" onClick={() => setPopupSend(true)}>
+        정산하기
+      </BtnSide>
+    );
+  } else if (isSettlementForMe === "paid") {
+    btnContBody = (
+      <BtnSide icon="people" disable={true}>
+        결제완료
+      </BtnSide>
+    );
+  } else if (isSettlementForMe === "sent") {
+    btnContBody = (
+      <BtnSide icon="card" disable={true}>
+        정산완료
       </BtnSide>
     );
   }
@@ -171,12 +217,13 @@ const HeaderBody = (props) => {
             width: "calc(100% - 87px)",
             display: "flex",
             gap: "9px",
-            flexWrap: "Wrap",
+            flexWrap: "wrap",
+            overflow: "hidden",
           }}
         >
           {users.map((item) => (
             <User
-              key={item.id}
+              key={item._id}
               info={item}
               isDeparted={props.info?.isDeparted}
             />
@@ -194,8 +241,22 @@ const HeaderBody = (props) => {
         </div>
       </div>
       <PopupCancel
+        roomId={props.info?._id}
         popup={popupCancel}
         onClickClose={() => setPopupCancel(false)}
+        recallEvent={props.recallEvent}
+      />
+      <PopupPay
+        roomId={props.info?._id}
+        popup={popupPay}
+        onClickClose={() => setPopupPay(false)}
+        recallEvent={props.recallEvent}
+      />
+      <PopupSend
+        roomId={props.info?._id}
+        popup={popupSend}
+        onClickClose={() => setPopupSend(false)}
+        recallEvent={props.recallEvent}
       />
     </div>
   );
@@ -203,6 +264,10 @@ const HeaderBody = (props) => {
 
 HeaderBody.propTypes = {
   info: PropTypes.any,
+  recallEvent: PropTypes.func,
+};
+HeaderBody.defaultProps = {
+  recallEvent: () => {},
 };
 
 export default HeaderBody;

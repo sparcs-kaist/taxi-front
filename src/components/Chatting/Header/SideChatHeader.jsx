@@ -80,7 +80,7 @@ SideChatHeader.propTypes = {
   info: PropTypes.object,
 };
 SideChatHeader.defaultProps = {
-  info: [],
+  info: {},
 };
 
 export default SideChatHeader;

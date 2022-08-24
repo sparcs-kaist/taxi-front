@@ -1,10 +1,9 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import PopupContainer from "./PopupContainer";
 import PropTypes from "prop-types";
 import axios from "tools/axios";
 
-const PopupCancel = (props) => {
+const PopupPay = (props) => {
   const styleTextCont = {
     textAlign: "center",
   };
@@ -29,17 +28,16 @@ const PopupCancel = (props) => {
     color: "#6E3678",
   };
 
-  const history = useHistory();
   const onClick = async () => {
-    const res = await axios.post("/rooms/v2/abort", {
+    const res = await axios.post("/rooms/v2/commitPayment", {
       roomId: props.roomId,
     });
     if (res.status === 200) {
       props.recallEvent();
-      history.push("/myroom");
+      props.onClickClose();
     } else {
       // FIXME
-      alert("탑승 취소를 실패하였습니다");
+      alert("결제 완료를 실패하였습니다");
     }
   };
 
@@ -48,24 +46,28 @@ const PopupCancel = (props) => {
       popup={props.popup}
       onClickClose={props.onClickClose}
       onClickOk={onClick}
-      nameOk="취소하기"
+      nameOk="완료하기"
     >
       <div style={styleTextCont}>
-        <span style={styleTxt1}>탑승</span>
-        <span style={styleTxt2}>을 </span>
-        <span style={styleTxt3}>취소</span>
+        <span style={styleTxt1}>결제</span>
+        <span style={styleTxt2}>를 </span>
+        <span style={styleTxt3}>완료</span>
         <span style={styleTxt2}>하시겠습니까?</span>
       </div>
-      <div style={styleTextCont2}>취소 후 재탑승이 가능합니다.</div>
+      <div style={styleTextCont2}>
+        꼭 택시비를 결제한 본인만 완료해주세요.
+        <br />
+        완료 후 취소는 불가능합니다.
+      </div>
     </PopupContainer>
   );
 };
 
-PopupCancel.propTypes = {
+PopupPay.propTypes = {
   roomId: PropTypes.string,
   popup: PropTypes.bool,
   onClickClose: PropTypes.func,
   recallEvent: PropTypes.func,
 };
 
-export default PopupCancel;
+export default PopupPay;

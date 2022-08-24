@@ -190,7 +190,7 @@ const Header = (props) => {
               paddingBottom: "16px",
             }}
           >
-            <HeaderBody info={props.info} />
+            <HeaderBody info={props.info} recallEvent={props.recallEvent} />
           </div>
         </div>
       </animated.div>
@@ -199,6 +199,7 @@ const Header = (props) => {
 };
 Header.propTypes = {
   info: PropTypes.any,
+  recallEvent: PropTypes.func,
 };
 
 export default Header;
