@@ -15,7 +15,7 @@ import CircleIcon from "@mui/icons-material/Circle";
 const Border = () => {
   const styleLine = {
     height: "2px",
-    margin: "5px 15px",
+    margin: "5px 0",
     backgroundImage:
       "linear-gradient(to right, #C8C8C8 50%, rgba(255,255,255,0) 0%)",
     backgroundPosition: "bottom",
@@ -165,7 +165,7 @@ const RoomSelectionModal = (props) => {
       display={props.isOpen}
       btnCloseDisplay={true}
       onClickClose={props.onClose}
-      padding={props.isMobile ? "0 10px 10px 10px" : "0 15px 15px 15px"}
+      padding="0 12px 12px"
     >
       <div style={{ height: "25px" }} />
       <div style={styleTitleWrapper}>
