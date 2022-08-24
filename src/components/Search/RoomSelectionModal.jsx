@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import { date2str } from "tools/trans";
 import Title from "components/common/Title";
 import Modal from "components/common/modal/Modal";
 import SubmitButton from "components/common/roomOptions/SubmitButton";
+import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import PropTypes from "prop-types";
 import axios from "tools/axios";
 
@@ -110,7 +112,10 @@ const RoomSelectionModal = (props) => {
   if (!props?.roomInfo) return <></>;
   const { roomInfo } = props;
   const history = useHistory();
-  const [disableJoinBtn, setDisableJoinBtn] = useState(false);
+  const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
+  const disableJoinBtn = roomInfo.part.some(
+    (user) => user._id === loginInfoDetail?.oid
+  );
   const isRoomFull = roomInfo.maxPartLength - roomInfo.part.length === 0;
 
   const styleTitleWrapper = {
@@ -136,16 +141,6 @@ const RoomSelectionModal = (props) => {
     display: "flex",
     justifyContent: "space-between",
   };
-
-  useEffect(() => {
-    axios.get("/json/logininfo/detail").then((res) => {
-      const {
-        data: { oid: userId },
-      } = res;
-      if (roomInfo.part.some((user) => user._id === userId))
-        setDisableJoinBtn(true);
-    });
-  }, [roomInfo]);
 
   const getLocationName = (location) => location?.koName;
 
