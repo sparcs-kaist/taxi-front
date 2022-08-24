@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
 import PropTypes from "prop-types";
 import { date2str } from "tools/trans";
-import "./RoomElement.css";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 
@@ -28,7 +27,7 @@ const Room = (props) => {
     lineHeight: "39px",
     fontSize: "12px",
     paddingLeft: "18px",
-    paddingRight: "18px",
+    paddingRight: "5px",
   };
   const styleLine = {
     height: "1px",
@@ -78,9 +77,11 @@ const Room = (props) => {
     config: { duration: 100 },
   });
 
-  const tagStyle = {
+  const styleTag = {
     boxShadow:
-      "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
+      props.theme == "purple"
+        ? "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)"
+        : "inset 1px 1px 2.5px -1px rgba(110, 54, 120, 0.1)",
     borderRadius: "4px",
     background: props.theme == "purple" ? "#FFFFFF" : "#FAF8FB",
     display: "flex",
@@ -95,16 +96,16 @@ const Room = (props) => {
   };
 
   const numLeftTag = (
-    <div style={tagStyle}>
+    <div style={styleTag}>
       <div>남은 인원: </div>
       <div style={{ color: "#6E3678", fontWeight: "400" }}>
-        {props.data.maxPartLength - props.data.part?.length} 명
+        {props.data?.maxPartLength - props.data?.part.length} 명
       </div>
     </div>
   );
 
   const isDoneTag = (
-    <div style={tagStyle}>
+    <div style={styleTag}>
       {props.data?.isOver ? (
         <div style={{ color: "#6E3678", fontWeight: "400" }}>정산 미완료</div>
       ) : (
