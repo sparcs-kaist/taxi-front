@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useLocation, Redirect } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import taxiLocationAtom from "recoil/taxiLocation";
+import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import Navigation from "components/Skeleton/Navigation";
 import Footer from "components/Skeleton/Footer";
 import PopupPolicy from "components/Mypage/PopupPolicy/PopupPolicy";
@@ -37,17 +38,27 @@ const HeaderLine = () => {
 const Skeleton = (props) => {
   const [userId, setUserId] = useState(undefined);
   const [showAgree, setShowAgree] = useState(false);
-  const setTaxiLocation = useSetRecoilState(taxiLocationAtom);
+  const [taxiLocation, setTaxiLocation] = useRecoilState(taxiLocationAtom);
+  const [loginInfoDetail, setLoginInfoDetail] =
+    useRecoilState(loginInfoDetailAtom);
   const location = useLocation();
   const pathname = location.pathname;
   const currentPath = location.pathname + location.search;
 
+  const initializeGlobalInfo = useCallback(() => {
+    const getLoginInfoDetail = axios.get("/json/logininfo/detail");
+    const getLocation = axios.get("/locations");
+
+    Promise.all([getLoginInfoDetail, getLocation]).then(
+      ([{ data: loginInfoDetailData }, { data: locationData }]) => {
+        setTaxiLocation(locationData.locations);
+        setLoginInfoDetail(loginInfoDetailData);
+      }
+    );
+  }, []);
+
   useEffect(() => {
-    if (userId) {
-      axios.get("/locations").then(({ data }) => {
-        setTaxiLocation(data.locations);
-      });
-    }
+    if (userId) initializeGlobalInfo();
   }, [userId]);
 
   // path가 수정될 때 마다 logininfo 요청
@@ -78,6 +89,12 @@ const Skeleton = (props) => {
     return (
       <Redirect to={`/login?redirect=${encodeURIComponent(currentPath)}`} />
     );
+  }
+  if (taxiLocation.length === 0 || loginInfoDetail === null) {
+    /**
+     * @todo 로딩 화면 추가
+     */
+    return <></>;
   }
   if (userId === undefined) {
     return (
