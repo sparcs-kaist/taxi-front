@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import moment from "moment";
+import moment from "tools/moment";
 import ProfileImg from "components/Mypage/ProfileImg";
 import { getS3Url } from "tools/trans";
 import PropTypes from "prop-types";

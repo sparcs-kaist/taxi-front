@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { date2str } from "tools/trans";
+import { date2str } from "tools/moment";
 import Title from "components/common/Title";
 import Modal from "components/common/modal/Modal";
 import SubmitButton from "components/common/roomOptions/SubmitButton";
