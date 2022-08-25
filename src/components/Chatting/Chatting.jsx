@@ -19,6 +19,7 @@ const Chatting = (props) => {
   const sendingMessage = useRef();
   const callingInfScroll = useRef();
   const isBottomOnScrollCache = useRef(true);
+  const roomIdCache = useRef();
   const messagesBody = useRef();
 
   const [chats, setChats] = useStateWithCallbackLazy([]);
@@ -27,8 +28,13 @@ const Chatting = (props) => {
     useStateWithCallbackLazy("40px");
 
   const socket = useRef(undefined);
+  const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
   const [, userInfoDetail] = useTaxiAPI.get("/json/logininfo/detail");
-  const [, headerInfo] = useTaxiAPI.get(`/rooms/info?id=${props.roomId}`);
+  const [, headerInfo] = useTaxiAPI.get(
+    `/rooms/v2/info?id=${props.roomId}`,
+    {},
+    [headerInfToken]
+  );
 
   // scroll event
   const isTopOnScroll = (tol = 20) => {
@@ -97,7 +103,9 @@ const Chatting = (props) => {
 
   // socket setting
   useEffect(() => {
-    if (headerInfo) {
+    if (headerInfo && userInfoDetail && roomIdCache.current !== props.roomId) {
+      roomIdCache.current = props.roomId;
+
       socket.current?.disconnect();
       socket.current = io(ioServer, {
         withCredentials: true,
@@ -154,7 +162,7 @@ const Chatting = (props) => {
     return () => {
       if (socket.current) socket.current.disconnect();
     };
-  }, [headerInfo]);
+  }, [headerInfo, userInfoDetail]);
 
   // resize event
   const resizeEvent = () => {
@@ -228,7 +236,11 @@ const Chatting = (props) => {
   return (
     <div className="ChatContainer">
       <div className="ChatRoomContainer">
-        <Header isSideChat={props.isSideChat} info={headerInfo} />
+        <Header
+          isSideChat={props.isSideChat}
+          info={headerInfo}
+          recallEvent={() => setHeaderInfToken(Date.now().toString())}
+        />
         <MessagesBody
           isSideChat={props.isSideChat}
           chats={chats}

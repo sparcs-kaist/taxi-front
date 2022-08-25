@@ -83,6 +83,7 @@ const Navigation = (props) => {
         paddingBottom: "calc(env(safe-area-inset-bottom))",
         boxShadow: "0 0 4px rgba(0, 0, 0, 0.1)",
         backgroundColor: "white",
+        zIndex: "30",
       }}
     >
       <RLayout.R1 height="100%">

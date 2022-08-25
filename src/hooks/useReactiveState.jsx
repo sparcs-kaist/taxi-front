@@ -1,5 +1,28 @@
 import React, { useState, useRef, useEffect } from "react";
 
+const useBodySize = () => {
+  const bodySizeR = useRef([0, 0]);
+  const [bodySize, setBodySize] = useState(bodySizeR.current);
+
+  useEffect(() => {
+    const resizeEvent = () => {
+      const _bodySize = [document.body.clientWidth, document.body.clientHeight];
+      if (
+        bodySizeR.current[0] !== _bodySize[0] ||
+        bodySizeR.current[1] !== _bodySize[1]
+      ) {
+        bodySizeR.current = _bodySize;
+        setBodySize(_bodySize);
+      }
+    };
+    resizeEvent();
+    window.addEventListener("resize", resizeEvent);
+    return () => window.removeEventListener("resize", resizeEvent);
+  }, []);
+
+  return bodySize;
+};
+
 const useR1state = () => {
   const getState = () => {
     const width = document.body.clientWidth;
@@ -76,4 +99,4 @@ const usePopupstate = () => {
   return state;
 };
 
-export { useR1state, useR2state, usePopupstate };
+export { useBodySize, useR1state, useR2state, usePopupstate };

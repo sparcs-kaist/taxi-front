@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
+import { useRecoilValue } from "recoil";
+import { taxiLocataionWithName } from "recoil/taxiLocation";
+import preferenceAtom from "recoil/preference";
 import PropTypes from "prop-types";
 import WhiteContainer from "components/common/WhiteContainer";
 import Popup from "./Popup";
 import Picker from "react-mobile-picker-mod";
-
-import useTaxiAPI from "hooks/useTaxiAPI";
 
 const PopupInput = (props) => {
   const [value, setValue] = useState({
@@ -131,7 +132,8 @@ PlaceElement.propTypes = {
 const Place = (props) => {
   const [isPopup1, setPopup1] = useState(false);
   const [isPopup2, setPopup2] = useState(false);
-  const [, placeOptions, placeOptionsLoading] = useTaxiAPI.get("/locations");
+  const taxiLocation = useRecoilValue(taxiLocataionWithName);
+  const preference = useRecoilValue(preferenceAtom);
 
   const styleLine = {
     width: "0.5px",
@@ -142,15 +144,8 @@ const Place = (props) => {
     marginTop: -2.5,
   };
 
-  // TODO: 언어 모드에 따라 enName을 name으로 설정 (setPlaceName, getPlaceName)
-  const setPlaceName = (places) =>
-    places.reduce((acc, place) => {
-      place.name = place.koName;
-      acc.push(place);
-      return acc;
-    }, []);
-
-  const getPlaceName = (place) => place?.koName;
+  const getPlaceName = (place) =>
+    preference.lang === "ko" ? place?.koName : place?.enName;
 
   return (
     <WhiteContainer marginAuto={false} padding="10px">
@@ -180,18 +175,14 @@ const Place = (props) => {
         onClose={() => setPopup1(false)}
         value={getPlaceName(props.value[0])}
         handler={(x) => props.handler([x, props.value[1]])}
-        placeOptions={
-          placeOptionsLoading ? [] : setPlaceName(placeOptions.locations)
-        }
+        placeOptions={taxiLocation}
       />
       <PopupInput
         isOpen={isPopup2}
         onClose={() => setPopup2(false)}
         value={getPlaceName(props.value[1])}
         handler={(x) => props.handler([props.value[0], x])}
-        placeOptions={
-          placeOptionsLoading ? [] : setPlaceName(placeOptions.locations)
-        }
+        placeOptions={taxiLocation}
       />
     </WhiteContainer>
   );
