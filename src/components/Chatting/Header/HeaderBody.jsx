@@ -158,7 +158,7 @@ const HeaderBody = (props) => {
   const [popupSend, setPopupSend] = useState(false);
   const isSettlementForMe = useMemo(
     () =>
-      users.filter((user) => user._id === userInfoDetail.oid)?.[0]
+      users.filter((user) => user._id === userInfoDetail?.oid)?.[0]
         ?.isSettlement,
     [userInfoDetail?.oid, JSON.stringify(users)]
   );

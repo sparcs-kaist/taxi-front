@@ -1,12 +1,72 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useSpring, animated } from "react-spring";
 import PropTypes from "prop-types";
 import { date2str } from "tools/trans";
+import useTaxiAPI from "hooks/useTaxiAPI";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 
+const NumLeftTag = (props) => {
+  return (
+    <div style={props.style}>
+      <div>남은 인원: </div>
+      <div style={{ color: "#6E3678", fontWeight: "400" }}>
+        {props.maxPartLength - props.users.length} / {props.maxPartLength} 명
+      </div>
+    </div>
+  );
+};
+
+const IsDoneTag = (props) => {
+  const paid = props.users.filter((user) => user.isSettlement == "paid");
+  const sent = props.users.filter((user) => user.isSettlement == "sent");
+  const isDone = () => {
+    if (paid.length === 0) {
+      return (
+        <div style={props.style}>
+          <div style={{ color: "#6E3678", fontWeight: "400" }}>결재 미완료</div>
+        </div>
+      );
+    } else if (paid.length + sent.length === props.users.length) {
+      return (
+        <div style={props.style}>
+          <div>정산 완료</div>
+        </div>
+      );
+    } else {
+      return (
+        <div style={props.style}>
+          <div style={{ color: "#6E3678", fontWeight: "400" }}>정산 미완료</div>
+        </div>
+      );
+    }
+  };
+  const person = () => {
+    if (paid.length === 0) {
+      return <div></div>;
+    } else {
+      return (
+        <div style={props.style}>
+          <div>
+            <div>{paid[0].nickname}</div>
+          </div>
+        </div>
+      );
+    }
+  };
+  return (
+    <div style={{ display: "flex" }}>
+      {isDone()}
+      {person()}
+    </div>
+  );
+};
+
 const Room = (props) => {
   const [isHover, setHover] = useState(false);
+  const [, userInfoDetail] = useTaxiAPI.get("/json/logininfo/detail");
+  const users = props.data?.part || [];
+
   const style = {
     position: "relative",
     background: props.theme === "purple" ? "#FAF8FB" : "white",
@@ -76,7 +136,6 @@ const Room = (props) => {
     opacity: props.selected ? 1 : 0,
     config: { duration: 100 },
   });
-
   const styleTag = {
     boxShadow:
       props.theme == "purple"
@@ -95,25 +154,6 @@ const Room = (props) => {
     margin: "3px",
   };
 
-  const numLeftTag = (
-    <div style={styleTag}>
-      <div>남은 인원: </div>
-      <div style={{ color: "#6E3678", fontWeight: "400" }}>
-        {props.data?.maxPartLength - props.data?.part.length} 명
-      </div>
-    </div>
-  );
-
-  const isDoneTag = (
-    <div style={styleTag}>
-      {props.data?.isOver ? (
-        <div style={{ color: "#6E3678", fontWeight: "400" }}>정산 미완료</div>
-      ) : (
-        <div>정산완료</div>
-      )}
-    </div>
-  );
-
   // TODO: 언어 선택에 따라 enName 반환
   const getLocationName = (location) => location?.koName;
 
@@ -127,7 +167,15 @@ const Room = (props) => {
     >
       <div style={styleName}>
         <div style={{ marginRight: "auto" }}>{props.data?.name}</div>
-        {props.data.isDeparted ? isDoneTag : numLeftTag}
+        {props.data?.isDeparted ? (
+          <IsDoneTag users={users} style={styleTag} />
+        ) : (
+          <NumLeftTag
+            users={users}
+            style={styleTag}
+            maxPartLength={props.data?.maxPartLength}
+          />
+        )}
       </div>
       <div style={styleLine} />
       <div style={styleLay1}>
@@ -155,6 +203,17 @@ Room.defaultProps = {
   onClick: () => {},
   marginTop: "0px",
   marginBottom: "0px",
+};
+
+NumLeftTag.propTypes = {
+  style: PropTypes.object,
+  users: PropTypes.array,
+  maxPartLength: PropTypes.number,
+};
+IsDoneTag.propTypes = {
+  style: PropTypes.object,
+  users: PropTypes.array,
+  id: PropTypes.string,
 };
 
 export default Room;
