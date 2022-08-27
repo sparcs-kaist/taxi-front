@@ -79,15 +79,14 @@ const Navigation = (props) => {
         left: "0px",
         bottom: "0px",
         width: "100%",
-        height: "50px",
-        paddingBottom: "calc(env(safe-area-inset-bottom))",
+        height: "calc(50px + env(safe-area-inset-bottom))",
         boxShadow: "0 0 4px rgba(0, 0, 0, 0.1)",
         backgroundColor: "white",
         zIndex: "30",
       }}
     >
       <RLayout.R1 height="100%">
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", height: "100%" }}>
           <NavigationBtn
             to="/search"
             name="검색"

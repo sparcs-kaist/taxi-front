@@ -21,16 +21,19 @@ Container.propTypes = {
 
 const HeaderLine = () => {
   return (
-    <div
-      style={{
-        background: "#663D71",
-        width: "100%",
-        height: "5px",
-        position: "fixed",
-        top: "0px",
-        left: "0px",
-      }}
-    />
+    <>
+      <div
+        style={{
+          background: "#663D71",
+          width: "100%",
+          height: "max(5px, env(safe-area-inset-top))",
+          position: "fixed",
+          top: "0px",
+          left: "0px",
+        }}
+      />
+      <div style={{ height: "max(0px, env(safe-area-inset-top))" }} />
+    </>
   );
 };
 
@@ -93,9 +96,9 @@ const Skeleton = (props) => {
   return (
     <Container>
       <Navigation path={pathname} />
+      <HeaderLine />
       {props.children}
       <Footer />
-      <HeaderLine />
       <PopupPolicy isOpen={showAgree} onClose={() => setShowAgree(false)} />
     </Container>
   );
