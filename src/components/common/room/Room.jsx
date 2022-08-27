@@ -59,7 +59,7 @@ const Tag = (props) => {
   }
 
   if (paid.length === 0) {
-    person = <div></div>;
+    person = null;
   } else {
     person = (
       <div style={style}>
