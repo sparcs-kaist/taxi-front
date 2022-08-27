@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from "react";
 import { useSpring, animated } from "react-spring";
 import PropTypes from "prop-types";
-import { date2str } from "tools/trans";
 import useTaxiAPI from "hooks/useTaxiAPI";
+import { date2str } from "tools/moment";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import moment from "moment";
+import moment from "tools/moment";
 import ProfileImg from "components/Mypage/ProfileImg";
 import { getS3Url } from "tools/trans";
 import PropTypes from "prop-types";
@@ -166,7 +166,7 @@ const ChatSet = (props) => {
             </div>
             {index === props.chats.length - 1 ? (
               <div style={styleTime}>
-                {moment(chat.time).hour()}시 {moment(chat.time).minute()}분
+                {moment(chat.time).format("H시 MM분")}
               </div>
             ) : null}
           </div>

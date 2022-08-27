@@ -4,7 +4,7 @@ import RLayout from "components/common/RLayout";
 import Title from "components/common/Title";
 import SubmitButton from "components/common/roomOptions/SubmitButton";
 import axios from "tools/axios";
-import { date2str, getToday10, getToday } from "tools/trans";
+import { date2str, getToday10, getToday } from "tools/moment";
 
 import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
