@@ -6,58 +6,74 @@ import useTaxiAPI from "hooks/useTaxiAPI";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 
-const NumLeftTag = (props) => {
-  return (
-    <div style={props.style}>
-      <div>남은 인원: </div>
-      <div style={{ color: "#6E3678", fontWeight: "400" }}>
-        {props.maxPartLength - props.users.length} / {props.maxPartLength} 명
-      </div>
-    </div>
-  );
-};
-
-const IsDoneTag = (props) => {
+const Tag = (props) => {
+  const style = {
+    boxShadow:
+      props.theme == "purple"
+        ? "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)"
+        : "inset 1px 1px 2.5px -1px rgba(110, 54, 120, 0.1)",
+    borderRadius: "4px",
+    background: props.theme == "purple" ? "#FFFFFF" : "#FAF8FB",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    padding: "3.5px 5px 2.5px",
+    gap: "3px",
+    height: "18px",
+    lineHeight: "18px",
+    fontSize: "10px",
+    margin: "3px",
+  };
   const paid = props.users.filter((user) => user.isSettlement == "paid");
   const sent = props.users.filter((user) => user.isSettlement == "sent");
-  const isDone = () => {
-    if (paid.length === 0) {
-      return (
-        <div style={props.style}>
-          <div style={{ color: "#6E3678", fontWeight: "400" }}>결재 미완료</div>
+  let isDone = null;
+  let person = null;
+
+  if (!props.isDeparted) {
+    isDone = (
+      <div style={style}>
+        <div>남은 인원: </div>
+        <div style={{ color: "#6E3678", fontWeight: "400" }}>
+          {props.maxPartLength - props.users.length} / {props.maxPartLength} 명
         </div>
-      );
-    } else if (paid.length + sent.length === props.users.length) {
-      return (
-        <div style={props.style}>
-          <div>정산 완료</div>
+      </div>
+    );
+  } else if (paid.length === 0) {
+    isDone = (
+      <div style={style}>
+        <div style={{ color: "#6E3678", fontWeight: "400" }}>결재 미완료</div>
+      </div>
+    );
+  } else if (paid.length + sent.length === props.users.length) {
+    isDone = (
+      <div style={style}>
+        <div>정산 완료</div>
+      </div>
+    );
+  } else {
+    isDone = (
+      <div style={style}>
+        <div style={{ color: "#6E3678", fontWeight: "400" }}>정산 미완료</div>
+      </div>
+    );
+  }
+
+  if (paid.length === 0) {
+    person = <div></div>;
+  } else {
+    person = (
+      <div style={style}>
+        <div>
+          <div>{paid[0].nickname}</div>
         </div>
-      );
-    } else {
-      return (
-        <div style={props.style}>
-          <div style={{ color: "#6E3678", fontWeight: "400" }}>정산 미완료</div>
-        </div>
-      );
-    }
-  };
-  const person = () => {
-    if (paid.length === 0) {
-      return <div></div>;
-    } else {
-      return (
-        <div style={props.style}>
-          <div>
-            <div>{paid[0].nickname}</div>
-          </div>
-        </div>
-      );
-    }
-  };
+      </div>
+    );
+  }
+
   return (
     <div style={{ display: "flex" }}>
-      {isDone()}
-      {person()}
+      {isDone}
+      {person}
     </div>
   );
 };
@@ -136,23 +152,6 @@ const Room = (props) => {
     opacity: props.selected ? 1 : 0,
     config: { duration: 100 },
   });
-  const styleTag = {
-    boxShadow:
-      props.theme == "purple"
-        ? "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)"
-        : "inset 1px 1px 2.5px -1px rgba(110, 54, 120, 0.1)",
-    borderRadius: "4px",
-    background: props.theme == "purple" ? "#FFFFFF" : "#FAF8FB",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "flex-start",
-    padding: "3.5px 5px 2.5px",
-    gap: "3px",
-    height: "18px",
-    lineHeight: "18px",
-    fontSize: "10px",
-    margin: "3px",
-  };
 
   // TODO: 언어 선택에 따라 enName 반환
   const getLocationName = (location) => location?.koName;
@@ -167,15 +166,12 @@ const Room = (props) => {
     >
       <div style={styleName}>
         <div style={{ marginRight: "auto" }}>{props.data?.name}</div>
-        {props.data?.isDeparted ? (
-          <IsDoneTag users={users} style={styleTag} />
-        ) : (
-          <NumLeftTag
-            users={users}
-            style={styleTag}
-            maxPartLength={props.data?.maxPartLength}
-          />
-        )}
+        <Tag
+          users={users}
+          isDeparted={props.data?.isDeparted}
+          maxPartLength={props.data?.maxPartLength}
+          theme={props.theme}
+        />
       </div>
       <div style={styleLine} />
       <div style={styleLay1}>
@@ -205,15 +201,13 @@ Room.defaultProps = {
   marginBottom: "0px",
 };
 
-NumLeftTag.propTypes = {
-  style: PropTypes.object,
-  users: PropTypes.array,
-  maxPartLength: PropTypes.number,
-};
-IsDoneTag.propTypes = {
+Tag.propTypes = {
   style: PropTypes.object,
   users: PropTypes.array,
   id: PropTypes.string,
+  maxPartLength: PropTypes.number,
+  theme: PropTypes.string,
+  isDeparted: PropTypes.bool,
 };
 
 export default Room;
