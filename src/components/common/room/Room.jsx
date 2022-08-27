@@ -9,11 +9,11 @@ import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 const Tag = (props) => {
   const style = {
     boxShadow:
-      props.theme == "purple"
+      props.theme === "purple"
         ? "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)"
         : "inset 1px 1px 2.5px -1px rgba(110, 54, 120, 0.1)",
     borderRadius: "4px",
-    background: props.theme == "purple" ? "#FFFFFF" : "#FAF8FB",
+    background: props.theme === "purple" ? "#FFFFFF" : "#FAF8FB",
     display: "flex",
     flexDirection: "row",
     alignItems: "flex-start",
@@ -24,8 +24,8 @@ const Tag = (props) => {
     fontSize: "10px",
     margin: "3px",
   };
-  const paid = props.users.filter((user) => user.isSettlement == "paid");
-  const sent = props.users.filter((user) => user.isSettlement == "sent");
+  const paid = props.users.filter((user) => user.isSettlement === "paid");
+  const sent = props.users.filter((user) => user.isSettlement === "sent");
   let isDone = null;
   let person = null;
 
