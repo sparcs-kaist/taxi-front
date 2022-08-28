@@ -3,8 +3,8 @@ import { useRecoilValue } from "recoil";
 import preferenceAtom from "recoil/preference";
 import { useSpring, animated } from "react-spring";
 import PropTypes from "prop-types";
-import { date2str } from "tools/moment";
 import { getLocationName } from "tools/trans";
+import { date2str } from "tools/moment";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 
