@@ -28,7 +28,7 @@ const Border = () => {
 
 const PlaceSection = (props) => {
   const style = {
-    width: "140px",
+    width: "150px",
     height: "100%",
     display: "flex",
     flexDirection: "column",
@@ -146,7 +146,7 @@ const RoomSelectionModal = (props) => {
     justifyContent: "space-between",
   };
 
-  const getLocationName = (location) => location?.koName;
+  const getLocationName = (location) => location?.koName ?? "";
 
   const requestJoin = async () => {
     // TODO: request join api

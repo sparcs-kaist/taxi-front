@@ -154,7 +154,7 @@ const Room = (props) => {
   });
 
   // TODO: 언어 선택에 따라 enName 반환
-  const getLocationName = (location) => location?.koName;
+  const getLocationName = (location) => location?.koName ?? "";
 
   return (
     <div
