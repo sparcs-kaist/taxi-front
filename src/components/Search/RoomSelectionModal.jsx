@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { date2str } from "tools/trans";
@@ -109,14 +109,18 @@ InfoSection.defaultProps = {
 };
 
 const RoomSelectionModal = (props) => {
-  if (!props?.roomInfo) return <></>;
-  const { roomInfo } = props;
+  const [roomInfo, setRoomInfo] = useState(null);
   const history = useHistory();
   const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
-  const disableJoinBtn = roomInfo.part.some(
-    (user) => user._id === loginInfoDetail?.oid
-  );
-  const isRoomFull = roomInfo.maxPartLength - roomInfo.part.length === 0;
+  const disableJoinBtn =
+    roomInfo?.part.some((user) => user._id === loginInfoDetail?.oid) ?? true;
+  const isRoomFull = roomInfo
+    ? roomInfo.maxPartLength - roomInfo.part.length === 0
+    : false;
+
+  useEffect(() => {
+    if (props.isOpen) setRoomInfo(props.roomInfo);
+  }, [props.isOpen]);
 
   const styleTitleWrapper = {
     padding: "0 20px 0 10px",
@@ -169,7 +173,7 @@ const RoomSelectionModal = (props) => {
     >
       <div style={{ height: "25px" }} />
       <div style={styleTitleWrapper}>
-        <Title marginAuto={false}>{roomInfo.name}</Title>
+        <Title marginAuto={false}>{roomInfo?.name ?? ""}</Title>
       </div>
       <div style={{ height: "15px" }} />
       <Border />
@@ -182,22 +186,28 @@ const RoomSelectionModal = (props) => {
       <div style={styleInfoSectionWrapper}>
         <InfoSection
           title="출발 시각 & 날짜"
-          text={date2str(roomInfo.time)}
+          text={date2str(roomInfo?.time) ?? ""}
           isBold
         />
         <div style={styleMultipleInfo}>
           <InfoSection
             title="동승자"
-            text={roomInfo.part
-              .reduce((acc, user) => {
-                acc.push(user.nickname);
-                return acc;
-              }, [])
-              .join(", ")}
+            text={
+              roomInfo?.part
+                .reduce((acc, user) => {
+                  acc.push(user.nickname);
+                  return acc;
+                }, [])
+                .join(", ") ?? ""
+            }
           />
           <InfoSection
             title="남은 인원"
-            text={`${roomInfo.maxPartLength - roomInfo.part.length}명`}
+            text={
+              roomInfo
+                ? `${roomInfo.maxPartLength - roomInfo.part.length}명`
+                : ""
+            }
             isAlignLeft={false}
             isColored
           />
