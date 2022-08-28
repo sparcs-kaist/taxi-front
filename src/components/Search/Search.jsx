@@ -6,8 +6,7 @@ import Title from "components/common/Title";
 import SubmitButton from "components/common/roomOptions/SubmitButton";
 import SideResult from "./SideResult";
 import axios from "tools/axios";
-import moment from "moment";
-import { getToday10 } from "tools/trans";
+import moment, { getToday10, getToday } from "tools/moment";
 import PropTypes from "prop-types";
 
 import OptionName from "components/common/roomOptions/Name";
@@ -144,7 +143,7 @@ const Search = () => {
         `${valueDate[0]}-${
           valueDate[1] < 10 ? "0" + valueDate[1] : valueDate[1]
         }-${valueDate[2]} ${valueTime[0]}:${valueTime[1]}`
-      ).isBefore(moment(), "minute")
+      ).isBefore(getToday(), "minute")
     ) {
       setMessage("과거 시점은 검색할 수 없습니다.");
       setDisable(true);
@@ -201,9 +200,9 @@ const Search = () => {
       if (searchOptions.time) {
         date.hour(valueTime[0]);
         date.minute(valueTime[1]);
-      } else if (date.isSame(moment(), "day")) {
-        date.hour(moment().hour());
-        date.minute(moment().minute());
+      } else if (date.isSame(getToday(), "day")) {
+        date.hour(getToday().hour());
+        date.minute(getToday().minute());
       }
       await axios
         .get("rooms/v2/search", {

@@ -2,7 +2,7 @@ import React, { useState, useMemo } from "react";
 import PopupCancel from "./Popup/PopupCancel";
 import PopupPay from "./Popup/PopupPay";
 import PopupSend from "./Popup/PopupSend";
-import { date2str } from "tools/trans";
+import { date2str } from "tools/moment";
 import PropTypes from "prop-types";
 import ProfileImg from "components/Mypage/ProfileImg";
 
@@ -158,7 +158,7 @@ const HeaderBody = (props) => {
   const [popupSend, setPopupSend] = useState(false);
   const isSettlementForMe = useMemo(
     () =>
-      users.filter((user) => user._id === userInfoDetail.oid)?.[0]
+      users.filter((user) => user._id === userInfoDetail?.oid)?.[0]
         ?.isSettlement,
     [userInfoDetail?.oid, JSON.stringify(users)]
   );

@@ -1,13 +1,90 @@
 import React, { useState } from "react";
+import { useRecoilValue } from "recoil";
+import preferenceAtom from "recoil/preference";
 import { useSpring, animated } from "react-spring";
 import PropTypes from "prop-types";
-import { date2str } from "tools/trans";
-import "./RoomElement.css";
+import { date2str } from "tools/moment";
+import { getLocationName } from "tools/trans";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 
+const Tag = (props) => {
+  const style = {
+    boxShadow:
+      props.theme === "purple"
+        ? "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)"
+        : "inset 1px 1px 2.5px -1px rgba(110, 54, 120, 0.1)",
+    borderRadius: "4px",
+    background: props.theme === "purple" ? "#FFFFFF" : "#FAF8FB",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    padding: "3.5px 5px 2.5px",
+    gap: "3px",
+    height: "18px",
+    lineHeight: "18px",
+    fontSize: "10px",
+    margin: "3px",
+  };
+  const paid = props.users.filter((user) => user.isSettlement === "paid");
+  const sent = props.users.filter((user) => user.isSettlement === "sent");
+  let isDone = null;
+  let person = null;
+
+  if (!props.isDeparted) {
+    isDone = (
+      <div style={style}>
+        <div>남은 인원: </div>
+        <div style={{ color: "#6E3678", fontWeight: "400" }}>
+          {props.maxPartLength - props.users.length} / {props.maxPartLength} 명
+        </div>
+      </div>
+    );
+  } else if (paid.length === 0) {
+    isDone = (
+      <div style={style}>
+        <div style={{ color: "#6E3678", fontWeight: "400" }}>결재 미완료</div>
+      </div>
+    );
+  } else if (paid.length + sent.length === props.users.length) {
+    isDone = (
+      <div style={style}>
+        <div>정산 완료</div>
+      </div>
+    );
+  } else {
+    isDone = (
+      <div style={style}>
+        <div style={{ color: "#6E3678", fontWeight: "400" }}>정산 미완료</div>
+      </div>
+    );
+  }
+
+  if (paid.length === 0) {
+    person = null;
+  } else {
+    person = (
+      <div style={style}>
+        <div>
+          <div>{paid[0].nickname}</div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ display: "flex" }}>
+      {isDone}
+      {person}
+    </div>
+  );
+};
+
 const Room = (props) => {
   const [isHover, setHover] = useState(false);
+  const users = props.data?.part || [];
+  const preference = useRecoilValue(preferenceAtom);
+
   const style = {
     position: "relative",
     background: props.theme === "purple" ? "#FAF8FB" : "white",
@@ -18,14 +95,17 @@ const Room = (props) => {
     boxShadow:
       isHover || props.selected
         ? "0px 2px 4px rgba(110, 54, 120, 0.2), 0px 1px 18px rgba(110, 54, 120, 0.12), 0px 6px 10px rgba(110, 54, 120, 0.14)"
-        : "",
+        : "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
   };
   const styleName = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
     height: "39px",
     lineHeight: "39px",
     fontSize: "12px",
     paddingLeft: "18px",
-    paddingRight: "18px",
+    paddingRight: "5px",
   };
   const styleLine = {
     height: "1px",
@@ -75,9 +155,6 @@ const Room = (props) => {
     config: { duration: 100 },
   });
 
-  // TODO: 언어 선택에 따라 enName 반환
-  const getLocationName = (location) => location?.koName;
-
   return (
     <div
       style={style}
@@ -86,12 +163,24 @@ const Room = (props) => {
       onMouseLeave={() => setHover(false)}
       onClick={props.onClick}
     >
-      <div style={styleName}>{props.data?.name}</div>
+      <div style={styleName}>
+        <div style={{ marginRight: "auto" }}>{props.data?.name}</div>
+        <Tag
+          users={users}
+          isDeparted={props.data?.isDeparted}
+          maxPartLength={props.data?.maxPartLength}
+          theme={props.theme}
+        />
+      </div>
       <div style={styleLine} />
       <div style={styleLay1}>
-        <div style={styleLay1Place}>{getLocationName(props.data?.from)}</div>
+        <div style={styleLay1Place}>
+          {getLocationName(props.data?.from, preference.lang)}
+        </div>
         <ArrowRightAltRoundedIcon style={styleArrow} />
-        <div style={styleLay1Place}>{getLocationName(props.data?.to)}</div>
+        <div style={styleLay1Place}>
+          {getLocationName(props.data?.to, preference.lang)}
+        </div>
       </div>
       <div style={styleDate}>{date2str(props.data?.time)}</div>
       <animated.div style={styleSelected} />
@@ -113,6 +202,15 @@ Room.defaultProps = {
   onClick: () => {},
   marginTop: "0px",
   marginBottom: "0px",
+};
+
+Tag.propTypes = {
+  style: PropTypes.object,
+  users: PropTypes.array,
+  id: PropTypes.string,
+  maxPartLength: PropTypes.number,
+  theme: PropTypes.string,
+  isDeparted: PropTypes.bool,
 };
 
 export default Room;

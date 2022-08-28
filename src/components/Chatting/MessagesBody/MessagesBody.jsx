@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import moment from "moment";
+import moment from "tools/moment";
 import ChatSet from "./ChatSet";
 import ChatDate from "./ChatDate";
 import ChatInOut from "./ChatInOut";
