@@ -90,12 +90,7 @@ const Skeleton = (props) => {
       <Redirect to={`/login?redirect=${encodeURIComponent(currentPath)}`} />
     );
   }
-  if (taxiLocation.length === 0 || loginInfoDetail === null) {
-    /**
-     * @todo 로딩 화면 추가
-     */
-    return <></>;
-  }
+
   if (userId === undefined) {
     return (
       <Container>
@@ -104,7 +99,16 @@ const Skeleton = (props) => {
       </Container>
     );
   }
-  if (pathname.startsWith("/login") || pathname.startsWith("/chatting")) {
+  if (pathname.startsWith("/login")) {
+    return <Container>{props.children}</Container>;
+  }
+  if (taxiLocation.length === 0 || loginInfoDetail === null) {
+    /**
+     * @todo 로딩 화면 추가
+     */
+    return <></>;
+  }
+  if (pathname.startsWith("/chatting")) {
     return <Container>{props.children}</Container>;
   }
   return (
