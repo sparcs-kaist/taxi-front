@@ -1,7 +1,6 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
 import PropTypes from "prop-types";
-import useTaxiAPI from "hooks/useTaxiAPI";
 import { date2str } from "tools/moment";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
@@ -80,7 +79,6 @@ const Tag = (props) => {
 
 const Room = (props) => {
   const [isHover, setHover] = useState(false);
-  const [, userInfoDetail] = useTaxiAPI.get("/json/logininfo/detail");
   const users = props.data?.part || [];
 
   const style = {
