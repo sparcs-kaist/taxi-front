@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import preferenceAtom from "recoil/preference";
 import { date2str } from "tools/moment";
+import { getLocationName } from "tools/trans";
 import Title from "components/common/Title";
 import Modal from "components/common/modal/Modal";
 import SubmitButton from "components/common/roomOptions/SubmitButton";
@@ -112,6 +114,7 @@ const RoomSelectionModal = (props) => {
   const [roomInfo, setRoomInfo] = useState(null);
   const history = useHistory();
   const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
+  const preference = useRecoilValue(preferenceAtom);
   const disableJoinBtn =
     roomInfo?.part.some((user) => user._id === loginInfoDetail?.oid) ?? true;
   const isRoomFull = roomInfo
@@ -146,8 +149,6 @@ const RoomSelectionModal = (props) => {
     justifyContent: "space-between",
   };
 
-  const getLocationName = (location) => location?.koName ?? "";
-
   const requestJoin = async () => {
     // TODO: request join api
     try {
@@ -178,9 +179,15 @@ const RoomSelectionModal = (props) => {
       <div style={{ height: "15px" }} />
       <Border />
       <div style={stylePlace}>
-        <PlaceSection isFrom={true} name={getLocationName(roomInfo?.from)} />
+        <PlaceSection
+          isFrom={true}
+          name={getLocationName(roomInfo?.from, preference.lang)}
+        />
         <ArrowRightAltRoundedIcon style={styleArrow} />
-        <PlaceSection isFrom={false} name={getLocationName(roomInfo?.to)} />
+        <PlaceSection
+          isFrom={false}
+          name={getLocationName(roomInfo?.to, preference.lang)}
+        />
       </div>
       <Border />
       <div style={styleInfoSectionWrapper}>

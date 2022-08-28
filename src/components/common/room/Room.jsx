@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { useRecoilValue } from "recoil";
+import preferenceAtom from "recoil/preference";
 import { useSpring, animated } from "react-spring";
 import PropTypes from "prop-types";
 import { date2str } from "tools/moment";
+import { getLocationName } from "tools/trans";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 
@@ -80,6 +83,7 @@ const Tag = (props) => {
 const Room = (props) => {
   const [isHover, setHover] = useState(false);
   const users = props.data?.part || [];
+  const preference = useRecoilValue(preferenceAtom);
 
   const style = {
     position: "relative",
@@ -151,9 +155,6 @@ const Room = (props) => {
     config: { duration: 100 },
   });
 
-  // TODO: 언어 선택에 따라 enName 반환
-  const getLocationName = (location) => location?.koName ?? "";
-
   return (
     <div
       style={style}
@@ -173,9 +174,13 @@ const Room = (props) => {
       </div>
       <div style={styleLine} />
       <div style={styleLay1}>
-        <div style={styleLay1Place}>{getLocationName(props.data?.from)}</div>
+        <div style={styleLay1Place}>
+          {getLocationName(props.data?.from, preference.lang)}
+        </div>
         <ArrowRightAltRoundedIcon style={styleArrow} />
-        <div style={styleLay1Place}>{getLocationName(props.data?.to)}</div>
+        <div style={styleLay1Place}>
+          {getLocationName(props.data?.to, preference.lang)}
+        </div>
       </div>
       <div style={styleDate}>{date2str(props.data?.time)}</div>
       <animated.div style={styleSelected} />
