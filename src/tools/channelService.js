@@ -39,6 +39,9 @@ class ChannelService {
   boot(settings) {
     window.ChannelIO("boot", settings);
   }
+  updateUser(options) {
+    window.ChannelIO("updateUser", options);
+  }
   shutdown() {
     window.ChannelIO("shutdown");
   }

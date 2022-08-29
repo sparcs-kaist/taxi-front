@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useSetRecoilState } from "recoil";
+import alertAtom from "recoil/alert";
 import { animated, useSpring } from "react-spring";
 import RLayout from "components/common/RLayout";
 import ProfileImg from "../ProfileImg";
@@ -36,6 +38,7 @@ ProfImg.propTypes = {
 
 const BtnProfImg = (props) => {
   const inputImage = useRef(null);
+  const setAlert = useSetRecoilState(alertAtom);
 
   const handleUploadProfileImage = async () => {
     try {
@@ -54,23 +57,23 @@ const BtnProfImg = (props) => {
             if (res.status === 204) {
               const res2 = await axios.get("/users/editProfileImg/done");
               if (res2.data.result) {
-                alert("프로필 사진이 변경되었습니다.");
+                setAlert("프로필 사진이 변경되었습니다.");
                 props.onUpdate();
               } else {
                 // FIXME
-                alert("프로필 사진 변경에 실패했습니다.");
+                setAlert("프로필 사진 변경에 실패했습니다.");
               }
             } else {
               // FIXME
-              alert("프로필 사진 변경에 실패했습니다.");
+              setAlert("프로필 사진 변경에 실패했습니다.");
             }
           } else {
             // FIXME
-            alert("프로필 사진 변경에 실패했습니다.");
+            setAlert("프로필 사진 변경에 실패했습니다.");
           }
         });
     } catch (e) {
-      alert("프로필 사진 변경에 실패했습니다.");
+      setAlert("프로필 사진 변경에 실패했습니다.");
     }
   };
   const style = useSpring({
@@ -106,6 +109,8 @@ const PopupMypage = (props) => {
   const regexNickname = new RegExp("^[A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ0-9-_ ]{3,25}$");
   const [nickName, setNickName] = useState("");
   const [nickNameReal, setNickNameReal] = useState("");
+  const setAlert = useSetRecoilState(alertAtom);
+
   useEffect(() => {
     if (props.userInfoD?.nickname) {
       setNickName(props.userInfoD?.nickname);
@@ -122,7 +127,7 @@ const PopupMypage = (props) => {
       nickname: nickName,
     });
     if (result.status !== 200) {
-      alert("닉네임 변경에 실패하였습니다.");
+      setAlert("닉네임 변경에 실패하였습니다.");
       return;
     }
     props.onUpdate();
