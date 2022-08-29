@@ -28,10 +28,8 @@ const Tag = (props) => {
     margin: "3px",
   };
   const paid = props.users.filter((user) => user.isSettlement === "paid");
-  const sent = props.users.filter((user) => user.isSettlement === "sent");
   let isDone = null;
   let person = null;
-  console.log(props.isSettlementForMe);
 
   if (!props.isDeparted) {
     isDone = (
