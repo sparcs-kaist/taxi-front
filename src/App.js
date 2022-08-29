@@ -1,9 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import ScrollRestoration from "react-scroll-restoration";
 import { RecoilRoot } from "recoil";
-import Skeleton from "components/Skeleton/Skeleton";
+import ScrollRestoration from "react-scroll-restoration";
 import ChannelTalk from "components/Skeleton/ChannelTalk";
+import AlertProvider from "components/Skeleton/AlertProvider";
+import Skeleton from "components/Skeleton/Skeleton";
 
 import Login from "components/Login/Login";
 import Search from "components/Search/Search";
@@ -22,6 +23,7 @@ const App = () => {
       <Router>
         <ScrollRestoration />
         <ChannelTalk />
+        <AlertProvider />
         <Skeleton>
           <Switch>
             <Route exact path="/login" component={Login} />
