@@ -1,22 +1,19 @@
-import React, { useEffect } from "react";
-import { useStateWithCallbackLazy } from "use-state-with-callback";
+import React, { useRef } from "react";
 import Modal from "components/common/modal/Modal";
 import { useRecoilState } from "recoil";
 import alertAtom from "recoil/alert";
 import Button from "components/common/modal/Button";
 
 const AlertProvider = () => {
-  const [display, setDisplay] = useStateWithCallbackLazy(false);
+  const messageCache = useRef("");
   const [message, setMessage] = useRecoilState(alertAtom);
 
-  useEffect(() => setDisplay(message ? true : false), [message]);
-  const onClickClose = () => {
-    setDisplay(false, () => setMessage(null));
-  };
+  const onClickClose = () => setMessage(null);
+  if (message) messageCache.current = message;
 
   return (
     <Modal
-      display={display}
+      display={message ? true : false}
       onClickClose={onClickClose}
       maxWidth="325px"
       padding="10px"
@@ -24,7 +21,7 @@ const AlertProvider = () => {
       btnCloseDisplay={true}
     >
       <div style={{ padding: "10px", paddingBottom: "20px", fontSize: "15px" }}>
-        {message}
+        {messageCache.current}
       </div>
       <Button
         onClick={onClickClose}
