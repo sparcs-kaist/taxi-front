@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useRecoilValue } from "recoil";
 import preferenceAtom from "recoil/preference";
 import { useSpring, animated } from "react-spring";
 import PropTypes from "prop-types";
 import { getLocationName } from "tools/trans";
 import { date2str } from "tools/moment";
+import loginInfoDetailAtom from "recoil/loginInfoDetail";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 
@@ -30,6 +31,7 @@ const Tag = (props) => {
   const sent = props.users.filter((user) => user.isSettlement === "sent");
   let isDone = null;
   let person = null;
+  console.log(props.isSettlementForMe);
 
   if (!props.isDeparted) {
     isDone = (
@@ -46,13 +48,19 @@ const Tag = (props) => {
         <div style={{ color: "#6E3678", fontWeight: "400" }}>결재 미완료</div>
       </div>
     );
-  } else if (paid.length + sent.length === props.users.length) {
+  } else if (props.isSettlementForMe === "paid") {
+    isDone = (
+      <div style={style}>
+        <div>결제 완료</div>
+      </div>
+    );
+  } else if (props.isSettlementForMe === "sent") {
     isDone = (
       <div style={style}>
         <div>정산 완료</div>
       </div>
     );
-  } else {
+  } else if (props.isSettlementForMe === "send-required") {
     isDone = (
       <div style={style}>
         <div style={{ color: "#6E3678", fontWeight: "400" }}>정산 미완료</div>
@@ -84,6 +92,13 @@ const Room = (props) => {
   const [isHover, setHover] = useState(false);
   const users = props.data?.part || [];
   const preference = useRecoilValue(preferenceAtom);
+  const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
+  const isSettlementForMe = useMemo(
+    () =>
+      users.filter((user) => user._id === loginInfoDetail.oid)?.[0]
+        ?.isSettlement,
+    [loginInfoDetail?.oid, JSON.stringify(users)]
+  );
 
   const style = {
     position: "relative",
@@ -168,6 +183,7 @@ const Room = (props) => {
         <Tag
           users={users}
           isDeparted={props.data?.isDeparted}
+          isSettlementForMe={isSettlementForMe}
           maxPartLength={props.data?.maxPartLength}
           theme={props.theme}
         />
@@ -205,12 +221,11 @@ Room.defaultProps = {
 };
 
 Tag.propTypes = {
-  style: PropTypes.object,
   users: PropTypes.array,
-  id: PropTypes.string,
   maxPartLength: PropTypes.number,
   theme: PropTypes.string,
   isDeparted: PropTypes.bool,
+  isSettlementForMe: PropTypes.string,
 };
 
 export default Room;
