@@ -180,6 +180,7 @@ const PopupMypage = (props) => {
   const styleLay1 = {
     position: "relative",
     display: "flex",
+    alignItems: "center",
     paddingLeft: "30px",
     paddingRight: "30px",
     marginBottom: "5px",
