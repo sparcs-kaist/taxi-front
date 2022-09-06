@@ -8,6 +8,7 @@ import SideResult from "./SideResult";
 import axios from "tools/axios";
 import moment, { getToday10, getToday } from "tools/moment";
 import PropTypes from "prop-types";
+import isMobile from "ismobilejs";
 
 import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
@@ -23,7 +24,11 @@ const SearchOption = (props) => {
     padding: "8px 15px 7px 15px",
     boxShadow:
       "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
-    background: props.selected
+    background: isMobile()
+      ? props.selected
+        ? "#572A5E"
+        : "#FFFFFF"
+      : props.selected
       ? isHover
         ? "#572A5E"
         : "#6E3678"
