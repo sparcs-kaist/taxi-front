@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import moment from "tools/moment";
 import ProfileImg from "components/Mypage/ProfileImg";
+import PopupReport from "components/Reporting/PopupReport";
 import { getS3Url } from "tools/trans";
 import PropTypes from "prop-types";
 
@@ -85,6 +86,8 @@ ChatText.propTypes = {
 };
 
 const ChatSet = (props) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   const itsme = props.authorId === props.chats[0].authorId;
   const style = {
     position: "relative",
@@ -133,14 +136,25 @@ const ChatSet = (props) => {
     fontSize: "9px",
     color: "#888888",
   };
+
+  const onClose = () => {
+    setIsOpen(false);
+  };
+
   return (
     <div style={style}>
+      <PopupReport
+        isOpen={isOpen}
+        onClose={onClose}
+        path={props.chats[0].authorProfileUrl}
+        name={props.chats[0].authorName}
+      />
       <div
         style={{
           width: "53px",
         }}
       >
-        <div style={styleProfCont}>
+        <div style={styleProfCont} onClick={() => setIsOpen(!isOpen)}>
           <ProfileImg path={props.chats[0].authorProfileUrl} />
         </div>
       </div>
