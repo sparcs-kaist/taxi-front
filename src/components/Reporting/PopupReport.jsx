@@ -55,8 +55,12 @@ const PopupReport = (props) => {
     fontWeight: "700",
     fontSize: "17px",
     lineHeight: "20px",
-    letterSpacing: "0.15em",
+    letterSpacing: "0.1em",
     color: "#323232",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    width: "200px",
   };
 
   return (
