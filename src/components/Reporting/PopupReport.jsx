@@ -37,19 +37,14 @@ const PopupReport = (props) => {
   };
 
   const styleProfImg = {
-    position: "absolute",
     width: "50px",
     height: "50px",
-    top: "16px",
-    left: "24px",
+    marginLeft: "24px",
   };
 
   const styleTitle = {
-    position: "absolute",
     height: "20px",
-    left: "26.46%",
-    right: "63.08%",
-    top: "32px",
+    marginLeft: "12px",
     fontFamily: "Roboto",
     fontStyle: "normal",
     fontWeight: "700",
@@ -61,6 +56,72 @@ const PopupReport = (props) => {
     textOverflow: "ellipsis",
     whiteSpace: "nowrap",
     width: "200px",
+  };
+
+  const styleTop = {
+    marginTop: "16px",
+
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
+  };
+
+  const styleMiddle = {
+    marginLeft: "30px",
+    marginTop: "18px",
+    display: "flex",
+    alignItems: "center",
+    marginBottom: "6px",
+  };
+
+  const styleLabel = {
+    fontFamily: "Roboto",
+    fontStyle: "normal",
+    fontWeight: "400",
+    fontSize: "14px",
+    lineHeight: "16px",
+    letterSpacing: "0.05em",
+    color: "#888888",
+  };
+
+  const styleDropdown = {
+    width: "228px",
+    marginLeft: "10px",
+    height: "28px",
+    background: "#EEEEEE",
+    boxShadow: "inset 1px 1px 2.5px -1px rgba(0, 0, 0, 0.075)",
+    borderRadius: "6px",
+    outline: "none",
+    border: "none",
+    paddingLeft: "12px",
+    fontSize: "14px",
+    lineHeight: "16px",
+    color: "#888888",
+  };
+
+  const styleBottom = {
+    margin: "10px",
+    display: "flex",
+    gap: "10px",
+    justifyContent: "space-between",
+  };
+
+  const styleCancel = {
+    width: "77px",
+    height: "36px",
+    background: "#EEEEEE",
+    boxShadow: "inset 2px 2px 5px -2px rgba(0, 0, 0, 0.075)",
+    borderRadius: "8px",
+    color: "#888888",
+  };
+
+  const styleSubmit = {
+    width: "218px",
+    height: "36px",
+    background: "#6E3678",
+    boxShadow: "inset 2px 2px 5px -2px rgba(0, 0, 0, 0.075)",
+    borderRadius: "8px",
+    color: "white",
   };
 
   return (
@@ -79,14 +140,27 @@ const PopupReport = (props) => {
         style={{
           position: "absolute",
           width: "325px",
-          height: "174px",
         }}
       >
         <div style={style}>
           <CloseRoundedIcon style={styleClose} onClick={props.onClose} />
-          <div style={styleTitle}>{props.name}</div>
-          <div style={styleProfImg}>
-            <ProfileImg path={props.path} />
+          <div style={styleTop}>
+            <div style={styleProfImg}>
+              <ProfileImg path={props.path} />
+            </div>
+            <div style={styleTitle}>{props.name}</div>
+          </div>
+          <div style={styleMiddle}>
+            <div style={styleLabel}>사유</div>
+            <select style={styleDropdown}>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">기타</option>
+            </select>
+          </div>
+          <div style={styleBottom}>
+            <button style={styleCancel}>취소</button>
+            <button style={styleSubmit}>신고하기</button>
           </div>
         </div>
       </div>
