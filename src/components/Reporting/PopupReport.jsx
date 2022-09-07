@@ -1,11 +1,16 @@
 import React from "react";
+import { useState } from "react";
 import { animated, useSpring } from "react-spring";
 import PropTypes from "prop-types";
 import RLayout from "components/common/RLayout";
 import CloseRoundedIcon from "@material-ui/icons/CloseRounded";
 import ProfileImg from "components/Mypage/ProfileImg";
+import { FaPen } from "react-icons/fa";
 
 const PopupReport = (props) => {
+  const [selection, setSelection] = useState(0);
+  const [reportReason, setReportReason] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const styleBgd = useSpring({
     position: "fixed",
     top: "0px",
@@ -106,6 +111,15 @@ const PopupReport = (props) => {
     justifyContent: "space-between",
   };
 
+  const styleBottomSubmitted = {
+    margin: "32px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "10px",
+  };
+
   const styleCancel = {
     width: "77px",
     height: "36px",
@@ -124,6 +138,53 @@ const PopupReport = (props) => {
     color: "white",
   };
 
+  const styleETC = {
+    display: "flex",
+    justifyContent: "space-between",
+    background: "#EEEEEE",
+    boxShadow: "inset 1px 1px 2.5px -1px rgba(0, 0, 0, 0.075)",
+    borderRadius: "6px",
+    marginLeft: "30px",
+    marginRight: "30px",
+    marginTop: "10px",
+  };
+
+  const styleText = {
+    background: "#EEEEEE",
+    width: "221px",
+    minHeight: "16px",
+    lineHeight: "16px",
+    fontSize: "14px",
+    outline: "none",
+    border: "none",
+    resize: "none",
+    margin: "8px 12px 8px 8px",
+    overflow: "hidden",
+  };
+
+  const styleIcon = {
+    position: "relative",
+    top: "10.75px",
+    left: "13.75px",
+    width: "10.5px",
+    height: "10.5px",
+  };
+
+  const handleSelect = (e) => {
+    setSelection(e.target.value);
+  };
+
+  const handleSubmit = () => {
+    setIsSubmitted(true);
+  };
+
+  const handleClose = () => {
+    props.onClose();
+    setIsSubmitted(false);
+    setSelection(0);
+    setReportReason("");
+  };
+
   return (
     <animated.div style={styleBgd}>
       <div
@@ -134,7 +195,7 @@ const PopupReport = (props) => {
           width: "100%",
           height: "100%",
         }}
-        onClick={props.onClose}
+        onClick={handleClose}
       />
       <div
         style={{
@@ -143,25 +204,82 @@ const PopupReport = (props) => {
         }}
       >
         <div style={style}>
-          <CloseRoundedIcon style={styleClose} onClick={props.onClose} />
+          <CloseRoundedIcon style={styleClose} onClick={handleClose} />
           <div style={styleTop}>
             <div style={styleProfImg}>
               <ProfileImg path={props.path} />
             </div>
             <div style={styleTitle}>{props.name}</div>
           </div>
+
           <div style={styleMiddle}>
             <div style={styleLabel}>사유</div>
-            <select style={styleDropdown}>
+            <select
+              style={styleDropdown}
+              value={selection}
+              onChange={handleSelect}
+            >
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">기타</option>
             </select>
           </div>
-          <div style={styleBottom}>
-            <button style={styleCancel}>취소</button>
-            <button style={styleSubmit}>신고하기</button>
-          </div>
+          {selection === "3" ? (
+            <div style={styleETC}>
+              <FaPen style={styleIcon} />
+              <span
+                role="textbox"
+                style={styleText}
+                contentEditable={!isSubmitted}
+              ></span>
+            </div>
+          ) : null}
+          {isSubmitted ? (
+            <div style={styleBottomSubmitted}>
+              <div
+                style={{
+                  fontSize: "16px",
+                  lineHeight: "19px",
+                  color: "#323232",
+                  fontWeight: "400",
+                }}
+              >
+                <b
+                  style={{
+                    color: "#DD616E",
+                    fontWeight: "700",
+                  }}
+                >
+                  신고
+                </b>
+                가{" "}
+                <b
+                  style={{
+                    fontWeight: "700",
+                  }}
+                >
+                  완료
+                </b>
+                되었습니다.
+              </div>
+              <div
+                style={{
+                  fontSize: "10px",
+                  lineHeight: "12px",
+                  color: "#888888",
+                }}
+              >
+                신고 내역은 마이 페이지에서 확인 가능합니다.
+              </div>
+            </div>
+          ) : (
+            <div style={styleBottom}>
+              <button style={styleCancel}>취소</button>
+              <button style={styleSubmit} onClick={handleSubmit}>
+                신고하기
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </animated.div>

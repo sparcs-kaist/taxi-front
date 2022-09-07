@@ -4,6 +4,8 @@ import ProfileImg from "components/Mypage/ProfileImg";
 import PopupReport from "components/Reporting/PopupReport";
 import { getS3Url } from "tools/trans";
 import PropTypes from "prop-types";
+import reportAtom from "recoil/report";
+import { useRecoilState } from "recoil";
 
 const ChatImageLoading = (props) => {
   return (
@@ -86,7 +88,7 @@ ChatText.propTypes = {
 };
 
 const ChatSet = (props) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [report, setReport] = useRecoilState(reportAtom);
 
   const itsme = props.authorId === props.chats[0].authorId;
   const style = {
@@ -137,24 +139,22 @@ const ChatSet = (props) => {
     color: "#888888",
   };
 
-  const onClose = () => {
-    setIsOpen(false);
+  const handleOpen = (e) => {
+    props.setIsOpen(true);
+    setReport({
+      path: props.chats[0].authorProfileUrl,
+      name: props.chats[0].authorName,
+    });
   };
 
   return (
     <div style={style}>
-      <PopupReport
-        isOpen={isOpen}
-        onClose={onClose}
-        path={props.chats[0].authorProfileUrl}
-        name={props.chats[0].authorName}
-      />
       <div
         style={{
           width: "53px",
         }}
       >
-        <div style={styleProfCont} onClick={() => setIsOpen(!isOpen)}>
+        <div style={styleProfCont} onClick={() => handleOpen()}>
           <ProfileImg path={props.chats[0].authorProfileUrl} />
         </div>
       </div>
@@ -194,6 +194,7 @@ ChatSet.propTypes = {
   authorId: PropTypes.string,
   isBottomOnScroll: PropTypes.func,
   scrollToBottom: PropTypes.func,
+  setIsOpen: PropTypes.func,
 };
 
 export default ChatSet;
