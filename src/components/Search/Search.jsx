@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { animated, useSpring } from "react-spring";
+import { useHistory, useLocation } from "react-router-dom";
+import qs from "qs";
 import { useR2state } from "hooks/useReactiveState";
 import RLayout from "components/common/RLayout";
 import Title from "components/common/Title";
@@ -14,6 +16,8 @@ import OptionPlace from "components/common/roomOptions/Place";
 import OptionDate from "components/common/roomOptions/Date";
 import OptionTime from "components/common/roomOptions/Time";
 import OptionMaxPartLength from "components/common/roomOptions/MaxPartLength";
+
+const searchQueryOption = { strictNullHandling: true };
 
 const SearchOption = (props) => {
   const [isHover, setHover] = useState(false);
@@ -106,6 +110,8 @@ SelectSearchOptions.propTypes = {
 const Search = () => {
   const reactiveState = useR2state();
   const onCall = useRef(false);
+  const history = useHistory();
+  const location = useLocation();
   const [searchOptions, setSearchOptions] = useState({});
   const [valueName, setName] = useState("");
   const [valuePlace, setPlace] = useState([null, null]);
@@ -115,6 +121,15 @@ const Search = () => {
   const [searchResult, setSearchResult] = useState(null);
   const [disable, setDisable] = useState(true);
   const [message, setMessage] = useState("검색 조건을 선택해주세요");
+
+  useEffect(() => {
+    const q = qs.parse(location.search.slice(1), searchQueryOption);
+    /**
+     * @todo
+     * 1. query validator
+     * 2. if query is validate, request API
+     */
+  }, [location.search]);
 
   useEffect(() => {
     if (!Object.values(searchOptions).some((option) => option == true)) {
@@ -204,6 +219,17 @@ const Search = () => {
         date.hour(getToday().hour());
         date.minute(getToday().minute());
       }
+      const q = qs.stringify(
+        {
+          name: valueName.length ? valueName : null,
+          from: valuePlace[0]?._id,
+          to: valuePlace[1]?._id,
+          time: date.toISOString(),
+          maxPartLength: valueMaxPartLength,
+        },
+        searchQueryOption
+      );
+      history.push(`/search?${q}`);
       await axios
         .get("rooms/v2/search", {
           params: {
