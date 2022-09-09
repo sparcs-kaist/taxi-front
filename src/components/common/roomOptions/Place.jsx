@@ -29,7 +29,7 @@ const PopupInput = (props) => {
 
   const onClick = () => {
     props.handler(
-      props.placeOptions.find((place) => place.name === value.place) ?? null
+      props.placeOptions.find((place) => place.name === value.place)._id ?? null
     );
     props.onClose();
   };
@@ -144,8 +144,11 @@ const Place = (props) => {
     marginTop: -2.5,
   };
 
-  const getPlaceName = (place) =>
-    preference.lang === "ko" ? place?.koName : place?.enName;
+  const getPlaceName = (placeId) => {
+    const place = taxiLocation.find((location) => location._id === placeId);
+    return preference.lang === "ko" ? place?.koName : place?.enName;
+  };
+  console.log(props.value, taxiLocation);
 
   return (
     <WhiteContainer marginAuto={false} padding="10px">
