@@ -211,7 +211,7 @@ class DatePicker extends Component {
     };
 
     this.state = {
-      selectedDate: [undefined, undefined, undefined],
+      selectedDate: props.selectedDate,
       showNext: false,
     };
     this.month1 = getDateInfo.getCurrent();
@@ -340,6 +340,7 @@ class DatePicker extends Component {
 
 DatePicker.propTypes = {
   // FIXME specify type
+  selectedDate: PropTypes.array,
   handler: PropTypes.any,
 };
 
