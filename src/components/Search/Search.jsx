@@ -107,6 +107,41 @@ SelectSearchOptions.propTypes = {
   handler: PropTypes.func,
 };
 
+const isSearchAll = (q) => {
+  const entries = Object.entries(q);
+  if (
+    entries.length === 1 &&
+    entries[0][0] === "all" &&
+    entries[0][1] === "true"
+  )
+    return true;
+  return false;
+};
+
+const isValidQuery = (q) => {
+  const allowedKeys = [
+    "name",
+    "from",
+    "to",
+    "time",
+    "withTime",
+    "maxPartLength",
+  ];
+  const keys = Object.keys(q);
+
+  if (keys.length > allowedKeys.length) return false;
+  if (keys.some((key) => !allowedKeys.includes(key))) return false;
+  if (keys.includes("from") !== keys.includes("to")) return false;
+  if (keys.includes("maxPartLength") && q.maxPartLength !== null) {
+    const parsedInt = parseInt(q.maxPartLength);
+    if (isNaN(parsedInt) || parsedInt < 2 || parsedInt > 4) return false;
+  }
+  if (keys.includes("time") && q.time !== null) {
+    if (isNaN(Date.parse(q.time))) return false;
+  } else if (keys.includes("withTime") && q.withTime === "true") return false;
+  return true;
+};
+
 const Search = () => {
   const reactiveState = useR2state();
   const onCall = useRef(false);
@@ -122,13 +157,82 @@ const Search = () => {
   const [disable, setDisable] = useState(true);
   const [message, setMessage] = useState("검색 조건을 선택해주세요");
 
+  const clearState = () => {
+    onCall.current = false;
+    setSearchOptions({});
+    setName("");
+    setPlace[(null, null)];
+    setDate([null, null, null]);
+    setTime(["0", "00"]);
+    setMaxPartLength(null);
+    setSearchResult(null);
+    setDisable(true);
+    setMessage("검색 조건을 선택해주세요");
+  };
+
+  const setStatesFromQuery = (q) => {
+    const newSearchOptions = { ...searchOptions };
+    const entries = Object.entries(q);
+    for (let [key, val] of entries) {
+      if (key === "name" && val !== null) newSearchOptions.name = true;
+      if (key === "from") newSearchOptions.place = true;
+      if (key === "time" && val !== null) newSearchOptions.date = true;
+      if (key === "withTime" && val === "true") newSearchOptions.time = true;
+      if (key === "maxPartLength" && val !== null)
+        newSearchOptions.maxPartLength = true;
+    }
+    setSearchOptions(newSearchOptions);
+    if (newSearchOptions.name) setName(q.name);
+    if (newSearchOptions.place) setPlace([q.from, q.to]);
+    if (newSearchOptions.date) {
+      const queryTime = new Date(Date.parse(q.time));
+      setDate([
+        queryTime.getFullYear(),
+        queryTime.getMonth() + 1,
+        queryTime.getDate(),
+      ]);
+      if (newSearchOptions.time)
+        setTime([
+          queryTime.getHours().toString(),
+          (Math.floor(queryTime.getMinutes() / 10) * 10).toString(),
+        ]);
+    }
+    if (newSearchOptions.maxPartLength)
+      setMaxPartLength(Number(q.maxPartLength));
+  };
+
   useEffect(() => {
     const q = qs.parse(location.search.slice(1), searchQueryOption);
-    /**
-     * @todo
-     * 1. query validator
-     * 2. if query is validate, request API
-     */
+
+    if (Object.keys(q).length === 0) {
+      clearState();
+      return;
+    }
+
+    if (isSearchAll(q)) {
+      axios
+        .get("rooms/v2/search")
+        .then((res) => {
+          setSearchResult(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else if (isValidQuery(q)) {
+      setStatesFromQuery(q);
+      axios
+        .get("rooms/v2/search", {
+          params: q,
+        })
+        .then((res) => {
+          setSearchResult(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      history.replace("/search");
+    }
   }, [location.search]);
 
   useEffect(() => {
@@ -146,8 +250,8 @@ const Search = () => {
       setMessage("선택을 완료해주세요");
       setDisable(true);
     } else if (
-      (valuePlace[0] !== null || valuePlace[0] !== null) &&
-      valuePlace[0]?._id === valuePlace[1]?._id
+      (valuePlace[0] !== null || valuePlace[1] !== null) &&
+      valuePlace[0] === valuePlace[1]
     ) {
       setMessage("출발지와 도착지는 달라야 합니다");
       setDisable(true);
@@ -169,25 +273,33 @@ const Search = () => {
   }, [searchOptions, valueName, valuePlace, valueDate, valueTime]);
 
   useEffect(() => {
-    setName("");
+    if (!searchOptions.name && valueName.length > 0) setName("");
   }, [searchOptions.name]);
   useEffect(() => {
-    setPlace([null, null]);
+    if (
+      !searchOptions.place &&
+      (valuePlace[0] !== null || valuePlace[1] !== null)
+    )
+      setPlace([null, null]);
   }, [searchOptions.place]);
   useEffect(() => {
-    setDate([null, null, null]);
+    if (!searchOptions.date && valueDate[0] !== null)
+      setDate([null, null, null]);
   }, [searchOptions.date]);
   useEffect(() => {
     if (searchOptions.time) {
-      const today = getToday10();
-      setTime([today.hour().toString(), today.minute().toString()]);
-    } else {
+      if (valueTime[0] === "0" && valueTime[1] === "00") {
+        const today = getToday10();
+        setTime([today.hour().toString(), today.minute().toString()]);
+      }
+    } else if (valueTime[0] !== "0" || valueTime[1] !== "00") {
       setTime(["0", "00"]);
     }
   }, [searchOptions.time]);
   useEffect(() => {
-    if (searchOptions.maxPartLength) setMaxPartLength(4);
-    else setMaxPartLength(null);
+    if (searchOptions.maxPartLength) {
+      if (valueMaxPartLength === null) setMaxPartLength(4);
+    } else if (valueMaxPartLength !== null) setMaxPartLength(null);
   }, [searchOptions.maxPartLength]);
 
   const onClickSearch = async () => {
@@ -197,24 +309,19 @@ const Search = () => {
     }
 
     if (!Object.values(searchOptions).some((option) => option == true)) {
-      await axios
-        .get("rooms/v2/search")
-        .then((res) => {
-          setSearchResult(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      return;
+      history.push("/search?all=true");
     } else {
       const date = moment(
         `${valueDate[0]}-${
           valueDate[1] < 10 ? "0" + valueDate[1] : valueDate[1]
         }-${valueDate[2]}`
       );
+      let withTime = false;
+
       if (searchOptions.time) {
         date.hour(valueTime[0]);
         date.minute(valueTime[1]);
+        withTime = true;
       } else if (date.isSame(getToday(), "day")) {
         date.hour(getToday().hour());
         date.minute(getToday().minute());
@@ -222,30 +329,15 @@ const Search = () => {
       const q = qs.stringify(
         {
           name: valueName.length ? valueName : null,
-          from: valuePlace[0]?._id,
-          to: valuePlace[1]?._id,
+          from: valuePlace[0],
+          to: valuePlace[1],
           time: date.toISOString(),
+          withTime,
           maxPartLength: valueMaxPartLength,
         },
         searchQueryOption
       );
       history.push(`/search?${q}`);
-      await axios
-        .get("rooms/v2/search", {
-          params: {
-            name: valueName.length ? valueName : null,
-            from: valuePlace[0]?._id,
-            to: valuePlace[1]?._id,
-            time: date.toISOString(),
-            maxPartLength: valueMaxPartLength,
-          },
-        })
-        .then((res) => {
-          setSearchResult(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
     }
   };
 
