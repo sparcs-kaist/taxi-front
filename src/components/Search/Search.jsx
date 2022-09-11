@@ -161,7 +161,7 @@ const Search = () => {
     onCall.current = false;
     setSearchOptions({});
     setName("");
-    setPlace[(null, null)];
+    setPlace([null, null]);
     setDate([null, null, null]);
     setTime(["0", "00"]);
     setMaxPartLength(null);

@@ -148,7 +148,6 @@ const Place = (props) => {
     const place = taxiLocation.find((location) => location._id === placeId);
     return preference.lang === "ko" ? place?.koName : place?.enName;
   };
-  console.log(props.value, taxiLocation);
 
   return (
     <WhiteContainer marginAuto={false} padding="10px">
