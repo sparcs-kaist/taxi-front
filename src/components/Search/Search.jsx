@@ -175,7 +175,7 @@ const Search = () => {
     const entries = Object.entries(q);
     for (let [key, val] of entries) {
       if (key === "name" && val !== null) newSearchOptions.name = true;
-      if (key === "from") newSearchOptions.place = true;
+      if (key === "from" && val !== null) newSearchOptions.place = true;
       if (key === "time" && val !== null) newSearchOptions.date = true;
       if (key === "withTime" && val === "true") newSearchOptions.time = true;
       if (key === "maxPartLength" && val !== null)
