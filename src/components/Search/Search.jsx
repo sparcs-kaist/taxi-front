@@ -185,16 +185,12 @@ const Search = () => {
     if (newSearchOptions.name) setName(q.name);
     if (newSearchOptions.place) setPlace([q.from, q.to]);
     if (newSearchOptions.date) {
-      const queryTime = new Date(Date.parse(q.time));
-      setDate([
-        queryTime.getFullYear(),
-        queryTime.getMonth() + 1,
-        queryTime.getDate(),
-      ]);
+      const queryTime = moment(q.time);
+      setDate([queryTime.year(), queryTime.month() + 1, queryTime.date()]);
       if (newSearchOptions.time)
         setTime([
-          queryTime.getHours().toString(),
-          (Math.floor(queryTime.getMinutes() / 10) * 10).toString(),
+          queryTime.hour().toString(),
+          (Math.floor(queryTime.minute() / 10) * 10).toString(),
         ]);
     }
     if (newSearchOptions.maxPartLength)
