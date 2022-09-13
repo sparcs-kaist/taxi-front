@@ -24,11 +24,7 @@ const SearchOption = (props) => {
     padding: "8px 15px 7px 15px",
     boxShadow:
       "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
-    background: isMobile()
-      ? props.selected
-        ? "#572A5E"
-        : "#FFFFFF"
-      : props.selected
+    background: props.selected
       ? isHover
         ? "#572A5E"
         : "#6E3678"
@@ -44,7 +40,7 @@ const SearchOption = (props) => {
       style={style}
       className="BTNC ND"
       onClick={() => props.onClick(props.id)}
-      onMouseEnter={() => setHover(true)}
+      onMouseEnter={() => setHover(!isMobile())}
       onMouseLeave={() => setHover(false)}
     >
       {props.children}
