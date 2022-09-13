@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import WhiteContainer from "components/common/WhiteContainer";
 import Title from "components/common/Title";
 import Room from "components/common/room/Room";
@@ -7,6 +7,17 @@ import PropTypes from "prop-types";
 
 const SideResult = (props) => {
   const [selectedRoomInfo, setSelectedRoomInfo] = useState(null);
+  const [isIncludeFullRoom, setIsIncludeFullRoom] = useState(false);
+  const [rooms, setRooms] = useState([]);
+
+  useEffect(() => {
+    if (props.result === null) return;
+
+    let roomsWithOptions = isIncludeFullRoom
+      ? props.result
+      : props.result.filter((room) => room.maxPartLength > room.part.length);
+    setRooms(roomsWithOptions);
+  }, [isIncludeFullRoom, sortOption, props.result]);
 
   const styleEmpty = {
     color: "#888888",
@@ -30,10 +41,10 @@ const SideResult = (props) => {
           <Title icon="search_result" marginAuto={false}>
             검색 결과
           </Title>
-          {props.result.length == 0 ? (
+          {rooms.length == 0 ? (
             <div style={styleEmpty}>검색 결과가 없습니다.</div>
           ) : (
-            props.result.map((room) => (
+            rooms.map((room) => (
               <Room
                 key={room._id}
                 marginTop="15px"
@@ -60,13 +71,12 @@ const SideResult = (props) => {
           }}
           roomInfo={selectedRoomInfo}
         />
-        {props.result.length == 0 ? (
+        {rooms.length == 0 ? (
           <WhiteContainer marginAuto={false} style={styleEmpty}>
             <div style={styleEmpty}>검색 결과가 없습니다</div>
           </WhiteContainer>
         ) : (
-          props.result.length != 0 &&
-          props.result.map((room) => {
+          rooms.map((room) => {
             return (
               <Room
                 data={room}
