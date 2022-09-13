@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import moment from "tools/moment";
 import ProfileImg from "components/Mypage/ProfileImg";
-import PopupReport from "components/Reporting/PopupReport";
 import { getS3Url } from "tools/trans";
 import PropTypes from "prop-types";
-import reportAtom from "recoil/report";
-import { useRecoilState } from "recoil";
 
 const ChatImageLoading = (props) => {
   return (
@@ -88,8 +85,6 @@ ChatText.propTypes = {
 };
 
 const ChatSet = (props) => {
-  const [report, setReport] = useRecoilState(reportAtom);
-
   const itsme = props.authorId === props.chats[0].authorId;
   const style = {
     position: "relative",
