@@ -2,13 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 import PropTypes from "prop-types";
 import { io } from "socket.io-client";
-import { useRecoilState } from "recoil";
 import Header from "./Header/Header";
 import MessagesBody from "./MessagesBody/MessagesBody";
 import MessageForm from "./MessageForm/MessageForm";
 import regExpTest from "tools/regExpTest";
-import PopupReport from "components/Reporting/PopupReport";
-import reportAtom from "recoil/report";
 
 import { ioServer } from "serverconf";
 import convertImg from "tools/convertImg";
@@ -24,11 +21,6 @@ const Chatting = (props) => {
   const isBottomOnScrollCache = useRef(true);
   const roomIdCache = useRef();
   const messagesBody = useRef();
-
-  const [report, setReport] = useRecoilState(reportAtom);
-  const [isOpen, setIsOpen] = useState(false);
-  const [name, setName] = useState("");
-  const [path, setPath] = useState("");
 
   const [chats, setChats] = useStateWithCallbackLazy([]);
   const [showNewMessage, setShowNewMessage] = useState(false);
@@ -241,18 +233,8 @@ const Chatting = (props) => {
     }
   };
 
-  const onClose = () => {
-    setIsOpen(false);
-  };
-
   return (
     <div className="ChatContainer">
-      <PopupReport
-        isOpen={isOpen}
-        onClose={onClose}
-        path={report?.path}
-        name={report?.name}
-      />
       <div className="ChatRoomContainer">
         <Header
           isSideChat={props.isSideChat}
@@ -268,7 +250,6 @@ const Chatting = (props) => {
           isBottomOnScroll={isBottomOnScroll}
           scrollToBottom={() => scrollToBottom(false)}
           marginBottom={messageFormHeight}
-          setIsOpen={setIsOpen}
         />
         <MessageForm
           isSideChat={props.isSideChat}

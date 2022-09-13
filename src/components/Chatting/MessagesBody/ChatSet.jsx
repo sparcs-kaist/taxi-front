@@ -141,10 +141,8 @@ const ChatSet = (props) => {
 
   const handleOpen = (e) => {
     props.setIsOpen(true);
-    setReport({
-      path: props.chats[0].authorProfileUrl,
-      name: props.chats[0].authorName,
-    });
+    props.setPath(props.chats[0].authorProfileUrl);
+    props.setName(props.chats[0].authorName);
   };
 
   return (
@@ -195,6 +193,8 @@ ChatSet.propTypes = {
   isBottomOnScroll: PropTypes.func,
   scrollToBottom: PropTypes.func,
   setIsOpen: PropTypes.func,
+  setPath: PropTypes.func,
+  setName: PropTypes.func,
 };
 
 export default ChatSet;

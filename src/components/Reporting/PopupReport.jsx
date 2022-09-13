@@ -6,39 +6,18 @@ import RLayout from "components/common/RLayout";
 import CloseRoundedIcon from "@material-ui/icons/CloseRounded";
 import ProfileImg from "components/Mypage/ProfileImg";
 import { FaPen } from "react-icons/fa";
+import Modal from "components/common/modal/Modal";
 
 const PopupReport = (props) => {
   const [selection, setSelection] = useState(0);
   const [reportReason, setReportReason] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const styleBgd = useSpring({
-    position: "fixed",
-    top: "0px",
-    left: "0px",
-    width: "100%",
-    height: "100%",
-    zIndex: 50,
-    background: `rgba(0,0,0,0.6)`,
-    opacity: props.isOpen ? 1 : 0,
-    pointerEvents: props.isOpen ? "auto" : "none",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  });
 
   const style = {
     height: "100%",
     overflow: "hidden",
     background: "white",
     borderRadius: "15px",
-  };
-
-  const styleClose = {
-    position: "absolute",
-    top: "10px",
-    right: "10px",
-    width: "24px",
-    height: "24px",
   };
 
   const styleProfImg = {
@@ -64,22 +43,22 @@ const PopupReport = (props) => {
   };
 
   const styleTop = {
-    marginTop: "16px",
-
+    marginTop: "6px",
     width: "100%",
     display: "flex",
     alignItems: "center",
   };
 
   const styleMiddle = {
-    marginLeft: "30px",
-    marginTop: "18px",
+    margin: "18px 20px 0px",
     display: "flex",
     alignItems: "center",
+    justifyContent: "center",
     marginBottom: "6px",
   };
 
   const styleLabel = {
+    width: "2.5em",
     fontFamily: "Roboto",
     fontStyle: "normal",
     fontWeight: "400",
@@ -90,7 +69,7 @@ const PopupReport = (props) => {
   };
 
   const styleDropdown = {
-    width: "228px",
+    width: "100%",
     marginLeft: "10px",
     height: "28px",
     background: "#EEEEEE",
@@ -105,7 +84,7 @@ const PopupReport = (props) => {
   };
 
   const styleBottom = {
-    margin: "10px",
+    marginTop: "10px",
     display: "flex",
     gap: "10px",
     justifyContent: "space-between",
@@ -144,9 +123,7 @@ const PopupReport = (props) => {
     background: "#EEEEEE",
     boxShadow: "inset 1px 1px 2.5px -1px rgba(0, 0, 0, 0.075)",
     borderRadius: "6px",
-    marginLeft: "30px",
-    marginRight: "30px",
-    marginTop: "10px",
+    margin: "10px 20px 0px",
   };
 
   const styleText = {
@@ -158,7 +135,7 @@ const PopupReport = (props) => {
     outline: "none",
     border: "none",
     resize: "none",
-    margin: "8px 12px 8px 8px",
+    margin: "8px 8px 8px 0px",
     overflow: "hidden",
   };
 
@@ -186,103 +163,85 @@ const PopupReport = (props) => {
   };
 
   return (
-    <animated.div style={styleBgd}>
-      <div
-        style={{
-          position: "absolute",
-          top: "0px",
-          left: "0px",
-          width: "100%",
-          height: "100%",
-        }}
-        onClick={handleClose}
-      />
-      <div
-        style={{
-          position: "absolute",
-          width: "325px",
-        }}
-      >
-        <div style={style}>
-          <CloseRoundedIcon style={styleClose} onClick={handleClose} />
-          <div style={styleTop}>
-            <div style={styleProfImg}>
-              <ProfileImg path={props.path} />
-            </div>
-            <div style={styleTitle}>{props.name}</div>
-          </div>
-
-          <div style={styleMiddle}>
-            <div style={styleLabel}>사유</div>
-            <select
-              style={styleDropdown}
-              value={selection}
-              onChange={handleSelect}
-            >
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">기타</option>
-            </select>
-          </div>
-          {selection === "3" ? (
-            <div style={styleETC}>
-              <FaPen style={styleIcon} />
-              <span
-                role="textbox"
-                style={styleText}
-                contentEditable={!isSubmitted}
-              ></span>
-            </div>
-          ) : null}
-          {isSubmitted ? (
-            <div style={styleBottomSubmitted}>
-              <div
-                style={{
-                  fontSize: "16px",
-                  lineHeight: "19px",
-                  color: "#323232",
-                  fontWeight: "400",
-                }}
-              >
-                <b
-                  style={{
-                    color: "#DD616E",
-                    fontWeight: "700",
-                  }}
-                >
-                  신고
-                </b>
-                가{" "}
-                <b
-                  style={{
-                    fontWeight: "700",
-                  }}
-                >
-                  완료
-                </b>
-                되었습니다.
-              </div>
-              <div
-                style={{
-                  fontSize: "10px",
-                  lineHeight: "12px",
-                  color: "#888888",
-                }}
-              >
-                신고 내역은 마이 페이지에서 확인 가능합니다.
-              </div>
-            </div>
-          ) : (
-            <div style={styleBottom}>
-              <button style={styleCancel}>취소</button>
-              <button style={styleSubmit} onClick={handleSubmit}>
-                신고하기
-              </button>
-            </div>
-          )}
+    <Modal
+      display={props.isOpen}
+      onClickClose={handleClose}
+      maxWidth="325px"
+      padding="10px"
+      btnCloseDisplay={true}
+    >
+      <div style={styleTop}>
+        <div style={styleProfImg}>
+          <ProfileImg path={props.path} />
         </div>
+        <div style={styleTitle}>{props.name}</div>
       </div>
-    </animated.div>
+
+      <div style={styleMiddle}>
+        <div style={styleLabel}>사유</div>
+        <select style={styleDropdown} value={selection} onChange={handleSelect}>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">기타</option>
+        </select>
+      </div>
+      {selection === "3" ? (
+        <div style={styleETC}>
+          <FaPen style={styleIcon} />
+          <span
+            role="textbox"
+            style={styleText}
+            contentEditable={!isSubmitted}
+          ></span>
+        </div>
+      ) : null}
+      {isSubmitted ? (
+        <div style={styleBottomSubmitted}>
+          <div
+            style={{
+              fontSize: "16px",
+              lineHeight: "19px",
+              color: "#323232",
+              fontWeight: "400",
+            }}
+          >
+            <b
+              style={{
+                color: "#DD616E",
+                fontWeight: "700",
+              }}
+            >
+              신고
+            </b>
+            가{" "}
+            <b
+              style={{
+                fontWeight: "700",
+              }}
+            >
+              완료
+            </b>
+            되었습니다.
+          </div>
+          <div
+            style={{
+              fontSize: "10px",
+              lineHeight: "12px",
+              color: "#888888",
+            }}
+          >
+            신고 내역은 마이 페이지에서 확인 가능합니다.
+          </div>
+        </div>
+      ) : (
+        <div style={styleBottom}>
+          <button style={styleCancel}>취소</button>
+          <button style={styleSubmit} onClick={handleSubmit}>
+            신고하기
+          </button>
+        </div>
+      )}
+    </Modal>
   );
 };
 

@@ -146,11 +146,13 @@ const PopupMypage = (props) => {
     pointerEvents: props.isOpen ? "auto" : "none",
   });
   const style = {
+    margin: "auto",
     overflow: "auto",
     position: "relative",
     maxHeight: "100%",
     background: "white",
     borderRadius: "15px",
+    maxWidth: "325px",
   };
   const styleClose = {
     position: "absolute",
@@ -180,6 +182,7 @@ const PopupMypage = (props) => {
   const styleLay1 = {
     position: "relative",
     display: "flex",
+    alignItems: "center",
     paddingLeft: "30px",
     paddingRight: "30px",
     marginBottom: "5px",
@@ -190,10 +193,13 @@ const PopupMypage = (props) => {
     width: "40px",
   };
   const styleLay1Right = {
+    width: "100%",
     fontSize: "14px",
     color: "#323232",
+    lineHeight: "28px",
   };
   const styleNickname = {
+    width: "calc(100% - 30px)",
     height: "28px",
     lineHeight: "28px",
     border: "none",
