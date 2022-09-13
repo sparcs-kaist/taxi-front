@@ -10,6 +10,7 @@ import SideResult from "./SideResult";
 import axios from "tools/axios";
 import moment, { getToday10, getToday } from "tools/moment";
 import PropTypes from "prop-types";
+import isMobile from "ismobilejs";
 
 import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
@@ -43,7 +44,7 @@ const SearchOption = (props) => {
       style={style}
       className="BTNC ND"
       onClick={() => props.onClick(props.id)}
-      onMouseEnter={() => setHover(true)}
+      onMouseEnter={() => setHover(!isMobile())}
       onMouseLeave={() => setHover(false)}
     >
       {props.children}
