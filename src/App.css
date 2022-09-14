@@ -3,7 +3,7 @@
   padding: 0px;
   font-family: "NanumSquare", sans-serif;
   font-weight: 300;
-  letter-spacing: 0.05em;
+  /* letter-spacing: 0.05em; */
   --purple: #6E3678;
 }
 
@@ -16,7 +16,7 @@ html {
 }
 body {
   height: 100%;
-  background: #FAF8FB !important;
+  background: #FAF8FB;
   -ms-overflow-style: none;
   touch-action: pan-y;
 }

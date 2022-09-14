@@ -44,7 +44,7 @@ const SearchOption = (props) => {
       style={style}
       className="BTNC ND"
       onClick={() => props.onClick(props.id)}
-      onMouseEnter={() => setHover(!isMobile())}
+      onMouseEnter={() => setHover(!(isMobile().phone || isMobile().tablet))}
       onMouseLeave={() => setHover(false)}
     >
       {props.children}
