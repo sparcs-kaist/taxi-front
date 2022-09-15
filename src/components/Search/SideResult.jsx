@@ -5,10 +5,92 @@ import Room from "components/common/room/Room";
 import RoomSelectionModal from "./RoomSelectionModal";
 import PropTypes from "prop-types";
 
+import CheckIcon from "@mui/icons-material/Check";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+
 const sortOptions = {
-  time: "time",
-  leftPeopleNatural: "leftPeopleNatural", // 남은 인원 많은순
-  leftPeopleReverse: "leftPeopleReverse", // 남은 인원 적은순
+  time: "출발 시간 순",
+  leftPeopleReverse: "남은 인원 많은 순",
+  leftPeopleNatural: "남은 인원 적은 순",
+};
+
+const SearchOptions = (props) => {
+  const styleWrapper = {
+    display: "flex",
+    justifyContent: "space-between",
+    cursor: "pointer",
+    marginTop: "25px",
+  };
+
+  const styleOption = {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    height: "23px",
+    color: "#6E3678",
+    fontSize: "10px",
+    fontWeight: "400",
+    lineHeight: "12px",
+    padding: "5px 8px",
+
+    boxShadow:
+      "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
+    borderRadius: "6px",
+    background: props.theme === "purple" ? "#FAF8FB" : "white",
+  };
+
+  const styleCheckbox = {
+    width: "13px",
+    height: "13px",
+    background: props.isIncludeFullRoom ? "#6E3678" : "#EEEEEE",
+    boxShadow: props.isIncludeFullRoom
+      ? "inset 1px 1px 2.5px -1px rgba(110, 54, 120, 0.1)"
+      : "inset 1px 1px 2.5px -1px rgba(110, 54, 120, 0.1)",
+    borderRadius: "3px",
+    marginRight: "6px",
+  };
+
+  const styleCheckIcon = {
+    color: "white",
+    width: "100%",
+    height: "100%",
+  };
+
+  const styleArrowIcon = {
+    color: "#6E3678",
+    width: "11px",
+  };
+
+  return (
+    <div style={styleWrapper}>
+      <div
+        onClick={() => {
+          props.setIsIncludeFullRoom(!props.isIncludeFullRoom);
+        }}
+        style={styleOption}
+      >
+        <div style={styleCheckbox}>
+          {props.isIncludeFullRoom && <CheckIcon style={styleCheckIcon} />}
+        </div>
+        <p>만석인 방 포함하기</p>
+      </div>
+      <div style={styleOption}>
+        <p>{props.sortOption}</p>
+        <ArrowDropDownIcon style={styleArrowIcon} />
+      </div>
+    </div>
+  );
+};
+
+SearchOptions.propTypes = {
+  theme: PropTypes.string,
+  isIncludeFullRoom: PropTypes.bool.isRequired,
+  sortOption: PropTypes.string.isRequired,
+  setIsIncludeFullRoom: PropTypes.func.isRequired,
+  setSortOption: PropTypes.func.isRequired,
+};
+SearchOptions.defaultProps = {
+  theme: "white",
 };
 
 const SideResult = (props) => {
@@ -70,6 +152,13 @@ const SideResult = (props) => {
           <Title icon="search_result" marginAuto={false}>
             검색 결과
           </Title>
+          <SearchOptions
+            isIncludeFullRoom={isIncludeFullRoom}
+            setIsIncludeFullRoom={setIsIncludeFullRoom}
+            sortOption={sortOption}
+            setSortOption={setSortOption}
+            theme="purple"
+          />
           {rooms.length == 0 ? (
             <div style={styleEmpty}>검색 결과가 없습니다.</div>
           ) : (
@@ -99,6 +188,12 @@ const SideResult = (props) => {
             setSelectedRoomInfo(null);
           }}
           roomInfo={selectedRoomInfo}
+        />
+        <SearchOptions
+          isIncludeFullRoom={isIncludeFullRoom}
+          setIsIncludeFullRoom={setIsIncludeFullRoom}
+          sortOption={sortOption}
+          setSortOption={setSortOption}
         />
         {rooms.length == 0 ? (
           <WhiteContainer marginAuto={false} style={styleEmpty}>
