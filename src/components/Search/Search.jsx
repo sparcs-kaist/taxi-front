@@ -11,7 +11,7 @@ import axios from "tools/axios";
 import moment, { getToday10, getToday } from "tools/moment";
 import PropTypes from "prop-types";
 import isMobile from "ismobilejs";
-import { theme } from "styles/theme.ts";
+import { theme } from "styles/theme";
 
 import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
@@ -28,16 +28,15 @@ const SearchOption = (props) => {
     borderRadius: "15px",
     padding: "8px 15px 7px 15px",
     boxShadow: theme.shadow_white,
-    // "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
     background: props.selected
       ? isHover
-        ? "#572A5E"
-        : "#6E3678"
+        ? theme.purple_dark
+        : theme.purple
       : isHover
-      ? "#F4EAF6"
-      : "#FFFFFF",
+      ? theme.purple_hover
+      : theme.white,
+    color: props.selected ? theme.white : theme.black,
     fontSize: "12px",
-    color: props.selected ? "#FFFFFF" : "#323232",
     config: { duration: 100 },
   });
   return (

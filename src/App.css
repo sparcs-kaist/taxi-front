@@ -1,9 +1,9 @@
 * {
   margin: 0px;
   padding: 0px;
-  font-family: "NanumSquare", sans-serif;
+  font-family: "Roboto", "NanumSquare", sans-serif;
   font-weight: 300;
-  /* letter-spacing: 0.05em; */
+  letter-spacing: 0.03em;
   --purple: #6E3678;
 }
 
