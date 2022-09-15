@@ -5,9 +5,16 @@ import Room from "components/common/room/Room";
 import RoomSelectionModal from "./RoomSelectionModal";
 import PropTypes from "prop-types";
 
+const sortOptions = {
+  time: "time",
+  leftPeopleNatural: "leftPeopleNatural",
+  leftPeopleReverse: "leftPeopleNatural",
+};
+
 const SideResult = (props) => {
   const [selectedRoomInfo, setSelectedRoomInfo] = useState(null);
   const [isIncludeFullRoom, setIsIncludeFullRoom] = useState(false);
+  const [sortOption, setSortOption] = useState(sortOptions.time);
   const [rooms, setRooms] = useState([]);
 
   useEffect(() => {
