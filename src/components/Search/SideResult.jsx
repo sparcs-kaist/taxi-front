@@ -7,14 +7,14 @@ import PropTypes from "prop-types";
 
 const sortOptions = {
   time: "time",
-  leftPeopleNatural: "leftPeopleNatural",
-  leftPeopleReverse: "leftPeopleNatural",
+  leftPeopleNatural: "leftPeopleNatural", // 남은 인원 많은순
+  leftPeopleReverse: "leftPeopleReverse", // 남은 인원 적은순
 };
 
 const SideResult = (props) => {
   const [selectedRoomInfo, setSelectedRoomInfo] = useState(null);
   const [isIncludeFullRoom, setIsIncludeFullRoom] = useState(false);
-  const [sortOption, setSortOption] = useState(sortOptions.time);
+  const [sortOption, setSortOption] = useState(sortOptions.leftPeopleReverse);
   const [rooms, setRooms] = useState([]);
 
   useEffect(() => {
@@ -23,6 +23,28 @@ const SideResult = (props) => {
     let roomsWithOptions = isIncludeFullRoom
       ? props.result
       : props.result.filter((room) => room.maxPartLength > room.part.length);
+
+    // For stable sort
+    roomsWithOptions.forEach((room, idx) => {
+      room.idx = idx;
+    });
+
+    // 시간순 옵션일 경우 추가 정렬 필요 없음 (서버에서 정렬된 결과 반환)
+    if (sortOption === sortOptions.leftPeopleNatural) {
+      roomsWithOptions.sort((room1, room2) => {
+        const room1Left = room1.maxPartLength - room1.part.length;
+        const room2Left = room2.maxPartLength - room2.part.length;
+        if (room1Left === room2Left) return room1.idx - room2.idx;
+        return room1Left - room2Left;
+      });
+    } else if (sortOption === sortOptions.leftPeopleReverse) {
+      roomsWithOptions.sort((room1, room2) => {
+        const room1Left = room1.maxPartLength - room1.part.length;
+        const room2Left = room2.maxPartLength - room2.part.length;
+        if (room1Left === room2Left) return room1.idx - room2.idx;
+        return room2Left - room1Left;
+      });
+    }
     setRooms(roomsWithOptions);
   }, [isIncludeFullRoom, sortOption, props.result]);
 
