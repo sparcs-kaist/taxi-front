@@ -12,6 +12,7 @@ import moment, { getToday10, getToday } from "tools/moment";
 import PropTypes from "prop-types";
 import isMobile from "ismobilejs";
 import { theme } from "styles/theme";
+import Button from "components/common/Button";
 
 import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
@@ -377,6 +378,7 @@ const Search = () => {
       >
         {message}
       </SubmitButton>
+      <Button>{message}</Button>
     </div>
   );
   const rightLay =
