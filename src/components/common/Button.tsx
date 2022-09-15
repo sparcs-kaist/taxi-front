@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { theme } from "styles/theme";
 
-type ButtonType = "add" | "search" | "purple" | "purple_inset" | "gray";
+type ButtonType = "purple" | "purple_inset" | "gray";
 
 type ButtonProps = {
   buttonType?: ButtonType,
@@ -22,6 +22,21 @@ const Button = ({
   onClick,
   children,
 }: ButtonProps) => {
+  const [isHover, setHover] = useState(false);
+
+  const [isClicked, setClicked] = useState(false);
+  const getColor = () => {
+    switch (buttonType) {
+      case "purple":
+        return "";
+      case "purple_inset":
+        return "";
+      case "gray":
+        return "";
+      default:
+        return "";
+    }
+  }
   const style = {
     padding: padding,
     borderRadius: radius,

@@ -36,7 +36,7 @@ export const theme = {
     " 0px -3px 3px -2px rgba(110, 54, 120, 0.02)," +
     " 0px -3px 8px -2px rgba(110, 54, 120, 0.1)",
   // Button
-  shadow_purple_button_inset: "inset 2px 2px 5px -2px rgba(0, 0, 0, 0.25)",
+  shadow_purple_button_inset: "inset 2px 2px 5px -2px rgba(0, 0, 0, 0.15)",
   shadow_gray_button_inset: "inset 2px 2px 5px -2px rgba(0, 0, 0, 0.075)",
   // Input or DatePicker
   shadow_purple_input_inset: "inset 1px 1px 2.5px -1px rgba(110, 54, 120, 0.1)",
