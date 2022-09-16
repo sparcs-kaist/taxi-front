@@ -4,13 +4,13 @@ import { theme } from "styles/theme";
 type ButtonType = "purple" | "purple_inset" | "gray";
 
 type ButtonProps = {
-  buttonType?: ButtonType,
-  disabled?: boolean,
-  padding?: string | number,
-  radius?: number,
-  fontWeight?: "regular" | "bold",
-  onClick?: () => void,
-  children?: React.ReactNode,
+  buttonType?: ButtonType;
+  disabled?: boolean;
+  padding?: string | number;
+  radius?: number;
+  fontWeight?: "regular" | "bold";
+  onClick?: () => void;
+  children?: React.ReactNode;
 };
 
 const Button = ({
@@ -36,7 +36,7 @@ const Button = ({
       default:
         return "";
     }
-  }
+  };
   const style = {
     padding: padding,
     borderRadius: radius,
