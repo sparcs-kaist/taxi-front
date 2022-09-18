@@ -65,8 +65,8 @@ const Button = ({
     fontSize: fontSize,
     fontWeight: fontWeight,
     transitionDuration: theme.duration,
+    cursor: theme.cursor(disabled),
     textAlign: "center" as const,
-    cursor: disabled ? "not-allowed" : "pointer",
     ...getColor(),
   };
   return (

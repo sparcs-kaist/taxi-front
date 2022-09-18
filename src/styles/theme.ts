@@ -48,4 +48,9 @@ export const theme = {
 
   // Transition
   duration: "0.15s",
+
+  // Cursor
+  cursor: (disabled: Boolean) => {
+    return disabled ? "not-allowed" : "pointer";
+  },
 };
