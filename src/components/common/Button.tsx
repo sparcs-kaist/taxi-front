@@ -27,6 +27,10 @@ const Button = ({
 }: ButtonProps) => {
   const [isHover, setHover] = useState(false);
   const [isClicked, setClicked] = useState(false);
+  const setHoverClicked = (bool: boolean) => {
+    setHover(bool);
+    setClicked(bool);
+  };
   const getColor = () => {
     switch (buttonType) {
       case "purple":
@@ -69,25 +73,17 @@ const Button = ({
     textAlign: "center" as const,
     ...getColor(),
   };
+
   return (
     <div
       onClick={onClick}
       style={{ ...style }}
       onMouseEnter={() => setHover(!(isMobile().phone || isMobile().tablet))}
-      onMouseLeave={() => {
-        setHover(false);
-        setClicked(false);
-      }}
+      onMouseLeave={() => setHoverClicked(false)}
       onMouseDown={() => setClicked(true)}
       onMouseUp={() => setClicked(false)}
-      onTouchStart={() => {
-        setHover(true);
-        setClicked(true);
-      }}
-      onTouchEnd={() => {
-        setHover(false);
-        setClicked(false);
-      }}
+      onTouchStart={() => setHoverClicked(true)}
+      onTouchEnd={() => setHoverClicked(false)}
     >
       {children}
     </div>

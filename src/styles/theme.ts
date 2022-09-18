@@ -50,7 +50,7 @@ export const theme = {
   duration: "0.15s",
 
   // Cursor
-  cursor: (disabled: Boolean) => {
+  cursor: (disabled: boolean) => {
     return disabled ? "not-allowed" : "pointer";
   },
 };
