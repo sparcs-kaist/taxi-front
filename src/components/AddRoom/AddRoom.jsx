@@ -91,6 +91,7 @@ const AddRoom = () => {
           handler={setMaxPartLength}
         />
         <SubmitButton
+          marginAuto={false}
           onClick={validatedMsg ? () => {} : onClickAdd}
           disable={validatedMsg ? true : false}
         >
