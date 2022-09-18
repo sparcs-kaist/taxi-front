@@ -12,7 +12,7 @@ export const theme = {
   purple_hover: "#F4EAF6",
 
   gray_text: "#888888",
-  gray_background: "EEEEEE",
+  gray_background: "#EEEEEE",
   gray_line: "#C8C8C8",
 
   red_text: "#DD616E",
@@ -41,8 +41,11 @@ export const theme = {
   // Input or DatePicker
   shadow_purple_input_inset: "inset 1px 1px 2.5px -1px rgba(110, 54, 120, 0.1)",
   shadow_gray_input_inset: " inset 1px 1px 2.5px -1px rgba(0, 0, 0, 0.075)",
-  shadow_selected:
+  shadow_clicked:
     "0px 2px 4px rgba(110, 54, 120, 0.2), " +
     "0px 1px 18px rgba(110, 54, 120, 0.12), " +
     "0px 6px 10px rgba(110, 54, 120, 0.14)",
+
+  // Transition
+  duration: "0.15s",
 };

@@ -28,7 +28,7 @@ const SearchOption = (props) => {
     height: "15px",
     borderRadius: "15px",
     padding: "8px 15px 7px 15px",
-    boxShadow: theme.shadow_white,
+    boxShadow: theme.shadow,
     background: props.selected
       ? isHover
         ? theme.purple_dark
@@ -38,7 +38,7 @@ const SearchOption = (props) => {
       : theme.white,
     color: props.selected ? theme.white : theme.black,
     fontSize: "12px",
-    config: { duration: 100 },
+    config: { duration: 150 },
   });
   return (
     <animated.div
@@ -156,7 +156,7 @@ const Search = () => {
   const [valueTime, setTime] = useState(["0", "00"]);
   const [valueMaxPartLength, setMaxPartLength] = useState(null);
   const [searchResult, setSearchResult] = useState(null);
-  const [disable, setDisable] = useState(true);
+  const [disabled, setDisabled] = useState(true);
   const [message, setMessage] = useState("검색 조건을 선택해주세요");
 
   const clearState = () => {
@@ -168,7 +168,7 @@ const Search = () => {
     setTime(["0", "00"]);
     setMaxPartLength(null);
     setSearchResult(null);
-    setDisable(true);
+    setDisabled(true);
     setMessage("검색 조건을 선택해주세요");
   };
 
@@ -236,23 +236,23 @@ const Search = () => {
   useEffect(() => {
     if (!Object.values(searchOptions).some((option) => option == true)) {
       setMessage("모든 방 검색하기");
-      setDisable(false);
+      setDisabled(false);
     } else if (searchOptions.name && valueName == "") {
       setMessage("방 이름을 입력해주세요");
-      setDisable(true);
+      setDisabled(true);
     } else if (
       (searchOptions.place && valuePlace.some((place) => place == null)) ||
       (searchOptions.date && valueDate.some((date) => date == null)) ||
       (searchOptions.time && valueTime.some((time) => time == null))
     ) {
       setMessage("선택을 완료해주세요");
-      setDisable(true);
+      setDisabled(true);
     } else if (
       (valuePlace[0] !== null || valuePlace[1] !== null) &&
       valuePlace[0] === valuePlace[1]
     ) {
       setMessage("출발지와 도착지는 달라야 합니다");
-      setDisable(true);
+      setDisabled(true);
     } else if (
       searchOptions.time &
       !valueDate.some((date) => date == null) &
@@ -263,10 +263,10 @@ const Search = () => {
       ).isBefore(getToday(), "minute")
     ) {
       setMessage("과거 시점은 검색할 수 없습니다.");
-      setDisable(true);
+      setDisabled(true);
     } else {
       setMessage("방 검색하기");
-      setDisable(false);
+      setDisabled(false);
     }
   }, [searchOptions, valueName, valuePlace, valueDate, valueTime]);
 
@@ -369,20 +369,22 @@ const Search = () => {
           handler={setMaxPartLength}
         />
       ) : null}
-      <SubmitButton
+      {/* <SubmitButton
         marginAuto={false}
         background="#6E3678"
         backgroundHover="#572A5E"
         onClick={onClickSearch}
-        disable={disable}
+        disabled={disabled}
       >
         {message}
-      </SubmitButton>
+      </SubmitButton> */}
       <Button
         buttonType="purple"
+        disabled={disabled}
+        padding="13px 0px 14px"
         radius={12}
         fontWeight="bold"
-        padding="14px 0px 13px"
+        onClick={onClickSearch}
       >
         {message}
       </Button>

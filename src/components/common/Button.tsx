@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { theme } from "styles/theme";
+import isMobile from "ismobilejs";
 
 type ButtonType = "purple" | "purple_inset" | "gray";
 
@@ -30,20 +31,28 @@ const Button = ({
     switch (buttonType) {
       case "purple":
         return {
-          backgroundColor: theme.purple,
+          backgroundColor: disabled
+            ? theme.purple_disabled
+            : isHover
+            ? theme.purple_dark
+            : theme.purple,
           color: theme.white,
-          boxShadow: theme.shadow,
+          boxShadow: isClicked ? theme.shadow_clicked : theme.shadow,
         };
       case "purple_inset":
         return {
-          backgroundColor: theme.purple,
+          backgroundColor: disabled
+            ? theme.purple_disabled
+            : isHover
+            ? theme.purple_dark
+            : theme.purple,
           color: theme.white,
           boxShadow: theme.shadow_purple_button_inset,
         };
       case "gray":
         return {
-          backgroundColor: theme.gray_background,
-          color: theme.gray_text,
+          backgroundColor: isHover ? theme.gray_line : theme.gray_background,
+          color: isHover ? theme.white : theme.gray_text,
           boxShadow: theme.shadow_gray_button_inset,
         };
       default:
@@ -55,11 +64,31 @@ const Button = ({
     borderRadius: radius,
     fontSize: fontSize,
     fontWeight: fontWeight,
+    transitionDuration: theme.duration,
     textAlign: "center" as const,
+    cursor: disabled ? "not-allowed" : "pointer",
     ...getColor(),
   };
   return (
-    <div onClick={onClick} style={{ ...style }}>
+    <div
+      onClick={onClick}
+      style={{ ...style }}
+      onMouseEnter={() => setHover(!(isMobile().phone || isMobile().tablet))}
+      onMouseLeave={() => {
+        setHover(false);
+        setClicked(false);
+      }}
+      onMouseDown={() => setClicked(true)}
+      onMouseUp={() => setClicked(false)}
+      onTouchStart={() => {
+        setHover(true);
+        setClicked(true);
+      }}
+      onTouchEnd={() => {
+        setHover(false);
+        setClicked(false);
+      }}
+    >
       {children}
     </div>
   );

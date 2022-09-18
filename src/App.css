@@ -4,21 +4,32 @@
   font-family: "Roboto", "NanumSquare", sans-serif;
   font-weight: 300;
   letter-spacing: 0.03em;
-  --purple: #6E3678;
-}
-
-div {
+  --purple: #6e3678;
   color: #323232;
 }
+
+/* div {
+  color: #323232;
+} */
 
 html {
   height: 100%;
 }
 body {
   height: 100%;
-  background: #FAF8FB;
+  background: #faf8fb;
   -ms-overflow-style: none;
   touch-action: pan-y;
+  /**
+  * disable text selection
+  * See the below page for later compatibility.
+  * https://caniuse.com/?search=user-select%3A%20none
+  */
+  -webkit-touch-callout: none; /* IOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* IE/Edge */
+  user-select: none; /* Chrome, Edge, Opera, and Firefox */
 }
 body::-webkit-scrollbar {
   display: none;
