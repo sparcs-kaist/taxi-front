@@ -378,7 +378,14 @@ const Search = () => {
       >
         {message}
       </SubmitButton>
-      <Button>{message}</Button>
+      <Button
+        buttonType="purple"
+        radius={12}
+        fontWeight="bold"
+        padding="14px 0px 13px"
+      >
+        {message}
+      </Button>
     </div>
   );
   const rightLay =
