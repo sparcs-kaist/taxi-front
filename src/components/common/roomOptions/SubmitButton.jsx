@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
 import PropTypes from "prop-types";
 import RLayout from "components/common/RLayout";
+import { theme } from "styles/theme";
 
 const Button = (props) => {
   const [isHover, setHover] = useState(false);
@@ -11,15 +12,14 @@ const Button = (props) => {
     lineHeight: "19px",
     textAlign: "center",
     fontSize: "16px",
-    color: props.disabled ? "#888888" : props.textColor,
+    color: props.disabled ? theme.gray_text : props.textColor,
     fontWeight: "bold",
     borderRadius: "12px",
-    boxShadow:
-      "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
+    boxShadow: theme.shadow,
   };
   const background = useSpring({
     background: props.disabled
-      ? "#EEEEEE"
+      ? theme.gray_text
       : isHover
       ? props.backgroundHover
       : props.background,

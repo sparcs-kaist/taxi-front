@@ -369,15 +369,6 @@ const Search = () => {
           handler={setMaxPartLength}
         />
       ) : null}
-      {/* <SubmitButton
-        marginAuto={false}
-        background="#6E3678"
-        backgroundHover="#572A5E"
-        onClick={onClickSearch}
-        disabled={disabled}
-      >
-        {message}
-      </SubmitButton> */}
       <Button
         buttonType="purple"
         disabled={disabled}
