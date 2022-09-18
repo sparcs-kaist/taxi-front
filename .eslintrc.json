@@ -1,29 +1,26 @@
 {
-    "root": true,
-    "env": {
-        "browser": true,
-        "es2021": true,
-        "cypress/globals": true
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "cypress/globals": true
+  },
+  "extends": [
+    "plugin:cypress/recommended",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
     },
-    "extends": [
-        "plugin:cypress/recommended",
-        "eslint:recommended",
-        "plugin:react/recommended",
-        "prettier"
-    ],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": 12,
-        "sourceType": "module"
-    },
-    "plugins": [
-        "react",
-        "cypress"
-    ],
-    "rules": {
-        "no-unused-vars": 1
-    }
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "cypress"],
+  "rules": {
+    "no-unused-vars": 1
+  }
 }
