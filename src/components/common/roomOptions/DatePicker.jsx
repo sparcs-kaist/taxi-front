@@ -2,6 +2,7 @@ import React, { Component, useState } from "react";
 import { useSpring, animated } from "react-spring";
 import { getToday10 } from "tools/moment";
 import PropTypes from "prop-types";
+import { theme } from "styles/theme";
 
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
@@ -184,7 +185,7 @@ class DatePicker extends Component {
     this.styleLayArrow = {
       width: "25px",
       height: "25px",
-      fill: "var(--purple)",
+      fill: theme.purple,
     };
     this.styleLayArrowGrid = {
       width: "60px",
