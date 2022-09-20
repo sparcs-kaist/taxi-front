@@ -3,6 +3,7 @@ import { useSpring, animated } from "react-spring";
 import { useHistory } from "react-router";
 import HeaderBody from "./HeaderBody";
 import PropTypes from "prop-types";
+import { theme } from "styles/theme";
 
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
@@ -27,7 +28,7 @@ const BtnBack = () => {
     left: "calc(50% - 12px)",
     width: "24px",
     height: "24px",
-    fill: "var(--purple)",
+    fill: theme.purple,
   };
 
   return (
@@ -61,7 +62,7 @@ const BtnMenu = (props) => {
     left: "calc(50% - 12px)",
     width: "24px",
     height: "24px",
-    fill: "var(--purple)",
+    fill: theme.purple,
   };
 
   return (

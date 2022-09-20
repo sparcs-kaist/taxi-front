@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { theme } from "styles/theme";
+import { theme, Font } from "styles/theme";
 import isMobile from "ismobilejs";
 
 type ButtonType = "purple" | "purple_inset" | "gray";
@@ -9,8 +9,7 @@ type ButtonProps = {
   disabled?: boolean;
   padding?: string | number;
   radius?: number;
-  fontSize?: number;
-  fontWeight?: "regular" | "bold";
+  font?: Font;
   onClick?: () => void;
   children?: React.ReactNode;
 };
@@ -20,8 +19,7 @@ const Button = ({
   disabled = false,
   padding,
   radius,
-  fontWeight,
-  fontSize = 16,
+  font,
   onClick,
   children,
 }: ButtonProps) => {
@@ -59,15 +57,13 @@ const Button = ({
           color: isHover ? theme.white : theme.gray_text,
           boxShadow: theme.shadow_gray_button_inset,
         };
-      default:
-        return {};
     }
   };
+  theme.font10;
   const style = {
+    ...font,
     padding: padding,
     borderRadius: radius,
-    fontSize: fontSize,
-    fontWeight: fontWeight,
     transitionDuration: theme.duration,
     cursor: theme.cursor(disabled),
     textAlign: "center" as const,

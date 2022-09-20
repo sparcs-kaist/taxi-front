@@ -3,8 +3,11 @@
   padding: 0px;
   font-family: "Roboto", "NanumSquare", sans-serif;
   font-weight: 300;
-  letter-spacing: 0.03em;
-  --purple: #6e3678;
+  /* -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; */
+}
+
+div {
   color: #323232;
 }
 
