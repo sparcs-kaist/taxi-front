@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import moment from "tools/moment";
 import ProfileImg from "components/Mypage/ProfileImg";
+import ImageFullscreen from "components/Chatting/MessagesBody/ImageFullscreen";
 import { getS3Url } from "tools/trans";
 import PropTypes from "prop-types";
 
@@ -33,11 +34,12 @@ const ChatImage = (props) => {
 
   useEffect(() => {
     const imageObj = new Image();
+    const src = getS3Url(`/chat-img/${props.id}`);
     imageObj.onload = () => {
       const doScroll = props.isBottomOnScroll(40);
       setImage(
         <img
-          src={getS3Url(`/chat-img/${props.id}`)}
+          src={src}
           style={{
             maxWidth: "100%",
             maxHeight: "400px",
@@ -46,6 +48,9 @@ const ChatImage = (props) => {
           //loading="lazy"
           onLoad={() => {
             if (doScroll) props.scrollToBottom();
+          }}
+          onClick={() => {
+            props.setIsFullscreenImage(src);
           }}
         />
       );
@@ -61,6 +66,7 @@ ChatImage.propTypes = {
   id: PropTypes.string,
   isBottomOnScroll: PropTypes.func,
   scrollToBottom: PropTypes.func,
+  setIsFullscreenImage: PropTypes.func,
 };
 
 const ChatText = (props) => {
@@ -85,6 +91,7 @@ ChatText.propTypes = {
 };
 
 const ChatSet = (props) => {
+  const [isFullscreenImage, setIsFullscreenImage] = useState("");
   const itsme = props.authorId === props.chats[0].authorId;
   const style = {
     position: "relative",
@@ -133,8 +140,15 @@ const ChatSet = (props) => {
     fontSize: "9px",
     color: "#888888",
   };
+  const onClose = () => {
+    setIsFullscreenImage("");
+  };
+
   return (
     <div style={style}>
+      {isFullscreenImage ? (
+        <ImageFullscreen path={isFullscreenImage} onClose={onClose} />
+      ) : null}
       <div
         style={{
           width: "53px",
@@ -161,6 +175,7 @@ const ChatSet = (props) => {
                   id={chat.content}
                   isBottomOnScroll={props.isBottomOnScroll}
                   scrollToBottom={props.scrollToBottom}
+                  setIsFullscreenImage={setIsFullscreenImage}
                 />
               )}
             </div>
