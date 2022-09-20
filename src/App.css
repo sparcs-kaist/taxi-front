@@ -5,6 +5,8 @@
   font-weight: 300;
   --purple: #6e3678;
   color: #323232;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 html {
