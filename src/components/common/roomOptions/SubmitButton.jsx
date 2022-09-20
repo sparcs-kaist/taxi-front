@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
 import PropTypes from "prop-types";
 import RLayout from "components/common/RLayout";
+import { theme } from "styles/theme";
 
 const Button = (props) => {
   const [isHover, setHover] = useState(false);
@@ -11,30 +12,29 @@ const Button = (props) => {
     lineHeight: "19px",
     textAlign: "center",
     fontSize: "16px",
-    color: props.disable ? "#888888" : props.textColor,
+    color: props.disabled ? theme.gray_text : props.textColor,
     fontWeight: "bold",
     borderRadius: "12px",
-    boxShadow:
-      "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
+    boxShadow: theme.shadow,
   };
   const background = useSpring({
-    background: props.disable
-      ? "#EEEEEE"
+    background: props.disabled
+      ? theme.gray_text
       : isHover
       ? props.backgroundHover
       : props.background,
-    config: { duration: 100 },
+    config: { duration: 150 },
   });
 
   const button = (
     <animated.div
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      onClick={props.disable ? null : props.onClick}
+      onClick={props.disabled ? null : props.onClick}
       style={{
         ...style,
         ...background,
-        cursor: props.disable ? "not-allowed" : "pointer",
+        cursor: props.disabled ? "not-allowed" : "pointer",
       }}
     >
       {props.children}
@@ -54,7 +54,7 @@ Button.propTypes = {
   onClick: PropTypes.func,
   children: PropTypes.any,
   marginAuto: PropTypes.any,
-  disable: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 Button.defaultProps = {
@@ -63,6 +63,6 @@ Button.defaultProps = {
   marginAuto: true,
   textColor: "white",
   onClick: () => {},
-  disable: true,
+  disabled: true,
 };
 export default Button;

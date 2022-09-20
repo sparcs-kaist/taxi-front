@@ -30,6 +30,7 @@ const ProfileImg = (props) => {
           left: "0px",
           width: "100%",
           height: "100%",
+          objectFit: "cover",
         }}
         alt={`/profile-img/${props.path}`}
         onError={() => setSrc(defaultImg)}
