@@ -1,6 +1,7 @@
 export type Font = {
   fontSize: number;
   letterSpacing?: number;
+  fontWeight?: number;
 };
 
 export const theme = {

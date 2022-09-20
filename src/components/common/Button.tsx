@@ -10,8 +10,6 @@ type ButtonProps = {
   padding?: string | number;
   radius?: number;
   font?: Font;
-  // fontSize?: number;
-  // fontWeight?: "regular" | "bold";
   onClick?: () => void;
   children?: React.ReactNode;
 };
@@ -22,8 +20,6 @@ const Button = ({
   padding,
   radius,
   font,
-  // fontWeight,
-  // fontSize = 16,
   onClick,
   children,
 }: ButtonProps) => {
@@ -70,8 +66,6 @@ const Button = ({
     ...font,
     padding: padding,
     borderRadius: radius,
-    // fontSize: fontSize,
-    // fontWeight: fontWeight,
     transitionDuration: theme.duration,
     cursor: theme.cursor(disabled),
     textAlign: "center" as const,
