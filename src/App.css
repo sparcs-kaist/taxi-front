@@ -4,9 +4,12 @@
   font-family: "Roboto", "NanumSquare", sans-serif;
   font-weight: 300;
   --purple: #6e3678;
+  /* -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; */
+}
+
+div {
   color: #323232;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 html {
