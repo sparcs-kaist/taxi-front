@@ -57,8 +57,6 @@ const Button = ({
           color: isHover ? theme.white : theme.gray_text,
           boxShadow: theme.shadow_gray_button_inset,
         };
-      default:
-        return {};
     }
   };
   theme.font10;
