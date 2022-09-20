@@ -7,9 +7,26 @@ const Translation = () => {
   };
 
   return (
-    <div>
-      <button onClick={() => clickHandler("ko")}>한국어</button>
-      <button onClick={() => clickHandler("en")}>English</button>
+    <div
+      style={{
+        display: "flex",
+      }}
+    >
+      <BtnC
+        onClick={() => {
+          clickHandler("en");
+        }}
+      >
+        English
+      </BtnC>
+      <div>화살표</div>
+      <BtnC
+        onClick={() => {
+          clickHandler("ko");
+        }}
+      >
+        한국어
+      </BtnC>
     </div>
   );
 };

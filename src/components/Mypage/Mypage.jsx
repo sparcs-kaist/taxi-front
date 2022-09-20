@@ -15,6 +15,7 @@ import AssignmentRoundedIcon from "@material-ui/icons/AssignmentRounded";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
 import ContactSupportRoundedIcon from "@material-ui/icons/ContactSupportRounded";
 import SparcsLogoBlack from "static/assets/SparcsLogoBlack.svg";
+import Translation from "./../Translation/Translation";
 
 const BtnC = (props) => {
   const [isHover, setHover] = useState(false);
@@ -173,6 +174,9 @@ const Mypage = () => {
             </div>
           </>
         )}
+      </WhiteContainer>
+      <WhiteContainer>
+        <Translation />
       </WhiteContainer>
       <WhiteContainer>
         <BtnC icon="rule" onClick={() => setOpen2(true)}>
