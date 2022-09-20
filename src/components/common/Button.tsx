@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { theme, Font } from "styles/theme";
-import isMobile from "ismobilejs";
+import isMobile from "tools/isMobile";
 
 type ButtonType = "purple" | "purple_inset" | "gray";
 
@@ -59,7 +59,7 @@ const Button = ({
         };
     }
   };
-  theme.font10;
+
   const style = {
     ...font,
     padding: padding,
@@ -69,12 +69,12 @@ const Button = ({
     textAlign: "center" as const,
     ...getColor(),
   };
-
+  console.log(isMobile);
   return (
     <div
       onClick={onClick}
       style={{ ...style }}
-      onMouseEnter={() => setHover(!(isMobile().phone || isMobile().tablet))}
+      onMouseEnter={() => setHover(!isMobile)}
       onMouseLeave={() => setHoverClicked(false)}
       onMouseDown={() => setClicked(true)}
       onMouseUp={() => setClicked(false)}
