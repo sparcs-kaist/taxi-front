@@ -10,6 +10,9 @@ import SideResult from "./SideResult";
 import axios from "tools/axios";
 import moment, { getToday10, getToday } from "tools/moment";
 import PropTypes from "prop-types";
+import isMobile from "ismobilejs";
+import { theme } from "styles/theme";
+import Button from "components/common/Button";
 
 import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
@@ -25,25 +28,24 @@ const SearchOption = (props) => {
     height: "15px",
     borderRadius: "15px",
     padding: "8px 15px 7px 15px",
-    boxShadow:
-      "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
+    boxShadow: theme.shadow,
     background: props.selected
       ? isHover
-        ? "#572A5E"
-        : "#6E3678"
+        ? theme.purple_dark
+        : theme.purple
       : isHover
-      ? "#F4EAF6"
-      : "#FFFFFF",
-    fontSize: "13px",
-    color: props.selected ? "#FFFFFF" : "#323232",
-    config: { duration: 100 },
+      ? theme.purple_hover
+      : theme.white,
+    color: props.selected ? theme.white : theme.black,
+    fontSize: "12px",
+    config: { duration: 150 },
   });
   return (
     <animated.div
       style={style}
       className="BTNC ND"
       onClick={() => props.onClick(props.id)}
-      onMouseEnter={() => setHover(true)}
+      onMouseEnter={() => setHover(!(isMobile().phone || isMobile().tablet))}
       onMouseLeave={() => setHover(false)}
     >
       {props.children}
@@ -154,7 +156,7 @@ const Search = () => {
   const [valueTime, setTime] = useState(["0", "00"]);
   const [valueMaxPartLength, setMaxPartLength] = useState(null);
   const [searchResult, setSearchResult] = useState(null);
-  const [disable, setDisable] = useState(true);
+  const [disabled, setDisabled] = useState(true);
   const [message, setMessage] = useState("검색 조건을 선택해주세요");
 
   const clearState = () => {
@@ -166,7 +168,7 @@ const Search = () => {
     setTime(["0", "00"]);
     setMaxPartLength(null);
     setSearchResult(null);
-    setDisable(true);
+    setDisabled(true);
     setMessage("검색 조건을 선택해주세요");
   };
 
@@ -234,23 +236,23 @@ const Search = () => {
   useEffect(() => {
     if (!Object.values(searchOptions).some((option) => option == true)) {
       setMessage("모든 방 검색하기");
-      setDisable(false);
+      setDisabled(false);
     } else if (searchOptions.name && valueName == "") {
       setMessage("방 이름을 입력해주세요");
-      setDisable(true);
+      setDisabled(true);
     } else if (
       (searchOptions.place && valuePlace.some((place) => place == null)) ||
       (searchOptions.date && valueDate.some((date) => date == null)) ||
       (searchOptions.time && valueTime.some((time) => time == null))
     ) {
       setMessage("선택을 완료해주세요");
-      setDisable(true);
+      setDisabled(true);
     } else if (
       (valuePlace[0] !== null || valuePlace[1] !== null) &&
       valuePlace[0] === valuePlace[1]
     ) {
       setMessage("출발지와 도착지는 달라야 합니다");
-      setDisable(true);
+      setDisabled(true);
     } else if (
       searchOptions.time &
       !valueDate.some((date) => date == null) &
@@ -261,10 +263,10 @@ const Search = () => {
       ).isBefore(getToday(), "minute")
     ) {
       setMessage("과거 시점은 검색할 수 없습니다.");
-      setDisable(true);
+      setDisabled(true);
     } else {
       setMessage("방 검색하기");
-      setDisable(false);
+      setDisabled(false);
     }
   }, [searchOptions, valueName, valuePlace, valueDate, valueTime]);
 
@@ -367,15 +369,16 @@ const Search = () => {
           handler={setMaxPartLength}
         />
       ) : null}
-      <SubmitButton
-        marginAuto={false}
-        background="#6E3678"
-        backgroundHover="#572A5E"
+      <Button
+        buttonType="purple"
+        disabled={disabled}
+        padding="13px 0px 14px"
+        radius={12}
+        font={theme.font16_bold}
         onClick={onClickSearch}
-        disable={disable}
       >
         {message}
-      </SubmitButton>
+      </Button>
     </div>
   );
   const rightLay =
