@@ -6,7 +6,8 @@ import { date2str } from "tools/moment";
 import { getLocationName } from "tools/trans";
 import Title from "components/common/Title";
 import Modal from "components/common/modal/Modal";
-import SubmitButton from "components/common/roomOptions/SubmitButton";
+import Button from "components/common/Button";
+import { theme } from "styles/theme";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import PropTypes from "prop-types";
 import axios from "tools/axios";
@@ -220,17 +221,20 @@ const RoomSelectionModal = (props) => {
           />
         </div>
       </div>
-      <SubmitButton
+      <Button
+        buttonType="purple"
+        disabled={isRoomFull || disableJoinBtn}
+        padding="10px 0px 9px"
+        radius={8}
+        font={theme.font14_bold}
         onClick={requestJoin}
-        disable={isRoomFull || disableJoinBtn}
-        marginAuto={false}
       >
         {disableJoinBtn
           ? "이미 참여 중입니다"
           : isRoomFull
           ? "인원이 0명인 방은 참여할 수 없습니다"
           : "참여 신청"}
-      </SubmitButton>
+      </Button>
     </Modal>
   );
 };
