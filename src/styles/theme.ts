@@ -1,4 +1,10 @@
+export type Font = {
+  fontSize: number;
+  letterSpacing?: number;
+};
+
 export const theme = {
+  // Color
   black: "#323232",
   black_40: "rgba(0, 0, 0, 0.4)",
   black_60: "rgba(0, 0, 0, 0.6)",
@@ -21,6 +27,20 @@ export const theme = {
 
   green_button: "#23913C",
   green_background: "#E6F7E4",
+
+  // Font Size
+  font8: { fontSize: 8, letterSpacing: -0.2 },
+  font8_medium: { fontSize: 8, letterSpacing: -0.2, fontWeight: 500 },
+  font10: { fontSize: 10 },
+  font12: { fontSize: 12, letterSpacing: 0.4 },
+  font14: { fontSize: 14 },
+  font14_bold: { fontSize: 14, fontWeight: 700 },
+  font16: { fontSize: 16, letterSpacing: -0.4 },
+  font16_bold: { fontSize: 16, letterSpacing: -0.4, fontWeight: 700 },
+  font18: { fontSize: 18, letterSpacing: -0.6 },
+  font20: { fontSize: 20, letterSpacing: -0.75 },
+
+  // Shadow
 
   // White Container or Button
   shadow:
@@ -48,6 +68,7 @@ export const theme = {
 
   // Transition
   duration: "0.15s",
+  container_max_width: 325,
 
   // Cursor
   cursor: (disabled: boolean) => {

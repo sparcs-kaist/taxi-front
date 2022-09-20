@@ -374,7 +374,8 @@ const Search = () => {
         disabled={disabled}
         padding="13px 0px 14px"
         radius={12}
-        fontWeight="bold"
+        font={theme.font16_bold}
+        // fontWeight="bold"
         onClick={onClickSearch}
       >
         {message}
