@@ -188,18 +188,23 @@ const SideResult = (props) => {
             <div style={styleEmpty}>검색 결과가 없습니다.</div>
           ) : (
             <>
-              {rooms.map((room) => (
-                <Room
-                  key={room._id}
-                  marginTop="15px"
-                  mobile={props.mobile}
-                  data={room}
-                  onClick={() => {
-                    setSelectedRoomInfo(room);
-                  }}
-                  theme="purple"
-                />
-              ))}
+              {rooms
+                .slice(
+                  PAGE_MAX_ROOMS * (pageInfo.currentPage - 1),
+                  PAGE_MAX_ROOMS * pageInfo.currentPage
+                )
+                .map((room) => (
+                  <Room
+                    key={room._id}
+                    marginTop="15px"
+                    mobile={props.mobile}
+                    data={room}
+                    onClick={() => {
+                      setSelectedRoomInfo(room);
+                    }}
+                    theme="purple"
+                  />
+                ))}
               <Pagination
                 totalPages={pageInfo.currentPage}
                 currentPage={pageInfo.currentPage}
@@ -234,20 +239,34 @@ const SideResult = (props) => {
             <div style={styleEmpty}>검색 결과가 없습니다</div>
           </WhiteContainer>
         ) : (
-          rooms.map((room) => {
-            return (
-              <Room
-                data={room}
-                key={room._id}
-                marginTop="0px"
-                marginBottom="15px"
-                mobile={props.mobile}
-                onClick={() => {
-                  setSelectedRoomInfo(room);
-                }}
-              />
-            );
-          })
+          <>
+            {rooms
+              .slice(
+                PAGE_MAX_ROOMS * (pageInfo.currentPage - 1),
+                PAGE_MAX_ROOMS * pageInfo.currentPage
+              )
+              .map((room) => {
+                return (
+                  <Room
+                    data={room}
+                    key={room._id}
+                    marginTop="0px"
+                    marginBottom="15px"
+                    mobile={props.mobile}
+                    onClick={() => {
+                      setSelectedRoomInfo(room);
+                    }}
+                  />
+                );
+              })}
+            <Pagination
+              totalPages={pageInfo.currentPage}
+              currentPage={pageInfo.currentPage}
+              onClickPage={pageClickHandler}
+              onClickNext={nextPageHandler}
+              onClickPrev={prevPageHandler}
+            />
+          </>
         )}
       </>
     );
