@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { theme, Font } from "styles/theme";
-import isMobile from "ismobilejs";
+import isMobile from "tools/isMobile";
 
-type ButtonType = "purple" | "purple_inset" | "gray";
+type ButtonType = "purple" | "purple_inset" | "gray" | "white";
 
 type ButtonProps = {
   buttonType?: ButtonType;
@@ -57,9 +57,15 @@ const Button = ({
           color: isHover ? theme.white : theme.gray_text,
           boxShadow: theme.shadow_gray_button_inset,
         };
+      case "white":
+        return {
+          backgroundColor: isHover ? theme.purple_hover : theme.white,
+          color: theme.purple,
+          boxShadow: isClicked ? theme.shadow_clicked : theme.shadow,
+        };
     }
   };
-  theme.font10;
+
   const style = {
     ...font,
     padding: padding,
@@ -72,11 +78,11 @@ const Button = ({
 
   return (
     <div
-      onClick={onClick}
+      onClick={disabled ? undefined : onClick}
       style={{ ...style }}
-      onMouseEnter={() => setHover(!(isMobile().phone || isMobile().tablet))}
+      onMouseEnter={() => setHover(!isMobile)}
       onMouseLeave={() => setHoverClicked(false)}
-      onMouseDown={() => setClicked(true)}
+      onMouseDown={() => setClicked(!disabled)}
       onMouseUp={() => setClicked(false)}
       onTouchStart={() => setHoverClicked(true)}
       onTouchEnd={() => setHoverClicked(false)}
