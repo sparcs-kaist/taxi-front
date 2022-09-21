@@ -7,12 +7,15 @@ import PropTypes from "prop-types";
 
 import CheckIcon from "@mui/icons-material/Check";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import Pagination from "components/common/pagination/Pagination";
 
 const sortOptions = {
   time: "출발 시간 순",
   leftPeopleReverse: "남은 인원 많은 순",
   leftPeopleNatural: "남은 인원 적은 순",
 };
+
+const PAGE_MAX_ROOMS = 20;
 
 const SearchOptions = (props) => {
   const styleWrapper = {
@@ -98,6 +101,7 @@ const SideResult = (props) => {
   const [isIncludeFullRoom, setIsIncludeFullRoom] = useState(false);
   const [sortOption, setSortOption] = useState(sortOptions.leftPeopleReverse);
   const [rooms, setRooms] = useState([]);
+  const [pageInfo, setPageInfo] = useState({ totalPages: 1, currentPage: 1 });
 
   useEffect(() => {
     if (props.result === null) return;
@@ -129,6 +133,27 @@ const SideResult = (props) => {
     }
     setRooms(roomsWithOptions);
   }, [isIncludeFullRoom, sortOption, props.result]);
+
+  useEffect(() => {
+    setPageInfo({
+      totalPages: Math.ceil(rooms.length / PAGE_MAX_ROOMS),
+      currentPage: 1,
+    });
+  }, [rooms]);
+
+  const pageClickHandler = (page) => {
+    setPageInfo({ ...pageInfo, currentPage: page });
+  };
+
+  const prevPageHandler = () => {
+    if (pageInfo.currentPage <= 1) return;
+    setPageInfo({ ...pageInfo, currentPage: pageInfo.currentPage - 1 });
+  };
+
+  const nextPageHandler = () => {
+    if (pageInfo.currentPage >= pageInfo.totalPages) return;
+    setPageInfo({ ...pageInfo, currentPage: pageInfo.currentPage - 1 });
+  };
 
   const styleEmpty = {
     color: "#888888",
@@ -162,18 +187,27 @@ const SideResult = (props) => {
           {rooms.length == 0 ? (
             <div style={styleEmpty}>검색 결과가 없습니다.</div>
           ) : (
-            rooms.map((room) => (
-              <Room
-                key={room._id}
-                marginTop="15px"
-                mobile={props.mobile}
-                data={room}
-                onClick={() => {
-                  setSelectedRoomInfo(room);
-                }}
-                theme="purple"
+            <>
+              {rooms.map((room) => (
+                <Room
+                  key={room._id}
+                  marginTop="15px"
+                  mobile={props.mobile}
+                  data={room}
+                  onClick={() => {
+                    setSelectedRoomInfo(room);
+                  }}
+                  theme="purple"
+                />
+              ))}
+              <Pagination
+                totalPages={pageInfo.currentPage}
+                currentPage={pageInfo.currentPage}
+                onClickPage={pageClickHandler}
+                onClickNext={nextPageHandler}
+                onClickPrev={prevPageHandler}
               />
-            ))
+            </>
           )}
         </WhiteContainer>
       </div>
