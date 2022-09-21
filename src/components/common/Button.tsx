@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, CSSProperties } from "react";
 import { theme, Font } from "styles/theme";
 import isMobile from "tools/isMobile";
 
@@ -66,20 +66,20 @@ const Button = ({
     }
   };
 
-  const style = {
+  const style: CSSProperties = {
     ...font,
     padding: padding,
     borderRadius: radius,
     transitionDuration: theme.duration,
     cursor: theme.cursor(disabled),
-    textAlign: "center" as const,
+    textAlign: "center",
     ...getColor(),
   };
 
   return (
     <div
       onClick={disabled ? undefined : onClick}
-      style={{ ...style }}
+      style={style}
       onMouseEnter={() => setHover(!isMobile)}
       onMouseLeave={() => setHoverClicked(false)}
       onMouseDown={() => setClicked(!disabled)}
