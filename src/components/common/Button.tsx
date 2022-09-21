@@ -82,7 +82,7 @@ const Button = ({
       style={{ ...style }}
       onMouseEnter={() => setHover(!isMobile)}
       onMouseLeave={() => setHoverClicked(false)}
-      onMouseDown={() => setClicked(!disabled && true)}
+      onMouseDown={() => setClicked(!disabled)}
       onMouseUp={() => setClicked(false)}
       onTouchStart={() => setHoverClicked(true)}
       onTouchEnd={() => setHoverClicked(false)}
