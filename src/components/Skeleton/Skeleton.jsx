@@ -11,7 +11,13 @@ import axios from "tools/axios";
 
 const Container = (props) => {
   return (
-    <div style={{ width: "100%", height: "100%", position: "relative" }}>
+    <div
+      style={{
+        width: "100%",
+        height: "calc(100% + env(safe-area-inset-top))",
+        position: "relative",
+      }}
+    >
       {props.children}
     </div>
   );
