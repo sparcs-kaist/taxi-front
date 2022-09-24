@@ -2,9 +2,10 @@ import React, { useState, useRef, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import RLayout from "components/common/RLayout";
 import Title from "components/common/Title";
-import SubmitButton from "components/common/roomOptions/SubmitButton";
+import Button from "components/common/Button";
 import axios from "tools/axios";
 import { date2str, getToday10, getToday } from "tools/moment";
+import { theme } from "styles/theme";
 
 import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
@@ -90,10 +91,13 @@ const AddRoom = () => {
           value={valueMaxPartLength}
           handler={setMaxPartLength}
         />
-        <SubmitButton
-          marginAuto={false}
-          onClick={validatedMsg ? () => {} : onClickAdd}
-          disable={validatedMsg ? true : false}
+        <Button
+          buttonType="purple"
+          disabled={validatedMsg ? true : false}
+          padding="13px 0px 14px"
+          radius={12}
+          font={theme.font16_bold}
+          onClick={onClickAdd}
         >
           {validatedMsg
             ? validatedMsg
@@ -107,7 +111,7 @@ const AddRoom = () => {
                 ),
                 "MMM Do [(]dd[)] a h[시] m[분]"
               )} 방 개설하기`}
-        </SubmitButton>
+        </Button>
       </RLayout.R1>
     </div>
   );
