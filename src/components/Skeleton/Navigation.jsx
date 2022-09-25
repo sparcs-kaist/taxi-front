@@ -86,7 +86,7 @@ const Navigation = (props) => {
       }}
     >
       <RLayout.R1 height="100%">
-        <div style={{ display: "flex", height: "100%" }}>
+        <div style={{ display: "flex" }}>
           <NavigationBtn
             to="/search"
             name="검색"
