@@ -11,7 +11,13 @@ import axios from "tools/axios";
 
 const Container = (props) => {
   return (
-    <div style={{ width: "100%", height: "100%", position: "relative" }}>
+    <div
+      style={{
+        width: "100%",
+        height: "calc(100% + env(safe-area-inset-top))",
+        position: "relative",
+      }}
+    >
       {props.children}
     </div>
   );
@@ -22,16 +28,20 @@ Container.propTypes = {
 
 const HeaderLine = () => {
   return (
-    <div
-      style={{
-        background: "#663D71",
-        width: "100%",
-        height: "5px",
-        position: "fixed",
-        top: "0px",
-        left: "0px",
-      }}
-    />
+    <>
+      <div
+        style={{
+          background: "#663D71",
+          width: "100%",
+          height: "max(5px, env(safe-area-inset-top))",
+          position: "fixed",
+          top: "0px",
+          left: "0px",
+          zIndex: 30,
+        }}
+      />
+      <div style={{ height: "max(0px, env(safe-area-inset-top))" }} />
+    </>
   );
 };
 
@@ -114,9 +124,9 @@ const Skeleton = (props) => {
   return (
     <Container>
       <Navigation path={pathname} />
+      <HeaderLine />
       {props.children}
       <Footer />
-      <HeaderLine />
       <PopupPolicy isOpen={showAgree} onClose={() => setShowAgree(false)} />
     </Container>
   );

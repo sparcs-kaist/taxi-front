@@ -65,7 +65,7 @@ const Login = () => {
         style={{
           background: "#663D71",
           width: "100%",
-          height: "5px",
+          height: "max(5px, env(safe-area-inset-top))",
           position: "fixed",
           top: "0px",
           left: "0px",
