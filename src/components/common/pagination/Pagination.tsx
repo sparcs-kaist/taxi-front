@@ -1,21 +1,22 @@
 import React, { CSSProperties } from "react";
+import { theme } from "styles/theme";
 
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 type PaginationProps = {
-  totalPages: number,
-  currentPage: number,
-  onClickPage: (page: number) => void,
-  onClickPrev: () => void,
-  onClickNext: () => void,
-  isMobile: boolean,
+  totalPages: number;
+  currentPage: number;
+  onClickPage: (page: number) => void;
+  onClickPrev: () => void;
+  onClickNext: () => void;
+  isMobile: boolean;
 };
 
 type PageButtonProps = {
-  page: number,
-  onClick: () => void,
-  selected: boolean,
+  page: number;
+  onClick: () => void;
+  selected: boolean;
 };
 
 const PageButton = ({ page, onClick, selected }: PageButtonProps) => {
@@ -25,10 +26,10 @@ const PageButton = ({ page, onClick, selected }: PageButtonProps) => {
     justifyContent: "center",
     width: "32px",
     height: "32px",
-    backgroundColor: selected ? "#6E3678" : "#FAF6FB",
+    backgroundColor: selected ? theme.purple : theme.purple_background,
     boxShadow: selected
-      ? "inset 2px 2px 5px -2px rgba(0, 0, 0, 0.25)"
-      : "inset 1px 1px 2.5px -1px rgba(110, 54, 120, 0.1)",
+      ? theme.shadow_purple_button_inset
+      : theme.shadow_purple_input_inset,
     color: selected ? "white" : "black",
     borderRadius: "6px",
     cursor: "pointer",
@@ -70,13 +71,11 @@ const Pagination = ({
     borderRadius: "12px",
     background: "white",
     padding: "0 6px",
-    boxShadow: isMobile
-      ? "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)"
-      : undefined,
+    boxShadow: isMobile ? theme.shadow : undefined,
   };
 
   const styleIcon: CSSProperties = {
-    color: "#6E3678",
+    color: theme.purple,
     cursor: "pointer",
   };
 
