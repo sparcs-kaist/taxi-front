@@ -152,7 +152,7 @@ const SideResult = (props) => {
 
   const nextPageHandler = () => {
     if (pageInfo.currentPage >= pageInfo.totalPages) return;
-    setPageInfo({ ...pageInfo, currentPage: pageInfo.currentPage - 1 });
+    setPageInfo({ ...pageInfo, currentPage: pageInfo.currentPage + 1 });
   };
 
   const styleEmpty = {
@@ -206,7 +206,7 @@ const SideResult = (props) => {
                   />
                 ))}
               <Pagination
-                totalPages={pageInfo.currentPage}
+                totalPages={pageInfo.totalPages}
                 currentPage={pageInfo.currentPage}
                 onClickPage={pageClickHandler}
                 onClickNext={nextPageHandler}
@@ -260,7 +260,7 @@ const SideResult = (props) => {
                 );
               })}
             <Pagination
-              totalPages={pageInfo.currentPage}
+              totalPages={pageInfo.totalPages}
               currentPage={pageInfo.currentPage}
               onClickPage={pageClickHandler}
               onClickNext={nextPageHandler}
