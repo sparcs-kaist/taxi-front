@@ -211,6 +211,7 @@ const SideResult = (props) => {
                 onClickPage={pageClickHandler}
                 onClickNext={nextPageHandler}
                 onClickPrev={prevPageHandler}
+                isMobile={false}
               />
             </>
           )}
@@ -265,6 +266,7 @@ const SideResult = (props) => {
               onClickPage={pageClickHandler}
               onClickNext={nextPageHandler}
               onClickPrev={prevPageHandler}
+              isMobile
             />
           </>
         )}

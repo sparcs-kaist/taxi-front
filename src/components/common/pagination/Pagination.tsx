@@ -1,5 +1,4 @@
 import React, { CSSProperties } from "react";
-import WhiteContainer from "../WhiteContainer";
 
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
@@ -10,6 +9,7 @@ type PaginationProps = {
   onClickPage: (page: number) => void,
   onClickPrev: () => void,
   onClickNext: () => void,
+  isMobile: boolean,
 };
 
 type PageButtonProps = {
@@ -32,6 +32,10 @@ const PageButton = ({ page, onClick, selected }: PageButtonProps) => {
     color: selected ? "white" : "black",
     borderRadius: "6px",
     cursor: "pointer",
+    margin: "0 3px",
+    fontWeight: 400,
+    fontSize: "12px",
+    lineHeight: "14px",
   };
 
   return (
@@ -47,47 +51,59 @@ const Pagination = ({
   onClickPage,
   onClickPrev,
   onClickNext,
+  isMobile,
 }: PaginationProps): React.ReactElement => {
   const style = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: "18px",
+    width: "100%",
   };
 
-  const stylePagesWrapper = {
+  const styleButtonsWrapper: CSSProperties = {
     display: "flex",
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
+    width: "max-content",
+    height: "44px",
+    borderRadius: "12px",
+    background: "white",
+    padding: "0 6px",
+    boxShadow: isMobile
+      ? "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)"
+      : undefined,
   };
 
   const styleIcon: CSSProperties = {
+    color: "#6E3678",
     cursor: "pointer",
   };
 
   return (
     <div style={style}>
-      <WhiteContainer marginAuto={false}>
-        <div style={stylePagesWrapper}>
-          <KeyboardArrowLeftIcon onClick={onClickPrev} style={styleIcon} />
-          {Array(Math.min(5, totalPages))
-            .fill(0)
-            .map((_, idx) => {
-              const page =
-                currentPage <= 3
-                  ? idx + 1
-                  : currentPage >= totalPages - 2
-                  ? Math.max(1, totalPages - 4 + idx)
-                  : currentPage - 2 + idx;
-              return (
-                <PageButton
-                  page={page}
-                  onClick={() => onClickPage(page)}
-                  key={idx}
-                  selected={page === currentPage}
-                />
-              );
-            })}
-          <KeyboardArrowRightIcon onClick={onClickNext} style={styleIcon} />
-        </div>
-      </WhiteContainer>
+      <div style={styleButtonsWrapper}>
+        <KeyboardArrowLeftIcon onClick={onClickPrev} style={styleIcon} />
+        {Array(Math.min(5, totalPages))
+          .fill(0)
+          .map((_, idx) => {
+            const page =
+              currentPage <= 3
+                ? idx + 1
+                : currentPage >= totalPages - 2
+                ? Math.max(1, totalPages - 4 + idx)
+                : currentPage - 2 + idx;
+            return (
+              <PageButton
+                page={page}
+                onClick={() => onClickPage(page)}
+                key={idx}
+                selected={page === currentPage}
+              />
+            );
+          })}
+        <KeyboardArrowRightIcon onClick={onClickNext} style={styleIcon} />
+      </div>
     </div>
   );
 };
