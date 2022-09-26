@@ -1,2 +1,12 @@
 {
+  "마이 페이지": "My Page",
+  "내 정보": "My Information",
+  "수정하기": "Edit",
+  "학번": "student id",
+  "메일": "email",
+  "별명": "nickname",
+  "사용 약관 및 개인정보 보호 규칙": "rules",
+  "만든 사람들": "developers",
+  "문의하기": "ask",
+  "로그아웃": "logout"
 }

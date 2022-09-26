@@ -1,5 +1,5 @@
 import i18n from "i18next";
-import { useTranslation, initReactI18next } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 
 import TranslationEn from "./translation.en.json";
 import TranslationKo from "./translation.ko.json";

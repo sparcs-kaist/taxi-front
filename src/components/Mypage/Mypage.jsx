@@ -16,6 +16,8 @@ import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
 import ContactSupportRoundedIcon from "@material-ui/icons/ContactSupportRounded";
 import SparcsLogoBlack from "static/assets/SparcsLogoBlack.svg";
 import Translation from "./../Translation/Translation";
+import i18n from "../../lang/i18n";
+import { useTranslation } from "react-i18next";
 
 const BtnC = (props) => {
   const [isHover, setHover] = useState(false);
@@ -88,6 +90,8 @@ const Mypage = () => {
   const [isOpen3, setOpen3] = useState(false);
   const history = useHistory();
 
+  const { t } = useTranslation();
+
   const handleLogout = async () => {
     const response = await axios.get("/auth/logout");
     if (response.status === 200) {
@@ -132,7 +136,7 @@ const Mypage = () => {
   return (
     <>
       <Title icon="mypage" header={true}>
-        마이 페이지
+        {t("마이 페이지")}
       </Title>
       <WhiteContainer padding="16px 24px 24px">
         <div style={{ display: "flex", alignItems: "center" }}>
@@ -153,23 +157,23 @@ const Mypage = () => {
             marginTop: "15px",
           }}
         >
-          <div style={myInfo}>내 정보</div>
+          <div style={myInfo}>{t("내 정보")}</div>
           <div style={modify} className="BTNC" onClick={() => setOpen3(true)}>
-            수정하기
+            {t("수정하기")}
           </div>
         </div>
         {userInfoDetail?.subinfo && (
           <>
             <div style={infoTitle}>
-              학번
+              {t("학번")}
               <div style={infoContent}>{userInfoDetail.subinfo.kaist}</div>
             </div>
             <div style={infoTitle}>
-              메일
+              {t("메일")}
               <div style={infoContent}>{userInfoDetail.email}</div>
             </div>
             <div style={infoTitle}>
-              별명
+              {t("별명")}
               <div style={infoContent}>{userInfoDetail.nickname}</div>
             </div>
           </>
@@ -180,18 +184,18 @@ const Mypage = () => {
       </WhiteContainer>
       <WhiteContainer>
         <BtnC icon="rule" onClick={() => setOpen2(true)}>
-          사용 약관 및 개인정보 보호 규칙
+          {t("사용 약관 및 개인정보 보호 규칙")}
         </BtnC>
         <BtnC icon="logo" onClick={() => setOpen1(true)}>
-          만든 사람들
+          {t("만든 사람들")}
         </BtnC>
         <a className="popup-channeltalk">
           <BtnC icon="support" onClick={() => {}}>
-            문의하기
+            {t("문의하기")}
           </BtnC>
         </a>
         <BtnC icon="logout" onClick={handleLogout}>
-          로그아웃
+          {t("로그아웃")}
         </BtnC>
       </WhiteContainer>
       <PopupSparcs isOpen={isOpen1} onClose={() => setOpen1(false)} />
