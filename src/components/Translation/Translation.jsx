@@ -12,21 +12,21 @@ const Translation = () => {
         display: "flex",
       }}
     >
-      <BtnC
+      <div
         onClick={() => {
           clickHandler("en");
         }}
       >
         English
-      </BtnC>
-      <div>화살표</div>
-      <BtnC
+      </div>
+      <div style={{ paddingLeft: 10, paddingRight: 10 }}>↔</div>
+      <div
         onClick={() => {
           clickHandler("ko");
         }}
       >
         한국어
-      </BtnC>
+      </div>
     </div>
   );
 };
