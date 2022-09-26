@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import WhiteContainer from "components/common/WhiteContainer";
 import Title from "components/common/Title";
 import Room from "components/common/room/Room";
@@ -18,6 +18,9 @@ const sortOptions = {
 const PAGE_MAX_ROOMS = 20;
 
 const SearchOptions = (props) => {
+  const dropdownRef = useRef(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   const styleWrapper = {
     display: "flex",
     justifyContent: "space-between",
@@ -64,6 +67,26 @@ const SearchOptions = (props) => {
     width: "11px",
   };
 
+  const styleShowOption = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  };
+
+  const dropdownOpenHandler = () => {
+    setIsDropdownOpen(true);
+  };
+
+  const dropdownSelectHandler = (e) => {
+    props.setSortOption(e.target.value);
+    setIsDropdownOpen(false);
+  };
+
+  useEffect(() => {
+    // FIXME: 드롭다운 기본으로 열기
+    // if (isDropdownOpen) dropdownRef.current.click();
+  }, [isDropdownOpen]);
+
   return (
     <div style={styleWrapper}>
       <div
@@ -78,8 +101,24 @@ const SearchOptions = (props) => {
         <p>만석인 방 포함하기</p>
       </div>
       <div style={styleOption}>
-        <p>{props.sortOption}</p>
-        <ArrowDropDownIcon style={styleArrowIcon} />
+        {isDropdownOpen ? (
+          <select
+            onChange={dropdownSelectHandler}
+            ref={dropdownRef}
+            value={props.sortOption}
+          >
+            {Object.entries(sortOptions).map(([key, value]) => (
+              <option value={value} key={key}>
+                {value}
+              </option>
+            ))}
+          </select>
+        ) : (
+          <div onClick={dropdownOpenHandler} style={styleShowOption}>
+            <p>{props.sortOption}</p>
+            <ArrowDropDownIcon style={styleArrowIcon} />
+          </div>
+        )}
       </div>
     </div>
   );
@@ -99,7 +138,7 @@ SearchOptions.defaultProps = {
 const SideResult = (props) => {
   const [selectedRoomInfo, setSelectedRoomInfo] = useState(null);
   const [isIncludeFullRoom, setIsIncludeFullRoom] = useState(false);
-  const [sortOption, setSortOption] = useState(sortOptions.leftPeopleReverse);
+  const [sortOption, setSortOption] = useState(sortOptions.time);
   const [rooms, setRooms] = useState([]);
   const [pageInfo, setPageInfo] = useState({ totalPages: 1, currentPage: 1 });
 
