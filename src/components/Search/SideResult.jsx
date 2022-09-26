@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import WhiteContainer from "components/common/WhiteContainer";
 import Title from "components/common/Title";
 import Room from "components/common/room/Room";
@@ -18,14 +18,11 @@ const sortOptions = {
 const PAGE_MAX_ROOMS = 20;
 
 const SearchOptions = (props) => {
-  const dropdownRef = useRef(null);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
   const styleWrapper = {
     display: "flex",
     justifyContent: "space-between",
     cursor: "pointer",
-    marginTop: "25px",
+    margin: "15px 0",
   };
 
   const styleOption = {
@@ -67,25 +64,13 @@ const SearchOptions = (props) => {
     width: "11px",
   };
 
+  const styleSelect = { opacity: 0, position: "absolute" };
+
   const styleShowOption = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
   };
-
-  const dropdownOpenHandler = () => {
-    setIsDropdownOpen(true);
-  };
-
-  const dropdownSelectHandler = (e) => {
-    props.setSortOption(e.target.value);
-    setIsDropdownOpen(false);
-  };
-
-  useEffect(() => {
-    // FIXME: 드롭다운 기본으로 열기
-    // if (isDropdownOpen) dropdownRef.current.click();
-  }, [isDropdownOpen]);
 
   return (
     <div style={styleWrapper}>
@@ -101,24 +86,21 @@ const SearchOptions = (props) => {
         <p>만석인 방 포함하기</p>
       </div>
       <div style={styleOption}>
-        {isDropdownOpen ? (
-          <select
-            onChange={dropdownSelectHandler}
-            ref={dropdownRef}
-            value={props.sortOption}
-          >
-            {Object.entries(sortOptions).map(([key, value]) => (
-              <option value={value} key={key}>
-                {value}
-              </option>
-            ))}
-          </select>
-        ) : (
-          <div onClick={dropdownOpenHandler} style={styleShowOption}>
-            <p>{props.sortOption}</p>
-            <ArrowDropDownIcon style={styleArrowIcon} />
-          </div>
-        )}
+        <select
+          defaultValue={props.sortOption}
+          onChange={(e) => props.setSortOption(e.target.value)}
+          style={styleSelect}
+        >
+          {Object.entries(sortOptions).map(([key, value]) => (
+            <option value={value} key={key}>
+              {value}
+            </option>
+          ))}
+        </select>
+        <div style={styleShowOption}>
+          <p>{props.sortOption}</p>
+          <ArrowDropDownIcon style={styleArrowIcon} />
+        </div>
       </div>
     </div>
   );
