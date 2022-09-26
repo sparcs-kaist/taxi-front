@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import WhiteContainer from "components/common/WhiteContainer";
 import Popup from "./Popup";
 import Picker from "react-mobile-picker-mod";
+import DottedLine from "../DottedLine";
 
 const PopupInput = (props) => {
   const [value, setValue] = useState({
@@ -135,15 +136,6 @@ const Place = (props) => {
   const taxiLocation = useRecoilValue(taxiLocataionWithName);
   const preference = useRecoilValue(preferenceAtom);
 
-  const styleLine = {
-    width: "0.5px",
-    height: "calc(100% + 5px)",
-    backgroundImage:
-      "linear-gradient(to bottom, #C8C8C8 50%, rgba(255,255,255,0) 0%)",
-    backgroundSize: "1px 10px",
-    marginTop: -2.5,
-  };
-
   const getPlaceName = (placeId) => {
     const place = taxiLocation.find((location) => location._id === placeId);
     return preference.lang === "ko" ? place?.koName : place?.enName;
@@ -165,7 +157,7 @@ const Place = (props) => {
           onClick={() => setPopup1(true)}
           type="출발지"
         />
-        <div style={styleLine} />
+        <DottedLine direction="column" />
         <PlaceElement
           value={getPlaceName(props.value[1])}
           onClick={() => setPopup2(true)}

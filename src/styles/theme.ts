@@ -69,6 +69,8 @@ export const theme = {
 
   // Transition
   duration: "0.15s",
+
+  // White Container Width
   container_max_width: 325,
 
   // Cursor
