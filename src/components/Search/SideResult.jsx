@@ -128,7 +128,7 @@ const SideResult = (props) => {
     if (props.result === null) return;
 
     let roomsWithOptions = isIncludeFullRoom
-      ? props.result
+      ? [...props.result]
       : props.result.filter((room) => room.maxPartLength > room.part.length);
 
     // For stable sort
