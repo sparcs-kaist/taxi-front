@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import WhiteContainer from "../WhiteContainer";
 
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
@@ -47,7 +47,7 @@ const Pagination = ({
   onClickPage,
   onClickPrev,
   onClickNext,
-}: PaginationProps) => {
+}: PaginationProps): React.ReactElement => {
   const style = {
     marginTop: "18px",
   };
@@ -58,22 +58,34 @@ const Pagination = ({
     alignItems: "center",
   };
 
+  const styleIcon: CSSProperties = {
+    cursor: "pointer",
+  };
+
   return (
     <div style={style}>
       <WhiteContainer marginAuto={false}>
         <div style={stylePagesWrapper}>
-          <KeyboardArrowLeftIcon onClick={onClickPrev} />
-          {Array(5)
-            .fill(1)
-            .map((num, idx) => (
-              <PageButton
-                page={num}
-                onClick={() => {}}
-                key={idx}
-                selected={idx === currentPage}
-              />
-            ))}
-          <KeyboardArrowRightIcon onClick={onClickNext} />
+          <KeyboardArrowLeftIcon onClick={onClickPrev} style={styleIcon} />
+          {Array(Math.min(5, totalPages))
+            .fill(0)
+            .map((_, idx) => {
+              const page =
+                currentPage <= 3
+                  ? idx + 1
+                  : currentPage >= totalPages - 2
+                  ? Math.max(1, totalPages - 4 + idx)
+                  : currentPage - 2 + idx;
+              return (
+                <PageButton
+                  page={page}
+                  onClick={() => onClickPage(page)}
+                  key={idx}
+                  selected={page === currentPage}
+                />
+              );
+            })}
+          <KeyboardArrowRightIcon onClick={onClickNext} style={styleIcon} />
         </div>
       </WhiteContainer>
     </div>
