@@ -138,6 +138,7 @@ const ChatSet = (props) => {
     props.setIsOpen(true);
     props.setPath(props.chats[0].authorProfileUrl);
     props.setName(props.chats[0].authorName);
+    props.setReportedId(props.chats[0].authorId);
   };
 
   return (
@@ -190,6 +191,7 @@ ChatSet.propTypes = {
   setIsOpen: PropTypes.func,
   setPath: PropTypes.func,
   setName: PropTypes.func,
+  setReportedId: PropTypes.func,
 };
 
 export default ChatSet;

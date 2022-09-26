@@ -1,31 +1,22 @@
 import React from "react";
 import { useState } from "react";
-import { animated, useSpring } from "react-spring";
 import PropTypes from "prop-types";
-import RLayout from "components/common/RLayout";
-import CloseRoundedIcon from "@material-ui/icons/CloseRounded";
 import ProfileImg from "components/Mypage/ProfileImg";
 import { FaPen } from "react-icons/fa";
 import Modal from "components/common/modal/Modal";
-
+import axios from "tools/axios";
+import { date2str } from "tools/moment";
 const PopupReport = (props) => {
-  const [selection, setSelection] = useState(0);
+  const [type, setType] = useState("no-settlement");
   const [reportReason, setReportReason] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const style = {
-    height: "100%",
-    overflow: "hidden",
-    background: "white",
-    borderRadius: "15px",
-  };
+  const [etcDetail, setEtcDetail] = useState("");
 
   const styleProfImg = {
     width: "50px",
     height: "50px",
     marginLeft: "24px",
   };
-
   const styleTitle = {
     height: "20px",
     marginLeft: "12px",
@@ -41,14 +32,12 @@ const PopupReport = (props) => {
     whiteSpace: "nowrap",
     width: "200px",
   };
-
   const styleTop = {
     marginTop: "6px",
     width: "100%",
     display: "flex",
     alignItems: "center",
   };
-
   const styleMiddle = {
     margin: "18px 20px 0px",
     display: "flex",
@@ -56,7 +45,6 @@ const PopupReport = (props) => {
     justifyContent: "center",
     marginBottom: "6px",
   };
-
   const styleLabel = {
     width: "2.5em",
     fontFamily: "Roboto",
@@ -67,7 +55,6 @@ const PopupReport = (props) => {
     letterSpacing: "0.05em",
     color: "#888888",
   };
-
   const styleDropdown = {
     width: "100%",
     marginLeft: "10px",
@@ -82,14 +69,12 @@ const PopupReport = (props) => {
     lineHeight: "16px",
     color: "#888888",
   };
-
   const styleBottom = {
     marginTop: "10px",
     display: "flex",
     gap: "10px",
     justifyContent: "space-between",
   };
-
   const styleBottomSubmitted = {
     margin: "32px",
     display: "flex",
@@ -98,7 +83,6 @@ const PopupReport = (props) => {
     justifyContent: "center",
     gap: "10px",
   };
-
   const styleCancel = {
     width: "77px",
     height: "36px",
@@ -107,7 +91,6 @@ const PopupReport = (props) => {
     borderRadius: "8px",
     color: "#888888",
   };
-
   const styleSubmit = {
     width: "218px",
     height: "36px",
@@ -116,7 +99,6 @@ const PopupReport = (props) => {
     borderRadius: "8px",
     color: "white",
   };
-
   const styleETC = {
     display: "flex",
     justifyContent: "space-between",
@@ -125,7 +107,6 @@ const PopupReport = (props) => {
     borderRadius: "6px",
     margin: "10px 20px 0px",
   };
-
   const styleText = {
     background: "#EEEEEE",
     width: "221px",
@@ -138,7 +119,6 @@ const PopupReport = (props) => {
     margin: "8px 8px 8px 0px",
     overflow: "hidden",
   };
-
   const styleIcon = {
     position: "relative",
     top: "10.75px",
@@ -147,18 +127,24 @@ const PopupReport = (props) => {
     height: "10.5px",
   };
 
-  const handleSelect = (e) => {
-    setSelection(e.target.value);
+  const handleType = (e) => {
+    setType(e.target.value);
   };
 
-  const handleSubmit = () => {
-    setIsSubmitted(true);
+  const handleSubmit = async () => {
+    const time = new Date();
+    const reportedId = props.reportedId;
+    const data = { reportedId, type, etcDetail, time };
+    console.log(data);
+    const res = await axios.post("/users/report", data);
+    console.log(res);
+    console.log(1);
   };
 
   const handleClose = () => {
     props.onClose();
     setIsSubmitted(false);
-    setSelection(0);
+    setType(0);
     setReportReason("");
   };
 
@@ -179,19 +165,22 @@ const PopupReport = (props) => {
 
       <div style={styleMiddle}>
         <div style={styleLabel}>사유</div>
-        <select style={styleDropdown} value={selection} onChange={handleSelect}>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">기타</option>
+        <select style={styleDropdown} value={type} onChange={handleType}>
+          <option value="no-settlement">정산을 하지 않음</option>
+          <option value="no-show">택시에 동승하지 않음</option>
+          <option value="etc-reason">기타 사유</option>
         </select>
       </div>
-      {selection === "3" ? (
+      {type === "etc-reason" ? (
         <div style={styleETC}>
           <FaPen style={styleIcon} />
           <span
             role="textbox"
             style={styleText}
             contentEditable={!isSubmitted}
+            // onChange={(e) => setEtcDetail(e.target.value)}
+            onInput={(e) => setEtcDetail(e.currentTarget.textContent)}
+            value={etcDetail}
           ></span>
         </div>
       ) : null}
@@ -250,6 +239,7 @@ PopupReport.propTypes = {
   onClose: PropTypes.func,
   path: PropTypes.string,
   name: PropTypes.string,
+  reportedId: PropTypes.string,
 };
 
 export default PopupReport;

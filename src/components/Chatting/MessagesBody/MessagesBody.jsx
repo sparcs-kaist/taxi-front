@@ -20,7 +20,7 @@ const MessagesBody = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [path, setPath] = useState("");
   const [name, setName] = useState("");
-  const [report, setReport] = useState("");
+  const [reportedId, setReportedId] = useState("");
 
   const chats = useMemo(() => {
     const list = [];
@@ -42,6 +42,7 @@ const MessagesBody = (props) => {
               setIsOpen={setIsOpen}
               setPath={setPath}
               setName={setName}
+              setReportedId={setReportedId}
             />
           );
         }
@@ -90,6 +91,7 @@ const MessagesBody = (props) => {
               setIsOpen={setIsOpen}
               setPath={setPath}
               setName={setName}
+              setReportedId={setReportedId}
             />
           );
           chatsCache = null;
@@ -110,6 +112,7 @@ const MessagesBody = (props) => {
           setIsOpen={setIsOpen}
           setPath={setPath}
           setName={setName}
+          setReportedId={setReportedId}
         />
       );
     }
@@ -134,7 +137,13 @@ const MessagesBody = (props) => {
       onScroll={props.handleScroll}
     >
       <div>{chats}</div>
-      <PopupReport isOpen={isOpen} onClose={onClose} path={path} name={name} />
+      <PopupReport
+        isOpen={isOpen}
+        onClose={onClose}
+        path={path}
+        name={name}
+        reportedId={reportedId}
+      />
     </div>
   );
 };
