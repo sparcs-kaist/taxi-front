@@ -3,6 +3,7 @@ import moment from "tools/moment";
 import ProfileImg from "components/Mypage/ProfileImg";
 import ImageFullscreen from "components/Chatting/MessagesBody/ImageFullscreen";
 import { getS3Url } from "tools/trans";
+import isMobile from "tools/isMobile";
 import PropTypes from "prop-types";
 
 const ChatImageLoading = (props) => {
@@ -41,8 +42,8 @@ const ChatImage = (props) => {
         <img
           src={src}
           style={{
-            maxWidth: "100%",
-            maxHeight: "400px",
+            maxWidth: isMobile ? "75%" : "210px",
+            maxHeight: isMobile ? "360px" : "210px",
             verticalAlign: "middle",
             cursor: "pointer",
           }}
@@ -148,8 +149,8 @@ const ChatSet = (props) => {
 
   return (
     <div style={style}>
-      {isFullscreen ? (
-        <ImageFullscreen path={isFullscreen} onClose={onClose} />
+      {fullImage ? (
+        <ImageFullscreen path={fullImage} onClose={onClose} />
       ) : null}
       <div
         style={{
