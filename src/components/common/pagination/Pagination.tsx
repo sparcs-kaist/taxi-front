@@ -88,9 +88,9 @@ const Pagination = ({
           .map((_, idx) => {
             const page =
               currentPage <= 3
-                ? idx + 1
+                ? idx + 1 // 3페이지 이하일 경우 1페이지부터 시작
                 : currentPage >= totalPages - 2
-                ? Math.max(1, totalPages - 4 + idx)
+                ? Math.max(1, totalPages - 4 + idx) // 뒤에서 세번째 페이지 이상일 경우 1, total-4 중 큰 페이지부터 시작
                 : currentPage - 2 + idx;
             return (
               <PageButton
