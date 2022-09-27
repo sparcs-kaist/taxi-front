@@ -3,6 +3,7 @@ import { backServer } from "serverconf";
 import Button from "components/common/Button";
 import { theme } from "styles/theme";
 import { ReactComponent as TaxiLogo } from "static/assets/TaxiLogo.svg";
+import HeaderBar from "components/common/HeaderBar";
 
 const Login = () => {
   return (
@@ -16,16 +17,7 @@ const Login = () => {
         height: "100%",
       }}
     >
-      <div
-        style={{
-          background: "#663D71",
-          width: "100%",
-          height: "max(5px, env(safe-area-inset-top))",
-          position: "fixed",
-          top: "0px",
-          left: "0px",
-        }}
-      />
+      <HeaderBar />
       <TaxiLogo style={{ height: "54px", marginBottom: "10px" }} />
       <Button
         buttonType="purple"
