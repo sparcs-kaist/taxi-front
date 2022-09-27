@@ -16,7 +16,6 @@ import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
 import ContactSupportRoundedIcon from "@material-ui/icons/ContactSupportRounded";
 import SparcsLogoBlack from "static/assets/SparcsLogoBlack.svg";
 import Translation from "./../Translation/Translation";
-import i18n from "../../lang/i18n";
 import { useTranslation } from "react-i18next";
 
 const BtnC = (props) => {

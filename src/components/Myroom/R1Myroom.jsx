@@ -4,6 +4,7 @@ import Title from "components/common/Title";
 import Room from "components/common/room/Room";
 import RLayout from "components/common/RLayout";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 
 const R1Myroom = (props) => {
   const styleEmpty = {
@@ -14,13 +15,15 @@ const R1Myroom = (props) => {
     height: "109px",
   };
 
+  const { t } = useTranslation();
+
   return (
     <RLayout.R1>
       <Title icon="current" header={true} marginAuto={false}>
-        참여 중인 방
+        {t("참여 중인 방")}
       </Title>
       {props.ongoing.length === 0 ? (
-        <div style={styleEmpty}>참여 중인 방이 없습니다.</div>
+        <div style={styleEmpty}>{t("참여 중인 방이 없습니다.")}</div>
       ) : (
         props.ongoing.map((item) => (
           <Link

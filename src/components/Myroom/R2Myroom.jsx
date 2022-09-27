@@ -8,6 +8,7 @@ import Room from "components/common/room/Room";
 import RLayout from "components/common/RLayout";
 import useTaxiAPI from "hooks/useTaxiAPI";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 
 const ChatHeader = (props) => {
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
@@ -94,6 +95,8 @@ const R2Myroom = (props) => {
     };
   }, [props.roomId]);
 
+  const { t } = useTranslation();
+
   return (
     <div
       style={{
@@ -104,7 +107,7 @@ const R2Myroom = (props) => {
     >
       <div ref={refTitle}>
         <Title icon="myroom" header={true}>
-          내 방 리스트
+          {t("내 방 리스트")}
         </Title>
       </div>
       <div
