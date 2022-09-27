@@ -137,6 +137,8 @@ const PopupReport = (props) => {
     const res = await axios.post("/users/report", data);
     if (res.status === 204) {
       setIsSubmitted(true);
+    } else {
+      alert("신고에 실패했습니다.");
     }
   };
 
