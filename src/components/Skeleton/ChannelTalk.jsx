@@ -14,7 +14,7 @@ const ChannelTalk = () => {
     if (loginInfoDetail) {
       ChannelService.updateUser({
         profile: {
-          name: loginInfoDetail?.id,
+          name: loginInfoDetail?.name,
           email: loginInfoDetail?.email,
         },
       });
