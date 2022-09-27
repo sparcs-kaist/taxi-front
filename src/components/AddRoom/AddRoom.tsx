@@ -22,18 +22,15 @@ const AddRoom = () => {
   const [valueMaxPartLength, setMaxPartLength] = useState(4);
   const today = getToday();
   const today10 = getToday10();
-  const [valueTime, setTime] = useState([
-    today10.hour().toString(),
-    today10.minute().toString(),
-  ]);
-  const [calculatedTime, setCalculatedTime] = useState(null);
+  const [valueTime, setTime] = useState([today10.hour(), today10.minute()]);
+  const [calculatedTime, setCalculatedTime] = useState<Date | null>(null);
 
   useEffect(() => {
     setCalculatedTime(
       new Date(
-        valueDate[0],
-        valueDate[1] - 1,
-        valueDate[2],
+        valueDate[0]!,
+        valueDate[1]! - 1,
+        valueDate[2]!,
         valueTime[0],
         valueTime[1]
       )
@@ -66,7 +63,7 @@ const AddRoom = () => {
         name: valueName,
         from: valuePlace[0],
         to: valuePlace[1],
-        time: calculatedTime.toISOString(),
+        time: calculatedTime!.toISOString(),
         maxPartLength: valueMaxPartLength,
       });
       if (result.status === 200) {
@@ -103,9 +100,9 @@ const AddRoom = () => {
             ? validatedMsg
             : `${date2str(
                 new Date(
-                  valueDate[0],
-                  valueDate[1] - 1,
-                  valueDate[2],
+                  valueDate[0]!,
+                  valueDate[1]! - 1,
+                  valueDate[2]!,
                   valueTime[0],
                   valueTime[1]
                 ),
