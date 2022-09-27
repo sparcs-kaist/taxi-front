@@ -3,6 +3,7 @@ import { useSpring, animated } from "react-spring";
 import { getToday10 } from "tools/moment";
 import PropTypes from "prop-types";
 import { theme } from "styles/theme";
+import DottedLine from "components/common/DottedLine";
 
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
@@ -166,12 +167,6 @@ class DatePicker extends Component {
       alignItems: "center",
       paddingTop: "1px",
     };
-    this.styleLayTopBorder = {
-      height: "0.5px",
-      backgroundImage:
-        "linear-gradient(to right, #C8C8C8 50%, rgba(255,255,255,0) 0%)",
-      backgroundSize: "10px 1px",
-    };
     this.styleLayTopImg = {
       width: "14px",
       height: "14px",
@@ -275,7 +270,7 @@ class DatePicker extends Component {
             />
           </div>
         </div>
-        <div style={this.styleLayTopBorder} />
+        <DottedLine direction="row" />
         <div style={this.styleLayWeek}>
           {this.week.map((item, index) => {
             return (
