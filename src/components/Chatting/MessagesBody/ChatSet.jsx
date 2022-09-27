@@ -74,6 +74,7 @@ const ChatText = (props) => {
         fontSize: "13px",
         whiteSpace: "pre-line",
       }}
+      className="chat-selectable"
     >
       {props.text}
     </div>

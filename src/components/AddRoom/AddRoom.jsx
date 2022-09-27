@@ -2,9 +2,10 @@ import React, { useState, useRef, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import RLayout from "components/common/RLayout";
 import Title from "components/common/Title";
-import SubmitButton from "components/common/roomOptions/SubmitButton";
+import Button from "components/common/Button";
 import axios from "tools/axios";
 import { date2str, getToday10, getToday } from "tools/moment";
+import { theme } from "styles/theme";
 
 import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
@@ -42,7 +43,7 @@ const AddRoom = () => {
   let validatedMsg = null;
   if (!valuePlace[0] || !valuePlace[1]) {
     validatedMsg = "출발지와 도착지를 선택해 주세요";
-  } else if (valuePlace[0]?._id === valuePlace[1]?._id) {
+  } else if (valuePlace[0] === valuePlace[1]) {
     validatedMsg = "출발지와 도착지는 달라야 합니다";
   } else if (!valueDate[0] || !valueDate[1] || !valueDate[2]) {
     validatedMsg = "날짜를 선택해 주세요";
@@ -63,8 +64,8 @@ const AddRoom = () => {
       onCall.current = true;
       const result = await axios.post("/rooms/v2/create", {
         name: valueName,
-        from: valuePlace[0]._id,
-        to: valuePlace[1]._id,
+        from: valuePlace[0],
+        to: valuePlace[1],
         time: calculatedTime.toISOString(),
         maxPartLength: valueMaxPartLength,
       });
@@ -90,10 +91,13 @@ const AddRoom = () => {
           value={valueMaxPartLength}
           handler={setMaxPartLength}
         />
-        <SubmitButton
-          marginAuto={false}
-          onClick={validatedMsg ? () => {} : onClickAdd}
-          disable={validatedMsg ? true : false}
+        <Button
+          buttonType="purple"
+          disabled={validatedMsg ? true : false}
+          padding="13px 0px 14px"
+          radius={12}
+          font={theme.font16_bold}
+          onClick={onClickAdd}
         >
           {validatedMsg
             ? validatedMsg
@@ -107,7 +111,7 @@ const AddRoom = () => {
                 ),
                 "MMM Do [(]dd[)] a h[시] m[분]"
               )} 방 개설하기`}
-        </SubmitButton>
+        </Button>
       </RLayout.R1>
     </div>
   );

@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import RLayout from "components/common/RLayout";
+import { theme } from "styles/theme";
 
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import ListAltRoundedIcon from "@mui/icons-material/ListAltRounded";
@@ -15,7 +16,7 @@ import ErrorOutlineRounded from "@mui/icons-material/ErrorOutlineRounded";
 const iconStyle = {
   width: "24px",
   height: "24px",
-  color: "var(--purple)",
+  color: theme.purple,
 };
 
 const getIcon = (icon) => {
@@ -61,7 +62,7 @@ const Title = (props) => {
             fontSize: "20px",
             fontWeight: "bold",
             letterSpacing: "0.03em",
-            color: "var(--purple)",
+            color: theme.purple,
           }}
         >
           {props.children}
