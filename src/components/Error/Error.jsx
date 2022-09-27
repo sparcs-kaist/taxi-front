@@ -1,7 +1,8 @@
 import React from "react";
 import Title from "components/common/Title";
 import Spacer from "components/common/utils/Spacer";
-import SubmitButton from "components/common/roomOptions/SubmitButton";
+import Button from "components/common/Button";
+import { theme } from "styles/theme";
 import { useParams, Link, useHistory } from "react-router-dom";
 import RLayout from "components/common/RLayout";
 
@@ -46,25 +47,25 @@ const Error = () => {
         </p>
       </div>
       <Spacer height={110} />
-      <SubmitButton
-        background="#EFEFEFAA"
-        backgroundHover="#EFEFEF"
-        textColor="#888888"
-        disable={false}
-        marginAuto={false}
+      <Button
+        buttonType="white"
+        padding="13px 24px 14px"
+        radius={12}
+        font={theme.font14}
         onClick={onClickGoBack}
       >
-        이전 페이지로 돌아가기
-      </SubmitButton>
+        이전 페이지
+      </Button>
       <Spacer height={12} />
-      <Link to="/">
-        <SubmitButton
-          marginAuto={false}
-          backgroundHover="#572A5E"
-          disable={false}
+      <Link to="/" style={{ textDecoration: "none" }}>
+        <Button
+          buttonType="purple"
+          padding="13px 24px 14px"
+          radius={12}
+          font={theme.font14_bold}
         >
-          Taxi 홈으로 돌아가기
-        </SubmitButton>
+          홈으로 가기
+        </Button>
       </Link>
     </RLayout.R1>
   );
