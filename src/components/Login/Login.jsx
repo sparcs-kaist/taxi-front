@@ -73,19 +73,18 @@ const Login = () => {
           left: "0px",
         }}
       />
-      <RLayout.R1 height="100%">
-        <div style={{ height: "35%" }} />
-        <TaxiLogo />
-        <BtnLogin />
-        <Button
-          buttonType="purple"
-          radius={12}
-          font={theme.font16_bold}
-          href={`${backServer}/auth/sparcssso`}
-        >
-          로그인
-        </Button>
-      </RLayout.R1>
+      <div style={{ height: "35%" }} />
+      <TaxiLogo />
+      <Button
+        buttonType="purple"
+        width="250px"
+        padding="10px 0px 11px"
+        radius={12}
+        font={theme.font16_bold}
+        href={`${backServer}/auth/sparcssso`}
+      >
+        로그인
+      </Button>
     </div>
   );
 };

@@ -1,3 +1,4 @@
+import { width } from "@mui/system";
 import React, { useState, CSSProperties } from "react";
 import { theme, Font } from "styles/theme";
 import isMobile from "tools/isMobile";
@@ -7,6 +8,7 @@ type ButtonType = "purple" | "purple_inset" | "gray" | "white";
 type ButtonProps = {
   buttonType?: ButtonType;
   disabled?: boolean;
+  width?: string;
   padding?: string | number;
   radius?: number;
   font?: Font;
@@ -18,6 +20,7 @@ type ButtonProps = {
 const Button = ({
   buttonType,
   disabled = false,
+  width,
   padding,
   radius,
   font,
@@ -70,6 +73,7 @@ const Button = ({
 
   const style: CSSProperties = {
     ...font,
+    width: width,
     padding: padding,
     borderRadius: radius,
     transitionDuration: theme.duration,
@@ -79,7 +83,7 @@ const Button = ({
   };
 
   return (
-    <a href={href}>
+    <a href={href} style={{ textDecoration: "none" }}>
       <div
         onClick={disabled ? undefined : onClick}
         style={style}
