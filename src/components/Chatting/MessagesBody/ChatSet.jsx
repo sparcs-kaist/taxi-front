@@ -44,13 +44,14 @@ const ChatImage = (props) => {
             maxWidth: "100%",
             maxHeight: "400px",
             verticalAlign: "middle",
+            cursor: "pointer",
           }}
           //loading="lazy"
           onLoad={() => {
             if (doScroll) props.scrollToBottom();
           }}
           onClick={() => {
-            props.setIsFullscreen(src);
+            props.setFullImage(src);
           }}
         />
       );
@@ -66,7 +67,7 @@ ChatImage.propTypes = {
   id: PropTypes.string,
   isBottomOnScroll: PropTypes.func,
   scrollToBottom: PropTypes.func,
-  setIsFullscreen: PropTypes.func,
+  setFullImage: PropTypes.func,
 };
 
 const ChatText = (props) => {
@@ -91,7 +92,7 @@ ChatText.propTypes = {
 };
 
 const ChatSet = (props) => {
-  const [isFullscreen, setIsFullscreen] = useState("");
+  const [fullImage, setFullImage] = useState("");
   const itsme = props.authorId === props.chats[0].authorId;
   const style = {
     position: "relative",
@@ -141,7 +142,7 @@ const ChatSet = (props) => {
     color: "#888888",
   };
   const onClose = () => {
-    setIsFullscreen("");
+    setFullImage("");
   };
 
   return (
@@ -175,7 +176,7 @@ const ChatSet = (props) => {
                   id={chat.content}
                   isBottomOnScroll={props.isBottomOnScroll}
                   scrollToBottom={props.scrollToBottom}
-                  setIsFullscreen={setIsFullscreen}
+                  setFullImage={setFullImage}
                 />
               )}
             </div>
