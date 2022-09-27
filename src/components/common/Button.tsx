@@ -1,4 +1,3 @@
-import { width } from "@mui/system";
 import React, { useState, CSSProperties } from "react";
 import { theme, Font } from "styles/theme";
 import isMobile from "tools/isMobile";
