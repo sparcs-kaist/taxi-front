@@ -64,7 +64,7 @@ const Popup = (props) => {
       <div
         style={{
           position: "relative",
-          height: "262px",
+          height: "266px",
           width: "100%",
           margin: "auto",
         }}
@@ -81,10 +81,10 @@ const Popup = (props) => {
         />
         <RLayout.Popup>
           <div style={style} className="ND">
-            <div style={{ height: "calc(100% - 46px)" }}>{props.children}</div>
+            <div style={{ height: "calc(100% - 45px)" }}>{props.children}</div>
             <div
               style={{
-                height: "36px",
+                height: "35px",
                 position: "relative",
                 display: "flex",
                 justifyContent: "space-between",
