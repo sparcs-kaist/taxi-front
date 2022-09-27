@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import WhiteContainer from "components/common/WhiteContainer";
 import Popup from "./Popup";
 import Picker from "react-mobile-picker-mod";
+import { theme } from "styles/theme";
 
 const PopupInput = (props) => {
   const [value, setValue] = useState({
@@ -46,8 +47,8 @@ const PopupInput = (props) => {
           optionGroups={optionGroup}
           valueGroups={value}
           onChange={handler}
-          itemHeight={30}
-          height={216}
+          itemHeight={29}
+          height={221}
         />
       </div>
     </Popup>
@@ -64,27 +65,35 @@ PopupInput.propTypes = {
 const PlaceElement = (props) => {
   const [isHover, setHover] = useState(false);
 
-  const style = useSpring({
+  const style = {
     width: "calc(50% - 10px)",
-    background: `rgba(0,0,0,${isHover ? 0.04 : 0})`,
-    borderRadius: "8px",
-    config: { duration: 100 },
-  });
+    background: isHover ? theme.gray_background : undefined,
+    borderRadius: "6px",
+    transitionDuration: theme.duration,
+    overflow: "hidden",
+  };
   const styleCircle = {
-    margin: "auto",
-    marginTop: "18px",
+    margin: "18px auto 0px",
     width: "3px",
     height: "3px",
     borderRadius: "1.5px",
-    background: props.value ? "#888888" : "#323232",
+    background:
+      props.type === "출발지"
+        ? theme.white
+        : props.value
+        ? theme.gray_text
+        : theme.black,
+    boxSizing: "border-box",
+    border:
+      props.type === "출발지"
+        ? `0.5px solid ${props.value ? theme.gray_text : theme.black}`
+        : undefined,
   };
   const styleType = {
-    height: "14px",
     marginTop: "5px",
     textAlign: "center",
-    fontSize: "12px",
-    letterSpacing: "0.03em",
-    color: props.value ? "#888888" : "#323232",
+    color: props.value ? theme.gray_text : theme.black,
+    ...theme.font12,
   };
   const styleTextGrid = {
     display: "flex",
@@ -93,16 +102,13 @@ const PlaceElement = (props) => {
     height: 49,
   };
   const styleText = {
-    lineHeight: "19px",
+    ...theme.font16_bold,
     textAlign: "center",
-    fontSize: "16px",
-    letterSpacing: "0.13em",
-    fontWeight: "bold",
-    color: props.value ? "#323232" : "#C8C8C8",
+    color: props.value ? theme.black : theme.gray_line,
     wordBreak: "keep-all",
   };
   return (
-    <animated.div
+    <div
       style={style}
       className="BTNC"
       onMouseEnter={() => setHover(true)}
@@ -113,14 +119,11 @@ const PlaceElement = (props) => {
       <div style={styleType}>{props.type}</div>
       <div style={styleTextGrid}>
         <div style={styleText}>
-          {props.value
-            ? props.value
-            : props.type == "출발지"
-            ? "어디서 가시나요?"
-            : "어디로 가시나요?"}
+          {props.value ??
+            (props.type == "출발지" ? "어디서 가시나요?" : "어디로 가시나요?")}
         </div>
       </div>
-    </animated.div>
+    </div>
   );
 };
 PlaceElement.propTypes = {
@@ -157,7 +160,6 @@ const Place = (props) => {
           display: "flex",
           position: "relative",
           justifyContent: "space-between",
-          overflow: "hidden",
         }}
       >
         <PlaceElement
