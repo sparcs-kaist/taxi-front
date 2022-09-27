@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
 import { backServer } from "serverconf";
 import RLayout from "components/common/RLayout";
+import Button from "components/common/Button";
+import { theme } from "styles/theme";
 
 import SparcsLogoPurple from "static/assets/SparcsLogoPurple.svg";
 
@@ -75,6 +77,14 @@ const Login = () => {
         <div style={{ height: "35%" }} />
         <TaxiLogo />
         <BtnLogin />
+        <Button
+          buttonType="purple"
+          radius={12}
+          font={theme.font16_bold}
+          href={`${backServer}/auth/sparcssso`}
+        >
+          로그인
+        </Button>
       </RLayout.R1>
     </div>
   );

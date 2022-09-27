@@ -11,6 +11,7 @@ type ButtonProps = {
   radius?: number;
   font?: Font;
   onClick?: () => void;
+  href?: string;
   children?: React.ReactNode;
 };
 
@@ -21,6 +22,7 @@ const Button = ({
   radius,
   font,
   onClick,
+  href,
   children,
 }: ButtonProps) => {
   const [isHover, setHover] = useState(false);
@@ -77,18 +79,20 @@ const Button = ({
   };
 
   return (
-    <div
-      onClick={disabled ? undefined : onClick}
-      style={style}
-      onMouseEnter={() => setHover(!isMobile)}
-      onMouseLeave={() => setHoverClicked(false)}
-      onMouseDown={() => setClicked(!disabled)}
-      onMouseUp={() => setClicked(false)}
-      onTouchStart={() => setHoverClicked(true)}
-      onTouchEnd={() => setHoverClicked(false)}
-    >
-      {children}
-    </div>
+    <a href={href}>
+      <div
+        onClick={disabled ? undefined : onClick}
+        style={style}
+        onMouseEnter={() => setHover(!isMobile)}
+        onMouseLeave={() => setHoverClicked(false)}
+        onMouseDown={() => setClicked(!disabled)}
+        onMouseUp={() => setClicked(false)}
+        onTouchStart={() => setHoverClicked(true)}
+        onTouchEnd={() => setHoverClicked(false)}
+      >
+        {children}
+      </div>
+    </a>
   );
 };
 
