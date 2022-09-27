@@ -13,16 +13,16 @@ const DottedLine = ({ direction }: LineProps) => {
     width: direction === "row" ? "100%" : 1,
   };
   const line = {
-    height: direction === "row" ? undefined : "calc(100% + 5px)",
-    width: direction === "row" ? "calc(100% + 5px)" : undefined,
+    height: direction === "row" ? undefined : "calc(100% + 4px)",
+    width: direction === "row" ? "calc(100% + 4px)" : undefined,
     // Row direction
     borderTop:
       direction === "row" ? `5px dotted ${theme.gray_line}` : undefined,
-    marginLeft: direction === "row" ? -2.5 : undefined,
+    marginLeft: direction === "row" ? -2 : undefined,
     // Column direction
     borderLeft:
       direction === "column" ? `5px dotted ${theme.gray_line}` : undefined,
-    marginTop: direction === "column" ? -2.5 : undefined,
+    marginTop: direction === "column" ? -2 : undefined,
   };
   return (
     <div style={{ ...Wrapper, overflow: "hidden" }}>
