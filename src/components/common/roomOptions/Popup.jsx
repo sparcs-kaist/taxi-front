@@ -2,6 +2,7 @@ import React from "react";
 import { animated, useSpring } from "react-spring";
 import RLayout from "components/common/RLayout";
 import PropTypes from "prop-types";
+import { theme } from "styles/theme";
 
 import "./Popup.css";
 
@@ -14,7 +15,7 @@ const Popup = (props) => {
     width: "100%",
     height: "100%",
     zIndex: 50,
-    background: `rgba(0,0,0,0.6)`,
+    background: theme.black_60,
     opacity: props.isOpen ? 1 : 0,
     pointerEvents: props.isOpen ? "auto" : "none",
   });
@@ -26,8 +27,8 @@ const Popup = (props) => {
     borderRadius: "15px",
   };
   const styleBtnCancel = {
-    height: "36px",
-    lineHeight: "36px",
+    height: "35px",
+    lineHeight: "35px",
     width: "calc(35% - 10px)",
     background: "#EEEEEE",
     boxShadow: "inset 2px 2px 5px -2px rgba(0, 0, 0, 0.075)",
@@ -37,8 +38,8 @@ const Popup = (props) => {
     color: "#888888",
   };
   const styleBtnSelect = {
-    height: "36px",
-    lineHeight: "36px",
+    height: "35px",
+    lineHeight: "35px",
     width: "65%",
     background: "#6E3678",
     boxShadow: "inset 2px 2px 5px -2px rgba(0, 0, 0, 0.25)",
