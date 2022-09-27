@@ -14,6 +14,7 @@ div {
 html {
   height: 100%;
 }
+
 body {
   height: 100%;
   background: #faf8fb;
@@ -30,6 +31,7 @@ body {
   -ms-user-select: none; /* IE/Edge */
   user-select: none; /* Chrome, Edge, Opera, and Firefox */
 }
+
 body::-webkit-scrollbar {
   display: none;
 }
@@ -47,9 +49,11 @@ button {
   outline: none;
   background: none;
 }
+
 button:active {
   outline: none;
 }
+
 button:focus {
   outline: none;
 }
@@ -63,6 +67,7 @@ button:focus {
 .BTNC {
   cursor: pointer;
 }
+
 .ND {
   -ms-user-select: none;
   -moz-user-select: -moz-none;
@@ -70,6 +75,7 @@ button:focus {
   -khtml-user-select: none;
   user-select: none;
 }
+
 .BTM_EMPTY {
   width: 100%;
   height: 200px;
