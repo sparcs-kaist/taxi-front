@@ -8,7 +8,6 @@ import axios from "tools/axios";
 import { date2str } from "tools/moment";
 const PopupReport = (props) => {
   const [type, setType] = useState("no-settlement");
-  const [reportReason, setReportReason] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [etcDetail, setEtcDetail] = useState("");
 
@@ -135,17 +134,16 @@ const PopupReport = (props) => {
     const time = new Date();
     const reportedId = props.reportedId;
     const data = { reportedId, type, etcDetail, time };
-    console.log(data);
     const res = await axios.post("/users/report", data);
-    console.log(res);
-    console.log(1);
+    if (res.status === 204) {
+      setIsSubmitted(true);
+    }
   };
 
   const handleClose = () => {
     props.onClose();
     setIsSubmitted(false);
-    setType(0);
-    setReportReason("");
+    setType("no-settlement");
   };
 
   return (
