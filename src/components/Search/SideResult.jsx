@@ -84,7 +84,7 @@ const SearchOptions = (props) => {
       </div>
       <div style={styleOption}>
         <select
-          defaultValue={props.sortOption}
+          value={props.sortOption}
           onChange={(e) => props.setSortOption(e.target.value)}
           style={styleSelect}
         >
