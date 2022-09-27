@@ -1,6 +1,5 @@
 .picker-item {
   font-size: 14px;
-  /* line-height: 32px !important; */
 }
 
 .picker-container .picker-highlight:before,
@@ -16,13 +15,10 @@
 
 .picker-container .picker-inner {
   -webkit-mask-box-image: linear-gradient(
-    0deg,
-    transparent,
-    transparent 5%,
-    #fff 45%,
-    #fff 55%,
-    transparent 95%,
-    transparent
+    to bottom,
+    transparent 0% 24px,
+    white 96px 125px,
+    transparent 197px 100%
   ) !important;
   padding: 0 !important;
 }

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useSpring, animated } from "react-spring";
 import { useRecoilValue } from "recoil";
 import { taxiLocataionWithName } from "recoil/taxiLocation";
 import preferenceAtom from "recoil/preference";
