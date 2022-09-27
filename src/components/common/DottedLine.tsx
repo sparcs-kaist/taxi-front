@@ -10,8 +10,8 @@ type LineProps = {
 
 const DottedLine = ({ direction, margin = 0 }: LineProps) => {
   const wrapper = {
-    height: direction === "row" ? 1 : "100%",
-    width: direction === "row" ? `calc(100% - ${2 * margin}px)` : 1,
+    height: direction === "row" ? "1px" : "100%",
+    width: direction === "row" ? `calc(100% - ${2 * margin}px)` : "1px",
     margin: direction === "row" ? `0px ${margin}px` : undefined,
   };
   const line = {
@@ -20,11 +20,11 @@ const DottedLine = ({ direction, margin = 0 }: LineProps) => {
     // Row direction
     borderTop:
       direction === "row" ? `5px dotted ${theme.gray_line}` : undefined,
-    marginLeft: direction === "row" ? -2 : undefined,
+    marginLeft: direction === "row" ? "-2px" : undefined,
     // Column direction
     borderLeft:
       direction === "column" ? `5px dotted ${theme.gray_line}` : undefined,
-    marginTop: direction === "column" ? -2 : undefined,
+    marginTop: direction === "column" ? "-2px" : undefined,
   };
   return (
     <div style={{ ...wrapper, overflow: "hidden", boxSizing: "border-box" }}>
