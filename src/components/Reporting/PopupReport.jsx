@@ -135,7 +135,7 @@ const PopupReport = (props) => {
     const reportedId = props.reportedId;
     const data = { reportedId, type, etcDetail, time };
     const res = await axios.post("/users/report", data);
-    if (res.status === 204) {
+    if (res.status === 200) {
       setIsSubmitted(true);
     } else {
       alert("신고에 실패했습니다.");
