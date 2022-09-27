@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import WhiteContainer from "components/common/WhiteContainer";
 import Popup from "./Popup";
 import Picker from "react-mobile-picker-mod";
-import DottedLine from "../DottedLine";
+import DottedLine from "components/common/DottedLine";
 
 const PopupInput = (props) => {
   const [value, setValue] = useState({

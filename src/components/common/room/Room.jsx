@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { getLocationName } from "tools/trans";
 import { date2str } from "tools/moment";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
-import DottedLine from "../DottedLine";
+import DottedLine from "components/common/DottedLine";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 
