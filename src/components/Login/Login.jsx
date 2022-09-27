@@ -19,16 +19,20 @@ const Login = () => {
     >
       <HeaderBar />
       <TaxiLogo style={{ height: "54px", marginBottom: "10px" }} />
-      <Button
-        buttonType="purple"
-        width="250px"
-        padding="10px 0px 11px"
-        radius={12}
-        font={theme.font16_bold}
+      <a
         href={`${backServer}/auth/sparcssso`}
+        style={{ textDecoration: "none" }}
       >
-        로그인
-      </Button>
+        <Button
+          buttonType="purple"
+          width="250px"
+          padding="10px 0px 11px"
+          radius={12}
+          font={theme.font16_bold}
+        >
+          로그인
+        </Button>
+      </a>
     </div>
   );
 };
