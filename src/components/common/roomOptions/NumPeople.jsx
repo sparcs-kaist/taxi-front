@@ -91,7 +91,7 @@ Counter.propTypes = {
   setNumber: PropTypes.func,
 };
 
-const MaxPartLength = (props) => {
+const NumPeople = (props) => {
   const { value, handler } = props;
 
   const style = {
@@ -131,9 +131,9 @@ const MaxPartLength = (props) => {
   );
 };
 
-MaxPartLength.propTypes = {
+NumPeople.propTypes = {
   value: PropTypes.number,
   handler: PropTypes.func,
 };
 
-export default MaxPartLength;
+export default NumPeople;

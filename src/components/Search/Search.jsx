@@ -17,7 +17,7 @@ import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
 import OptionDate from "components/common/roomOptions/Date";
 import OptionTime from "components/common/roomOptions/Time";
-import OptionMaxPartLength from "components/common/roomOptions/MaxPartLength";
+import OptionNumPeople from "components/common/roomOptions/NumPeople";
 
 const searchQueryOption = { strictNullHandling: true };
 
@@ -363,7 +363,7 @@ const Search = () => {
         <OptionTime value={valueTime} handler={setTime} page="search" />
       ) : null}
       {searchOptions.maxPartLength ? (
-        <OptionMaxPartLength
+        <OptionNumPeople
           value={valueMaxPartLength}
           handler={setMaxPartLength}
         />
