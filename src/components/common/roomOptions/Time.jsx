@@ -118,15 +118,15 @@ const Time = (props) => {
   };
   const styleIcon = {
     fontSize: "15px",
-    margin: "0px 2px 0px 15px",
+    margin: "0 2px 0 15px",
   };
   const styleText = {
-    margin: "0px 8px 0px 4px",
+    margin: "0 8px 0 4px",
   };
   const styleInput = {
     width: "41px",
     borderRadius: "6px",
-    padding: "6px 0px",
+    padding: "6px 0",
     background: theme.purple_light,
     boxShadow: theme.shadow_purple_input_inset,
     textAlign: "center",

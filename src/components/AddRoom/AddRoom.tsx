@@ -11,7 +11,7 @@ import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
 import OptionDate from "components/common/roomOptions/Date";
 import OptionTime from "components/common/roomOptions/Time";
-import OptionNumPeople from "components/common/roomOptions/NumPeople";
+import OptionMaxPeople from "components/common/roomOptions/MaxPeople";
 
 const AddRoom = () => {
   const onCall = useRef(false);
@@ -19,7 +19,7 @@ const AddRoom = () => {
   const [valueName, setName] = useState("");
   const [valuePlace, setPlace] = useState([null, null]);
   const [valueDate, setDate] = useState([null, null, null]);
-  const [valueNumPeople, setNumPeople] = useState(4);
+  const [valueMaxPeople, setMaxPeople] = useState(4);
   const today = getToday();
   const today10 = getToday10();
   const [valueTime, setTime] = useState([today10.hour(), today10.minute()]);
@@ -64,7 +64,7 @@ const AddRoom = () => {
         from: valuePlace[0],
         to: valuePlace[1],
         time: calculatedTime!.toISOString(),
-        maxPartLength: valueNumPeople,
+        maxPartLength: valueMaxPeople,
       });
       if (result.status === 200) {
         history.push("/myroom");
@@ -84,7 +84,7 @@ const AddRoom = () => {
         <OptionDate value={valueDate} handler={setDate} />
         <OptionName value={valueName} handler={setName} />
         <OptionTime value={valueTime} handler={setTime} page="add" />
-        <OptionNumPeople value={valueNumPeople} handler={setNumPeople} />
+        <OptionMaxPeople value={valueMaxPeople} handler={setMaxPeople} />
         <Button
           buttonType="purple"
           disabled={validatedMsg ? true : false}

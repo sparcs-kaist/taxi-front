@@ -166,7 +166,7 @@ class DatePicker extends Component {
     };
     this.styleIcon = {
       fontSize: "15px",
-      margin: "0px 6px 0px 9px",
+      margin: "0 6px 0 9px",
     };
     this.styleArrow = {
       width: "24px",
@@ -186,7 +186,7 @@ class DatePicker extends Component {
     };
     this.styleDay = {
       display: "flex",
-      margin: "12px 0px 8px",
+      margin: "12px 0 8px",
       columnGap: "6px",
     };
     this.styleDayItem = {

@@ -17,7 +17,7 @@ import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
 import OptionDate from "components/common/roomOptions/Date";
 import OptionTime from "components/common/roomOptions/Time";
-import OptionNumPeople from "components/common/roomOptions/NumPeople";
+import OptionNumPeople from "components/common/roomOptions/MaxPeople";
 
 const searchQueryOption = { strictNullHandling: true };
 

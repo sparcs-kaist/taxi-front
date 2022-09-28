@@ -16,7 +16,7 @@ const Name = (props) => {
   };
   const styleName = {
     ...theme.font14,
-    margin: "0px 8px 0px 6px",
+    margin: "0 8px 0 6px",
     whiteSpace: "nowrap",
   };
   const styleInput = {

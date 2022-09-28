@@ -73,7 +73,7 @@ const PlaceElement = (props) => {
     overflow: "hidden",
   };
   const styleCircle = {
-    margin: "18px auto 0px",
+    margin: "18px auto 0",
     width: "3px",
     height: "3px",
     borderRadius: "1.5px",

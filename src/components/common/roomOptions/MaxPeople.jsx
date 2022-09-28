@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import WhiteContainer from "components/common/WhiteContainer";
+import { theme } from "styles/theme";
 
 import PeopleIcon from "@material-ui/icons/PeopleAlt";
 import RemoveIcon from "@material-ui/icons/Remove";
@@ -91,7 +92,7 @@ Counter.propTypes = {
   setNumber: PropTypes.func,
 };
 
-const NumPeople = (props) => {
+const MaxPeople = (props) => {
   const { value, handler } = props;
 
   const style = {
@@ -100,17 +101,14 @@ const NumPeople = (props) => {
   };
 
   const iconStyle = {
-    width: "14px",
-    height: "14px",
+    fontSize: "15px",
     marginLeft: "15px",
   };
 
   const styleText = {
-    height: "28px",
-    lineHeight: "28px",
-    margin: "0 6px",
+    ...theme.font14,
+    margin: "0 8px 0 6px",
     whiteSpace: "nowrap",
-    fontSize: "14px",
   };
 
   const styleCounterWrapper = {
@@ -131,9 +129,9 @@ const NumPeople = (props) => {
   );
 };
 
-NumPeople.propTypes = {
+MaxPeople.propTypes = {
   value: PropTypes.number,
   handler: PropTypes.func,
 };
 
-export default NumPeople;
+export default MaxPeople;
