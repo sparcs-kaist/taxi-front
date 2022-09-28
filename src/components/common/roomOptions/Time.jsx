@@ -117,8 +117,7 @@ const Time = (props) => {
     ...theme.font14,
   };
   const styleIcon = {
-    width: "15px",
-    height: "15px",
+    fontSize: "15px",
     margin: "0px 2px 0px 15px",
   };
   const styleText = {

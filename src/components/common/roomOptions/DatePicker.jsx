@@ -154,49 +154,48 @@ class DatePicker extends Component {
       { color: theme.red_text, text: "토" },
     ];
 
-    this.styleLayTop = {
+    this.styleTop = {
       display: "flex",
       justifyContent: "space-between",
       marginBottom: "10px",
     };
-    this.styleLayInfo = {
+    this.styleInfo = {
       display: "flex",
       alignItems: "center",
       ...theme.font14,
     };
-    this.styleLayTopImg = {
-      width: "15px",
-      height: "15px",
+    this.styleIcon = {
+      fontSize: "15px",
       margin: "0px 6px 0px 9px",
     };
-    this.styleLayArrow = {
+    this.styleArrow = {
       width: "24px",
       height: "24px",
       fill: theme.purple,
       cursor: theme.cursor(false),
     };
-    this.styleLayArrowGrid = {
+    this.styleArrowGrid = {
       width: "56px",
       display: "flex",
       justifyContent: "space-between",
     };
-    this.styleLayMonth = {
+    this.styleMonth = {
       display: "flex",
       flexDirection: "column",
       rowGap: "6px",
     };
-    this.styleLayWeek = {
+    this.styleDay = {
       display: "flex",
       margin: "12px 0px 8px",
       columnGap: "6px",
     };
-    this.styleWeekItem = {
+    this.styleDayItem = {
       width: "calc((100% - 36px) / 7)",
       fontSize: "10px",
       height: "12px",
       textAlign: "center",
     };
-    this.styleLayOneWeek = {
+    this.styleWeek = {
       display: "flex",
       columnGap: "6px",
     };
@@ -245,30 +244,30 @@ class DatePicker extends Component {
 
     return (
       <>
-        <div style={this.styleLayTop}>
-          <div style={this.styleLayInfo}>
-            <CalendarTodayIcon style={this.styleLayTopImg} />
+        <div style={this.styleTop}>
+          <div style={this.styleInfo}>
+            <CalendarTodayIcon style={this.styleIcon} />
             날짜 : {year}년 {month}월
           </div>
-          <div style={this.styleLayArrowGrid}>
+          <div style={this.styleArrowGrid}>
             <KeyboardArrowLeftRoundedIcon
-              style={this.styleLayArrow}
+              style={this.styleArrow}
               onClick={onClickBack}
             />
             <KeyboardArrowRightRoundedIcon
-              style={this.styleLayArrow}
+              style={this.styleArrow}
               onClick={onClickNext}
             />
           </div>
         </div>
         <DottedLine direction="row" />
-        <div style={this.styleLayWeek}>
+        <div style={this.styleDay}>
           {this.week.map((item, index) => {
             return (
               <div
                 key={index}
                 style={{
-                  ...this.styleWeekItem,
+                  ...this.styleDayItem,
                   color: item.color,
                   opacity: 0.632,
                 }}
@@ -278,12 +277,12 @@ class DatePicker extends Component {
             );
           })}
         </div>
-        <div style={this.styleLayMonth}>
+        <div style={this.styleMonth}>
           {dateInfo.map((item, index) => {
             return (
               <div
                 key={index}
-                style={{ ...this.styleLayOneWeek }}
+                style={{ ...this.styleWeek }}
                 className="datepicker-week"
               >
                 {item.map((item, index) => {

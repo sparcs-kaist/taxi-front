@@ -11,8 +11,7 @@ const Name = (props) => {
     alignItems: "center",
   };
   const styleIcon = {
-    width: "15px",
-    height: "15px",
+    fontSize: "15px",
     marginLeft: "15px",
   };
   const styleName = {
