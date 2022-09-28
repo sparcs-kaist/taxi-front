@@ -13,55 +13,44 @@ const Counter = (props) => {
   const increaseDisabled = number >= max;
 
   const styleContainer = {
-    height: "28px",
-    width: "100%",
-    padding: "4px",
+    ...theme.font14,
+    width: "80px",
     borderRadius: "6px",
-    border: "none",
-    outline: "none",
-    backgroundColor: "#FAF8FB",
+    padding: "4px",
+    boxSizing: "border-box",
     display: "flex",
-    flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    fontSize: "14px",
-    fontWeight: "400",
-    textAlign: "center",
-    boxSizing: "border-box",
+    backgroundColor: theme.purple_light,
+    boxShadow: theme.shadow_purple_input_inset,
   };
 
   const styleButton = {
-    width: "20px",
     height: "20px",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    fontSize: "14px",
+    padding: "3px",
+    boxSizing: "border-box",
     borderRadius: "3px",
-    boxShadow: "1px 1px 2.5px -0.5px rgba(110, 54, 120, 0.15)",
+    boxShadow: theme.shadow_color_button,
   };
   const styledDecreaseButton = {
     ...styleButton,
-    backgroundColor: decreaseDisabled ? "#EEEEEE" : "#F9E8E7",
-    cursor: decreaseDisabled ? "not-allowed" : "pointer",
+    cursor: theme.cursor(decreaseDisabled),
+    backgroundColor: decreaseDisabled ? theme.gray_text : theme.red_background,
   };
   const styleIncreaseButton = {
     ...styleButton,
-    backgroundColor: increaseDisabled ? "#EEEEEE" : "#E6F7E4",
-    cursor: increaseDisabled ? "not-allowed" : "pointer",
-  };
-
-  const styleIcon = {
-    width: "14px",
-    height: "14px",
+    cursor: theme.cursor(increaseDisabled),
+    backgroundColor: increaseDisabled
+      ? theme.gray_text
+      : theme.green_background,
   };
   const styleDecreaseIcon = {
-    ...styleIcon,
-    color: decreaseDisabled ? "#888888" : "#91313B",
+    fontSize: "14px",
+    color: decreaseDisabled ? theme.gray_text : theme.red_button,
   };
   const styleIncreaseIcon = {
-    ...styleIcon,
-    color: increaseDisabled ? "#888888" : "#23913C",
+    fontSize: "14px",
+    color: increaseDisabled ? theme.gray_text : theme.green_button,
   };
 
   const decrease = () => {
@@ -94,35 +83,18 @@ Counter.propTypes = {
 
 const MaxPeople = (props) => {
   const { value, handler } = props;
-
-  const style = {
-    display: "flex",
-    alignItems: "center",
-  };
-
-  const iconStyle = {
-    fontSize: "15px",
-    marginLeft: "15px",
-  };
-
   const styleText = {
     ...theme.font14,
     margin: "0 8px 0 6px",
     whiteSpace: "nowrap",
   };
 
-  const styleCounterWrapper = {
-    width: "80px",
-  };
-
   return (
     <WhiteContainer padding="9px">
-      <div style={style}>
-        <PeopleIcon style={iconStyle} />
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <PeopleIcon style={{ fontSize: "15px", marginLeft: "15px" }} />
         <div style={styleText}>최대 인원 :</div>
-        <div style={styleCounterWrapper}>
-          <Counter number={value} setNumber={handler} min={2} max={4} />
-        </div>
+        <Counter number={value} setNumber={handler} min={2} max={4} />
         <div style={styleText}>명</div>
       </div>
     </WhiteContainer>

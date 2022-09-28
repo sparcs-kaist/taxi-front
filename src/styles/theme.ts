@@ -66,6 +66,7 @@ export const theme = {
     "0px 2px 4px rgba(110, 54, 120, 0.2), " +
     "0px 1px 18px rgba(110, 54, 120, 0.12), " +
     "0px 6px 10px rgba(110, 54, 120, 0.14)",
+  shadow_color_button: "1px 1.5px 2.5px -1px rgba(110, 54, 120, 0.15)",
 
   // Transition
   duration: "0.15s",
