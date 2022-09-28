@@ -113,7 +113,7 @@ const R2Myroom = (props) => {
           priority="left"
           left={
             <div style={{ height: bodyHeight, overflow: "auto" }}>
-              <WhiteContainer marginAuto={false} padding="20px 20px 22px">
+              <WhiteContainer padding="20px 20px 22px">
                 <Title icon="current" marginAuto={false}>
                   참여 중인 방
                 </Title>
@@ -138,7 +138,7 @@ const R2Myroom = (props) => {
                   ))
                 )}
               </WhiteContainer>
-              <WhiteContainer marginAuto={false} padding="20px 20px 22px">
+              <WhiteContainer padding="20px 20px 22px">
                 <Title icon="past" marginAuto={false}>
                   과거 참여 방
                 </Title>
@@ -169,7 +169,7 @@ const R2Myroom = (props) => {
           right={
             <div>
               <div ref={refHeader}>
-                <WhiteContainer marginAuto={false} padding="20px">
+                <WhiteContainer padding="20px">
                   <Title icon="chat" marginAuto={false}>
                     채팅 창
                   </Title>
@@ -187,7 +187,7 @@ const R2Myroom = (props) => {
                 </WhiteContainer>
               </div>
               {props.roomId ? (
-                <WhiteContainer marginAuto={false} padding="0px">
+                <WhiteContainer padding="0px">
                   <div style={{ height: chatHeight, position: "relative" }}>
                     <SideChat roomId={props.roomId} />
                   </div>
