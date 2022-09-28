@@ -1,81 +1,38 @@
-import React, { useState } from "react";
-import { useSpring, animated } from "react-spring";
+import React from "react";
 import { backServer } from "serverconf";
-import RLayout from "components/common/RLayout";
-
-import SparcsLogoPurple from "static/assets/SparcsLogoPurple.svg";
-
-const TaxiLogo = () => {
-  const styleImg = {
-    height: "70px",
-    verticalAlign: "middle",
-  };
-  const styleTxt = {
-    verticalAlign: "middle",
-    marginLeft: "15px",
-    fontSize: "50px",
-    fontWeight: "900",
-    color: "#623678",
-  };
-  return (
-    <div style={{ position: "relative", height: "90px", textAlign: "center" }}>
-      <img src={SparcsLogoPurple} alt="" style={styleImg} />
-      <span style={styleTxt}>Taxi</span>
-    </div>
-  );
-};
-const BtnLogin = () => {
-  const [isHover, setHover] = useState(false);
-  const style = {
-    position: "absolute",
-    top: "0px",
-    left: "10%",
-    right: "10%",
-    height: "44px",
-    borderRadius: "22px",
-    lineHeight: "44px",
-    textAlign: "center",
-    fontSize: "17px",
-    color: "#623678",
-    border: "1px solid #623678",
-  };
-  const background = useSpring({
-    background: `rgba(150,150,150,${isHover ? 0.1 : 0})`,
-    config: { duration: 100 },
-  });
-  return (
-    <div style={{ position: "relative" }}>
-      <a href={`${backServer}/auth/sparcssso`}>
-        <animated.div
-          onMouseEnter={() => setHover(true)}
-          onMouseLeave={() => setHover(false)}
-          style={{ ...style, ...background }}
-        >
-          로그인
-        </animated.div>
-      </a>
-    </div>
-  );
-};
+import Button from "components/common/Button";
+import { theme } from "styles/theme";
+import { ReactComponent as TaxiLogo } from "static/assets/TaxiLogo.svg";
+import HeaderBar from "components/common/HeaderBar";
 
 const Login = () => {
   return (
-    <div className="ND" style={{ width: "100%", height: "100%" }}>
-      <div
-        style={{
-          background: "#663D71",
-          width: "100%",
-          height: "max(5px, env(safe-area-inset-top))",
-          position: "fixed",
-          top: "0px",
-          left: "0px",
-        }}
-      />
-      <RLayout.R1 height="100%">
-        <div style={{ height: "35%" }} />
-        <TaxiLogo />
-        <BtnLogin />
-      </RLayout.R1>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+        height: "100%",
+      }}
+    >
+      <HeaderBar />
+      <TaxiLogo style={{ height: "54px", marginBottom: "10px" }} />
+      <a
+        href={`${backServer}/auth/sparcssso`}
+        style={{ textDecoration: "none" }}
+      >
+        <Button
+          buttonType="purple"
+          width="250px"
+          padding="10px 0px 11px"
+          radius={12}
+          font={theme.font16_bold}
+        >
+          로그인
+        </Button>
+      </a>
     </div>
   );
 };

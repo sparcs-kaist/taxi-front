@@ -3,11 +3,13 @@ import { useLocation, Redirect } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import taxiLocationAtom from "recoil/taxiLocation";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
+import PropTypes from "prop-types";
+import axios from "tools/axios";
+
+import HeaderBar from "components/common/HeaderBar";
 import Navigation from "components/Skeleton/Navigation";
 import Footer from "components/Skeleton/Footer";
 import PopupPolicy from "components/Mypage/PopupPolicy/PopupPolicy";
-import PropTypes from "prop-types";
-import axios from "tools/axios";
 
 const Container = (props) => {
   return (
@@ -24,25 +26,6 @@ const Container = (props) => {
 };
 Container.propTypes = {
   children: PropTypes.node,
-};
-
-const HeaderLine = () => {
-  return (
-    <>
-      <div
-        style={{
-          background: "#663D71",
-          width: "100%",
-          height: "max(5px, env(safe-area-inset-top))",
-          position: "fixed",
-          top: "0px",
-          left: "0px",
-          zIndex: 30,
-        }}
-      />
-      <div style={{ height: "max(0px, env(safe-area-inset-top))" }} />
-    </>
-  );
 };
 
 const Skeleton = (props) => {
@@ -105,7 +88,7 @@ const Skeleton = (props) => {
     return (
       <Container>
         <Navigation path={pathname} />
-        <HeaderLine />
+        <HeaderBar />
       </Container>
     );
   }
@@ -124,7 +107,7 @@ const Skeleton = (props) => {
   return (
     <Container>
       <Navigation path={pathname} />
-      <HeaderLine />
+      <HeaderBar />
       {props.children}
       <Footer />
       <PopupPolicy isOpen={showAgree} onClose={() => setShowAgree(false)} />
