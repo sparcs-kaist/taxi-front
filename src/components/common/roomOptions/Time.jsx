@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import WhiteContainer from "components/common/WhiteContainer";
 import Popup from "./Popup";
 import Picker from "react-mobile-picker-mod";
+import { theme } from "styles/theme";
 
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 
@@ -80,8 +81,8 @@ const PopupInput = (props) => {
             optionGroups={option1Group}
             valueGroups={value1}
             onChange={handler}
-            itemHeight={30}
-            height={216}
+            itemHeight={29}
+            height={221}
           />
         </div>
         <div style={styleText}>시</div>
@@ -90,8 +91,8 @@ const PopupInput = (props) => {
             optionGroups={option2Group}
             valueGroups={value2}
             onChange={handler}
-            itemHeight={30}
-            height={216}
+            itemHeight={29}
+            height={221}
           />
         </div>
         <div style={styleText}>분</div>
@@ -99,6 +100,7 @@ const PopupInput = (props) => {
     </Popup>
   );
 };
+
 PopupInput.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
@@ -112,49 +114,40 @@ const Time = (props) => {
   const style = {
     display: "flex",
     alignItems: "center",
+    ...theme.font14,
   };
   const styleIcon = {
-    width: "14px",
-    height: "14px",
-    marginLeft: "15px",
-  };
-  const styleName = {
-    height: "28px",
-    lineHeight: "28px",
-    marginLeft: "6px",
-    whiteSpace: "nowrap",
-    fontSize: "14px",
-  };
-  const styleInput = {
-    height: "28px",
-    lineHeight: "28px",
-    width: "41px",
-    marginLeft: "6px",
-    background: "#FAF8FB",
-    boxShadow: "inset 1px 1px 2.5px -1px rgba(110, 54, 120, 0.1)",
-    borderRadius: "6px",
-    fontSize: "14px",
-    textAlign: "center",
+    width: "15px",
+    height: "15px",
+    margin: "0px 2px 0px 15px",
   };
   const styleText = {
-    lineHeight: "28px",
-    marginLeft: "6px",
-    fontSize: "14px",
+    margin: "0px 8px 0px 4px",
+  };
+  const styleInput = {
+    width: "41px",
+    borderRadius: "6px",
+    padding: "6px 0px",
+    background: theme.purple_light,
+    boxShadow: theme.shadow_purple_input_inset,
+    textAlign: "center",
+    cursor: "pointer",
+    boxSizing: "border-box",
   };
   return (
     <WhiteContainer padding="9px">
       <div style={style}>
         <AccessTimeIcon style={styleIcon} />
-        <div style={styleName}>시간 :</div>
-        <div style={styleInput} className="BTNC" onClick={() => setPopup(true)}>
+        <div style={styleText}>시간 :</div>
+        <div style={styleInput} onClick={() => setPopup(true)}>
           {props.value[0]}
         </div>
         <div style={styleText}>시</div>
-        <div style={styleInput} className="BTNC" onClick={() => setPopup(true)}>
+        <div style={styleInput} onClick={() => setPopup(true)}>
           {props.value[1]}
         </div>
         <div style={styleText}>
-          {props.value == "search" ? "분 이후" : "분 출발"}
+          분 {props.value == "search" ? "이후" : "출발"}
         </div>
       </div>
       <PopupInput

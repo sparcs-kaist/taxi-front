@@ -1,5 +1,4 @@
 import React, { Component, useState } from "react";
-import { useSpring, animated } from "react-spring";
 import { getToday10 } from "tools/moment";
 import PropTypes from "prop-types";
 import { theme } from "styles/theme";
@@ -220,7 +219,7 @@ class DatePicker extends Component {
     const weeks = document.getElementsByClassName("datepicker-week");
     if (weeks.length > 0) {
       const width = (weeks[0].clientWidth - 36) / 7;
-      const height = `${Math.min(width, 56)}px`;
+      const height = `${Math.min(width, 48)}px`;
       for (let i = 0; i < weeks.length; i++) {
         weeks[i].style.height = height;
       }
