@@ -26,6 +26,7 @@ const Counter = (props) => {
   };
 
   const styleButton = {
+    fontSize: "14px",
     height: "20px",
     padding: "3px",
     boxSizing: "border-box",
@@ -34,6 +35,7 @@ const Counter = (props) => {
   };
   const styledDecreaseButton = {
     ...styleButton,
+    color: decreaseDisabled ? theme.gray_text : theme.red_button,
     cursor: theme.cursor(decreaseDisabled),
     backgroundColor: decreaseDisabled
       ? theme.gray_background
@@ -41,24 +43,16 @@ const Counter = (props) => {
   };
   const styleIncreaseButton = {
     ...styleButton,
+    color: increaseDisabled ? theme.gray_text : theme.green_button,
     cursor: theme.cursor(increaseDisabled),
     backgroundColor: increaseDisabled
       ? theme.gray_background
       : theme.green_background,
   };
-  const styleDecreaseIcon = {
-    fontSize: "14px",
-    color: decreaseDisabled ? theme.gray_text : theme.red_button,
-  };
-  const styleIncreaseIcon = {
-    fontSize: "14px",
-    color: increaseDisabled ? theme.gray_text : theme.green_button,
-  };
 
   const decrease = () => {
     if (!decreaseDisabled) setNumber(number - 1);
   };
-
   const increase = () => {
     if (!increaseDisabled) setNumber(number + 1);
   };
@@ -66,11 +60,11 @@ const Counter = (props) => {
   return (
     <div style={styleContainer}>
       <div onClick={decrease} style={styledDecreaseButton}>
-        <RemoveRoundedIcon style={styleDecreaseIcon} />
+        <RemoveRoundedIcon fontSize="inherit" />
       </div>
       {number}
       <div onClick={increase} style={styleIncreaseButton}>
-        <AddRoundedIcon style={styleIncreaseIcon} />
+        <AddRoundedIcon fontSize="inherit" />
       </div>
     </div>
   );
