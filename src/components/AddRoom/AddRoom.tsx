@@ -86,7 +86,7 @@ const AddRoom = () => {
         <OptionTime value={valueTime} handler={setTime} page="add" />
         <OptionMaxPeople value={valueMaxPeople} handler={setMaxPeople} />
         <Button
-          buttonType="purple"
+          type="purple"
           disabled={validatedMsg ? true : false}
           padding="13px 0px 14px"
           radius={12}

@@ -78,4 +78,9 @@ export const theme = {
   cursor: (disabled: boolean) => {
     return disabled ? "not-allowed" : "pointer";
   },
+
+  // zIndex
+  zIndex_nav: 10,
+  zIndex_modal: 20,
+  zIndex_headerBar: 30,
 };

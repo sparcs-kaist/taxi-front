@@ -208,7 +208,7 @@ const RoomSelectionModal = (props) => {
         </div>
       </div>
       <Button
-        buttonType="purple"
+        type="purple"
         disabled={isRoomFull || disableJoinBtn}
         padding="10px 0px 9px"
         radius={8}

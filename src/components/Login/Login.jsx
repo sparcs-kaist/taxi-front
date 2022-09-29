@@ -24,7 +24,7 @@ const Login = () => {
         style={{ textDecoration: "none" }}
       >
         <Button
-          buttonType="purple"
+          type="purple"
           width="250px"
           padding="10px 0px 11px"
           radius={12}

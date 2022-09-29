@@ -12,7 +12,7 @@ const HeaderBar = () => {
           position: "fixed",
           top: "0px",
           left: "0px",
-          zIndex: 30,
+          zIndex: theme.zIndex_headerBar,
         }}
       />
       <div style={{ height: "max(0px, env(safe-area-inset-top))" }} />
