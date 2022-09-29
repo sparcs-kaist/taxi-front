@@ -46,36 +46,27 @@ const PopupInput = (props) => {
     if (key === "min") setValue2({ min: value });
   };
 
-  const stylePicker = {
-    width: "75px",
-    borderRadius: "6px",
-    marginLeft: "5px",
-  };
-  const styleIcon = {
-    alignSelf: "center",
-    width: "18px",
-    height: "18px",
-    marginBottom: "1px",
-  };
-  const styleName = {
-    alignSelf: "center",
-    fontSize: "15px",
-    color: "#323232",
-    paddingLeft: "6px",
-    paddingRight: "1px",
+  const styleContainer = {
+    ...theme.font14,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   };
   const styleText = {
-    alignSelf: "center",
-    fontSize: "15px",
-    color: "#888888",
-    paddingLeft: "5px",
+    color: theme.gray_text,
+    marginLeft: "4px",
+  };
+  const stylePicker = {
+    width: "64px",
+    borderRadius: "6px",
+    marginLeft: "8px",
   };
 
   return (
     <Popup isOpen={props.isOpen} onClose={props.onClose} onClick={onClick}>
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <ScheduleRoundedIcon style={styleIcon} />
-        <div style={styleName}>시간 :</div>
+      <div style={styleContainer}>
+        <ScheduleRoundedIcon style={{ fontSize: "15px" }} />
+        <div style={{ marginLeft: "6px" }}>시간 :</div>
         <div style={stylePicker}>
           <Picker
             optionGroups={option1Group}
