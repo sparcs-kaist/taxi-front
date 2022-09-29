@@ -1,11 +1,18 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { CSSProperties } from "react";
 import WhiteContainer from "components/common/WhiteContainer";
 import { theme } from "styles/theme";
 
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
 
-const Name = (props) => {
+type Page = "add" | "search";
+
+type ButtonProps = {
+  value: string;
+  handler: (value: string) => void;
+  page: Page;
+};
+
+const Name = (props: ButtonProps) => {
   const style = {
     display: "flex",
     alignItems: "center",
@@ -14,7 +21,7 @@ const Name = (props) => {
     fontSize: "15px",
     marginLeft: "15px",
   };
-  const styleName = {
+  const styleName: CSSProperties = {
     ...theme.font14,
     margin: "0 8px 0 6px",
     whiteSpace: "nowrap",
@@ -43,10 +50,6 @@ const Name = (props) => {
       </div>
     </WhiteContainer>
   );
-};
-Name.propTypes = {
-  value: PropTypes.string,
-  handler: PropTypes.func,
 };
 
 export default Name;
