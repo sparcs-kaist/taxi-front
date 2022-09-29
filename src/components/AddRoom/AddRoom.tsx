@@ -82,7 +82,7 @@ const AddRoom = () => {
       <RLayout.R1>
         <OptionPlace value={valuePlace} handler={setPlace} />
         <OptionDate value={valueDate} handler={setDate} />
-        <OptionName value={valueName} handler={setName} page="add" />
+        <OptionName value={valueName} handler={setName} />
         <OptionTime value={valueTime} handler={setTime} page="add" />
         <OptionMaxPeople value={valueMaxPeople} handler={setMaxPeople} />
         <Button

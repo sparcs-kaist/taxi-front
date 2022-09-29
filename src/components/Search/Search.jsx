@@ -351,7 +351,7 @@ const Search = () => {
       </div>
       <SelectSearchOptions options={searchOptions} handler={setSearchOptions} />
       {searchOptions.name ? (
-        <OptionName value={valueName} handler={setName} page="search" />
+        <OptionName value={valueName} handler={setName} />
       ) : null}
       {searchOptions.place ? (
         <OptionPlace value={valuePlace} handler={setPlace} />

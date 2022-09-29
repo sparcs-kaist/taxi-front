@@ -9,7 +9,6 @@ type Page = "add" | "search";
 type ButtonProps = {
   value: string;
   handler: (value: string) => void;
-  page: Page;
 };
 
 const Name = (props: ButtonProps) => {
