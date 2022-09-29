@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import WhiteContainer from "components/common/WhiteContainer";
 import { theme } from "styles/theme";
 
-import PeopleIcon from "@material-ui/icons/PeopleAlt";
-import RemoveIcon from "@material-ui/icons/Remove";
-import AddIcon from "@material-ui/icons/Add";
+import PeopleRoundedIcon from "@material-ui/icons/PeopleRounded";
+import RemoveRoundedIcon from "@material-ui/icons/RemoveRounded";
+import AddRoundedIcon from "@material-ui/icons/AddRounded";
 
 const Counter = (props) => {
   const { min, max, number, setNumber } = props;
@@ -35,13 +35,15 @@ const Counter = (props) => {
   const styledDecreaseButton = {
     ...styleButton,
     cursor: theme.cursor(decreaseDisabled),
-    backgroundColor: decreaseDisabled ? theme.gray_text : theme.red_background,
+    backgroundColor: decreaseDisabled
+      ? theme.gray_background
+      : theme.red_background,
   };
   const styleIncreaseButton = {
     ...styleButton,
     cursor: theme.cursor(increaseDisabled),
     backgroundColor: increaseDisabled
-      ? theme.gray_text
+      ? theme.gray_background
       : theme.green_background,
   };
   const styleDecreaseIcon = {
@@ -64,11 +66,11 @@ const Counter = (props) => {
   return (
     <div style={styleContainer}>
       <div onClick={decrease} style={styledDecreaseButton}>
-        <RemoveIcon style={styleDecreaseIcon} />
+        <RemoveRoundedIcon style={styleDecreaseIcon} />
       </div>
       {number}
       <div onClick={increase} style={styleIncreaseButton}>
-        <AddIcon style={styleIncreaseIcon} />
+        <AddRoundedIcon style={styleIncreaseIcon} />
       </div>
     </div>
   );
@@ -92,7 +94,7 @@ const MaxPeople = (props) => {
   return (
     <WhiteContainer padding="9px">
       <div style={{ display: "flex", alignItems: "center" }}>
-        <PeopleIcon style={{ fontSize: "15px", marginLeft: "15px" }} />
+        <PeopleRoundedIcon style={{ fontSize: "15px", marginLeft: "15px" }} />
         <div style={styleText}>최대 인원 :</div>
         <Counter number={value} setNumber={handler} min={2} max={4} />
         <div style={styleText}>명</div>

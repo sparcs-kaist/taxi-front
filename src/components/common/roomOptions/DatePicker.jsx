@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { theme } from "styles/theme";
 import DottedLine from "components/common/DottedLine";
 
-import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
+import TodayRoundedIcon from "@material-ui/icons/TodayRounded";
 import KeyboardArrowLeftRoundedIcon from "@material-ui/icons/KeyboardArrowLeftRounded";
 import KeyboardArrowRightRoundedIcon from "@material-ui/icons/KeyboardArrowRightRounded";
 
@@ -246,7 +246,7 @@ class DatePicker extends Component {
       <>
         <div style={this.styleTop}>
           <div style={this.styleInfo}>
-            <CalendarTodayIcon style={this.styleIcon} />
+            <TodayRoundedIcon style={this.styleIcon} />
             날짜 : {year}년 {month}월
           </div>
           <div style={this.styleArrowGrid}>

@@ -5,7 +5,7 @@ import Popup from "./Popup";
 import Picker from "react-mobile-picker-mod";
 import { theme } from "styles/theme";
 
-import AccessTimeIcon from "@material-ui/icons/AccessTime";
+import ScheduleRoundedIcon from "@material-ui/icons/ScheduleRounded";
 
 const optionsHour = [...Array(24).keys()].map((x) => x.toString());
 const optionsMin = ["0", "10", "20", "30", "40", "50"];
@@ -74,7 +74,7 @@ const PopupInput = (props) => {
   return (
     <Popup isOpen={props.isOpen} onClose={props.onClose} onClick={onClick}>
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <AccessTimeIcon style={styleIcon} />
+        <ScheduleRoundedIcon style={styleIcon} />
         <div style={styleName}>시간 :</div>
         <div style={stylePicker}>
           <Picker
@@ -136,7 +136,7 @@ const Time = (props) => {
   return (
     <WhiteContainer padding="9px">
       <div style={style}>
-        <AccessTimeIcon style={styleIcon} />
+        <ScheduleRoundedIcon style={styleIcon} />
         <div style={styleText}>시간 :</div>
         <div style={styleInput} onClick={() => setPopup(true)}>
           {props.value[0]}
