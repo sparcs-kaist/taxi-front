@@ -11,7 +11,7 @@ import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
 import OptionDate from "components/common/roomOptions/Date";
 import OptionTime from "components/common/roomOptions/Time";
-import OptionMaxPeople from "components/common/roomOptions/MaxPeople";
+import OptionMaxPart from "components/common/roomOptions/MaxPart";
 
 const AddRoom = () => {
   const onCall = useRef(false);
@@ -84,7 +84,7 @@ const AddRoom = () => {
         <OptionDate value={valueDate} handler={setDate} />
         <OptionName value={valueName} handler={setName} />
         <OptionTime value={valueTime} handler={setTime} page="add" />
-        <OptionMaxPeople value={valueMaxPeople} handler={setMaxPeople} />
+        <OptionMaxPart value={valueMaxPeople} handler={setMaxPeople} />
         <Button
           type="purple"
           disabled={validatedMsg ? true : false}
