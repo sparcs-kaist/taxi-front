@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import { getLocationName } from "tools/trans";
 import { date2str } from "tools/moment";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
+import DottedLine from "components/common/DottedLine";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 
@@ -120,16 +121,6 @@ const Room = (props) => {
     paddingLeft: "18px",
     paddingRight: "5px",
   };
-  const styleLine = {
-    height: "1px",
-    marginLeft: "12px",
-    marginRight: "12px",
-    backgroundImage:
-      "linear-gradient(to right, #C8C8C8 50%, rgba(255,255,255,0) 0%)",
-    backgroundPosition: "bottom",
-    backgroundSize: "15px 1px",
-    backgroundRpeat: "repeat-x",
-  };
   const styleLay1 = {
     height: "16px",
     marginTop: "15px",
@@ -186,7 +177,7 @@ const Room = (props) => {
           theme={props.theme}
         />
       </div>
-      <div style={styleLine} />
+      <DottedLine direction="row" margin={12} />
       <div style={styleLay1}>
         <div style={styleLay1Place}>
           {getLocationName(props.data?.from, preference.lang)}
