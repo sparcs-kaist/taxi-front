@@ -144,7 +144,7 @@ const Place = (props) => {
   };
 
   return (
-    <WhiteContainer padding="10px">
+    <WhiteContainer marginAuto={false} padding="10px">
       <div
         style={{
           height: "100px",

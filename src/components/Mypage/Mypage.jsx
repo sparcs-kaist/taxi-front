@@ -133,7 +133,7 @@ const Mypage = () => {
       <Title icon="mypage" header={true}>
         마이 페이지
       </Title>
-      <WhiteContainer marginAuto={true} padding="16px 24px 24px">
+      <WhiteContainer padding="16px 24px 24px">
         <div style={{ display: "flex", alignItems: "center" }}>
           <div style={styleProfImg}>
             {userInfoDetail?.profileImgUrl && profToken ? (
@@ -174,7 +174,7 @@ const Mypage = () => {
           </>
         )}
       </WhiteContainer>
-      <WhiteContainer marginAuto={true}>
+      <WhiteContainer>
         <BtnC icon="rule" onClick={() => setOpen2(true)}>
           사용 약관 및 개인정보 보호 규칙
         </BtnC>

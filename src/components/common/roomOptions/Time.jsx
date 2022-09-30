@@ -125,7 +125,7 @@ const Time = (props) => {
     boxSizing: "border-box",
   };
   return (
-    <WhiteContainer padding="9px">
+    <WhiteContainer marginAuto={false} padding="9px">
       <div style={style}>
         <ScheduleRoundedIcon style={styleIcon} />
         <div style={styleText}>시간 :</div>
@@ -137,7 +137,7 @@ const Time = (props) => {
           {props.value[1]}
         </div>
         <div style={styleText}>
-          분 {props.value == "search" ? "이후" : "출발"}
+          분 {props.page == "search" ? "이후" : "출발"}
         </div>
       </div>
       <PopupInput
