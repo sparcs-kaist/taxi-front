@@ -17,7 +17,7 @@ const Name = (props: ButtonProps) => {
     alignItems: "center",
   };
   const styleIcon = {
-    fontSize: "15px",
+    ...theme.font15_icon,
     marginLeft: "15px",
   };
   const styleName: CSSProperties = {
@@ -36,7 +36,7 @@ const Name = (props: ButtonProps) => {
     outline: "none",
   };
   return (
-    <WhiteContainer  marginAuto={false} padding="9px">
+    <WhiteContainer marginAuto={false} padding="9px">
       <div style={style}>
         <EditRoundedIcon style={styleIcon} />
         <div style={styleName}>방 이름 :</div>

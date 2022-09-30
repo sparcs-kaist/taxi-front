@@ -26,7 +26,7 @@ const Counter = (props) => {
   };
 
   const styleButton = {
-    fontSize: "14px",
+    ...theme.font14_icon,
     height: "20px",
     padding: "3px",
     boxSizing: "border-box",
@@ -88,7 +88,9 @@ const MaxPeople = (props) => {
   return (
     <WhiteContainer marginAuto={false} padding="9px">
       <div style={{ display: "flex", alignItems: "center" }}>
-        <PeopleRoundedIcon style={{ fontSize: "15px", marginLeft: "15px" }} />
+        <PeopleRoundedIcon
+          style={{ ...theme.font15_icon, marginLeft: "15px" }}
+        />
         <div style={styleText}>최대 인원 :</div>
         <Counter number={value} setNumber={handler} min={2} max={4} />
         <div style={styleText}>명</div>

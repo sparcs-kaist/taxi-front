@@ -36,6 +36,8 @@ export const theme = {
   font12: { fontSize: 12, letterSpacing: 0.4 },
   font14: { fontSize: 14, lineHeight: "16px" },
   font14_bold: { fontSize: 14, fontWeight: 700, lineHeight: "16px" },
+  font14_icon: { fontSize: 14 },
+  font15_icon: { fontSize: 15 },
   font16: { fontSize: 16, letterSpacing: -0.4 },
   font16_bold: { fontSize: 16, letterSpacing: -0.4, fontWeight: 700 },
   font18: { fontSize: 18, letterSpacing: -0.6 },
