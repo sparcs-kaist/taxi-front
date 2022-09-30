@@ -77,7 +77,7 @@ Counter.propTypes = {
   setNumber: PropTypes.func,
 };
 
-const MaxPeople = (props) => {
+const MaxPart = (props) => {
   const { value, handler } = props;
   const styleText = {
     ...theme.font14,
@@ -99,9 +99,9 @@ const MaxPeople = (props) => {
   );
 };
 
-MaxPeople.propTypes = {
+MaxPart.propTypes = {
   value: PropTypes.number,
   handler: PropTypes.func,
 };
 
-export default MaxPeople;
+export default MaxPart;

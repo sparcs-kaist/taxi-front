@@ -19,7 +19,7 @@ const AddRoom = () => {
   const [valueName, setName] = useState("");
   const [valuePlace, setPlace] = useState([null, null]);
   const [valueDate, setDate] = useState([null, null, null]);
-  const [valueMaxPeople, setMaxPeople] = useState(4);
+  const [valueMaxPart, setMaxPart] = useState(4);
   const today = getToday();
   const today10 = getToday10();
   const [valueTime, setTime] = useState([today10.hour(), today10.minute()]);
@@ -64,7 +64,7 @@ const AddRoom = () => {
         from: valuePlace[0],
         to: valuePlace[1],
         time: calculatedTime!.toISOString(),
-        maxPartLength: valueMaxPeople,
+        maxPartLength: valueMaxPart,
       });
       if (result.status === 200) {
         history.push("/myroom");
@@ -84,7 +84,7 @@ const AddRoom = () => {
         <OptionDate value={valueDate} handler={setDate} />
         <OptionName value={valueName} handler={setName} />
         <OptionTime value={valueTime} handler={setTime} page="add" />
-        <OptionMaxPart value={valueMaxPeople} handler={setMaxPeople} />
+        <OptionMaxPart value={valueMaxPart} handler={setMaxPart} />
         <Button
           type="purple"
           disabled={validatedMsg ? true : false}

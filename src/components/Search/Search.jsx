@@ -153,7 +153,7 @@ const Search = () => {
   const [valuePlace, setPlace] = useState([null, null]);
   const [valueDate, setDate] = useState([null, null, null]);
   const [valueTime, setTime] = useState(["0", "00"]);
-  const [valueMaxPartLength, setMaxPartLength] = useState(null);
+  const [valueMaxPart, setMaxPart] = useState(null);
   const [searchResult, setSearchResult] = useState(null);
   const [disabled, setDisabled] = useState(true);
   const [message, setMessage] = useState("검색 조건을 선택해주세요");
@@ -165,7 +165,7 @@ const Search = () => {
     setPlace([null, null]);
     setDate([null, null, null]);
     setTime(["0", "00"]);
-    setMaxPartLength(null);
+    setMaxPart(null);
     setSearchResult(null);
     setDisabled(true);
     setMessage("검색 조건을 선택해주세요");
@@ -194,8 +194,7 @@ const Search = () => {
           (Math.floor(queryTime.minute() / 10) * 10).toString(),
         ]);
     }
-    if (newSearchOptions.maxPartLength)
-      setMaxPartLength(Number(q.maxPartLength));
+    if (newSearchOptions.maxPartLength) setMaxPart(Number(q.maxPartLength));
   };
 
   useEffect(() => {
@@ -295,8 +294,8 @@ const Search = () => {
   }, [searchOptions.time]);
   useEffect(() => {
     if (searchOptions.maxPartLength) {
-      if (valueMaxPartLength === null) setMaxPartLength(4);
-    } else if (valueMaxPartLength !== null) setMaxPartLength(null);
+      if (valueMaxPart === null) setMaxPart(4);
+    } else if (valueMaxPart !== null) setMaxPart(null);
   }, [searchOptions.maxPartLength]);
 
   const onClickSearch = async () => {
@@ -330,7 +329,7 @@ const Search = () => {
           to: valuePlace[1],
           time: date.toISOString(),
           withTime,
-          maxPartLength: valueMaxPartLength,
+          maxPartLength: valueMaxPart,
         },
         searchQueryOption
       );
@@ -363,7 +362,7 @@ const Search = () => {
         <OptionTime value={valueTime} handler={setTime} page="search" />
       ) : null}
       {searchOptions.maxPartLength ? (
-        <OptionMaxPart value={valueMaxPartLength} handler={setMaxPartLength} />
+        <OptionMaxPart value={valueMaxPart} handler={setMaxPart} />
       ) : null}
       <Button
         type="purple"
