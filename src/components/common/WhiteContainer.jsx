@@ -41,7 +41,7 @@ WhiteContainer.propTypes = {
 WhiteContainer.defaultProps = {
   padding: "24px",
   marginBottom: "15px",
-  marginAuto: false,
+  marginAuto: true,
 };
 
 export default WhiteContainer;
