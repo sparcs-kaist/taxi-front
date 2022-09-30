@@ -101,7 +101,7 @@ const Header = (props) => {
     background: "white",
     overflow: "hidden",
     boxShadow: "0px 0px 12px rgba(0,0,0,0.1)",
-    zIndex: 120,
+    zIndex: theme.zIndex_header,
   });
   const styleLine = {
     width: "100%",
@@ -116,7 +116,7 @@ const Header = (props) => {
     height: "100%",
     background: `rgba(0,0,0,${isOpen ? 0.6 : 0})`,
     pointerEvents: isOpen ? "auto" : "none",
-    zIndex: 110,
+    zIndex: theme.zIndex_background,
   });
 
   const resizeEvent = () => {

@@ -2,6 +2,7 @@ import React from "react";
 import { animated, useSpring } from "react-spring";
 import RLayout from "components/common/RLayout";
 import PropTypes from "prop-types";
+import { theme } from "styles/theme";
 
 import "./Popup.css";
 
@@ -13,7 +14,7 @@ const Popup = (props) => {
     left: "0px",
     width: "100%",
     height: "100%",
-    zIndex: 50,
+    zIndex: theme.zIndex_modal,
     background: `rgba(0,0,0,0.6)`,
     opacity: props.isOpen ? 1 : 0,
     pointerEvents: props.isOpen ? "auto" : "none",
