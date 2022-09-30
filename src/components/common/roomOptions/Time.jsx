@@ -137,7 +137,7 @@ const Time = (props) => {
           {props.value[1]}
         </div>
         <div style={styleText}>
-          분 {props.page == "search" ? "이후" : "출발"}
+          분 {props.page === "search" ? "이후" : "출발"}
         </div>
       </div>
       <PopupInput

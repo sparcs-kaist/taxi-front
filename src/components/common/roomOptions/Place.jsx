@@ -120,7 +120,7 @@ const PlaceElement = (props) => {
       <div style={styleTextGrid}>
         <div style={styleText}>
           {props.value ??
-            (props.type == "출발지" ? "어디서 가시나요?" : "어디로 가시나요?")}
+            (props.type === "출발지" ? "어디서 가시나요?" : "어디로 가시나요?")}
         </div>
       </div>
     </div>
