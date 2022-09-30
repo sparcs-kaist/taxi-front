@@ -26,7 +26,7 @@ const SideResult = (props) => {
           }}
           roomInfo={selectedRoomInfo}
         />
-        <WhiteContainer marginAuto={false} padding="20px 20px 22px">
+        <WhiteContainer padding="20px 20px 22px">
           <Title icon="search_result" marginAuto={false}>
             검색 결과
           </Title>
@@ -61,7 +61,7 @@ const SideResult = (props) => {
           roomInfo={selectedRoomInfo}
         />
         {props.result.length == 0 ? (
-          <WhiteContainer marginAuto={false} style={styleEmpty}>
+          <WhiteContainer style={styleEmpty}>
             <div style={styleEmpty}>검색 결과가 없습니다</div>
           </WhiteContainer>
         ) : (

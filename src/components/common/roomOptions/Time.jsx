@@ -142,7 +142,7 @@ const Time = (props) => {
     fontSize: "14px",
   };
   return (
-    <WhiteContainer marginAuto={false} padding="9px">
+    <WhiteContainer padding="9px">
       <div style={style}>
         <AccessTimeIcon style={styleIcon} />
         <div style={styleName}>시간 :</div>

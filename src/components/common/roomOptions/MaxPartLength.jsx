@@ -118,7 +118,7 @@ const MaxPartLength = (props) => {
   };
 
   return (
-    <WhiteContainer marginAuto={false} padding="9px">
+    <WhiteContainer padding="9px">
       <div style={style}>
         <PeopleIcon style={iconStyle} />
         <div style={styleText}>최대 인원 :</div>
