@@ -27,9 +27,7 @@ const SideResult = (props) => {
           roomInfo={selectedRoomInfo}
         />
         <WhiteContainer padding="20px 20px 22px">
-          <Title icon="search_result" marginAuto={false}>
-            검색 결과
-          </Title>
+          <Title icon="search_result">검색 결과</Title>
           {props.result.length == 0 ? (
             <div style={styleEmpty}>검색 결과가 없습니다.</div>
           ) : (
