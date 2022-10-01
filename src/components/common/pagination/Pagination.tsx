@@ -1,8 +1,8 @@
 import React, { CSSProperties } from "react";
 import { theme } from "styles/theme";
 
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeftRounded";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRightRounded";
 
 type PaginationProps = {
   totalPages: number;
