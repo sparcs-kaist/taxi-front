@@ -20,12 +20,13 @@ type PageButtonProps = {
 };
 
 const PageButton = ({ page, onClick, selected }: PageButtonProps) => {
-  const style = {
+  const style: CSSProperties = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     width: "32px",
     height: "32px",
+    boxSizing: "border-box",
     backgroundColor: selected ? theme.purple : theme.purple_background,
     boxShadow: selected
       ? theme.shadow_purple_button_inset
