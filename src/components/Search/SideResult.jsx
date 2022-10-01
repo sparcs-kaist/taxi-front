@@ -22,7 +22,6 @@ const SearchOptions = (props) => {
   const styleWrapper = {
     display: "flex",
     justifyContent: "space-between",
-    cursor: "pointer",
     margin: "15px 0",
   };
 
@@ -38,6 +37,7 @@ const SearchOptions = (props) => {
     boxShadow: theme.shadow,
     borderRadius: "6px",
     background: props.theme === "purple" ? theme.purple_light : "white",
+    cursor: "pointer",
   };
 
   const styleCheckbox = {
@@ -60,7 +60,7 @@ const SearchOptions = (props) => {
     width: "11px",
   };
 
-  const styleSelect = { opacity: 0, position: "absolute" };
+  const styleSelect = { opacity: 0, position: "absolute", cursor: "pointer" };
 
   const styleShowOption = {
     display: "flex",
