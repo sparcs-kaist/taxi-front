@@ -36,7 +36,7 @@ const SearchOptions = (props) => {
     padding: "5px 8px",
     boxShadow: theme.shadow,
     borderRadius: "6px",
-    background: props.theme === "purple" ? theme.purple_light : "white",
+    background: props.color === "purple" ? theme.purple_light : "white",
     cursor: "pointer",
   };
 
@@ -103,7 +103,7 @@ const SearchOptions = (props) => {
 };
 
 SearchOptions.propTypes = {
-  theme: PropTypes.string,
+  color: PropTypes.string,
   isIncludeFullRoom: PropTypes.bool.isRequired,
   sortOption: PropTypes.string.isRequired,
   setIsIncludeFullRoom: PropTypes.func.isRequired,
