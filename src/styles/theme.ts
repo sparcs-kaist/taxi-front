@@ -84,4 +84,5 @@ export const theme = {
   zIndex_modal: 20,
   zIndex_background: 10,
   zIndex_header: 20,
+  zIndex_fullimage: 20,
 };
