@@ -133,21 +133,16 @@ const SideResult = (props) => {
     });
 
     // 시간순 옵션일 경우 추가 정렬 필요 없음 (서버에서 정렬된 결과 반환)
-    if (sortOption === sortOptions.leftPeopleNatural) {
+    if (sortOption !== sortOptions.time)
       roomsWithOptions.sort((room1, room2) => {
         const room1Left = room1.maxPartLength - room1.part.length;
         const room2Left = room2.maxPartLength - room2.part.length;
         if (room1Left === room2Left) return room1.idx - room2.idx;
-        return room1Left - room2Left;
+        return sortOption === sortOptions.leftPeopleNatural
+          ? room1Left - room2Left
+          : room2Left - room1Left;
       });
-    } else if (sortOption === sortOptions.leftPeopleReverse) {
-      roomsWithOptions.sort((room1, room2) => {
-        const room1Left = room1.maxPartLength - room1.part.length;
-        const room2Left = room2.maxPartLength - room2.part.length;
-        if (room1Left === room2Left) return room1.idx - room2.idx;
-        return room2Left - room1Left;
-      });
-    }
+
     setRooms(roomsWithOptions);
   }, [isIncludeFullRoom, sortOption, props.result]);
 
