@@ -36,7 +36,7 @@ const Name = (props) => {
     fontSize: "14px",
   };
   return (
-    <WhiteContainer marginAuto={false} padding="9px">
+    <WhiteContainer padding="9px">
       <div style={style}>
         <CreateIcon style={styleIcon} />
         <div style={styleName}>방 이름 :</div>

@@ -79,7 +79,7 @@ const AddRoom = () => {
 
   return (
     <div>
-      <Title icon="add" header={true}>
+      <Title icon="add" header={true} marginAuto={true}>
         방 개설하기
       </Title>
       <RLayout.R1>

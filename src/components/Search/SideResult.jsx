@@ -185,10 +185,8 @@ const SideResult = (props) => {
           }}
           roomInfo={selectedRoomInfo}
         />
-        <WhiteContainer marginAuto={false} padding="20px 20px 22px">
-          <Title icon="search_result" marginAuto={false}>
-            검색 결과
-          </Title>
+        <WhiteContainer padding="20px 20px 22px">
+          <Title icon="search_result">검색 결과</Title>
           <SearchOptions
             isIncludeFullRoom={isIncludeFullRoom}
             setIsIncludeFullRoom={setIsIncludeFullRoom}
@@ -248,7 +246,7 @@ const SideResult = (props) => {
           setSortOption={setSortOption}
         />
         {rooms.length == 0 ? (
-          <WhiteContainer marginAuto={false} style={styleEmpty}>
+          <WhiteContainer style={styleEmpty}>
             <div style={styleEmpty}>검색 결과가 없습니다</div>
           </WhiteContainer>
         ) : (

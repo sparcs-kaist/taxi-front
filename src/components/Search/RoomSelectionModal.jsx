@@ -162,7 +162,7 @@ const RoomSelectionModal = (props) => {
     >
       <div style={{ height: "25px" }} />
       <div style={styleTitleWrapper}>
-        <Title marginAuto={false}>{roomInfo?.name ?? ""}</Title>
+        <Title>{roomInfo?.name ?? ""}</Title>
       </div>
       <div style={{ height: "15px" }} />
       <DottedLine direction="row" margin={12} />
