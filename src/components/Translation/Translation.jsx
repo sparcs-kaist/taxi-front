@@ -1,5 +1,5 @@
 import React from "react";
-import i18n from "../../lang/i18n";
+import i18n from "lang/i18n";
 
 const Translation = () => {
   const clickHandler = (lang) => {
