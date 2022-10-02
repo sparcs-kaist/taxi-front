@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSpring, animated } from "react-spring";
 import RLayout from "components/common/RLayout";
+import { theme } from "styles/theme";
 
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import LibraryAddRoundedIcon from "@mui/icons-material/LibraryAddRounded";
@@ -82,7 +83,7 @@ const Navigation = (props) => {
         height: "calc(50px + env(safe-area-inset-bottom))",
         boxShadow: "0 0 4px rgba(0, 0, 0, 0.1)",
         backgroundColor: "white",
-        zIndex: "30",
+        zIndex: theme.zIndex_nav,
       }}
     >
       <RLayout.R1 height="100%">

@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { theme } from "styles/theme";
+
 const ImageFullscreen = (props) => {
   const bgdStyle = {
     position: "fixed",
@@ -10,7 +11,7 @@ const ImageFullscreen = (props) => {
     width: "100vw",
     height: "100vh",
     backgroundColor: theme.black_40,
-    zIndex: 150,
+    zIndex: theme.zIndex_fullimage,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
