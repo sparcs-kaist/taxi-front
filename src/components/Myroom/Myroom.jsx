@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useR2state } from "hooks/useReactiveState";
 import useTaxiAPI from "hooks/useTaxiAPI";
@@ -17,8 +17,6 @@ const Myroom = () => {
   if (reactiveState == 3 && roomId) {
     history.replace(`/chatting/${roomId}`);
   }
-
-  useEffect(() => {}, []);
 
   return reactiveState === 3 ? (
     <R1Myroom
