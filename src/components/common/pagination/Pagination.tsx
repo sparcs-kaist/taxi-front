@@ -19,6 +19,8 @@ type PageButtonProps = {
   selected: boolean;
 };
 
+export const PAGE_MAX_ITEMS = 20;
+
 const PageButton = ({ page, onClick, selected }: PageButtonProps) => {
   const style: CSSProperties = {
     display: "flex",

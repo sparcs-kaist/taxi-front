@@ -7,7 +7,9 @@ import PropTypes from "prop-types";
 
 import CheckIcon from "@mui/icons-material/Check";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import Pagination from "components/common/pagination/Pagination";
+import Pagination, {
+  PAGE_MAX_ITEMS,
+} from "components/common/pagination/Pagination";
 import { theme } from "styles/theme";
 
 const sortOptions = {
@@ -15,8 +17,6 @@ const sortOptions = {
   leftPeopleReverse: "남은 인원 많은 순",
   leftPeopleNatural: "남은 인원 적은 순",
 };
-
-const PAGE_MAX_ROOMS = 20;
 
 const SearchOptions = (props) => {
   const styleWrapper = {
@@ -148,7 +148,7 @@ const SideResult = (props) => {
 
   useEffect(() => {
     setPageInfo({
-      totalPages: Math.ceil(rooms.length / PAGE_MAX_ROOMS),
+      totalPages: Math.ceil(rooms.length / PAGE_MAX_ITEMS),
       currentPage: 1,
     });
   }, [rooms]);
@@ -200,8 +200,8 @@ const SideResult = (props) => {
             <>
               {rooms
                 .slice(
-                  PAGE_MAX_ROOMS * (pageInfo.currentPage - 1),
-                  PAGE_MAX_ROOMS * pageInfo.currentPage
+                  PAGE_MAX_ITEMS * (pageInfo.currentPage - 1),
+                  PAGE_MAX_ITEMS * pageInfo.currentPage
                 )
                 .map((room) => (
                   <Room
@@ -253,8 +253,8 @@ const SideResult = (props) => {
           <>
             {rooms
               .slice(
-                PAGE_MAX_ROOMS * (pageInfo.currentPage - 1),
-                PAGE_MAX_ROOMS * pageInfo.currentPage
+                PAGE_MAX_ITEMS * (pageInfo.currentPage - 1),
+                PAGE_MAX_ITEMS * pageInfo.currentPage
               )
               .map((room) => {
                 return (

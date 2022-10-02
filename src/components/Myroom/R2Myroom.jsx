@@ -5,13 +5,13 @@ import WhiteContainer from "components/common/WhiteContainer";
 import ChatHeaderBody from "components/Chatting/Header/HeaderBody";
 import SideChat from "components/Chatting/SideChat";
 import Room from "components/common/room/Room";
-import Pagination from "components/common/pagination/Pagination";
+import Pagination, {
+  PAGE_MAX_ITEMS,
+} from "components/common/pagination/Pagination";
 import RLayout from "components/common/RLayout";
 import useTaxiAPI from "hooks/useTaxiAPI";
 import PropTypes from "prop-types";
 import DottedLine from "components/common/DottedLine";
-
-const PAGE_MAX_ROOMS = 20;
 
 const ChatHeader = (props) => {
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
@@ -126,9 +126,9 @@ const R2Myroom = (props) => {
                   <>
                     {props.ongoing
                       .slice(
-                        PAGE_MAX_ROOMS *
+                        PAGE_MAX_ITEMS *
                           (props.ongoingPageInfo.currentPage - 1),
-                        PAGE_MAX_ROOMS * props.ongoingPageInfo.currentPage
+                        PAGE_MAX_ITEMS * props.ongoingPageInfo.currentPage
                       )
                       .map((item) => (
                         <Link
@@ -164,8 +164,8 @@ const R2Myroom = (props) => {
                   <>
                     {props.done
                       .slice(
-                        PAGE_MAX_ROOMS * (props.donePageInfo.currentPage - 1),
-                        PAGE_MAX_ROOMS * props.donePageInfo.currentPage
+                        PAGE_MAX_ITEMS * (props.donePageInfo.currentPage - 1),
+                        PAGE_MAX_ITEMS * props.donePageInfo.currentPage
                       )
                       .map((item) => (
                         <Link

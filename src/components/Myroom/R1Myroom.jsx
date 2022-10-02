@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import Title from "components/common/Title";
 import Room from "components/common/room/Room";
 import RLayout from "components/common/RLayout";
-import Pagination from "components/common/pagination/Pagination";
+import Pagination, {
+  PAGE_MAX_ITEMS,
+} from "components/common/pagination/Pagination";
 import PropTypes from "prop-types";
-
-const PAGE_MAX_ROOMS = 20;
 
 const R1Myroom = (props) => {
   const styleEmpty = {
@@ -28,8 +28,8 @@ const R1Myroom = (props) => {
         <>
           {props.ongoing
             .slice(
-              PAGE_MAX_ROOMS * (props.ongoingPageInfo.currentPage - 1),
-              PAGE_MAX_ROOMS * props.ongoingPageInfo.currentPage
+              PAGE_MAX_ITEMS * (props.ongoingPageInfo.currentPage - 1),
+              PAGE_MAX_ITEMS * props.ongoingPageInfo.currentPage
             )
             .map((item) => (
               <Link
@@ -64,8 +64,8 @@ const R1Myroom = (props) => {
         <>
           {props.done
             .slice(
-              PAGE_MAX_ROOMS * (props.donePageInfo.currentPage - 1),
-              PAGE_MAX_ROOMS * props.donePageInfo.currentPage
+              PAGE_MAX_ITEMS * (props.donePageInfo.currentPage - 1),
+              PAGE_MAX_ITEMS * props.donePageInfo.currentPage
             )
             .map((item) => (
               <Link
