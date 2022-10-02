@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { animated, useSpring } from "react-spring";
 import RLayout from "components/common/RLayout";
 import PropTypes from "prop-types";
+import { theme } from "styles/theme";
 
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
@@ -51,7 +52,7 @@ const Modal = (props) => {
     left: "0px",
     width: "100%",
     height: "100%",
-    zIndex: 150,
+    zIndex: theme.zIndex_modal,
     background: `rgba(0,0,0,0.6)`,
     opacity: props.display ? 1 : 0,
     pointerEvents: props.display ? "auto" : "none",
