@@ -23,7 +23,7 @@ i18n
     // 초기 언어 설정
     lng: "ko", // if you're using a language detector, do not define the lng option
     fallbackLng: "ko",
-    debug: true,
+    development: true,
     defaultNS: "translations",
     ns: "translations",
     keySeparator: false,
