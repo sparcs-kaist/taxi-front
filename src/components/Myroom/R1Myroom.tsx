@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import Title from "components/common/Title";
 import Room from "components/common/room/Room";
@@ -8,8 +8,27 @@ import Pagination, {
 } from "components/common/pagination/Pagination";
 import PropTypes from "prop-types";
 
-const R1Myroom = (props) => {
-  const styleEmpty = {
+/**
+ * TODO
+ * - R2Myroom도 props가 같기 때문에 이 타입은 Myroom에서 export한 후 import해서 쓰기
+ * - 전역으로 DB 스키마 타입 추가하기 (현재는 ongoing, done을 Array<any>로 정의)
+ */
+type R1MyroomProps = {
+  roomId: string;
+  ongoing: Array<any>;
+  done: Array<any>;
+  ongoingPageInfo: { totalPages: number; currentPage: number };
+  donePageInfo: { totalPages: number; currentPage: number };
+  ongoingPageClickHandler: (page: number) => void;
+  ongoingPrevPageHandler: () => void;
+  ongoingNextPageHandler: () => void;
+  donePageClickHandler: (page: number) => void;
+  donePrevPageHandler: () => void;
+  doneNextPageHandler: () => void;
+};
+
+const R1Myroom = (props: R1MyroomProps) => {
+  const styleEmpty: CSSProperties = {
     color: "#888888",
     fontSize: "14px",
     lineHeight: "109px",
