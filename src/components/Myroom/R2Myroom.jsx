@@ -5,10 +5,13 @@ import WhiteContainer from "components/common/WhiteContainer";
 import ChatHeaderBody from "components/Chatting/Header/HeaderBody";
 import SideChat from "components/Chatting/SideChat";
 import Room from "components/common/room/Room";
+import Pagination from "components/common/pagination/Pagination";
 import RLayout from "components/common/RLayout";
 import useTaxiAPI from "hooks/useTaxiAPI";
 import PropTypes from "prop-types";
 import DottedLine from "components/common/DottedLine";
+
+const PAGE_MAX_ROOMS = 20;
 
 const ChatHeader = (props) => {
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
@@ -120,20 +123,35 @@ const R2Myroom = (props) => {
                 {props.ongoing.length === 0 ? (
                   <div style={styleEmpty}>참여 중인 방이 없습니다.</div>
                 ) : (
-                  props.ongoing.map((item) => (
-                    <Link
-                      key={item._id}
-                      to={`/myroom/${item._id}`}
-                      style={{ textDecoration: "none" }}
-                    >
-                      <Room
-                        data={item}
-                        selected={props.roomId === item._id}
-                        theme="purple"
-                        marginTop="15px"
-                      />
-                    </Link>
-                  ))
+                  <>
+                    {props.ongoing
+                      .slice(
+                        PAGE_MAX_ROOMS *
+                          (props.ongoingPageInfo.currentPage - 1),
+                        PAGE_MAX_ROOMS * props.ongoingPageInfo.currentPage
+                      )
+                      .map((item) => (
+                        <Link
+                          key={item._id}
+                          to={`/myroom/${item._id}`}
+                          style={{ textDecoration: "none" }}
+                        >
+                          <Room
+                            data={item}
+                            selected={props.roomId === item._id}
+                            theme="purple"
+                            marginTop="15px"
+                          />
+                        </Link>
+                      ))}
+                    <Pagination
+                      totalPages={props.ongoingPageInfo.totalPages}
+                      currentPage={props.ongoingPageInfo.currentPage}
+                      onClickPage={props.ongoingPageClickHandler}
+                      onClickPrev={props.ongoingPrevPageHandler}
+                      onClickNext={props.ongoingNextPageHandler}
+                    />
+                  </>
                 )}
               </WhiteContainer>
               <WhiteContainer padding="20px 20px 22px">
@@ -143,20 +161,34 @@ const R2Myroom = (props) => {
                 {props.done.length === 0 ? (
                   <div style={styleEmpty}>과거 참여했던 방이 없습니다.</div>
                 ) : (
-                  props.done.map((item) => (
-                    <Link
-                      key={item._id}
-                      to={`/myroom/${item._id}`}
-                      style={{ textDecoration: "none" }}
-                    >
-                      <Room
-                        data={item}
-                        selected={props.roomId === item._id}
-                        theme="purple"
-                        marginTop="15px"
-                      />
-                    </Link>
-                  ))
+                  <>
+                    {props.done
+                      .slice(
+                        PAGE_MAX_ROOMS * (props.donePageInfo.currentPage - 1),
+                        PAGE_MAX_ROOMS * props.donePageInfo.currentPage
+                      )
+                      .map((item) => (
+                        <Link
+                          key={item._id}
+                          to={`/myroom/${item._id}`}
+                          style={{ textDecoration: "none" }}
+                        >
+                          <Room
+                            data={item}
+                            selected={props.roomId === item._id}
+                            theme="purple"
+                            marginTop="15px"
+                          />
+                        </Link>
+                      ))}
+                    <Pagination
+                      totalPages={props.donePageInfo.totalPages}
+                      currentPage={props.donePageInfo.currentPage}
+                      onClickPage={props.donePageClickHandler}
+                      onClickPrev={props.donePrevPageHandler}
+                      onClickNext={props.doneNextPageHandler}
+                    />
+                  </>
                 )}
               </WhiteContainer>
               <div style={{ height: "50px" }} />
@@ -200,6 +232,14 @@ R2Myroom.propTypes = {
   ongoing: PropTypes.array,
   done: PropTypes.array,
   recallEvent: PropTypes.func,
+  ongoingPageInfo: PropTypes.object,
+  donePageInfo: PropTypes.object,
+  ongoingPageClickHandler: PropTypes.func,
+  donePageClickHandler: PropTypes.func,
+  ongoingNextPageHandler: PropTypes.func,
+  doneNextPageHandler: PropTypes.func,
+  ongoingPrevPageHandler: PropTypes.func,
+  donePrevPageHandler: PropTypes.func,
 };
 R2Myroom.defaultProps = {
   ongoing: [],
