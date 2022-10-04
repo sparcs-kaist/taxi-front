@@ -1,80 +1,94 @@
 import React from "react";
 import { useState } from "react";
-import PropTypes from "prop-types";
 import ProfileImg from "components/Mypage/ProfileImg";
 import { FaPen } from "react-icons/fa";
 import Modal from "components/common/modal/Modal";
 import axios from "tools/axios";
-import { date2str } from "tools/moment";
-const PopupReport = (props) => {
-  const [type, setType] = useState("no-settlement");
+import { theme } from "styles/theme";
+
+type Data = { reportedId: string; type: string; etcDetail: string; time: Date };
+type Response = { status: number };
+
+type PopupReportProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  path: string;
+  name: string;
+  reportedId: string;
+};
+
+type Types = "no-settlement" | "no-show" | "etc-reason";
+
+const PopupReport = ({
+  isOpen,
+  onClose,
+  path,
+  name,
+  reportedId,
+}: PopupReportProps) => {
+  const types: Types[] = ["no-settlement", "no-show", "etc-reason"];
+  const [type, setType] = useState(types[0]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [etcDetail, setEtcDetail] = useState("");
 
-  const styleProfImg = {
+  const styleProfImg: React.CSSProperties = {
     width: "50px",
     height: "50px",
     marginLeft: "24px",
   };
-  const styleTitle = {
+  const styleTitle: React.CSSProperties = {
     height: "20px",
     marginLeft: "12px",
-    fontFamily: "Roboto",
-    fontStyle: "normal",
-    fontWeight: "700",
-    fontSize: "17px",
+    ...theme.font16_bold,
     lineHeight: "20px",
     letterSpacing: "0.1em",
-    color: "#323232",
+    color: theme.black,
     overflow: "hidden",
     textOverflow: "ellipsis",
     whiteSpace: "nowrap",
     width: "200px",
   };
-  const styleTop = {
+  const styleTop: React.CSSProperties = {
     marginTop: "6px",
     width: "100%",
     display: "flex",
     alignItems: "center",
   };
-  const styleMiddle = {
+  const styleMiddle: React.CSSProperties = {
     margin: "18px 20px 0px",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     marginBottom: "6px",
   };
-  const styleLabel = {
+  const styleLabel: React.CSSProperties = {
     width: "2.5em",
-    fontFamily: "Roboto",
-    fontStyle: "normal",
-    fontWeight: "400",
-    fontSize: "14px",
+    ...theme.font14,
     lineHeight: "16px",
     letterSpacing: "0.05em",
-    color: "#888888",
+    color: theme.gray_text,
   };
-  const styleDropdown = {
+  const styleDropdown: React.CSSProperties = {
     width: "100%",
     marginLeft: "10px",
     height: "28px",
-    background: "#EEEEEE",
-    boxShadow: "inset 1px 1px 2.5px -1px rgba(0, 0, 0, 0.075)",
+    background: theme.gray_background,
+    boxShadow: theme.shadow_gray_input_inset,
     borderRadius: "6px",
     outline: "none",
     border: "none",
     paddingLeft: "12px",
-    fontSize: "14px",
+    ...theme.font14,
     lineHeight: "16px",
-    color: "#888888",
+    color: theme.gray_text,
   };
-  const styleBottom = {
+  const styleBottom: React.CSSProperties = {
     marginTop: "10px",
     display: "flex",
     gap: "10px",
     justifyContent: "space-between",
   };
-  const styleBottomSubmitted = {
+  const styleBottomSubmitted: React.CSSProperties = {
     margin: "32px",
     display: "flex",
     flexDirection: "column",
@@ -82,32 +96,32 @@ const PopupReport = (props) => {
     justifyContent: "center",
     gap: "10px",
   };
-  const styleCancel = {
+  const styleCancel: React.CSSProperties = {
     width: "77px",
     height: "36px",
-    background: "#EEEEEE",
-    boxShadow: "inset 2px 2px 5px -2px rgba(0, 0, 0, 0.075)",
+    background: theme.gray_background,
+    boxShadow: theme.shadow_gray_button_inset,
     borderRadius: "8px",
-    color: "#888888",
+    color: theme.gray_text,
   };
-  const styleSubmit = {
+  const styleSubmit: React.CSSProperties = {
     width: "218px",
     height: "36px",
     background: "#6E3678",
-    boxShadow: "inset 2px 2px 5px -2px rgba(0, 0, 0, 0.075)",
+    boxShadow: theme.shadow_gray_button_inset,
     borderRadius: "8px",
     color: "white",
   };
-  const styleETC = {
+  const styleETC: React.CSSProperties = {
     display: "flex",
     justifyContent: "space-between",
-    background: "#EEEEEE",
-    boxShadow: "inset 1px 1px 2.5px -1px rgba(0, 0, 0, 0.075)",
+    background: theme.gray_background,
+    boxShadow: theme.shadow_gray_input_inset,
     borderRadius: "6px",
     margin: "10px 20px 0px",
   };
-  const styleText = {
-    background: "#EEEEEE",
+  const styleText: React.CSSProperties = {
+    background: theme.gray_background,
     width: "221px",
     minHeight: "16px",
     lineHeight: "16px",
@@ -118,7 +132,7 @@ const PopupReport = (props) => {
     margin: "8px 8px 8px 0px",
     overflow: "hidden",
   };
-  const styleIcon = {
+  const styleIcon: React.CSSProperties = {
     position: "relative",
     top: "10.75px",
     left: "13.75px",
@@ -126,15 +140,19 @@ const PopupReport = (props) => {
     height: "10.5px",
   };
 
-  const handleType = (e) => {
-    setType(e.target.value);
+  const handleType = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setType(event.target.value as Types);
   };
 
-  const handleSubmit = async () => {
-    const time = new Date();
-    const reportedId = props.reportedId;
-    const data = { reportedId, type, etcDetail, time };
-    const res = await axios.post("/users/report", data);
+  const handleSubmit = async (): Promise<void> => {
+    const data: Data = {
+      reportedId: reportedId,
+      type: type,
+      etcDetail: etcDetail,
+      time: new Date(),
+    };
+    console.log(data);
+    const res: Response = await axios.post("/users/report", data);
     if (res.status === 200) {
       setIsSubmitted(true);
     } else {
@@ -143,14 +161,18 @@ const PopupReport = (props) => {
   };
 
   const handleClose = () => {
-    props.onClose();
+    onClose();
     setIsSubmitted(false);
-    setType("no-settlement");
+    setType(types[0]);
+  };
+
+  const handleEtcDetail = (event: React.FormEvent<HTMLSpanElement>) => {
+    setEtcDetail(event.currentTarget.innerText);
   };
 
   return (
     <Modal
-      display={props.isOpen}
+      display={isOpen}
       onClickClose={handleClose}
       maxWidth="325px"
       padding="10px"
@@ -158,29 +180,27 @@ const PopupReport = (props) => {
     >
       <div style={styleTop}>
         <div style={styleProfImg}>
-          <ProfileImg path={props.path} />
+          <ProfileImg path={path} />
         </div>
-        <div style={styleTitle}>{props.name}</div>
+        <div style={styleTitle}>{name}</div>
       </div>
 
       <div style={styleMiddle}>
         <div style={styleLabel}>사유</div>
         <select style={styleDropdown} value={type} onChange={handleType}>
-          <option value="no-settlement">정산을 하지 않음</option>
-          <option value="no-show">택시에 동승하지 않음</option>
-          <option value="etc-reason">기타 사유</option>
+          <option value={types[0]}>정산을 하지 않음</option>
+          <option value={types[1]}>택시에 동승하지 않음</option>
+          <option value={types[2]}>기타 사유</option>
         </select>
       </div>
-      {type === "etc-reason" ? (
+      {type === types[2] ? (
         <div style={styleETC}>
           <FaPen style={styleIcon} />
           <span
             role="textbox"
             style={styleText}
             contentEditable={!isSubmitted}
-            // onChange={(e) => setEtcDetail(e.target.value)}
-            onInput={(e) => setEtcDetail(e.currentTarget.textContent)}
-            value={etcDetail}
+            onInput={handleEtcDetail}
           ></span>
         </div>
       ) : null}
@@ -232,14 +252,6 @@ const PopupReport = (props) => {
       )}
     </Modal>
   );
-};
-
-PopupReport.propTypes = {
-  isOpen: PropTypes.bool,
-  onClose: PropTypes.func,
-  path: PropTypes.string,
-  name: PropTypes.string,
-  reportedId: PropTypes.string,
 };
 
 export default PopupReport;

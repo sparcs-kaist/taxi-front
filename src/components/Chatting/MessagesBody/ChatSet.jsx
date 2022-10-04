@@ -144,11 +144,15 @@ const ChatSet = (props) => {
     color: "#888888",
   };
 
-  const handleOpen = (e) => {
+  const handleOpen = () => {
     props.setIsOpen(true);
     props.setPath(props.chats[0].authorProfileUrl);
     props.setName(props.chats[0].authorName);
     props.setReportedId(props.chats[0].authorId);
+  };
+
+  const onClose = () => {
+    setFullImage("");
   };
 
   return (
