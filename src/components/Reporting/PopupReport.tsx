@@ -151,7 +151,6 @@ const PopupReport = ({
       etcDetail: etcDetail,
       time: new Date(),
     };
-    console.log(data);
     const res: Response = await axios.post("/users/report", data);
     if (res.status === 200) {
       setIsSubmitted(true);
