@@ -278,10 +278,10 @@ class DatePicker extends Component {
           })}
         </div>
         <div style={this.styleMonth}>
-          {dateInfo.map((item, index) => {
+          {dateInfo.map((item) => {
             return (
               <div
-                key={index}
+                key={item[0].date}
                 style={{ ...this.styleWeek }}
                 className="datepicker-week"
               >
@@ -294,7 +294,7 @@ class DatePicker extends Component {
                     selected = true;
                   return (
                     <Date
-                      key={index}
+                      key={item.date}
                       index={index}
                       year={item.year}
                       month={item.month}
