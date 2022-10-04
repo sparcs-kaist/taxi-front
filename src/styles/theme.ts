@@ -69,10 +69,20 @@ export const theme = {
 
   // Transition
   duration: "0.15s",
+
+  // White Container Width
   container_max_width: 325,
 
   // Cursor
   cursor: (disabled: boolean) => {
     return disabled ? "not-allowed" : "pointer";
   },
+
+  // zIndex
+  zIndex_nav: 10,
+  zIndex_headerBar: 10,
+  zIndex_modal: 20,
+  zIndex_background: 10,
+  zIndex_header: 20,
+  zIndex_fullimage: 20,
 };

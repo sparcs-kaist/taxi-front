@@ -8,6 +8,7 @@ import Room from "components/common/room/Room";
 import RLayout from "components/common/RLayout";
 import useTaxiAPI from "hooks/useTaxiAPI";
 import PropTypes from "prop-types";
+import DottedLine from "components/common/DottedLine";
 
 const ChatHeader = (props) => {
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
@@ -49,12 +50,6 @@ const R2Myroom = (props) => {
   const chatHeightRef = useRef("0px");
   const [chatHeight, setChatHeight] = useState(chatHeightRef.current);
 
-  const styleLine = {
-    height: "0.5px",
-    backgroundImage:
-      "linear-gradient(to right, #C8C8C8 50%, rgba(255,255,255,0) 0%)",
-    backgroundSize: "10px 1px",
-  };
   const styleEmpty = {
     color: "#888888",
     fontSize: "14px",
@@ -103,7 +98,7 @@ const R2Myroom = (props) => {
       }}
     >
       <div ref={refTitle}>
-        <Title icon="myroom" header={true}>
+        <Title icon="myroom" header={true} marginAuto={true}>
           내 방 리스트
         </Title>
       </div>
@@ -118,12 +113,10 @@ const R2Myroom = (props) => {
           priority="left"
           left={
             <div style={{ height: bodyHeight, overflow: "auto" }}>
-              <WhiteContainer marginAuto={false} padding="20px 20px 22px">
-                <Title icon="current" marginAuto={false}>
-                  참여 중인 방
-                </Title>
+              <WhiteContainer padding="20px 20px 22px">
+                <Title icon="current">참여 중인 방</Title>
                 <div style={{ height: "19px" }} />
-                <div style={styleLine} />
+                <DottedLine direction="row" />
                 {props.ongoing.length === 0 ? (
                   <div style={styleEmpty}>참여 중인 방이 없습니다.</div>
                 ) : (
@@ -143,12 +136,10 @@ const R2Myroom = (props) => {
                   ))
                 )}
               </WhiteContainer>
-              <WhiteContainer marginAuto={false} padding="20px 20px 22px">
-                <Title icon="past" marginAuto={false}>
-                  과거 참여 방
-                </Title>
+              <WhiteContainer padding="20px 20px 22px">
+                <Title icon="past">과거 참여 방</Title>
                 <div style={{ height: "19px" }} />
-                <div style={styleLine} />
+                <DottedLine direction="row" />
                 {props.done.length === 0 ? (
                   <div style={styleEmpty}>과거 참여했던 방이 없습니다.</div>
                 ) : (
@@ -174,12 +165,10 @@ const R2Myroom = (props) => {
           right={
             <div>
               <div ref={refHeader}>
-                <WhiteContainer marginAuto={false} padding="20px">
-                  <Title icon="chat" marginAuto={false}>
-                    채팅 창
-                  </Title>
+                <WhiteContainer padding="20px">
+                  <Title icon="chat">채팅 창</Title>
                   <div style={{ height: "19px" }} />
-                  <div style={styleLine} />
+                  <DottedLine direction="row" />
                   {props.roomId ? (
                     <ChatHeader
                       roomId={props.roomId}
@@ -192,7 +181,7 @@ const R2Myroom = (props) => {
                 </WhiteContainer>
               </div>
               {props.roomId ? (
-                <WhiteContainer marginAuto={false} padding="0px">
+                <WhiteContainer padding="0px">
                   <div style={{ height: chatHeight, position: "relative" }}>
                     <SideChat roomId={props.roomId} />
                   </div>

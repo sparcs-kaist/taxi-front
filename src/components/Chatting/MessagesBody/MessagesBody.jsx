@@ -130,8 +130,6 @@ const MessagesBody = (props) => {
         marginBottom: props.marginBottom,
         width: "100%",
         overflow: "auto",
-        //display: "flex",
-        //flexDirection: "column-reverse",
       }}
       ref={props.forwardedRef}
       onScroll={props.handleScroll}

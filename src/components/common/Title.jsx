@@ -85,7 +85,7 @@ Title.propTypes = {
   header: PropTypes.bool,
 };
 Title.defaultProps = {
-  marginAuto: true,
+  marginAuto: false,
   header: false,
 };
 

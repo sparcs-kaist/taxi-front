@@ -11,23 +11,10 @@ import { theme } from "styles/theme";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import PropTypes from "prop-types";
 import axios from "tools/axios";
+import DottedLine from "components/common/DottedLine";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 import CircleIcon from "@mui/icons-material/Circle";
-
-const Border = () => {
-  const styleLine = {
-    height: "2px",
-    margin: "5px 0",
-    backgroundImage:
-      "linear-gradient(to right, #C8C8C8 50%, rgba(255,255,255,0) 0%)",
-    backgroundPosition: "bottom",
-    backgroundSize: "15px 2px",
-    backgroundRpeat: "repeat-x",
-  };
-
-  return <div style={styleLine} />;
-};
 
 const PlaceSection = (props) => {
   const style = {
@@ -175,10 +162,10 @@ const RoomSelectionModal = (props) => {
     >
       <div style={{ height: "25px" }} />
       <div style={styleTitleWrapper}>
-        <Title marginAuto={false}>{roomInfo?.name ?? ""}</Title>
+        <Title>{roomInfo?.name ?? ""}</Title>
       </div>
       <div style={{ height: "15px" }} />
-      <Border />
+      <DottedLine direction="row" margin={12} />
       <div style={stylePlace}>
         <PlaceSection
           isFrom={true}
@@ -190,7 +177,6 @@ const RoomSelectionModal = (props) => {
           name={getLocationName(roomInfo?.to, preference.lang)}
         />
       </div>
-      <Border />
       <div style={styleInfoSectionWrapper}>
         <InfoSection
           title="출발 시각 & 날짜"
