@@ -1,13 +1,13 @@
 import React from "react";
-import { animated, useSpring } from "react-spring";
 import RLayout from "components/common/RLayout";
 import PropTypes from "prop-types";
 import { theme } from "styles/theme";
+import Button from "components/common/Button";
 
 import "./Popup.css";
 
 const Popup = (props) => {
-  const styleBgd = useSpring({
+  const styleBgd = {
     position: "fixed",
     display: "flex",
     top: "0px",
@@ -15,103 +15,53 @@ const Popup = (props) => {
     width: "100%",
     height: "100%",
     zIndex: theme.zIndex_modal,
-    background: `rgba(0,0,0,0.6)`,
+    background: theme.black_60,
     opacity: props.isOpen ? 1 : 0,
+    transitionDuration: theme.duration,
     pointerEvents: props.isOpen ? "auto" : "none",
-  });
+  };
   const style = {
-    overflow: "hidden",
-    position: "relative",
-    height: "100%",
-    background: "white",
+    height: "266px",
     borderRadius: "15px",
-  };
-  const styleBtnCancel = {
-    height: "36px",
-    lineHeight: "36px",
-    width: "calc(35% - 10px)",
-    background: "#EEEEEE",
-    boxShadow: "inset 2px 2px 5px -2px rgba(0, 0, 0, 0.075)",
-    borderRadius: "8px",
-    textAlign: "center",
-    fontSize: "15px",
-    color: "#888888",
-  };
-  const styleBtnSelect = {
-    height: "36px",
-    lineHeight: "36px",
-    width: "65%",
-    background: "#6E3678",
-    boxShadow: "inset 2px 2px 5px -2px rgba(0, 0, 0, 0.25)",
-    borderRadius: "8px",
-    textAlign: "center",
-    fontSize: "15px",
-    fontWeight: 500,
-    color: "white",
+    background: theme.white,
   };
 
   return (
-    <animated.div style={styleBgd}>
-      <div
-        style={{
-          position: "absolute",
-          top: "0px",
-          left: "0px",
-          width: "100%",
-          height: "100%",
-        }}
-        onClick={props.onClose}
-      />
-      <div
-        style={{
-          position: "relative",
-          height: "262px",
-          width: "100%",
-          margin: "auto",
-        }}
-      >
-        <div
-          style={{
-            position: "absolute",
-            top: "0px",
-            left: "0px",
-            width: "100%",
-            height: "100%",
-          }}
-          onClick={props.onClose}
-        />
-        <RLayout.Popup>
-          <div style={style} className="ND">
-            <div style={{ height: "calc(100% - 46px)" }}>{props.children}</div>
-            <div
-              style={{
-                height: "36px",
-                position: "relative",
-                display: "flex",
-                justifyContent: "space-between",
-                marginLeft: "10px",
-                marginRight: "10px",
-              }}
+    <div style={styleBgd} onClick={props.onClose}>
+      <RLayout.Popup>
+        <div style={style}>
+          {props.children}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              margin: "0px 10px",
+            }}
+          >
+            <Button
+              type="gray"
+              width="calc(40% - 10px)"
+              padding="10px 0px 9px"
+              radius={8}
+              font={theme.font14}
+              onClick={props.onClose}
             >
-              <div
-                style={styleBtnCancel}
-                className="BTNC"
-                onClick={props.onClose}
-              >
-                취소
-              </div>
-              <div
-                style={styleBtnSelect}
-                className="BTNC"
-                onClick={props.onClick}
-              >
-                선택하기
-              </div>
-            </div>
+              취소
+            </Button>
+            <Button
+              type="purple"
+              width="60%"
+              padding="10px 0px 9px"
+              radius={8}
+              font={theme.font14_bold}
+              onClick={props.onClick}
+            >
+              선택하기
+            </Button>
           </div>
-        </RLayout.Popup>
-      </div>
-    </animated.div>
+        </div>
+      </RLayout.Popup>
+    </div>
   );
 };
 Popup.propTypes = {
