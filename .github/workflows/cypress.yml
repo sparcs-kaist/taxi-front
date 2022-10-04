@@ -19,6 +19,9 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: 16
+    
+    - name: print ls
+      run: ls
 
     - name: clones taxi-front
       uses: actions/checkout@v3
