@@ -26,8 +26,11 @@ jobs:
     - name: install dependencies
       run: npm install
 
-    - name: runs taxi-front
-      run: npm start
+    - name: creates dotenv
+        touch .env
+        echo REACT_APP_BACK_URL = ${{ secrets.REACT_APP_BACK_URL }}  >> .env
+        echo REACT_APP_S3_URL = ${{ secrets.REACT_APP_S3_URL }} >> .env
+        echo REACT_APP_CHANNELTALK_PLUGIN_KEY = ${{ secrets.REACT_APP_CHANNELTALK_PLUGIN_KEY }} >> .env
 
     - name: runs cypress
       uses: cypress-io/github-action@v4
