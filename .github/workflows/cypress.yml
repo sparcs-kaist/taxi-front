@@ -12,28 +12,29 @@ jobs:
     runs-on: ubuntu-20.04
     name: setup node
     steps:
-      - name: setup node
-        uses: actions/checkout@v3
-      - name: use node 16
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
+    - name: setup node
+      uses: actions/checkout@v3
 
-      - name: clones taxi-front
-        uses: actions/checkout@v3
-        with:
-          repository: sparcs-kaist/taxi-front
+    - name: use node 16
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
 
-      - name: install dependencies
-        run: |
-          cd taxi-front
-          npm install
-          ls
+    - name: clones taxi-front
+      uses: actions/checkout@v3
+      with:
+        repository: sparcs-kaist/taxi-front
 
-      - name: runs taxi-front
-        run: npm start
+    - name: install dependencies
+      run: |
+        cd taxi-front
+        npm install
+        ls
 
-      - name: runs cypress
-        uses: cypress-io/github-action@v4
-        with:
-          browser: chrome
+    - name: runs taxi-front
+      run: npm start
+
+    - name: runs cypress
+      uses: cypress-io/github-action@v4
+      with:
+        browser: chrome
