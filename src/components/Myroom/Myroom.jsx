@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams, useLocation } from "react-router-dom";
+import qs from "qs";
+
 import { useR2state } from "hooks/useReactiveState";
 import useTaxiAPI from "hooks/useTaxiAPI";
 import R1Myroom from "./R1Myroom";
@@ -9,6 +11,7 @@ const PAGE_MAX_ROOMS = 20;
 
 const Myroom = () => {
   const history = useHistory();
+  const location = useLocation();
   const { roomId } = useParams();
   const reactiveState = useR2state();
   const [roomListToken, setRoomListToken] = useState(Date.now().toString());
@@ -25,32 +28,29 @@ const Myroom = () => {
   }
 
   const donePageClickHandler = (page) => {
-    setDonePageInfo({ ...donePageInfo, currentPage: page });
+    history.push(`/myroom?page=${page}`);
   };
 
   const donePrevPageHandler = () => {
     if (donePageInfo.currentPage <= 1) return;
-    setDonePageInfo({
-      ...donePageInfo,
-      currentPage: donePageInfo.currentPage - 1,
-    });
+    history.push(`/myroom?page=${donePageInfo.currentPage - 1}`);
   };
 
   const doneNextPageHandler = () => {
     if (donePageInfo.currentPage >= donePageInfo.totalPages) return;
-    setDonePageInfo({
-      ...donePageInfo,
-      currentPage: donePageInfo.currentPage + 1,
-    });
+    history.push(`/myroom?page=${donePageInfo.currentPage + 1}`);
   };
 
   useEffect(() => {
     if (!roomList) return;
+    const q = qs.parse(location.search.slice(1));
+    const currentPage = Number(q.page);
+
     setDonePageInfo({
       totalPages: Math.ceil(roomList.done.length / PAGE_MAX_ROOMS),
-      currentPage: 1,
+      currentPage: Number.isNaN(currentPage) ? 1 : currentPage,
     });
-  }, [roomList]);
+  }, [roomList, location]);
 
   return reactiveState === 3 ? (
     <R1Myroom
