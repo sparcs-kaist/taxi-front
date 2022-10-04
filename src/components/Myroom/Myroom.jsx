@@ -15,10 +15,6 @@ const Myroom = () => {
   const [, roomList] = useTaxiAPI.get("/rooms/v2/searchByUser", {}, [
     roomListToken,
   ]);
-  const [ongoingPageInfo, setOngoingPageInfo] = useState({
-    totalPages: 1,
-    currentPage: 1,
-  });
   const [donePageInfo, setDonePageInfo] = useState({
     totalPages: 1,
     currentPage: 1,
@@ -28,20 +24,10 @@ const Myroom = () => {
     history.replace(`/chatting/${roomId}`);
   }
 
-  const ongoingPageClickHandler = (page) => {
-    setOngoingPageInfo({ ...ongoingPageInfo, currentPage: page });
-  };
   const donePageClickHandler = (page) => {
     setDonePageInfo({ ...donePageInfo, currentPage: page });
   };
 
-  const ongoingPrevPageHandler = () => {
-    if (ongoingPageInfo.currentPage <= 1) return;
-    setOngoingPageInfo({
-      ...ongoingPageInfo,
-      currentPage: ongoingPageInfo.currentPage - 1,
-    });
-  };
   const donePrevPageHandler = () => {
     if (donePageInfo.currentPage <= 1) return;
     setDonePageInfo({
@@ -50,13 +36,6 @@ const Myroom = () => {
     });
   };
 
-  const ongoingNextPageHandler = () => {
-    if (ongoingPageInfo.currentPage >= ongoingPageInfo.totalPages) return;
-    setOngoingPageInfo({
-      ...ongoingPageInfo,
-      currentPage: ongoingPageInfo.currentPage + 1,
-    });
-  };
   const doneNextPageHandler = () => {
     if (donePageInfo.currentPage >= donePageInfo.totalPages) return;
     setDonePageInfo({
@@ -67,10 +46,6 @@ const Myroom = () => {
 
   useEffect(() => {
     if (!roomList) return;
-    setOngoingPageInfo({
-      totalPages: Math.ceil(roomList.ongoing.length / PAGE_MAX_ROOMS),
-      currentPage: 1,
-    });
     setDonePageInfo({
       totalPages: Math.ceil(roomList.done.length / PAGE_MAX_ROOMS),
       currentPage: 1,
@@ -83,13 +58,9 @@ const Myroom = () => {
       ongoing={roomList?.ongoing}
       done={roomList?.done}
       recallEvent={() => setRoomListToken(Date.now().toString())}
-      ongoingPageInfo={ongoingPageInfo}
       donePageInfo={donePageInfo}
-      ongoingPageClickHandler={ongoingPageClickHandler}
       donePageClickHandler={donePageClickHandler}
-      ongoingNextPageHandler={ongoingNextPageHandler}
       doneNextPageHandler={doneNextPageHandler}
-      ongoingPrevPageHandler={ongoingPrevPageHandler}
       donePrevPageHandler={donePrevPageHandler}
     />
   ) : (
@@ -98,13 +69,9 @@ const Myroom = () => {
       ongoing={roomList?.ongoing}
       done={roomList?.done}
       recallEvent={() => setRoomListToken(Date.now().toString())}
-      ongoingPageInfo={ongoingPageInfo}
       donePageInfo={donePageInfo}
-      ongoingPageClickHandler={ongoingPageClickHandler}
       donePageClickHandler={donePageClickHandler}
-      ongoingNextPageHandler={ongoingNextPageHandler}
       doneNextPageHandler={doneNextPageHandler}
-      ongoingPrevPageHandler={ongoingPrevPageHandler}
       donePrevPageHandler={donePrevPageHandler}
     />
   );

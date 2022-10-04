@@ -123,35 +123,25 @@ const R2Myroom = (props) => {
                 {props.ongoing.length === 0 ? (
                   <div style={styleEmpty}>참여 중인 방이 없습니다.</div>
                 ) : (
-                  <>
-                    {props.ongoing
-                      .slice(
-                        PAGE_MAX_ITEMS *
-                          (props.ongoingPageInfo.currentPage - 1),
-                        PAGE_MAX_ITEMS * props.ongoingPageInfo.currentPage
-                      )
-                      .map((item) => (
-                        <Link
-                          key={item._id}
-                          to={`/myroom/${item._id}`}
-                          style={{ textDecoration: "none" }}
-                        >
-                          <Room
-                            data={item}
-                            selected={props.roomId === item._id}
-                            theme="purple"
-                            marginTop="15px"
-                          />
-                        </Link>
-                      ))}
-                    <Pagination
-                      totalPages={props.ongoingPageInfo.totalPages}
-                      currentPage={props.ongoingPageInfo.currentPage}
-                      onClickPage={props.ongoingPageClickHandler}
-                      onClickPrev={props.ongoingPrevPageHandler}
-                      onClickNext={props.ongoingNextPageHandler}
-                    />
-                  </>
+                  props.ongoing
+                    .slice(
+                      PAGE_MAX_ITEMS * (props.ongoingPageInfo.currentPage - 1),
+                      PAGE_MAX_ITEMS * props.ongoingPageInfo.currentPage
+                    )
+                    .map((item) => (
+                      <Link
+                        key={item._id}
+                        to={`/myroom/${item._id}`}
+                        style={{ textDecoration: "none" }}
+                      >
+                        <Room
+                          data={item}
+                          selected={props.roomId === item._id}
+                          theme="purple"
+                          marginTop="15px"
+                        />
+                      </Link>
+                    ))
                 )}
               </WhiteContainer>
               <WhiteContainer padding="20px 20px 22px">

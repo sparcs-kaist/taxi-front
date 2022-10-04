@@ -19,9 +19,6 @@ type R1MyroomProps = {
   done: Array<any>;
   ongoingPageInfo: { totalPages: number; currentPage: number };
   donePageInfo: { totalPages: number; currentPage: number };
-  ongoingPageClickHandler: (page: number) => void;
-  ongoingPrevPageHandler: () => void;
-  ongoingNextPageHandler: () => void;
   donePageClickHandler: (page: number) => void;
   donePrevPageHandler: () => void;
   doneNextPageHandler: () => void;
@@ -44,35 +41,25 @@ const R1Myroom = (props: R1MyroomProps) => {
       {props.ongoing.length === 0 ? (
         <div style={styleEmpty}>참여 중인 방이 없습니다.</div>
       ) : (
-        <>
-          {props.ongoing
-            .slice(
-              PAGE_MAX_ITEMS * (props.ongoingPageInfo.currentPage - 1),
-              PAGE_MAX_ITEMS * props.ongoingPageInfo.currentPage
-            )
-            .map((item) => (
-              <Link
-                key={item._id}
-                to={`/myroom/${item._id}`}
-                style={{ textDecoration: "none" }}
-              >
-                <Room
-                  data={item}
-                  selected={props.roomId === item._id}
-                  theme="white"
-                  marginBottom="15px"
-                />
-              </Link>
-            ))}
-          <Pagination
-            totalPages={props.ongoingPageInfo.totalPages}
-            currentPage={props.ongoingPageInfo.currentPage}
-            onClickPage={props.ongoingPageClickHandler}
-            onClickPrev={props.ongoingPrevPageHandler}
-            onClickNext={props.ongoingNextPageHandler}
-            isMobile
-          />
-        </>
+        props.ongoing
+          .slice(
+            PAGE_MAX_ITEMS * (props.ongoingPageInfo.currentPage - 1),
+            PAGE_MAX_ITEMS * props.ongoingPageInfo.currentPage
+          )
+          .map((item) => (
+            <Link
+              key={item._id}
+              to={`/myroom/${item._id}`}
+              style={{ textDecoration: "none" }}
+            >
+              <Room
+                data={item}
+                selected={props.roomId === item._id}
+                theme="white"
+                marginBottom="15px"
+              />
+            </Link>
+          ))
       )}
       <Title icon="past" header={true}>
         과거 참여 방
