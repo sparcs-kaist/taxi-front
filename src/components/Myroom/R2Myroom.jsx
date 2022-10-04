@@ -123,12 +123,12 @@ const R2Myroom = (props) => {
             <div style={{ height: bodyHeight, overflow: "auto" }}>
               <WhiteContainer marginAuto={false} padding="20px 20px 22px">
                 <Title icon="current" marginAuto={false}>
-                  참여 중인 방
+                  {t("참여 중인 방")}
                 </Title>
                 <div style={{ height: "19px" }} />
                 <div style={styleLine} />
                 {props.ongoing.length === 0 ? (
-                  <div style={styleEmpty}>참여 중인 방이 없습니다.</div>
+                  <div style={styleEmpty}>{t("참여 중인 방이 없습니다.")}</div>
                 ) : (
                   props.ongoing.map((item) => (
                     <Link
@@ -148,12 +148,14 @@ const R2Myroom = (props) => {
               </WhiteContainer>
               <WhiteContainer marginAuto={false} padding="20px 20px 22px">
                 <Title icon="past" marginAuto={false}>
-                  과거 참여 방
+                  {t("과거 참여 방")}
                 </Title>
                 <div style={{ height: "19px" }} />
                 <div style={styleLine} />
                 {props.done.length === 0 ? (
-                  <div style={styleEmpty}>과거 참여했던 방이 없습니다.</div>
+                  <div style={styleEmpty}>
+                    {t("과거 참여했던 방이 없습니다.")}
+                  </div>
                 ) : (
                   props.done.map((item) => (
                     <Link
@@ -179,7 +181,7 @@ const R2Myroom = (props) => {
               <div ref={refHeader}>
                 <WhiteContainer marginAuto={false} padding="20px">
                   <Title icon="chat" marginAuto={false}>
-                    채팅 창
+                    {t("채팅 창")}
                   </Title>
                   <div style={{ height: "19px" }} />
                   <div style={styleLine} />
@@ -190,7 +192,7 @@ const R2Myroom = (props) => {
                       recallEvent={props.recallEvent}
                     />
                   ) : (
-                    <div style={styleEmpty}>방을 선택하세요.</div>
+                    <div style={styleEmpty}>{t("방을 선택하세요.")}</div>
                   )}
                 </WhiteContainer>
               </div>

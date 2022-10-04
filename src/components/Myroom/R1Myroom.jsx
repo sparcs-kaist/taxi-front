@@ -41,10 +41,10 @@ const R1Myroom = (props) => {
         ))
       )}
       <Title icon="past" header={true} marginAuto={false}>
-        과거 참여 방
+        {t("과거 참여 방")}
       </Title>
       {props.done.length === 0 ? (
-        <div style={styleEmpty}>과거 참여했던 방이 없습니다.</div>
+        <div style={styleEmpty}>{t("과거 참여했던 방이 없습니다.")}</div>
       ) : (
         props.done.map((item) => (
           <Link

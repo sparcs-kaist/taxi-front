@@ -9,7 +9,12 @@
   "만든 사람들": "developers",
   "문의하기": "ask",
   "로그아웃": "logout",
-  "참여 중인 방": "Joined Room",
-  "참여 중인 방이 없습니다.": "No joined room",
-  "내 방 리스트": "My Room List"
+
+  "내 방 리스트": "My Room List",
+  "참여 중인 방": "Room Joined",
+  "참여 중인 방이 없습니다.": "You didn't join any room",
+  "과거 참여 방": "Room joined in past",
+  "과거 참여했던 방이 없습니다.": "You didn't join any room in past",
+  "채팅 창": "Chatting Box",
+  "방을 선택하세요.": "Choose your room"
 }
