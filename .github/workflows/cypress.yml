@@ -44,7 +44,8 @@ jobs:
       with:
         browser: chrome
 
-    - uses: actions/upload-artifact@v3
+    - name: upload artifacts
+      uses: actions/upload-artifact@v3
       with:
         name: video logs
         path: cypress/videos
