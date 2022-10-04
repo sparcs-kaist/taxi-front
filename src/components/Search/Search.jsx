@@ -19,6 +19,7 @@ import OptionPlace from "components/common/roomOptions/Place";
 import OptionDate from "components/common/roomOptions/Date";
 import OptionTime from "components/common/roomOptions/Time";
 import OptionMaxPartLength from "components/common/roomOptions/MaxPartLength";
+import { useTranslation } from "react-i18next";
 
 const searchQueryOption = { strictNullHandling: true };
 
@@ -199,6 +200,8 @@ const Search = () => {
       setMaxPartLength(Number(q.maxPartLength));
   };
 
+  const { t } = useTranslation();
+
   useEffect(() => {
     const q = qs.parse(location.search.slice(1), searchQueryOption);
 
@@ -348,7 +351,7 @@ const Search = () => {
           letterSpacing: "0.03em",
         }}
       >
-        어떤 조건으로 검색할까요?
+        {t("어떤 조건으로 검색할까요?")}
       </div>
       <SelectSearchOptions options={searchOptions} handler={setSearchOptions} />
       {searchOptions.name ? (
@@ -385,10 +388,11 @@ const Search = () => {
     searchResult === null ? null : (
       <SideResult result={searchResult} mobile={reactiveState == 3} />
     );
+
   return (
     <div>
       <Title icon="search" header={true}>
-        방 검색하기
+        {t("방 검색하기")}
       </Title>
       <RLayout.R2
         left={reactiveState == 3 && searchResult !== null ? null : leftLay}

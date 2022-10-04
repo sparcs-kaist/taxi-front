@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import WhiteContainer from "components/common/WhiteContainer";
 import Popup from "./Popup";
 import Picker from "react-mobile-picker-mod";
+import { useTranslation } from "react-i18next";
 
 const PopupInput = (props) => {
   const [value, setValue] = useState({
@@ -38,6 +39,8 @@ const PopupInput = (props) => {
     if (changedValue && value.place !== changedValue)
       setValue({ place: changedValue });
   };
+
+  const { t } = useTranslation();
 
   return (
     <Popup isOpen={props.isOpen} onClose={props.onClose} onClick={onClick}>

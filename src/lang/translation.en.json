@@ -16,5 +16,12 @@
   "과거 참여 방": "Room joined in past",
   "과거 참여했던 방이 없습니다.": "You didn't join any room in past",
   "채팅 창": "Chatting Box",
-  "방을 선택하세요.": "Choose your room"
+  "방을 선택하세요.": "Choose your room",
+
+  "출발지": "Departures",
+  "어디서 가시나요": "Which place do you go from",
+  "어디로 가시나요": "Which place do you go to",
+
+  "방 검색하기": "Search Room",
+  "어떤 조건으로 검색할까요?": "Which condition would you prefer for search?"
 }
