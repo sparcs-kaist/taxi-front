@@ -27,20 +27,6 @@ const Myroom = () => {
     history.replace(`/chatting/${roomId}`);
   }
 
-  const donePageClickHandler = (page) => {
-    history.push(`/myroom?page=${page}`);
-  };
-
-  const donePrevPageHandler = () => {
-    if (donePageInfo.currentPage <= 1) return;
-    history.push(`/myroom?page=${donePageInfo.currentPage - 1}`);
-  };
-
-  const doneNextPageHandler = () => {
-    if (donePageInfo.currentPage >= donePageInfo.totalPages) return;
-    history.push(`/myroom?page=${donePageInfo.currentPage + 1}`);
-  };
-
   useEffect(() => {
     if (!roomList) return;
     const q = qs.parse(location.search.slice(1));
@@ -59,9 +45,6 @@ const Myroom = () => {
       done={roomList?.done}
       recallEvent={() => setRoomListToken(Date.now().toString())}
       donePageInfo={donePageInfo}
-      donePageClickHandler={donePageClickHandler}
-      doneNextPageHandler={doneNextPageHandler}
-      donePrevPageHandler={donePrevPageHandler}
     />
   ) : (
     <R2Myroom
@@ -70,9 +53,6 @@ const Myroom = () => {
       done={roomList?.done}
       recallEvent={() => setRoomListToken(Date.now().toString())}
       donePageInfo={donePageInfo}
-      donePageClickHandler={donePageClickHandler}
-      doneNextPageHandler={doneNextPageHandler}
-      donePrevPageHandler={donePrevPageHandler}
     />
   );
 };

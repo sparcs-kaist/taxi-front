@@ -1,4 +1,6 @@
 import React, { CSSProperties } from "react";
+import { useLocation, useHistory } from "react-router-dom";
+import qs from "qs";
 import { theme } from "styles/theme";
 
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeftRounded";
@@ -7,9 +9,6 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRightRounde
 type PaginationProps = {
   totalPages: number;
   currentPage: number;
-  onClickPage: (page: number) => void;
-  onClickPrev: () => void;
-  onClickNext: () => void;
   isMobile: boolean;
 };
 
@@ -49,14 +48,19 @@ const PageButton = ({ page, onClick, selected }: PageButtonProps) => {
   );
 };
 
+const getNewQuery = (prevQuery: string, newPage: number) => {
+  const q = qs.parse(prevQuery.slice(1));
+  return qs.stringify({ ...q, page: newPage });
+};
+
 const Pagination = ({
   totalPages,
   currentPage,
-  onClickPage,
-  onClickPrev,
-  onClickNext,
   isMobile,
 }: PaginationProps): React.ReactElement => {
+  const location = useLocation();
+  const history = useHistory();
+
   const style = {
     display: "flex",
     justifyContent: "center",
@@ -82,10 +86,28 @@ const Pagination = ({
     cursor: "pointer",
   };
 
+  const pageClickHandler = (page: number) => {
+    history.push(`${location.pathname}?${getNewQuery(location.search, page)}`);
+  };
+
+  const prevPageHandler = () => {
+    if (currentPage <= 1) return;
+    history.push(
+      `${location.pathname}?${getNewQuery(location.search, currentPage - 1)}`
+    );
+  };
+
+  const nextPageHandler = () => {
+    if (currentPage >= totalPages) return;
+    history.push(
+      `${location.pathname}?${getNewQuery(location.search, currentPage + 1)}`
+    );
+  };
+
   return (
     <div style={style}>
       <div style={styleButtonsWrapper}>
-        <KeyboardArrowLeftIcon onClick={onClickPrev} style={styleIcon} />
+        <KeyboardArrowLeftIcon onClick={prevPageHandler} style={styleIcon} />
         {Array(Math.min(5, totalPages))
           .fill(0)
           .map((_, idx) => {
@@ -98,13 +120,13 @@ const Pagination = ({
             return (
               <PageButton
                 page={page}
-                onClick={() => onClickPage(page)}
+                onClick={() => pageClickHandler(page)}
                 key={idx}
                 selected={page === currentPage}
               />
             );
           })}
-        <KeyboardArrowRightIcon onClick={onClickNext} style={styleIcon} />
+        <KeyboardArrowRightIcon onClick={nextPageHandler} style={styleIcon} />
       </div>
     </div>
   );

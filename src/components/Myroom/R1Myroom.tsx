@@ -17,7 +17,6 @@ type R1MyroomProps = {
   roomId: string;
   ongoing: Array<any>;
   done: Array<any>;
-  ongoingPageInfo: { totalPages: number; currentPage: number };
   donePageInfo: { totalPages: number; currentPage: number };
   donePageClickHandler: (page: number) => void;
   donePrevPageHandler: () => void;
@@ -41,25 +40,20 @@ const R1Myroom = (props: R1MyroomProps) => {
       {props.ongoing.length === 0 ? (
         <div style={styleEmpty}>참여 중인 방이 없습니다.</div>
       ) : (
-        props.ongoing
-          .slice(
-            PAGE_MAX_ITEMS * (props.ongoingPageInfo.currentPage - 1),
-            PAGE_MAX_ITEMS * props.ongoingPageInfo.currentPage
-          )
-          .map((item) => (
-            <Link
-              key={item._id}
-              to={`/myroom/${item._id}`}
-              style={{ textDecoration: "none" }}
-            >
-              <Room
-                data={item}
-                selected={props.roomId === item._id}
-                theme="white"
-                marginBottom="15px"
-              />
-            </Link>
-          ))
+        props.ongoing.map((item) => (
+          <Link
+            key={item._id}
+            to={`/myroom/${item._id}`}
+            style={{ textDecoration: "none" }}
+          >
+            <Room
+              data={item}
+              selected={props.roomId === item._id}
+              theme="white"
+              marginBottom="15px"
+            />
+          </Link>
+        ))
       )}
       <Title icon="past" header={true}>
         과거 참여 방
@@ -90,9 +84,6 @@ const R1Myroom = (props: R1MyroomProps) => {
           <Pagination
             totalPages={props.donePageInfo.totalPages}
             currentPage={props.donePageInfo.currentPage}
-            onClickPage={props.donePageClickHandler}
-            onClickPrev={props.donePrevPageHandler}
-            onClickNext={props.doneNextPageHandler}
             isMobile
           />
         </>
@@ -105,13 +96,9 @@ R1Myroom.propTypes = {
   roomId: PropTypes.string,
   ongoing: PropTypes.array,
   done: PropTypes.array,
-  ongoingPageInfo: PropTypes.object,
   donePageInfo: PropTypes.object,
-  ongoingPageClickHandler: PropTypes.func,
   donePageClickHandler: PropTypes.func,
-  ongoingNextPageHandler: PropTypes.func,
   doneNextPageHandler: PropTypes.func,
-  ongoingPrevPageHandler: PropTypes.func,
   donePrevPageHandler: PropTypes.func,
 };
 R1Myroom.defaultProps = {
