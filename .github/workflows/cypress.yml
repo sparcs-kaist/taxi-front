@@ -45,6 +45,7 @@ jobs:
         browser: chrome
 
     - name: upload artifacts
+      if: always()
       uses: actions/upload-artifact@v3
       with:
         name: video logs
