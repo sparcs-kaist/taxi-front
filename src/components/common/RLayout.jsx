@@ -99,10 +99,10 @@ const Popup = (props) => {
     return (
       <div
         style={{
-          height: "100%",
           width: "335px",
           margin: "auto",
         }}
+        onClick={(e) => e.stopPropagation()}
       >
         {props.children}
       </div>
@@ -111,10 +111,10 @@ const Popup = (props) => {
     return (
       <div
         style={{
-          height: "100%",
-          marginLeft: "20px",
-          marginRight: "20px",
+          margin: "auto 20px",
+          width: "100%",
         }}
+        onClick={(e) => e.stopPropagation()}
       >
         {props.children}
       </div>

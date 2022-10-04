@@ -5,8 +5,9 @@ import isMobile from "tools/isMobile";
 type ButtonType = "purple" | "purple_inset" | "gray" | "white";
 
 type ButtonProps = {
-  buttonType?: ButtonType;
+  type?: ButtonType;
   disabled?: boolean;
+  width?: string;
   padding?: string | number;
   radius?: number;
   font?: Font;
@@ -15,8 +16,9 @@ type ButtonProps = {
 };
 
 const Button = ({
-  buttonType,
+  type,
   disabled = false,
+  width,
   padding,
   radius,
   font,
@@ -30,7 +32,7 @@ const Button = ({
     setClicked(bool);
   };
   const getColor = () => {
-    switch (buttonType) {
+    switch (type) {
       case "purple":
         return {
           backgroundColor: disabled
@@ -68,6 +70,7 @@ const Button = ({
 
   const style: CSSProperties = {
     ...font,
+    width: width,
     padding: padding,
     borderRadius: radius,
     transitionDuration: theme.duration,

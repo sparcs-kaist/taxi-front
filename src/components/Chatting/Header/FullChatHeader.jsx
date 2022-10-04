@@ -4,6 +4,7 @@ import { useHistory } from "react-router";
 import HeaderBody from "./HeaderBody";
 import PropTypes from "prop-types";
 import { theme } from "styles/theme";
+import DottedLine from "components/common/DottedLine";
 
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
@@ -100,7 +101,7 @@ const Header = (props) => {
     background: "white",
     overflow: "hidden",
     boxShadow: "0px 0px 12px rgba(0,0,0,0.1)",
-    zIndex: 120,
+    zIndex: theme.zIndex_header,
   });
   const styleLine = {
     width: "100%",
@@ -115,18 +116,8 @@ const Header = (props) => {
     height: "100%",
     background: `rgba(0,0,0,${isOpen ? 0.6 : 0})`,
     pointerEvents: isOpen ? "auto" : "none",
-    zIndex: 110,
+    zIndex: theme.zIndex_background,
   });
-  const styleBorder = {
-    height: "1px",
-    marginLeft: "15px",
-    marginRight: "15px",
-    backgroundImage:
-      "linear-gradient(to right, #C8C8C8 50%, rgba(255,255,255,0) 0%)",
-    backgroundPosition: "bottom",
-    backgroundSize: "15px 1px",
-    backgroundRpeat: "repeat-x",
-  };
 
   const resizeEvent = () => {
     setBodyHeight(bodyRef.current.clientHeight);
@@ -183,7 +174,7 @@ const Header = (props) => {
           <BtnBack info={props.info} />
           <BtnMenu token={isOpen} onClick={() => setOpen(!isOpen)} />
         </div>
-        <div style={styleBorder} />
+        <DottedLine direction="row" margin={12} />
         <div ref={bodyRef}>
           <div
             style={{
