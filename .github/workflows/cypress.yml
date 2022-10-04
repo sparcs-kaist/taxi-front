@@ -10,7 +10,8 @@ on:
 jobs:
   cypress:
     runs-on: ubuntu-20.04
-    name: setup node
+    name: cypress
+    
     steps:
     - name: setup node
       uses: actions/checkout@v3
@@ -42,3 +43,8 @@ jobs:
       uses: cypress-io/github-action@v4
       with:
         browser: chrome
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: video logs
+        path: cypress/videos
