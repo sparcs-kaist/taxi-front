@@ -207,16 +207,16 @@ const PopupReport = ({
         <div style={styleBottomSubmitted}>
           <div
             style={{
-              fontSize: "16px",
+              ...theme.font16,
               lineHeight: "19px",
-              color: "#323232",
-              fontWeight: "400",
+              color: theme.black,
             }}
           >
             <b
               style={{
-                color: "#DD616E",
+                color: theme.red_text,
                 fontWeight: "700",
+                marginRight: "2px",
               }}
             >
               신고
@@ -225,6 +225,7 @@ const PopupReport = ({
             <b
               style={{
                 fontWeight: "700",
+                marginRight: "2px",
               }}
             >
               완료
@@ -235,7 +236,7 @@ const PopupReport = ({
             style={{
               fontSize: "10px",
               lineHeight: "12px",
-              color: "#888888",
+              color: theme.gray_text,
             }}
           >
             신고 내역은 마이 페이지에서 확인 가능합니다.
