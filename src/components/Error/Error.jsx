@@ -20,7 +20,7 @@ const Error = () => {
 
   return (
     <RLayout.R1>
-      <Title icon="error" header={true} marginAuto={false}>
+      <Title icon="error" header={true}>
         오류가 발생하였습니다
       </Title>
       <div id="error-body">

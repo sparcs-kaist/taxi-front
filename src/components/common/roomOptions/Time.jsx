@@ -125,7 +125,7 @@ const Time = (props) => {
     boxSizing: "border-box",
   };
   return (
-    <WhiteContainer marginAuto={false} padding="9px">
+    <WhiteContainer padding="9px">
       <div style={style}>
         <ScheduleRoundedIcon style={styleIcon} />
         <div style={styleText}>시간 :</div>

@@ -9,6 +9,7 @@ import axiosOri from "axios";
 import convertImg from "tools/convertImg";
 import PropTypes from "prop-types";
 import DottedLine from "components/common/DottedLine";
+import { theme } from "styles/theme";
 
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
@@ -141,7 +142,7 @@ const PopupMypage = (props) => {
     left: "0px",
     width: "100%",
     height: "100%",
-    zIndex: 50,
+    zIndex: theme.zIndex_modal,
     background: `rgba(0,0,0,0.6)`,
     opacity: props.isOpen ? 1 : 0,
     pointerEvents: props.isOpen ? "auto" : "none",
