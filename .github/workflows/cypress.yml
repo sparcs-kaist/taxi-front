@@ -22,8 +22,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: sparcs-kaist/taxi-front
-        run:
-          ls
       
       - name: install dependencies
         run: |
