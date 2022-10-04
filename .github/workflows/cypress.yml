@@ -8,12 +8,34 @@ on:
     branches:
       - main
 jobs:
-  cypress-run:
+  cypress:
     runs-on: ubuntu-20.04
-    # let's make sure our tests pass on Chrome browser
-    name: E2E on Chrome
+    name: setup node
     steps:
-      - uses: actions/checkout@v2
-      - uses: cypress-io/github-action@v4
+      - name: setup node
+        uses: actions/checkout@v3
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: clones taxi-front
+        uses: actions/checkout@v3
+        with:
+          repository: sparcs-kaist/taxi-front
+        run:
+          ls
+      
+      - name: install dependencies
+        run: |
+          cd taxi-front
+          npm install
+          ls
+
+      - name: runs taxi-front
+        run: npm start
+
+      - name: runs cypress
+        uses: actions/checkout@v2
+        uses: cypress-io/github-action@v4
         with:
           browser: chrome
