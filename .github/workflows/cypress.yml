@@ -25,13 +25,18 @@ jobs:
 
     - name: install dependencies
       run: npm install
-
+    
     - name: creates dotenv
       run: |
         touch .env
         echo REACT_APP_BACK_URL = ${{ secrets.REACT_APP_BACK_URL }}  >> .env
         echo REACT_APP_S3_URL = ${{ secrets.REACT_APP_S3_URL }} >> .env
         echo REACT_APP_CHANNELTALK_PLUGIN_KEY = ${{ secrets.REACT_APP_CHANNELTALK_PLUGIN_KEY }} >> .env
+
+    - name: pm2
+      run: |
+        npm install pm2 -g
+        pm2 start npm -- start
 
     - name: runs cypress
       uses: cypress-io/github-action@v4
