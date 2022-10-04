@@ -16,7 +16,7 @@ const R1Myroom = (props) => {
 
   return (
     <RLayout.R1>
-      <Title icon="current" header={true} marginAuto={false}>
+      <Title icon="current" header={true}>
         참여 중인 방
       </Title>
       {props.ongoing.length === 0 ? (
@@ -37,7 +37,7 @@ const R1Myroom = (props) => {
           </Link>
         ))
       )}
-      <Title icon="past" header={true} marginAuto={false}>
+      <Title icon="past" header={true}>
         과거 참여 방
       </Title>
       {props.done.length === 0 ? (

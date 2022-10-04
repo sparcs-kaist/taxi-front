@@ -8,6 +8,8 @@ import axios from "tools/axios";
 import axiosOri from "axios";
 import convertImg from "tools/convertImg";
 import PropTypes from "prop-types";
+import DottedLine from "components/common/DottedLine";
+import { theme } from "styles/theme";
 
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
@@ -140,7 +142,7 @@ const PopupMypage = (props) => {
     left: "0px",
     width: "100%",
     height: "100%",
-    zIndex: 50,
+    zIndex: theme.zIndex_modal,
     background: `rgba(0,0,0,0.6)`,
     opacity: props.isOpen ? 1 : 0,
     pointerEvents: props.isOpen ? "auto" : "none",
@@ -166,17 +168,6 @@ const PopupMypage = (props) => {
     textAlign: "center",
     fontSize: "20px",
     fontWeight: "bold",
-  };
-  const styleLine = {
-    height: "1px",
-    marginLeft: "15px",
-    marginRight: "15px",
-    marginTop: "15px",
-    backgroundImage:
-      "linear-gradient(to right, #C8C8C8 50%, rgba(255,255,255,0) 0%)",
-    backgroundPosition: "bottom",
-    backgroundSize: "15px 1px",
-    backgroundRpeat: "repeat-x",
   };
 
   const styleLay1 = {
@@ -275,7 +266,7 @@ const PopupMypage = (props) => {
               token={props.profToken}
             />
             <BtnProfImg onClose={props.onClose} onUpdate={props.onUpdate} />
-            <div style={styleLine} />
+            <DottedLine direction="row" margin={12} />
             <div style={{ height: "15px" }} />
 
             <div style={styleLay1}>

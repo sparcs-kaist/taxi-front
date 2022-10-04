@@ -34,8 +34,10 @@ export const theme = {
   font8_medium: { fontSize: 8, letterSpacing: -0.2, fontWeight: 500 },
   font10: { fontSize: 10 },
   font12: { fontSize: 12, letterSpacing: 0.4 },
-  font14: { fontSize: 14 },
-  font14_bold: { fontSize: 14, fontWeight: 700 },
+  font14: { fontSize: 14, lineHeight: "16px" },
+  font14_bold: { fontSize: 14, fontWeight: 700, lineHeight: "16px" },
+  font14_icon: { fontSize: 14 },
+  font15_icon: { fontSize: 15 },
   font16: { fontSize: 16, letterSpacing: -0.4 },
   font16_bold: { fontSize: 16, letterSpacing: -0.4, fontWeight: 700 },
   font18: { fontSize: 18, letterSpacing: -0.6 },
@@ -66,13 +68,24 @@ export const theme = {
     "0px 2px 4px rgba(110, 54, 120, 0.2), " +
     "0px 1px 18px rgba(110, 54, 120, 0.12), " +
     "0px 6px 10px rgba(110, 54, 120, 0.14)",
+  shadow_color_button: "1px 1.5px 2.5px -1px rgba(110, 54, 120, 0.15)",
 
   // Transition
   duration: "0.15s",
+
+  // White Container Width
   container_max_width: 325,
 
   // Cursor
   cursor: (disabled: boolean) => {
     return disabled ? "not-allowed" : "pointer";
   },
+
+  // zIndex
+  zIndex_nav: 10,
+  zIndex_headerBar: 10,
+  zIndex_modal: 20,
+  zIndex_background: 10,
+  zIndex_header: 20,
+  zIndex_fullimage: 20,
 };

@@ -20,7 +20,7 @@ const Error = () => {
 
   return (
     <RLayout.R1>
-      <Title icon="error" header={true} marginAuto={false}>
+      <Title icon="error" header={true}>
         오류가 발생하였습니다
       </Title>
       <div id="error-body">
@@ -48,7 +48,7 @@ const Error = () => {
       </div>
       <Spacer height={110} />
       <Button
-        buttonType="white"
+        type="white"
         padding="13px 24px 14px"
         radius={12}
         font={theme.font14}
@@ -59,7 +59,7 @@ const Error = () => {
       <Spacer height={12} />
       <Link to="/" style={{ textDecoration: "none" }}>
         <Button
-          buttonType="purple"
+          type="purple"
           padding="13px 24px 14px"
           radius={12}
           font={theme.font14_bold}
