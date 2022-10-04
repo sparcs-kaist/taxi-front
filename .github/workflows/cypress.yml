@@ -23,16 +23,8 @@ jobs:
     - name: print ls
       run: ls
 
-    - name: clones taxi-front
-      uses: actions/checkout@v3
-      with:
-        repository: sparcs-kaist/taxi-front
-
     - name: install dependencies
-      run: |
-        cd taxi-front
-        npm install
-        ls
+      run: npm install
 
     - name: runs taxi-front
       run: npm start
