@@ -151,7 +151,7 @@ class DatePicker extends Component {
       { color: theme.black, text: "수" },
       { color: theme.black, text: "목" },
       { color: theme.black, text: "금" },
-      { color: theme.red_text, text: "토" },
+      { color: theme.blue_text, text: "토" },
     ];
 
     this.styleTop = {
