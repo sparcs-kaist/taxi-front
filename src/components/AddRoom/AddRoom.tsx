@@ -11,7 +11,7 @@ import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
 import OptionDate from "components/common/roomOptions/Date";
 import OptionTime from "components/common/roomOptions/Time";
-import OptionMaxPartLength from "components/common/roomOptions/MaxPartLength";
+import OptionMaxPart from "components/common/roomOptions/MaxPart";
 
 const AddRoom = () => {
   const onCall = useRef(false);
@@ -19,21 +19,18 @@ const AddRoom = () => {
   const [valueName, setName] = useState("");
   const [valuePlace, setPlace] = useState([null, null]);
   const [valueDate, setDate] = useState([null, null, null]);
-  const [valueMaxPartLength, setMaxPartLength] = useState(4);
+  const [valueMaxPart, setMaxPart] = useState(4);
   const today = getToday();
   const today10 = getToday10();
-  const [valueTime, setTime] = useState([
-    today10.hour().toString(),
-    today10.minute().toString(),
-  ]);
-  const [calculatedTime, setCalculatedTime] = useState(null);
+  const [valueTime, setTime] = useState([today10.hour(), today10.minute()]);
+  const [calculatedTime, setCalculatedTime] = useState<Date | null>(null);
 
   useEffect(() => {
     setCalculatedTime(
       new Date(
-        valueDate[0],
-        valueDate[1] - 1,
-        valueDate[2],
+        valueDate[0]!,
+        valueDate[1]! - 1,
+        valueDate[2]!,
         valueTime[0],
         valueTime[1]
       )
@@ -66,8 +63,8 @@ const AddRoom = () => {
         name: valueName,
         from: valuePlace[0],
         to: valuePlace[1],
-        time: calculatedTime.toISOString(),
-        maxPartLength: valueMaxPartLength,
+        time: calculatedTime!.toISOString(),
+        maxPartLength: valueMaxPart,
       });
       if (result.status === 200) {
         history.push("/myroom");
@@ -87,12 +84,9 @@ const AddRoom = () => {
         <OptionDate value={valueDate} handler={setDate} />
         <OptionName value={valueName} handler={setName} />
         <OptionTime value={valueTime} handler={setTime} page="add" />
-        <OptionMaxPartLength
-          value={valueMaxPartLength}
-          handler={setMaxPartLength}
-        />
+        <OptionMaxPart value={valueMaxPart} handler={setMaxPart} />
         <Button
-          buttonType="purple"
+          type="purple"
           disabled={validatedMsg ? true : false}
           padding="13px 0px 14px"
           radius={12}
@@ -103,9 +97,9 @@ const AddRoom = () => {
             ? validatedMsg
             : `${date2str(
                 new Date(
-                  valueDate[0],
-                  valueDate[1] - 1,
-                  valueDate[2],
+                  valueDate[0]!,
+                  valueDate[1]! - 1,
+                  valueDate[2]!,
                   valueTime[0],
                   valueTime[1]
                 ),
