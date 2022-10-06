@@ -53,3 +53,7 @@ body::-webkit-scrollbar {
 .BTNC {
   cursor: pointer;
 }
+
+.underline:hover {
+  box-shadow: 0 1px;
+}

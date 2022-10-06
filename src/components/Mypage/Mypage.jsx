@@ -19,14 +19,14 @@ import SparcsLogoBlack from "static/assets/SparcsLogoBlack.svg";
 
 const BtnC = (props) => {
   const [isHover, setHover] = useState(false);
-  const style = useSpring({
+  const style = {
     height: "35px",
     borderRadius: "8px",
     overflow: "hidden",
     position: "relative",
-    background: `rgba(120,120,120,${isHover ? 0.08 : 0})`,
-    config: { duration: 100 },
-  });
+    // background: `rgba(120,120,120,${isHover ? 0.08 : 0})`,
+    transitionDuration: theme.duration,
+  };
   const styleImg = {
     position: "absolute",
     top: "8px",
@@ -59,7 +59,7 @@ const BtnC = (props) => {
   };
 
   return (
-    <animated.div
+    <div
       style={style}
       className="BTNC"
       onMouseEnter={() => setHover(true)}
@@ -67,8 +67,10 @@ const BtnC = (props) => {
       onClick={() => props.onClick()}
     >
       {getIcon(props.icon)}
-      <div style={styleText}>{props.children}</div>
-    </animated.div>
+      <div style={styleText} className="underline">
+        {props.children}
+      </div>
+    </div>
   );
 };
 BtnC.propTypes = {
@@ -150,7 +152,7 @@ const Mypage = () => {
         >
           <div style={theme.font14_bold}>내 정보</div>
           <div
-            className="BTNC"
+            className="BTNC underline"
             style={{ ...theme.font14, color: theme.purple }}
             onClick={() => setOpen3(true)}
           >
@@ -176,7 +178,6 @@ const Mypage = () => {
             신고 내역
           </BtnC>
           <a className="popup-channeltalk">
-            2
             <BtnC icon="ask" onClick={() => {}}>
               채널톡 문의하기
             </BtnC>
