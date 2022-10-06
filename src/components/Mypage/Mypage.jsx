@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { animated, useSpring } from "react-spring";
+import React, { useState } from "react";
 import { useHistory } from "react-router";
 import PropTypes from "prop-types";
 import Title from "components/common/Title";
@@ -12,49 +11,42 @@ import useTaxiAPI from "hooks/useTaxiAPI";
 import axios from "tools/axios";
 import { theme } from "styles/theme";
 
-import AssignmentRoundedIcon from "@material-ui/icons/AssignmentRounded";
+import ReportGmailerrorredRoundedIcon from "@mui/icons-material/ReportGmailerrorredRounded";
+import HelpOutlineRoundedIcon from "@material-ui/icons/HelpOutlineRounded";
+import AssignmentOutlinedIcon from "@material-ui/icons/AssignmentOutlined";
+import PortraitRoundedIcon from "@material-ui/icons/PortraitRounded";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
-import ContactSupportRoundedIcon from "@material-ui/icons/ContactSupportRounded";
-import SparcsLogoBlack from "static/assets/SparcsLogoBlack.svg";
+import KeyboardArrowLeftRoundedIcon from "@material-ui/icons/KeyboardArrowLeftRounded";
 
 const BtnC = (props) => {
   const [isHover, setHover] = useState(false);
   const style = {
-    height: "35px",
-    borderRadius: "8px",
-    overflow: "hidden",
-    position: "relative",
-    // background: `rgba(120,120,120,${isHover ? 0.08 : 0})`,
-    transitionDuration: theme.duration,
+    display: "flex",
+    alignItems: "center",
+    width: "fit-content",
+    color: isHover ? theme.purple : undefined,
   };
   const styleImg = {
-    position: "absolute",
-    top: "8px",
-    left: "8px",
-    width: "16px",
-    height: "16px",
+    ...theme.font15_icon,
+    marginRight: "8px",
   };
   const styleText = {
-    height: "35px",
-    lineHeight: "35px",
-    paddingLeft: "35px",
     ...theme.font14,
+    color: "inherit",
   };
 
   const getIcon = (icon) => {
     switch (icon) {
       case "report":
-        return <></>;
+        return <ReportGmailerrorredRoundedIcon style={styleImg} />;
       case "ask":
-        return <ContactSupportRoundedIcon style={styleImg} />;
+        return <HelpOutlineRoundedIcon style={styleImg} />;
       case "rule":
-        return <AssignmentRoundedIcon style={styleImg} />;
+        return <AssignmentOutlinedIcon style={styleImg} />;
       case "credit":
-        return <img src={SparcsLogoBlack} alt="" style={styleImg} />;
+        return <PortraitRoundedIcon style={styleImg} />;
       case "logout":
         return <ExitToAppRoundedIcon style={styleImg} />;
-      default:
-        return <></>;
     }
   };
 
@@ -64,12 +56,13 @@ const BtnC = (props) => {
       className="BTNC"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      onTouchStart={() => setHover(true)}
+      onTouchEnd={() => setHover(false)}
       onClick={() => props.onClick()}
     >
       {getIcon(props.icon)}
-      <div style={styleText} className="underline">
-        {props.children}
-      </div>
+      <div style={styleText}>{props.children}</div>
+      {isHover && <KeyboardArrowLeftRoundedIcon style={styleImg} />}
     </div>
   );
 };
@@ -152,7 +145,7 @@ const Mypage = () => {
         >
           <div style={theme.font14_bold}>내 정보</div>
           <div
-            className="BTNC underline"
+            className="BTNC"
             style={{ ...theme.font14, color: theme.purple }}
             onClick={() => setOpen3(true)}
           >
@@ -173,7 +166,7 @@ const Mypage = () => {
         </div>
       </WhiteContainer>
       <WhiteContainer marginAuto={true}>
-        <div>
+        <div style={{ display: "grid", rowGap: "16px" }}>
           <BtnC icon="report" onClick={() => {}}>
             신고 내역
           </BtnC>
