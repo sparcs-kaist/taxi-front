@@ -49,6 +49,7 @@ const Title = (props) => {
     <div
       style={{
         display: "flex",
+        alignItems: "center",
         padding: props.header ? "30px 0 25px" : undefined,
       }}
     >
@@ -57,7 +58,7 @@ const Title = (props) => {
         style={{
           ...theme.font20,
           color: theme.purple,
-          marginLeft: "8px",
+          margin: "0 0 1px 8px",
         }}
       >
         {props.children}
