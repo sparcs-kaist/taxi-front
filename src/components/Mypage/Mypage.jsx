@@ -62,7 +62,7 @@ const BtnC = (props) => {
     >
       {getIcon(props.icon)}
       <div style={styleText}>{props.children}</div>
-      {isHover && <KeyboardArrowLeftRoundedIcon style={styleImg} />}
+      {isHover && <KeyboardArrowLeftRoundedIcon style={theme.font15_icon} />}
     </div>
   );
 };
@@ -108,6 +108,16 @@ const Mypage = () => {
   };
   const infoTitle = {
     display: "flex",
+    justifyContent: "space-between",
+    marginTop: "15px",
+  };
+  const infoModify = {
+    ...theme.font14,
+    color: theme.purple,
+    cursor: "pointer",
+  };
+  const infoType = {
+    display: "flex",
     ...theme.font14,
     color: theme.gray_text,
     marginTop: "16px",
@@ -136,31 +146,21 @@ const Mypage = () => {
             {userInfo?.name}
           </div>
         </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginTop: "15px",
-          }}
-        >
+        <div style={infoTitle}>
           <div style={theme.font14_bold}>내 정보</div>
-          <div
-            className="BTNC"
-            style={{ ...theme.font14, color: theme.purple }}
-            onClick={() => setOpen3(true)}
-          >
+          <div style={infoModify} onClick={() => setOpen3(true)}>
             수정하기
           </div>
         </div>
-        <div style={infoTitle} className="selectable">
+        <div style={infoType} className="selectable">
           학번
           <div style={infoContent}>{userInfoDetail?.subinfo.kaist}</div>
         </div>
-        <div style={infoTitle} className="selectable">
+        <div style={infoType} className="selectable">
           메일
           <div style={infoContent}>{userInfoDetail?.email}</div>
         </div>
-        <div style={infoTitle} className="selectable">
+        <div style={infoType} className="selectable">
           별명
           <div style={infoContent}>{userInfoDetail?.nickname}</div>
         </div>
