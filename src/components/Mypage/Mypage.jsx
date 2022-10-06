@@ -43,12 +43,14 @@ const BtnC = (props) => {
 
   const getIcon = (icon) => {
     switch (icon) {
+      case "report":
+        return <></>;
+      case "ask":
+        return <ContactSupportRoundedIcon style={styleImg} />;
       case "rule":
         return <AssignmentRoundedIcon style={styleImg} />;
-      case "logo":
+      case "credit":
         return <img src={SparcsLogoBlack} alt="" style={styleImg} />;
-      case "support":
-        return <ContactSupportRoundedIcon style={styleImg} />;
       case "logout":
         return <ExitToAppRoundedIcon style={styleImg} />;
       default:
@@ -120,7 +122,7 @@ const Mypage = () => {
     ...theme.font14,
     marginLeft: "12px",
   };
-  console.log(userInfoDetail);
+
   return (
     <>
       <Title icon="mypage" header={true} marginAuto={true}>
@@ -168,20 +170,26 @@ const Mypage = () => {
         </div>
       </WhiteContainer>
       <WhiteContainer marginAuto={true}>
-        <BtnC icon="rule" onClick={() => setOpen2(true)}>
-          사용 약관 및 개인정보 보호 규칙
-        </BtnC>
-        <BtnC icon="logo" onClick={() => setOpen1(true)}>
-          만든 사람들
-        </BtnC>
-        <a className="popup-channeltalk">
-          <BtnC icon="support" onClick={() => {}}>
-            문의하기
+        <div>
+          <BtnC icon="report" onClick={() => {}}>
+            신고 내역
           </BtnC>
-        </a>
-        <BtnC icon="logout" onClick={handleLogout}>
-          로그아웃
-        </BtnC>
+          <a className="popup-channeltalk">
+            2
+            <BtnC icon="ask" onClick={() => {}}>
+              채널톡 문의하기
+            </BtnC>
+          </a>
+          <BtnC icon="rule" onClick={() => setOpen2(true)}>
+            사용 약관 및 개인정보 보호 규칙
+          </BtnC>
+          <BtnC icon="credit" onClick={() => setOpen1(true)}>
+            만든 사람들
+          </BtnC>
+          <BtnC icon="logout" onClick={handleLogout}>
+            로그아웃
+          </BtnC>
+        </div>
       </WhiteContainer>
       <PopupSparcs isOpen={isOpen1} onClose={() => setOpen1(false)} />
       <PopupPolicy isOpen={isOpen2} onClose={() => setOpen2(false)} />

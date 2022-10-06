@@ -305,7 +305,7 @@ const PopupMypage = (props) => {
                   <animated.div
                     style={{ ...styleBtn2, width: "100%" }}
                     onClick={onClose}
-                    className="BTNC ND"
+                    className="BTNC"
                   >
                     취소
                   </animated.div>
@@ -315,14 +315,14 @@ const PopupMypage = (props) => {
                   <animated.div
                     style={styleBtn1}
                     onClick={onClickEditNickName}
-                    className="BTNC ND"
+                    className="BTNC"
                   >
                     수정 하기
                   </animated.div>
                   <animated.div
                     style={styleBtn2}
                     onClick={onClose}
-                    className="BTNC ND"
+                    className="BTNC"
                   >
                     취소
                   </animated.div>

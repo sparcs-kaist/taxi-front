@@ -42,7 +42,7 @@ const SearchOption = (props) => {
   return (
     <animated.div
       style={style}
-      className="BTNC ND"
+      className="BTNC"
       onClick={() => props.onClick(props.id)}
       onMouseEnter={() => setHover(!(isMobile().phone || isMobile().tablet))}
       onMouseLeave={() => setHover(false)}
