@@ -10,6 +10,7 @@ import PopupMypage from "./PopupMypage/PopupMypage";
 import ProfileImg from "./ProfileImg";
 import useTaxiAPI from "hooks/useTaxiAPI";
 import axios from "tools/axios";
+import { theme } from "styles/theme";
 
 import AssignmentRoundedIcon from "@material-ui/icons/AssignmentRounded";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
@@ -37,7 +38,7 @@ const BtnC = (props) => {
     height: "35px",
     lineHeight: "35px",
     paddingLeft: "35px",
-    fontSize: "14px",
+    ...theme.font14,
   };
 
   const getIcon = (icon) => {
@@ -97,53 +98,45 @@ const Mypage = () => {
   };
   const handleUpdate = () => setProfToken(Date.now().toString());
 
+  const styleProfile = {
+    display: "flex",
+    alignItems: "center",
+    ...theme.font16_bold,
+  };
   const styleProfImg = {
     width: "50px",
     height: "50px",
-    borderRadius: "25px",
+    borderRadius: "50%",
     overflow: "hidden",
-  };
-  const styleName = {
-    fontSize: "17px",
-    lineHeight: "20px",
-    fontWeight: "bold",
-    marginLeft: "12px",
-  };
-  const myInfo = {
-    fontSize: "14px",
-    fontWeight: "bold",
-  };
-  const modify = {
-    fontSize: "14px",
-    color: "#6E3678",
+    marginRight: "12px",
   };
   const infoTitle = {
     display: "flex",
-    fontSize: "14px",
-    color: "#888888",
+    ...theme.font14,
+    color: theme.gray_text,
     marginTop: "16px",
   };
   const infoContent = {
-    fontSize: "14px",
+    ...theme.font14,
     marginLeft: "12px",
   };
-
+  console.log(userInfoDetail);
   return (
     <>
       <Title icon="mypage" header={true} marginAuto={true}>
         마이 페이지
       </Title>
       <WhiteContainer marginAuto={true} padding="16px 24px 24px">
-        <div style={{ display: "flex", alignItems: "center" }}>
+        <div style={styleProfile}>
           <div style={styleProfImg}>
             {userInfoDetail?.profileImgUrl && profToken ? (
               <ProfileImg
-                path={userInfoDetail?.profileImgUrl}
+                path={userInfoDetail.profileImgUrl}
                 token={profToken}
               />
             ) : null}
           </div>
-          <div style={styleName}>{userInfo ? userInfo.name : ""}</div>
+          {userInfo?.name}
         </div>
         <div
           style={{
@@ -152,27 +145,27 @@ const Mypage = () => {
             marginTop: "15px",
           }}
         >
-          <div style={myInfo}>내 정보</div>
-          <div style={modify} className="BTNC" onClick={() => setOpen3(true)}>
+          <div style={theme.font14_bold}>내 정보</div>
+          <div
+            className="BTNC"
+            style={{ ...theme.font14, color: theme.purple }}
+            onClick={() => setOpen3(true)}
+          >
             수정하기
           </div>
         </div>
-        {userInfoDetail?.subinfo && (
-          <>
-            <div style={infoTitle}>
-              학번
-              <div style={infoContent}>{userInfoDetail.subinfo.kaist}</div>
-            </div>
-            <div style={infoTitle}>
-              메일
-              <div style={infoContent}>{userInfoDetail.email}</div>
-            </div>
-            <div style={infoTitle}>
-              별명
-              <div style={infoContent}>{userInfoDetail.nickname}</div>
-            </div>
-          </>
-        )}
+        <div style={infoTitle}>
+          학번
+          <div style={infoContent}>{userInfoDetail?.subinfo.kaist}</div>
+        </div>
+        <div style={infoTitle}>
+          메일
+          <div style={infoContent}>{userInfoDetail?.email}</div>
+        </div>
+        <div style={infoTitle}>
+          별명
+          <div style={infoContent}>{userInfoDetail?.nickname}</div>
+        </div>
       </WhiteContainer>
       <WhiteContainer marginAuto={true}>
         <BtnC icon="rule" onClick={() => setOpen2(true)}>

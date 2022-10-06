@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getS3Url } from "tools/trans";
 import PropTypes from "prop-types";
+import { theme } from "styles/theme";
 
 import defaultImg from "static/assets/profileImgOnError.png";
 
@@ -19,7 +20,7 @@ const ProfileImg = (props) => {
         width: "100%",
         height: "100%",
         position: "relative",
-        backgroundColor: "#EEEEEE",
+        backgroundColor: theme.gray_background,
       }}
     >
       <img
