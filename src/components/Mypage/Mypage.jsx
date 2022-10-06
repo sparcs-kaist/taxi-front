@@ -152,15 +152,15 @@ const Mypage = () => {
             수정하기
           </div>
         </div>
-        <div style={infoTitle}>
+        <div style={infoTitle} className="selectable">
           학번
           <div style={infoContent}>{userInfoDetail?.subinfo.kaist}</div>
         </div>
-        <div style={infoTitle}>
+        <div style={infoTitle} className="selectable">
           메일
           <div style={infoContent}>{userInfoDetail?.email}</div>
         </div>
-        <div style={infoTitle}>
+        <div style={infoTitle} className="selectable">
           별명
           <div style={infoContent}>{userInfoDetail?.nickname}</div>
         </div>
