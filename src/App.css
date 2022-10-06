@@ -44,20 +44,6 @@ body::-webkit-scrollbar {
   user-select: auto; /* Chrome, Edge, Opera, and Firefox */
 }
 
-button {
-  border: none;
-  outline: none;
-  background: none;
-}
-
-button:active {
-  outline: none;
-}
-
-button:focus {
-  outline: none;
-}
-
 #root {
   width: 100%;
   height: 100%;
