@@ -103,7 +103,6 @@ const Mypage = () => {
   const styleProfile = {
     display: "flex",
     alignItems: "center",
-    ...theme.font16_bold,
   };
   const styleProfImg = {
     width: "50px",
@@ -138,7 +137,9 @@ const Mypage = () => {
               />
             ) : null}
           </div>
-          {userInfo?.name}
+          <div style={theme.font16_bold} className="selectable">
+            {userInfo?.name}
+          </div>
         </div>
         <div
           style={{
