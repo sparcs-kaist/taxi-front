@@ -39,7 +39,7 @@ const Modal = (props) => {
           }}
         >
           {props.children}
-          {props.btnCloseDisplay ? (
+          {props.closeBtn ? (
             <CloseRoundedIcon style={styleBtn} onClick={props.onClickClose} />
           ) : null}
         </div>
@@ -54,13 +54,13 @@ Modal.propTypes = {
   width: PropTypes.number,
   padding: PropTypes.string,
   children: PropTypes.any,
-  btnCloseDisplay: PropTypes.bool,
+  closeBtn: PropTypes.bool,
 };
 Modal.defaultProps = {
   onClickClose: () => {},
   width: 335,
   padding: "0px",
-  btnCloseDisplay: false,
+  closeBtn: true,
 };
 
 export default Modal;

@@ -243,7 +243,6 @@ const PopupPolicy = (props) => {
   return (
     <Modal
       display={props.isOpen}
-      btnCloseDisplay={true}
       onClickClose={onClose}
       padding="16px"
       width={755}

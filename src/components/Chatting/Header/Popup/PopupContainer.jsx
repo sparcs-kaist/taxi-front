@@ -9,7 +9,6 @@ const PopupContainer = (props) => {
       display={props.popup}
       onClickClose={props.onClickClose}
       padding="10px"
-      btnCloseDisplay={true}
     >
       <div style={{ height: "26px" }} />
       {props.children}

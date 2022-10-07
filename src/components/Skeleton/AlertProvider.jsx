@@ -17,7 +17,6 @@ const AlertProvider = () => {
       onClickClose={onClickClose}
       padding="10px"
       top="100px"
-      btnCloseDisplay={true}
     >
       <div style={{ padding: "10px", paddingBottom: "20px", fontSize: "15px" }}>
         {messageCache.current}
