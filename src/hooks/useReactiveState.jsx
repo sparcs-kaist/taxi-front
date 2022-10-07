@@ -74,10 +74,10 @@ const useR2state = () => {
   return state;
 };
 
-const usePopupstate = () => {
+const usePopupstate = (modalWidth) => {
   const getState = () => {
     const width = document.body.clientWidth;
-    if (width >= 375) return 1;
+    if (width >= modalWidth + 40) return 1;
     return 2;
   };
   const stateR = useRef(getState());
