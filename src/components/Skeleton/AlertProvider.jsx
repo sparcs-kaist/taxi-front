@@ -15,7 +15,6 @@ const AlertProvider = () => {
     <Modal
       display={message ? true : false}
       onClickClose={onClickClose}
-      maxWidth="325px"
       padding="10px"
       top="100px"
       btnCloseDisplay={true}

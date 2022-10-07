@@ -1,122 +1,64 @@
-import React, { useEffect, useState } from "react";
-import { animated, useSpring } from "react-spring";
+import React from "react";
 import RLayout from "components/common/RLayout";
 import PropTypes from "prop-types";
 import { theme } from "styles/theme";
 
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
-const ModalBackground = (props) => {
-  return (
-    <div
-      style={{
-        position: "absolute",
-        top: "0px",
-        left: "0px",
-        width: "100%",
-        height: "100%",
-      }}
-      onClick={props.onClick}
-    />
-  );
-};
-ModalBackground.propTypes = {
-  onClick: PropTypes.func,
-};
-
-const BtnClose = (props) => {
-  return (
-    <div
-      style={{
-        position: "absolute",
-        top: "10px",
-        right: "10px",
-        width: "24px",
-        height: "24px",
-      }}
-      className="BTNC"
-      onClick={props.onClick}
-    >
-      <CloseRoundedIcon style={{ width: "100%", height: "100%" }} />
-    </div>
-  );
-};
-BtnClose.propTypes = {
-  onClick: PropTypes.func,
-};
-
 const Modal = (props) => {
-  const styleCont = useSpring({
+  const styleBgd = {
     position: "fixed",
+    display: "flex",
     top: "0px",
     left: "0px",
     width: "100%",
     height: "100%",
     zIndex: theme.zIndex_modal,
-    background: `rgba(0,0,0,0.6)`,
+    background: theme.black_60,
     opacity: props.display ? 1 : 0,
+    transitionDuration: theme.duration,
     pointerEvents: props.display ? "auto" : "none",
-  });
+  };
+  const styleBtn = {
+    color: theme.gray_text,
+    position: "absolute",
+    top: "10px",
+    right: "10px",
+    fontSize: "24px",
+    cursor: "pointer",
+  };
   return (
-    <animated.div style={styleCont}>
-      <ModalBackground onClick={props.onClickClose} />
-      <div
-        style={{
-          position: "absolute",
-          top: props.top,
-          bottom: props.bottom,
-          left: "0px",
-          right: "0px",
-        }}
-      >
-        <ModalBackground onClick={props.onClickClose} />
-        <RLayout.R1 height="100%">
-          <ModalBackground onClick={props.onClickClose} />
-          <div
-            style={{
-              position: "relative",
-              maxWidth: props.maxWidth,
-              margin: "auto",
-              maxHeight: "100%",
-              overflow: "hidden",
-              background: "#FFFFFF",
-              boxShadow: "0px 1px 7.5px 2px rgba(0, 0, 0, 0.05)",
-              borderRadius: "15px",
-            }}
-          >
-            <div
-              style={{
-                position: "relative",
-                padding: props.padding,
-              }}
-            >
-              {props.children}
-            </div>
-            {props.btnCloseDisplay ? (
-              <BtnClose onClick={props.onClickClose} />
-            ) : null}
-          </div>
-        </RLayout.R1>
-      </div>
-    </animated.div>
+    <div style={styleBgd} onClick={props.onClickClose}>
+      <RLayout.Popup width={props.width}>
+        <div
+          style={{
+            position: "relative",
+            background: theme.white,
+            borderRadius: "15px",
+            padding: props.padding,
+          }}
+        >
+          {props.children}
+          {props.btnCloseDisplay ? (
+            <CloseRoundedIcon style={styleBtn} onClick={props.onClickClose} />
+          ) : null}
+        </div>
+      </RLayout.Popup>
+    </div>
   );
 };
 
 Modal.propTypes = {
   display: PropTypes.bool,
   onClickClose: PropTypes.func,
-  top: PropTypes.string,
-  bottom: PropTypes.string,
-  maxWidth: PropTypes.string,
+  width: PropTypes.number,
   padding: PropTypes.string,
   children: PropTypes.any,
   btnCloseDisplay: PropTypes.bool,
 };
 Modal.defaultProps = {
   onClickClose: () => {},
-  top: "120px",
-  bottom: "40px",
-  maxWidth: "100%",
+  width: 335,
   padding: "0px",
   btnCloseDisplay: false,
 };

@@ -280,9 +280,8 @@ const PopupPolicy = (props) => {
       display={props.isOpen}
       btnCloseDisplay={true}
       onClickClose={onClose}
-      padding="15px"
-      top="120px"
-      bottom="40px"
+      padding="16px"
+      width={755}
     >
       <div style={styleTop}>
         <img src={TaxiLogo} alt="taxi-logo" style={styleLogo} />
