@@ -135,7 +135,6 @@ const PopupMypage = (props) => {
   const styleTitle = {
     display: "flex",
     alignItems: "center",
-    padding: "0px 20px",
     ...theme.font14,
     color: theme.gray_text,
     whiteSpace: "nowrap",
@@ -145,7 +144,7 @@ const PopupMypage = (props) => {
     marginLeft: "12px",
   };
   const styleNickname = {
-    width: "calc(100%)",
+    width: "100%",
     ...theme.font14,
     border: "none",
     outline: "none",
@@ -173,7 +172,7 @@ const PopupMypage = (props) => {
       />
       <BtnProfImg onClose={props.onClose} onUpdate={props.onUpdate} />
       <DottedLine direction="row" margin={2} />
-      <div style={{ rowGap: "10px" }}>
+      <div style={{ rowGap: "10px", padding: "0px 20px" }}>
         <div style={{ ...styleTitle, marginTop: "24px" }}>
           학번
           <div style={styleContent}>{props.userInfoD?.subinfo?.kaist}</div>
