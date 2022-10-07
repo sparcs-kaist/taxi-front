@@ -11,22 +11,17 @@ import { ReactComponent as TaxiLogo } from "static/assets/TaxiLogo.svg";
 
 const Policy = () => {
   const styleT1 = {
-    fontSize: "15px",
-    fontWeight: "bold",
-    paddingTop: "15px",
-    paddingBottom: "15px",
+    ...theme.font14_bold,
+    margin: "15px 0",
   };
   const styleT2 = {
-    fontSize: "15px",
-    paddingLeft: "20px",
+    ...theme.font14,
+    marginLeft: "12px",
   };
   return (
     <div
       style={{
-        paddingTop: "10px",
-        paddingBottom: "20px",
-        paddingLeft: "20px",
-        paddingRight: "20px",
+        padding: "9px 32px 9px 24px",
       }}
     >
       <div style={styleT1}>제 1조. 택시의 목적</div>
