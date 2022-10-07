@@ -151,7 +151,8 @@ const PopupMypage = (props) => {
     borderRadius: "6px",
     padding: "6px 12px",
     marginLeft: "10px",
-    background: theme.gray_background,
+    background: theme.purple_light,
+    boxShadow: theme.shadow_purple_input_inset,
   };
   const styleButton = {
     display: "flex",
