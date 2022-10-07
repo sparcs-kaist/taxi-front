@@ -18,19 +18,19 @@ const Policy = () => {
     background: theme.gray_background,
     boxShadow: theme.shadow_gray_button_inset,
   };
-  const styleT1 = {
+  const styleSection = {
     ...theme.font14_bold,
     margin: "16px 0",
   };
-  const styleT2 = {
+  const styleContent = {
     ...theme.font14,
     lineHeight: "20px",
     marginLeft: "8px",
   };
   return (
     <div style={styleBox}>
-      <div style={styleT1}>제 1조. 택시의 목적</div>
-      <div style={styleT2}>
+      <div style={styleSection}>제 1조. 택시의 목적</div>
+      <div style={styleContent}>
         1. 택시는 KAIST 구성원의 원활하고 안전한 택시 동승을 위해 KAIST 학부
         동아리 SPARCS &#40;이하 &quot;SPARCS&quot;&#41;에서 제공하는 택시 동승
         인원 모집 서비스입니다.
@@ -38,8 +38,8 @@ const Policy = () => {
         2. 1조 1항에서의 KAIST 구성원이란 교수, 교직원, 그리고 재학생과 졸업생
         등을 나타냅니다.
       </div>
-      <div style={styleT1}>제 2조. 가입 및 탈퇴</div>
-      <div style={styleT2}>
+      <div style={styleSection}>제 2조. 가입 및 탈퇴</div>
+      <div style={styleContent}>
         1. 택시는 KAIST 구성원만 이용 가능합니다.
         <br />
         2. 택시는 SPARCS SSO를 통해 가입할 수 있습니다.
@@ -61,8 +61,8 @@ const Policy = () => {
         <br />- 택시 이용 중 정보통신망 이용촉진 및 정보보호 등에 관한 법률 및
         관계 법령과 본 약관이 금지하거나 공서양속에 반하는 행위를 하는 경우
       </div>
-      <div style={styleT1}>제 3조. 회원의 의무</div>
-      <div style={styleT2}>
+      <div style={styleSection}>제 3조. 회원의 의무</div>
+      <div style={styleContent}>
         1. 회원은 택시 이용과 관련하여 다음의 행위를 하여서는 안 됩니다.
         <br />
         - SPARCS, 택시 운영진, 또는 특정 개인 및 단체를 사칭하는 행위
@@ -94,8 +94,8 @@ const Policy = () => {
         - 글에 욕설/비속어/은어를 자제해주시기 바랍니다. <br />- 글에 상대방이
         불쾌감을 느낄 수 있는 표현, 일체의 성적 대상화를 자제해주시기 바랍니다.
       </div>
-      <div style={styleT1}>제 4조. 책임의 제한</div>
-      <div style={styleT2}>
+      <div style={styleSection}>제 4조. 책임의 제한</div>
+      <div style={styleContent}>
         1. SPARCS는 다음의 사유로 서비스 제공을 중지하는 것에 대해 책임을 지지
         않습니다.
         <br />
@@ -118,16 +118,16 @@ const Policy = () => {
         3. 법적 수사 요청이 있는 경우, SPARCS는 수사기관에 회원 개인정보를
         제공할 수 있습니다.
       </div>
-      <div style={styleT1}>제 5조. 문의 및 제보</div>
-      <div style={styleT2}>
+      <div style={styleSection}>제 5조. 문의 및 제보</div>
+      <div style={styleContent}>
         1. 택시에 대한 건의사항 또는 버그에 대한 사항은 채널톡 챗봇을 통해 문의
         및 제보할 수 있습니다.
         <br />
         2. 5조 1항의 채널톡 챗봇이 작동하지 않거나, 기타 사항의 경우
         taxi@sparcs.org 를 통해 문의 및 제보할 수 있습니다.
       </div>
-      <div style={styleT1}>제 6조. 게시, 개정 및 해석</div>
-      <div style={styleT2}>
+      <div style={styleSection}>제 6조. 게시, 개정 및 해석</div>
+      <div style={styleContent}>
         1. 택시 운영진은 본 약관에 대해 택시 회원가입시 회원의 동의를 받습니다.
         <br />
         2. 택시 운영진은 약관의규제에관한법률,
@@ -137,8 +137,8 @@ const Policy = () => {
         3. 본 약관의 해석은 택시 운영진이 담당하며, 분쟁이 있을 경우 민법 등
         관계 법률과 관례에 따릅니다.
       </div>
-      <div style={styleT1}>개인정보취급방침</div>
-      <div style={styleT2}>
+      <div style={styleSection}>개인정보취급방침</div>
+      <div style={styleContent}>
         1. SPARCS는 개인정보 보호법 제30조에 따라 택시를 이용하는 사용자의
         개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수
         있도록 하기 위하여&nbsp;
@@ -147,7 +147,7 @@ const Policy = () => {
         </a>
         &nbsp;을 따릅니다.
       </div>
-      <div style={styleT1}>본 약관은 2022-08-20부터 적용됩니다.</div>
+      <div style={styleSection}>본 약관은 2022-08-20부터 적용됩니다.</div>
     </div>
   );
 };
