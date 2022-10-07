@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { useBodySize } from "hooks/useReactiveState";
 import PropTypes from "prop-types";
 import Modal from "components/common/modal/Modal";
 import axios from "tools/axios";
@@ -10,6 +9,15 @@ import Button from "components/common/Button";
 import { ReactComponent as TaxiLogo } from "static/assets/TaxiLogo.svg";
 
 const Policy = () => {
+  const styleBox = {
+    padding: "0 24px 0 16px",
+    borderRadius: "10px",
+    overflow: "auto",
+    minHeight: "270px",
+    height: "calc(100vh - 360px)",
+    background: theme.gray_background,
+    boxShadow: theme.shadow_gray_button_inset,
+  };
   const styleT1 = {
     ...theme.font14_bold,
     margin: "16px 0",
@@ -20,11 +28,7 @@ const Policy = () => {
     marginLeft: "8px",
   };
   return (
-    <div
-      style={{
-        padding: "0 24px 0 16px",
-      }}
-    >
+    <div style={styleBox}>
       <div style={styleT1}>제 1조. 택시의 목적</div>
       <div style={styleT2}>
         1. 택시는 KAIST 구성원의 원활하고 안전한 택시 동승을 위해 KAIST 학부
@@ -207,7 +211,6 @@ Agree.propTypes = {
 const PopupPolicy = (props) => {
   const history = useHistory();
   const [didAgree, setDIdAgree] = useState(undefined);
-  const [, bodyHeight] = useBodySize();
 
   useEffect(() => {
     axios.get("/json/logininfo/detail").then(({ data }) => {
@@ -236,14 +239,6 @@ const PopupPolicy = (props) => {
     ...theme.font16_bold,
     columnGap: "8px",
   };
-  const styleInnerBox = {
-    overflow: "auto",
-    background: theme.gray_background,
-    borderRadius: "10px",
-    boxShadow: theme.shadow_gray_button_inset,
-    minHeight: "270px",
-    height: `calc(${bodyHeight}px - 360px)`,
-  };
 
   return (
     <Modal
@@ -257,9 +252,7 @@ const PopupPolicy = (props) => {
         <TaxiLogo alt="taxi-logo" style={{ height: "27px" }} />
         이용 약관
       </div>
-      <div style={styleInnerBox}>
-        <Policy />
-      </div>
+      <Policy />
       <div data-cy="agreement-bottom">
         <Agree
           didAgree={didAgree}
