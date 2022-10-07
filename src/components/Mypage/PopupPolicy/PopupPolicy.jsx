@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { animated, useSpring } from "react-spring";
 import { useHistory } from "react-router";
 import { useBodySize } from "hooks/useReactiveState";
 import PropTypes from "prop-types";
 import Modal from "components/common/modal/Modal";
 import axios from "tools/axios";
+import { theme } from "styles/theme";
 
-import TaxiLogo from "static/assets/SparcsLogoPurple.svg";
+import Button from "components/common/Button";
+import { ReactComponent as TaxiLogo } from "static/assets/TaxiLogo.svg";
 
 const Policy = () => {
   const styleT1 = {
@@ -151,31 +152,7 @@ const Policy = () => {
   );
 };
 
-const LayBottom = (props) => {
-  const styleBtn1 = useSpring({
-    float: "right",
-    height: "36px",
-    width: "77px",
-    lineHeight: "36px",
-    textAlign: "center",
-    borderRadius: "8px",
-    background: "#6E3678",
-    fontSize: "15px",
-    color: "white",
-  });
-  const styleBtn2 = useSpring({
-    float: "right",
-    marginRight: "10px",
-    height: "36px",
-    width: "77px",
-    lineHeight: "36px",
-    textAlign: "center",
-    borderRadius: "8px",
-    background: "#EEEEEE",
-    fontSize: "15px",
-    color: "#888888",
-  });
-
+const Agree = (props) => {
   const onAgree = async () => {
     const result = await axios.post("/users/agreeOnTermsOfService");
     if (result.status !== 200) {
@@ -184,32 +161,48 @@ const LayBottom = (props) => {
     }
     props.onAgree();
   };
-
-  if (props.didAgree === undefined) return null;
-  if (props.didAgree === true) {
-    return (
-      <div style={{ position: "relative" }}>
-        <div style={{ textAlign: "right" }}>이미 동의하셨습니다.</div>
-      </div>
-    );
-  } else {
-    return (
-      <div style={{ position: "relative" }}>
-        <animated.div style={styleBtn1} className="BTNC ND" onClick={onAgree}>
-          동의
-        </animated.div>
-        <animated.div
-          onClick={props.onClose}
-          style={styleBtn2}
-          className="BTNC ND"
+  switch (props.didAgree) {
+    case undefined:
+      return null;
+    case true:
+      return (
+        <div style={{ textAlign: "right", marginTop: "12px" }}>
+          이미 동의하셨습니다.
+        </div>
+      );
+    default:
+      return (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            columnGap: "8px",
+            marginTop: "16px",
+          }}
         >
-          취소
-        </animated.div>
-      </div>
-    );
+          <Button
+            type="gray"
+            padding="9px 24px 10px"
+            radius={8}
+            font={theme.font14}
+            onClick={props.onClose}
+          >
+            취소
+          </Button>
+          <Button
+            type="purple_inset"
+            padding="9px 24px 10px"
+            radius={8}
+            font={theme.font14_bold}
+            onClick={onAgree}
+          >
+            동의
+          </Button>
+        </div>
+      );
   }
 };
-LayBottom.propTypes = {
+Agree.propTypes = {
   didAgree: PropTypes.any,
   onClose: PropTypes.func,
   onAgree: PropTypes.func,
@@ -232,47 +225,28 @@ const PopupPolicy = (props) => {
       props.onClose();
       return;
     }
-
     const response = await axios.get("/auth/logout");
     if (response.status === 200) {
       history.push("/login");
     } else {
-      alert("로그아웃에 실패했습니다.");
+      alert("로그아웃에 실패했습니다."); // TODO: AlertProvider로 대체
     }
   };
 
   const styleTop = {
-    height: "25px",
     display: "flex",
-  };
-  const styleLogo = {
-    height: "25px",
-    width: "25px",
-  };
-  const styleTaxiText = {
-    fontSize: "20px",
-    fontWeight: "bold",
-    height: "25px",
-    lineHeight: "25px",
-    color: "#6E3678",
-  };
-  const styleTitle = {
-    paddingLeft: "5px",
-    fontSize: "18px",
-    fontWeight: "bold",
-    height: "25px",
-    lineHeight: "25px",
+    alignItems: "center",
+    margin: "8px 0 16px 8px",
+    ...theme.font16_bold,
+    columnGap: "8px",
   };
   const styleInnerBox = {
     overflow: "auto",
-    background: "#EEEEEE",
+    background: theme.gray_background,
     borderRadius: "10px",
-    boxShadow: "inset 2px 2px 5px -2px rgba(0, 0, 0, 0.075)",
-    maxHeight: `calc(${bodyHeight}px - 281px)`,
-  };
-  const styleBottom = {
-    position: "relative",
-    height: "36px",
+    boxShadow: theme.shadow_gray_button_inset,
+    minHeight: "270px",
+    height: `calc(${bodyHeight}px - 360px)`,
   };
 
   return (
@@ -284,17 +258,14 @@ const PopupPolicy = (props) => {
       width={755}
     >
       <div style={styleTop}>
-        <img src={TaxiLogo} alt="taxi-logo" style={styleLogo} />
-        <div style={styleTaxiText}>Taxi</div>
-        <div style={styleTitle}>이용 약관</div>
+        <TaxiLogo alt="taxi-logo" style={{ height: "27px" }} />
+        이용 약관
       </div>
-      <div style={{ height: "15px" }} />
       <div style={styleInnerBox}>
         <Policy />
       </div>
-      <div style={{ height: "15px" }} />
-      <div style={styleBottom} data-cy="agreement-bottom">
-        <LayBottom
+      <div data-cy="agreement-bottom">
+        <Agree
           didAgree={didAgree}
           onClose={onClose}
           onAgree={() => props.onClose()}
