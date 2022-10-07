@@ -6,7 +6,7 @@ import Title from "components/common/Title";
 import WhiteContainer from "components/common/WhiteContainer";
 import PopupSparcs from "./PopupMembers";
 import PopupPolicy from "./PopupPolicy";
-import PopupMypage from "./PopupMypage";
+import PopupModify from "./PopupModify";
 import ProfileImg from "./ProfileImg";
 import useTaxiAPI from "hooks/useTaxiAPI";
 import axios from "tools/axios";
@@ -192,7 +192,7 @@ const Mypage = () => {
       </WhiteContainer>
       <PopupSparcs isOpen={isOpen1} onClose={() => setOpen1(false)} />
       <PopupPolicy isOpen={isOpen2} onClose={() => setOpen2(false)} />
-      <PopupMypage
+      <PopupModify
         userInfo={userInfo}
         userInfoD={userInfoDetail}
         profToken={profToken}
