@@ -3,7 +3,7 @@ import { useSetRecoilState } from "recoil";
 import alertAtom from "recoil/alert";
 import { animated, useSpring } from "react-spring";
 import RLayout from "components/common/RLayout";
-import ProfileImg from "../ProfileImg";
+import ProfileImg from "./ProfileImg";
 import axios from "tools/axios";
 import axiosOri from "axios";
 import convertImg from "tools/convertImg";
