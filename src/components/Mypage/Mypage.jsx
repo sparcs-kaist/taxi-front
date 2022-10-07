@@ -4,7 +4,7 @@ import { useHistory } from "react-router";
 import PropTypes from "prop-types";
 import Title from "components/common/Title";
 import WhiteContainer from "components/common/WhiteContainer";
-import PopupSparcs from "./PopupMembers";
+import PopupMembers from "./PopupMembers";
 import PopupPolicy from "./PopupPolicy";
 import PopupModify from "./PopupModify";
 import ProfileImg from "./ProfileImg";
@@ -190,7 +190,7 @@ const Mypage = () => {
           로그아웃
         </BtnC>
       </WhiteContainer>
-      <PopupSparcs isOpen={isOpen1} onClose={() => setOpen1(false)} />
+      <PopupMembers isOpen={isOpen1} onClose={() => setOpen1(false)} />
       <PopupPolicy isOpen={isOpen2} onClose={() => setOpen2(false)} />
       <PopupModify
         userInfo={userInfo}
