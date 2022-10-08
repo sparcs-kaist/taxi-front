@@ -233,7 +233,7 @@ const Search = () => {
 
   useEffect(() => {
     if (!Object.values(searchOptions).some((option) => option == true)) {
-      setMessage("모든 방 검색하기");
+      setMessage("빠른 출발 검색");
       setDisabled(false);
     } else if (searchOptions.name && valueName == "") {
       setMessage("방 이름을 입력해주세요");
