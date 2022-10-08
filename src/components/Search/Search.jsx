@@ -60,15 +60,12 @@ SearchOption.propTypes = {
 
 const SelectSearchOptions = (props) => {
   const options = [
-    { name: "방 이름", id: "name" },
     { name: "장소", id: "place" },
     { name: "날짜", id: "date" },
     { name: "시간", id: "time" },
     { name: "최대 인원", id: "maxPartLength" },
+    { name: "방 이름", id: "name" },
   ];
-  if (props.options.time && !props.options.date) {
-    props.handler({ ...props.options, date: true });
-  }
   return (
     <div
       style={{
@@ -80,12 +77,13 @@ const SelectSearchOptions = (props) => {
       }}
     >
       {options.map((item, index) => {
-        const selected = props.options[item.id] ? true : false;
+        const selected = props.options[item.id] ?? false;
         const onClick = (id) => {
           const _options = { ...props.options };
           _options[item.id] = !selected;
-          if (id == "date" && _options.date == false && _options.time == true) {
-            _options.time = false;
+          if (_options.date == false && _options.time == true) {
+            if (id === "date") _options.time = false;
+            if (id === "time") _options.date = true;
           }
           props.handler(_options);
         };
@@ -349,21 +347,17 @@ const Search = () => {
         어떤 조건으로 검색할까요?
       </div>
       <SelectSearchOptions options={searchOptions} handler={setSearchOptions} />
-      {searchOptions.name ? (
-        <OptionName value={valueName} handler={setName} />
-      ) : null}
-      {searchOptions.place ? (
+      {searchOptions.place && (
         <OptionPlace value={valuePlace} handler={setPlace} />
-      ) : null}
-      {searchOptions.date ? (
-        <OptionDate value={valueDate} handler={setDate} />
-      ) : null}
-      {searchOptions.time ? (
+      )}
+      {searchOptions.date && <OptionDate value={valueDate} handler={setDate} />}
+      {searchOptions.time && (
         <OptionTime value={valueTime} handler={setTime} page="search" />
-      ) : null}
-      {searchOptions.maxPartLength ? (
+      )}
+      {searchOptions.maxPartLength && (
         <OptionMaxPart value={valueMaxPart} handler={setMaxPart} />
-      ) : null}
+      )}
+      {searchOptions.name && <OptionName value={valueName} handler={setName} />}
       <Button
         type="purple"
         disabled={disabled}
