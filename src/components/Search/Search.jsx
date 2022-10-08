@@ -12,6 +12,7 @@ import PropTypes from "prop-types";
 import isMobile from "ismobilejs";
 import { theme } from "styles/theme";
 import Button from "components/common/Button";
+import Tooltip from "components/common/Tooltip";
 
 import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
@@ -338,7 +339,7 @@ const Search = () => {
   };
 
   const leftLay = (
-    <div>
+    <>
       <div
         style={{
           color: "#6E3678",
@@ -374,7 +375,14 @@ const Search = () => {
       >
         {message}
       </Button>
-    </div>
+      {!Object.values(searchOptions).some((option) => option == true) && (
+        <Tooltip
+          text={
+            "검색 옵션을 선택하지 않을 경우 '빠른 출발 검색'이 가능합니다. 현재 시각에서 24시간 내의 방들이 검색됩니다."
+          }
+        />
+      )}
+    </>
   );
   const rightLay =
     searchResult === null ? null : (
