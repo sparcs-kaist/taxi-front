@@ -20,6 +20,7 @@ import OptionTime from "components/common/roomOptions/Time";
 import OptionMaxPart from "components/common/roomOptions/MaxPart";
 
 const searchQueryOption = { strictNullHandling: true };
+const defaultOptions = { place: true, date: true, time: true };
 
 const SearchOption = (props) => {
   const [isHover, setHover] = useState(false);
@@ -158,7 +159,7 @@ const Search = () => {
 
   const clearState = () => {
     onCall.current = false;
-    setSearchOptions({});
+    setSearchOptions(defaultOptions);
     setName("");
     setPlace([null, null]);
     setDate([null, null, null]);
