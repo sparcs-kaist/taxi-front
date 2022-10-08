@@ -15,7 +15,7 @@ const ToolTip = (props: ToolTipProps) => {
           sx: {
             ...theme.font12,
             color: theme.black,
-            padding: "8px 10px 8px",
+            padding: "8px 10px 7px",
             marginTop: "8px !important",
             maxWidth: "280px",
             width: "calc(100vw - 40px)",
