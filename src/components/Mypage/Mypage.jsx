@@ -26,7 +26,7 @@ const BtnC = (props) => {
     width: "fit-content",
     color: isHover ? theme.purple : undefined,
   };
-  const styleImg = {
+  const styleIcon = {
     ...theme.font15_icon,
     marginRight: "8px",
   };
@@ -38,15 +38,15 @@ const BtnC = (props) => {
   const getIcon = (icon) => {
     switch (icon) {
       case "report":
-        return <ReportGmailerrorredRoundedIcon style={styleImg} />;
+        return <ReportGmailerrorredRoundedIcon style={styleIcon} />;
       case "ask":
-        return <HelpOutlineRoundedIcon style={styleImg} />;
+        return <HelpOutlineRoundedIcon style={styleIcon} />;
       case "rule":
-        return <AssignmentOutlinedIcon style={styleImg} />;
+        return <AssignmentOutlinedIcon style={styleIcon} />;
       case "credit":
-        return <PortraitRoundedIcon style={styleImg} />;
+        return <PortraitRoundedIcon style={styleIcon} />;
       case "logout":
-        return <ExitToAppRoundedIcon style={styleImg} />;
+        return <ExitToAppRoundedIcon style={styleIcon} />;
     }
   };
 
