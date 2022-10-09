@@ -161,25 +161,19 @@ const Agree = (props) => {
     }
     props.onAgree();
   };
-  switch (props.didAgree) {
-    case undefined:
-      return null;
-    case true:
-      return (
-        <div style={{ textAlign: "right", marginTop: "12px" }}>
-          이미 동의하셨습니다.
-        </div>
-      );
-    default:
-      return (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            columnGap: "8px",
-            marginTop: "16px",
-          }}
-        >
+  const styleBottom = {
+    display: "flex",
+    justifyContent: "flex-end",
+    columnGap: "8px",
+    marginTop: "16px",
+  };
+  if (props.didAgree === undefined) return null;
+  return (
+    <div style={styleBottom}>
+      {props.didAgree ? (
+        "이미 동의하셨습니다."
+      ) : (
+        <>
           <Button
             type="gray"
             padding="9px 24px 10px"
@@ -198,9 +192,10 @@ const Agree = (props) => {
           >
             동의
           </Button>
-        </div>
-      );
-  }
+        </>
+      )}
+    </div>
+  );
 };
 Agree.propTypes = {
   didAgree: PropTypes.any,
