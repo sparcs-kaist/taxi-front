@@ -82,7 +82,7 @@ const SelectSearchOptions = (props) => {
         const onClick = (id) => {
           const _options = { ...props.options };
           _options[item.id] = !selected;
-          if (_options.date == false && _options.time == true) {
+          if (!_options.date && _options.time) {
             if (id === "date") _options.time = false;
             if (id === "time") _options.date = true;
           }
