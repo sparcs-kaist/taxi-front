@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import qs from "qs";
 import WhiteContainer from "components/common/WhiteContainer";
 import Title from "components/common/Title";
 import Room from "components/common/room/Room";
@@ -114,6 +116,7 @@ SearchOptions.defaultProps = {
 };
 
 const SideResult = (props) => {
+  const location = useLocation();
   const [selectedRoomInfo, setSelectedRoomInfo] = useState(null);
   const [isIncludeFullRoom, setIsIncludeFullRoom] = useState(false);
   const [sortOption, setSortOption] = useState(sortOptions.time);
@@ -153,19 +156,18 @@ const SideResult = (props) => {
     });
   }, [rooms]);
 
-  const pageClickHandler = (page) => {
-    setPageInfo({ ...pageInfo, currentPage: page });
-  };
+  useEffect(() => {
+    const q = qs.parse(location.search.slice(1));
+    const currentPage = Number(q.page);
 
-  const prevPageHandler = () => {
-    if (pageInfo.currentPage <= 1) return;
-    setPageInfo({ ...pageInfo, currentPage: pageInfo.currentPage - 1 });
-  };
-
-  const nextPageHandler = () => {
-    if (pageInfo.currentPage >= pageInfo.totalPages) return;
-    setPageInfo({ ...pageInfo, currentPage: pageInfo.currentPage + 1 });
-  };
+    setPageInfo({
+      ...pageInfo,
+      currentPage:
+        Number.isNaN(currentPage) || currentPage > pageInfo.totalPages
+          ? 1
+          : currentPage,
+    });
+  }, [location]);
 
   const styleEmpty = {
     color: theme.gray_text,
@@ -218,9 +220,6 @@ const SideResult = (props) => {
               <Pagination
                 totalPages={pageInfo.totalPages}
                 currentPage={pageInfo.currentPage}
-                onClickPage={pageClickHandler}
-                onClickNext={nextPageHandler}
-                onClickPrev={prevPageHandler}
                 isMobile={false}
               />
             </>
@@ -273,9 +272,6 @@ const SideResult = (props) => {
             <Pagination
               totalPages={pageInfo.totalPages}
               currentPage={pageInfo.currentPage}
-              onClickPage={pageClickHandler}
-              onClickNext={nextPageHandler}
-              onClickPrev={prevPageHandler}
               isMobile
             />
           </>

@@ -19,7 +19,7 @@ import OptionDate from "components/common/roomOptions/Date";
 import OptionTime from "components/common/roomOptions/Time";
 import OptionMaxPartLength from "components/common/roomOptions/MaxPartLength";
 
-const searchQueryOption = { strictNullHandling: true };
+const searchQueryOption = { skipNulls: true };
 
 const SearchOption = (props) => {
   const [isHover, setHover] = useState(false);
@@ -109,13 +109,8 @@ SelectSearchOptions.propTypes = {
 };
 
 const isSearchAll = (q) => {
-  const entries = Object.entries(q);
-  if (
-    entries.length === 1 &&
-    entries[0][0] === "all" &&
-    entries[0][1] === "true"
-  )
-    return true;
+  for (let [key, val] of Object.entries(q))
+    if (key === "all" && val === "true") return true;
   return false;
 };
 
@@ -127,6 +122,7 @@ const isValidQuery = (q) => {
     "time",
     "withTime",
     "maxPartLength",
+    "page",
   ];
   const keys = Object.keys(q);
 
@@ -146,6 +142,7 @@ const isValidQuery = (q) => {
 const Search = () => {
   const reactiveState = useR2state();
   const onCall = useRef(false);
+  const prevSearchParam = useRef("");
   const history = useHistory();
   const location = useLocation();
   const [searchOptions, setSearchOptions] = useState({});
@@ -206,6 +203,10 @@ const Search = () => {
       return;
     }
 
+    const searchParamWithoutPage = qs.stringify({ ...q, page: null });
+    if (prevSearchParam.current === searchParamWithoutPage) return;
+    prevSearchParam.current = searchParamWithoutPage;
+
     if (isSearchAll(q)) {
       axios
         .get("rooms/v2/search")
@@ -230,7 +231,7 @@ const Search = () => {
     } else {
       history.replace("/search");
     }
-  }, [location.search]);
+  }, [location]);
 
   useEffect(() => {
     if (!Object.values(searchOptions).some((option) => option == true)) {
