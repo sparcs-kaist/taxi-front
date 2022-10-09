@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { animated, useSpring } from "react-spring";
 import RLayout from "components/common/RLayout";
 import PropTypes from "prop-types";
-import { useDisableScroll } from "hooks/useDisableScroll";
+import useDisableScroll from "hooks/useDisableScroll";
 import { theme } from "styles/theme";
 
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
