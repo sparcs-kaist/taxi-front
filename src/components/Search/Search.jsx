@@ -233,7 +233,7 @@ const Search = () => {
   }, [location.search]);
 
   useEffect(() => {
-    if (!Object.values(searchOptions).some((option) => option == true)) {
+    if (!Object.values(searchOptions).some((option) => option)) {
       setMessage("빠른 출발 검색");
       setDisabled(false);
     } else if (searchOptions.name && valueName == "") {
@@ -305,7 +305,7 @@ const Search = () => {
       setSearchResult([]);
     }
 
-    if (!Object.values(searchOptions).some((option) => option == true)) {
+    if (!Object.values(searchOptions).some((option) => option)) {
       history.push("/search?all=true");
     } else {
       const date = moment(
@@ -375,7 +375,7 @@ const Search = () => {
       >
         {message}
       </Button>
-      {!Object.values(searchOptions).some((option) => option == true) && (
+      {!Object.values(searchOptions).some((option) => option) && (
         <Tooltip
           text={
             "검색 옵션을 선택하지 않을 경우 '빠른 출발 검색'이 가능합니다. 현재 시각에서 24시간 내의 방들이 검색됩니다."
