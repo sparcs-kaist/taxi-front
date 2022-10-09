@@ -55,18 +55,11 @@ const BtnProfImg = (props) => {
               if (res2.data.result) {
                 setAlert("프로필 사진이 변경되었습니다.");
                 props.onUpdate();
-              } else {
-                // FIXME
-                setAlert("프로필 사진 변경에 실패했습니다.");
+                return;
               }
-            } else {
-              // FIXME
-              setAlert("프로필 사진 변경에 실패했습니다.");
             }
-          } else {
-            // FIXME
-            setAlert("프로필 사진 변경에 실패했습니다.");
           }
+          setAlert("프로필 사진 변경에 실패했습니다.");
         });
     } catch (e) {
       setAlert("프로필 사진 변경에 실패했습니다.");
