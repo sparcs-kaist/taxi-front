@@ -7,6 +7,9 @@ const useDisableScroll = (open: boolean) => {
     } else {
       document.body.style.overflow = "unset";
     }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
   }, [open]);
 };
 
