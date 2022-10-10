@@ -93,7 +93,11 @@ const Date = (props) => {
     color: props.selected
       ? theme.white
       : props.available
-      ? theme.black
+      ? props.index === 0
+        ? theme.red_text
+        : props.index === 6
+        ? theme.blue_text
+        : theme.black
       : theme.gray_line,
   };
   const styleToday = {
@@ -132,12 +136,13 @@ const Date = (props) => {
 };
 
 Date.propTypes = {
-  available: PropTypes.any,
-  selected: PropTypes.any,
-  handler: PropTypes.func,
+  index: PropTypes.number,
   year: PropTypes.any,
   month: PropTypes.any,
   date: PropTypes.any,
+  available: PropTypes.any,
+  selected: PropTypes.any,
+  handler: PropTypes.func,
 };
 
 class DatePicker extends Component {
@@ -151,7 +156,7 @@ class DatePicker extends Component {
       { color: theme.black, text: "수" },
       { color: theme.black, text: "목" },
       { color: theme.black, text: "금" },
-      { color: theme.red_text, text: "토" },
+      { color: theme.blue_text, text: "토" },
     ];
 
     this.styleTop = {
