@@ -5,7 +5,7 @@ import DatePicker from "components/common/roomOptions/DatePicker";
 
 const Date = (props) => {
   return (
-    <WhiteContainer padding="10px 15px 9px">
+    <WhiteContainer padding="10px 15px 15px">
       <DatePicker
         selectedDate={props.value}
         handler={(x, y, z) => props.handler([x, y, z])}
