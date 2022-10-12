@@ -2,11 +2,7 @@ import { useEffect } from "react";
 
 const useDisableScroll = (open: boolean) => {
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
+    if (open) document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "unset";
     };
