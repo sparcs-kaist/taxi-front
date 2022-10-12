@@ -12,6 +12,7 @@ import PropTypes from "prop-types";
 import isMobile from "ismobilejs";
 import { theme } from "styles/theme";
 import Button from "components/common/Button";
+import Tooltip from "components/common/Tooltip";
 
 import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
@@ -20,6 +21,7 @@ import OptionTime from "components/common/roomOptions/Time";
 import OptionMaxPart from "components/common/roomOptions/MaxPart";
 
 const searchQueryOption = { strictNullHandling: true };
+const defaultOptions = { place: true, date: true, time: true };
 
 const SearchOption = (props) => {
   const [isHover, setHover] = useState(false);
@@ -60,15 +62,12 @@ SearchOption.propTypes = {
 
 const SelectSearchOptions = (props) => {
   const options = [
-    { name: "방 이름", id: "name" },
     { name: "장소", id: "place" },
     { name: "날짜", id: "date" },
     { name: "시간", id: "time" },
     { name: "최대 인원", id: "maxPartLength" },
+    { name: "방 이름", id: "name" },
   ];
-  if (props.options.time && !props.options.date) {
-    props.handler({ ...props.options, date: true });
-  }
   return (
     <div
       style={{
@@ -80,12 +79,13 @@ const SelectSearchOptions = (props) => {
       }}
     >
       {options.map((item, index) => {
-        const selected = props.options[item.id] ? true : false;
+        const selected = props.options[item.id] ?? false;
         const onClick = (id) => {
           const _options = { ...props.options };
           _options[item.id] = !selected;
-          if (id == "date" && _options.date == false && _options.time == true) {
-            _options.time = false;
+          if (!_options.date && _options.time) {
+            if (id === "date") _options.time = false;
+            if (id === "time") _options.date = true;
           }
           props.handler(_options);
         };
@@ -160,7 +160,7 @@ const Search = () => {
 
   const clearState = () => {
     onCall.current = false;
-    setSearchOptions({});
+    setSearchOptions(defaultOptions);
     setName("");
     setPlace([null, null]);
     setDate([null, null, null]);
@@ -232,8 +232,8 @@ const Search = () => {
   }, [location.search]);
 
   useEffect(() => {
-    if (!Object.values(searchOptions).some((option) => option == true)) {
-      setMessage("모든 방 검색하기");
+    if (!Object.values(searchOptions).some((option) => option)) {
+      setMessage("빠른 출발 검색");
       setDisabled(false);
     } else if (searchOptions.name && valueName == "") {
       setMessage("방 이름을 입력해주세요");
@@ -304,7 +304,7 @@ const Search = () => {
       setSearchResult([]);
     }
 
-    if (!Object.values(searchOptions).some((option) => option == true)) {
+    if (!Object.values(searchOptions).some((option) => option)) {
       history.push("/search?all=true");
     } else {
       const date = moment(
@@ -338,7 +338,7 @@ const Search = () => {
   };
 
   const leftLay = (
-    <div>
+    <>
       <div
         style={{
           color: "#6E3678",
@@ -349,21 +349,17 @@ const Search = () => {
         어떤 조건으로 검색할까요?
       </div>
       <SelectSearchOptions options={searchOptions} handler={setSearchOptions} />
-      {searchOptions.name ? (
-        <OptionName value={valueName} handler={setName} />
-      ) : null}
-      {searchOptions.place ? (
+      {searchOptions.place && (
         <OptionPlace value={valuePlace} handler={setPlace} />
-      ) : null}
-      {searchOptions.date ? (
-        <OptionDate value={valueDate} handler={setDate} />
-      ) : null}
-      {searchOptions.time ? (
+      )}
+      {searchOptions.date && <OptionDate value={valueDate} handler={setDate} />}
+      {searchOptions.time && (
         <OptionTime value={valueTime} handler={setTime} page="search" />
-      ) : null}
-      {searchOptions.maxPartLength ? (
+      )}
+      {searchOptions.maxPartLength && (
         <OptionMaxPart value={valueMaxPart} handler={setMaxPart} />
-      ) : null}
+      )}
+      {searchOptions.name && <OptionName value={valueName} handler={setName} />}
       <Button
         type="purple"
         disabled={disabled}
@@ -374,7 +370,14 @@ const Search = () => {
       >
         {message}
       </Button>
-    </div>
+      {!Object.values(searchOptions).some((option) => option) && (
+        <Tooltip
+          text={
+            "검색 옵션을 선택하지 않을 경우 '빠른 출발 검색'이 가능합니다. 현재 시각에서 24시간 내의 방들이 검색됩니다."
+          }
+        />
+      )}
+    </>
   );
   const rightLay =
     searchResult === null ? null : (

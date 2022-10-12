@@ -6,28 +6,25 @@ export type Font = {
 
 export const theme = {
   // Color
+  white: "#FFFFFF",
   black: "#323232",
   black_40: "rgba(0, 0, 0, 0.4)",
   black_60: "rgba(0, 0, 0, 0.6)",
-  white: "#FFFFFF",
-
   purple: "#6E3678",
   purple_disabled: "#B89DBD",
   purple_dark: "#572A5E",
   purple_light: "#FAF6FB",
   purple_background: "#FAF8FB",
   purple_hover: "#F4EAF6",
-
   gray_text: "#888888",
   gray_background: "#EEEEEE",
   gray_line: "#C8C8C8",
-
   red_text: "#DD616E",
   red_button: "#91313B",
   red_background: "#F9E8E7",
-
   green_button: "#23913C",
   green_background: "#E6F7E4",
+  blue_text: "#576ADE",
 
   // Font Size
   font8: { fontSize: 8, letterSpacing: -0.2 },
