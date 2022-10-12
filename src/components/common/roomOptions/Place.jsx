@@ -20,14 +20,6 @@ const PopupInput = (props) => {
     }),
   };
 
-  useEffect(() => {
-    if (props.isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-  }, [props.isOpen]);
-
   const onClick = () => {
     props.handler(
       props.placeOptions.find((place) => place.name === value.place)._id ?? null
