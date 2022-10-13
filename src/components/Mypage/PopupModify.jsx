@@ -40,34 +40,26 @@ const BtnProfImg = (props) => {
     try {
       const image = await convertImg(inputImage.current?.files?.[0]);
       if (!image) return;
-      axios
-        .post("/users/editProfileImg/getPUrl", { type: image.type })
-        .then(async ({ data }) => {
-          if (data.url && data.fields) {
-            const formData = new FormData();
-            for (const key in data.fields) {
-              formData.append(key, data.fields[key]);
-            }
-            formData.append("file", image);
-            const res = await axiosOri.post(data.url, formData);
-            if (res.status === 204) {
-              const res2 = await axios.get("/users/editProfileImg/done");
-              if (res2.data.result) {
-                setAlert("프로필 사진이 변경되었습니다.");
-                props.onUpdate();
-              } else {
-                // FIXME
-                setAlert("프로필 사진 변경에 실패했습니다.");
-              }
-            } else {
-              // FIXME
-              setAlert("프로필 사진 변경에 실패했습니다.");
-            }
-          } else {
-            // FIXME
-            setAlert("프로필 사진 변경에 실패했습니다.");
+      const { data } = await axios.post("/users/editProfileImg/getPUrl", {
+        type: image.type,
+      });
+      if (data.url && data.fields) {
+        const formData = new FormData();
+        for (const key in data.fields) {
+          formData.append(key, data.fields[key]);
+        }
+        formData.append("file", image);
+        const res = await axiosOri.post(data.url, formData);
+        if (res.status === 204) {
+          const res2 = await axios.get("/users/editProfileImg/done");
+          if (res2.data.result) {
+            setAlert("프로필 사진이 변경되었습니다.");
+            props.onUpdate();
+            return;
           }
-        });
+        }
+      }
+      setAlert("프로필 사진 변경에 실패했습니다.");
     } catch (e) {
       setAlert("프로필 사진 변경에 실패했습니다.");
     }
