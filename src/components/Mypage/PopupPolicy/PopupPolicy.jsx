@@ -195,13 +195,13 @@ const LayBottom = (props) => {
   } else {
     return (
       <div style={{ position: "relative" }}>
-        <animated.div style={styleBtn1} className="BTNC ND" onClick={onAgree}>
+        <animated.div style={styleBtn1} className="BTNC" onClick={onAgree}>
           동의
         </animated.div>
         <animated.div
           onClick={props.onClose}
           style={styleBtn2}
-          className="BTNC ND"
+          className="BTNC"
         >
           취소
         </animated.div>
