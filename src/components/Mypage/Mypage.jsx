@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { animated, useSpring } from "react-spring";
 import { useHistory } from "react-router";
 import PropTypes from "prop-types";
 import Title from "components/common/Title";
@@ -10,62 +9,61 @@ import PopupModify from "./PopupModify";
 import ProfileImg from "./ProfileImg";
 import useTaxiAPI from "hooks/useTaxiAPI";
 import axios from "tools/axios";
+import { theme } from "styles/theme";
 
-import AssignmentRoundedIcon from "@material-ui/icons/AssignmentRounded";
+import ReportGmailerrorredRoundedIcon from "@mui/icons-material/ReportGmailerrorredRounded";
+import HelpOutlineRoundedIcon from "@material-ui/icons/HelpOutlineRounded";
+import AssignmentOutlinedIcon from "@material-ui/icons/AssignmentOutlined";
+import PortraitRoundedIcon from "@material-ui/icons/PortraitRounded";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
-import ContactSupportRoundedIcon from "@material-ui/icons/ContactSupportRounded";
-import SparcsLogoBlack from "static/assets/SparcsLogoBlack.svg";
+import KeyboardArrowLeftRoundedIcon from "@material-ui/icons/KeyboardArrowLeftRounded";
 
 const BtnC = (props) => {
   const [isHover, setHover] = useState(false);
-  const style = useSpring({
-    height: "35px",
-    borderRadius: "8px",
-    overflow: "hidden",
-    position: "relative",
-    background: `rgba(120,120,120,${isHover ? 0.08 : 0})`,
-    config: { duration: 100 },
-  });
-  const styleImg = {
-    position: "absolute",
-    top: "8px",
-    left: "8px",
-    width: "16px",
-    height: "16px",
+  const style = {
+    display: "flex",
+    alignItems: "center",
+    width: "fit-content",
+    color: isHover ? theme.purple : undefined,
+  };
+  const styleIcon = {
+    ...theme.font15_icon,
+    marginRight: "8px",
   };
   const styleText = {
-    height: "35px",
-    lineHeight: "35px",
-    paddingLeft: "35px",
-    fontSize: "14px",
+    ...theme.font14,
+    color: "inherit",
   };
 
   const getIcon = (icon) => {
     switch (icon) {
-      case "policy":
-        return <AssignmentRoundedIcon style={styleImg} />;
-      case "logo":
-        return <img src={SparcsLogoBlack} alt="" style={styleImg} />;
-      case "support":
-        return <ContactSupportRoundedIcon style={styleImg} />;
+      case "report":
+        return <ReportGmailerrorredRoundedIcon style={styleIcon} />;
+      case "ask":
+        return <HelpOutlineRoundedIcon style={styleIcon} />;
+      case "rule":
+        return <AssignmentOutlinedIcon style={styleIcon} />;
+      case "credit":
+        return <PortraitRoundedIcon style={styleIcon} />;
       case "logout":
-        return <ExitToAppRoundedIcon style={styleImg} />;
-      default:
-        return <></>;
+        return <ExitToAppRoundedIcon style={styleIcon} />;
     }
   };
 
   return (
-    <animated.div
+    <div
       style={style}
       className="BTNC"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      onTouchStart={() => setHover(true)}
+      onTouchEnd={() => setHover(false)}
       onClick={() => props.onClick()}
     >
       {getIcon(props.icon)}
       <div style={styleText}>{props.children}</div>
-    </animated.div>
+      {isHover && <KeyboardArrowLeftRoundedIcon style={theme.font15_icon} />}
+    </div>
   );
 };
 BtnC.propTypes = {
@@ -97,34 +95,35 @@ const Mypage = () => {
   };
   const handleUpdate = () => setProfToken(Date.now().toString());
 
+  const styleProfile = {
+    display: "flex",
+    alignItems: "center",
+  };
   const styleProfImg = {
     width: "50px",
     height: "50px",
-    borderRadius: "25px",
+    borderRadius: "50%",
     overflow: "hidden",
-  };
-  const styleName = {
-    fontSize: "17px",
-    lineHeight: "20px",
-    fontWeight: "bold",
-    marginLeft: "12px",
-  };
-  const myInfo = {
-    fontSize: "14px",
-    fontWeight: "bold",
-  };
-  const modify = {
-    fontSize: "14px",
-    color: "#6E3678",
+    marginRight: "12px",
   };
   const infoTitle = {
     display: "flex",
-    fontSize: "14px",
-    color: "#888888",
+    justifyContent: "space-between",
+    marginTop: "15px",
+  };
+  const infoModify = {
+    ...theme.font14,
+    color: theme.purple,
+    cursor: "pointer",
+  };
+  const infoType = {
+    display: "flex",
+    ...theme.font14,
+    color: theme.gray_text,
     marginTop: "16px",
   };
   const infoContent = {
-    fontSize: "14px",
+    ...theme.font14,
     marginLeft: "12px",
   };
 
@@ -134,61 +133,58 @@ const Mypage = () => {
         마이 페이지
       </Title>
       <WhiteContainer marginAuto={true} padding="16px 24px 24px">
-        <div style={{ display: "flex", alignItems: "center" }}>
+        <div style={styleProfile}>
           <div style={styleProfImg}>
             {userInfoDetail?.profileImgUrl && profToken ? (
               <ProfileImg
-                path={userInfoDetail?.profileImgUrl}
+                path={userInfoDetail.profileImgUrl}
                 token={profToken}
               />
             ) : null}
           </div>
-          <div style={styleName}>{userInfo ? userInfo.name : ""}</div>
+          <div style={theme.font16_bold} className="selectable">
+            {userInfo?.name}
+          </div>
         </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginTop: "15px",
-          }}
-        >
-          <div style={myInfo}>내 정보</div>
-          <div style={modify} className="BTNC" onClick={() => setOpen3(true)}>
+        <div style={infoTitle}>
+          <div style={theme.font14_bold}>내 정보</div>
+          <div style={infoModify} onClick={() => setOpen3(true)}>
             수정하기
           </div>
         </div>
-        {userInfoDetail?.subinfo && (
-          <>
-            <div style={infoTitle}>
-              학번
-              <div style={infoContent}>{userInfoDetail.subinfo.kaist}</div>
-            </div>
-            <div style={infoTitle}>
-              메일
-              <div style={infoContent}>{userInfoDetail.email}</div>
-            </div>
-            <div style={infoTitle}>
-              별명
-              <div style={infoContent}>{userInfoDetail.nickname}</div>
-            </div>
-          </>
-        )}
+        <div style={infoType} className="selectable">
+          학번
+          <div style={infoContent}>{userInfoDetail?.subinfo.kaist}</div>
+        </div>
+        <div style={infoType} className="selectable">
+          메일
+          <div style={infoContent}>{userInfoDetail?.email}</div>
+        </div>
+        <div style={infoType} className="selectable">
+          별명
+          <div style={infoContent}>{userInfoDetail?.nickname}</div>
+        </div>
       </WhiteContainer>
       <WhiteContainer marginAuto={true}>
-        <BtnC icon="policy" onClick={() => setOpen2(true)}>
-          사용 약관 및 개인정보 보호 규칙
-        </BtnC>
-        <BtnC icon="logo" onClick={() => setOpen1(true)}>
-          만든 사람들
-        </BtnC>
-        <a className="popup-channeltalk">
-          <BtnC icon="support" onClick={() => {}}>
-            문의하기
+        <div style={{ display: "grid", rowGap: "16px" }}>
+          <BtnC icon="report" onClick={() => {}}>
+            신고 내역
           </BtnC>
-        </a>
-        <BtnC icon="logout" onClick={handleLogout}>
-          로그아웃
-        </BtnC>
+          <a className="popup-channeltalk">
+            <BtnC icon="ask" onClick={() => {}}>
+              채널톡 문의하기
+            </BtnC>
+          </a>
+          <BtnC icon="rule" onClick={() => setOpen2(true)}>
+            사용 약관 및 개인정보 보호 규칙
+          </BtnC>
+          <BtnC icon="credit" onClick={() => setOpen1(true)}>
+            만든 사람들
+          </BtnC>
+          <BtnC icon="logout" onClick={handleLogout}>
+            로그아웃
+          </BtnC>
+        </div>
       </WhiteContainer>
       <PopupMembers isOpen={isOpen1} onClose={() => setOpen1(false)} />
       <PopupPolicy isOpen={isOpen2} onClose={() => setOpen2(false)} />
