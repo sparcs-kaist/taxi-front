@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import qs from "qs";
 import WhiteContainer from "components/common/WhiteContainer";
 import Title from "components/common/Title";
 import Room from "components/common/room/Room";
-import RoomSelectionModal from "./RoomSelectionModal";
-import PropTypes from "prop-types";
-
-import CheckIcon from "@mui/icons-material/Check";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Pagination, {
   PAGE_MAX_ITEMS,
 } from "components/common/pagination/Pagination";
+import RoomSelectionModal from "./RoomSelectionModal";
+import PropTypes from "prop-types";
+
+import usePageFromSearchParams from "hooks/usePageFromSearchParams";
+import CheckIcon from "@mui/icons-material/Check";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { theme } from "styles/theme";
 
 const sortOptions = {
@@ -116,12 +115,12 @@ SearchOptions.defaultProps = {
 };
 
 const SideResult = (props) => {
-  const location = useLocation();
   const [selectedRoomInfo, setSelectedRoomInfo] = useState(null);
   const [isIncludeFullRoom, setIsIncludeFullRoom] = useState(false);
   const [sortOption, setSortOption] = useState(sortOptions.time);
   const [rooms, setRooms] = useState([]);
   const [pageInfo, setPageInfo] = useState({ totalPages: 1, currentPage: 1 });
+  const { page, isValid: isValidPage } = usePageFromSearchParams();
 
   useEffect(() => {
     if (props.result === null) return;
@@ -150,24 +149,12 @@ const SideResult = (props) => {
   }, [isIncludeFullRoom, sortOption, props.result]);
 
   useEffect(() => {
+    const totalPages = Math.ceil(rooms.length / PAGE_MAX_ITEMS);
     setPageInfo({
-      totalPages: Math.ceil(rooms.length / PAGE_MAX_ITEMS),
-      currentPage: 1,
+      totalPages,
+      currentPage: !isValidPage || page > totalPages ? 1 : page,
     });
-  }, [rooms]);
-
-  useEffect(() => {
-    const q = qs.parse(location.search.slice(1));
-    const currentPage = Number(q.page);
-
-    setPageInfo({
-      ...pageInfo,
-      currentPage:
-        Number.isNaN(currentPage) || currentPage > pageInfo.totalPages
-          ? 1
-          : currentPage,
-    });
-  }, [location]);
+  }, [rooms, page, isValidPage]);
 
   const styleEmpty = {
     color: theme.gray_text,
