@@ -6,9 +6,10 @@ import RLayout from "components/common/RLayout";
 import Pagination, {
   PAGE_MAX_ITEMS,
 } from "components/common/pagination/Pagination";
+import { theme } from "styles/theme";
 
 /**
- * TODO
+ * @todo
  * - R2Myroom도 props가 같기 때문에 이 타입은 Myroom에서 export한 후 import해서 쓰기
  * - 전역으로 DB 스키마 타입 추가하기 (현재는 ongoing, done을 Array<any>로 정의)
  */
@@ -21,7 +22,7 @@ type R1MyroomProps = {
 
 const R1Myroom = (props: R1MyroomProps) => {
   const styleEmpty: CSSProperties = {
-    color: "#888888",
+    color: theme.gray_text,
     fontSize: "14px",
     lineHeight: "109px",
     textAlign: "center",

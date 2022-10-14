@@ -12,6 +12,7 @@ import RLayout from "components/common/RLayout";
 import useTaxiAPI from "hooks/useTaxiAPI";
 import PropTypes from "prop-types";
 import DottedLine from "components/common/DottedLine";
+import { theme } from "styles/theme";
 
 const ChatHeader = (props) => {
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
@@ -54,7 +55,7 @@ const R2Myroom = (props) => {
   const [chatHeight, setChatHeight] = useState(chatHeightRef.current);
 
   const styleEmpty = {
-    color: "#888888",
+    color: theme.gray_text,
     fontSize: "14px",
     lineHeight: "109px",
     textAlign: "center",
