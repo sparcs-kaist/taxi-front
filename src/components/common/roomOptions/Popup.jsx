@@ -2,11 +2,13 @@ import React from "react";
 import RLayout from "components/common/RLayout";
 import PropTypes from "prop-types";
 import { theme } from "styles/theme";
+import useDisableScroll from "hooks/useDisableScroll";
 import Button from "components/common/Button";
 
 import "./Popup.css";
 
 const Popup = (props) => {
+  useDisableScroll(props.isOpen);
   const styleBgd = {
     position: "fixed",
     display: "flex",

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { animated, useSpring } from "react-spring";
 import RLayout from "components/common/RLayout";
 import PropTypes from "prop-types";
+import useDisableScroll from "hooks/useDisableScroll";
 import { theme } from "styles/theme";
 
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
@@ -46,6 +47,7 @@ BtnClose.propTypes = {
 };
 
 const Modal = (props) => {
+  useDisableScroll(props.display);
   const styleCont = useSpring({
     position: "fixed",
     top: "0px",
