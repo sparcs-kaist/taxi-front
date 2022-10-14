@@ -6,7 +6,6 @@ import RLayout from "components/common/RLayout";
 import Pagination, {
   PAGE_MAX_ITEMS,
 } from "components/common/pagination/Pagination";
-import PropTypes from "prop-types";
 
 /**
  * TODO
@@ -18,9 +17,6 @@ type R1MyroomProps = {
   ongoing: Array<any>;
   done: Array<any>;
   donePageInfo: { totalPages: number; currentPage: number };
-  donePageClickHandler: (page: number) => void;
-  donePrevPageHandler: () => void;
-  doneNextPageHandler: () => void;
 };
 
 const R1Myroom = (props: R1MyroomProps) => {
@@ -92,15 +88,6 @@ const R1Myroom = (props: R1MyroomProps) => {
   );
 };
 
-R1Myroom.propTypes = {
-  roomId: PropTypes.string,
-  ongoing: PropTypes.array,
-  done: PropTypes.array,
-  donePageInfo: PropTypes.object,
-  donePageClickHandler: PropTypes.func,
-  doneNextPageHandler: PropTypes.func,
-  donePrevPageHandler: PropTypes.func,
-};
 R1Myroom.defaultProps = {
   ongoing: [],
   done: [],
