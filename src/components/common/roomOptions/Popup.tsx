@@ -1,15 +1,21 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import RLayout from "components/common/RLayout";
-import PropTypes from "prop-types";
 import { theme } from "styles/theme";
 import useDisableScroll from "hooks/useDisableScroll";
 import Button from "components/common/Button";
 
 import "./Popup.css";
 
-const Popup = (props) => {
+type PopupProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  onClick: () => void;
+  children: React.ReactElement;
+};
+
+const Popup = (props: PopupProps) => {
   useDisableScroll(props.isOpen);
-  const styleBgd = {
+  const styleBgd: CSSProperties = {
     position: "fixed",
     display: "flex",
     top: "0px",
@@ -65,12 +71,6 @@ const Popup = (props) => {
       </RLayout.Popup>
     </div>
   );
-};
-Popup.propTypes = {
-  isOpen: PropTypes.bool,
-  onClose: PropTypes.func,
-  onClick: PropTypes.func,
-  children: PropTypes.any,
 };
 
 export default Popup;
