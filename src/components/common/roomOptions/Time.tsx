@@ -1,5 +1,4 @@
 import React, { useState, useEffect, CSSProperties } from "react";
-import PropTypes from "prop-types";
 import WhiteContainer from "components/common/WhiteContainer";
 import Popup from "./Popup";
 import Picker from "react-mobile-picker-mod";
@@ -100,13 +99,6 @@ const PopupInput = (props: PopupInputProps) => {
   );
 };
 
-PopupInput.propTypes = {
-  isOpen: PropTypes.bool,
-  onClose: PropTypes.func,
-  value: PropTypes.array,
-  handler: PropTypes.func,
-};
-
 const Time = (props: TimeProps) => {
   const [isPopup, setPopup] = useState(false);
 
@@ -156,11 +148,6 @@ const Time = (props: TimeProps) => {
       />
     </WhiteContainer>
   );
-};
-Time.propTypes = {
-  value: PropTypes.array,
-  handler: PropTypes.func,
-  page: PropTypes.string,
 };
 
 export default Time;
