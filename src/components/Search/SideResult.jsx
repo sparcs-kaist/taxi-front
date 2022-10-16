@@ -2,12 +2,15 @@ import React, { useState, useEffect } from "react";
 import WhiteContainer from "components/common/WhiteContainer";
 import Title from "components/common/Title";
 import Room from "components/common/room/Room";
+import Pagination, {
+  PAGE_MAX_ITEMS,
+} from "components/common/pagination/Pagination";
 import RoomSelectionModal from "./RoomSelectionModal";
 import PropTypes from "prop-types";
 
+import usePageFromSearchParams from "hooks/usePageFromSearchParams";
 import CheckIcon from "@mui/icons-material/Check";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import Pagination from "components/common/pagination/Pagination";
 import { theme } from "styles/theme";
 
 const sortOptions = {
@@ -15,8 +18,6 @@ const sortOptions = {
   leftPeopleReverse: "남은 인원 많은 순",
   leftPeopleNatural: "남은 인원 적은 순",
 };
-
-const PAGE_MAX_ROOMS = 20;
 
 const SearchOptions = (props) => {
   const styleWrapper = {
@@ -119,6 +120,7 @@ const SideResult = (props) => {
   const [sortOption, setSortOption] = useState(sortOptions.time);
   const [rooms, setRooms] = useState([]);
   const [pageInfo, setPageInfo] = useState({ totalPages: 1, currentPage: 1 });
+  const { page, isValid: isValidPage } = usePageFromSearchParams();
 
   useEffect(() => {
     if (props.result === null) return;
@@ -147,25 +149,12 @@ const SideResult = (props) => {
   }, [isIncludeFullRoom, sortOption, props.result]);
 
   useEffect(() => {
+    const totalPages = Math.ceil(rooms.length / PAGE_MAX_ITEMS);
     setPageInfo({
-      totalPages: Math.ceil(rooms.length / PAGE_MAX_ROOMS),
-      currentPage: 1,
+      totalPages,
+      currentPage: !isValidPage || page > totalPages ? 1 : page,
     });
-  }, [rooms]);
-
-  const pageClickHandler = (page) => {
-    setPageInfo({ ...pageInfo, currentPage: page });
-  };
-
-  const prevPageHandler = () => {
-    if (pageInfo.currentPage <= 1) return;
-    setPageInfo({ ...pageInfo, currentPage: pageInfo.currentPage - 1 });
-  };
-
-  const nextPageHandler = () => {
-    if (pageInfo.currentPage >= pageInfo.totalPages) return;
-    setPageInfo({ ...pageInfo, currentPage: pageInfo.currentPage + 1 });
-  };
+  }, [rooms, page, isValidPage]);
 
   const styleEmpty = {
     color: theme.gray_text,
@@ -200,8 +189,8 @@ const SideResult = (props) => {
             <>
               {rooms
                 .slice(
-                  PAGE_MAX_ROOMS * (pageInfo.currentPage - 1),
-                  PAGE_MAX_ROOMS * pageInfo.currentPage
+                  PAGE_MAX_ITEMS * (pageInfo.currentPage - 1),
+                  PAGE_MAX_ITEMS * pageInfo.currentPage
                 )
                 .map((room) => (
                   <Room
@@ -218,9 +207,6 @@ const SideResult = (props) => {
               <Pagination
                 totalPages={pageInfo.totalPages}
                 currentPage={pageInfo.currentPage}
-                onClickPage={pageClickHandler}
-                onClickNext={nextPageHandler}
-                onClickPrev={prevPageHandler}
                 isMobile={false}
               />
             </>
@@ -253,8 +239,8 @@ const SideResult = (props) => {
           <>
             {rooms
               .slice(
-                PAGE_MAX_ROOMS * (pageInfo.currentPage - 1),
-                PAGE_MAX_ROOMS * pageInfo.currentPage
+                PAGE_MAX_ITEMS * (pageInfo.currentPage - 1),
+                PAGE_MAX_ITEMS * pageInfo.currentPage
               )
               .map((room) => {
                 return (
@@ -273,9 +259,6 @@ const SideResult = (props) => {
             <Pagination
               totalPages={pageInfo.totalPages}
               currentPage={pageInfo.currentPage}
-              onClickPage={pageClickHandler}
-              onClickNext={nextPageHandler}
-              onClickPrev={prevPageHandler}
               isMobile
             />
           </>
