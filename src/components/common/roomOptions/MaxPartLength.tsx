@@ -4,6 +4,7 @@ import WhiteContainer from "components/common/WhiteContainer";
 import PeopleIcon from "@material-ui/icons/PeopleAlt";
 import RemoveIcon from "@material-ui/icons/Remove";
 import AddIcon from "@material-ui/icons/Add";
+import { theme } from "styles/theme";
 
 type CounterProps = {
   min: number;
@@ -29,7 +30,7 @@ const Counter = (props: CounterProps) => {
     borderRadius: "6px",
     border: "none",
     outline: "none",
-    backgroundColor: "#FAF8FB",
+    backgroundColor: theme.purple_light,
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -52,12 +53,16 @@ const Counter = (props: CounterProps) => {
   };
   const styledDecreaseButton = {
     ...styleButton,
-    backgroundColor: decreaseDisabled ? "#EEEEEE" : "#F9E8E7",
+    backgroundColor: decreaseDisabled
+      ? theme.gray_background
+      : theme.red_background,
     cursor: decreaseDisabled ? "not-allowed" : "pointer",
   };
   const styleIncreaseButton = {
     ...styleButton,
-    backgroundColor: increaseDisabled ? "#EEEEEE" : "#E6F7E4",
+    backgroundColor: increaseDisabled
+      ? theme.gray_background
+      : theme.green_background,
     cursor: increaseDisabled ? "not-allowed" : "pointer",
   };
 
@@ -67,11 +72,11 @@ const Counter = (props: CounterProps) => {
   };
   const styleDecreaseIcon = {
     ...styleIcon,
-    color: decreaseDisabled ? "#888888" : "#91313B",
+    color: decreaseDisabled ? theme.gray_text : theme.red_button,
   };
   const styleIncreaseIcon = {
     ...styleIcon,
-    color: increaseDisabled ? "#888888" : "#23913C",
+    color: increaseDisabled ? theme.gray_text : theme.green_button,
   };
 
   const decrease = () => {
