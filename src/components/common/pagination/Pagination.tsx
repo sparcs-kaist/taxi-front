@@ -1,4 +1,6 @@
 import React, { CSSProperties } from "react";
+import { useLocation, useHistory } from "react-router-dom";
+import qs from "qs";
 import { theme } from "styles/theme";
 
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeftRounded";
@@ -7,9 +9,6 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRightRounde
 type PaginationProps = {
   totalPages: number;
   currentPage: number;
-  onClickPage: (page: number) => void;
-  onClickPrev: () => void;
-  onClickNext: () => void;
   isMobile: boolean;
 };
 
@@ -18,6 +17,8 @@ type PageButtonProps = {
   onClick: () => void;
   selected: boolean;
 };
+
+export const PAGE_MAX_ITEMS = 20;
 
 const PageButton = ({ page, onClick, selected }: PageButtonProps) => {
   const style: CSSProperties = {
@@ -47,14 +48,19 @@ const PageButton = ({ page, onClick, selected }: PageButtonProps) => {
   );
 };
 
+const getNewQuery = (prevQuery: string, newPage: number) => {
+  const q = qs.parse(prevQuery.slice(1));
+  return qs.stringify({ ...q, page: newPage });
+};
+
 const Pagination = ({
   totalPages,
   currentPage,
-  onClickPage,
-  onClickPrev,
-  onClickNext,
   isMobile,
 }: PaginationProps): React.ReactElement => {
+  const location = useLocation();
+  const history = useHistory();
+
   const style = {
     display: "flex",
     justifyContent: "center",
@@ -80,10 +86,28 @@ const Pagination = ({
     cursor: "pointer",
   };
 
+  const pageClickHandler = (page: number) => {
+    history.push(`${location.pathname}?${getNewQuery(location.search, page)}`);
+  };
+
+  const prevPageHandler = () => {
+    if (currentPage <= 1) return;
+    history.push(
+      `${location.pathname}?${getNewQuery(location.search, currentPage - 1)}`
+    );
+  };
+
+  const nextPageHandler = () => {
+    if (currentPage >= totalPages) return;
+    history.push(
+      `${location.pathname}?${getNewQuery(location.search, currentPage + 1)}`
+    );
+  };
+
   return (
     <div style={style}>
       <div style={styleButtonsWrapper}>
-        <KeyboardArrowLeftIcon onClick={onClickPrev} style={styleIcon} />
+        <KeyboardArrowLeftIcon onClick={prevPageHandler} style={styleIcon} />
         {Array(Math.min(5, totalPages))
           .fill(0)
           .map((_, idx) => {
@@ -91,18 +115,18 @@ const Pagination = ({
               currentPage <= 3
                 ? idx + 1 // 3페이지 이하일 경우 1페이지부터 시작
                 : currentPage >= totalPages - 2
-                ? Math.max(1, totalPages - 4 + idx) // 뒤에서 세번째 페이지 이상일 경우 1, total-4 중 큰 페이지부터 시작
+                ? Math.max(1, totalPages - 4) + idx // 뒤에서 세번째 페이지 이상일 경우 1, total-4 중 큰 페이지부터 시작
                 : currentPage - 2 + idx;
             return (
               <PageButton
                 page={page}
-                onClick={() => onClickPage(page)}
+                onClick={() => pageClickHandler(page)}
                 key={idx}
                 selected={page === currentPage}
               />
             );
           })}
-        <KeyboardArrowRightIcon onClick={onClickNext} style={styleIcon} />
+        <KeyboardArrowRightIcon onClick={nextPageHandler} style={styleIcon} />
       </div>
     </div>
   );
