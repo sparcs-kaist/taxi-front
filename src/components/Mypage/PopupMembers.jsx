@@ -59,7 +59,7 @@ Member.propTypes = {
   period: PropTypes.string,
 };
 
-const PopupSparcs = (props) => {
+const PopupMembers = (props) => {
   const styleTitle = {
     ...theme.font18,
     display: "flex",
@@ -125,9 +125,9 @@ const PopupSparcs = (props) => {
     </Modal>
   );
 };
-PopupSparcs.propTypes = {
+PopupMembers.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
 };
 
-export default PopupSparcs;
+export default PopupMembers;
