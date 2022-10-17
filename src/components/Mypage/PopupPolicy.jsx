@@ -165,7 +165,7 @@ const Agree = (props) => {
   if (props.didAgree === undefined) return null;
   if (props.didAgree === true) {
     return (
-      <div style={{ position: "relative" }}>
+      <div style={{ position: "relative", marginTop: "16px" }}>
         <div style={{ textAlign: "right" }}>이미 동의하셨습니다.</div>
       </div>
     );
