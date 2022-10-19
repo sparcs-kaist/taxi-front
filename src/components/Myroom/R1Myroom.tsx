@@ -7,6 +7,7 @@ import Pagination, {
   PAGE_MAX_ITEMS,
 } from "components/common/pagination/Pagination";
 import { theme } from "styles/theme";
+import Empty from "components/common/Empty";
 
 /**
  * @todo
@@ -56,8 +57,9 @@ const R1Myroom = (props: R1MyroomProps) => {
         과거 참여 방
       </Title>
       {props.done.length === 0 ? (
-        <div style={styleEmpty}>과거 참여했던 방이 없습니다.</div>
+        <Empty screen="mobile">과거 참여했던 방이 없습니다.</Empty>
       ) : (
+        // <div style={styleEmpty}>과거 참여했던 방이 없습니다.</div>
         <>
           {props.done
             .slice(
