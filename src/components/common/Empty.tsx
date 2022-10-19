@@ -7,26 +7,31 @@ type ScreenType = "mobile" | "pc";
 type EmptyProps = { screen: ScreenType; children: React.ReactNode };
 
 const Empty = ({ screen, children }: EmptyProps) => {
-  const styleMobile: CSSProperties = {
+  const styleCommon: CSSProperties = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     ...theme.font14_bold,
     color: theme.gray_text,
-    padding: "24px 0",
     columnGap: "6px",
+  };
+  const styleMobile: CSSProperties = {
+    ...styleCommon,
+    padding: "24px 0",
     borderRadius: "12px",
     backgroundColor: theme.gray_background,
     border: "0.25px solid " + theme.gray_line,
   };
-  const stylePC: CSSProperties = {};
-  return screen === "mobile" ? (
-    <div style={styleMobile}>
+  const stylePC: CSSProperties = {
+    ...styleCommon,
+    padding: "48px 0 26px",
+  };
+
+  return (
+    <div style={screen === "pc" ? stylePC : styleMobile}>
       <NotInterestedIcon style={theme.font15_icon} />
       {children}
     </div>
-  ) : (
-    <div style={stylePC}></div>
   );
 };
 

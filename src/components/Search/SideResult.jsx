@@ -10,6 +10,7 @@ import usePageFromSearchParams from "hooks/usePageFromSearchParams";
 import PropTypes from "prop-types";
 import { theme } from "styles/theme";
 import Empty from "components/common/Empty";
+import DottedLine from "components/common/DottedLine";
 import CheckIcon from "@mui/icons-material/Check";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
@@ -183,8 +184,9 @@ const SideResult = (props) => {
             setSortOption={setSortOption}
             theme="purple"
           />
+          <DottedLine direction="row" />
           {rooms.length == 0 ? (
-            <div style={styleEmpty}>검색 결과가 없습니다.</div>
+            <Empty screen="pc">검색 결과가 없습니다</Empty>
           ) : (
             <>
               {rooms
