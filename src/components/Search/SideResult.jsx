@@ -6,12 +6,12 @@ import Pagination, {
   PAGE_MAX_ITEMS,
 } from "components/common/pagination/Pagination";
 import RoomSelectionModal from "./RoomSelectionModal";
-import PropTypes from "prop-types";
-
 import usePageFromSearchParams from "hooks/usePageFromSearchParams";
+import PropTypes from "prop-types";
+import { theme } from "styles/theme";
+import Empty from "components/common/Empty";
 import CheckIcon from "@mui/icons-material/Check";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import { theme } from "styles/theme";
 
 const sortOptions = {
   time: "출발 시간 순",
@@ -232,9 +232,7 @@ const SideResult = (props) => {
           setSortOption={setSortOption}
         />
         {rooms.length == 0 ? (
-          <WhiteContainer style={styleEmpty}>
-            <div style={styleEmpty}>검색 결과가 없습니다</div>
-          </WhiteContainer>
+          <Empty screen="mobile">검색 결과가 없습니다</Empty>
         ) : (
           <>
             {rooms

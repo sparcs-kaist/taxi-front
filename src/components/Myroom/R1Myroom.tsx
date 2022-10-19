@@ -36,7 +36,7 @@ const R1Myroom = (props: R1MyroomProps) => {
         참여 중인 방
       </Title>
       {props.ongoing.length === 0 ? (
-        <Empty screen="mobile">참여 중인 방이 없습니다.</Empty>
+        <Empty screen="mobile">참여 중인 방이 없습니다</Empty>
       ) : (
         props.ongoing.map((item) => (
           <Link
@@ -57,7 +57,7 @@ const R1Myroom = (props: R1MyroomProps) => {
         과거 참여 방
       </Title>
       {props.done.length === 0 ? (
-        <Empty screen="mobile">과거 참여했던 방이 없습니다.</Empty>
+        <Empty screen="mobile">과거 참여했던 방이 없습니다</Empty>
       ) : (
         <>
           {props.done
