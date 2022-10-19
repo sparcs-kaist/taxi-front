@@ -5,7 +5,7 @@ declare module "react-mobile-picker-mod" {
   type ValueType = { hour: number } | { min: number };
 
   type PickerProps = {
-    optionGroups: optionGroupsType;
+    optionGroups: OptionGroupsType;
     valueGroups: ValueType;
     onChange: (key: string, value: number) => void;
     itemHeight: number;
