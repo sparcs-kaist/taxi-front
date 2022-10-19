@@ -59,7 +59,7 @@ Member.propTypes = {
   period: PropTypes.string,
 };
 
-const PopupSparcs = (props) => {
+const PopupMembers = (props) => {
   const styleTitle = {
     ...theme.font18,
     display: "flex",
@@ -74,7 +74,8 @@ const PopupSparcs = (props) => {
   const styleContainer = {
     overflow: "auto",
     marginTop: "4px",
-    paddingBottom: "4px",
+    paddingBottom: "8px",
+    marginBottom: "4px",
     minHeight: "270px",
     height: "calc(100vh - 360px)",
   };
@@ -102,32 +103,29 @@ const PopupSparcs = (props) => {
       <div style={styleContainer}>
         {members.map((item) => {
           return (
-            <>
-              <div style={styleRole} key={item.position}>
-                {item.position}
-              </div>
+            <div key={item.position}>
+              <div style={styleRole}>{item.position}</div>
               <div style={styleMemberContainer}>
-                {item.list.map((member) => {
-                  return (
-                    <Member
-                      name={member.name}
-                      id={member.id}
-                      period={member.period}
-                      key={member.id}
-                    />
-                  );
-                })}
+                {item.list.map((member) => (
+                  <Member
+                    name={member.name}
+                    id={member.id}
+                    period={member.period}
+                    key={member.id}
+                  />
+                ))}
               </div>
-            </>
+            </div>
           );
         })}
       </div>
+      <DottedLine direction="row" />
     </Modal>
   );
 };
-PopupSparcs.propTypes = {
+PopupMembers.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
 };
 
-export default PopupSparcs;
+export default PopupMembers;

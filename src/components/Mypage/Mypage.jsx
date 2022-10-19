@@ -41,7 +41,7 @@ const BtnC = (props) => {
         return <ReportGmailerrorredRoundedIcon style={styleIcon} />;
       case "ask":
         return <HelpOutlineRoundedIcon style={styleIcon} />;
-      case "rule":
+      case "policy":
         return <AssignmentOutlinedIcon style={styleIcon} />;
       case "credit":
         return <PortraitRoundedIcon style={styleIcon} />;
@@ -175,7 +175,7 @@ const Mypage = () => {
               채널톡 문의하기
             </BtnC>
           </a>
-          <BtnC icon="rule" onClick={() => setOpen2(true)}>
+          <BtnC icon="policy" onClick={() => setOpen2(true)}>
             사용 약관 및 개인정보 보호 규칙
           </BtnC>
           <BtnC icon="credit" onClick={() => setOpen1(true)}>
