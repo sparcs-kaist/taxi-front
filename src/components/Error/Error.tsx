@@ -29,9 +29,8 @@ const Error = () => {
     <div style={stylePage}>
       <TaxiLogo style={styleLogo} />
       <div style={styleTitle}>예상치 못한 오류가 발생하였습니다</div>
-      <div style={styleMessage}>
-        새로 고침을 하거나 아래 버튼을 클릭해주세요
-      </div>
+      {/* // FIXME 에러 메세지 만들기 */}
+      <div style={styleMessage}>아래 버튼을 클릭해주세요</div>
       <div style={{ display: "flex", columnGap: "12px" }}>
         <Button
           type="white"
