@@ -1,4 +1,4 @@
-import React, { useState, useEffect, CSSProperties } from "react";
+import React, { useState, useEffect } from "react";
 import WhiteContainer from "components/common/WhiteContainer";
 import Popup from "./Popup";
 import Picker from "react-mobile-picker-mod";
@@ -114,7 +114,7 @@ const Time = (props: TimeProps) => {
   const styleText = {
     margin: "0 8px 0 4px",
   };
-  const styleInput: CSSProperties = {
+  const styleInput: CSS = {
     width: "41px",
     borderRadius: "6px",
     padding: "6px 0",

@@ -1,4 +1,4 @@
-import React, { CSSProperties } from "react";
+import React from "react";
 import WhiteContainer from "components/common/WhiteContainer";
 
 import PeopleIcon from "@material-ui/icons/PeopleAlt";
@@ -23,7 +23,7 @@ const Counter = (props: CounterProps) => {
   const decreaseDisabled = number <= min;
   const increaseDisabled = number >= max;
 
-  const styleContainer: CSSProperties = {
+  const styleContainer: CSS = {
     height: "28px",
     width: "100%",
     padding: "4px",
@@ -114,7 +114,7 @@ const MaxPartLength = (props: MaxPartLengthProps) => {
     marginLeft: "15px",
   };
 
-  const styleText: CSSProperties = {
+  const styleText: CSS = {
     height: "28px",
     lineHeight: "28px",
     margin: "0 6px",

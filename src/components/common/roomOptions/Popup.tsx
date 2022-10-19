@@ -1,4 +1,4 @@
-import React, { CSSProperties } from "react";
+import React from "react";
 import RLayout from "components/common/RLayout";
 import { theme } from "styles/theme";
 import useDisableScroll from "hooks/useDisableScroll";
@@ -15,7 +15,7 @@ type PopupProps = {
 
 const Popup = (props: PopupProps) => {
   useDisableScroll(props.isOpen);
-  const styleBgd: CSSProperties = {
+  const styleBgd: CSS = {
     position: "fixed",
     display: "flex",
     top: "0px",

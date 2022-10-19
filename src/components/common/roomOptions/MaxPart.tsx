@@ -1,4 +1,4 @@
-import React, { CSSProperties } from "react";
+import React from "react";
 import WhiteContainer from "components/common/WhiteContainer";
 import { theme } from "styles/theme";
 
@@ -23,7 +23,7 @@ const Counter = (props: CounterProps) => {
   const decreaseDisabled = number <= min;
   const increaseDisabled = number >= max;
 
-  const styleContainer: CSSProperties = {
+  const styleContainer: CSS = {
     ...theme.font14,
     width: "80px",
     borderRadius: "6px",
@@ -36,7 +36,7 @@ const Counter = (props: CounterProps) => {
     boxShadow: theme.shadow_purple_input_inset,
   };
 
-  const styleButton: CSSProperties = {
+  const styleButton: CSS = {
     ...theme.font14_icon,
     height: "20px",
     padding: "3px",
@@ -44,7 +44,7 @@ const Counter = (props: CounterProps) => {
     borderRadius: "3px",
     boxShadow: theme.shadow_color_button,
   };
-  const styledDecreaseButton: CSSProperties = {
+  const styledDecreaseButton: CSS = {
     ...styleButton,
     color: decreaseDisabled ? theme.gray_text : theme.red_button,
     cursor: theme.cursor(decreaseDisabled),
@@ -52,7 +52,7 @@ const Counter = (props: CounterProps) => {
       ? theme.gray_background
       : theme.red_background,
   };
-  const styleIncreaseButton: CSSProperties = {
+  const styleIncreaseButton: CSS = {
     ...styleButton,
     color: increaseDisabled ? theme.gray_text : theme.green_button,
     cursor: theme.cursor(increaseDisabled),
@@ -83,7 +83,7 @@ const Counter = (props: CounterProps) => {
 
 const MaxPart = (props: MaxPartProps) => {
   const { value, handler } = props;
-  const styleText: CSSProperties = {
+  const styleText: CSS = {
     ...theme.font14,
     margin: "0 8px 0 6px",
     whiteSpace: "nowrap",

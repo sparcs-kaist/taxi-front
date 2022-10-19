@@ -1,4 +1,4 @@
-import React, { CSSProperties } from "react";
+import React from "react";
 import WhiteContainer from "components/common/WhiteContainer";
 import { theme } from "styles/theme";
 
@@ -20,7 +20,7 @@ const Name = (props: ButtonProps) => {
     ...theme.font15_icon,
     marginLeft: "15px",
   };
-  const styleName: CSSProperties = {
+  const styleName: CSS = {
     ...theme.font14,
     margin: "0 8px 0 6px",
     whiteSpace: "nowrap",
