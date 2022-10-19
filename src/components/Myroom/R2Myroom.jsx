@@ -11,6 +11,7 @@ import Pagination, {
 import RLayout from "components/common/RLayout";
 import useTaxiAPI from "hooks/useTaxiAPI";
 import PropTypes from "prop-types";
+import Empty from "components/common/Empty";
 import DottedLine from "components/common/DottedLine";
 import { theme } from "styles/theme";
 
@@ -122,7 +123,7 @@ const R2Myroom = (props) => {
                 <div style={{ height: "19px" }} />
                 <DottedLine direction="row" />
                 {props.ongoing.length === 0 ? (
-                  <div style={styleEmpty}>참여 중인 방이 없습니다.</div>
+                  <Empty screen="pc">참여 중인 방이 없습니다</Empty>
                 ) : (
                   props.ongoing.map((item) => (
                     <Link
@@ -145,7 +146,7 @@ const R2Myroom = (props) => {
                 <div style={{ height: "19px" }} />
                 <DottedLine direction="row" />
                 {props.done.length === 0 ? (
-                  <div style={styleEmpty}>과거 참여했던 방이 없습니다.</div>
+                  <Empty screen="pc">과거 참여했던 방이 없습니다</Empty>
                 ) : (
                   <>
                     {props.done
