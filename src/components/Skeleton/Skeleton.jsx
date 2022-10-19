@@ -9,7 +9,7 @@ import axios from "tools/axios";
 import HeaderBar from "components/common/HeaderBar";
 import Navigation from "components/Skeleton/Navigation";
 import Footer from "components/Skeleton/Footer";
-import PopupPolicy from "components/Mypage/PopupPolicy/PopupPolicy";
+import PopupPolicy from "components/Mypage/PopupPolicy";
 
 const Container = (props) => {
   return (

@@ -7,7 +7,8 @@
   -moz-osx-font-smoothing: grayscale; */
 }
 
-div {
+div,
+input {
   color: #323232;
 }
 

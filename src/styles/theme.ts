@@ -26,10 +26,12 @@ export const theme = {
   green_background: "#E6F7E4",
   blue_text: "#576ADE",
 
+  yellow: "#F2A024",
+
   // Font Size
   font8: { fontSize: 8, letterSpacing: -0.2 },
   font8_medium: { fontSize: 8, letterSpacing: -0.2, fontWeight: 500 },
-  font10: { fontSize: 10 },
+  font10: { fontSize: 10, fontWeight: 500 },
   font12: { fontSize: 12, letterSpacing: 0.4 },
   font14: { fontSize: 14, lineHeight: "16px" },
   font14_bold: { fontSize: 14, fontWeight: 700, lineHeight: "16px" },
@@ -37,7 +39,7 @@ export const theme = {
   font15_icon: { fontSize: 15 },
   font16: { fontSize: 16, letterSpacing: -0.4 },
   font16_bold: { fontSize: 16, letterSpacing: -0.4, fontWeight: 700 },
-  font18: { fontSize: 18, letterSpacing: -0.6 },
+  font18: { fontSize: 18, letterSpacing: -0.6, fontWeight: 700 },
   font20: { fontSize: 20, letterSpacing: -0.75, fontWeight: 700 },
 
   // Shadow

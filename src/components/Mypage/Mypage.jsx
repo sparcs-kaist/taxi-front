@@ -3,9 +3,9 @@ import { useHistory } from "react-router";
 import PropTypes from "prop-types";
 import Title from "components/common/Title";
 import WhiteContainer from "components/common/WhiteContainer";
-import PopupSparcs from "./PopupSparcs/PopupSparcs";
-import PopupPolicy from "./PopupPolicy/PopupPolicy";
-import PopupMypage from "./PopupMypage/PopupMypage";
+import PopupMembers from "./PopupMembers";
+import PopupPolicy from "./PopupPolicy";
+import PopupModify from "./PopupModify";
 import ProfileImg from "./ProfileImg";
 import useTaxiAPI from "hooks/useTaxiAPI";
 import axios from "tools/axios";
@@ -41,7 +41,7 @@ const BtnC = (props) => {
         return <ReportGmailerrorredRoundedIcon style={styleIcon} />;
       case "ask":
         return <HelpOutlineRoundedIcon style={styleIcon} />;
-      case "rule":
+      case "policy":
         return <AssignmentOutlinedIcon style={styleIcon} />;
       case "credit":
         return <PortraitRoundedIcon style={styleIcon} />;
@@ -175,7 +175,7 @@ const Mypage = () => {
               채널톡 문의하기
             </BtnC>
           </a>
-          <BtnC icon="rule" onClick={() => setOpen2(true)}>
+          <BtnC icon="policy" onClick={() => setOpen2(true)}>
             사용 약관 및 개인정보 보호 규칙
           </BtnC>
           <BtnC icon="credit" onClick={() => setOpen1(true)}>
@@ -186,9 +186,9 @@ const Mypage = () => {
           </BtnC>
         </div>
       </WhiteContainer>
-      <PopupSparcs isOpen={isOpen1} onClose={() => setOpen1(false)} />
+      <PopupMembers isOpen={isOpen1} onClose={() => setOpen1(false)} />
       <PopupPolicy isOpen={isOpen2} onClose={() => setOpen2(false)} />
-      <PopupMypage
+      <PopupModify
         userInfo={userInfo}
         userInfoD={userInfoDetail}
         profToken={profToken}
