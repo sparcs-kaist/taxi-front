@@ -156,7 +156,6 @@ const RoomSelectionModal = (props) => {
   return (
     <Modal
       display={props.isOpen}
-      btnCloseDisplay={true}
       onClickClose={props.onClose}
       padding="0 12px 12px"
     >
