@@ -15,8 +15,8 @@ const Modal = (props) => {
     left: "0px",
     width: "100%",
     height: "100%",
-    zIndex: theme.zIndex_modal,
-    background: theme.black_60,
+    zIndex: props.alert ? theme.zIndex_alert : theme.zIndex_modal,
+    background: props.alert ? theme.black_40 : theme.black_60,
     opacity: props.display ? 1 : 0,
     transitionDuration: theme.duration,
     pointerEvents: props.display ? "auto" : "none",
@@ -57,12 +57,14 @@ Modal.propTypes = {
   padding: PropTypes.string,
   children: PropTypes.any,
   closeBtn: PropTypes.bool,
+  alert: PropTypes.bool,
 };
 Modal.defaultProps = {
   onClickClose: () => {},
   width: 335,
   padding: "0px",
   closeBtn: true,
+  alert: false,
 };
 
 export default Modal;
