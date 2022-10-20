@@ -4,7 +4,7 @@ import DatePicker from "components/common/roomOptions/DatePicker";
 
 type DateProps = {
   value: Array<Nullable<number>>;
-  handler: (newValue: number[]) => void;
+  handler: (newValue: Array<number>) => void;
 };
 
 const Date = (props: DateProps) => {

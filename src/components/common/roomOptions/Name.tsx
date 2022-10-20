@@ -4,8 +4,6 @@ import { theme } from "styles/theme";
 
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
 
-type Page = "add" | "search";
-
 type ButtonProps = {
   value: string;
   handler: (value: string) => void;

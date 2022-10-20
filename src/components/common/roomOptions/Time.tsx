@@ -6,18 +6,21 @@ import { theme } from "styles/theme";
 
 import ScheduleRoundedIcon from "@material-ui/icons/ScheduleRounded";
 
-type PopupInputProps = {
-  value: number[];
-  isOpen: boolean;
-  handler: (newValues: number[]) => void;
-  onClose: () => void;
-};
+type Page = "add" | "search";
 
-type TimeProps = {
-  value: number[];
-  page: string;
-  handler: (newValues: number[]) => void;
-};
+interface TimeCommonProps {
+  value: Array<number>;
+  handler: (newValues: Array<number>) => void;
+}
+
+interface PopupInputProps extends TimeCommonProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+interface TimeProps extends TimeCommonProps {
+  page: Page;
+}
 
 const optionsHour = Array.from(Array(24).keys());
 const optionsMin = [0, 10, 20, 30, 40, 50];
