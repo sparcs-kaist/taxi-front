@@ -37,7 +37,7 @@ const Error = () => {
           padding="13px 24px 14px"
           radius={12}
           font={theme.font14}
-          onClick={() => history.goBack()}
+          onClick={history.goBack}
         >
           이전 페이지
         </Button>
