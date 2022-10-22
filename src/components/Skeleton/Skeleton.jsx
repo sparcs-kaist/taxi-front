@@ -35,7 +35,7 @@ const Skeleton = (props) => {
   const [taxiLocation, setTaxiLocation] = useRecoilState(taxiLocationAtom);
   const [loginInfoDetail, setLoginInfoDetail] =
     useRecoilState(loginInfoDetailAtom);
-  const [, setOngoingRoom] = useRecoilState(ongoingRoomAtom);
+  const [on, setOngoingRoom] = useRecoilState(ongoingRoomAtom);
   const location = useLocation();
   const pathname = location.pathname;
   const currentPath = location.pathname + location.search;
@@ -56,7 +56,7 @@ const Skeleton = (props) => {
       }
     );
   }, []);
-
+  console.log(on);
   useEffect(() => {
     if (userId) initializeGlobalInfo();
   }, [userId]);

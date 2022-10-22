@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import ongoingRoomAtom from "recoil/ongoingRoom";
 import RLayout from "components/common/RLayout";
 import Title from "components/common/Title";
 import Button from "components/common/Button";
@@ -28,6 +30,7 @@ const AddRoom = () => {
   const today10 = getToday10();
   const [valueTime, setTime] = useState([today10.hour(), today10.minute()]);
   const [calculatedTime, setCalculatedTime] = useState<Date | null>(null);
+  const [, setOngoingRoom] = useRecoilState(ongoingRoomAtom);
 
   useEffect(() => {
     setCalculatedTime(
@@ -71,6 +74,9 @@ const AddRoom = () => {
         maxPartLength: valueMaxPart,
       });
       if (result.status === 200) {
+        axios.get("/rooms/v2/searchByUser").then(({ data }) => {
+          setOngoingRoom(data.ongoing);
+        });
         history.push("/myroom");
       } else {
         alert("add room error");
