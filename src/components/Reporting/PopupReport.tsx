@@ -115,6 +115,8 @@ const PopupReport = ({
     boxShadow: theme.shadow_gray_button_inset,
     borderRadius: "8px",
     color: theme.gray_text,
+    border: "none",
+    outline: "none",
   };
   const styleSubmit: React.CSSProperties = {
     width: "218px",
@@ -123,6 +125,8 @@ const PopupReport = ({
     boxShadow: theme.shadow_gray_button_inset,
     borderRadius: "8px",
     color: "white",
+    border: "none",
+    outline: "none",
   };
   const styleETC: React.CSSProperties = {
     display: "flex",
