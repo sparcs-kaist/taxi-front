@@ -2,7 +2,7 @@ import { atom } from "recoil";
 
 const alertAtom = atom({
   key: "alertAtom",
-  default: null,
+  default: "",
 });
 
 export default alertAtom;

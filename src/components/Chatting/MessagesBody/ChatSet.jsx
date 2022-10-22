@@ -165,7 +165,7 @@ const ChatSet = (props) => {
           width: "53px",
         }}
       >
-        <div style={styleProfCont} onClick={() => handleOpen()}>
+        <div style={styleProfCont} onClick={handleOpen}>
           <ProfileImg path={props.chats[0].authorProfileUrl} />
         </div>
       </div>

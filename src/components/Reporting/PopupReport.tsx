@@ -5,9 +5,17 @@ import { FaPen } from "react-icons/fa";
 import Modal from "components/common/modal/Modal";
 import axios from "tools/axios";
 import { theme } from "styles/theme";
+import { useSetRecoilState } from "recoil";
+import alertAtom from "recoil/alert";
+import regExpTest from "tools/regExpTest";
 
-type Data = { reportedId: string; type: string; etcDetail: string; time: Date };
-type Response = { status: number };
+type ReportData = {
+  reportedId: string;
+  type: string;
+  etcDetail: string;
+  time: Date;
+};
+type ReportResponse = { status: number };
 
 type PopupReportProps = {
   isOpen: boolean;
@@ -17,7 +25,11 @@ type PopupReportProps = {
   reportedId: string;
 };
 
-type Types = "no-settlement" | "no-show" | "etc-reason";
+enum ReportTypes {
+  NoSettlement = "no-settlement",
+  NoShow = "no-show",
+  ETCReason = "etc-reason",
+}
 
 const PopupReport = ({
   isOpen,
@@ -26,10 +38,10 @@ const PopupReport = ({
   name,
   reportedId,
 }: PopupReportProps) => {
-  const types: Types[] = ["no-settlement", "no-show", "etc-reason"];
-  const [type, setType] = useState(types[0]);
+  const [type, setType] = useState<ReportTypes>(ReportTypes.NoSettlement);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [etcDetail, setEtcDetail] = useState("");
+  const setAlert = useSetRecoilState(alertAtom);
 
   const styleProfImg: React.CSSProperties = {
     width: "50px",
@@ -141,31 +153,34 @@ const PopupReport = ({
   };
 
   const handleType = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setType(event.target.value as Types);
+    setType(event.target.value as ReportTypes);
   };
 
   const handleSubmit = async (): Promise<void> => {
-    const data: Data = {
+    const data: ReportData = {
       reportedId: reportedId,
       type: type,
       etcDetail: etcDetail,
       time: new Date(),
     };
-    const res: Response = await axios.post("/users/report", data);
+    const res: ReportResponse = await axios.post("/users/report", data);
     if (res.status === 200) {
       setIsSubmitted(true);
     } else {
-      alert("신고에 실패했습니다.");
+      setAlert("신고에 실패했습니다.");
     }
   };
 
   const handleClose = () => {
     onClose();
     setIsSubmitted(false);
-    setType(types[0]);
+    setType(ReportTypes.NoSettlement);
   };
 
   const handleEtcDetail = (event: React.FormEvent<HTMLSpanElement>) => {
+    if (!regExpTest.reportMsg(event.currentTarget.innerText)) {
+      setAlert("신고 이유는 1500자 까지 허용됩니다.");
+    }
     setEtcDetail(event.currentTarget.innerText);
   };
 
@@ -186,13 +201,18 @@ const PopupReport = ({
 
       <div style={styleMiddle}>
         <div style={styleLabel}>사유</div>
-        <select style={styleDropdown} value={type} onChange={handleType}>
-          <option value={types[0]}>정산을 하지 않음</option>
-          <option value={types[1]}>택시에 동승하지 않음</option>
-          <option value={types[2]}>기타 사유</option>
+        <select
+          style={styleDropdown}
+          value={type}
+          onChange={handleType}
+          disabled={isSubmitted}
+        >
+          <option value={ReportTypes.NoSettlement}>정산을 하지 않음</option>
+          <option value={ReportTypes.NoShow}>택시에 동승하지 않음</option>
+          <option value={ReportTypes.ETCReason}>기타 사유</option>
         </select>
       </div>
-      {type === types[2] ? (
+      {type === ReportTypes.ETCReason ? (
         <div style={styleETC}>
           <FaPen style={styleIcon} />
           <span
