@@ -52,7 +52,7 @@ const Skeleton = (props) => {
       ]) => {
         setTaxiLocation(locationData.locations);
         setLoginInfoDetail(loginInfoDetailData);
-        setOngoingRoom(roomData.ongoing.length);
+        setOngoingRoom(roomData.ongoing);
       }
     );
   }, []);
