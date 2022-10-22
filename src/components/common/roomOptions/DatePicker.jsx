@@ -1,13 +1,12 @@
 import React, { Component, useState } from "react";
-import { useSpring, animated } from "react-spring";
 import { getToday10 } from "tools/moment";
 import PropTypes from "prop-types";
 import { theme } from "styles/theme";
 import DottedLine from "components/common/DottedLine";
 
-import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
-import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
-import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
+import TodayRoundedIcon from "@material-ui/icons/TodayRounded";
+import KeyboardArrowLeftRoundedIcon from "@material-ui/icons/KeyboardArrowLeftRounded";
+import KeyboardArrowRightRoundedIcon from "@material-ui/icons/KeyboardArrowRightRounded";
 
 const widing = (startDate, currentMonth = false) => {
   const date = startDate.clone().date(1);
@@ -62,83 +61,88 @@ const Date = (props) => {
   const style = {
     width: "calc((100% - 36px) / 7)",
     height: "100%",
-    overflow: "hidden",
   };
-
-  let styleBox = {
+  const styleBox = {
     height: "100%",
     borderRadius: "6px",
-    background: "#fafafa",
     position: "relative",
     display: "flex",
     alignItems: "center",
+    justifyContent: "center",
+    background: props.selected
+      ? isHover
+        ? theme.purple_dark
+        : theme.purple
+      : props.available
+      ? isHover
+        ? theme.purple_hover
+        : theme.purple_light
+      : theme.gray_background,
+    boxShadow: props.available
+      ? props.selected
+        ? theme.shadow_purple_button_inset
+        : theme.shadow_purple_input_inset
+      : undefined,
+    cursor: theme.cursor(!props.available),
+    transitionDuration: theme.duration,
   };
-  let className = "";
-  let styleDate = {
-    width: "100%",
-    textAlign: "center",
-    fontSize: "12px",
+  const styleDate = {
+    ...theme.font12,
     marginTop: "1px",
-    color: "#C8C8C8",
+    fontWeight: props.selected ? 500 : undefined,
+    color: props.selected
+      ? theme.white
+      : props.available
+      ? props.index === 0
+        ? theme.red_text
+        : props.index === 6
+        ? theme.blue_text
+        : theme.black
+      : theme.gray_line,
   };
-  let styleToday = {
+  const styleToday = {
     width: "3px",
     height: "3px",
-    borderRadius: "1.5px",
+    borderRadius: "50%",
     position: "absolute",
     top: "calc(50% + 8.5px)",
     left: "calc(50% - 1.5px)",
+    background:
+      props.available === "today"
+        ? props.selected
+          ? theme.white
+          : theme.purple_disabled
+        : undefined,
   };
-
-  if (props.available) {
-    styleBox.boxShadow = "inset 1px 1px 2.5px -1px rgba(110, 54, 120, 0.1)";
-    styleBox.background = isHover ? "#F4EAF6" : "#FAF6FB";
-    className = "BTNC";
-    styleDate.color = "#323232";
-    if (props.available === "today") styleToday.background = "#B89DBD";
-  } else {
-    styleBox.cursor = "not-allowed";
-  }
-  if (props.selected) {
-    styleBox.boxShadow = "inset 2px 2px 5px -2px rgba(0, 0, 0, 0.25)";
-    styleBox.background = isHover ? "#572A5E" : "#6E3678";
-    styleDate.color = "white";
-    styleDate.fontWeight = 500;
-    if (props.available === "today") styleToday.background = "white";
-  }
 
   const onClick = () => {
     if (props.available) props.handler(props.year, props.month, props.date);
   };
-  const background = useSpring({
-    background: styleBox.background,
-    config: { duration: 100 },
-  });
 
   if (!props.date) return <div style={style} />;
   return (
     <div style={style}>
-      <animated.div
-        style={{ ...styleBox, ...background }}
-        className={className}
+      <div
+        style={styleBox}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         onClick={onClick}
       >
         <div style={styleDate}>{props.date}</div>
         <div style={styleToday} />
-      </animated.div>
+      </div>
     </div>
   );
 };
 
 Date.propTypes = {
-  available: PropTypes.any,
-  selected: PropTypes.any,
-  handler: PropTypes.func,
+  index: PropTypes.number,
   year: PropTypes.any,
   month: PropTypes.any,
   date: PropTypes.any,
+  available: PropTypes.any,
+  selected: PropTypes.any,
+  handler: PropTypes.func,
 };
 
 class DatePicker extends Component {
@@ -146,64 +150,59 @@ class DatePicker extends Component {
     super(props);
 
     this.week = [
-      { color: "#DD616E", text: "일" },
-      { color: "#323232", text: "월" },
-      { color: "#323232", text: "화" },
-      { color: "#323232", text: "수" },
-      { color: "#323232", text: "목" },
-      { color: "#323232", text: "금" },
-      { color: "#DD616E", text: "토" },
+      { color: theme.red_text, text: "일" },
+      { color: theme.black, text: "월" },
+      { color: theme.black, text: "화" },
+      { color: theme.black, text: "수" },
+      { color: theme.black, text: "목" },
+      { color: theme.black, text: "금" },
+      { color: theme.blue_text, text: "토" },
     ];
 
-    this.styleLayTop = {
-      height: "25px",
+    this.styleTop = {
       display: "flex",
       justifyContent: "space-between",
       marginBottom: "10px",
-      paddingRight: "1px",
     };
-    this.styleLayInfo = {
+    this.styleInfo = {
       display: "flex",
       alignItems: "center",
-      paddingTop: "1px",
+      ...theme.font14,
     };
-    this.styleLayTopImg = {
-      width: "14px",
-      height: "14px",
-      marginLeft: "9px",
-      marginBottom: "1px",
+    this.styleIcon = {
+      ...theme.font15_icon,
+      margin: "0 6px 0 9px",
     };
-    this.styleLayTopTxt = {
-      fontSize: "14px",
-      marginLeft: "6px",
-    };
-    this.styleLayArrow = {
-      width: "25px",
-      height: "25px",
+    this.styleArrow = {
+      width: "24px",
+      height: "24px",
       fill: theme.purple,
+      cursor: theme.cursor(false),
     };
-    this.styleLayArrowGrid = {
-      width: "60px",
+    this.styleArrowGrid = {
+      width: "56px",
       display: "flex",
       justifyContent: "space-between",
     };
-    this.styleLayWeek = {
-      height: "12px",
+    this.styleMonth = {
       display: "flex",
-      marginTop: "10.5px",
-      marginBottom: "8px",
-      gap: "6px",
+      flexDirection: "column",
+      rowGap: "6px",
     };
-    this.styleWeekItem = {
+    this.styleDay = {
+      display: "flex",
+      margin: "12px 0 8px",
+      columnGap: "6px",
+    };
+    this.styleDayItem = {
       width: "calc((100% - 36px) / 7)",
       fontSize: "10px",
       height: "12px",
       textAlign: "center",
     };
-    this.styleLayOneWeek = {
+    this.styleWeek = {
       display: "flex",
-      marginBottom: "6px",
-      gap: "6px",
+      columnGap: "6px",
     };
 
     this.state = {
@@ -224,7 +223,7 @@ class DatePicker extends Component {
     const weeks = document.getElementsByClassName("datepicker-week");
     if (weeks.length > 0) {
       const width = (weeks[0].clientWidth - 36) / 7;
-      const height = `${Math.min(width, 56)}px`;
+      const height = `${Math.min(width, 48)}px`;
       for (let i = 0; i < weeks.length; i++) {
         weeks[i].style.height = height;
       }
@@ -250,34 +249,30 @@ class DatePicker extends Component {
 
     return (
       <>
-        <div style={this.styleLayTop}>
-          <div style={this.styleLayInfo}>
-            <CalendarTodayIcon style={this.styleLayTopImg} />
-            <div style={this.styleLayTopTxt}>
-              날짜 : {year}년 {month}월
-            </div>
+        <div style={this.styleTop}>
+          <div style={this.styleInfo}>
+            <TodayRoundedIcon style={this.styleIcon} />
+            날짜 : {year}년 {month}월
           </div>
-          <div style={this.styleLayArrowGrid}>
-            <KeyboardArrowLeftIcon
-              style={this.styleLayArrow}
-              className="BTNC"
+          <div style={this.styleArrowGrid}>
+            <KeyboardArrowLeftRoundedIcon
+              style={this.styleArrow}
               onClick={onClickBack}
             />
-            <KeyboardArrowRightIcon
-              style={this.styleLayArrow}
-              className="BTNC"
+            <KeyboardArrowRightRoundedIcon
+              style={this.styleArrow}
               onClick={onClickNext}
             />
           </div>
         </div>
         <DottedLine direction="row" />
-        <div style={this.styleLayWeek}>
+        <div style={this.styleDay}>
           {this.week.map((item, index) => {
             return (
               <div
                 key={index}
                 style={{
-                  ...this.styleWeekItem,
+                  ...this.styleDayItem,
                   color: item.color,
                   opacity: 0.632,
                 }}
@@ -287,37 +282,38 @@ class DatePicker extends Component {
             );
           })}
         </div>
-
-        {dateInfo.map((item, index) => {
-          return (
-            <div
-              key={index}
-              style={{ ...this.styleLayOneWeek }}
-              className="datepicker-week"
-            >
-              {item.map((item, index) => {
-                let selected = false;
-                if (
-                  month === this.state.selectedDate[1] &&
-                  item.date === this.state.selectedDate[2]
-                )
-                  selected = true;
-                return (
-                  <Date
-                    key={index}
-                    index={index}
-                    year={item.year}
-                    month={item.month}
-                    date={item.date}
-                    available={item.available}
-                    selected={selected}
-                    handler={(x, y, z) => this.dateHandler(x, y, z)}
-                  />
-                );
-              })}
-            </div>
-          );
-        })}
+        <div style={this.styleMonth}>
+          {dateInfo.map((item, index) => {
+            return (
+              <div
+                key={index}
+                style={{ ...this.styleWeek }}
+                className="datepicker-week"
+              >
+                {item.map((item, index) => {
+                  let selected = false;
+                  if (
+                    month === this.state.selectedDate[1] &&
+                    item.date === this.state.selectedDate[2]
+                  )
+                    selected = true;
+                  return (
+                    <Date
+                      key={index}
+                      index={index}
+                      year={item.year}
+                      month={item.month}
+                      date={item.date}
+                      available={item.available}
+                      selected={selected}
+                      handler={(x, y, z) => this.dateHandler(x, y, z)}
+                    />
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
       </>
     );
   }

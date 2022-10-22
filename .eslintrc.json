@@ -22,5 +22,14 @@
   "plugins": ["react", "cypress"],
   "rules": {
     "no-unused-vars": 1
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "no-undef": "off",
+        "no-unused-vars": "off"
+      }
+    }
+  ]
 }

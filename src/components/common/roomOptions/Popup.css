@@ -1,24 +1,28 @@
 .picker-item {
-    font-size: 15px;
-    letter-spacing: 0.13em;
-    line-height: 32px !important;
+  font-size: 14px;
 }
 
-.picker-container .picker-highlight:before, .picker-container .picker-highlight:after {
-    display: none !important;
+.picker-container .picker-highlight:before,
+.picker-container .picker-highlight:after {
+  display: none !important;
 }
 
 .picker-container .picker-highlight {
-    z-index: -1;
-    background-color: #EEEEEE;
-    border-radius: 6px;
+  z-index: -1;
+  background-color: #eeeeee;
+  border-radius: 6px;
 }
 
 .picker-container .picker-inner {
-    -webkit-mask-box-image: linear-gradient(0deg,transparent,transparent 5%,#fff 45%,#fff 55%,transparent 95%,transparent) !important;
-    padding: 0 !important;
+  -webkit-mask-box-image: linear-gradient(
+    to bottom,
+    transparent 0% 24px,
+    white 96px 125px,
+    transparent 197px 100%
+  ) !important;
+  padding: 0 !important;
 }
 
 .picker-container .picker-column .picker-item.picker-item-selected {
-    color: #323232 !important;
+  color: #323232 !important;
 }

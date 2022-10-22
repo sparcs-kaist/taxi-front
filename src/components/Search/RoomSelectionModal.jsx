@@ -156,7 +156,6 @@ const RoomSelectionModal = (props) => {
   return (
     <Modal
       display={props.isOpen}
-      btnCloseDisplay={true}
       onClickClose={props.onClose}
       padding="0 12px 12px"
     >
@@ -208,7 +207,7 @@ const RoomSelectionModal = (props) => {
         </div>
       </div>
       <Button
-        buttonType="purple"
+        type="purple"
         disabled={isRoomFull || disableJoinBtn}
         padding="10px 0px 9px"
         radius={8}
