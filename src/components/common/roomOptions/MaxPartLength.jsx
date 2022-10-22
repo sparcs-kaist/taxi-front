@@ -5,6 +5,7 @@ import WhiteContainer from "components/common/WhiteContainer";
 import PeopleIcon from "@material-ui/icons/PeopleAlt";
 import RemoveIcon from "@material-ui/icons/Remove";
 import AddIcon from "@material-ui/icons/Add";
+import { useTranslation } from "react-i18next";
 
 const Counter = (props) => {
   const { min, max, number, setNumber } = props;
@@ -117,15 +118,17 @@ const MaxPartLength = (props) => {
     width: "80px",
   };
 
+  const { t } = useTranslation();
+
   return (
     <WhiteContainer marginAuto={false} padding="9px">
       <div style={style}>
         <PeopleIcon style={iconStyle} />
-        <div style={styleText}>최대 인원 :</div>
+        <div style={styleText}>{t("최대 인원 : ")}</div>
         <div style={styleCounterWrapper}>
           <Counter number={value} setNumber={handler} min={2} max={4} />
         </div>
-        <div style={styleText}>명</div>
+        <div style={styleText}>{t("명")}</div>
       </div>
     </WhiteContainer>
   );

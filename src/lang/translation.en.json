@@ -19,9 +19,47 @@
   "방을 선택하세요.": "Choose your room",
 
   "출발지": "Departures",
-  "어디서 가시나요": "Which place do you go from",
-  "어디로 가시나요": "Which place do you go to",
+  "도착지": "Arrivals",
 
+  "어디서 가시나요?": "Which place do you go from",
+  "어디로 가시나요?": "Which place do you go to",
+
+  "어떤 조건으로 검색할까요?": "Which condition would you prefer for search?",
+
+  "방 이름 :": "Room Name :",
+
+  "모든 방 검색하기": "Search all rooms",
+  "방 이름을 입력해주세요": "Fill your room name",
+  "선택을 완료해주세요": "Complete your choice",
+  "출발지와 도착지는 달라야 합니다": "Departure and arrival should be different",
+  "과거 시점은 검색할 수 없습니다.": "You can not search past time",
   "방 검색하기": "Search Room",
-  "어떤 조건으로 검색할까요?": "Which condition would you prefer for search?"
+
+  "시간 :": "Time :",
+  "시": "h",
+  "분 이후": "minute after",
+  "분 출발": "m   departure",
+
+  "최대 인원 : ": "Maximum people : ",
+  "명": "people",
+
+  "방 이름": "Room Name",
+  "장소": "Location",
+  "날짜": "Date",
+  "시간": "Time",
+  "최대 인원": "Maximum people",
+
+  "검색 결과": "Search Result",
+  "검색 결과가 없습니다.": "There are no search result",
+
+  "월": "Mon",
+  "화": "Tue",
+  "수": "Wed",
+  "목": "Thu",
+  "금": "Fri",
+  "토": "Sat",
+  "일": "Sun",
+
+  "취소": "Cancel",
+  "선택하기": "OK"
 }

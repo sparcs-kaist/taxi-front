@@ -40,8 +40,6 @@ const PopupInput = (props) => {
       setValue({ place: changedValue });
   };
 
-  const { t } = useTranslation();
-
   return (
     <Popup isOpen={props.isOpen} onClose={props.onClose} onClick={onClick}>
       <div style={{ width: "calc(100% - 20px)", marginLeft: "10px" }}>
@@ -104,6 +102,9 @@ const PlaceElement = (props) => {
     color: props.value ? "#323232" : "#C8C8C8",
     wordBreak: "keep-all",
   };
+
+  const { t } = useTranslation();
+
   return (
     <animated.div
       style={style}
@@ -113,14 +114,14 @@ const PlaceElement = (props) => {
       onClick={props.onClick}
     >
       <div style={styleCircle} />
-      <div style={styleType}>{props.type}</div>
+      <div style={styleType}>{t(props.type)}</div>
       <div style={styleTextGrid}>
         <div style={styleText}>
           {props.value
             ? props.value
             : props.type == "출발지"
-            ? "어디서 가시나요?"
-            : "어디로 가시나요?"}
+            ? t("어디서 가시나요?")
+            : t("어디로 가시나요?")}
         </div>
       </div>
     </animated.div>
@@ -149,7 +150,11 @@ const Place = (props) => {
 
   const getPlaceName = (placeId) => {
     const place = taxiLocation.find((location) => location._id === placeId);
-    return preference.lang === "ko" ? place?.koName : place?.enName;
+    const { i18n } = useTranslation();
+
+    console.log("i18n.language: ", i18n.language);
+    console.log("place: ", place?.enName);
+    return i18n.language === "en" ? place?.enName : place?.koName;
   };
 
   return (

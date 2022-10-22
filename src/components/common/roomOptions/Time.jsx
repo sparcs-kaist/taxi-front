@@ -5,6 +5,7 @@ import Popup from "./Popup";
 import Picker from "react-mobile-picker-mod";
 
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
+import { useTranslation } from "react-i18next";
 
 const optionsHour = [...Array(24).keys()].map((x) => x.toString());
 const optionsMin = ["0", "10", "20", "30", "40", "50"];
@@ -141,20 +142,23 @@ const Time = (props) => {
     marginLeft: "6px",
     fontSize: "14px",
   };
+
+  const { t } = useTranslation();
+
   return (
     <WhiteContainer marginAuto={false} padding="9px">
       <div style={style}>
         <AccessTimeIcon style={styleIcon} />
-        <div style={styleName}>시간 :</div>
+        <div style={styleName}>{t("시간 :")}</div>
         <div style={styleInput} className="BTNC" onClick={() => setPopup(true)}>
           {props.value[0]}
         </div>
-        <div style={styleText}>시</div>
+        <div style={styleText}>{t("시")}</div>
         <div style={styleInput} className="BTNC" onClick={() => setPopup(true)}>
           {props.value[1]}
         </div>
         <div style={styleText}>
-          {props.value == "search" ? "분 이후" : "분 출발"}
+          {props.value == "search" ? t("분 이후") : t("분 출발")}
         </div>
       </div>
       <PopupInput

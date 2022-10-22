@@ -71,6 +71,8 @@ const SelectSearchOptions = (props) => {
   if (props.options.time && !props.options.date) {
     props.handler({ ...props.options, date: true });
   }
+
+  const { t } = useTranslation();
   return (
     <div
       style={{
@@ -98,7 +100,7 @@ const SelectSearchOptions = (props) => {
             onClick={onClick}
             selected={selected}
           >
-            {item.name}
+            {t(item.name)}
           </SearchOption>
         );
       })}
@@ -200,8 +202,6 @@ const Search = () => {
       setMaxPartLength(Number(q.maxPartLength));
   };
 
-  const { t } = useTranslation();
-
   useEffect(() => {
     const q = qs.parse(location.search.slice(1), searchQueryOption);
 
@@ -236,25 +236,27 @@ const Search = () => {
     }
   }, [location.search]);
 
+  const { t } = useTranslation();
+
   useEffect(() => {
     if (!Object.values(searchOptions).some((option) => option == true)) {
-      setMessage("모든 방 검색하기");
+      setMessage(t("모든 방 검색하기"));
       setDisabled(false);
     } else if (searchOptions.name && valueName == "") {
-      setMessage("방 이름을 입력해주세요");
+      setMessage(t("방 이름을 입력해주세요"));
       setDisabled(true);
     } else if (
       (searchOptions.place && valuePlace.some((place) => place == null)) ||
       (searchOptions.date && valueDate.some((date) => date == null)) ||
       (searchOptions.time && valueTime.some((time) => time == null))
     ) {
-      setMessage("선택을 완료해주세요");
+      setMessage(t("선택을 완료해주세요"));
       setDisabled(true);
     } else if (
       (valuePlace[0] !== null || valuePlace[1] !== null) &&
       valuePlace[0] === valuePlace[1]
     ) {
-      setMessage("출발지와 도착지는 달라야 합니다");
+      setMessage(t("출발지와 도착지는 달라야 합니다"));
       setDisabled(true);
     } else if (
       searchOptions.time &
@@ -265,10 +267,10 @@ const Search = () => {
         }-${valueDate[2]} ${valueTime[0]}:${valueTime[1]}`
       ).isBefore(getToday(), "minute")
     ) {
-      setMessage("과거 시점은 검색할 수 없습니다.");
+      setMessage(t("과거 시점은 검색할 수 없습니다."));
       setDisabled(true);
     } else {
-      setMessage("방 검색하기");
+      setMessage(t("방 검색하기"));
       setDisabled(false);
     }
   }, [searchOptions, valueName, valuePlace, valueDate, valueTime]);

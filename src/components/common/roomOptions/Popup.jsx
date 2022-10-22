@@ -4,6 +4,7 @@ import RLayout from "components/common/RLayout";
 import PropTypes from "prop-types";
 
 import "./Popup.css";
+import { useTranslation } from "react-i18next";
 
 const Popup = (props) => {
   const styleBgd = useSpring({
@@ -48,6 +49,8 @@ const Popup = (props) => {
     fontWeight: 500,
     color: "white",
   };
+
+  const { t } = useTranslation();
 
   return (
     <animated.div style={styleBgd}>
@@ -97,14 +100,14 @@ const Popup = (props) => {
                 className="BTNC"
                 onClick={props.onClose}
               >
-                취소
+                {t("취소")}
               </div>
               <div
                 style={styleBtnSelect}
                 className="BTNC"
                 onClick={props.onClick}
               >
-                선택하기
+                {t("선택하기")}
               </div>
             </div>
           </div>
