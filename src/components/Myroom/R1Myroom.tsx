@@ -22,14 +22,6 @@ type R1MyroomProps = {
 };
 
 const R1Myroom = (props: R1MyroomProps) => {
-  const styleEmpty: CSSProperties = {
-    color: theme.gray_text,
-    fontSize: "14px",
-    lineHeight: "109px",
-    textAlign: "center",
-    height: "109px",
-  };
-
   return (
     <RLayout.R1>
       <Title icon="current" header={true}>
