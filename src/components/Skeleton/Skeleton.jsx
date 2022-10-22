@@ -104,6 +104,14 @@ const Skeleton = (props) => {
   if (pathname.startsWith("/chatting")) {
     return <Container>{props.children}</Container>;
   }
+  if (pathname.startsWith("/error")) {
+    return (
+      <Container>
+        <HeaderBar />
+        {props.children}
+      </Container>
+    );
+  }
   return (
     <Container>
       <Navigation path={pathname} />

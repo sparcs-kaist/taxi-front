@@ -18,7 +18,11 @@ const AddRoom = () => {
   const history = useHistory();
   const [valueName, setName] = useState("");
   const [valuePlace, setPlace] = useState([null, null]);
-  const [valueDate, setDate] = useState([null, null, null]);
+  const [valueDate, setDate] = useState<Array<Nullable<number>>>([
+    null,
+    null,
+    null,
+  ]);
   const [valueMaxPart, setMaxPart] = useState(4);
   const today = getToday();
   const today10 = getToday10();

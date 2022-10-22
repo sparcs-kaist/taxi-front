@@ -1,24 +1,36 @@
 import React from "react";
-import PropTypes from "prop-types";
 import WhiteContainer from "components/common/WhiteContainer";
 
 import PeopleIcon from "@material-ui/icons/PeopleAlt";
 import RemoveIcon from "@material-ui/icons/Remove";
 import AddIcon from "@material-ui/icons/Add";
+import { theme } from "styles/theme";
 
-const Counter = (props) => {
+type CounterProps = {
+  min: number;
+  max: number;
+  number: number;
+  setNumber: (number: number) => void;
+};
+
+type MaxPartLengthProps = {
+  value: number;
+  handler: () => void;
+};
+
+const Counter = (props: CounterProps) => {
   const { min, max, number, setNumber } = props;
   const decreaseDisabled = number <= min;
   const increaseDisabled = number >= max;
 
-  const styleContainer = {
+  const styleContainer: CSS = {
     height: "28px",
     width: "100%",
     padding: "4px",
     borderRadius: "6px",
     border: "none",
     outline: "none",
-    backgroundColor: "#FAF8FB",
+    backgroundColor: theme.purple_light,
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -41,12 +53,16 @@ const Counter = (props) => {
   };
   const styledDecreaseButton = {
     ...styleButton,
-    backgroundColor: decreaseDisabled ? "#EEEEEE" : "#F9E8E7",
+    backgroundColor: decreaseDisabled
+      ? theme.gray_background
+      : theme.red_background,
     cursor: decreaseDisabled ? "not-allowed" : "pointer",
   };
   const styleIncreaseButton = {
     ...styleButton,
-    backgroundColor: increaseDisabled ? "#EEEEEE" : "#E6F7E4",
+    backgroundColor: increaseDisabled
+      ? theme.gray_background
+      : theme.green_background,
     cursor: increaseDisabled ? "not-allowed" : "pointer",
   };
 
@@ -56,11 +72,11 @@ const Counter = (props) => {
   };
   const styleDecreaseIcon = {
     ...styleIcon,
-    color: decreaseDisabled ? "#888888" : "#91313B",
+    color: decreaseDisabled ? theme.gray_text : theme.red_button,
   };
   const styleIncreaseIcon = {
     ...styleIcon,
-    color: increaseDisabled ? "#888888" : "#23913C",
+    color: increaseDisabled ? theme.gray_text : theme.green_button,
   };
 
   const decrease = () => {
@@ -84,14 +100,7 @@ const Counter = (props) => {
   );
 };
 
-Counter.propTypes = {
-  min: PropTypes.number,
-  max: PropTypes.number,
-  number: PropTypes.number,
-  setNumber: PropTypes.func,
-};
-
-const MaxPartLength = (props) => {
+const MaxPartLength = (props: MaxPartLengthProps) => {
   const { value, handler } = props;
 
   const style = {
@@ -105,7 +114,7 @@ const MaxPartLength = (props) => {
     marginLeft: "15px",
   };
 
-  const styleText = {
+  const styleText: CSS = {
     height: "28px",
     lineHeight: "28px",
     margin: "0 6px",
@@ -129,11 +138,6 @@ const MaxPartLength = (props) => {
       </div>
     </WhiteContainer>
   );
-};
-
-MaxPartLength.propTypes = {
-  value: PropTypes.number,
-  handler: PropTypes.func,
 };
 
 export default MaxPartLength;

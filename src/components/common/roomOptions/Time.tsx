@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import WhiteContainer from "components/common/WhiteContainer";
 import Popup from "./Popup";
 import Picker from "react-mobile-picker-mod";
@@ -7,10 +6,26 @@ import { theme } from "styles/theme";
 
 import ScheduleRoundedIcon from "@material-ui/icons/ScheduleRounded";
 
-const optionsHour = [...Array(24).keys()].map((x) => x.toString());
-const optionsMin = ["0", "10", "20", "30", "40", "50"];
+type Page = "add" | "search";
 
-const PopupInput = (props) => {
+interface TimeCommonProps {
+  value: Array<number>;
+  handler: (newValues: Array<number>) => void;
+}
+
+interface PopupInputProps extends TimeCommonProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+interface TimeProps extends TimeCommonProps {
+  page: Page;
+}
+
+const optionsHour = Array.from(Array(24).keys());
+const optionsMin = [0, 10, 20, 30, 40, 50];
+
+const PopupInput = (props: PopupInputProps) => {
   const [value1, setValue1] = useState({ hour: optionsHour[0] });
   const [value2, setValue2] = useState({ min: optionsMin[0] });
   const option1Group = {
@@ -36,7 +51,7 @@ const PopupInput = (props) => {
     props.handler([value1.hour, value2.min]);
     props.onClose();
   };
-  const handler = (key, value) => {
+  const handler = (key: string, value: number) => {
     if (key === "hour") setValue1({ hour: value });
     if (key === "min") setValue2({ min: value });
   };
@@ -87,14 +102,7 @@ const PopupInput = (props) => {
   );
 };
 
-PopupInput.propTypes = {
-  isOpen: PropTypes.bool,
-  onClose: PropTypes.func,
-  value: PropTypes.array,
-  handler: PropTypes.func,
-};
-
-const Time = (props) => {
+const Time = (props: TimeProps) => {
   const [isPopup, setPopup] = useState(false);
 
   const style = {
@@ -109,7 +117,7 @@ const Time = (props) => {
   const styleText = {
     margin: "0 8px 0 4px",
   };
-  const styleInput = {
+  const styleInput: CSS = {
     width: "41px",
     borderRadius: "6px",
     padding: "6px 0",
@@ -143,11 +151,6 @@ const Time = (props) => {
       />
     </WhiteContainer>
   );
-};
-Time.propTypes = {
-  value: PropTypes.array,
-  handler: PropTypes.func,
-  page: PropTypes.string,
 };
 
 export default Time;

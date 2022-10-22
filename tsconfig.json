@@ -7,11 +7,6 @@
       "es5",
       "dom"
     ],
-    "types": [
-      "node",
-      "cypress",
-      "cypress-react-selector"
-    ],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,

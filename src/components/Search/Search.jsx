@@ -145,11 +145,13 @@ const Search = () => {
   const prevSearchParam = useRef("");
   const history = useHistory();
   const location = useLocation();
+  const today10 = getToday10();
+
   const [searchOptions, setSearchOptions] = useState({});
   const [valueName, setName] = useState("");
   const [valuePlace, setPlace] = useState([null, null]);
   const [valueDate, setDate] = useState([null, null, null]);
-  const [valueTime, setTime] = useState(["0", "00"]);
+  const [valueTime, setTime] = useState([today10.hour(), today10.minute()]);
   const [valueMaxPart, setMaxPart] = useState(null);
   const [searchResult, setSearchResult] = useState(null);
   const [disabled, setDisabled] = useState(true);
@@ -161,7 +163,7 @@ const Search = () => {
     setName("");
     setPlace([null, null]);
     setDate([null, null, null]);
-    setTime(["0", "00"]);
+    setTime([today10.hour(), today10.minute()]);
     setMaxPart(null);
     setSearchResult(null);
     setDisabled(true);
@@ -186,10 +188,7 @@ const Search = () => {
       const queryTime = moment(q.time);
       setDate([queryTime.year(), queryTime.month() + 1, queryTime.date()]);
       if (newSearchOptions.time)
-        setTime([
-          queryTime.hour().toString(),
-          (Math.floor(queryTime.minute() / 10) * 10).toString(),
-        ]);
+        setTime([queryTime.hour(), Math.floor(queryTime.minute() / 10) * 10]);
     }
     if (newSearchOptions.maxPartLength) setMaxPart(Number(q.maxPartLength));
   };
@@ -285,12 +284,12 @@ const Search = () => {
   }, [searchOptions.date]);
   useEffect(() => {
     if (searchOptions.time) {
-      if (valueTime[0] === "0" && valueTime[1] === "00") {
+      if (valueTime[0] === 0 && valueTime[1] === 0) {
         const today = getToday10();
-        setTime([today.hour().toString(), today.minute().toString()]);
+        setTime([today.hour(), today.minute()]);
       }
-    } else if (valueTime[0] !== "0" || valueTime[1] !== "00") {
-      setTime(["0", "00"]);
+    } else if (valueTime[0] !== 0 || valueTime[1] !== 0) {
+      setTime([today10.hour(), today10.minute()]);
     }
   }, [searchOptions.time]);
   useEffect(() => {
