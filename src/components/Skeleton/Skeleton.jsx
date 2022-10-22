@@ -3,6 +3,7 @@ import { useLocation, Redirect } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import taxiLocationAtom from "recoil/taxiLocation";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
+import ongoingRoomAtom from "recoil/ongoingRoom";
 import PropTypes from "prop-types";
 import axios from "tools/axios";
 
@@ -34,6 +35,7 @@ const Skeleton = (props) => {
   const [taxiLocation, setTaxiLocation] = useRecoilState(taxiLocationAtom);
   const [loginInfoDetail, setLoginInfoDetail] =
     useRecoilState(loginInfoDetailAtom);
+  const [, setOngoingRoom] = useRecoilState(ongoingRoomAtom);
   const location = useLocation();
   const pathname = location.pathname;
   const currentPath = location.pathname + location.search;
@@ -41,11 +43,16 @@ const Skeleton = (props) => {
   const initializeGlobalInfo = useCallback(() => {
     const getLoginInfoDetail = axios.get("/json/logininfo/detail");
     const getLocation = axios.get("/locations");
-
-    Promise.all([getLoginInfoDetail, getLocation]).then(
-      ([{ data: loginInfoDetailData }, { data: locationData }]) => {
+    const getRoomList = axios.get("/rooms/v2/searchByUser");
+    Promise.all([getLoginInfoDetail, getLocation, getRoomList]).then(
+      ([
+        { data: loginInfoDetailData },
+        { data: locationData },
+        { data: roomData },
+      ]) => {
         setTaxiLocation(locationData.locations);
         setLoginInfoDetail(loginInfoDetailData);
+        setOngoingRoom(roomData.ongoing.length);
       }
     );
   }, []);
