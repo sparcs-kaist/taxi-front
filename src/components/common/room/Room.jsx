@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from "react";
 import { useRecoilValue } from "recoil";
-import preferenceAtom from "recoil/preference";
 import { useSpring, animated } from "react-spring";
 import PropTypes from "prop-types";
 import { getLocationName } from "tools/trans";
@@ -89,7 +88,6 @@ const Tag = (props) => {
 const Room = (props) => {
   const [isHover, setHover] = useState(false);
   const users = props.data?.part || [];
-  const preference = useRecoilValue(preferenceAtom);
   const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const isSettlementForMe = useMemo(
     () =>
@@ -189,11 +187,11 @@ const Room = (props) => {
       <div style={styleLine} />
       <div style={styleLay1}>
         <div style={styleLay1Place}>
-          {getLocationName(props.data?.from, preference.lang)}
+          {getLocationName(props.data?.from, "ko")}
         </div>
         <ArrowRightAltRoundedIcon style={styleArrow} />
         <div style={styleLay1Place}>
-          {getLocationName(props.data?.to, preference.lang)}
+          {getLocationName(props.data?.to, "ko")}
         </div>
       </div>
       <div style={styleDate}>{date2str(props.data?.time)}</div>

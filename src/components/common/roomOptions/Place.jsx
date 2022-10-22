@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
 import { useRecoilValue } from "recoil";
-import { taxiLocataionWithName } from "recoil/taxiLocation";
-import preferenceAtom from "recoil/preference";
+import taxiLocationAtom from "recoil/taxiLocation";
 import PropTypes from "prop-types";
 import WhiteContainer from "components/common/WhiteContainer";
 import Popup from "./Popup";
+import { getLocationName } from "tools/trans";
 import Picker from "react-mobile-picker-mod";
 import { useTranslation } from "react-i18next";
 
 const PopupInput = (props) => {
+  const placeOptions = props.placeOptions.map((item) => {
+    return { _id: item._id, key: item._id, name: item.koName };
+  });
+
   const [value, setValue] = useState({
-    place: props.value ?? props.placeOptions?.[0]?.name ?? "",
+    place: props.value ?? placeOptions?.[0]?.name ?? "",
   });
 
   const optionGroup = {
-    place: props.placeOptions.map((x) => {
-      return x.name;
-    }),
+    place: placeOptions.map((x) => x.name),
   };
 
   useEffect(() => {
@@ -30,7 +32,7 @@ const PopupInput = (props) => {
 
   const onClick = () => {
     props.handler(
-      props.placeOptions.find((place) => place.name === value.place)._id ?? null
+      placeOptions.find((place) => place.name === value.place)._id ?? null
     );
     props.onClose();
   };
@@ -39,8 +41,6 @@ const PopupInput = (props) => {
     if (changedValue && value.place !== changedValue)
       setValue({ place: changedValue });
   };
-
-  const { t } = useTranslation();
 
   return (
     <Popup isOpen={props.isOpen} onClose={props.onClose} onClick={onClick}>
@@ -62,6 +62,9 @@ PopupInput.propTypes = {
   value: PropTypes.string,
   handler: PropTypes.func,
   placeOptions: PropTypes.array,
+};
+PopupInput.defaultProps = {
+  placeOptions: [],
 };
 
 const PlaceElement = (props) => {
@@ -104,6 +107,9 @@ const PlaceElement = (props) => {
     color: props.value ? "#323232" : "#C8C8C8",
     wordBreak: "keep-all",
   };
+
+  const { t } = useTranslation();
+
   return (
     <animated.div
       style={style}
@@ -113,14 +119,14 @@ const PlaceElement = (props) => {
       onClick={props.onClick}
     >
       <div style={styleCircle} />
-      <div style={styleType}>{props.type}</div>
+      <div style={styleType}>{t(props.type)}</div>
       <div style={styleTextGrid}>
         <div style={styleText}>
           {props.value
             ? props.value
             : props.type == "출발지"
-            ? "어디서 가시나요?"
-            : "어디로 가시나요?"}
+            ? t("어디서 가시나요?")
+            : t("어디로 가시나요?")}
         </div>
       </div>
     </animated.div>
@@ -135,8 +141,7 @@ PlaceElement.propTypes = {
 const Place = (props) => {
   const [isPopup1, setPopup1] = useState(false);
   const [isPopup2, setPopup2] = useState(false);
-  const taxiLocation = useRecoilValue(taxiLocataionWithName);
-  const preference = useRecoilValue(preferenceAtom);
+  const taxiLocation = useRecoilValue(taxiLocationAtom);
 
   const styleLine = {
     width: "0.5px",
@@ -147,9 +152,9 @@ const Place = (props) => {
     marginTop: -2.5,
   };
 
-  const getPlaceName = (placeId) => {
-    const place = taxiLocation.find((location) => location._id === placeId);
-    return preference.lang === "ko" ? place?.koName : place?.enName;
+  const getPlaceName = (_id) => {
+    const place = taxiLocation.find((x) => x._id === _id);
+    return getLocationName(place, "ko");
   };
 
   return (

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import preferenceAtom from "recoil/preference";
 import { date2str } from "tools/moment";
 import { getLocationName } from "tools/trans";
 import Title from "components/common/Title";
@@ -114,7 +113,6 @@ const RoomSelectionModal = (props) => {
   const [roomInfo, setRoomInfo] = useState(null);
   const history = useHistory();
   const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
-  const preference = useRecoilValue(preferenceAtom);
   const disableJoinBtn =
     roomInfo?.part.some((user) => user._id === loginInfoDetail?.oid) ?? true;
   const isRoomFull = roomInfo
@@ -181,12 +179,12 @@ const RoomSelectionModal = (props) => {
       <div style={stylePlace}>
         <PlaceSection
           isFrom={true}
-          name={getLocationName(roomInfo?.from, preference.lang)}
+          name={getLocationName(roomInfo?.from, "ko")}
         />
         <ArrowRightAltRoundedIcon style={styleArrow} />
         <PlaceSection
           isFrom={false}
-          name={getLocationName(roomInfo?.to, preference.lang)}
+          name={getLocationName(roomInfo?.to, "ko")}
         />
       </div>
       <Border />

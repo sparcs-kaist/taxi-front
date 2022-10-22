@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import WhiteContainer from "components/common/WhiteContainer";
 
 import CreateIcon from "@material-ui/icons/Create";
+import { useTranslation } from "react-i18next";
 
 const Name = (props) => {
   const style = {
@@ -35,11 +36,14 @@ const Name = (props) => {
     boxShadow: "inset 1px 1px 2.5px -1px rgba(0, 0, 0, 0.075)",
     fontSize: "14px",
   };
+
+  const { t } = useTranslation();
+
   return (
     <WhiteContainer marginAuto={false} padding="9px">
       <div style={style}>
         <CreateIcon style={styleIcon} />
-        <div style={styleName}>방 이름 :</div>
+        <div style={styleName}>{t("방 이름 :")}</div>
         <input
           onChange={(e) => props.handler(e.target.value)}
           type="text"

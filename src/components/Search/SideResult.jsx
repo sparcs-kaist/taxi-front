@@ -4,6 +4,7 @@ import Title from "components/common/Title";
 import Room from "components/common/room/Room";
 import RoomSelectionModal from "./RoomSelectionModal";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 
 const SideResult = (props) => {
   const [selectedRoomInfo, setSelectedRoomInfo] = useState(null);
@@ -14,6 +15,8 @@ const SideResult = (props) => {
     textAlign: "center",
     margin: "50px 0px 30px",
   };
+
+  const { t } = useTranslation();
 
   if (!props.mobile) {
     return (
@@ -28,10 +31,10 @@ const SideResult = (props) => {
         />
         <WhiteContainer marginAuto={false} padding="20px 20px 22px">
           <Title icon="search_result" marginAuto={false}>
-            검색 결과
+            {t("검색 결과")}
           </Title>
           {props.result.length == 0 ? (
-            <div style={styleEmpty}>검색 결과가 없습니다.</div>
+            <div style={styleEmpty}>{t("검색 결과가 없습니다.")}</div>
           ) : (
             props.result.map((room) => (
               <Room
@@ -62,7 +65,7 @@ const SideResult = (props) => {
         />
         {props.result.length == 0 ? (
           <WhiteContainer marginAuto={false} style={styleEmpty}>
-            <div style={styleEmpty}>검색 결과가 없습니다</div>
+            <div style={styleEmpty}>{t("검색 결과가 없습니다")}</div>
           </WhiteContainer>
         ) : (
           props.result.length != 0 &&
