@@ -12,6 +12,7 @@ import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import PropTypes from "prop-types";
 import axios from "tools/axios";
 import DottedLine from "components/common/DottedLine";
+import Tooltip from "@mui/material/Tooltip";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 import CircleIcon from "@mui/icons-material/Circle";
@@ -207,20 +208,47 @@ const RoomSelectionModal = (props) => {
           />
         </div>
       </div>
-      <Button
-        type="purple"
-        disabled={isRoomFull || disableJoinBtn || fullParticipation}
-        padding="10px 0px 9px"
-        radius={8}
-        font={theme.font14_bold}
-        onClick={requestJoin}
+      <Tooltip
+        title={"참여할 수 있는 방 개수는 최대 5개입니다."}
+        componentsProps={{
+          tooltip: {
+            sx: {
+              ...theme.font12,
+              color: theme.black,
+              padding: "8px 10px 7px",
+              marginTop: "20px !important",
+              width: "148px",
+              boxShadow: theme.shadow,
+              backgroundColor: theme.white,
+              textAlign: "center",
+              whiteSpace: "normal",
+              borderRadius: "8px",
+              cursor: "default",
+            },
+          },
+        }}
+        enterTouchDelay={0}
+        leaveTouchDelay={2000}
       >
-        {disableJoinBtn
-          ? "이미 참여 중입니다"
-          : isRoomFull
-          ? "인원이 0명인 방은 참여할 수 없습니다"
-          : "참여 신청"}
-      </Button>
+        <div>
+          <Button
+            type="purple"
+            disabled={isRoomFull || disableJoinBtn || fullParticipation}
+            padding="10px 0px 9px"
+            radius={8}
+            font={theme.font14_bold}
+            onClick={requestJoin}
+          >
+            {disableJoinBtn
+              ? "이미 참여 중입니다"
+              : isRoomFull
+              ? "인원이 0명인 방은 참여할 수 없습니다"
+              : fullParticipation
+              ? "현재 5개의 방에 참여 중입니다"
+              : "참여 신청"}
+          </Button>
+        </div>
+      </Tooltip>
     </Modal>
   );
 };
