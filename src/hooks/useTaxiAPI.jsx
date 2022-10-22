@@ -32,7 +32,6 @@ const wrapUseTaxiAPI =
         isUnmounted = true;
       };
     }, [url, JSON.stringify(dep), JSON.stringify(data)]);
-
     return [res.error, res.data, loading];
   };
 

@@ -3,6 +3,8 @@ import { useHistory } from "react-router-dom";
 import PopupContainer from "./PopupContainer";
 import PropTypes from "prop-types";
 import axios from "tools/axios";
+import { useRecoilState } from "recoil";
+import ongoingRoomAtom from "recoil/ongoingRoom";
 
 const PopupCancel = (props) => {
   const styleTextCont = {
@@ -30,11 +32,15 @@ const PopupCancel = (props) => {
   };
 
   const history = useHistory();
+  const [, setOngoingRoom] = useRecoilState(ongoingRoomAtom);
   const onClick = async () => {
     const res = await axios.post("/rooms/v2/abort", {
       roomId: props.roomId,
     });
     if (res.status === 200) {
+      axios.get("/rooms/v2/searchByUser").then(({ data }) => {
+        setOngoingRoom(data?.ongoing);
+      });
       props.recallEvent();
       history.push("/myroom");
     } else {
