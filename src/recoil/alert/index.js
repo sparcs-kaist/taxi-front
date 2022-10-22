@@ -1,3 +1,3 @@
-import alertAtom from "./atom";
+import alertAtom from "./atom.ts";
 
 export default alertAtom;

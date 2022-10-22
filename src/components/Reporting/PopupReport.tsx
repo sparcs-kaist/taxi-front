@@ -163,7 +163,10 @@ const PopupReport = ({
       etcDetail,
       time: new Date(),
     };
-    const res: ReportResponse = await axios.post("/users/report", data);
+    const res: ReportResponse = await axios.post(
+      "/reports/SearchByUser/create",
+      data
+    );
     if (res.status === 200) {
       setIsSubmitted(true);
     } else {
@@ -188,9 +191,9 @@ const PopupReport = ({
     <Modal
       display={isOpen}
       onClickClose={handleClose}
-      maxWidth="325px"
+      width={325}
       padding="10px"
-      btnCloseDisplay={true}
+      closeBtn={true}
     >
       <div style={styleTop}>
         <div style={styleProfImg}>
