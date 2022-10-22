@@ -11,6 +11,7 @@ import OptionPlace from "components/common/roomOptions/Place";
 import OptionDate from "components/common/roomOptions/Date";
 import OptionTime from "components/common/roomOptions/Time";
 import OptionMaxPartLength from "components/common/roomOptions/MaxPartLength";
+import { useTranslation } from "react-i18next";
 
 const AddRoom = () => {
   const onCall = useRef(false);
@@ -76,10 +77,12 @@ const AddRoom = () => {
     }
   };
 
+  const { t } = useTranslation();
+
   return (
     <div>
       <Title icon="add" header={true}>
-        방 개설하기
+        {t("방 개설하기")}
       </Title>
       <RLayout.R1>
         <OptionPlace value={valuePlace} handler={setPlace} />

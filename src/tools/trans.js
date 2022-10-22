@@ -2,7 +2,7 @@ const getS3Url = (x) => {
   return `${process.env.REACT_APP_S3_URL}${x}`;
 };
 
-const getLocationName = (location, langPreference = "ko") => {
+const getLocationName = (location, langPreference) => {
   if (!location) return "";
   if (langPreference === "en") return location.enName;
   return location.koName;

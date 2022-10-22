@@ -154,7 +154,9 @@ const Place = (props) => {
 
   const getPlaceName = (_id) => {
     const place = taxiLocation.find((x) => x._id === _id);
-    return getLocationName(place, "ko");
+    const { i18n } = useTranslation();
+
+    return getLocationName(place, i18n.language);
   };
 
   return (
