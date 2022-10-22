@@ -46,29 +46,23 @@ const getIcon = (icon) => {
 
 const Title = (props) => {
   const title = (
-    <div>
-      <div style={{ height: props.header ? "30px" : "0px" }} />
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        padding: props.header ? "30px 0 25px" : undefined,
+      }}
+    >
+      {getIcon(props.icon)}
       <div
         style={{
-          display: "flex",
-          alignItems: "flex-end",
+          ...theme.font20,
+          color: theme.purple,
+          margin: "0 0 1px 8px",
         }}
       >
-        {getIcon(props.icon)}
-        <div
-          style={{
-            marginLeft: "8px",
-            lineHeight: "23px",
-            fontSize: "20px",
-            fontWeight: "bold",
-            letterSpacing: "0.03em",
-            color: theme.purple,
-          }}
-        >
-          {props.children}
-        </div>
+        {props.children}
       </div>
-      <div style={{ height: props.header ? "25px" : "0px" }} />
     </div>
   );
 

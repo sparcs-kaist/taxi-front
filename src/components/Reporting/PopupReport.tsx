@@ -158,9 +158,9 @@ const PopupReport = ({
 
   const handleSubmit = async (): Promise<void> => {
     const data: ReportData = {
-      reportedId: reportedId,
-      type: type,
-      etcDetail: etcDetail,
+      reportedId,
+      type,
+      etcDetail,
       time: new Date(),
     };
     const res: ReportResponse = await axios.post("/users/report", data);

@@ -9,7 +9,7 @@ import axios from "tools/axios";
 import HeaderBar from "components/common/HeaderBar";
 import Navigation from "components/Skeleton/Navigation";
 import Footer from "components/Skeleton/Footer";
-import PopupPolicy from "components/Mypage/PopupPolicy/PopupPolicy";
+import PopupPolicy from "components/Mypage/PopupPolicy";
 
 const Container = (props) => {
   return (
@@ -103,6 +103,14 @@ const Skeleton = (props) => {
   }
   if (pathname.startsWith("/chatting")) {
     return <Container>{props.children}</Container>;
+  }
+  if (pathname.startsWith("/error")) {
+    return (
+      <Container>
+        <HeaderBar />
+        {props.children}
+      </Container>
+    );
   }
   return (
     <Container>

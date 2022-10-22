@@ -12,14 +12,16 @@ import PropTypes from "prop-types";
 import isMobile from "ismobilejs";
 import { theme } from "styles/theme";
 import Button from "components/common/Button";
+import Tooltip from "components/common/Tooltip";
 
 import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
 import OptionDate from "components/common/roomOptions/Date";
 import OptionTime from "components/common/roomOptions/Time";
-import OptionMaxPartLength from "components/common/roomOptions/MaxPartLength";
+import OptionMaxPart from "components/common/roomOptions/MaxPart";
 
-const searchQueryOption = { strictNullHandling: true };
+const searchQueryOption = { skipNulls: true };
+const defaultOptions = { place: true, date: true, time: true };
 
 const SearchOption = (props) => {
   const [isHover, setHover] = useState(false);
@@ -42,7 +44,7 @@ const SearchOption = (props) => {
   return (
     <animated.div
       style={style}
-      className="BTNC ND"
+      className="BTNC"
       onClick={() => props.onClick(props.id)}
       onMouseEnter={() => setHover(!(isMobile().phone || isMobile().tablet))}
       onMouseLeave={() => setHover(false)}
@@ -60,15 +62,12 @@ SearchOption.propTypes = {
 
 const SelectSearchOptions = (props) => {
   const options = [
-    { name: "방 이름", id: "name" },
     { name: "장소", id: "place" },
     { name: "날짜", id: "date" },
     { name: "시간", id: "time" },
     { name: "최대 인원", id: "maxPartLength" },
+    { name: "방 이름", id: "name" },
   ];
-  if (props.options.time && !props.options.date) {
-    props.handler({ ...props.options, date: true });
-  }
   return (
     <div
       style={{
@@ -80,12 +79,13 @@ const SelectSearchOptions = (props) => {
       }}
     >
       {options.map((item, index) => {
-        const selected = props.options[item.id] ? true : false;
+        const selected = props.options[item.id] ?? false;
         const onClick = (id) => {
           const _options = { ...props.options };
           _options[item.id] = !selected;
-          if (id == "date" && _options.date == false && _options.time == true) {
-            _options.time = false;
+          if (!_options.date && _options.time) {
+            if (id === "date") _options.time = false;
+            if (id === "time") _options.date = true;
           }
           props.handler(_options);
         };
@@ -109,13 +109,8 @@ SelectSearchOptions.propTypes = {
 };
 
 const isSearchAll = (q) => {
-  const entries = Object.entries(q);
-  if (
-    entries.length === 1 &&
-    entries[0][0] === "all" &&
-    entries[0][1] === "true"
-  )
-    return true;
+  for (let [key, val] of Object.entries(q))
+    if (key === "all" && val === "true") return true;
   return false;
 };
 
@@ -127,6 +122,7 @@ const isValidQuery = (q) => {
     "time",
     "withTime",
     "maxPartLength",
+    "page",
   ];
   const keys = Object.keys(q);
 
@@ -146,26 +142,29 @@ const isValidQuery = (q) => {
 const Search = () => {
   const reactiveState = useR2state();
   const onCall = useRef(false);
+  const prevSearchParam = useRef("");
   const history = useHistory();
   const location = useLocation();
+  const today10 = getToday10();
+
   const [searchOptions, setSearchOptions] = useState({});
   const [valueName, setName] = useState("");
   const [valuePlace, setPlace] = useState([null, null]);
   const [valueDate, setDate] = useState([null, null, null]);
-  const [valueTime, setTime] = useState(["0", "00"]);
-  const [valueMaxPartLength, setMaxPartLength] = useState(null);
+  const [valueTime, setTime] = useState([today10.hour(), today10.minute()]);
+  const [valueMaxPart, setMaxPart] = useState(null);
   const [searchResult, setSearchResult] = useState(null);
   const [disabled, setDisabled] = useState(true);
   const [message, setMessage] = useState("검색 조건을 선택해주세요");
 
   const clearState = () => {
     onCall.current = false;
-    setSearchOptions({});
+    setSearchOptions(defaultOptions);
     setName("");
     setPlace([null, null]);
     setDate([null, null, null]);
-    setTime(["0", "00"]);
-    setMaxPartLength(null);
+    setTime([today10.hour(), today10.minute()]);
+    setMaxPart(null);
     setSearchResult(null);
     setDisabled(true);
     setMessage("검색 조건을 선택해주세요");
@@ -189,13 +188,9 @@ const Search = () => {
       const queryTime = moment(q.time);
       setDate([queryTime.year(), queryTime.month() + 1, queryTime.date()]);
       if (newSearchOptions.time)
-        setTime([
-          queryTime.hour().toString(),
-          (Math.floor(queryTime.minute() / 10) * 10).toString(),
-        ]);
+        setTime([queryTime.hour(), Math.floor(queryTime.minute() / 10) * 10]);
     }
-    if (newSearchOptions.maxPartLength)
-      setMaxPartLength(Number(q.maxPartLength));
+    if (newSearchOptions.maxPartLength) setMaxPart(Number(q.maxPartLength));
   };
 
   useEffect(() => {
@@ -205,6 +200,10 @@ const Search = () => {
       clearState();
       return;
     }
+
+    const searchParamWithoutPage = qs.stringify({ ...q, page: null });
+    if (prevSearchParam.current === searchParamWithoutPage) return;
+    prevSearchParam.current = searchParamWithoutPage;
 
     if (isSearchAll(q)) {
       axios
@@ -230,11 +229,11 @@ const Search = () => {
     } else {
       history.replace("/search");
     }
-  }, [location.search]);
+  }, [location]);
 
   useEffect(() => {
-    if (!Object.values(searchOptions).some((option) => option == true)) {
-      setMessage("모든 방 검색하기");
+    if (!Object.values(searchOptions).some((option) => option)) {
+      setMessage("빠른 출발 검색");
       setDisabled(false);
     } else if (searchOptions.name && valueName == "") {
       setMessage("방 이름을 입력해주세요");
@@ -285,18 +284,18 @@ const Search = () => {
   }, [searchOptions.date]);
   useEffect(() => {
     if (searchOptions.time) {
-      if (valueTime[0] === "0" && valueTime[1] === "00") {
+      if (valueTime[0] === 0 && valueTime[1] === 0) {
         const today = getToday10();
-        setTime([today.hour().toString(), today.minute().toString()]);
+        setTime([today.hour(), today.minute()]);
       }
-    } else if (valueTime[0] !== "0" || valueTime[1] !== "00") {
-      setTime(["0", "00"]);
+    } else if (valueTime[0] !== 0 || valueTime[1] !== 0) {
+      setTime([today10.hour(), today10.minute()]);
     }
   }, [searchOptions.time]);
   useEffect(() => {
     if (searchOptions.maxPartLength) {
-      if (valueMaxPartLength === null) setMaxPartLength(4);
-    } else if (valueMaxPartLength !== null) setMaxPartLength(null);
+      if (valueMaxPart === null) setMaxPart(4);
+    } else if (valueMaxPart !== null) setMaxPart(null);
   }, [searchOptions.maxPartLength]);
 
   const onClickSearch = async () => {
@@ -305,7 +304,7 @@ const Search = () => {
       setSearchResult([]);
     }
 
-    if (!Object.values(searchOptions).some((option) => option == true)) {
+    if (!Object.values(searchOptions).some((option) => option)) {
       history.push("/search?all=true");
     } else {
       const date = moment(
@@ -330,7 +329,7 @@ const Search = () => {
           to: valuePlace[1],
           time: date.toISOString(),
           withTime,
-          maxPartLength: valueMaxPartLength,
+          maxPartLength: valueMaxPart,
         },
         searchQueryOption
       );
@@ -339,7 +338,7 @@ const Search = () => {
   };
 
   const leftLay = (
-    <div>
+    <>
       <div
         style={{
           color: "#6E3678",
@@ -350,26 +349,19 @@ const Search = () => {
         어떤 조건으로 검색할까요?
       </div>
       <SelectSearchOptions options={searchOptions} handler={setSearchOptions} />
-      {searchOptions.name ? (
-        <OptionName value={valueName} handler={setName} />
-      ) : null}
-      {searchOptions.place ? (
+      {searchOptions.place && (
         <OptionPlace value={valuePlace} handler={setPlace} />
-      ) : null}
-      {searchOptions.date ? (
-        <OptionDate value={valueDate} handler={setDate} />
-      ) : null}
-      {searchOptions.time ? (
+      )}
+      {searchOptions.date && <OptionDate value={valueDate} handler={setDate} />}
+      {searchOptions.time && (
         <OptionTime value={valueTime} handler={setTime} page="search" />
-      ) : null}
-      {searchOptions.maxPartLength ? (
-        <OptionMaxPartLength
-          value={valueMaxPartLength}
-          handler={setMaxPartLength}
-        />
-      ) : null}
+      )}
+      {searchOptions.maxPartLength && (
+        <OptionMaxPart value={valueMaxPart} handler={setMaxPart} />
+      )}
+      {searchOptions.name && <OptionName value={valueName} handler={setName} />}
       <Button
-        buttonType="purple"
+        type="purple"
         disabled={disabled}
         padding="13px 0px 14px"
         radius={12}
@@ -378,7 +370,14 @@ const Search = () => {
       >
         {message}
       </Button>
-    </div>
+      {!Object.values(searchOptions).some((option) => option) && (
+        <Tooltip
+          text={
+            "검색 옵션을 선택하지 않을 경우 '빠른 출발 검색'이 가능합니다. 현재 시각에서 24시간 내의 방들이 검색됩니다."
+          }
+        />
+      )}
+    </>
   );
   const rightLay =
     searchResult === null ? null : (
