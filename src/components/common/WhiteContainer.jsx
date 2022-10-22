@@ -6,7 +6,7 @@ const WhiteContainer = (props) => {
   const box = (
     <div
       style={{
-        marginBottom: props.marginBottom,
+        margin: props.margin,
         boxShadow:
           "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
         borderRadius: "12px",
@@ -36,11 +36,11 @@ WhiteContainer.propTypes = {
   children: PropTypes.any,
   padding: PropTypes.any,
   marginAuto: PropTypes.bool,
-  marginBottom: PropTypes.any,
+  margin: PropTypes.string,
 };
 WhiteContainer.defaultProps = {
   padding: "24px",
-  marginBottom: "15px",
+  margin: "0 0 15px",
   marginAuto: false,
 };
 

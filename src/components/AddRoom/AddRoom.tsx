@@ -8,7 +8,7 @@ import Button from "components/common/Button";
 import axios from "tools/axios";
 import { date2str, getToday10, getToday } from "tools/moment";
 import { theme } from "styles/theme";
-import FiveRoom from "./FiveRoom";
+import FullParticipation from "./FullParticipation";
 
 import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
@@ -85,7 +85,7 @@ const AddRoom = () => {
       }
     }
   };
-  console.log(ongoingRoom);
+
   return ongoingRoom?.length !== 5 ? (
     <div>
       <Title icon="add" header={true} marginAuto={true}>
@@ -121,7 +121,7 @@ const AddRoom = () => {
       </RLayout.R1>
     </div>
   ) : (
-    <FiveRoom />
+    <FullParticipation />
   );
 };
 
