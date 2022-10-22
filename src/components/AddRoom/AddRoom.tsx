@@ -8,6 +8,7 @@ import Button from "components/common/Button";
 import axios from "tools/axios";
 import { date2str, getToday10, getToday } from "tools/moment";
 import { theme } from "styles/theme";
+import FiveRoom from "./FiveRoom";
 
 import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
@@ -30,7 +31,8 @@ const AddRoom = () => {
   const today10 = getToday10();
   const [valueTime, setTime] = useState([today10.hour(), today10.minute()]);
   const [calculatedTime, setCalculatedTime] = useState<Date | null>(null);
-  const [, setOngoingRoom] = useRecoilState(ongoingRoomAtom);
+  const [ongoingRoom, setOngoingRoom] =
+    useRecoilState<Array<any>>(ongoingRoomAtom);
 
   useEffect(() => {
     setCalculatedTime(
@@ -83,8 +85,8 @@ const AddRoom = () => {
       }
     }
   };
-
-  return (
+  console.log(ongoingRoom);
+  return ongoingRoom?.length !== 5 ? (
     <div>
       <Title icon="add" header={true} marginAuto={true}>
         방 개설하기
@@ -118,6 +120,8 @@ const AddRoom = () => {
         </Button>
       </RLayout.R1>
     </div>
+  ) : (
+    <FiveRoom />
   );
 };
 
