@@ -108,6 +108,7 @@ const RoomSelectionModal = (props) => {
   const isRoomFull = roomInfo
     ? roomInfo.maxPartLength - roomInfo.part.length === 0
     : false;
+  const fullParticipation = props.ongoingRoom === 5;
 
   useEffect(() => {
     if (props.isOpen) setRoomInfo(props.roomInfo);
@@ -208,7 +209,7 @@ const RoomSelectionModal = (props) => {
       </div>
       <Button
         type="purple"
-        disabled={isRoomFull || disableJoinBtn}
+        disabled={isRoomFull || disableJoinBtn || fullParticipation}
         padding="10px 0px 9px"
         radius={8}
         font={theme.font14_bold}
@@ -228,6 +229,7 @@ RoomSelectionModal.propTypes = {
   isMobile: PropTypes.bool,
   onClose: PropTypes.func,
   roomInfo: PropTypes.object,
+  ongoingRoom: PropTypes.number,
 };
 
 export default RoomSelectionModal;
