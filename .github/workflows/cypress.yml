@@ -11,32 +11,92 @@ jobs:
   cypress:
     runs-on: ubuntu-20.04
     name: cypress
-    
+    strategy:
+      matrix:
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        node-version: [16.x]
+        mongodb-version: ['5.0']
     steps:
-    - name: setup node
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_S3_BUCKET_NAME: ${{ secrets.AWS_S3_BUCKET_NAME }} 
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        DB_PATH: ${{ secrets.DB_PATH }}
+        FRONT_URL: ${{ secrets.FRONT_URL }}
+        PORT: ${{ secrets.PORT }}
+        SESSION_KEY: ${{ secrets.SESSION_KEY }}
+        REACT_APP_BACK_URL : ${{ secrets.REACT_APP_BACK_URL }} 
+        REACT_APP_S3_URL : ${{ secrets.REACT_APP_S3_URL }}
+        REACT_APP_CHANNELTALK_PLUGIN_KEY : ${{ secrets.REACT_APP_CHANNELTALK_PLUGIN_KEY }}
+  
+    - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/checkout@v3
 
-    - name: use node 16
+    - name: Setup Node
       uses: actions/setup-node@v3
       with:
-        node-version: 16
-    
-    - name: print ls
-      run: ls
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'   
 
-    - name: install dependencies
+    - name: clone backend
+      with:
+        repository: sparcs-kaist/taxi-back
+        path: './taxi-back'
+
+    - name: install frontend dependencies
       run: npm install
-    
-    - name: creates dotenv
-      run: |
-        touch .env
-        echo REACT_APP_BACK_URL = ${{ secrets.REACT_APP_BACK_URL }}  >> .env
-        echo REACT_APP_S3_URL = ${{ secrets.REACT_APP_S3_URL }} >> .env
-        echo REACT_APP_CHANNELTALK_PLUGIN_KEY = ${{ secrets.REACT_APP_CHANNELTALK_PLUGIN_KEY }} >> .env
 
-    - name: pm2
+    - name: move to backend
+      run: |
+        cd ../taxi-back
+        ls
+
+    - name: Start MongoDB  
+      run: sudo docker run --name mongodb -d -p 27017:27017 mongo:${{ matrix.mongodb-version }}
+
+    - name: Install aws cli
+      run: sudo apt install awscli
+
+    - name: create AWS configuration file and copy
+      run: |
+        mkdir -p ~/.aws
+        cd ~/.aws
+        pwd
+        touch credentials
+        echo "[default]" >> credentials
+        echo aws_access_key_id = ${{ secrets.AWS_ACCESS_KEY_ID }}  >> credentials
+        echo aws_secret_access_key = ${{ secrets.AWS_SECRET_ACCESS_KEY }} >> credentials
+        cat credentials
+        touch config
+        echo "[default]" >> config
+        echo "region = ap-northeast-2" >> config
+        echo "output = json" >> config
+        cat config
+        ls -al
+
+    - name: Download mongoDB dump file
+      run: aws s3 cp --recursive s3://${{ secrets.AWS_S3_BUCKET_NAME }}/dump dump
+
+    - name: Copy to mongodb container
+      run: docker cp dump mongodb:/dump
+
+    - name: Restore DB from dump file
+      run: docker exec mongodb sh -c 'mongorestore ${{ secrets.DB_PATH }} dump/${{ secrets.DB_NAME }}'
+
+    - name: Install backend dependencies from package-lock.json
+      run: npm ci
+
+    - name: install pm2 globally and run backend
       run: |
         npm install pm2 -g
+        pm2 start npm -- start
+        cd ../taxi-front
+
+    - name: Install frontend dependencies from package-lock.json
+      run: npm ci
+
+    - name: run frontend
+      run: |
         pm2 start npm -- start
 
     - name: runs cypress

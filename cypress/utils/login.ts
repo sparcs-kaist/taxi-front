@@ -3,6 +3,8 @@ const login = () => {
     if (!data.body?.id)
       cy.request("POST", `${Cypress.env("backendUrl")}/auth/try`, {
         id: "test-id",
+        name: "test-id-name",
+        sid: "test-id-sid",
       });
 
     cy.visit("/");
