@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 import PropTypes from "prop-types";
 import { io } from "socket.io-client";
+import { useRecoilState } from "recoil";
 import Header from "./Header/Header";
 import MessagesBody from "./MessagesBody/MessagesBody";
 import MessageForm from "./MessageForm/MessageForm";
@@ -12,6 +13,7 @@ import convertImg from "tools/convertImg";
 import axios from "tools/axios";
 import axiosOri from "axios";
 import useTaxiAPI from "hooks/useTaxiAPI";
+import ongoingRoomAtom from "recoil/ongoingRoom";
 
 import "./Style/Chatting.css";
 
@@ -28,6 +30,7 @@ const Chatting = (props) => {
     useStateWithCallbackLazy("40px");
 
   const socket = useRef(undefined);
+  const [, setOngoingRoom] = useRecoilState(ongoingRoomAtom);
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
   const [, userInfoDetail] = useTaxiAPI.get("/json/logininfo/detail");
   const [, headerInfo] = useTaxiAPI.get(
@@ -35,6 +38,14 @@ const Chatting = (props) => {
     {},
     [headerInfToken]
   );
+  const [, roomList] = useTaxiAPI.get("/rooms/v2/searchByUser", {}, [
+    headerInfToken,
+  ]);
+
+  // Update the ongoing room list
+  useEffect(() => {
+    setOngoingRoom(roomList?.ongoing);
+  }, [roomList]);
 
   // scroll event
   const isTopOnScroll = (tol = 20) => {
