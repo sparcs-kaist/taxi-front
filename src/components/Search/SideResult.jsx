@@ -157,13 +157,6 @@ const SideResult = (props) => {
     });
   }, [rooms, page, isValidPage]);
 
-  const styleEmpty = {
-    color: theme.gray_text,
-    fontWeight: "700",
-    textAlign: "center",
-    margin: "50px 0px 30px",
-  };
-
   if (!props.mobile) {
     return (
       <div style={{ marginTop: 26 }}>

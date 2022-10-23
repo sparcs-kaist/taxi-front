@@ -55,14 +55,6 @@ const R2Myroom = (props) => {
   const chatHeightRef = useRef("0px");
   const [chatHeight, setChatHeight] = useState(chatHeightRef.current);
 
-  const styleEmpty = {
-    color: theme.gray_text,
-    fontSize: "14px",
-    lineHeight: "109px",
-    textAlign: "center",
-    height: "109px",
-  };
-
   const resizeEvent = () => {
     try {
       const height1 = refTitle.current.clientHeight;
@@ -195,7 +187,7 @@ const R2Myroom = (props) => {
                       recallEvent={props.recallEvent}
                     />
                   ) : (
-                    <div style={styleEmpty}>방을 선택하세요.</div>
+                    <div>방을 선택하세요.</div>
                   )}
                 </WhiteContainer>
               </div>
