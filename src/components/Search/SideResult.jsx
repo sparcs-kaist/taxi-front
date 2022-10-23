@@ -8,7 +8,6 @@ import Pagination, {
 import RoomSelectionModal from "./RoomSelectionModal";
 import PropTypes from "prop-types";
 import { useRecoilState } from "recoil";
-import ongoingRoomAtom from "recoil/ongoingRoom";
 
 import usePageFromSearchParams from "hooks/usePageFromSearchParams";
 import CheckIcon from "@mui/icons-material/Check";
@@ -123,7 +122,6 @@ const SideResult = (props) => {
   const [rooms, setRooms] = useState([]);
   const [pageInfo, setPageInfo] = useState({ totalPages: 1, currentPage: 1 });
   const { page, isValid: isValidPage } = usePageFromSearchParams();
-  const [ongoingRoom] = useRecoilState(ongoingRoomAtom);
 
   useEffect(() => {
     if (props.result === null) return;
@@ -176,7 +174,6 @@ const SideResult = (props) => {
             setSelectedRoomInfo(null);
           }}
           roomInfo={selectedRoomInfo}
-          ongoingRoom={ongoingRoom.length}
         />
         <WhiteContainer padding="20px 20px 22px">
           <Title icon="search_result">검색 결과</Title>
@@ -228,7 +225,6 @@ const SideResult = (props) => {
             setSelectedRoomInfo(null);
           }}
           roomInfo={selectedRoomInfo}
-          ongoingRoom={ongoingRoom.length}
         />
         <SearchOptions
           isIncludeFullRoom={isIncludeFullRoom}

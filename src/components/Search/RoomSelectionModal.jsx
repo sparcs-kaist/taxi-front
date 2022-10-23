@@ -2,15 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import preferenceAtom from "recoil/preference";
+import loginInfoDetailAtom from "recoil/loginInfoDetail";
+import ongoingRoomAtom from "recoil/ongoingRoom";
+import PropTypes from "prop-types";
 import { date2str } from "tools/moment";
 import { getLocationName } from "tools/trans";
+import axios from "tools/axios";
+import { theme } from "styles/theme";
+
 import Title from "components/common/Title";
 import Modal from "components/common/modal/Modal";
 import Button from "components/common/Button";
-import { theme } from "styles/theme";
-import loginInfoDetailAtom from "recoil/loginInfoDetail";
-import PropTypes from "prop-types";
-import axios from "tools/axios";
 import DottedLine from "components/common/DottedLine";
 import Tooltip from "@mui/material/Tooltip";
 
@@ -102,6 +104,7 @@ InfoSection.defaultProps = {
 const RoomSelectionModal = (props) => {
   const [roomInfo, setRoomInfo] = useState(null);
   const history = useHistory();
+  const ongoingRoom = useRecoilValue(ongoingRoomAtom);
   const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const preference = useRecoilValue(preferenceAtom);
   const disableJoinBtn =
@@ -109,7 +112,7 @@ const RoomSelectionModal = (props) => {
   const isRoomFull = roomInfo
     ? roomInfo.maxPartLength - roomInfo.part.length === 0
     : false;
-  const fullParticipation = props.ongoingRoom === 5;
+  const fullParticipation = ongoingRoom === 5;
 
   useEffect(() => {
     if (props.isOpen) setRoomInfo(props.roomInfo);
@@ -257,7 +260,6 @@ RoomSelectionModal.propTypes = {
   isMobile: PropTypes.bool,
   onClose: PropTypes.func,
   roomInfo: PropTypes.object,
-  ongoingRoom: PropTypes.number,
 };
 
 export default RoomSelectionModal;
