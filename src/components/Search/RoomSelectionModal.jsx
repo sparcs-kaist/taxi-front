@@ -216,6 +216,7 @@ const RoomSelectionModal = (props) => {
         componentsProps={{
           tooltip: {
             sx: {
+              display: fullParticipation ? undefined : "none",
               ...theme.font12,
               color: theme.black,
               padding: "8px 10px 7px",
