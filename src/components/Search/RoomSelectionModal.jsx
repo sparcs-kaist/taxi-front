@@ -9,6 +9,7 @@ import { date2str } from "tools/moment";
 import { getLocationName } from "tools/trans";
 import axios from "tools/axios";
 import { theme } from "styles/theme";
+import { MAX_PARTICIPATION } from "components/Myroom/Myroom";
 
 import Title from "components/common/Title";
 import Modal from "components/common/modal/Modal";
@@ -112,7 +113,7 @@ const RoomSelectionModal = (props) => {
   const isRoomFull = roomInfo
     ? roomInfo.maxPartLength - roomInfo.part.length === 0
     : false;
-  const fullParticipation = ongoingRoom === 5;
+  const fullParticipation = ongoingRoom >= MAX_PARTICIPATION;
 
   useEffect(() => {
     if (props.isOpen) setRoomInfo(props.roomInfo);

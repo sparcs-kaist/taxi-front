@@ -9,6 +9,7 @@ import axios from "tools/axios";
 import { date2str, getToday10, getToday } from "tools/moment";
 import { theme } from "styles/theme";
 import FullParticipation from "./FullParticipation";
+import { MAX_PARTICIPATION } from "components/Myroom/Myroom";
 
 import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
@@ -86,7 +87,7 @@ const AddRoom = () => {
     }
   };
 
-  return ongoingRoom?.length !== 5 ? (
+  return ongoingRoom?.length < MAX_PARTICIPATION ? (
     <div>
       <Title icon="add" header={true} marginAuto={true}>
         방 개설하기

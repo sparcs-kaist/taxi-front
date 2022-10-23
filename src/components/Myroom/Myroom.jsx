@@ -8,6 +8,7 @@ import R1Myroom from "./R1Myroom";
 import R2Myroom from "./R2Myroom";
 
 const PAGE_MAX_ROOMS = 20;
+export const MAX_PARTICIPATION = 5;
 
 const Myroom = () => {
   const history = useHistory();
