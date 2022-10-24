@@ -14,6 +14,7 @@ import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 const Tag = (props) => {
   const style = {
     ...theme.font10,
+    color: theme.gray_text,
     display: "flex",
     alignItems: "flex-start",
     borderRadius: "4px",
@@ -33,8 +34,8 @@ const Tag = (props) => {
   if (!props.isDeparted) {
     isDone = (
       <div style={style}>
-        <div>남은 인원 : </div>
-        <div style={{ color: "#6E3678", fontWeight: "400" }}>
+        남은 인원 :
+        <div style={{ color: theme.purple, ...theme.font10 }}>
           {props.maxPartLength - props.users.length} / {props.maxPartLength} 명
         </div>
       </div>
@@ -42,7 +43,7 @@ const Tag = (props) => {
   } else if (paid.length === 0) {
     isDone = (
       <div style={style}>
-        <div style={{ color: "#6E3678", fontWeight: "400" }}>결재 미완료</div>
+        <div style={{ color: theme.purple }}>결재 미완료</div>
       </div>
     );
   } else if (props.isSettlementForMe === "paid") {
@@ -60,7 +61,7 @@ const Tag = (props) => {
   } else if (props.isSettlementForMe === "send-required") {
     isDone = (
       <div style={style}>
-        <div style={{ color: "#6E3678", fontWeight: "400" }}>정산 미완료</div>
+        <div style={{ color: theme.purple }}>정산 미완료</div>
       </div>
     );
   }
@@ -90,12 +91,9 @@ const Room = (props) => {
   const preference = useRecoilValue(preferenceAtom);
   const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const isSettlementForMe = useMemo(
-    () =>
-      users.filter((user) => user._id === loginInfoDetail.oid)?.[0]
-        ?.isSettlement,
+    () => users.find((user) => user._id === loginInfoDetail.oid)?.isSettlement,
     [loginInfoDetail?.oid, JSON.stringify(users)]
   );
-
   const styleBox = {
     position: "relative",
     background: props.theme === "purple" ? theme.purple_light : theme.white,
@@ -141,8 +139,7 @@ const Room = (props) => {
   };
 
   return (
-    <div style={styleBox} className="room" onClick={props.onClick}>
-      <div className="pseudo" />
+    <div style={styleBox} className="shadow" onClick={props.onClick}>
       <div style={styleTop}>
         <div style={styleName}>{props.data?.name}</div>
         <Tag

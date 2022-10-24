@@ -1,19 +1,10 @@
-.pseudo {
+.shadow::after {
   position: absolute;
   width: 100%;
   height: 100%;
+  top: 0;
+  left: 0;
   z-index: -1;
-  top: 0;
-  left: 0;
-  border-radius: 12px;
-}
-
-.pseudo::after {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
   content: "";
   border-radius: 12px;
   box-shadow: 0px 2px 4px rgba(110, 54, 120, 0.2),
@@ -22,6 +13,6 @@
   transition: opacity 150ms ease-in-out;
 }
 
-.room:hover > .pseudo::after {
+.shadow:hover::after {
   opacity: 1;
 }
