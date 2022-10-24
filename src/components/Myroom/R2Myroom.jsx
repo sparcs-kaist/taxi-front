@@ -28,7 +28,6 @@ const ChatHeader = (props) => {
 
   const recallEvent = () => {
     setHeaderInfToken(Date.now().toString());
-    props.recallEvent();
   };
 
   return (
@@ -42,7 +41,6 @@ const ChatHeader = (props) => {
 ChatHeader.propTypes = {
   roomId: PropTypes.string,
   resizeEvent: PropTypes.func,
-  recallEvent: PropTypes.func,
 };
 
 const R2Myroom = (props) => {
@@ -191,7 +189,6 @@ const R2Myroom = (props) => {
                     <ChatHeader
                       roomId={props.roomId}
                       resizeEvent={resizeEvent}
-                      recallEvent={props.recallEvent}
                     />
                   ) : (
                     <div style={styleEmpty}>방을 선택하세요.</div>
