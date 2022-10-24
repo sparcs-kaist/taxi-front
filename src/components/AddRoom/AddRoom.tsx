@@ -6,6 +6,8 @@ import Button from "components/common/Button";
 import axios from "tools/axios";
 import { date2str, getToday10, getToday } from "tools/moment";
 import { theme } from "styles/theme";
+import { useSetRecoilState } from "recoil";
+import alertAtom from "recoil/alert";
 
 import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
@@ -28,6 +30,7 @@ const AddRoom = () => {
   const today10 = getToday10();
   const [valueTime, setTime] = useState([today10.hour(), today10.minute()]);
   const [calculatedTime, setCalculatedTime] = useState<Date | null>(null);
+  const setAlert = useSetRecoilState(alertAtom);
 
   useEffect(() => {
     setCalculatedTime(
@@ -73,7 +76,7 @@ const AddRoom = () => {
       if (result.status === 200) {
         history.push("/myroom");
       } else {
-        alert("add room error");
+        setAlert("방 개설에 실패하였습니다.");
       }
     }
   };
