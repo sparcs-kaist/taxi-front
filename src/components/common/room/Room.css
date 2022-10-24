@@ -13,6 +13,7 @@
   transition: opacity 150ms ease-in-out;
 }
 
-.shadow:hover::after {
+.shadow:hover::after,
+.shadow:active::after {
   opacity: 1;
 }
