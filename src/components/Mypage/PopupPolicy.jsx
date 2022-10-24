@@ -10,8 +10,6 @@ import alertAtom from "recoil/alert";
 import Button from "components/common/Button";
 import { ReactComponent as TaxiLogo } from "static/assets/TaxiLogo.svg";
 
-const setAlert = useSetRecoilState(alertAtom);
-
 const Policy = () => {
   const styleBox = {
     padding: "0 24px 0 16px",
@@ -157,6 +155,7 @@ const Policy = () => {
 };
 
 const Agree = (props) => {
+  const setAlert = useSetRecoilState(alertAtom);
   const onAgree = async () => {
     const result = await axios.post("/users/agreeOnTermsOfService");
     if (result.status !== 200) {
@@ -210,6 +209,7 @@ Agree.propTypes = {
 const PopupPolicy = (props) => {
   const history = useHistory();
   const [didAgree, setDIdAgree] = useState(undefined);
+  const setAlert = useSetRecoilState(alertAtom);
 
   useEffect(() => {
     axios.get("/json/logininfo/detail").then(({ data }) => {
