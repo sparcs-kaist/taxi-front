@@ -1,12 +1,13 @@
 import React, { useState, useMemo } from "react";
 import { useRecoilValue } from "recoil";
 import preferenceAtom from "recoil/preference";
-import { useSpring, animated } from "react-spring";
 import PropTypes from "prop-types";
 import { getLocationName } from "tools/trans";
 import { date2str } from "tools/moment";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import DottedLine from "components/common/DottedLine";
+import { theme } from "styles/theme";
+import "./Room.css";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 
@@ -99,17 +100,16 @@ const Room = (props) => {
     [loginInfoDetail?.oid, JSON.stringify(users)]
   );
 
-  const style = {
+  const styleBox = {
     position: "relative",
     background: props.theme === "purple" ? "#FAF8FB" : "white",
-    overflow: "hidden",
     borderRadius: "12px",
     marginTop: props.marginTop,
     marginBottom: props.marginBottom,
     boxShadow:
-      isHover || props.selected
-        ? "0px 2px 4px rgba(110, 54, 120, 0.2), 0px 1px 18px rgba(110, 54, 120, 0.12), 0px 6px 10px rgba(110, 54, 120, 0.14)"
-        : "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
+      theme.shadow +
+      (props.selected ? `, inset 0 0 0 0.5px ${theme.purple}` : ""),
+    cursor: theme.cursor(false),
   };
   const styleName = {
     display: "flex",
@@ -148,25 +148,16 @@ const Room = (props) => {
     fontSize: "12px",
     color: "#6E3678",
   };
-  const styleSelected = useSpring({
-    position: "absolute",
-    top: "0px",
-    left: "0px",
-    width: "8px",
-    height: "100%",
-    background: "#6E3678",
-    opacity: props.selected ? 1 : 0,
-    config: { duration: 100 },
-  });
 
   return (
     <div
-      style={style}
-      className="BTNC container"
+      style={styleBox}
+      className="room"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       onClick={props.onClick}
     >
+      <div className="pseudo" />
       <div style={styleName}>
         <div style={{ marginRight: "auto" }}>{props.data?.name}</div>
         <Tag
@@ -188,7 +179,6 @@ const Room = (props) => {
         </div>
       </div>
       <div style={styleDate}>{date2str(props.data?.time)}</div>
-      <animated.div style={styleSelected} />
     </div>
   );
 };
