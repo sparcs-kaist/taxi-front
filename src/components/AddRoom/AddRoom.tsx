@@ -47,6 +47,10 @@ const AddRoom = () => {
     );
   }, [valueDate, valueTime]);
 
+  useEffect(() => {
+    if (onCall.current) history.push("/myroom");
+  }, [JSON.stringify(ongoingRoom)]);
+
   let validatedMsg = null;
   if (!valuePlace[0] || !valuePlace[1]) {
     validatedMsg = "출발지와 도착지를 선택해 주세요";
@@ -77,10 +81,12 @@ const AddRoom = () => {
         maxPartLength: valueMaxPart,
       });
       if (result.status === 200) {
-        axios.get("/rooms/v2/searchByUser").then(({ data }) => {
+        try {
+          const { data } = await axios.get("/rooms/v2/searchByUser");
           setOngoingRoom(data.ongoing);
-        });
-        history.push("/myroom");
+        } catch (error) {
+          console.log(error);
+        }
       } else {
         alert("add room error");
       }
