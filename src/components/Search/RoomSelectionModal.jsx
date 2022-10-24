@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import preferenceAtom from "recoil/preference";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
-import ongoingRoomAtom from "recoil/ongoingRoom";
+import myRoomAtom from "recoil/myRoom";
 import PropTypes from "prop-types";
 import { date2str } from "tools/moment";
 import { getLocationName } from "tools/trans";
@@ -105,7 +105,7 @@ InfoSection.defaultProps = {
 const RoomSelectionModal = (props) => {
   const [roomInfo, setRoomInfo] = useState(null);
   const history = useHistory();
-  const ongoingRoom = useRecoilValue(ongoingRoomAtom);
+  const myRoom = useRecoilValue(myRoomAtom);
   const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const preference = useRecoilValue(preferenceAtom);
   const disableJoinBtn =
@@ -113,7 +113,7 @@ const RoomSelectionModal = (props) => {
   const isRoomFull = roomInfo
     ? roomInfo.maxPartLength - roomInfo.part.length === 0
     : false;
-  const fullParticipation = ongoingRoom >= MAX_PARTICIPATION;
+  const fullParticipation = myRoom?.ongoing.length >= MAX_PARTICIPATION;
 
   useEffect(() => {
     if (props.isOpen) setRoomInfo(props.roomInfo);

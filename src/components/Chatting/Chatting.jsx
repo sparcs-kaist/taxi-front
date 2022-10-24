@@ -13,7 +13,7 @@ import convertImg from "tools/convertImg";
 import axios from "tools/axios";
 import axiosOri from "axios";
 import useTaxiAPI from "hooks/useTaxiAPI";
-import ongoingRoomAtom from "recoil/ongoingRoom";
+import myRoomAtom from "recoil/myRoom";
 
 import "./Style/Chatting.css";
 
@@ -30,7 +30,7 @@ const Chatting = (props) => {
     useStateWithCallbackLazy("40px");
 
   const socket = useRef(undefined);
-  const [, setOngoingRoom] = useRecoilState(ongoingRoomAtom);
+  const [, setMyRoom] = useRecoilState(myRoomAtom);
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
   const [, userInfoDetail] = useTaxiAPI.get("/json/logininfo/detail");
   const [, headerInfo] = useTaxiAPI.get(
@@ -44,7 +44,7 @@ const Chatting = (props) => {
 
   // Update the ongoing room list
   useEffect(() => {
-    setOngoingRoom(roomList?.ongoing);
+    setMyRoom(roomList);
   }, [roomList]);
 
   // scroll event

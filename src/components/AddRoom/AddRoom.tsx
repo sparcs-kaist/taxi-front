@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import ongoingRoomAtom from "recoil/ongoingRoom";
+import myRoomAtom from "recoil/myRoom";
 import RLayout from "components/common/RLayout";
 import Title from "components/common/Title";
 import Button from "components/common/Button";
@@ -32,8 +32,7 @@ const AddRoom = () => {
   const today10 = getToday10();
   const [valueTime, setTime] = useState([today10.hour(), today10.minute()]);
   const [calculatedTime, setCalculatedTime] = useState<Date | null>(null);
-  const [ongoingRoom, setOngoingRoom] =
-    useRecoilState<Array<any>>(ongoingRoomAtom);
+  const [myRoom, setMyRoom] = useRecoilState(myRoomAtom);
 
   useEffect(() => {
     setCalculatedTime(
@@ -49,7 +48,7 @@ const AddRoom = () => {
 
   useEffect(() => {
     if (onCall.current) history.push("/myroom");
-  }, [JSON.stringify(ongoingRoom)]);
+  }, [JSON.stringify(myRoom)]);
 
   let validatedMsg = null;
   if (!valuePlace[0] || !valuePlace[1]) {
@@ -83,7 +82,7 @@ const AddRoom = () => {
       if (result.status === 200) {
         try {
           const { data } = await axios.get("/rooms/v2/searchByUser");
-          setOngoingRoom(data.ongoing);
+          setMyRoom(data);
         } catch (error) {
           console.log(error);
         }
@@ -93,7 +92,7 @@ const AddRoom = () => {
     }
   };
 
-  return ongoingRoom?.length < MAX_PARTICIPATION ? (
+  return (myRoom?.ongoing.length ?? 0) < MAX_PARTICIPATION ? (
     <div>
       <Title icon="add" header={true} marginAuto={true}>
         방 개설하기
