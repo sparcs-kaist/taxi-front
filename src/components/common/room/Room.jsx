@@ -13,21 +13,18 @@ import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 
 const Tag = (props) => {
   const style = {
+    ...theme.font10,
+    display: "flex",
+    alignItems: "flex-start",
+    borderRadius: "4px",
+    gap: "3px",
+    padding: "4px 6px 3px",
+    background:
+      props.theme === "purple" ? theme.gray_background : theme.purple_light,
     boxShadow:
       props.theme === "purple"
-        ? "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)"
-        : "inset 1px 1px 2.5px -1px rgba(110, 54, 120, 0.1)",
-    borderRadius: "4px",
-    background: props.theme === "purple" ? "#FFFFFF" : "#FAF8FB",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "flex-start",
-    padding: "3.5px 5px 2.5px",
-    gap: "3px",
-    height: "18px",
-    lineHeight: "18px",
-    fontSize: "10px",
-    margin: "3px",
+        ? theme.shadow_purple_input_inset
+        : theme.shadow_gray_input_inset,
   };
   const paid = props.users.filter((user) => user.isSettlement === "paid");
   let isDone = null;
@@ -36,7 +33,7 @@ const Tag = (props) => {
   if (!props.isDeparted) {
     isDone = (
       <div style={style}>
-        <div>남은 인원: </div>
+        <div>남은 인원 : </div>
         <div style={{ color: "#6E3678", fontWeight: "400" }}>
           {props.maxPartLength - props.users.length} / {props.maxPartLength} 명
         </div>
@@ -89,7 +86,6 @@ const Tag = (props) => {
 };
 
 const Room = (props) => {
-  const [isHover, setHover] = useState(false);
   const users = props.data?.part || [];
   const preference = useRecoilValue(preferenceAtom);
   const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
@@ -102,7 +98,7 @@ const Room = (props) => {
 
   const styleBox = {
     position: "relative",
-    background: props.theme === "purple" ? "#FAF8FB" : "white",
+    background: props.theme === "purple" ? theme.purple_light : theme.white,
     borderRadius: "12px",
     marginTop: props.marginTop,
     marginBottom: props.marginBottom,
@@ -110,56 +106,45 @@ const Room = (props) => {
       theme.shadow +
       (props.selected ? `, inset 0 0 0 0.5px ${theme.purple}` : ""),
     cursor: theme.cursor(false),
+    zIndex: 1,
   };
-  const styleName = {
+  const styleTop = {
     display: "flex",
     alignItems: "center",
-    justifyContent: "flex-end",
-    height: "39px",
-    lineHeight: "39px",
-    fontSize: "12px",
-    paddingLeft: "18px",
-    paddingRight: "5px",
+    justifyContent: "space-between",
+    padding: "0 12px 0 16px",
   };
-  const styleLay1 = {
-    height: "16px",
-    marginTop: "15px",
+  const styleName = {
+    ...theme.font12,
+    margin: "13px 0 12px",
+  };
+  const stylePlaceGrid = {
+    marginTop: "16px",
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "space-between",
+    padding: "0 8px",
   };
-  const styleLay1Place = {
-    height: "16px",
-    lineHeight: "16px",
-    width: "calc(50% - 13px)",
+  const stylePlace = {
+    ...theme.font14_bold,
+    width: "calc(50% - 20px)",
     textAlign: "center",
-    fontSize: "14px",
-    fontWeight: "bold",
   };
   const styleArrow = {
-    height: "15px",
-    width: "16px",
+    ...theme.font16_icon,
+    color: theme.gray_text,
   };
   const styleDate = {
-    marginTop: "13px",
-    marginBottom: "13px",
-    height: "14px",
-    lineHeight: "14px",
+    ...theme.font12,
+    color: theme.purple,
+    padding: "12px 0",
     textAlign: "center",
-    fontSize: "12px",
-    color: "#6E3678",
   };
 
   return (
-    <div
-      style={styleBox}
-      className="room"
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      onClick={props.onClick}
-    >
+    <div style={styleBox} className="room" onClick={props.onClick}>
       <div className="pseudo" />
-      <div style={styleName}>
-        <div style={{ marginRight: "auto" }}>{props.data?.name}</div>
+      <div style={styleTop}>
+        <div style={styleName}>{props.data?.name}</div>
         <Tag
           users={users}
           isDeparted={props.data?.isDeparted}
@@ -169,12 +154,12 @@ const Room = (props) => {
         />
       </div>
       <DottedLine direction="row" margin={12} />
-      <div style={styleLay1}>
-        <div style={styleLay1Place}>
+      <div style={stylePlaceGrid}>
+        <div style={stylePlace}>
           {getLocationName(props.data?.from, preference.lang)}
         </div>
         <ArrowRightAltRoundedIcon style={styleArrow} />
-        <div style={styleLay1Place}>
+        <div style={stylePlace}>
           {getLocationName(props.data?.to, preference.lang)}
         </div>
       </div>
