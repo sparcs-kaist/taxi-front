@@ -97,7 +97,7 @@ const Room = (props) => {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: "0 12px 0 16px",
+    padding: "0 12px 0 20px",
   };
   const styleName = {
     ...theme.font12,
@@ -111,7 +111,7 @@ const Room = (props) => {
   };
   const stylePlace = {
     ...theme.font14_bold,
-    width: "calc(50% - 20px)",
+    width: "calc(50% - 12px)",
     textAlign: "center",
   };
   const styleArrow = {
