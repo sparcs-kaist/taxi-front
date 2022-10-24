@@ -66,7 +66,7 @@ const BtnProfImg = (props) => {
   };
   const style = {
     textAlign: "center",
-    ...theme.font10,
+    ...theme.font10_bold,
     color: theme.purple,
     width: "fit-content",
     margin: "16px auto",
