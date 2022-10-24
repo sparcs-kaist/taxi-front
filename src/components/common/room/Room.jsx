@@ -27,62 +27,49 @@ const Tag = (props) => {
         ? theme.shadow_purple_input_inset
         : theme.shadow_gray_input_inset,
   };
-  const paid = props.users.filter((user) => user.isSettlement === "paid");
+  const paid = props.users.find((user) => user.isSettlement === "paid");
   let isDone = null;
-  let person = null;
+  // let person = null;
 
   if (!props.isDeparted) {
     isDone = (
-      <div style={style}>
-        남은 인원 :
-        <div style={{ color: theme.purple, ...theme.font10 }}>
-          {props.maxPartLength - props.users.length} / {props.maxPartLength} 명
-        </div>
-      </div>
+      <>
+        인원 :
+        <div style={{ color: theme.purple, ...theme.font10_bold }}>
+          {props.users.length}명
+        </div>{" "}
+        /{props.maxPartLength}명
+      </>
     );
-  } else if (paid.length === 0) {
-    isDone = (
-      <div style={style}>
-        <div style={{ color: theme.purple }}>결재 미완료</div>
-      </div>
-    );
+  } else if (!paid) {
+    isDone = <div style={{ color: theme.purple }}>결재 미완료</div>;
   } else if (props.isSettlementForMe === "paid") {
-    isDone = (
-      <div style={style}>
-        <div>결제 완료</div>
-      </div>
-    );
+    isDone = <div>결제 완료</div>;
   } else if (props.isSettlementForMe === "sent") {
-    isDone = (
-      <div style={style}>
-        <div>정산 완료</div>
-      </div>
-    );
+    isDone = <div>정산 완료</div>;
   } else if (props.isSettlementForMe === "send-required") {
-    isDone = (
-      <div style={style}>
-        <div style={{ color: theme.purple }}>정산 미완료</div>
-      </div>
-    );
+    isDone = <div style={{ color: theme.purple }}>정산 미완료</div>;
   }
 
-  if (paid.length === 0) {
-    person = null;
-  } else {
-    person = (
-      <div style={style}>
-        <div>
-          <div>{paid[0].nickname}</div>
-        </div>
-      </div>
-    );
-  }
+  // if (paid.length === 0) {
+  //   person = null;
+  // } else {
+  //   person = (
+  //     <div style={style}>
+  //       <div>
+  //         <div>{paid[0].nickname}</div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
-    <div style={{ display: "flex" }}>
+    // <div style={{ display: "flex" }}>
+    <div style={style}>
       {isDone}
-      {person}
+      {/* {person} */}
     </div>
+    // </div>
   );
 };
 
@@ -117,9 +104,9 @@ const Room = (props) => {
     margin: "13px 0 12px",
   };
   const stylePlaceGrid = {
-    marginTop: "16px",
     display: "flex",
     justifyContent: "space-between",
+    marginTop: "16px",
     padding: "0 8px",
   };
   const stylePlace = {
