@@ -7,6 +7,7 @@ import Pagination, {
   PAGE_MAX_ITEMS,
 } from "components/common/pagination/Pagination";
 import { theme } from "styles/theme";
+import Empty from "components/common/Empty";
 
 /**
  * @todo
@@ -21,21 +22,13 @@ type R1MyroomProps = {
 };
 
 const R1Myroom = (props: R1MyroomProps) => {
-  const styleEmpty: CSSProperties = {
-    color: theme.gray_text,
-    fontSize: "14px",
-    lineHeight: "109px",
-    textAlign: "center",
-    height: "109px",
-  };
-
   return (
     <RLayout.R1>
       <Title icon="current" header={true}>
         참여 중인 방
       </Title>
       {props.ongoing.length === 0 ? (
-        <div style={styleEmpty}>참여 중인 방이 없습니다.</div>
+        <Empty screen="mobile">참여 중인 방이 없습니다</Empty>
       ) : (
         props.ongoing.map((item) => (
           <Link
@@ -56,7 +49,7 @@ const R1Myroom = (props: R1MyroomProps) => {
         과거 참여 방
       </Title>
       {props.done.length === 0 ? (
-        <div style={styleEmpty}>과거 참여했던 방이 없습니다.</div>
+        <Empty screen="mobile">과거 참여했던 방이 없습니다</Empty>
       ) : (
         <>
           {props.done
