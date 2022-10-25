@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { useLocation } from "react-router-dom";
 import qs from "qs";
 
@@ -15,8 +15,7 @@ const usePageFromSearchParams = () => {
   const [page, setPage] = useState(getPage());
 
   useEffect(() => {
-    const newPage = getPage();
-    if (page !== newPage) setPage(newPage);
+    setPage(getPage());
   }, [JSON.stringify(location.search)]);
 
   return page;
