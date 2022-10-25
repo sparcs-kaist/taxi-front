@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
+import { useRecoilValue } from "recoil";
+import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import PropTypes from "prop-types";
 import Modal from "components/common/modal/Modal";
 import axios from "tools/axios";
@@ -205,12 +207,11 @@ Agree.propTypes = {
 
 const PopupPolicy = (props) => {
   const history = useHistory();
-  const [didAgree, setDIdAgree] = useState(undefined);
+  const [didAgree, setDidAgree] = useState(undefined);
+  const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
 
   useEffect(() => {
-    axios.get("/json/logininfo/detail").then(({ data }) => {
-      setDIdAgree(data.agreeOnTermsOfService);
-    });
+    setDidAgree(userInfoDetail.agreeOnTermsOfService);
   }, []);
 
   const onClose = async () => {

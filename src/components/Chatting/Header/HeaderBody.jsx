@@ -1,4 +1,6 @@
 import React, { useState, useMemo } from "react";
+import { useRecoilValue } from "recoil";
+import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import PopupCancel from "./Popup/PopupCancel";
 import PopupPay from "./Popup/PopupPay";
 import PopupSend from "./Popup/PopupSend";
@@ -9,7 +11,6 @@ import ProfileImg from "components/Mypage/ProfileImg";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import PaymentRoundedIcon from "@mui/icons-material/PaymentRounded";
 import PeopleRoundedIcon from "@mui/icons-material/EmojiPeopleRounded";
-import useTaxiAPI from "hooks/useTaxiAPI";
 
 const InfoSide = (props) => {
   return (
@@ -151,7 +152,7 @@ User.propTypes = {
 };
 
 const HeaderBody = (props) => {
-  const [, userInfoDetail] = useTaxiAPI.get("/json/logininfo/detail");
+  const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const users = props.info?.part || [];
   const [popupCancel, setPopupCancel] = useState(false);
   const [popupPay, setPopupPay] = useState(false);
