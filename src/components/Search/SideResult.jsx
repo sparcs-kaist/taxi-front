@@ -121,7 +121,7 @@ const SideResult = (props) => {
   const [sortOption, setSortOption] = useState(sortOptions.time);
   const [rooms, setRooms] = useState([]);
   const [pageInfo, setPageInfo] = useState({ totalPages: 1, currentPage: 1 });
-  const { page, isValid: isValidPage } = usePageFromSearchParams();
+  const page = usePageFromSearchParams();
 
   useEffect(() => {
     if (props.result === null) return;
@@ -153,9 +153,9 @@ const SideResult = (props) => {
     const totalPages = Math.ceil(rooms.length / PAGE_MAX_ITEMS);
     setPageInfo({
       totalPages,
-      currentPage: !isValidPage || page > totalPages ? 1 : page,
+      currentPage: page > totalPages ? 1 : page,
     });
-  }, [rooms, page, isValidPage]);
+  }, [rooms, page]);
 
   if (!props.mobile) {
     return (

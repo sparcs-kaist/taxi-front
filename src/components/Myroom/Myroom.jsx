@@ -21,7 +21,7 @@ const Myroom = () => {
     totalPages: 1,
     currentPage: 1,
   });
-  const { page, isValid: isValidPage } = usePageFromSearchParams();
+  const page = usePageFromSearchParams();
 
   if (reactiveState == 3 && roomId) {
     history.replace(`/chatting/${roomId}`);
@@ -30,11 +30,12 @@ const Myroom = () => {
   useEffect(() => {
     if (!roomList) return;
 
+    const totalPages = Math.ceil(roomList.done.length / PAGE_MAX_ROOMS);
     setDonePageInfo({
-      totalPages: Math.ceil(roomList.done.length / PAGE_MAX_ROOMS),
-      currentPage: isValidPage ? page : 1,
+      totalPages,
+      currentPage: page > totalPages ? 1 : page,
     });
-  }, [roomList, page, isValidPage]);
+  }, [roomList, page]);
 
   return reactiveState === 3 ? (
     <R1Myroom
