@@ -59,7 +59,7 @@ const Skeleton = (props) => {
     axios
       .get("/json/logininfo")
       .then(({ data }) => {
-        setUserId(data.id ? data.id : null);
+        setUserId(data.id ?? null);
       })
       .catch((e) => {
         // FIXME
@@ -68,15 +68,8 @@ const Skeleton = (props) => {
 
   // 로그인 정보 수정될 때 요청
   useEffect(() => {
-    axios
-      .get("/json/logininfo/detail")
-      .then(({ data }) => {
-        setShowAgree(data.agreeOnTermsOfService === false);
-      })
-      .catch((e) => {
-        // FIXME
-      });
-  }, [userId]);
+    setShowAgree(loginInfoDetail.agreeOnTermsOfService === false);
+  }, [JSON.stringify(loginInfoDetail)]);
 
   if (userId === null && pathname !== "/login") {
     return (
