@@ -48,7 +48,7 @@ const AddRoom = () => {
 
   useEffect(() => {
     if (onCall.current) history.push("/myroom");
-  }, [JSON.stringify(myRoom)]);
+  }, [myRoom?.ongoing.length]);
 
   let validatedMsg = null;
   if (!valuePlace[0] || !valuePlace[1]) {
