@@ -69,7 +69,7 @@ const Skeleton = (props) => {
   // 로그인 정보 수정될 때 요청
   useEffect(() => {
     setShowAgree(loginInfoDetail?.agreeOnTermsOfService !== true);
-  }, [JSON.stringify(loginInfoDetail)]);
+  }, [loginInfoDetail?.agreeOnTermsOfService]);
 
   if (userId === null && pathname !== "/login") {
     return (
