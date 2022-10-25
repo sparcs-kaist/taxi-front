@@ -20,7 +20,7 @@ const FullParticipation = () => {
         </div>
       </WhiteContainer>
       <WhiteContainer padding="12px 16px">
-        <div style={{ ...theme.font16, lineHeight: "16px" }}>
+        <div style={{ ...theme.font16, lineHeight: "24px" }}>
           이미 5개의 방에 참여 중이며 <b>방 개설이 제한</b>됩니다. 추가적으로 방
           개설을 원하는 경우 참여 중인 방에서 <b>정산을 완료</b>하거나{" "}
           <b>탑승을 취소</b>해야 합니다.
