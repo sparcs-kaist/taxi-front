@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useLocation, Redirect } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import taxiLocationAtom from "recoil/taxiLocation";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import myRoomAtom from "recoil/myRoom";
@@ -35,7 +35,7 @@ const Skeleton = (props) => {
   const [taxiLocation, setTaxiLocation] = useRecoilState(taxiLocationAtom);
   const [loginInfoDetail, setLoginInfoDetail] =
     useRecoilState(loginInfoDetailAtom);
-  const [my, setMyRoom] = useRecoilState(myRoomAtom);
+  const setMyRoom = useSetRecoilState(myRoomAtom);
   const location = useLocation();
   const pathname = location.pathname;
   const currentPath = location.pathname + location.search;
@@ -59,7 +59,6 @@ const Skeleton = (props) => {
   useEffect(() => {
     if (userId) initializeGlobalInfo();
   }, [userId]);
-  console.log(my);
 
   // path가 수정될 때 마다 logininfo 요청
   useEffect(() => {
