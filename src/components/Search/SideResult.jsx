@@ -6,13 +6,12 @@ import Pagination, {
   PAGE_MAX_ITEMS,
 } from "components/common/pagination/Pagination";
 import RoomSelectionModal from "./RoomSelectionModal";
-import PropTypes from "prop-types";
-import { useRecoilState } from "recoil";
-
 import usePageFromSearchParams from "hooks/usePageFromSearchParams";
+import { theme } from "styles/theme";
+import Empty from "components/common/Empty";
+import DottedLine from "components/common/DottedLine";
 import CheckIcon from "@mui/icons-material/Check";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import { theme } from "styles/theme";
 
 const sortOptions = {
   time: "출발 시간 순",
@@ -157,13 +156,6 @@ const SideResult = (props) => {
     });
   }, [rooms, page, isValidPage]);
 
-  const styleEmpty = {
-    color: theme.gray_text,
-    fontWeight: "700",
-    textAlign: "center",
-    margin: "50px 0px 30px",
-  };
-
   if (!props.mobile) {
     return (
       <div style={{ marginTop: 26 }}>
@@ -184,8 +176,9 @@ const SideResult = (props) => {
             setSortOption={setSortOption}
             theme="purple"
           />
+          <DottedLine direction="row" />
           {rooms.length == 0 ? (
-            <div style={styleEmpty}>검색 결과가 없습니다.</div>
+            <Empty screen="pc">검색 결과가 없습니다</Empty>
           ) : (
             <>
               {rooms
@@ -233,9 +226,7 @@ const SideResult = (props) => {
           setSortOption={setSortOption}
         />
         {rooms.length == 0 ? (
-          <WhiteContainer style={styleEmpty}>
-            <div style={styleEmpty}>검색 결과가 없습니다</div>
-          </WhiteContainer>
+          <Empty screen="mobile">검색 결과가 없습니다</Empty>
         ) : (
           <>
             {rooms

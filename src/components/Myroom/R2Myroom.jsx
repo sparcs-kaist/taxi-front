@@ -11,6 +11,7 @@ import Pagination, {
 import RLayout from "components/common/RLayout";
 import useTaxiAPI from "hooks/useTaxiAPI";
 import PropTypes from "prop-types";
+import Empty from "components/common/Empty";
 import DottedLine from "components/common/DottedLine";
 import { theme } from "styles/theme";
 
@@ -51,14 +52,6 @@ const R2Myroom = (props) => {
   const [bodyHeight, setBodyHeight] = useState(bodyHeightRef.current);
   const chatHeightRef = useRef("0px");
   const [chatHeight, setChatHeight] = useState(chatHeightRef.current);
-
-  const styleEmpty = {
-    color: theme.gray_text,
-    fontSize: "14px",
-    lineHeight: "109px",
-    textAlign: "center",
-    height: "109px",
-  };
 
   const resizeEvent = () => {
     try {
@@ -120,7 +113,7 @@ const R2Myroom = (props) => {
                 <div style={{ height: "19px" }} />
                 <DottedLine direction="row" />
                 {props.ongoing.length === 0 ? (
-                  <div style={styleEmpty}>참여 중인 방이 없습니다.</div>
+                  <Empty screen="pc">참여 중인 방이 없습니다</Empty>
                 ) : (
                   props.ongoing.map((item) => (
                     <Link
@@ -143,7 +136,7 @@ const R2Myroom = (props) => {
                 <div style={{ height: "19px" }} />
                 <DottedLine direction="row" />
                 {props.done.length === 0 ? (
-                  <div style={styleEmpty}>과거 참여했던 방이 없습니다.</div>
+                  <Empty screen="pc">과거 참여했던 방이 없습니다</Empty>
                 ) : (
                   <>
                     {props.done
@@ -191,7 +184,7 @@ const R2Myroom = (props) => {
                       resizeEvent={resizeEvent}
                     />
                   ) : (
-                    <div style={styleEmpty}>방을 선택하세요.</div>
+                    <div>방을 선택하세요.</div>
                   )}
                 </WhiteContainer>
               </div>
