@@ -59,7 +59,7 @@ const Skeleton = (props) => {
     axios
       .get("/json/logininfo")
       .then(({ data }) => {
-        setUserId(data?.id);
+        setUserId(data?.id ?? null);
       })
       .catch((e) => {
         // FIXME
