@@ -15,7 +15,7 @@ const usePageFromSearchParams = (totalPages: Number) => {
     )
       return 1;
     else return currentPage;
-  }, [JSON.stringify(location.search)]);
+  }, [JSON.stringify(location.search), totalPages]);
 
   const [page, setPage] = useState(getPage());
 
