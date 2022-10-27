@@ -18,7 +18,7 @@ import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
 import OptionDate from "components/common/roomOptions/Date";
 import OptionTime from "components/common/roomOptions/Time";
-import OptionMaxPart from "components/common/roomOptions/MaxPart";
+import OptionMaxPeople from "components/common/roomOptions/MaxPeople";
 
 const searchQueryOption = { skipNulls: true };
 const defaultOptions = { place: true, date: true, time: true };
@@ -65,7 +65,7 @@ const SelectSearchOptions = (props) => {
     { name: "장소", id: "place" },
     { name: "날짜", id: "date" },
     { name: "시간", id: "time" },
-    { name: "최대 인원", id: "maxPartLength" },
+    { name: "최대 인원", id: "maxPeople" },
     { name: "방 이름", id: "name" },
   ];
   return (
@@ -152,7 +152,7 @@ const Search = () => {
   const [valuePlace, setPlace] = useState([null, null]);
   const [valueDate, setDate] = useState([null, null, null]);
   const [valueTime, setTime] = useState([today10.hour(), today10.minute()]);
-  const [valueMaxPart, setMaxPart] = useState(null);
+  const [valueMaxPeople, setMaxPeople] = useState(null);
   const [searchResult, setSearchResult] = useState(null);
   const [disabled, setDisabled] = useState(true);
   const [message, setMessage] = useState("검색 조건을 선택해주세요");
@@ -164,7 +164,7 @@ const Search = () => {
     setPlace([null, null]);
     setDate([null, null, null]);
     setTime([today10.hour(), today10.minute()]);
-    setMaxPart(null);
+    setMaxPeople(null);
     setSearchResult(null);
     setDisabled(true);
     setMessage("검색 조건을 선택해주세요");
@@ -179,7 +179,7 @@ const Search = () => {
       if (key === "time" && val !== null) newSearchOptions.date = true;
       if (key === "withTime" && val === "true") newSearchOptions.time = true;
       if (key === "maxPartLength" && val !== null)
-        newSearchOptions.maxPartLength = true;
+        newSearchOptions.maxPeople = true;
     }
     setSearchOptions(newSearchOptions);
     if (newSearchOptions.name) setName(q.name);
@@ -190,7 +190,7 @@ const Search = () => {
       if (newSearchOptions.time)
         setTime([queryTime.hour(), Math.floor(queryTime.minute() / 10) * 10]);
     }
-    if (newSearchOptions.maxPartLength) setMaxPart(Number(q.maxPartLength));
+    if (newSearchOptions.maxPeople) setMaxPeople(Number(q.maxPartLength));
   };
 
   useEffect(() => {
@@ -293,10 +293,10 @@ const Search = () => {
     }
   }, [searchOptions.time]);
   useEffect(() => {
-    if (searchOptions.maxPartLength) {
-      if (valueMaxPart === null) setMaxPart(4);
-    } else if (valueMaxPart !== null) setMaxPart(null);
-  }, [searchOptions.maxPartLength]);
+    if (searchOptions.maxPeople) {
+      if (valueMaxPeople === null) setMaxPeople(4);
+    } else if (valueMaxPeople !== null) setMaxPeople(null);
+  }, [searchOptions.maxPeople]);
 
   const onClickSearch = async () => {
     if (!onCall.current) {
@@ -329,7 +329,7 @@ const Search = () => {
           to: valuePlace[1],
           time: date.toISOString(),
           withTime,
-          maxPartLength: valueMaxPart,
+          maxPartLength: valueMaxPeople,
         },
         searchQueryOption
       );
@@ -356,8 +356,8 @@ const Search = () => {
       {searchOptions.time && (
         <OptionTime value={valueTime} handler={setTime} page="search" />
       )}
-      {searchOptions.maxPartLength && (
-        <OptionMaxPart value={valueMaxPart} handler={setMaxPart} />
+      {searchOptions.maxPeople && (
+        <OptionMaxPeople value={valueMaxPeople} handler={setMaxPeople} />
       )}
       {searchOptions.name && <OptionName value={valueName} handler={setName} />}
       <Button
