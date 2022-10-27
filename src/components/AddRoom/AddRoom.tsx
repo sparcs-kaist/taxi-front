@@ -1,11 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import myRoomAtom from "recoil/myRoom";
 import RLayout from "components/common/RLayout";
 import Title from "components/common/Title";
 import Button from "components/common/Button";
 import axios from "tools/axios";
 import { date2str, getToday10, getToday } from "tools/moment";
 import { theme } from "styles/theme";
+import { useSetRecoilState } from "recoil";
+import alertAtom from "recoil/alert";
+import FullParticipation from "./FullParticipation";
+import { MAX_PARTICIPATION } from "components/Myroom/Myroom";
 
 import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
@@ -28,6 +34,8 @@ const AddRoom = () => {
   const today10 = getToday10();
   const [valueTime, setTime] = useState([today10.hour(), today10.minute()]);
   const [calculatedTime, setCalculatedTime] = useState<Date | null>(null);
+  const setAlert = useSetRecoilState(alertAtom);
+  const [myRoom, setMyRoom] = useRecoilState(myRoomAtom);
 
   useEffect(() => {
     setCalculatedTime(
@@ -40,6 +48,10 @@ const AddRoom = () => {
       )
     );
   }, [valueDate, valueTime]);
+
+  useEffect(() => {
+    if (onCall.current) history.push("/myroom");
+  }, [myRoom?.ongoing.length]);
 
   let validatedMsg = null;
   if (!valuePlace[0] || !valuePlace[1]) {
@@ -71,14 +83,19 @@ const AddRoom = () => {
         maxPartLength: valueMaxPart,
       });
       if (result.status === 200) {
-        history.push("/myroom");
+        try {
+          const { data } = await axios.get("/rooms/v2/searchByUser");
+          setMyRoom(data);
+        } catch (error) {
+          console.log(error);
+        }
       } else {
-        alert("add room error");
+        setAlert("방 개설에 실패하였습니다.");
       }
     }
   };
 
-  return (
+  return (myRoom?.ongoing.length ?? 0) < MAX_PARTICIPATION ? (
     <div>
       <Title icon="add" header={true} marginAuto={true}>
         방 개설하기
@@ -112,6 +129,8 @@ const AddRoom = () => {
         </Button>
       </RLayout.R1>
     </div>
+  ) : (
+    <FullParticipation />
   );
 };
 

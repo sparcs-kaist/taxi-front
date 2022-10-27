@@ -10,6 +10,8 @@ import ProfileImg from "./ProfileImg";
 import useTaxiAPI from "hooks/useTaxiAPI";
 import axios from "tools/axios";
 import { theme } from "styles/theme";
+import { useSetRecoilState } from "recoil";
+import alertAtom from "recoil/alert";
 
 import ReportGmailerrorredRoundedIcon from "@mui/icons-material/ReportGmailerrorredRounded";
 import HelpOutlineRoundedIcon from "@material-ui/icons/HelpOutlineRounded";
@@ -84,13 +86,14 @@ const Mypage = () => {
   const [isOpen2, setOpen2] = useState(false);
   const [isOpen3, setOpen3] = useState(false);
   const history = useHistory();
+  const setAlert = useSetRecoilState(alertAtom);
 
   const handleLogout = async () => {
     const response = await axios.get("/auth/logout");
     if (response.status === 200) {
       history.push("/login");
     } else {
-      alert("로그아웃에 실패했습니다.");
+      setAlert("로그아웃에 실패했습니다.");
     }
   };
   const handleUpdate = () => setProfToken(Date.now().toString());

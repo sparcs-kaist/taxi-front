@@ -4,6 +4,7 @@ import { useRecoilValue } from "recoil";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import PropTypes from "prop-types";
 import { io } from "socket.io-client";
+import { useRecoilState } from "recoil";
 import Header from "./Header/Header";
 import MessagesBody from "./MessagesBody/MessagesBody";
 import MessageForm from "./MessageForm/MessageForm";
@@ -14,6 +15,7 @@ import convertImg from "tools/convertImg";
 import axios from "tools/axios";
 import axiosOri from "axios";
 import useTaxiAPI from "hooks/useTaxiAPI";
+import myRoomAtom from "recoil/myRoom";
 
 import "./Style/Chatting.css";
 
@@ -30,6 +32,7 @@ const Chatting = (props) => {
     useStateWithCallbackLazy("40px");
 
   const socket = useRef(undefined);
+  const [, setMyRoom] = useRecoilState(myRoomAtom);
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
   const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const [, headerInfo] = useTaxiAPI.get(
@@ -37,6 +40,14 @@ const Chatting = (props) => {
     {},
     [headerInfToken]
   );
+  const [, roomList] = useTaxiAPI.get("/rooms/v2/searchByUser", {}, [
+    headerInfToken,
+  ]);
+
+  // Update the ongoing room list
+  useEffect(() => {
+    setMyRoom(roomList);
+  }, [roomList]);
 
   // scroll event
   const isTopOnScroll = (tol = 20) => {

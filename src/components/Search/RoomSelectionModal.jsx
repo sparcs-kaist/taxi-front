@@ -2,16 +2,20 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import preferenceAtom from "recoil/preference";
+import loginInfoDetailAtom from "recoil/loginInfoDetail";
+import myRoomAtom from "recoil/myRoom";
+import PropTypes from "prop-types";
 import { date2str } from "tools/moment";
 import { getLocationName } from "tools/trans";
+import axios from "tools/axios";
+import { theme } from "styles/theme";
+import { MAX_PARTICIPATION } from "components/Myroom/Myroom";
+
 import Title from "components/common/Title";
 import Modal from "components/common/modal/Modal";
 import Button from "components/common/Button";
-import { theme } from "styles/theme";
-import loginInfoDetailAtom from "recoil/loginInfoDetail";
-import PropTypes from "prop-types";
-import axios from "tools/axios";
 import DottedLine from "components/common/DottedLine";
+import Tooltip from "@mui/material/Tooltip";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 import CircleIcon from "@mui/icons-material/Circle";
@@ -101,6 +105,7 @@ InfoSection.defaultProps = {
 const RoomSelectionModal = (props) => {
   const [roomInfo, setRoomInfo] = useState(null);
   const history = useHistory();
+  const myRoom = useRecoilValue(myRoomAtom);
   const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const preference = useRecoilValue(preferenceAtom);
   const disableJoinBtn =
@@ -108,6 +113,7 @@ const RoomSelectionModal = (props) => {
   const isRoomFull = roomInfo
     ? roomInfo.maxPartLength - roomInfo.part.length === 0
     : false;
+  const fullParticipation = myRoom?.ongoing.length >= MAX_PARTICIPATION;
 
   useEffect(() => {
     if (props.isOpen) setRoomInfo(props.roomInfo);
@@ -206,20 +212,48 @@ const RoomSelectionModal = (props) => {
           />
         </div>
       </div>
-      <Button
-        type="purple"
-        disabled={isRoomFull || disableJoinBtn}
-        padding="10px 0px 9px"
-        radius={8}
-        font={theme.font14_bold}
-        onClick={requestJoin}
+      <Tooltip
+        title={"참여할 수 있는 방 개수는 최대 5개입니다."}
+        componentsProps={{
+          tooltip: {
+            sx: {
+              display: fullParticipation ? undefined : "none",
+              ...theme.font12,
+              color: theme.black,
+              padding: "8px 10px 7px",
+              marginTop: "20px !important",
+              width: "148px",
+              boxShadow: theme.shadow,
+              backgroundColor: theme.white,
+              textAlign: "center",
+              whiteSpace: "normal",
+              borderRadius: "8px",
+              cursor: "default",
+            },
+          },
+        }}
+        enterTouchDelay={0}
+        leaveTouchDelay={2000}
       >
-        {disableJoinBtn
-          ? "이미 참여 중입니다"
-          : isRoomFull
-          ? "인원이 0명인 방은 참여할 수 없습니다"
-          : "참여 신청"}
-      </Button>
+        <div>
+          <Button
+            type="purple"
+            disabled={isRoomFull || disableJoinBtn || fullParticipation}
+            padding="10px 0px 9px"
+            radius={8}
+            font={theme.font14_bold}
+            onClick={requestJoin}
+          >
+            {disableJoinBtn
+              ? "이미 참여 중입니다"
+              : isRoomFull
+              ? "인원이 0명인 방은 참여할 수 없습니다"
+              : fullParticipation
+              ? "현재 5개의 방에 참여 중입니다"
+              : "참여 신청"}
+          </Button>
+        </div>
+      </Tooltip>
     </Modal>
   );
 };

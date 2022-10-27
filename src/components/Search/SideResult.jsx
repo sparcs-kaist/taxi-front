@@ -6,8 +6,8 @@ import Pagination, {
   PAGE_MAX_ITEMS,
 } from "components/common/pagination/Pagination";
 import RoomSelectionModal from "./RoomSelectionModal";
-import usePageFromSearchParams from "hooks/usePageFromSearchParams";
 import PropTypes from "prop-types";
+import usePageFromSearchParams from "hooks/usePageFromSearchParams";
 import { theme } from "styles/theme";
 import Empty from "components/common/Empty";
 import DottedLine from "components/common/DottedLine";
@@ -33,7 +33,7 @@ const SearchOptions = (props) => {
     alignItems: "center",
     height: "23px",
     color: theme.purple,
-    ...theme.font10,
+    ...theme.font10_bold,
     lineHeight: "12px",
     padding: "5px 8px",
     boxShadow: theme.shadow,

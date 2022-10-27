@@ -1,11 +1,12 @@
 import React from "react";
 import { useHistory } from "react-router";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import PropTypes from "prop-types";
 import Modal from "components/common/modal/Modal";
 import axios from "tools/axios";
 import { theme } from "styles/theme";
+import alertAtom from "recoil/alert";
 
 import Button from "components/common/Button";
 import { ReactComponent as TaxiLogo } from "static/assets/TaxiLogo.svg";
@@ -155,10 +156,11 @@ const Policy = () => {
 };
 
 const Agree = (props) => {
+  const setAlert = useSetRecoilState(alertAtom);
   const onAgree = async () => {
     const response = await axios.post("/users/agreeOnTermsOfService");
     if (response.status !== 200) {
-      alert("약관 동의에 실패하였습니다.");
+      setAlert("약관 동의에 실패하였습니다.");
       return;
     }
     const detail = await axios.get("/json/logininfo/detail");
@@ -210,6 +212,7 @@ Agree.propTypes = {
 
 const PopupPolicy = (props) => {
   const history = useHistory();
+  const setAlert = useSetRecoilState(alertAtom);
   const [loginInfoDetail, setLoginInfoDetail] =
     useRecoilState(loginInfoDetailAtom);
   const didAgree = loginInfoDetail?.agreeOnTermsOfService ?? false;
@@ -224,7 +227,7 @@ const PopupPolicy = (props) => {
     if (response.status === 200) {
       history.push("/login");
     } else {
-      alert("로그아웃에 실패했습니다."); // TODO: AlertProvider로 대체
+      setAlert("로그아웃에 실패했습니다.");
     }
   };
 
