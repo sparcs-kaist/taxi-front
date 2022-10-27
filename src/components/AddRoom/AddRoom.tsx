@@ -8,6 +8,8 @@ import Button from "components/common/Button";
 import axios from "tools/axios";
 import { date2str, getToday10, getToday } from "tools/moment";
 import { theme } from "styles/theme";
+import { useSetRecoilState } from "recoil";
+import alertAtom from "recoil/alert";
 import FullParticipation from "./FullParticipation";
 import { MAX_PARTICIPATION } from "components/Myroom/Myroom";
 
@@ -32,6 +34,7 @@ const AddRoom = () => {
   const today10 = getToday10();
   const [valueTime, setTime] = useState([today10.hour(), today10.minute()]);
   const [calculatedTime, setCalculatedTime] = useState<Date | null>(null);
+  const setAlert = useSetRecoilState(alertAtom);
   const [myRoom, setMyRoom] = useRecoilState(myRoomAtom);
 
   useEffect(() => {
@@ -87,7 +90,7 @@ const AddRoom = () => {
           console.log(error);
         }
       } else {
-        alert("add room error");
+        setAlert("방 개설에 실패하였습니다.");
       }
     }
   };

@@ -3,7 +3,8 @@ import { useHistory } from "react-router-dom";
 import PopupContainer from "./PopupContainer";
 import PropTypes from "prop-types";
 import axios from "tools/axios";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
+import alertAtom from "recoil/alert";
 import myRoomAtom from "recoil/myRoom";
 
 const PopupCancel = (props) => {
@@ -32,7 +33,8 @@ const PopupCancel = (props) => {
   };
 
   const history = useHistory();
-  const [, setMyRoom] = useRecoilState(myRoomAtom);
+  const setAlert = useSetRecoilState(alertAtom);
+  const setMyRoom = useSetRecoilState(myRoomAtom);
   const onClick = async () => {
     const res = await axios.post("/rooms/v2/abort", {
       roomId: props.roomId,
@@ -44,8 +46,7 @@ const PopupCancel = (props) => {
       props.recallEvent();
       history.push("/myroom");
     } else {
-      // FIXME
-      alert("탑승 취소를 실패하였습니다");
+      setAlert("탑승 취소를 실패하였습니다");
     }
   };
 
