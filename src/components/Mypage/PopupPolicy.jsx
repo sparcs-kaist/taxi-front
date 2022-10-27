@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useHistory } from "react-router";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import PropTypes from "prop-types";
 import Modal from "components/common/modal/Modal";
@@ -156,11 +156,13 @@ const Policy = () => {
 
 const Agree = (props) => {
   const onAgree = async () => {
-    const result = await axios.post("/users/agreeOnTermsOfService");
-    if (result.status !== 200) {
+    const response = await axios.post("/users/agreeOnTermsOfService");
+    if (response.status !== 200) {
       alert("약관 동의에 실패하였습니다.");
       return;
     }
+    const detail = await axios.get("/json/logininfo/detail");
+    props.setLoginInfoDetail(detail?.data);
     props.onAgree();
   };
   const styleBottom = {
@@ -203,16 +205,14 @@ Agree.propTypes = {
   didAgree: PropTypes.any,
   onClose: PropTypes.func,
   onAgree: PropTypes.func,
+  setLoginInfoDetail: PropTypes.func,
 };
 
 const PopupPolicy = (props) => {
   const history = useHistory();
-  const [didAgree, setDidAgree] = useState(undefined);
-  const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
-
-  useEffect(() => {
-    setDidAgree(userInfoDetail.agreeOnTermsOfService);
-  }, []);
+  const [loginInfoDetail, setLoginInfoDetail] =
+    useRecoilState(loginInfoDetailAtom);
+  const didAgree = loginInfoDetail?.agreeOnTermsOfService ?? false;
 
   const onClose = async () => {
     if (didAgree === null) return;
@@ -253,6 +253,7 @@ const PopupPolicy = (props) => {
           didAgree={didAgree}
           onClose={onClose}
           onAgree={() => props.onClose()}
+          setLoginInfoDetail={setLoginInfoDetail}
         />
       </div>
     </Modal>
