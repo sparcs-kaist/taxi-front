@@ -33,7 +33,7 @@ const SearchOptions = (props) => {
     alignItems: "center",
     height: "23px",
     color: theme.purple,
-    ...theme.font10,
+    ...theme.font10_bold,
     lineHeight: "12px",
     padding: "5px 8px",
     boxShadow: theme.shadow,

@@ -37,9 +37,8 @@ const Member = (props) => {
     fontWeight: "bold",
   };
   const stylePeriod = {
-    ...theme.font10,
+    ...theme.font10_bold,
     color: theme.gray_text,
-    fontWeight: 500,
   };
 
   return (
