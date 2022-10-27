@@ -17,25 +17,12 @@ const Myroom = () => {
   const [, roomList] = useTaxiAPI.get("/rooms/v2/searchByUser", {}, [
     roomListToken,
   ]);
-  const [donePageInfo, setDonePageInfo] = useState({
-    totalPages: 1,
-    currentPage: 1,
-  });
-  const page = usePageFromSearchParams();
+  const totalPages = Math.ceil(roomList.done.length / PAGE_MAX_ROOMS);
+  const currentPage = usePageFromSearchParams(totalPages);
 
   if (reactiveState == 3 && roomId) {
     history.replace(`/chatting/${roomId}`);
   }
-
-  useEffect(() => {
-    if (!roomList) return;
-
-    const totalPages = Math.ceil(roomList.done.length / PAGE_MAX_ROOMS);
-    setDonePageInfo({
-      totalPages,
-      currentPage: page > totalPages ? 1 : page,
-    });
-  }, [roomList, page]);
 
   return reactiveState === 3 ? (
     <R1Myroom
@@ -43,7 +30,7 @@ const Myroom = () => {
       ongoing={roomList?.ongoing}
       done={roomList?.done}
       recallEvent={() => setRoomListToken(Date.now().toString())}
-      donePageInfo={donePageInfo}
+      donePageInfo={{ totalPages, currentPage }}
     />
   ) : (
     <R2Myroom
@@ -51,7 +38,7 @@ const Myroom = () => {
       ongoing={roomList?.ongoing}
       done={roomList?.done}
       recallEvent={() => setRoomListToken(Date.now().toString())}
-      donePageInfo={donePageInfo}
+      donePageInfo={{ totalPages, currentPage }}
     />
   );
 };
