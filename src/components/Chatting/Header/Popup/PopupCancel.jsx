@@ -41,7 +41,6 @@ const PopupCancel = (props) => {
       props.recallEvent();
       history.push("/myroom");
     } else {
-      // FIXME
       setAlert("탑승 취소를 실패하였습니다");
     }
   };

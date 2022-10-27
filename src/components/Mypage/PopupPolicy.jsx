@@ -227,7 +227,7 @@ const PopupPolicy = (props) => {
     if (response.status === 200) {
       history.push("/login");
     } else {
-      setAlert("로그아웃에 실패했습니다."); // TODO: AlertProvider로 대체
+      setAlert("로그아웃에 실패했습니다.");
     }
   };
 

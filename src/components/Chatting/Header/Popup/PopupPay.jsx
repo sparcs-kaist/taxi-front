@@ -39,7 +39,6 @@ const PopupPay = (props) => {
       props.recallEvent();
       props.onClickClose();
     } else {
-      // FIXME
       setAlert("결제 완료를 실패하였습니다");
     }
   };
