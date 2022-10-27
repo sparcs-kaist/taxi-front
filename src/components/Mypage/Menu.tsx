@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { theme } from "styles/theme";
 
-import ReportGmailerrorredRoundedIcon from "@mui/icons-material/ReportGmailerrorredRounded";
+import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
 import HelpOutlineRoundedIcon from "@material-ui/icons/HelpOutlineRounded";
 import AssignmentOutlinedIcon from "@material-ui/icons/AssignmentOutlined";
 import PortraitRoundedIcon from "@material-ui/icons/PortraitRounded";
@@ -22,7 +22,7 @@ const getIcon = (icon: string) => {
   };
   switch (icon) {
     case "report":
-      return <ReportGmailerrorredRoundedIcon style={styleIcon} />;
+      return <ErrorOutlineRoundedIcon style={styleIcon} />;
     case "ask":
       return <HelpOutlineRoundedIcon style={styleIcon} />;
     case "policy":
