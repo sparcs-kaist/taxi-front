@@ -49,13 +49,13 @@ const ReportOption = (props: ReportOptionProps) => {
   );
 };
 
-type ReportProps = {
+type RecordProps = {
   isOpen: boolean;
   onClose: () => void;
   reportHistory: Array<any>;
 };
 
-const PopupReport = (props: ReportProps) => {
+const PopupRecord = (props: RecordProps) => {
   const [option, setOption] = useState<ReportOptionType>("Reporting");
   const styleTitle = {
     ...theme.font18,
@@ -106,4 +106,4 @@ const PopupReport = (props: ReportProps) => {
   );
 };
 
-export default PopupReport;
+export default PopupRecord;

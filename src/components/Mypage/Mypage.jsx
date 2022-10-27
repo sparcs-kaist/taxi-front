@@ -3,7 +3,7 @@ import { useHistory } from "react-router";
 import Title from "components/common/Title";
 import WhiteContainer from "components/common/WhiteContainer";
 import PopupModify from "./PopupModify";
-import PopupReport from "./PopupReport";
+import PopupRecord from "./PopupRecord";
 import PopupPolicy from "./PopupPolicy";
 import PopupMembers from "./PopupMembers";
 import ProfileImg from "./ProfileImg";
@@ -129,7 +129,7 @@ const Mypage = () => {
           </Menu>
         </div>
       </WhiteContainer>
-      <PopupReport
+      <PopupRecord
         isOpen={isOpenReport}
         onClose={() => setOpenReport(false)}
         reportHistory={reportHistory}
