@@ -19,9 +19,9 @@ const Mypage = () => {
   const [, userInfoDetail] = useTaxiAPI.get("/json/logininfo/detail", {}, [
     profToken,
   ]);
-  const [isOpen1, setOpen1] = useState(false);
-  const [isOpen2, setOpen2] = useState(false);
-  const [isOpen3, setOpen3] = useState(false);
+  const [isOpenMembers, setOpenMembers] = useState(false);
+  const [isOpenPolicy, setOpenPolicy] = useState(false);
+  const [isOpenModify, setOpenModify] = useState(false);
   const history = useHistory();
   const setAlert = useSetRecoilState(alertAtom);
 
@@ -88,7 +88,7 @@ const Mypage = () => {
         </div>
         <div style={infoTitle}>
           <div style={theme.font14_bold}>내 정보</div>
-          <div style={infoModify} onClick={() => setOpen3(true)}>
+          <div style={infoModify} onClick={() => setOpenModify(true)}>
             수정하기
           </div>
         </div>
@@ -115,10 +115,10 @@ const Mypage = () => {
               채널톡 문의하기
             </Menu>
           </a>
-          <Menu icon="policy" onClick={() => setOpen2(true)}>
+          <Menu icon="policy" onClick={() => setOpenPolicy(true)}>
             사용 약관 및 개인정보 보호 규칙
           </Menu>
-          <Menu icon="credit" onClick={() => setOpen1(true)}>
+          <Menu icon="credit" onClick={() => setOpenMembers(true)}>
             만든 사람들
           </Menu>
           <Menu icon="logout" onClick={handleLogout}>
@@ -126,15 +126,18 @@ const Mypage = () => {
           </Menu>
         </div>
       </WhiteContainer>
-      <PopupMembers isOpen={isOpen1} onClose={() => setOpen1(false)} />
-      <PopupPolicy isOpen={isOpen2} onClose={() => setOpen2(false)} />
       <PopupModify
+        isOpen={isOpenModify}
+        onClose={() => setOpenModify(false)}
+        onUpdate={() => handleUpdate()}
         userInfo={userInfo}
         userInfoD={userInfoDetail}
         profToken={profToken}
-        isOpen={isOpen3}
-        onClose={() => setOpen3(false)}
-        onUpdate={() => handleUpdate()}
+      />
+      <PopupPolicy isOpen={isOpenPolicy} onClose={() => setOpenPolicy(false)} />
+      <PopupMembers
+        isOpen={isOpenMembers}
+        onClose={() => setOpenMembers(false)}
       />
     </>
   );
