@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 import Title from "components/common/Title";
 import WhiteContainer from "components/common/WhiteContainer";
-import PopupMembers from "./PopupMembers";
-import PopupPolicy from "./PopupPolicy";
 import PopupModify from "./PopupModify";
+import PopupReport from "./PopupReport";
+import PopupPolicy from "./PopupPolicy";
+import PopupMembers from "./PopupMembers";
 import ProfileImg from "./ProfileImg";
 import useTaxiAPI from "hooks/useTaxiAPI";
 import axios from "tools/axios";
@@ -19,9 +20,10 @@ const Mypage = () => {
   const [, userInfoDetail] = useTaxiAPI.get("/json/logininfo/detail", {}, [
     profToken,
   ]);
-  const [isOpenMembers, setOpenMembers] = useState(false);
-  const [isOpenPolicy, setOpenPolicy] = useState(false);
   const [isOpenModify, setOpenModify] = useState(false);
+  const [isOpenReport, setOpenReport] = useState(false);
+  const [isOpenPolicy, setOpenPolicy] = useState(false);
+  const [isOpenMembers, setOpenMembers] = useState(false);
   const history = useHistory();
   const setAlert = useSetRecoilState(alertAtom);
 
@@ -107,7 +109,7 @@ const Mypage = () => {
       </WhiteContainer>
       <WhiteContainer marginAuto={true}>
         <div style={{ display: "grid", rowGap: "16px" }}>
-          <Menu icon="report" onClick={() => {}}>
+          <Menu icon="report" onClick={() => setOpenReport(true)}>
             신고 내역
           </Menu>
           <a className="popup-channeltalk">
@@ -126,6 +128,7 @@ const Mypage = () => {
           </Menu>
         </div>
       </WhiteContainer>
+      <PopupReport isOpen={isOpenReport} onClose={() => setOpenReport(false)} />
       <PopupModify
         isOpen={isOpenModify}
         onClose={() => setOpenModify(false)}
