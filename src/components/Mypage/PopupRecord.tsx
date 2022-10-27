@@ -50,10 +50,14 @@ const ReportOption = (props: ReportOptionProps) => {
   );
 };
 
+type ReportHistoryType = {
+  reported: Array<any>;
+  reporting: Array<any>;
+};
 type RecordProps = {
   isOpen: boolean;
   onClose: () => void;
-  reportHistory: Array<any>;
+  reportHistory: ReportHistoryType;
 };
 
 const PopupRecord = (props: RecordProps) => {
@@ -74,12 +78,23 @@ const PopupRecord = (props: RecordProps) => {
     fontSize: "21px",
     margin: "0 4px 0 8px",
   };
-  const styleContainer = {
+  const styleContainer: CSS = {
+    display: "flex",
+    flexDirection: "column",
     overflow: "auto",
     minHeight: "270px",
     height: "calc(100vh - 360px)",
+    rowGap: "8px",
     // maskImage:
     //   "linear-gradient(to bottom, transparent, white 16px, white calc(100% - 16px), transparent 100%)",
+  };
+  const styleBox: CSS = {
+    display: "flex",
+    flexDirection: "column",
+    padding: "12px",
+    borderRadius: "12px",
+    boxShadow: theme.shadow_gray_button_inset,
+    backgroundColor: theme.gray_background,
   };
   return (
     <Modal
@@ -101,12 +116,31 @@ const PopupRecord = (props: RecordProps) => {
         onClick={(option: ReportOptionType) => setOption(option)}
       />
       <div style={styleContainer}>
-        {!props.reportHistory?.length ? (
+        {option === "Reporting" ? (
+          !props.reportHistory?.reporting.length ? (
+            <Empty screen="mobile">신고한 기록이 없습니다</Empty>
+          ) : (
+            props.reportHistory?.reporting.map((report, index) => {
+              console.log(report);
+              return (
+                <div key={index} style={styleBox}>
+                  <div>{report.type}</div>
+                  <div>{report.reportedId.id}</div>
+                  <div>{report.time}</div>
+                </div>
+                // reportedId, type, etcDetail, time, ["no-settlement", "no-show", "etc-reason"]
+              );
+            })
+          )
+        ) : !props.reportHistory?.reported.length ? (
           <Empty screen="mobile">신고한 기록이 없습니다</Empty>
         ) : (
-          props.reportHistory.map((report, index) => {
+          props.reportHistory?.reported.map((report, index) => {
             return (
-              <div key={index}>{report}</div>
+              <div key={index} style={styleBox}>
+                <div>{report.type}</div>
+                <div>{report.time}</div>
+              </div>
               // reportedId, type, etcDetail, time, ["no-settlement", "no-show", "etc-reason"]
             );
           })

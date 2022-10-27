@@ -20,14 +20,17 @@ const Mypage = () => {
   const [, userInfoDetail] = useTaxiAPI.get("/json/logininfo/detail", {}, [
     profToken,
   ]);
-  const [, reportHistory] = useTaxiAPI.get("/reports/searchByUser", {}, []);
+  const [, reportHistory] = useTaxiAPI.get(
+    "/reports/searchByUser",
+    { userId: userInfoDetail?.id },
+    []
+  );
   const [isOpenModify, setOpenModify] = useState(false);
   const [isOpenReport, setOpenReport] = useState(false);
   const [isOpenPolicy, setOpenPolicy] = useState(false);
   const [isOpenMembers, setOpenMembers] = useState(false);
   const history = useHistory();
   const setAlert = useSetRecoilState(alertAtom);
-  console.log(reportHistory);
   const handleLogout = async () => {
     const response = await axios.get("/auth/logout");
     if (response.status === 200) {
