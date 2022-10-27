@@ -17,7 +17,7 @@ const Myroom = () => {
   const [, roomList] = useTaxiAPI.get("/rooms/v2/searchByUser", {}, [
     roomListToken,
   ]);
-  const totalPages = Math.ceil(roomList.done.length / PAGE_MAX_ROOMS);
+  const totalPages = Math.ceil((roomList?.done?.length ?? 0) / PAGE_MAX_ROOMS);
   const currentPage = usePageFromSearchParams(totalPages);
 
   if (reactiveState == 3 && roomId) {
