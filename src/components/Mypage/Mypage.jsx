@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
-import PropTypes from "prop-types";
 import Title from "components/common/Title";
 import WhiteContainer from "components/common/WhiteContainer";
 import PopupMembers from "./PopupMembers";
@@ -12,76 +11,14 @@ import axios from "tools/axios";
 import { theme } from "styles/theme";
 import { useSetRecoilState } from "recoil";
 import alertAtom from "recoil/alert";
-
-import ReportGmailerrorredRoundedIcon from "@mui/icons-material/ReportGmailerrorredRounded";
-import HelpOutlineRoundedIcon from "@material-ui/icons/HelpOutlineRounded";
-import AssignmentOutlinedIcon from "@material-ui/icons/AssignmentOutlined";
-import PortraitRoundedIcon from "@material-ui/icons/PortraitRounded";
-import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
-import KeyboardArrowLeftRoundedIcon from "@material-ui/icons/KeyboardArrowLeftRounded";
-
-const BtnC = (props) => {
-  const [isHover, setHover] = useState(false);
-  const style = {
-    display: "flex",
-    alignItems: "center",
-    width: "fit-content",
-    color: isHover ? theme.purple : undefined,
-  };
-  const styleIcon = {
-    ...theme.font15_icon,
-    marginRight: "8px",
-  };
-  const styleText = {
-    ...theme.font14,
-    color: "inherit",
-  };
-
-  const getIcon = (icon) => {
-    switch (icon) {
-      case "report":
-        return <ReportGmailerrorredRoundedIcon style={styleIcon} />;
-      case "ask":
-        return <HelpOutlineRoundedIcon style={styleIcon} />;
-      case "policy":
-        return <AssignmentOutlinedIcon style={styleIcon} />;
-      case "credit":
-        return <PortraitRoundedIcon style={styleIcon} />;
-      case "logout":
-        return <ExitToAppRoundedIcon style={styleIcon} />;
-    }
-  };
-
-  return (
-    <div
-      style={style}
-      className="BTNC"
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      onTouchStart={() => setHover(true)}
-      onTouchEnd={() => setHover(false)}
-      onClick={() => props.onClick()}
-    >
-      {getIcon(props.icon)}
-      <div style={styleText}>{props.children}</div>
-      {isHover && <KeyboardArrowLeftRoundedIcon style={theme.font15_icon} />}
-    </div>
-  );
-};
-BtnC.propTypes = {
-  icon: PropTypes.string,
-  children: PropTypes.any,
-  onClick: PropTypes.func,
-};
+import Menu from "./Menu";
 
 const Mypage = () => {
   const [profToken, setProfToken] = useState(Date.now().toString());
-  const [errorUserInfo, userInfo] = useTaxiAPI.get("/json/logininfo");
-  const [errorUserInfoDetail, userInfoDetail] = useTaxiAPI.get(
-    "/json/logininfo/detail",
-    {},
-    [profToken]
-  );
+  const [, userInfo] = useTaxiAPI.get("/json/logininfo");
+  const [, userInfoDetail] = useTaxiAPI.get("/json/logininfo/detail", {}, [
+    profToken,
+  ]);
   const [isOpen1, setOpen1] = useState(false);
   const [isOpen2, setOpen2] = useState(false);
   const [isOpen3, setOpen3] = useState(false);
@@ -170,23 +107,23 @@ const Mypage = () => {
       </WhiteContainer>
       <WhiteContainer marginAuto={true}>
         <div style={{ display: "grid", rowGap: "16px" }}>
-          <BtnC icon="report" onClick={() => {}}>
+          <Menu icon="report" onClick={() => {}}>
             신고 내역
-          </BtnC>
+          </Menu>
           <a className="popup-channeltalk">
-            <BtnC icon="ask" onClick={() => {}}>
+            <Menu icon="ask" onClick={() => {}}>
               채널톡 문의하기
-            </BtnC>
+            </Menu>
           </a>
-          <BtnC icon="policy" onClick={() => setOpen2(true)}>
+          <Menu icon="policy" onClick={() => setOpen2(true)}>
             사용 약관 및 개인정보 보호 규칙
-          </BtnC>
-          <BtnC icon="credit" onClick={() => setOpen1(true)}>
+          </Menu>
+          <Menu icon="credit" onClick={() => setOpen1(true)}>
             만든 사람들
-          </BtnC>
-          <BtnC icon="logout" onClick={handleLogout}>
+          </Menu>
+          <Menu icon="logout" onClick={handleLogout}>
             로그아웃
-          </BtnC>
+          </Menu>
         </div>
       </WhiteContainer>
       <PopupMembers isOpen={isOpen1} onClose={() => setOpen1(false)} />
