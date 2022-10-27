@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Modal from "components/common/modal/Modal";
 import DottedLine from "components/common/DottedLine";
 import { theme } from "styles/theme";
+import Empty from "components/common/Empty";
 
 import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
 
@@ -75,7 +76,6 @@ const PopupRecord = (props: RecordProps) => {
   };
   const styleContainer = {
     overflow: "auto",
-    paddingTop: "10px",
     minHeight: "270px",
     height: "calc(100vh - 360px)",
     // maskImage:
@@ -85,7 +85,7 @@ const PopupRecord = (props: RecordProps) => {
     <Modal
       display={props.isOpen}
       onClickClose={props.onClose}
-      padding="16px 12px 12px"
+      padding="16px 12px"
     >
       <div style={styleTitle}>
         <ErrorOutlineRoundedIcon style={styleLogo} />
@@ -100,8 +100,18 @@ const PopupRecord = (props: RecordProps) => {
         option={option}
         onClick={(option: ReportOptionType) => setOption(option)}
       />
-      <div style={styleContainer}></div>
-      <DottedLine direction="row" />
+      <div style={styleContainer}>
+        {!props.reportHistory?.length ? (
+          <Empty screen="mobile">신고한 기록이 없습니다</Empty>
+        ) : (
+          props.reportHistory.map((report, index) => {
+            return (
+              <div key={index}>{report}</div>
+              // reportedId, type, etcDetail, time, ["no-settlement", "no-show", "etc-reason"]
+            );
+          })
+        )}
+      </div>
     </Modal>
   );
 };
