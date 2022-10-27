@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import axios from "tools/axios";
 import { useSetRecoilState } from "recoil";
 import alertAtom from "recoil/alert";
+import myRoomAtom from "recoil/myRoom";
 
 const PopupCancel = (props) => {
   const styleTextCont = {
@@ -33,11 +34,15 @@ const PopupCancel = (props) => {
 
   const history = useHistory();
   const setAlert = useSetRecoilState(alertAtom);
+  const setMyRoom = useSetRecoilState(myRoomAtom);
   const onClick = async () => {
     const res = await axios.post("/rooms/v2/abort", {
       roomId: props.roomId,
     });
     if (res.status === 200) {
+      axios.get("/rooms/v2/searchByUser").then(({ data }) => {
+        setMyRoom(data);
+      });
       props.recallEvent();
       history.push("/myroom");
     } else {
