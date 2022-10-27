@@ -2,6 +2,8 @@ import React from "react";
 import PopupContainer from "./PopupContainer";
 import PropTypes from "prop-types";
 import axios from "tools/axios";
+import { useSetRecoilState } from "recoil";
+import alertAtom from "recoil/alert";
 
 const PopupPay = (props) => {
   const styleTextCont = {
@@ -28,6 +30,7 @@ const PopupPay = (props) => {
     color: "#6E3678",
   };
 
+  const setAlert = useSetRecoilState(alertAtom);
   const onClick = async () => {
     const res = await axios.post("/rooms/v2/commitPayment", {
       roomId: props.roomId,
@@ -36,8 +39,7 @@ const PopupPay = (props) => {
       props.recallEvent();
       props.onClickClose();
     } else {
-      // FIXME
-      alert("결제 완료를 실패하였습니다");
+      setAlert("결제 완료를 실패하였습니다");
     }
   };
 

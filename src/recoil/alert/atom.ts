@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 
-const alertAtom = atom({
+const alertAtom = atom<Nullable<String>>({
   key: "alertAtom",
   default: null,
 });
