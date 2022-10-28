@@ -63,7 +63,7 @@ const ReportList = (props: ReportListProps) => {
               {props.option === "Reporting" && (
                 <div style={styleRow}>
                   <div style={styleProperty}>별명</div>
-                  <div style={styleInfo}>{report.reportedId.id}</div>
+                  <div style={styleInfo}>{report.reportedId.nickname}</div>
                 </div>
               )}
               <div style={styleRow}>
