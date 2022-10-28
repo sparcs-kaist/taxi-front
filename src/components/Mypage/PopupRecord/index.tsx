@@ -9,7 +9,7 @@ import ReportList from "./ReportList";
 
 import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
 
-export type ReportHistoryType = {
+type ReportHistoryType = {
   reported: Array<any>;
   reporting: Array<any>;
 };
@@ -68,7 +68,14 @@ const PopupRecord = (props: RecordProps) => {
         onClick={(option: ReportOptionType) => setOption(option)}
       />
       <div style={styleContainer}>
-        <ReportList option={option} reportHistory={props.reportHistory} />
+        <ReportList
+          option={option}
+          selectedReportHistory={
+            option === "Reporting"
+              ? props.reportHistory?.reporting
+              : props.reportHistory?.reported
+          }
+        />
       </div>
     </Modal>
   );

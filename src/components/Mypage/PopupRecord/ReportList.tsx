@@ -2,13 +2,12 @@ import React from "react";
 import { theme } from "styles/theme";
 import { date2str } from "tools/moment";
 import { ReportOptionType } from "./ReportOption";
-import { ReportHistoryType } from "./index";
 import DottedLine from "components/common/DottedLine";
 import Empty from "components/common/Empty";
 
 type ReportListProps = {
   option: ReportOptionType;
-  reportHistory: ReportHistoryType;
+  selectedReportHistory: Array<any>;
 };
 
 const ReportList = (props: ReportListProps) => {
@@ -39,12 +38,18 @@ const ReportList = (props: ReportListProps) => {
       ? "출발 시간에 나타나지 않음"
       : "기타 사유";
   };
-  return props.option === "Reporting" ? (
-    !props.reportHistory?.reporting.length ? (
-      <Empty screen="mobile">신고한 기록이 없습니다</Empty>
-    ) : (
+  if (!props.selectedReportHistory?.length) {
+    return (
+      <Empty screen="mobile">
+        {props.option === "Reporting"
+          ? "신고한 기록이 없습니다"
+          : "신고 받은 기록이 없습니다"}
+      </Empty>
+    );
+  } else {
+    return (
       <>
-        {props.reportHistory?.reporting.map((report, index) => {
+        {props.selectedReportHistory.map((report, index) => {
           console.log(report);
           return (
             <div key={index} style={styleBox}>
@@ -54,11 +59,13 @@ const ReportList = (props: ReportListProps) => {
                   {getTypeText(report.type)}
                 </div>
               </div>
-              <DottedLine direction="row" marginTop={2} marginBottom={2} />
-              <div style={styleRow}>
-                <div style={styleProperty}>별명</div>
-                <div style={styleInfo}>{report.reportedId.id}</div>
-              </div>
+              <DottedLine direction="row" marginTop={2} marginBottom={1} />
+              {props.option === "Reporting" && (
+                <div style={styleRow}>
+                  <div style={styleProperty}>별명</div>
+                  <div style={styleInfo}>{report.reportedId.id}</div>
+                </div>
+              )}
               <div style={styleRow}>
                 <div style={styleProperty}>신고 일시</div>
                 <div style={styleInfo}>{date2str(report.time)}</div>
@@ -67,30 +74,8 @@ const ReportList = (props: ReportListProps) => {
           );
         })}
       </>
-    )
-  ) : !props.reportHistory?.reported.length ? (
-    <Empty screen="mobile">신고 받은 기록이 없습니다</Empty>
-  ) : (
-    <>
-      {props.reportHistory?.reported.map((report, index) => {
-        return (
-          <div key={index} style={styleBox}>
-            <div style={styleRow}>
-              <div style={styleProperty}>신고 사유</div>
-              <div style={{ ...styleInfo, color: theme.purple }}>
-                {getTypeText(report.type)}
-              </div>
-            </div>
-            <DottedLine direction="row" marginTop={2} marginBottom={2} />
-            <div style={styleRow}>
-              <div style={styleProperty}>신고 일시</div>
-              <div style={styleInfo}>{date2str(report.time)}</div>
-            </div>
-          </div>
-        );
-      })}
-    </>
-  );
+    );
+  }
 };
 
 export default ReportList;
