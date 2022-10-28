@@ -46,44 +46,42 @@ const ReportList = (props: ReportListProps) => {
           : "신고 받은 기록이 없습니다"}
       </Empty>
     );
-  } else {
-    return (
-      <>
-        {props.selectedReportHistory.map((report) => {
-          console.log(report);
-          return (
-            <div key={report._id} style={styleBox}>
-              <div style={styleRow}>
-                <div style={styleProperty}>신고 사유</div>
-                <div style={{ ...styleInfo, color: theme.purple }}>
-                  {getTypeText(report.type)}
-                </div>
-              </div>
-              <DottedLine direction="row" marginTop={2} marginBottom={1} />
-              {props.option === "Reporting" && (
-                <div style={styleRow}>
-                  <div style={styleProperty}>별명</div>
-                  <div style={styleInfo}>{report.reportedId.nickname}</div>
-                </div>
-              )}
-              <div style={styleRow}>
-                <div style={styleProperty}>신고 일시</div>
-                <div style={styleInfo}>{date2str(report.time)}</div>
-              </div>
-              {report.type === "etc-reason" && (
-                <div style={styleRow}>
-                  <div style={styleProperty}>기타 사유</div>
-                  <div style={{ ...styleInfo, wordBreak: "keep-all" }}>
-                    {report.etcDetail}
-                  </div>
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </>
-    );
   }
+  return (
+    <>
+      {props.selectedReportHistory.map((report) => {
+        return (
+          <div key={report._id} style={styleBox}>
+            <div style={styleRow}>
+              <div style={styleProperty}>신고 사유</div>
+              <div style={{ ...styleInfo, color: theme.purple }}>
+                {getTypeText(report.type)}
+              </div>
+            </div>
+            <DottedLine direction="row" marginTop={2} marginBottom={1} />
+            {props.option === "Reporting" && (
+              <div style={styleRow}>
+                <div style={styleProperty}>별명</div>
+                <div style={styleInfo}>{report.reportedId.nickname}</div>
+              </div>
+            )}
+            <div style={styleRow}>
+              <div style={styleProperty}>신고 일시</div>
+              <div style={styleInfo}>{date2str(report.time)}</div>
+            </div>
+            {report.type === "etc-reason" && (
+              <div style={styleRow}>
+                <div style={styleProperty}>기타 사유</div>
+                <div style={{ ...styleInfo, wordBreak: "keep-all" }}>
+                  {report.etcDetail}
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </>
+  );
 };
 
 export default ReportList;

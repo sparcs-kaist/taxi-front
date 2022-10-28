@@ -3,7 +3,7 @@ import { useHistory } from "react-router";
 import Title from "components/common/Title";
 import WhiteContainer from "components/common/WhiteContainer";
 import PopupModify from "./PopupModify";
-import PopupRecord from "./PopupReport";
+import PopupReport from "./PopupReport";
 import PopupPolicy from "./PopupPolicy";
 import PopupMembers from "./PopupMembers";
 import ProfileImg from "./ProfileImg";
@@ -20,11 +20,9 @@ const Mypage = () => {
   const [, userInfoDetail] = useTaxiAPI.get("/json/logininfo/detail", {}, [
     profToken,
   ]);
-  const [, reportHistory] = useTaxiAPI.get(
-    "/reports/searchByUser",
-    { userId: userInfoDetail?.id },
-    []
-  );
+  const [, reportHistory] = useTaxiAPI.get("/reports/searchByUser", {
+    userId: userInfoDetail?.id,
+  });
   const [isOpenModify, setOpenModify] = useState(false);
   const [isOpenReport, setOpenReport] = useState(false);
   const [isOpenPolicy, setOpenPolicy] = useState(false);
@@ -132,7 +130,7 @@ const Mypage = () => {
           </Menu>
         </div>
       </WhiteContainer>
-      <PopupRecord
+      <PopupReport
         isOpen={isOpenReport}
         onClose={() => setOpenReport(false)}
         reportHistory={reportHistory}

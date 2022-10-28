@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import { theme } from "styles/theme";
-import { date2str } from "tools/moment";
 import Modal from "components/common/modal/Modal";
 import DottedLine from "components/common/DottedLine";
-import Empty from "components/common/Empty";
 import ReportOption, { ReportOptionType } from "./ReportOption";
 import ReportList from "./ReportList";
 
 import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
 
 type ReportHistoryType = {
-  reported: Array<any>;
+  reported: Array<any>; // FIXME: 신고 내역 타입 정의
   reporting: Array<any>;
 };
 type RecordProps = {
@@ -45,8 +43,6 @@ const PopupReport = (props: RecordProps) => {
     minHeight: "240px",
     height: "calc(100vh - 480px)",
     rowGap: "8px",
-    // maskImage:
-    //   "linear-gradient(to bottom, transparent, white 16px, white calc(100% - 16px), transparent 100%)",
   };
   return (
     <Modal
