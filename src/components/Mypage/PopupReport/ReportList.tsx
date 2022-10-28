@@ -50,6 +50,7 @@ const ReportList = (props: ReportListProps) => {
   return (
     <>
       {props.selectedReportHistory.map((report) => {
+        console.log(report);
         return (
           <div key={report._id} style={styleBox}>
             <div style={styleRow}>
