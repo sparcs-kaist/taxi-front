@@ -41,8 +41,9 @@ const PopupRecord = (props: RecordProps) => {
     display: "flex",
     flexDirection: "column",
     overflow: "auto",
-    minHeight: "270px",
-    height: "calc(100vh - 360px)",
+    borderRadius: "12px",
+    minHeight: "240px",
+    height: "calc(100vh - 480px)",
     rowGap: "8px",
     // maskImage:
     //   "linear-gradient(to bottom, transparent, white 16px, white calc(100% - 16px), transparent 100%)",

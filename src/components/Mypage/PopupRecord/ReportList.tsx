@@ -15,7 +15,7 @@ const ReportList = (props: ReportListProps) => {
   const styleBox: CSS = {
     display: "flex",
     flexDirection: "column",
-    padding: "12px 12px 10px",
+    padding: "10px 12px",
     borderRadius: "12px",
     rowGap: "6px",
     boxShadow: theme.shadow_gray_button_inset,
