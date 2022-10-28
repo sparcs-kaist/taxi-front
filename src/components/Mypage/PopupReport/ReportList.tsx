@@ -26,7 +26,7 @@ const ReportList = (props: ReportListProps) => {
   const styleProperty = {
     ...theme.font12,
     color: theme.gray_text,
-    width: "66px",
+    minWidth: "66px",
   };
   const styleInfo = {
     ...theme.font12,
@@ -70,6 +70,14 @@ const ReportList = (props: ReportListProps) => {
                 <div style={styleProperty}>신고 일시</div>
                 <div style={styleInfo}>{date2str(report.time)}</div>
               </div>
+              {report.type === "etc-reason" && (
+                <div style={styleRow}>
+                  <div style={styleProperty}>기타 사유</div>
+                  <div style={{ ...styleInfo, wordBreak: "keep-all" }}>
+                    {report.etcDetail}
+                  </div>
+                </div>
+              )}
             </div>
           );
         })}
