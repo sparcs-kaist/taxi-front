@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useLocation, Redirect } from "react-router-dom";
+import reactGA from 'react-ga';
+import PropTypes from "prop-types";
+import axios from "tools/axios";
+import { gaTrackingId } from "serverconf";
+
 import { useRecoilState, useSetRecoilState } from "recoil";
 import taxiLocationAtom from "recoil/taxiLocation";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import myRoomAtom from "recoil/myRoom";
-import PropTypes from "prop-types";
-import axios from "tools/axios";
 
 import HeaderBar from "components/common/HeaderBar";
 import Navigation from "components/Skeleton/Navigation";
@@ -83,6 +86,18 @@ const Skeleton = (props) => {
         // FIXME
       });
   }, [userId]);
+
+  // Google Analytics
+  const gaInitialized = useRef(false);
+  useEffect(() => {
+    if (gaTrackingId) {
+      if (!gaInitialized.current) {
+        gaInitialized.current = true;
+        reactGA.initialize(gaTrackingId);
+      }
+      reactGA.pageview(currentPath);
+    }
+  }, [currentPath]);
 
   if (userId === null && pathname !== "/login") {
     return (
