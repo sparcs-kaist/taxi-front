@@ -15,13 +15,13 @@ const usePageFromSearchParams = (totalPages: Number) => {
     )
       return 1;
     else return currentPage;
-  }, [JSON.stringify(location.search), totalPages]);
+  }, [location.search, totalPages]);
 
   const [page, setPage] = useState(getPage());
 
   useEffect(() => {
     setPage(getPage());
-  }, [JSON.stringify(location.search), totalPages]);
+  }, [location.search, totalPages]);
 
   return page;
 };
