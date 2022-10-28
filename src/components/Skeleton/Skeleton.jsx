@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useLocation, Redirect } from "react-router-dom";
-import reactGA from 'react-ga';
+import reactGA from "react-ga";
 import PropTypes from "prop-types";
 import axios from "tools/axios";
 import { gaTrackingId } from "serverconf";
@@ -44,17 +44,11 @@ const Skeleton = (props) => {
   const currentPath = location.pathname + location.search;
 
   const initializeGlobalInfo = useCallback(() => {
-    const getLoginInfoDetail = axios.get("/json/logininfo/detail");
     const getLocation = axios.get("/locations");
     const getRoomList = axios.get("/rooms/v2/searchByUser");
-    Promise.all([getLoginInfoDetail, getLocation, getRoomList]).then(
-      ([
-        { data: loginInfoDetailData },
-        { data: locationData },
-        { data: roomData },
-      ]) => {
+    Promise.all([getLocation, getRoomList]).then(
+      ([{ data: locationData }, { data: roomData }]) => {
         setTaxiLocation(locationData.locations);
-        setLoginInfoDetail(loginInfoDetailData);
         setMyRoom(roomData);
       }
     );
@@ -80,6 +74,7 @@ const Skeleton = (props) => {
     axios
       .get("/json/logininfo/detail")
       .then(({ data }) => {
+        setLoginInfoDetail(data);
         setShowAgree(data.agreeOnTermsOfService === false);
       })
       .catch((e) => {
