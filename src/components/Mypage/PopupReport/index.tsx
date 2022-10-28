@@ -19,7 +19,7 @@ type RecordProps = {
   reportHistory: ReportHistoryType;
 };
 
-const PopupRecord = (props: RecordProps) => {
+const PopupReport = (props: RecordProps) => {
   const [option, setOption] = useState<ReportOptionType>("Reporting");
   const styleTitle = {
     ...theme.font18,
@@ -81,4 +81,4 @@ const PopupRecord = (props: RecordProps) => {
   );
 };
 
-export default PopupRecord;
+export default PopupReport;
