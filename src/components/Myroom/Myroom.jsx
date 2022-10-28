@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 
 import { useR2state } from "hooks/useReactiveState";
-import { useRecoilValue } from "recoil";
-import myRoomAtom from "recoil/myRoom";
+import useTaxiAPI from "hooks/useTaxiAPI";
 import usePageFromSearchParams from "hooks/usePageFromSearchParams";
 import R1Myroom from "./R1Myroom";
 import R2Myroom from "./R2Myroom";
@@ -15,38 +14,32 @@ const Myroom = () => {
   const history = useHistory();
   const { roomId } = useParams();
   const reactiveState = useR2state();
-  const myRoom = useRecoilValue(myRoomAtom);
-  const [donePageInfo, setDonePageInfo] = useState({
-    totalPages: 1,
-    currentPage: 1,
-  });
-  const { page, isValid: isValidPage } = usePageFromSearchParams();
+  const [roomListToken, setRoomListToken] = useState(Date.now().toString());
+  const [, roomList] = useTaxiAPI.get("/rooms/v2/searchByUser", {}, [
+    roomListToken,
+  ]);
+  const totalPages = Math.ceil((roomList?.done?.length ?? 0) / PAGE_MAX_ROOMS);
+  const currentPage = usePageFromSearchParams(totalPages);
 
   if (reactiveState == 3 && roomId) {
     history.replace(`/chatting/${roomId}`);
   }
 
-  useEffect(() => {
-    if (!myRoom?.done) return;
-    setDonePageInfo({
-      totalPages: Math.ceil(myRoom.done.length / PAGE_MAX_ROOMS),
-      currentPage: isValidPage ? page : 1,
-    });
-  }, [JSON.stringify(myRoom), page, isValidPage]);
-
   return reactiveState === 3 ? (
     <R1Myroom
       roomId={roomId}
-      ongoing={myRoom?.ongoing}
-      done={myRoom?.done}
-      donePageInfo={donePageInfo}
+      ongoing={roomList?.ongoing}
+      done={roomList?.done}
+      recallEvent={() => setRoomListToken(Date.now().toString())}
+      donePageInfo={{ totalPages, currentPage }}
     />
   ) : (
     <R2Myroom
       roomId={roomId}
-      ongoing={myRoom?.ongoing}
-      done={myRoom?.done}
-      donePageInfo={donePageInfo}
+      ongoing={roomList?.ongoing}
+      done={roomList?.done}
+      recallEvent={() => setRoomListToken(Date.now().toString())}
+      donePageInfo={{ totalPages, currentPage }}
     />
   );
 };
