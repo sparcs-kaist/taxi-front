@@ -3,7 +3,7 @@ import { useHistory } from "react-router";
 import Title from "components/common/Title";
 import WhiteContainer from "components/common/WhiteContainer";
 import PopupModify from "./PopupModify";
-import PopupRecord from "./PopupRecord";
+import PopupRecord from "./PopupReport";
 import PopupPolicy from "./PopupPolicy";
 import PopupMembers from "./PopupMembers";
 import ProfileImg from "./ProfileImg";
