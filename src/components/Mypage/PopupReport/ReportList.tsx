@@ -49,10 +49,10 @@ const ReportList = (props: ReportListProps) => {
   } else {
     return (
       <>
-        {props.selectedReportHistory.map((report, index) => {
+        {props.selectedReportHistory.map((report) => {
           console.log(report);
           return (
-            <div key={index} style={styleBox}>
+            <div key={report._id} style={styleBox}>
               <div style={styleRow}>
                 <div style={styleProperty}>신고 사유</div>
                 <div style={{ ...styleInfo, color: theme.purple }}>
