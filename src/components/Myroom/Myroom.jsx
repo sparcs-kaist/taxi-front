@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 
 import { useR2state } from "hooks/useReactiveState";
@@ -8,6 +8,7 @@ import R1Myroom from "./R1Myroom";
 import R2Myroom from "./R2Myroom";
 
 const PAGE_MAX_ROOMS = 20;
+export const MAX_PARTICIPATION = 5;
 
 const Myroom = () => {
   const history = useHistory();
