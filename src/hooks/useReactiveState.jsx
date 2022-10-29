@@ -51,7 +51,7 @@ const useR1state = () => {
 const useR2state = () => {
   const getState = () => {
     const width = document.body.clientWidth;
-    if (width >= 795) return 1;
+    if (width >= 835) return 1;
     if (width >= 607) return 2;
     return 3;
   };

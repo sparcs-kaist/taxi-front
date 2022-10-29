@@ -60,10 +60,10 @@ const R2 = (props) => {
           justifyContent: "center",
         }}
       >
-        <div style={{ width: state == 1 ? "370px" : "calc(50% - 27.5px)" }}>
+        <div style={{ width: state == 1 ? "390px" : "calc(50% - 27.5px)" }}>
           {props.left}
         </div>
-        <div style={{ width: state == 1 ? "370px" : "calc(50% - 27.5px)" }}>
+        <div style={{ width: state == 1 ? "390px" : "calc(50% - 27.5px)" }}>
           {props.right}
         </div>
       </div>
