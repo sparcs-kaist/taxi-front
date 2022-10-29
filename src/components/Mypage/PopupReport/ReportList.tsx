@@ -28,8 +28,9 @@ const ReportList = (props: ReportListProps) => {
     color: theme.gray_text,
     minWidth: "66px",
   };
-  const styleInfo = {
+  const styleInfo: CSS = {
     ...theme.font12,
+    wordBreak: "keep-all",
   };
   const getTypeText = (type: string) => {
     return type === "no-settlement"
@@ -58,7 +59,7 @@ const ReportList = (props: ReportListProps) => {
                 {getTypeText(report.type)}
               </div>
             </div>
-            <DottedLine direction="row" marginTop={2} marginBottom={1} />
+            <DottedLine direction="row" marginTop={2} marginBottom={2} />
             {props.option === "Reporting" && (
               <div style={styleRow}>
                 <div style={styleProperty}>별명</div>
@@ -72,9 +73,7 @@ const ReportList = (props: ReportListProps) => {
             {report.type === "etc-reason" && (
               <div style={styleRow}>
                 <div style={styleProperty}>기타 사유</div>
-                <div style={{ ...styleInfo, wordBreak: "keep-all" }}>
-                  {report.etcDetail}
-                </div>
+                <div style={styleInfo}>{report.etcDetail}</div>
               </div>
             )}
           </div>
