@@ -57,7 +57,7 @@ const R2Myroom = (props) => {
     try {
       const height1 = refTitle.current.clientHeight;
       const height2 = document.getElementById("navigation-body").clientHeight;
-      const height3 = refHeader.current.clientHeight;
+      const height3 = refHeader.current?.clientHeight;
       const height4 = document.body.clientHeight;
 
       const newHeight = `${height4 - height1 - height2}px`;
@@ -93,7 +93,12 @@ const R2Myroom = (props) => {
       }}
     >
       <div ref={refTitle}>
-        <Title icon="myroom" header={true} marginAuto={true}>
+        <Title
+          icon="myroom"
+          header={true}
+          marginAuto={true}
+          R2={props.roomId !== undefined}
+        >
           내 방 리스트
         </Title>
       </div>
@@ -172,30 +177,30 @@ const R2Myroom = (props) => {
             </div>
           }
           right={
-            <div>
-              <div ref={refHeader}>
-                <WhiteContainer padding="20px">
-                  <Title icon="chat">채팅 창</Title>
-                  <div style={{ height: "19px" }} />
-                  <DottedLine direction="row" />
-                  {props.roomId ? (
-                    <ChatHeader
-                      roomId={props.roomId}
-                      resizeEvent={resizeEvent}
-                    />
-                  ) : (
-                    <div>방을 선택하세요.</div>
-                  )}
-                </WhiteContainer>
-              </div>
-              {props.roomId ? (
+            props.roomId ? (
+              <>
+                <div ref={refHeader}>
+                  <WhiteContainer padding="20px">
+                    <Title icon="chat">채팅 창</Title>
+                    <div style={{ height: "19px" }} />
+                    <DottedLine direction="row" />
+                    {props.roomId ? (
+                      <ChatHeader
+                        roomId={props.roomId}
+                        resizeEvent={resizeEvent}
+                      />
+                    ) : (
+                      <div>방을 선택하세요.</div>
+                    )}
+                  </WhiteContainer>
+                </div>
                 <WhiteContainer padding="0px">
                   <div style={{ height: chatHeight, position: "relative" }}>
                     <SideChat roomId={props.roomId} />
                   </div>
                 </WhiteContainer>
-              ) : null}
-            </div>
+              </>
+            ) : null
           }
         />
       </div>
