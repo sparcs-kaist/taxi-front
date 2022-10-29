@@ -26,7 +26,7 @@ const useBodySize = () => {
 const useR1state = () => {
   const getState = () => {
     const width = document.body.clientWidth;
-    if (width >= 795) return 1;
+    if (width >= 430) return 1;
     return 2;
   };
   const stateR = useRef(getState());

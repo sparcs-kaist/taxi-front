@@ -11,7 +11,7 @@ const R1 = (props) => {
         style={{
           position: props.position,
           height: props.height,
-          width: "755px",
+          width: "390px",
           margin: "auto",
         }}
       >
