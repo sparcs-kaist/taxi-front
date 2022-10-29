@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useLocation, Redirect } from "react-router-dom";
-import reactGA from "react-ga";
+import reactGA from "react-ga4";
 import PropTypes from "prop-types";
 import axios from "tools/axios";
 import { gaTrackingId } from "serverconf";
@@ -42,6 +42,7 @@ const Skeleton = (props) => {
   const location = useLocation();
   const pathname = location.pathname;
   const currentPath = location.pathname + location.search;
+  const gaInitialized = useRef(false);
 
   const initializeGlobalInfo = useCallback(() => {
     const getLocation = axios.get("/locations");
@@ -53,12 +54,9 @@ const Skeleton = (props) => {
       }
     );
   }, []);
-  useEffect(() => {
-    if (userId) initializeGlobalInfo();
-  }, [userId]);
 
-  // path가 수정될 때 마다 logininfo 요청
   useEffect(() => {
+    // path가 수정될 때 마다 logininfo 요청
     axios
       .get("/json/logininfo")
       .then(({ data }) => {
@@ -67,10 +65,19 @@ const Skeleton = (props) => {
       .catch((e) => {
         // FIXME
       });
+
+    // Google Analytics
+    if (gaTrackingId) {
+      if (!gaInitialized.current) {
+        gaInitialized.current = true;
+        reactGA.initialize(gaTrackingId);
+      }
+      reactGA.send({ hitType: "pageview", page: pathname });
+    }
   }, [currentPath]);
 
-  // 로그인 정보 수정될 때 요청
   useEffect(() => {
+    // 로그인 정보 수정될 때 요청
     axios
       .get("/json/logininfo/detail")
       .then(({ data }) => {
@@ -80,19 +87,16 @@ const Skeleton = (props) => {
       .catch((e) => {
         // FIXME
       });
-  }, [userId]);
 
-  // Google Analytics
-  const gaInitialized = useRef(false);
-  useEffect(() => {
-    if (gaTrackingId) {
-      if (!gaInitialized.current) {
-        gaInitialized.current = true;
-        reactGA.initialize(gaTrackingId);
-      }
-      reactGA.pageview(currentPath);
+    // recoil-state 초기화
+    if (userId) initializeGlobalInfo();
+
+    // Google Analytics
+    if (gaInitialized.current && userId) {
+      console.log(userId);
+      reactGA.set({ userId });
     }
-  }, [currentPath]);
+  }, [userId]);
 
   if (userId === null && pathname !== "/login") {
     return (
