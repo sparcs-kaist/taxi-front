@@ -93,7 +93,6 @@ const Skeleton = (props) => {
 
     // Google Analytics
     if (gaInitialized.current && userId) {
-      console.log(userId);
       reactGA.set({ userId });
     }
   }, [userId]);
