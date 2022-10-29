@@ -35,7 +35,7 @@ const NavigationMenu = (props: NavigationMenuProps) => {
   const styleIcon = {
     width: 20,
     height: 20,
-    marginTop: 10,
+    marginTop: 9.5,
     transition: `fill ${theme.duration}`,
     fill: styleColor,
   };
