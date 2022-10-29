@@ -52,7 +52,7 @@ const useR2state = () => {
   const getState = () => {
     const width = document.body.clientWidth;
     if (width >= 795) return 1;
-    if (width >= 595) return 2;
+    if (width >= 607) return 2;
     return 3;
   };
   const stateR = useRef(getState());
