@@ -86,7 +86,7 @@ const Skeleton = (props) => {
   if (userId === undefined) {
     return (
       <Container>
-        <Navigation path={pathname} />
+        <Navigation />
         <HeaderBar />
       </Container>
     );
