@@ -8,13 +8,18 @@ import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import LibraryAddRoundedIcon from "@mui/icons-material/LibraryAddRounded";
 import LibraryBooksRoundedIcon from "@material-ui/icons/LibraryBooksRounded";
 import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
-import PropTypes from "prop-types";
 
-const NavigationBtn = (props) => {
+type MenuType = "search" | "addroom" | "myroom" | "mypage";
+type NavigationMenuProps = {
+  text: string;
+  icon: MenuType;
+};
+
+const NavigationMenu = (props: NavigationMenuProps) => {
   const [isHover, setHover] = useState(false);
   const selected = useLocation().pathname.startsWith("/" + props.icon);
 
-  const styleBox = {
+  const styleBox: CSS = {
     width: "25%",
     height: "100%",
     display: "flex",
@@ -22,31 +27,36 @@ const NavigationBtn = (props) => {
     flexDirection: "column",
     textDecoration: "unset",
   };
+  const styleColor = isHover
+    ? theme.purple_dark
+    : selected
+    ? theme.purple
+    : theme.gray_text;
   const styleIcon = {
     width: 20,
     height: 20,
     marginTop: 10,
-    transitionDuration: theme.duration,
-    fill: isHover || selected ? theme.purple : theme.gray_text,
+    transition: `fill ${theme.duration}`,
+    fill: styleColor,
   };
   const styleText = {
     marginTop: 4,
     width: "fit-content",
     ...theme.font10_bold,
     transitionDuration: theme.duration,
-    color: isHover || selected ? theme.purple : theme.gray_text,
+    color: styleColor,
   };
 
-  const getIcon = (type) => {
+  const getIcon = (type: MenuType) => {
     switch (type) {
       case "search":
-        return <SearchRoundedIcon style={styleIcon} alt="search" />;
+        return <SearchRoundedIcon style={styleIcon} />;
       case "addroom":
-        return <LibraryAddRoundedIcon style={styleIcon} alt="addroom" />;
+        return <LibraryAddRoundedIcon style={styleIcon} />;
       case "myroom":
-        return <LibraryBooksRoundedIcon style={styleIcon} alt="myroom" />;
+        return <LibraryBooksRoundedIcon style={styleIcon} />;
       case "mypage":
-        return <AccountCircleRoundedIcon style={styleIcon} alt="mypage" />;
+        return <AccountCircleRoundedIcon style={styleIcon} />;
     }
   };
 
@@ -58,15 +68,9 @@ const NavigationBtn = (props) => {
       onMouseLeave={() => setHover(false)}
     >
       {getIcon(props.icon)}
-      <div style={styleText}>{props.name}</div>
+      <div style={styleText}>{props.text}</div>
     </Link>
   );
-};
-NavigationBtn.propTypes = {
-  to: PropTypes.string,
-  name: PropTypes.string,
-  icon: PropTypes.any,
-  selected: PropTypes.bool,
 };
 
 const Navigation = () => {
@@ -86,10 +90,10 @@ const Navigation = () => {
     >
       <RLayout.R1 height="100%">
         <div style={{ display: "flex", height: "100%" }}>
-          <NavigationBtn name="검색" icon="search" />
-          <NavigationBtn name="방 개설" icon="addroom" />
-          <NavigationBtn name="내 방" icon="myroom" />
-          <NavigationBtn name="마이 페이지" icon="mypage" />
+          <NavigationMenu text="검색" icon="search" />
+          <NavigationMenu text="방 개설" icon="addroom" />
+          <NavigationMenu text="내 방 목록" icon="myroom" />
+          <NavigationMenu text="마이 페이지" icon="mypage" />
         </div>
       </RLayout.R1>
     </div>
