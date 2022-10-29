@@ -69,16 +69,7 @@ const R2 = (props) => {
       </div>
     );
   } else {
-    return (
-      <div
-        style={{
-          marginLeft: "20px",
-          marginRight: "20px",
-        }}
-      >
-        {props.priority === "left" ? props.left : props.right}
-      </div>
-    );
+    return <R1>{props.priority === "left" ? props.left : props.right}</R1>;
   }
 };
 R2.propTypes = {
