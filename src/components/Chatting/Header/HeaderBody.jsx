@@ -131,7 +131,7 @@ ButtonBody.defaultProps = {
   disabled: false,
 };
 
-const Popup = (props) => {
+const Button = (props) => {
   const [popupCancel, setPopupCancel] = useState(false);
   const [popupPay, setPopupPay] = useState(false);
   const [popupSend, setPopupSend] = useState(false);
@@ -173,7 +173,7 @@ const Popup = (props) => {
     </>
   );
 };
-Popup.propTypes = {
+Button.propTypes = {
   isSettlementForMe: PropTypes.string,
   recallEvent: PropTypes.func,
   info: PropTypes.object,
@@ -223,7 +223,7 @@ const HeaderBody = (props) => {
             />
           ))}
         </div>
-        <Popup
+        <Button
           isSettlementForMe={isSettlementForMe}
           recallEvent={props.recallEvent}
           info={props.info}
