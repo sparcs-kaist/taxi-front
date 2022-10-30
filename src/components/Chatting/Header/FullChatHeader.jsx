@@ -95,20 +95,10 @@ const Header = (props) => {
             />
           )}
         </div>
-        <div
-          style={{
-            opacity: isOpen ? 1 : 0,
-            transition: "opacity 0.3s",
-          }}
-        >
+        <div style={{ opacity: isOpen ? 1 : 0, transition: "opacity 0.3s" }}>
           <DottedLine direction="row" margin={16} />
         </div>
-        <div
-          ref={bodyRef}
-          style={{
-            padding: "12px 16px 16px",
-          }}
-        >
+        <div ref={bodyRef} style={{ padding: "16px" }}>
           <HeaderBody info={props.info} recallEvent={props.recallEvent} />
         </div>
       </div>
