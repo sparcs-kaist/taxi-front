@@ -13,14 +13,14 @@ type PageType = "/search" | "addroom" | "myroom" | "mypage";
 type NavigationMenuProps = {
   text: string;
   page: PageType;
+  path: string;
 };
 
 const NavigationMenu = (props: NavigationMenuProps) => {
   const [isHover, setHover] = useState(false);
-  const path = useLocation().pathname;
   const selected =
-    path.startsWith("/" + props.page.replace("/", "")) ||
-    path === props.page[0];
+    props.path.startsWith("/" + props.page.replace("/", "")) ||
+    props.path === props.page[0];
 
   const styleBox: CSS = {
     width: "25%",
@@ -77,6 +77,7 @@ const NavigationMenu = (props: NavigationMenuProps) => {
 };
 
 const Navigation = () => {
+  const path = useLocation().pathname;
   return (
     <div
       id="navigation-body"
@@ -93,10 +94,10 @@ const Navigation = () => {
     >
       <RLayout.R1 height="100%">
         <div style={{ display: "flex", height: "100%" }}>
-          <NavigationMenu text="검색" page="/search" />
-          <NavigationMenu text="방 개설" page="addroom" />
-          <NavigationMenu text="내 방 목록" page="myroom" />
-          <NavigationMenu text="마이 페이지" page="mypage" />
+          <NavigationMenu text="검색" page="/search" path={path} />
+          <NavigationMenu text="방 개설" page="addroom" path={path} />
+          <NavigationMenu text="내 방 목록" page="myroom" path={path} />
+          <NavigationMenu text="마이 페이지" page="mypage" path={path} />
         </div>
       </RLayout.R1>
     </div>
