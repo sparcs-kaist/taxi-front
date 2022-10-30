@@ -73,7 +73,7 @@ const User = (props) => {
       >
         {props.info?.nickname}
         {props.isDeparted && !isSettlement ? (
-          <span style={theme.font8}> (미정산)</span>
+          <span style={theme.font8}>(미정산)</span>
         ) : null}
       </div>
     </div>
@@ -91,7 +91,7 @@ const ButtonBody = (props) => {
     columnGap: "4px",
     borderRadius: "6px",
     padding: "3px 5px 3px 6px",
-    background: props.disabled ? "#EEEEEE" : "#6E3678",
+    background: props.disabled ? theme.gray_background : theme.purple,
     cursor: theme.cursor(props.disabled),
   };
   const styleText = {
