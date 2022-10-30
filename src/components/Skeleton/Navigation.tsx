@@ -9,15 +9,15 @@ import LibraryAddRoundedIcon from "@mui/icons-material/LibraryAddRounded";
 import LibraryBooksRoundedIcon from "@material-ui/icons/LibraryBooksRounded";
 import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
 
-type MenuType = "search" | "addroom" | "myroom" | "mypage";
+type PageType = "search" | "addroom" | "myroom" | "mypage";
 type NavigationMenuProps = {
   text: string;
-  icon: MenuType;
+  page: PageType;
 };
 
 const NavigationMenu = (props: NavigationMenuProps) => {
   const [isHover, setHover] = useState(false);
-  const selected = useLocation().pathname.startsWith("/" + props.icon);
+  const selected = useLocation().pathname.startsWith("/" + props.page);
 
   const styleBox: CSS = {
     width: "25%",
@@ -47,7 +47,7 @@ const NavigationMenu = (props: NavigationMenuProps) => {
     color: styleColor,
   };
 
-  const getIcon = (type: MenuType) => {
+  const getIcon = (type: PageType) => {
     switch (type) {
       case "search":
         return <SearchRoundedIcon style={styleIcon} />;
@@ -62,12 +62,12 @@ const NavigationMenu = (props: NavigationMenuProps) => {
 
   return (
     <Link
-      to={"/" + props.icon}
+      to={"/" + props.page}
       style={styleBox}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
-      {getIcon(props.icon)}
+      {getIcon(props.page)}
       <div style={styleText}>{props.text}</div>
     </Link>
   );
@@ -90,10 +90,10 @@ const Navigation = () => {
     >
       <RLayout.R1 height="100%">
         <div style={{ display: "flex", height: "100%" }}>
-          <NavigationMenu text="검색" icon="search" />
-          <NavigationMenu text="방 개설" icon="addroom" />
-          <NavigationMenu text="내 방 목록" icon="myroom" />
-          <NavigationMenu text="마이 페이지" icon="mypage" />
+          <NavigationMenu text="검색" page="search" />
+          <NavigationMenu text="방 개설" page="addroom" />
+          <NavigationMenu text="내 방 목록" page="myroom" />
+          <NavigationMenu text="마이 페이지" page="mypage" />
         </div>
       </RLayout.R1>
     </div>
