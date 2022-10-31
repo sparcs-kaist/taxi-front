@@ -9,7 +9,7 @@ import LibraryAddRoundedIcon from "@mui/icons-material/LibraryAddRounded";
 import LibraryBooksRoundedIcon from "@material-ui/icons/LibraryBooksRounded";
 import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
 
-type PageType = "/search" | "addroom" | "myroom" | "mypage";
+type PageType = "search" | "addroom" | "myroom" | "mypage";
 type NavigationMenuProps = {
   text: string;
   page: PageType;
@@ -18,9 +18,7 @@ type NavigationMenuProps = {
 
 const NavigationMenu = (props: NavigationMenuProps) => {
   const [isHover, setHover] = useState(false);
-  const selected =
-    props.path.startsWith("/" + props.page.replace("/", "")) ||
-    props.path === props.page[0];
+  const selected = props.path.startsWith("/" + props.page);
 
   const styleBox: CSS = {
     width: "25%",
@@ -52,7 +50,7 @@ const NavigationMenu = (props: NavigationMenuProps) => {
 
   const getIcon = (type: PageType) => {
     switch (type) {
-      case "/search":
+      case "search":
         return <SearchRoundedIcon style={styleIcon} />;
       case "addroom":
         return <LibraryAddRoundedIcon style={styleIcon} />;
@@ -65,7 +63,7 @@ const NavigationMenu = (props: NavigationMenuProps) => {
 
   return (
     <Link
-      to={"/" + props.page.replace("/", "")}
+      to={"/" + props.page}
       style={styleBox}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
@@ -94,7 +92,7 @@ const Navigation = () => {
     >
       <RLayout.R1 height="100%">
         <div style={{ display: "flex", height: "56px" }}>
-          <NavigationMenu text="검색" page="/search" path={path} />
+          <NavigationMenu text="검색" page="search" path={path} />
           <NavigationMenu text="방 개설" page="addroom" path={path} />
           <NavigationMenu text="내 방 목록" page="myroom" path={path} />
           <NavigationMenu text="마이 페이지" page="mypage" path={path} />
