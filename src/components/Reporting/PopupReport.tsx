@@ -9,14 +9,6 @@ import { useSetRecoilState } from "recoil";
 import alertAtom from "recoil/alert";
 import regExpTest from "tools/regExpTest";
 
-type ReportData = {
-  reportedId: string;
-  type: string;
-  etcDetail: string;
-  time: Date;
-};
-type ReportResponse = { status: number };
-
 type PopupReportProps = {
   isOpen: boolean;
   onClose: () => void;
