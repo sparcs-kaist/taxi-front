@@ -2,7 +2,7 @@ import { atom } from "recoil";
 
 const alertAtom = atom<Nullable<string>>({
   key: "alertAtom",
-  default: "",
+  default: null,
 });
 
 export default alertAtom;

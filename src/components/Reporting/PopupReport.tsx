@@ -167,10 +167,7 @@ const PopupReport = ({
       etcDetail,
       time: new Date(),
     };
-    const res: ReportResponse = await axios.post(
-      "/reports/SearchByUser/create",
-      data
-    );
+    const res: ReportResponse = await axios.post("/reports/create", data);
     if (res.status === 200) {
       setIsSubmitted(true);
     } else {
