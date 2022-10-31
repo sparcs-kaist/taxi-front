@@ -93,7 +93,7 @@ const Navigation = () => {
       }}
     >
       <RLayout.R1 height="100%">
-        <div style={{ display: "flex", height: "100%" }}>
+        <div style={{ display: "flex", height: "56px" }}>
           <NavigationMenu text="검색" page="/search" path={path} />
           <NavigationMenu text="방 개설" page="addroom" path={path} />
           <NavigationMenu text="내 방 목록" page="myroom" path={path} />
