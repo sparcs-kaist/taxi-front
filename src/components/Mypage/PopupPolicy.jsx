@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useHistory } from "react-router";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import PropTypes from "prop-types";
 import Modal from "components/common/modal/Modal";
 import axios from "tools/axios";
 import { theme } from "styles/theme";
-import { useSetRecoilState } from "recoil";
 import alertAtom from "recoil/alert";
 
 import Button from "components/common/Button";
@@ -157,11 +158,13 @@ const Policy = () => {
 const Agree = (props) => {
   const setAlert = useSetRecoilState(alertAtom);
   const onAgree = async () => {
-    const result = await axios.post("/users/agreeOnTermsOfService");
-    if (result.status !== 200) {
+    const response = await axios.post("/users/agreeOnTermsOfService");
+    if (response.status !== 200) {
       setAlert("약관 동의에 실패하였습니다.");
       return;
     }
+    const detail = await axios.get("/json/logininfo/detail");
+    props.setLoginInfoDetail(detail?.data);
     props.onAgree();
   };
   const styleBottom = {
@@ -204,18 +207,15 @@ Agree.propTypes = {
   didAgree: PropTypes.any,
   onClose: PropTypes.func,
   onAgree: PropTypes.func,
+  setLoginInfoDetail: PropTypes.func,
 };
 
 const PopupPolicy = (props) => {
   const history = useHistory();
-  const [didAgree, setDIdAgree] = useState(undefined);
   const setAlert = useSetRecoilState(alertAtom);
-
-  useEffect(() => {
-    axios.get("/json/logininfo/detail").then(({ data }) => {
-      setDIdAgree(data.agreeOnTermsOfService);
-    });
-  }, []);
+  const [loginInfoDetail, setLoginInfoDetail] =
+    useRecoilState(loginInfoDetailAtom);
+  const didAgree = loginInfoDetail?.agreeOnTermsOfService ?? false;
 
   const onClose = async () => {
     if (didAgree === null) return;
@@ -256,6 +256,7 @@ const PopupPolicy = (props) => {
           didAgree={didAgree}
           onClose={onClose}
           onAgree={() => props.onClose()}
+          setLoginInfoDetail={setLoginInfoDetail}
         />
       </div>
     </Modal>

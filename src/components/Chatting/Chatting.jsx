@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
+import { useRecoilValue } from "recoil";
+import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import PropTypes from "prop-types";
 import { io } from "socket.io-client";
 import { useRecoilState } from "recoil";
@@ -32,7 +34,7 @@ const Chatting = (props) => {
   const socket = useRef(undefined);
   const [, setMyRoom] = useRecoilState(myRoomAtom);
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
-  const [, userInfoDetail] = useTaxiAPI.get("/json/logininfo/detail");
+  const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const [, headerInfo] = useTaxiAPI.get(
     `/rooms/v2/info?id=${props.roomId}`,
     {},

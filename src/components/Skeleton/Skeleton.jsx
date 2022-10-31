@@ -60,7 +60,7 @@ const Skeleton = (props) => {
     axios
       .get("/json/logininfo")
       .then(({ data }) => {
-        setUserId(data.id ? data.id : null);
+        setUserId(data?.id ?? null);
       })
       .catch((e) => {
         // FIXME
@@ -82,7 +82,7 @@ const Skeleton = (props) => {
       .get("/json/logininfo/detail")
       .then(({ data }) => {
         setLoginInfoDetail(data);
-        setShowAgree(data.agreeOnTermsOfService === false);
+        setShowAgree(data?.agreeOnTermsOfService !== true);
       })
       .catch((e) => {
         // FIXME
