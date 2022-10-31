@@ -121,7 +121,7 @@ const isValidQuery = (q) => {
     "to",
     "time",
     "withTime",
-    "maxPartLength",
+    "maxPeople",
     "page",
   ];
   const keys = Object.keys(q);
@@ -129,8 +129,8 @@ const isValidQuery = (q) => {
   if (keys.length > allowedKeys.length) return false;
   if (keys.some((key) => !allowedKeys.includes(key))) return false;
   if (keys.includes("from") !== keys.includes("to")) return false;
-  if (keys.includes("maxPartLength") && q.maxPartLength !== null) {
-    const parsedInt = parseInt(q.maxPartLength);
+  if (keys.includes("maxPeople") && q.maxPeople !== null) {
+    const parsedInt = parseInt(q.maxPeople);
     if (isNaN(parsedInt) || parsedInt < 2 || parsedInt > 4) return false;
   }
   if (keys.includes("time") && q.time !== null) {
@@ -178,7 +178,7 @@ const Search = () => {
       if (key === "from" && val !== null) newSearchOptions.place = true;
       if (key === "time" && val !== null) newSearchOptions.date = true;
       if (key === "withTime" && val === "true") newSearchOptions.time = true;
-      if (key === "maxPartLength" && val !== null)
+      if (key === "maxPeople" && val !== null)
         newSearchOptions.maxPeople = true;
     }
     setSearchOptions(newSearchOptions);
@@ -190,7 +190,7 @@ const Search = () => {
       if (newSearchOptions.time)
         setTime([queryTime.hour(), Math.floor(queryTime.minute() / 10) * 10]);
     }
-    if (newSearchOptions.maxPeople) setMaxPeople(Number(q.maxPartLength));
+    if (newSearchOptions.maxPeople) setMaxPeople(Number(q.maxPeople));
   };
 
   useEffect(() => {
@@ -216,6 +216,9 @@ const Search = () => {
         });
     } else if (isValidQuery(q)) {
       setStatesFromQuery(q);
+      if (q.maxPeople) {
+        delete Object.assign(q, { maxPartLength: q.maxPeople }).maxPeople;
+      }
       axios
         .get("rooms/v2/search", {
           params: q,
@@ -329,7 +332,7 @@ const Search = () => {
           to: valuePlace[1],
           time: date.toISOString(),
           withTime,
-          maxPartLength: valueMaxPeople,
+          maxPeople: valueMaxPeople,
         },
         searchQueryOption
       );
