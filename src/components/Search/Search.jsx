@@ -235,13 +235,13 @@ const Search = () => {
     if (!Object.values(searchOptions).some((option) => option)) {
       setMessage("빠른 출발 검색");
       setDisabled(false);
-    } else if (searchOptions.name && valueName == "") {
+    } else if (searchOptions.name && valueName === "") {
       setMessage("방 이름을 입력해주세요");
       setDisabled(true);
     } else if (
-      (searchOptions.place && valuePlace.some((place) => place == null)) ||
-      (searchOptions.date && valueDate.some((date) => date == null)) ||
-      (searchOptions.time && valueTime.some((time) => time == null))
+      (searchOptions.place && valuePlace.some((place) => place === null)) ||
+      (searchOptions.date && valueDate.some((date) => date === null)) ||
+      (searchOptions.time && valueTime.some((time) => time === null))
     ) {
       setMessage("선택을 완료해주세요");
       setDisabled(true);
@@ -253,7 +253,7 @@ const Search = () => {
       setDisabled(true);
     } else if (
       searchOptions.time &
-      !valueDate.some((date) => date == null) &
+      !valueDate.some((date) => date === null) &
       moment(
         `${valueDate[0]}-${
           valueDate[1] < 10 ? "0" + valueDate[1] : valueDate[1]
@@ -381,7 +381,7 @@ const Search = () => {
   );
   const rightLay =
     searchResult === null ? null : (
-      <SideResult result={searchResult} mobile={reactiveState == 3} />
+      <SideResult result={searchResult} mobile={reactiveState === 3} />
     );
   return (
     <div>
@@ -389,10 +389,10 @@ const Search = () => {
         방 검색하기
       </Title>
       <RLayout.R2
-        left={reactiveState == 3 && searchResult !== null ? null : leftLay}
+        left={reactiveState === 3 && searchResult !== null ? null : leftLay}
         right={rightLay}
         priority={
-          reactiveState == 3 && searchResult !== null ? "right" : "left"
+          reactiveState === 3 && searchResult !== null ? "right" : "left"
         }
       />
     </div>
