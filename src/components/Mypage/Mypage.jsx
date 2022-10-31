@@ -20,9 +20,6 @@ const Mypage = () => {
   const [, userInfoDetail] = useTaxiAPI.get("/json/logininfo/detail", {}, [
     profToken,
   ]);
-  const [, reportHistory] = useTaxiAPI.get("/reports/searchByUser", {
-    userId: userInfoDetail?.id,
-  });
   const [isOpenModify, setOpenModify] = useState(false);
   const [isOpenReport, setOpenReport] = useState(false);
   const [isOpenPolicy, setOpenPolicy] = useState(false);
@@ -130,11 +127,7 @@ const Mypage = () => {
           </Menu>
         </div>
       </WhiteContainer>
-      <PopupReport
-        isOpen={isOpenReport}
-        onClose={() => setOpenReport(false)}
-        reportHistory={reportHistory}
-      />
+      <PopupReport isOpen={isOpenReport} onClose={() => setOpenReport(false)} />
       <PopupModify
         isOpen={isOpenModify}
         onClose={() => setOpenModify(false)}

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import useTaxiAPI from "hooks/useTaxiAPI";
 import { theme } from "styles/theme";
 import Modal from "components/common/modal/Modal";
 import DottedLine from "components/common/DottedLine";
@@ -14,11 +15,11 @@ type ReportHistoryType = {
 type RecordProps = {
   isOpen: boolean;
   onClose: () => void;
-  reportHistory: ReportHistoryType;
 };
 
 const PopupReport = (props: RecordProps) => {
   const [option, setOption] = useState<ReportOptionType>("Reporting");
+  const [, reportHistory] = useTaxiAPI.get("/reports/searchByUser");
   const styleTitle = {
     ...theme.font18,
     display: "flex",
@@ -68,8 +69,8 @@ const PopupReport = (props: RecordProps) => {
           option={option}
           selectedReportHistory={
             option === "Reporting"
-              ? props.reportHistory?.reporting
-              : props.reportHistory?.reported
+              ? reportHistory?.reporting
+              : reportHistory?.reported
           }
         />
       </div>
