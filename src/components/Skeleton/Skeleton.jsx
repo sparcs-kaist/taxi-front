@@ -86,7 +86,6 @@ const Skeleton = (props) => {
   if (userId === undefined) {
     return (
       <Container>
-        <Navigation path={pathname} />
         <HeaderBar />
       </Container>
     );
@@ -111,9 +110,12 @@ const Skeleton = (props) => {
       </Container>
     );
   }
+  if (pathname === "/") {
+    return <Redirect to={`/search`} />;
+  }
   return (
     <Container>
-      <Navigation path={pathname} />
+      <Navigation />
       <HeaderBar />
       {props.children}
       <Footer />
