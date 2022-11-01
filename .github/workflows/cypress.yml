@@ -115,7 +115,8 @@ jobs:
 
     - name: run frontend
       run: |
-        pm2 start npm -- start
+        npm run build
+        pm2 serve build 3000 --spa 
 
     - name: runs cypress
       uses: cypress-io/github-action@v4
