@@ -29,8 +29,24 @@ jobs:
         node-version: [16.x]
         mongodb-version: ['5.0']
     steps:
+
+
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/checkout@v3
+
+    - name: Cache node modules
+      id: cache-npm
+      uses: actions/cache@v3
+      env:
+        cache-name: cache-node-modules
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
 
     - name: Setup Node
       uses: actions/setup-node@v3
@@ -99,8 +115,7 @@ jobs:
 
     - name: run frontend
       run: |
-        npm run build 
-        pm2 serve build 3000 --spa 
+        pm2 start npm -- start
 
     - name: runs cypress
       uses: cypress-io/github-action@v4
