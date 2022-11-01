@@ -21,6 +21,7 @@ jobs:
       REACT_APP_BACK_URL : ${{ secrets.REACT_APP_BACK_URL }} 
       REACT_APP_S3_URL : ${{ secrets.REACT_APP_S3_URL }}
       REACT_APP_CHANNELTALK_PLUGIN_KEY : ${{ secrets.REACT_APP_CHANNELTALK_PLUGIN_KEY }}
+      
     name: cypress
     strategy:
       matrix:
@@ -88,7 +89,8 @@ jobs:
 
     - name: install pm2 globally and run backend
       run: |
-        npm install pm2 -g
+        npm install -g pm2
+        npm install -g serve
         pm2 start npm -- start
         cd ../taxi-front
 
@@ -97,7 +99,8 @@ jobs:
 
     - name: run frontend
       run: |
-        pm2 start npm -- start
+        npm run build 
+        pm2 serve build 3000 --spa 
 
     - name: runs cypress
       uses: cypress-io/github-action@v4
