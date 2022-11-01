@@ -17,18 +17,6 @@ jobs:
         node-version: [16.x]
         mongodb-version: ['5.0']
     steps:
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_S3_BUCKET_NAME: ${{ secrets.AWS_S3_BUCKET_NAME }} 
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        DB_PATH: ${{ secrets.DB_PATH }}
-        FRONT_URL: ${{ secrets.FRONT_URL }}
-        PORT: ${{ secrets.PORT }}
-        SESSION_KEY: ${{ secrets.SESSION_KEY }}
-        REACT_APP_BACK_URL : ${{ secrets.REACT_APP_BACK_URL }} 
-        REACT_APP_S3_URL : ${{ secrets.REACT_APP_S3_URL }}
-        REACT_APP_CHANNELTALK_PLUGIN_KEY : ${{ secrets.REACT_APP_CHANNELTALK_PLUGIN_KEY }}
-  
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/checkout@v3
 
@@ -110,3 +98,15 @@ jobs:
       with:
         name: video logs
         path: cypress/videos
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_S3_BUCKET_NAME: ${{ secrets.AWS_S3_BUCKET_NAME }} 
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        DB_PATH: ${{ secrets.DB_PATH }}
+        FRONT_URL: ${{ secrets.FRONT_URL }}
+        PORT: ${{ secrets.PORT }}
+        SESSION_KEY: ${{ secrets.SESSION_KEY }}
+        REACT_APP_BACK_URL : ${{ secrets.REACT_APP_BACK_URL }} 
+        REACT_APP_S3_URL : ${{ secrets.REACT_APP_S3_URL }}
+        REACT_APP_CHANNELTALK_PLUGIN_KEY : ${{ secrets.REACT_APP_CHANNELTALK_PLUGIN_KEY }}
+  
