@@ -27,7 +27,7 @@ const Chatting = (props) => {
   const [chats, setChats] = useStateWithCallbackLazy([]);
   const [showNewMessage, setShowNewMessage] = useState(false);
   const [messageFormHeight, setMessageFormHeight] =
-    useStateWithCallbackLazy("40px");
+    useStateWithCallbackLazy("48px");
 
   const socket = useRef(undefined);
   const [, setMyRoom] = useRecoilState(myRoomAtom);
@@ -139,7 +139,7 @@ const Chatting = (props) => {
           data.chat.authorId === userInfoDetail.oid || isBottomOnScroll()
             ? () => scrollToBottom(true)
             : () => setShowNewMessage(true);
-
+        console.log(isBottomOnScroll());
         setChats((prevChats) => [...prevChats, data.chat], callback);
       });
 
@@ -259,7 +259,7 @@ const Chatting = (props) => {
         handleScroll={handleScroll}
         isBottomOnScroll={isBottomOnScroll}
         scrollToBottom={() => scrollToBottom(false)}
-        marginBottom={messageFormHeight}
+        paddingBottom={messageFormHeight}
       />
       <MessageForm
         isSideChat={props.isSideChat}

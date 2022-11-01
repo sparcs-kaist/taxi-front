@@ -122,7 +122,7 @@ const FullChatMessageForm = (props) => {
     resizeEvent();
   }, [message]);
   useEffect(() => {
-    props.setContHeight(`calc(12px + ${formHeight})`);
+    props.setContHeight(`calc(16px + ${formHeight})`);
   }, [formHeight]);
 
   return (
