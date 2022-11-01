@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 import { useRecoilValue } from "recoil";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
@@ -28,7 +28,6 @@ const Chatting = (props) => {
   const roomIdCache = useRef();
   const messagesBody = useRef();
   const history = useHistory();
-  const location = useLocation();
 
   const [chats, setChats] = useStateWithCallbackLazy([]);
   const [showNewMessage, setShowNewMessage] = useState(false);
@@ -48,7 +47,7 @@ const Chatting = (props) => {
   const [, roomList] = useTaxiAPI.get("/rooms/v2/searchByUser", {}, [
     headerInfToken,
   ]);
-  if (location.pathname.startsWith("/chatting") && reactiveState !== 3) {
+  if (!props.isSideChat && reactiveState !== 3) {
     history.replace(`/myroom/${props.roomId}`);
   }
 
