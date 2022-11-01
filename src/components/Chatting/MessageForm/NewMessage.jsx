@@ -18,9 +18,10 @@ const NewMessage = (props) => {
     transition: "all 0.3s",
     columnGap: "4px",
     display: "flex",
+    cursor: theme.cursor(),
   };
   return (
-    <div style={style} onClick={props.onClick} className="BTNC">
+    <div style={style} onClick={props.onClick}>
       <ArrowDownwardRoundedIcon
         style={{ fontSize: "11px", marginTop: "1px" }}
       />
