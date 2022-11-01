@@ -21,6 +21,7 @@ jobs:
       REACT_APP_BACK_URL : ${{ secrets.REACT_APP_BACK_URL }} 
       REACT_APP_S3_URL : ${{ secrets.REACT_APP_S3_URL }}
       REACT_APP_CHANNELTALK_PLUGIN_KEY : ${{ secrets.REACT_APP_CHANNELTALK_PLUGIN_KEY }}
+      CI : false
       
     name: cypress
     strategy:
