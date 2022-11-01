@@ -14,41 +14,25 @@ const MessageForm = (props) => {
     <div
       style={{
         width: "100%",
-        height: "76px",
+        height: "fit-content",
         position: props.isSideChat ? "absolute" : "fixed",
         left: "0px",
         bottom: "0px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-end",
+        alignItems: "center",
       }}
     >
-      <div
-        style={{
-          position: "absolute",
-          width: "100%",
-          height: "36px",
-          left: "0px",
-          bottom: contHeight,
-        }}
-      >
-        <NewMessage
-          show={props.showNewMessage}
-          onClick={props.onClickNewMessage}
-        />
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          width: "100%",
-          left: "0px",
-          bottom: "0px",
-          filter: "drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.1))",
-        }}
-      >
-        <FullChatMessageForm
-          handleSendMessage={props.handleSendMessage}
-          handleSendImage={props.handleSendImage}
-          setContHeight={setContHeight}
-        />
-      </div>
+      <NewMessage
+        show={props.showNewMessage}
+        onClick={props.onClickNewMessage}
+      />
+      <FullChatMessageForm
+        handleSendMessage={props.handleSendMessage}
+        handleSendImage={props.handleSendImage}
+        setContHeight={setContHeight}
+      />
     </div>
   );
 };
