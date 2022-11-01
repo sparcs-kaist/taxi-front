@@ -38,6 +38,7 @@ jobs:
         cache: 'npm'   
 
     - name: clone backend
+      uses: actions/checkout@v3
       with:
         repository: sparcs-kaist/taxi-back
         path: './taxi-back'
