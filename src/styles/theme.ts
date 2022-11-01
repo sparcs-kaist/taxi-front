@@ -83,7 +83,7 @@ export const theme = {
   container_max_width: 325,
 
   // Cursor
-  cursor: (disabled: boolean) => {
+  cursor: (disabled?: boolean) => {
     return disabled ? "not-allowed" : "pointer";
   },
 
