@@ -13,6 +13,7 @@ import { theme } from "styles/theme";
 import { useSetRecoilState } from "recoil";
 import alertAtom from "recoil/alert";
 import Menu from "./Menu";
+import TranslationButton from "./TranslationButton";
 
 const Mypage = () => {
   const [profToken, setProfToken] = useState(Date.now().toString());
@@ -105,6 +106,9 @@ const Mypage = () => {
           별명
           <div style={infoContent}>{userInfoDetail?.nickname}</div>
         </div>
+      </WhiteContainer>
+      <WhiteContainer>
+        <TranslationButton />
       </WhiteContainer>
       <WhiteContainer marginAuto={true}>
         <div style={{ display: "grid", rowGap: "16px" }}>

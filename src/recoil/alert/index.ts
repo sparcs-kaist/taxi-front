@@ -1,3 +1,3 @@
-import alertAtom from "./atom.ts";
+import alertAtom from "recoil/alert/atom";
 
 export default alertAtom;
