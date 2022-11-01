@@ -139,7 +139,7 @@ const Chatting = (props) => {
           data.chat.authorId === userInfoDetail.oid || isBottomOnScroll()
             ? () => scrollToBottom(true)
             : () => setShowNewMessage(true);
-        console.log(isBottomOnScroll());
+
         setChats((prevChats) => [...prevChats, data.chat], callback);
       });
 
