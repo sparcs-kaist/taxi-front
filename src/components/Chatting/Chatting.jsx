@@ -259,7 +259,7 @@ const Chatting = (props) => {
         handleScroll={handleScroll}
         isBottomOnScroll={isBottomOnScroll}
         scrollToBottom={() => scrollToBottom(false)}
-        paddingBottom={messageFormHeight}
+        marginBottom={messageFormHeight}
       />
       <MessageForm
         isSideChat={props.isSideChat}
