@@ -17,8 +17,6 @@ import axiosOri from "axios";
 import useTaxiAPI from "hooks/useTaxiAPI";
 import myRoomAtom from "recoil/myRoom";
 
-import "./Style/Chatting.css";
-
 const Chatting = (props) => {
   const sendingMessage = useRef();
   const callingInfScroll = useRef();
@@ -247,33 +245,31 @@ const Chatting = (props) => {
   };
 
   return (
-    <div className="ChatContainer">
-      <div className="ChatRoomContainer">
-        <Header
-          isSideChat={props.isSideChat}
-          info={headerInfo}
-          recallEvent={() => setHeaderInfToken(Date.now().toString())}
-        />
-        <MessagesBody
-          isSideChat={props.isSideChat}
-          chats={chats}
-          user={userInfoDetail}
-          forwardedRef={messagesBody}
-          handleScroll={handleScroll}
-          isBottomOnScroll={isBottomOnScroll}
-          scrollToBottom={() => scrollToBottom(false)}
-          marginBottom={messageFormHeight}
-        />
-        <MessageForm
-          isSideChat={props.isSideChat}
-          handleSendMessage={handleSendMessage}
-          handleSendImage={handleSendImage}
-          showNewMessage={showNewMessage}
-          onClickNewMessage={() => scrollToBottom(true)}
-          setContHeight={handleMessageFormHeight}
-        />
-      </div>
-    </div>
+    <>
+      <Header
+        isSideChat={props.isSideChat}
+        info={headerInfo}
+        recallEvent={() => setHeaderInfToken(Date.now().toString())}
+      />
+      <MessagesBody
+        isSideChat={props.isSideChat}
+        chats={chats}
+        user={userInfoDetail}
+        forwardedRef={messagesBody}
+        handleScroll={handleScroll}
+        isBottomOnScroll={isBottomOnScroll}
+        scrollToBottom={() => scrollToBottom(false)}
+        marginBottom={messageFormHeight}
+      />
+      <MessageForm
+        isSideChat={props.isSideChat}
+        handleSendMessage={handleSendMessage}
+        handleSendImage={handleSendImage}
+        showNewMessage={showNewMessage}
+        onClickNewMessage={() => scrollToBottom(true)}
+        setContHeight={handleMessageFormHeight}
+      />
+    </>
   );
 };
 

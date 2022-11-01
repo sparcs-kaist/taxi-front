@@ -126,7 +126,7 @@ const MessagesBody = (props) => {
   return (
     <div
       style={{
-        marginTop: props.isSideChat ? "64px" : "70px",
+        marginTop: props.isSideChat ? undefined : "70px",
         marginBottom: props.marginBottom,
         width: "100%",
         overflow: "auto",

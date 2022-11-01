@@ -1,15 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Chatting from "components/Chatting/Chatting";
+import { theme } from "styles/theme";
 
 const SideChat = ({ roomId }) => {
   const styleSideChat = {
-    width: "100%",
+    display: "flex",
+    flexDirection: "column",
     height: "100%",
     borderRadius: "12px",
-    backgroundColor: "white",
-    boxShadow:
-      "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
+    overflow: "hidden",
+    boxShadow: theme.shadow,
+    backgroundColor: theme.white,
   };
   return (
     <div style={styleSideChat}>

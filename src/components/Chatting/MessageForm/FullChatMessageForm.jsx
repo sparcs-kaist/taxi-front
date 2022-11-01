@@ -175,7 +175,7 @@ const FullChatMessageForm = (props) => {
             resize: "none",
             outline: "none",
             ...theme.font14,
-            padding: "8px 42px 8px 12px",
+            padding: "8px 46px 8px 12px",
             boxSizing: "border-box",
           }}
         />

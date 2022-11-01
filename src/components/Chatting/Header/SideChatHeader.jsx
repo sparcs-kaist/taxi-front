@@ -1,77 +1,62 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { IoMdArrowBack } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { theme } from "styles/theme";
+
+import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
+import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const SideChatHeader = (props) => {
+  const history = useHistory();
+  const styleBox = {
+    background: theme.purple,
+    boxShadow: theme.shadow_3,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: "12px 20px",
+  };
+  const styleIcon = { color: theme.white, cursor: theme.cursor() };
   return (
-    <div
-      style={{
-        position: "absolute",
-        top: "0px",
-        left: "0px",
-        width: "100%",
-        height: "64px",
-        overflow: "hidden",
-        background: "#6E3678",
-        boxShadow:
-          "0px 3px 4px -2px rgba(110, 54, 120, 0.04), 0px 3px 3px -2px rgba(110, 54, 120, 0.02), 0px 1px 8px -2px rgba(110, 54, 120, 0.1)",
-      }}
-    >
+    <div style={styleBox}>
+      <ArrowBackRoundedIcon
+        style={styleIcon}
+        onClick={() => history.push("/myroom")}
+      />
       <div
         style={{
-          position: "absolute",
-          top: "0px",
-          left: "0px",
-          width: "56px",
-          height: "100%",
-        }}
-      ></div>
-      <div
-        style={{
-          position: "absolute",
-          top: "0px",
-          right: "0px",
-          width: "56px",
-          height: "100%",
-        }}
-      ></div>
-      <div
-        style={{
-          position: "absolute",
-          top: "0px",
-          left: "56px",
-          right: "56px",
-          height: "100%",
-          overflow: "hidden",
+          display: "flex",
+          flexDirection: "column",
+          rowGap: "5px",
+          width: "100%",
+          marginLeft: "16px",
         }}
       >
         <div
           style={{
-            fontSize: "18px",
-            fontWeight: "700",
-            paddingTop: "12px",
-            color: "#FFFFFF",
-            height: "21px",
-            lineHeight: "21px",
+            ...theme.font18,
+            color: theme.white,
             overflow: "hidden",
+            whiteSpace: "nowrap",
+            textOverflow: "ellipsis",
           }}
         >
           {props.info?.name}
         </div>
         <div
           style={{
-            fontSize: "11px",
-            paddingTop: "5px",
-            color: "#FFFFFF",
-            height: "14px",
-            lineHeight: "14px",
+            ...theme.font12,
+            color: theme.white,
             overflow: "hidden",
+            whiteSpace: "nowrap",
+            textOverflow: "ellipsis",
           }}
         >
-          {props?.info?.from?.koName} → {props?.info?.to?.koName}
+          {props?.info?.from?.koName}&nbsp; → &nbsp;{props?.info?.to?.koName}
         </div>
       </div>
+      <MenuRoundedIcon style={styleIcon} onClick={() => {}} />
     </div>
   );
 };
