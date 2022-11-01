@@ -5,24 +5,15 @@ type Direction = "row" | "column";
 
 type LineProps = {
   direction: Direction;
-  margin?: number;
-  marginTop?: number;
-  marginBottom?: number;
+  margin?: Margin;
 };
 
-const DottedLine = ({
-  direction,
-  margin = 0,
-  marginTop = 0,
-  marginBottom = 0,
-}: LineProps) => {
+const DottedLine = ({ direction, margin = "0 0" }: LineProps) => {
   const wrapper = {
     height: direction === "row" ? "1px" : "100%",
-    width: direction === "row" ? `calc(100% - ${2 * margin}px)` : "1px",
-    margin:
-      direction === "row"
-        ? `${marginTop}px ${margin}px ${marginBottom}px`
-        : undefined,
+    width:
+      direction === "row" ? `calc(100% - 2 * ${margin.split(" ")[1]})` : "1px",
+    margin: direction === "row" ? margin : undefined,
   };
   const line = {
     height: direction === "row" ? undefined : "calc(100% + 4px)",
