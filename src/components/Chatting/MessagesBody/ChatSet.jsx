@@ -143,6 +143,14 @@ const ChatSet = (props) => {
     fontSize: "9px",
     color: "#888888",
   };
+
+  const handleOpen = () => {
+    props.setIsOpen(true);
+    props.setPath(props.chats[0].authorProfileUrl);
+    props.setName(props.chats[0].authorName);
+    props.setReportedId(props.chats[0].authorId);
+  };
+
   const onClose = () => {
     setFullImage("");
   };
@@ -157,7 +165,7 @@ const ChatSet = (props) => {
           width: "53px",
         }}
       >
-        <div style={styleProfCont}>
+        <div style={styleProfCont} onClick={handleOpen}>
           <ProfileImg path={props.chats[0].authorProfileUrl} />
         </div>
       </div>
@@ -198,6 +206,10 @@ ChatSet.propTypes = {
   authorId: PropTypes.string,
   isBottomOnScroll: PropTypes.func,
   scrollToBottom: PropTypes.func,
+  setIsOpen: PropTypes.func,
+  setPath: PropTypes.func,
+  setName: PropTypes.func,
+  setReportedId: PropTypes.func,
 };
 
 export default ChatSet;

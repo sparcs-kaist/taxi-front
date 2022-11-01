@@ -177,7 +177,7 @@ class DatePicker extends Component {
       width: "24px",
       height: "24px",
       fill: theme.purple,
-      cursor: theme.cursor(false),
+      cursor: theme.cursor(),
     };
     this.styleArrowGrid = {
       width: "56px",

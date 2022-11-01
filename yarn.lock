@@ -2392,6 +2392,23 @@
   dependencies:
     "@types/react" "*"
 
+<<<<<<< HEAD
+=======
+"@types/react-reconciler@^0.26.7":
+  "integrity" "sha512-mBDYl8x+oyPX/VBb3E638N0B7xG+SPk/EAMcVPeexqus/5aTpTphQi0curhhshOqRrc9t6OPoJfEUkbymse/lQ=="
+  "resolved" "https://registry.npmjs.org/@types/react-reconciler/-/react-reconciler-0.26.7.tgz"
+  "version" "0.26.7"
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-reconciler@^0.28.0":
+  "integrity" "sha512-5cjk9ottZAj7eaTsqzPUIlrVbh3hBAO2YaEL1rkjHKB3xNAId7oU8GhzvAX+gfmlfoxTwJnBjPxEHyxkEA1Ffg=="
+  "resolved" "https://registry.npmjs.org/@types/react-reconciler/-/react-reconciler-0.28.0.tgz"
+  "version" "0.28.0"
+  dependencies:
+    "@types/react" "*"
+
+>>>>>>> 08f64c9add586fcf907250bb9b0c455c66702dfc
 "@types/react-router-dom@^5.3.3":
   "integrity" "sha512-kpqnYK4wcdm5UaWI3fLcELopqLrHgLqNsdpHauzlQktfkHL3npOSwtj1Uz9oKBAzs7lFtVkV8j83voAz2D8fhw=="
   "resolved" "https://registry.npmjs.org/@types/react-router-dom/-/react-router-dom-5.3.3.tgz"
@@ -3573,6 +3590,18 @@
   "resolved" "https://registry.npmjs.org/binary-extensions/-/binary-extensions-2.2.0.tgz"
   "version" "2.2.0"
 
+<<<<<<< HEAD
+=======
+"bl@^4.1.0":
+  "integrity" "sha512-1W07cM9gS6DcLperZfFSj+bWLtaPGSOHWhPiGzXmvVJbRLdG82sH/Kn8EtW1VqWVA54AKf2h5k5BbnIbwF3h6w=="
+  "resolved" "https://registry.npmjs.org/bl/-/bl-4.1.0.tgz"
+  "version" "4.1.0"
+  dependencies:
+    "buffer" "^5.5.0"
+    "inherits" "^2.0.4"
+    "readable-stream" "^3.4.0"
+
+>>>>>>> 08f64c9add586fcf907250bb9b0c455c66702dfc
 "blob-util@^2.0.2":
   "integrity" "sha512-T7JQa+zsXXEa6/8ZhHcQEW1UFfVM49Ts65uBkFL6fz2QmrElqmbajIDJvuA0tEhRe5eIjpV9ZF+0RfZR9voJFQ=="
   "resolved" "https://registry.npmjs.org/blob-util/-/blob-util-2.0.2.tgz"

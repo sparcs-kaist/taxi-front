@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useLocation, Redirect } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import taxiLocationAtom from "recoil/taxiLocation";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
+import myRoomAtom from "recoil/myRoom";
 import PropTypes from "prop-types";
 import axios from "tools/axios";
 
@@ -34,6 +35,7 @@ const Skeleton = (props) => {
   const [taxiLocation, setTaxiLocation] = useRecoilState(taxiLocationAtom);
   const [loginInfoDetail, setLoginInfoDetail] =
     useRecoilState(loginInfoDetailAtom);
+  const setMyRoom = useSetRecoilState(myRoomAtom);
   const location = useLocation();
   const pathname = location.pathname;
   const currentPath = location.pathname + location.search;
@@ -41,15 +43,19 @@ const Skeleton = (props) => {
   const initializeGlobalInfo = useCallback(() => {
     const getLoginInfoDetail = axios.get("/json/logininfo/detail");
     const getLocation = axios.get("/locations");
-
-    Promise.all([getLoginInfoDetail, getLocation]).then(
-      ([{ data: loginInfoDetailData }, { data: locationData }]) => {
+    const getRoomList = axios.get("/rooms/v2/searchByUser");
+    Promise.all([getLoginInfoDetail, getLocation, getRoomList]).then(
+      ([
+        { data: loginInfoDetailData },
+        { data: locationData },
+        { data: roomData },
+      ]) => {
         setTaxiLocation(locationData.locations);
         setLoginInfoDetail(loginInfoDetailData);
+        setMyRoom(roomData);
       }
     );
   }, []);
-
   useEffect(() => {
     if (userId) initializeGlobalInfo();
   }, [userId]);
@@ -59,7 +65,7 @@ const Skeleton = (props) => {
     axios
       .get("/json/logininfo")
       .then(({ data }) => {
-        setUserId(data.id ? data.id : null);
+        setUserId(data?.id ?? null);
       })
       .catch((e) => {
         // FIXME
@@ -68,15 +74,8 @@ const Skeleton = (props) => {
 
   // 로그인 정보 수정될 때 요청
   useEffect(() => {
-    axios
-      .get("/json/logininfo/detail")
-      .then(({ data }) => {
-        setShowAgree(data.agreeOnTermsOfService === false);
-      })
-      .catch((e) => {
-        // FIXME
-      });
-  }, [userId]);
+    setShowAgree(loginInfoDetail?.agreeOnTermsOfService !== true);
+  }, [loginInfoDetail?.agreeOnTermsOfService]);
 
   if (userId === null && pathname !== "/login") {
     return (
@@ -87,7 +86,6 @@ const Skeleton = (props) => {
   if (userId === undefined) {
     return (
       <Container>
-        <Navigation path={pathname} />
         <HeaderBar />
       </Container>
     );
@@ -112,9 +110,12 @@ const Skeleton = (props) => {
       </Container>
     );
   }
+  if (pathname === "/") {
+    return <Redirect to={`/search`} />;
+  }
   return (
     <Container>
-      <Navigation path={pathname} />
+      <Navigation />
       <HeaderBar />
       {props.children}
       <Footer />
