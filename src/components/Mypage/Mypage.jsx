@@ -38,8 +38,6 @@ const Mypage = () => {
   };
   const handleUpdate = () => setProfToken(Date.now().toString());
 
-  console.log(nodeEnv);
-
   const styleProfile = {
     display: "flex",
     alignItems: "center",
@@ -110,9 +108,13 @@ const Mypage = () => {
           <div style={infoContent}>{userInfoDetail?.nickname}</div>
         </div>
       </WhiteContainer>
-      <WhiteContainer>
-        <TranslationButton />
-      </WhiteContainer>
+
+      {nodeEnv === "development" ? (
+        <WhiteContainer>
+          <TranslationButton />
+        </WhiteContainer>
+      ) : null}
+
       <WhiteContainer marginAuto={true}>
         <div style={{ display: "grid", rowGap: "16px" }}>
           <Menu icon="report" onClick={() => setOpenReport(true)}>
