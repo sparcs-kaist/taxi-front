@@ -14,6 +14,7 @@ import { useSetRecoilState } from "recoil";
 import alertAtom from "recoil/alert";
 import Menu from "./Menu";
 import TranslationButton from "./TranslationButton";
+import { nodeEnv } from "serverconf";
 
 const Mypage = () => {
   const [profToken, setProfToken] = useState(Date.now().toString());
@@ -107,9 +108,13 @@ const Mypage = () => {
           <div style={infoContent}>{userInfoDetail?.nickname}</div>
         </div>
       </WhiteContainer>
-      <WhiteContainer>
-        <TranslationButton />
-      </WhiteContainer>
+
+      {nodeEnv === "development" ? (
+        <WhiteContainer>
+          <TranslationButton />
+        </WhiteContainer>
+      ) : null}
+
       <WhiteContainer marginAuto={true}>
         <div style={{ display: "grid", rowGap: "16px" }}>
           <Menu icon="report" onClick={() => setOpenReport(true)}>
