@@ -98,11 +98,11 @@ const PopupMypage = (props) => {
   const setAlert = useSetRecoilState(alertAtom);
 
   useEffect(() => {
-    if (props.userInfoD?.nickname) {
-      setNickName(props.userInfoD?.nickname);
-      setNickNameReal(props.userInfoD?.nickname);
+    if (props.userInfoDetail?.nickname) {
+      setNickName(props.userInfoDetail?.nickname);
+      setNickNameReal(props.userInfoDetail?.nickname);
     }
-  }, [props.userInfoD]);
+  }, [props.userInfoDetail]);
 
   const onClose = () => {
     setNickName(nickNameReal);
@@ -158,9 +158,9 @@ const PopupMypage = (props) => {
       onClickClose={onClose}
       padding="32px 10px 10px"
     >
-      <div style={styleName}>{props.userInfo?.name}</div>
+      <div style={styleName}>{props.userInfoDetail?.name}</div>
       <ProfImg
-        profileImgUrl={props.userInfoD?.profileImgUrl}
+        profileImgUrl={props.userInfoDetail?.profileImgUrl}
         token={props.profToken}
       />
       <BtnProfImg onClose={props.onClose} onUpdate={props.onUpdate} />
@@ -168,11 +168,11 @@ const PopupMypage = (props) => {
       <div style={{ rowGap: "10px", padding: "0px 20px" }}>
         <div style={{ ...styleTitle, marginTop: "24px" }}>
           학번
-          <div style={styleContent}>{props.userInfoD?.subinfo?.kaist}</div>
+          <div style={styleContent}>{props.userInfoDetail?.subinfo?.kaist}</div>
         </div>
         <div style={{ ...styleTitle, marginTop: "16px" }}>
           메일
-          <div style={styleContent}>{props.userInfoD?.email}</div>
+          <div style={styleContent}>{props.userInfoDetail?.email}</div>
         </div>
         <div style={{ ...styleTitle, marginTop: "10px" }}>
           별명
@@ -210,8 +210,7 @@ const PopupMypage = (props) => {
   );
 };
 PopupMypage.propTypes = {
-  userInfo: PropTypes.any,
-  userInfoD: PropTypes.any,
+  userInfoDetail: PropTypes.any,
   profToken: PropTypes.any,
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
