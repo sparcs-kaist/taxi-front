@@ -32,7 +32,7 @@ const Info = (props) => {
 };
 Info.propTypes = {
   title: PropTypes.string,
-  children: PropTypes.string,
+  children: PropTypes.node,
 };
 
 const User = (props) => {
