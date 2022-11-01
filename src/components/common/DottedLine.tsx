@@ -5,7 +5,10 @@ type Direction = "row" | "column";
 
 type LineProps = {
   direction: Direction;
-  margin?: Margin;
+  margin?: Exclude<
+    Margin,
+    `${PixelValue}` | `${PixelValue} ${PixelValue} ${PixelValue} ${PixelValue}`
+  >;
 };
 
 const DottedLine = ({ direction, margin = "0 0" }: LineProps) => {
