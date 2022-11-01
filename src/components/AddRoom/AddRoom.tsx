@@ -17,7 +17,7 @@ import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
 import OptionDate from "components/common/roomOptions/Date";
 import OptionTime from "components/common/roomOptions/Time";
-import OptionMaxPart from "components/common/roomOptions/MaxPart";
+import OptionMaxPeople from "components/common/roomOptions/MaxPeople";
 
 const AddRoom = () => {
   const onCall = useRef(false);
@@ -29,7 +29,7 @@ const AddRoom = () => {
     null,
     null,
   ]);
-  const [valueMaxPart, setMaxPart] = useState(4);
+  const [valueMaxPeople, setMaxPeople] = useState(4);
   const today = getToday();
   const today10 = getToday10();
   const [valueTime, setTime] = useState([today10.hour(), today10.minute()]);
@@ -80,7 +80,7 @@ const AddRoom = () => {
         from: valuePlace[0],
         to: valuePlace[1],
         time: calculatedTime!.toISOString(),
-        maxPartLength: valueMaxPart,
+        maxPartLength: valueMaxPeople,
       });
       if (result.status === 200) {
         try {
@@ -105,7 +105,7 @@ const AddRoom = () => {
         <OptionDate value={valueDate} handler={setDate} />
         <OptionName value={valueName} handler={setName} />
         <OptionTime value={valueTime} handler={setTime} page="add" />
-        <OptionMaxPart value={valueMaxPart} handler={setMaxPart} />
+        <OptionMaxPeople value={valueMaxPeople} handler={setMaxPeople} />
         <Button
           type="purple"
           disabled={validatedMsg ? true : false}
