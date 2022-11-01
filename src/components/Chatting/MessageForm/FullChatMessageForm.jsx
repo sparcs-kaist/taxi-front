@@ -136,7 +136,7 @@ const FullChatMessageForm = (props) => {
         padding: "8px 12px",
         boxSizing: "border-box",
         background: theme.white,
-        boxShadow: theme.shadow_clicked,
+        borderRadius: "0 0 12px 12px",
       }}
     >
       <input

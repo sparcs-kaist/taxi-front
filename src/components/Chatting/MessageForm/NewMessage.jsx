@@ -6,7 +6,7 @@ import ArrowDownwardRoundedIcon from "@mui/icons-material/ArrowDownwardRounded";
 
 const NewMessage = (props) => {
   const style = {
-    marginBottom: props.show ? "12px" : "-25px",
+    marginBottom: props.show ? "12px" : "-26px",
     opacity: props.show ? "1" : "0",
     padding: "6px 10px 5px 8px",
     borderRadius: "13px",

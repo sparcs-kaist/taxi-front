@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import FullChatMessageForm from "./FullChatMessageForm";
 import NewMessage from "./NewMessage";
 import PropTypes from "prop-types";
+import { theme } from "styles/theme";
 
 const MessageForm = (props) => {
-  const [contHeight, setContHeight] = useState("40px");
+  const [contHeight, setContHeight] = useState("48px");
 
   useEffect(() => {
     props.setContHeight(contHeight);
@@ -14,7 +15,7 @@ const MessageForm = (props) => {
     <div
       style={{
         width: "100%",
-        height: "fit-content",
+        height: contHeight,
         position: props.isSideChat ? "absolute" : "fixed",
         left: "0px",
         bottom: "0px",
@@ -22,6 +23,7 @@ const MessageForm = (props) => {
         flexDirection: "column",
         justifyContent: "flex-end",
         alignItems: "center",
+        boxShadow: theme.shadow_clicked,
       }}
     >
       <NewMessage
