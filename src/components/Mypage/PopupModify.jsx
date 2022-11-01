@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import alertAtom from "recoil/alert";
+import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import ProfileImg from "./ProfileImg";
 import axios from "tools/axios";
 import axiosOri from "axios";
@@ -96,6 +97,8 @@ const PopupMypage = (props) => {
   const [nickName, setNickName] = useState("");
   const [nickNameReal, setNickNameReal] = useState("");
   const setAlert = useSetRecoilState(alertAtom);
+  const [loginInfoDetail, setLoginInfoDetail] =
+    useRecoilState(loginInfoDetailAtom);
 
   useEffect(() => {
     if (props.userInfoDetail?.nickname) {
@@ -116,6 +119,7 @@ const PopupMypage = (props) => {
       setAlert("닉네임 변경에 실패하였습니다.");
       return;
     }
+    setLoginInfoDetail({ ...loginInfoDetail, nickname: nickName });
     props.onUpdate();
     props.onClose();
   };
