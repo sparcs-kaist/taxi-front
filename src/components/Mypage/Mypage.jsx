@@ -14,6 +14,7 @@ import { useSetRecoilState } from "recoil";
 import alertAtom from "recoil/alert";
 import Menu from "./Menu";
 import TranslationButton from "./TranslationButton";
+import { nodeEnv } from "serverconf";
 
 const Mypage = () => {
   const [profToken, setProfToken] = useState(Date.now().toString());
@@ -36,6 +37,8 @@ const Mypage = () => {
     }
   };
   const handleUpdate = () => setProfToken(Date.now().toString());
+
+  console.log(nodeEnv);
 
   const styleProfile = {
     display: "flex",
