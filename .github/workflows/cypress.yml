@@ -48,7 +48,7 @@ jobs:
 
     - name: move to backend
       run: |
-        cd ../taxi-back
+        cd ./taxi-back
         ls
 
     - name: Start MongoDB  
