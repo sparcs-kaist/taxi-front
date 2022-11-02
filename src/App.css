@@ -3,6 +3,7 @@
   padding: 0px;
   font-family: "Roboto", "NanumSquare", sans-serif;
   font-weight: 300;
+  -webkit-tap-highlight-color: transparent;
   /* -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; */
 }
