@@ -136,7 +136,7 @@ const Room = (props) => {
           theme={props.theme}
         />
       </div>
-      <DottedLine direction="row" margin={12} />
+      <DottedLine direction="row" margin="0 12px" />
       <div style={stylePlaceGrid}>
         <div style={stylePlace}>
           {getLocationName(props.data?.from, preference.lang)}
