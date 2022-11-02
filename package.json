@@ -30,6 +30,7 @@
     "react": "^17.0.1",
     "react-bootstrap": "^2.0.2",
     "react-dom": "^17.0.1",
+    "react-ga4": "^1.4.1",
     "react-icons": "^4.3.1",
     "react-mobile-picker-mod": "^0.1.18",
     "react-router-dom": "^5.2.0",

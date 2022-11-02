@@ -13,7 +13,7 @@ type CounterProps = {
   setNumber: (number: number) => void;
 };
 
-type MaxPartProps = {
+type MaxPeopleProps = {
   value: number;
   handler: (number: number) => void;
 };
@@ -81,7 +81,7 @@ const Counter = (props: CounterProps) => {
   );
 };
 
-const MaxPart = (props: MaxPartProps) => {
+const MaxPeople = (props: MaxPeopleProps) => {
   const { value, handler } = props;
   const styleText: CSS = {
     ...theme.font14,
@@ -103,4 +103,4 @@ const MaxPart = (props: MaxPartProps) => {
   );
 };
 
-export default MaxPart;
+export default MaxPeople;
