@@ -164,7 +164,7 @@ const PopupMypage = (props) => {
         token={props.profToken}
       />
       <BtnProfImg onClose={props.onClose} onUpdate={props.onUpdate} />
-      <DottedLine direction="row" margin={2} />
+      <DottedLine direction="row" margin="0 2px" />
       <div style={{ rowGap: "10px", padding: "0px 20px" }}>
         <div style={{ ...styleTitle, marginTop: "24px" }}>
           학번

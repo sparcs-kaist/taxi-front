@@ -12020,6 +12020,11 @@
   "resolved" "https://registry.npmjs.org/react-error-overlay/-/react-error-overlay-6.0.9.tgz"
   "version" "6.0.9"
 
+"react-ga4@^1.4.1":
+  "integrity" "sha512-ioBMEIxd4ePw4YtaloTUgqhQGqz5ebDdC4slEpLgy2sLx1LuZBC9iYCwDymTXzcntw6K1dHX183ulP32nNdG7w=="
+  "resolved" "https://registry.npmjs.org/react-ga4/-/react-ga4-1.4.1.tgz"
+  "version" "1.4.1"
+
 "react-icons@^4.3.1":
   "integrity" "sha512-cB10MXLTs3gVuXimblAdI71jrJx8njrJZmNMEMC+sQu5B/BIOmlsAjskdqpn81y8UBVEGuHODd7/ci5DvoSzTQ=="
   "resolved" "https://registry.npmjs.org/react-icons/-/react-icons-4.3.1.tgz"
