@@ -17,4 +17,8 @@ const fromTo = (x) => {
   return RegExp("^[A-Za-z0-9가-힣 -]{1,20}$").test(x);
 };
 
-export default { chatMsg, nickname, name, fromTo };
+const reportMsg = (x) => {
+  return RegExp("^[\\s\\S]{1,500}$").test(x);
+};
+
+export default { chatMsg, nickname, name, fromTo, reportMsg };

@@ -32,7 +32,7 @@ export const theme = {
   font8: { fontSize: 8, letterSpacing: -0.2 },
   font8_medium: { fontSize: 8, letterSpacing: -0.2, fontWeight: 500 },
   font10: { fontSize: 10, fontWeight: 300 },
-  font10_bold: { fontSize: 10, fontWeight: 500 },
+  font10_bold: { fontSize: 10, fontWeight: 700 },
   font12: { fontSize: 12, letterSpacing: 0.4 },
   font14: { fontSize: 14, lineHeight: "16px" },
   font14_bold: { fontSize: 14, fontWeight: 700, lineHeight: "16px" },
@@ -88,7 +88,7 @@ export const theme = {
   container_max_width: 325,
 
   // Cursor
-  cursor: (disabled: boolean) => {
+  cursor: (disabled?: boolean) => {
     return disabled ? "not-allowed" : "pointer";
   },
 
