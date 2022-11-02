@@ -36,6 +36,7 @@ const Chatting = (props) => {
 
   const socket = useRef(undefined);
   const reactiveState = useR2state();
+  const prevReactiveState = useRef(reactiveState);
   const [, setMyRoom] = useRecoilState(myRoomAtom);
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
   const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
@@ -47,9 +48,15 @@ const Chatting = (props) => {
   const [, roomList] = useTaxiAPI.get("/rooms/v2/searchByUser", {}, [
     headerInfToken,
   ]);
-  if (!props.isSideChat && reactiveState !== 3) {
+
+  if (reactiveState !== 3 && prevReactiveState.current === 3) {
     history.replace(`/myroom/${props.roomId}`);
   }
+
+  useEffect(() => {
+    if (reactiveState === 3 && prevReactiveState.current !== 3)
+      prevReactiveState.current = reactiveState;
+  }, [reactiveState]);
 
   // Update the ongoing room list
   useEffect(() => {

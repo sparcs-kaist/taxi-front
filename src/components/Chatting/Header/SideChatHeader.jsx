@@ -1,77 +1,57 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { IoMdArrowBack } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
+import { theme } from "styles/theme";
+
+import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
+import FullscreenRoundedIcon from "@mui/icons-material/FullscreenRounded";
+import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const SideChatHeader = (props) => {
+  const history = useHistory();
+  const { roomId } = useParams();
+
+  const styleBox = {
+    background: theme.purple,
+    boxShadow: theme.shadow_3,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: "12px 20px",
+  };
+  const styleIcon = { color: theme.white, cursor: theme.cursor() };
+  const styleInfoWrap = {
+    display: "flex",
+    flexDirection: "column",
+    rowGap: "5px",
+    width: "100%",
+    marginLeft: "16px",
+    minWidth: "0px",
+  };
+  const styleInfo = {
+    color: theme.white,
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+  };
   return (
-    <div
-      style={{
-        position: "absolute",
-        top: "0px",
-        left: "0px",
-        width: "100%",
-        height: "64px",
-        overflow: "hidden",
-        background: "#6E3678",
-        boxShadow:
-          "0px 3px 4px -2px rgba(110, 54, 120, 0.04), 0px 3px 3px -2px rgba(110, 54, 120, 0.02), 0px 1px 8px -2px rgba(110, 54, 120, 0.1)",
-      }}
-    >
-      <div
-        style={{
-          position: "absolute",
-          top: "0px",
-          left: "0px",
-          width: "56px",
-          height: "100%",
-        }}
-      ></div>
-      <div
-        style={{
-          position: "absolute",
-          top: "0px",
-          right: "0px",
-          width: "56px",
-          height: "100%",
-        }}
-      ></div>
-      <div
-        style={{
-          position: "absolute",
-          top: "0px",
-          left: "56px",
-          right: "56px",
-          height: "100%",
-          overflow: "hidden",
-        }}
-      >
-        <div
-          style={{
-            fontSize: "18px",
-            fontWeight: "700",
-            paddingTop: "12px",
-            color: "#FFFFFF",
-            height: "21px",
-            lineHeight: "21px",
-            overflow: "hidden",
-          }}
-        >
-          {props.info?.name}
-        </div>
-        <div
-          style={{
-            fontSize: "11px",
-            paddingTop: "5px",
-            color: "#FFFFFF",
-            height: "14px",
-            lineHeight: "14px",
-            overflow: "hidden",
-          }}
-        >
-          {props?.info?.from?.koName} → {props?.info?.to?.koName}
+    <div style={styleBox}>
+      <ArrowBackRoundedIcon
+        style={styleIcon}
+        onClick={() => history.push("/myroom")}
+      />
+      <div style={styleInfoWrap}>
+        <div style={{ ...theme.font18, ...styleInfo }}>{props.info?.name}</div>
+        <div style={{ ...theme.font12, ...styleInfo }}>
+          {props?.info?.from?.koName}&nbsp; → &nbsp;{props?.info?.to?.koName}
         </div>
       </div>
+      <FullscreenRoundedIcon
+        style={{ ...styleIcon, marginRight: "12px" }}
+        onClick={() => history.replace(`/chatting/${roomId}`)}
+      />
+      <MenuRoundedIcon style={styleIcon} onClick={() => {}} />
     </div>
   );
 };
