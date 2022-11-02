@@ -16,7 +16,6 @@ const Tag = (props) => {
     ...theme.font10,
     color: theme.gray_text,
     display: "flex",
-    alignItems: "flex-start",
     borderRadius: "4px",
     gap: "3px",
     padding: "4px 6px 3px",
@@ -42,7 +41,7 @@ const Tag = (props) => {
       </>
     );
   } else if (!paid) {
-    isDone = <div style={{ color: theme.purple }}>결재 미완료</div>;
+    isDone = <div style={{ color: theme.purple }}>결제 미완료</div>;
   } else if (props.isSettlementForMe === "paid") {
     isDone = <div>결제 완료</div>;
   } else if (props.isSettlementForMe === "sent") {
@@ -90,7 +89,7 @@ const Room = (props) => {
     boxShadow:
       theme.shadow +
       (props.selected ? `, inset 0 0 0 0.5px ${theme.purple}` : ""),
-    cursor: theme.cursor(false),
+    cursor: theme.cursor(),
     zIndex: 1,
   };
   const styleTop = {
@@ -137,7 +136,7 @@ const Room = (props) => {
           theme={props.theme}
         />
       </div>
-      <DottedLine direction="row" margin={12} />
+      <DottedLine direction="row" margin="0 12px" />
       <div style={stylePlaceGrid}>
         <div style={stylePlace}>
           {getLocationName(props.data?.from, preference.lang)}

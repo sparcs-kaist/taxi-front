@@ -170,7 +170,7 @@ const RoomSelectionModal = (props) => {
         <Title>{roomInfo?.name ?? ""}</Title>
       </div>
       <div style={{ height: "15px" }} />
-      <DottedLine direction="row" margin={12} />
+      <DottedLine direction="row" margin="0 12px" />
       <div style={stylePlace}>
         <PlaceSection
           isFrom={true}
