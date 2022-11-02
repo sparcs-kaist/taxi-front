@@ -36,6 +36,8 @@ ProfImg.propTypes = {
 const BtnProfImg = (props) => {
   const inputImage = useRef(null);
   const setAlert = useSetRecoilState(alertAtom);
+  const [loginInfoDetail, setLoginInfoDetail] =
+    useRecoilState(loginInfoDetailAtom);
 
   const handleUploadProfileImage = async () => {
     try {
@@ -55,6 +57,10 @@ const BtnProfImg = (props) => {
           const res2 = await axios.get("/users/editProfileImg/done");
           if (res2.data.result) {
             setAlert("프로필 사진이 변경되었습니다.");
+            setLoginInfoDetail({
+              ...loginInfoDetail,
+              profileImageUrl: res2.data.profileImageUrl,
+            });
             props.onUpdate();
             return;
           }
