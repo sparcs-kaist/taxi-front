@@ -17,7 +17,6 @@ import DottedLine from "components/common/DottedLine";
 import Tooltip from "@mui/material/Tooltip";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
-import CircleIcon from "@mui/icons-material/Circle";
 
 const PlaceSection = (props) => {
   const style = {
@@ -28,14 +27,20 @@ const PlaceSection = (props) => {
     margin: "16px 12px 10.5px",
     flex: "1 1 0",
   };
-  const styleIcon = {
-    fontSize: "5px",
-    fill: theme.gray_text,
+  const styleIcon = (isFrom) => {
+    return {
+      width: "4px",
+      height: "4px",
+      borderRadius: "50%",
+      backgroundColor: isFrom ? undefined : theme.gray_text,
+      border: isFrom ? `1px solid ${theme.gray_text}` : undefined,
+      boxSizing: "border-box",
+    };
   };
   const stylePlaceType = {
     ...theme.font12,
     color: theme.gray_text,
-    margin: "4px 0 1.5px",
+    margin: "5px 0 1.5px",
   };
   const stylePlaceNameWrapper = {
     display: "flex",
@@ -53,7 +58,7 @@ const PlaceSection = (props) => {
 
   return (
     <div style={style}>
-      <CircleIcon style={styleIcon} />
+      <div style={styleIcon(props.isFrom)} />
       <p style={stylePlaceType}>{props.isFrom ? "출발지" : "도착지"}</p>
       <div style={stylePlaceNameWrapper}>
         <p style={stylePlaceName}>{props.name}</p>
