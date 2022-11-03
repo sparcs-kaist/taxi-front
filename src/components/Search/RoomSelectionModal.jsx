@@ -58,22 +58,21 @@ PlaceSection.propTypes = {
 
 const InfoSection = (props) => {
   const style = {
-    margin: "12px 0",
     display: "flex",
     flexDirection: "column",
     alignItems: props.isAlignLeft ? "flex-start" : "flex-end",
+    rowGap: "5px",
     maxWidth: "fit-content",
     flex: props.isBold || props.isColored ? "1 0" : "1 1",
   };
   const styleTitle = {
-    fontSize: "12px",
-    color: "#888888",
-    marginBottom: "8px",
+    ...theme.font12,
+    color: theme.gray_text,
   };
   const styleText = {
-    fontSize: "15px",
-    color: props.isColored ? "#6E3678" : "#323232",
-    fontWeight: props.isBold || props.isColored ? 700 : 400,
+    ...theme.font14,
+    color: props.isColored ? theme.purple : undefined,
+    fontWeight: props.isBold || props.isColored ? 700 : undefined,
   };
 
   return (
@@ -128,11 +127,14 @@ const RoomSelectionModal = (props) => {
     color: theme.gray_text,
   };
   const styleInfoSectionWrapper = {
-    padding: "8px 20px",
+    padding: "16px 14px",
+    display: "grid",
+    rowGap: "16px",
   };
   const styleMultipleInfo = {
     display: "flex",
     justifyContent: "space-between",
+    columnGap: "12px",
   };
 
   const requestJoin = async () => {
@@ -175,7 +177,7 @@ const RoomSelectionModal = (props) => {
         />
         <div style={styleMultipleInfo}>
           <InfoSection
-            title="동승자"
+            title="탑승자"
             text={
               roomInfo?.part
                 .reduce((acc, user) => {
