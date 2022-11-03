@@ -98,7 +98,7 @@ BtnProfImg.propTypes = {
   onClose: PropTypes.func,
 };
 
-const PopupMypage = (props) => {
+const PopupModify = (props) => {
   const regexNickname = new RegExp("^[A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ0-9-_ ]{3,25}$");
   const [nickName, setNickName] = useState("");
   const [nickNameReal, setNickNameReal] = useState("");
@@ -107,6 +107,7 @@ const PopupMypage = (props) => {
     useRecoilState(loginInfoDetailAtom);
 
   useEffect(() => {
+    console.log(loginInfoDetail?.nickname);
     if (loginInfoDetail?.nickname) {
       setNickName(loginInfoDetail?.nickname);
       setNickNameReal(loginInfoDetail?.nickname);
@@ -219,11 +220,11 @@ const PopupMypage = (props) => {
     </Modal>
   );
 };
-PopupMypage.propTypes = {
+PopupModify.propTypes = {
   profToken: PropTypes.any,
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
   onUpdate: PropTypes.func,
 };
 
-export default PopupMypage;
+export default PopupModify;
