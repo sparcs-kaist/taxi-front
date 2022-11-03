@@ -4,14 +4,14 @@ import { theme } from "styles/theme";
 type Direction = "row" | "column";
 
 type LineProps = {
-  direction: Direction;
+  direction?: Direction;
   margin?: Exclude<
     Margin,
     `${PixelValue}` | `${PixelValue} ${PixelValue} ${PixelValue} ${PixelValue}`
   >;
 };
 
-const DottedLine = ({ direction, margin = "0 0" }: LineProps) => {
+const DottedLine = ({ direction = "row", margin = "0 0" }: LineProps) => {
   const wrapper = {
     height: direction === "row" ? "1px" : "100%",
     width:
