@@ -129,7 +129,6 @@ const Mypage = () => {
         isOpen={isOpenModify}
         onClose={() => setOpenModify(false)}
         onUpdate={() => handleUpdate()}
-        userInfoDetail={userInfoDetail}
         profToken={profToken}
       />
       <PopupPolicy isOpen={isOpenPolicy} onClose={() => setOpenPolicy(false)} />
