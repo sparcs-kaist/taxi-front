@@ -25,7 +25,7 @@ const PlaceSection = (props) => {
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    margin: "16px 12px 20px",
+    margin: "16px 12px 10.5px",
     flex: "1 1 0",
   };
   const styleIcon = {
@@ -35,19 +35,29 @@ const PlaceSection = (props) => {
   const stylePlaceType = {
     ...theme.font12,
     color: theme.gray_text,
-    margin: "4px 0 11px",
+    margin: "4px 0 1.5px",
+  };
+  const stylePlaceNameWrapper = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "38px",
+    width: "100%",
   };
   const stylePlaceName = {
     ...theme.font16_bold,
     color: theme.purple,
     textAlign: "center",
+    wordBreak: "keep-all",
   };
 
   return (
     <div style={style}>
       <CircleIcon style={styleIcon} />
       <p style={stylePlaceType}>{props.isFrom ? "출발지" : "도착지"}</p>
-      <p style={stylePlaceName}>{props.name}</p>
+      <div style={stylePlaceNameWrapper}>
+        <p style={stylePlaceName}>{props.name}</p>
+      </div>
     </div>
   );
 };
