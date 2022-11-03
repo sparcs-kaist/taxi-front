@@ -11,7 +11,6 @@ import axios from "tools/axios";
 import { theme } from "styles/theme";
 import { MAX_PARTICIPATION } from "components/Myroom/Myroom";
 
-import Title from "components/common/Title";
 import Modal from "components/common/modal/Modal";
 import Button from "components/common/Button";
 import DottedLine from "components/common/DottedLine";
@@ -22,31 +21,26 @@ import CircleIcon from "@mui/icons-material/Circle";
 
 const PlaceSection = (props) => {
   const style = {
-    width: "150px",
-    height: "100%",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    margin: "10px 0",
+    margin: "16px 12px 20px",
+    flex: "1 1 0",
   };
   const styleIcon = {
     fontSize: "5px",
-    opacity: "0.5",
+    fill: theme.gray_text,
   };
   const stylePlaceType = {
-    fontSize: "12px",
-    color: "#888888",
-    margin: "5px 0",
+    ...theme.font12,
+    color: theme.gray_text,
+    margin: "4px 0 11px",
   };
   const stylePlaceName = {
-    height: "16px",
-    lineHeight: "16px",
+    ...theme.font16_bold,
+    color: theme.purple,
     textAlign: "center",
-    fontSize: "16px",
-    fontWeight: 700,
-    color: "#6E3678",
-    margin: "11px 0",
   };
 
   return (
@@ -119,10 +113,9 @@ const RoomSelectionModal = (props) => {
     if (props.isOpen) setRoomInfo(props.roomInfo);
   }, [props.isOpen]);
 
-  const styleTitleWrapper = {
-    padding: "0 20px 0 10px",
-    maxWidth: "100%",
-    overflowWrap: "anywhere",
+  const styleTitle = {
+    ...theme.font18,
+    padding: "10px 26px 18px 14px",
   };
   const stylePlace = {
     width: "100%",
@@ -131,9 +124,8 @@ const RoomSelectionModal = (props) => {
     alignItems: "center",
   };
   const styleArrow = {
-    height: "15px",
-    width: "15px",
-    color: "#888888",
+    fontSize: "24px",
+    color: theme.gray_text,
   };
   const styleInfoSectionWrapper = {
     padding: "8px 20px",
@@ -160,17 +152,9 @@ const RoomSelectionModal = (props) => {
   };
 
   return (
-    <Modal
-      display={props.isOpen}
-      onClickClose={props.onClose}
-      padding="0 12px 12px"
-    >
-      <div style={{ height: "25px" }} />
-      <div style={styleTitleWrapper}>
-        <Title>{roomInfo?.name ?? ""}</Title>
-      </div>
-      <div style={{ height: "15px" }} />
-      <DottedLine direction="row" margin="0 12px" />
+    <Modal display={props.isOpen} onClickClose={props.onClose} padding="10px">
+      <div style={styleTitle}>{roomInfo?.name ?? ""}</div>
+      <DottedLine margin="0 2px" />
       <div style={stylePlace}>
         <PlaceSection
           isFrom={true}
@@ -182,6 +166,7 @@ const RoomSelectionModal = (props) => {
           name={getLocationName(roomInfo?.to, preference.lang)}
         />
       </div>
+      <DottedLine margin="0 2px" />
       <div style={styleInfoSectionWrapper}>
         <InfoSection
           title="출발 시각 & 날짜"
