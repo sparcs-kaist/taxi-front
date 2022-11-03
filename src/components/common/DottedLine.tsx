@@ -15,7 +15,9 @@ const DottedLine = ({ direction, margin = "0 0" }: LineProps) => {
   const wrapper = {
     height: direction === "row" ? "1px" : "100%",
     width:
-      direction === "row" ? `calc(100% - 2 * ${margin.split(" ")[1]})` : "1px",
+      direction === "row"
+        ? `calc(100% - 2 * ${margin.toString().split(" ")[1]})`
+        : "1px",
     margin: direction === "row" ? margin : undefined,
   };
   const line = {
