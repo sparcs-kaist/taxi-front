@@ -15,6 +15,7 @@ import Modal from "components/common/modal/Modal";
 import Button from "components/common/Button";
 import DottedLine from "components/common/DottedLine";
 import Tooltip from "@mui/material/Tooltip";
+import Circle from "components/common/Circle";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 
@@ -26,16 +27,6 @@ const PlaceSection = (props) => {
     alignItems: "center",
     margin: "16px 12px 10.5px",
     flex: "1 1 0",
-  };
-  const styleIcon = (isFrom) => {
-    return {
-      width: "4px",
-      height: "4px",
-      borderRadius: "50%",
-      backgroundColor: isFrom ? undefined : theme.gray_text,
-      border: isFrom ? `1px solid ${theme.gray_text}` : undefined,
-      boxSizing: "border-box",
-    };
   };
   const stylePlaceType = {
     ...theme.font12,
@@ -58,7 +49,7 @@ const PlaceSection = (props) => {
 
   return (
     <div style={style}>
-      <div style={styleIcon(props.isFrom)} />
+      <Circle isFrom={props.isFrom} />
       <p style={stylePlaceType}>{props.isFrom ? "출발지" : "도착지"}</p>
       <div style={stylePlaceNameWrapper}>
         <p style={stylePlaceName}>{props.name}</p>
@@ -87,7 +78,7 @@ const InfoSection = (props) => {
   const styleText = {
     ...theme.font14,
     color: props.isColored ? theme.purple : undefined,
-    fontWeight: props.isBold || props.isColored ? 700 : undefined,
+    fontWeight: props.isBold || props.isColored ? 500 : undefined,
   };
 
   return (
