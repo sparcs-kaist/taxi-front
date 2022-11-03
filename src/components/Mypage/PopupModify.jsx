@@ -107,7 +107,6 @@ const PopupModify = (props) => {
     useRecoilState(loginInfoDetailAtom);
 
   useEffect(() => {
-    console.log(loginInfoDetail?.nickname);
     if (loginInfoDetail?.nickname) {
       setNickName(loginInfoDetail?.nickname);
       setNickNameReal(loginInfoDetail?.nickname);
