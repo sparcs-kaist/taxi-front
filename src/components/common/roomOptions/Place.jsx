@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { taxiLocataionWithName } from "recoil/taxiLocation";
 import preferenceAtom from "recoil/preference";
@@ -8,6 +8,7 @@ import Popup from "./Popup";
 import Picker from "react-mobile-picker-mod";
 import { theme } from "styles/theme";
 import DottedLine from "components/common/DottedLine";
+import Circle from "components/common/Circle";
 
 const PopupInput = (props) => {
   const [value, setValue] = useState({
@@ -63,26 +64,13 @@ const PlaceElement = (props) => {
     borderRadius: "6px",
     transitionDuration: theme.duration,
     overflow: "hidden",
-  };
-  const styleCircle = {
-    margin: "18px auto 0",
-    width: "3px",
-    height: "3px",
-    borderRadius: "1.5px",
-    background:
-      props.type === "출발지"
-        ? theme.white
-        : props.value
-        ? theme.gray_text
-        : theme.black,
-    boxSizing: "border-box",
-    border:
-      props.type === "출발지"
-        ? `0.5px solid ${props.value ? theme.gray_text : theme.black}`
-        : undefined,
+    padding: "18px 0 16px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   };
   const styleType = {
-    marginTop: "5px",
+    margin: "5px 0 5px",
     textAlign: "center",
     color: props.value ? theme.gray_text : theme.black,
     ...theme.font12,
@@ -91,13 +79,15 @@ const PlaceElement = (props) => {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    height: 49,
+    height: "39px",
   };
   const styleText = {
     ...theme.font16_bold,
     textAlign: "center",
     color: props.value ? theme.black : theme.gray_line,
     wordBreak: "keep-all",
+    maxHeight: "100%",
+    overflow: "hidden",
   };
   return (
     <div
@@ -107,7 +97,7 @@ const PlaceElement = (props) => {
       onMouseLeave={() => setHover(false)}
       onClick={props.onClick}
     >
-      <div style={styleCircle} />
+      <Circle isFrom={props.type === "출발지"} isRequired={!props.value} />
       <div style={styleType}>{props.type}</div>
       <div style={styleTextGrid}>
         <div style={styleText}>
@@ -137,14 +127,7 @@ const Place = (props) => {
 
   return (
     <WhiteContainer padding="10px">
-      <div
-        style={{
-          height: "100px",
-          display: "flex",
-          position: "relative",
-          justifyContent: "space-between",
-        }}
-      >
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
         <PlaceElement
           value={getPlaceName(props.value[0])}
           onClick={() => setPopup1(true)}

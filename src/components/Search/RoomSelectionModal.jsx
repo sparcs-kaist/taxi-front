@@ -25,19 +25,19 @@ const PlaceSection = (props) => {
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    margin: "16px 12px 10.5px",
+    margin: "16px 12px 10px",
     flex: "1 1 0",
   };
   const stylePlaceType = {
     ...theme.font12,
     color: theme.gray_text,
-    margin: "5px 0 1.5px",
+    margin: "5px 0 1px",
   };
   const stylePlaceNameWrapper = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    height: "38px",
+    height: "39px",
     width: "100%",
   };
   const stylePlaceName = {
