@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
+import { useTranslation } from "lang/i18n";
 import Title from "components/common/Title";
 import WhiteContainer from "components/common/WhiteContainer";
 import PopupModify from "./PopupModify";
@@ -17,6 +18,7 @@ import TranslationButton from "./TranslationButton";
 import { nodeEnv } from "serverconf";
 
 const Mypage = () => {
+  const { i18n } = useTranslation();
   const [profToken, setProfToken] = useState(Date.now().toString());
   const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const [isOpenModify, setOpenModify] = useState(false);
@@ -25,6 +27,7 @@ const Mypage = () => {
   const [isOpenMembers, setOpenMembers] = useState(false);
   const history = useHistory();
   const setAlert = useSetRecoilState(alertAtom);
+
   const handleLogout = async () => {
     const response = await axios.get("/auth/logout");
     if (response.status === 200) {
@@ -34,6 +37,9 @@ const Mypage = () => {
     }
   };
   const handleUpdate = () => setProfToken(Date.now().toString());
+  const handleTranslation = () => {
+    i18n.changeLanguage("en");
+  }
 
   const styleProfile = {
     display: "flex",
@@ -101,14 +107,17 @@ const Mypage = () => {
           <div style={infoContent}>{userInfoDetail?.email}</div>
         </div>
         <div style={infoType} className="selectable">
-          별명1
+          별명
           <div style={infoContent}>{userInfoDetail?.nickname}</div>
         </div>
       </WhiteContainer>
 
+      { /* 개발 중인 기능, dev 에서만 언어 전환을 사용할 수 있습니다 */ }
       {nodeEnv === "development" ? (
-        <WhiteContainer>
-          <TranslationButton />
+        <WhiteContainer marginAuto={true}>
+          <Menu icon="fixme" onClick={handleTranslation}>
+            English ↔ 한국어
+          </Menu>
         </WhiteContainer>
       ) : null}
 
