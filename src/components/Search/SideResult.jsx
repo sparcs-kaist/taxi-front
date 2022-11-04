@@ -8,7 +8,7 @@ import Pagination, {
 import RoomSelectionModal from "./RoomSelectionModal";
 import PropTypes from "prop-types";
 import usePageFromSearchParams from "hooks/usePageFromSearchParams";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import Empty from "components/common/Empty";
 import DottedLine from "components/common/DottedLine";
 import CheckIcon from "@mui/icons-material/Check";

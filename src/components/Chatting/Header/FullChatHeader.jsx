@@ -3,7 +3,7 @@ import { useSpring, animated } from "react-spring";
 import { useHistory } from "react-router";
 import HeaderBody from "./HeaderBody";
 import PropTypes from "prop-types";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import DottedLine from "components/common/DottedLine";
 
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";

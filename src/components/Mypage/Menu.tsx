@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 
 import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
 import HelpOutlineRoundedIcon from "@material-ui/icons/HelpOutlineRounded";

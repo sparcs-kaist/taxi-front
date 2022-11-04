@@ -6,7 +6,7 @@ import RLayout from "components/common/RLayout";
 import Pagination, {
   PAGE_MAX_ITEMS,
 } from "components/common/pagination/Pagination";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import Empty from "components/common/Empty";
 
 /**

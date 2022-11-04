@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { theme, Font } from "styles/theme";
+import theme, { Font } from "styles/theme";
 import isMobile from "tools/isMobile";
 
 type ButtonType = "purple" | "purple_inset" | "gray" | "white";

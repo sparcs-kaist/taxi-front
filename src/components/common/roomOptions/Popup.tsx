@@ -1,6 +1,6 @@
 import React from "react";
 import RLayout from "components/common/RLayout";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import useDisableScroll from "hooks/useDisableScroll";
 import Button from "components/common/Button";
 

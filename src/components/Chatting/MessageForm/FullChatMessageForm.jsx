@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useSpring, animated } from "react-spring";
 import regExpTest from "tools/regExpTest";
 import PropTypes from "prop-types";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 
 import { IoMdSend } from "react-icons/io";
 import { BsImageFill } from "react-icons/bs";

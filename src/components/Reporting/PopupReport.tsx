@@ -4,7 +4,7 @@ import ProfileImg from "components/Mypage/ProfileImg";
 import { FaPen } from "react-icons/fa";
 import Modal from "components/common/modal/Modal";
 import axios from "tools/axios";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import { useSetRecoilState } from "recoil";
 import alertAtom from "recoil/alert";
 import regExpTest from "tools/regExpTest";

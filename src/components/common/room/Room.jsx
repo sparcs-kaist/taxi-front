@@ -6,7 +6,7 @@ import { getLocationName } from "tools/trans";
 import { date2str } from "tools/moment";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import DottedLine from "components/common/DottedLine";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import "./Room.css";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
