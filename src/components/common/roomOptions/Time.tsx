@@ -24,21 +24,13 @@ interface TimeProps extends TimeCommonProps {
 }
 
 const optionsHour = Array.from(Array(24).keys()).map((num) => get2digit(num));
-const optionsMin = ["00", "10", "20", "30", "40", "50"];
+const optionsMin = Array.from(Array(6).keys()).map((num) =>
+  get2digit(num * 10)
+);
 
 const PopupInput = (props: PopupInputProps) => {
   const [hour, setHour] = useState({ hour: optionsHour[0] });
   const [min, setMin] = useState({ min: optionsMin[0] });
-  const optionHourGroup = {
-    hour: optionsHour.map((x) => {
-      return x;
-    }),
-  };
-  const optionMinGroup = {
-    min: optionsMin.map((x) => {
-      return x;
-    }),
-  };
 
   const resetValue = () => {
     setHour({ hour: get2digit(props.value[0]) });
@@ -80,7 +72,7 @@ const PopupInput = (props: PopupInputProps) => {
         <div style={{ marginLeft: "6px" }}>시간 :</div>
         <div style={stylePicker}>
           <Picker
-            optionGroups={optionHourGroup}
+            optionGroups={{ hour: optionsHour }}
             valueGroups={hour}
             onChange={handler}
             itemHeight={29}
@@ -90,7 +82,7 @@ const PopupInput = (props: PopupInputProps) => {
         <div style={styleText}>시</div>
         <div style={stylePicker}>
           <Picker
-            optionGroups={optionMinGroup}
+            optionGroups={{ min: optionsMin }}
             valueGroups={min}
             onChange={handler}
             itemHeight={29}

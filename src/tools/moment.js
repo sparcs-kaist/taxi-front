@@ -17,7 +17,7 @@ const get2digit = (num) => {
   if (num < 10) {
     return `0${num}`;
   }
-  return num;
+  return `${num}`;
 };
 
 const date2str = (date, format = "LLLL") => moment(date).format(format);
