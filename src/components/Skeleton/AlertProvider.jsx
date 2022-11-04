@@ -36,7 +36,7 @@ const AlertProvider = () => {
         <WbIncandescentRoundedIcon style={{ fontSize: "16px" }} />
         알림
       </div>
-      <DottedLine direction="row" margin={2} />
+      <DottedLine direction="row" margin="0 2px" />
       <div
         style={{
           ...theme.font14,

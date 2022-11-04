@@ -174,7 +174,7 @@ const Header = (props) => {
           <BtnBack info={props.info} />
           <BtnMenu token={isOpen} onClick={() => setOpen(!isOpen)} />
         </div>
-        <DottedLine direction="row" margin={12} />
+        <DottedLine direction="row" margin="0 12px" />
         <div ref={bodyRef}>
           <div
             style={{

@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import alertAtom from "recoil/alert";
+import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import ProfileImg from "./ProfileImg";
 import axios from "tools/axios";
 import axiosOri from "axios";
@@ -35,6 +36,8 @@ ProfImg.propTypes = {
 const BtnProfImg = (props) => {
   const inputImage = useRef(null);
   const setAlert = useSetRecoilState(alertAtom);
+  const [loginInfoDetail, setLoginInfoDetail] =
+    useRecoilState(loginInfoDetailAtom);
 
   const handleUploadProfileImage = async () => {
     try {
@@ -54,6 +57,10 @@ const BtnProfImg = (props) => {
           const res2 = await axios.get("/users/editProfileImg/done");
           if (res2.data.result) {
             setAlert("프로필 사진이 변경되었습니다.");
+            setLoginInfoDetail({
+              ...loginInfoDetail,
+              profileImageUrl: res2.data.profileImageUrl,
+            });
             props.onUpdate();
             return;
           }
@@ -91,18 +98,20 @@ BtnProfImg.propTypes = {
   onClose: PropTypes.func,
 };
 
-const PopupMypage = (props) => {
+const PopupModify = (props) => {
   const regexNickname = new RegExp("^[A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ0-9-_ ]{3,25}$");
   const [nickName, setNickName] = useState("");
   const [nickNameReal, setNickNameReal] = useState("");
   const setAlert = useSetRecoilState(alertAtom);
+  const [loginInfoDetail, setLoginInfoDetail] =
+    useRecoilState(loginInfoDetailAtom);
 
   useEffect(() => {
-    if (props.userInfoD?.nickname) {
-      setNickName(props.userInfoD?.nickname);
-      setNickNameReal(props.userInfoD?.nickname);
+    if (loginInfoDetail?.nickname) {
+      setNickName(loginInfoDetail?.nickname);
+      setNickNameReal(loginInfoDetail?.nickname);
     }
-  }, [props.userInfoD]);
+  }, [loginInfoDetail]);
 
   const onClose = () => {
     setNickName(nickNameReal);
@@ -116,6 +125,7 @@ const PopupMypage = (props) => {
       setAlert("닉네임 변경에 실패하였습니다.");
       return;
     }
+    setLoginInfoDetail({ ...loginInfoDetail, nickname: nickName });
     props.onUpdate();
     props.onClose();
   };
@@ -158,21 +168,21 @@ const PopupMypage = (props) => {
       onClickClose={onClose}
       padding="32px 10px 10px"
     >
-      <div style={styleName}>{props.userInfo?.name}</div>
+      <div style={styleName}>{loginInfoDetail?.name}</div>
       <ProfImg
-        profileImgUrl={props.userInfoD?.profileImgUrl}
+        profileImgUrl={loginInfoDetail?.profileImgUrl}
         token={props.profToken}
       />
       <BtnProfImg onClose={props.onClose} onUpdate={props.onUpdate} />
-      <DottedLine direction="row" margin={2} />
+      <DottedLine direction="row" margin="0 2px" />
       <div style={{ rowGap: "10px", padding: "0px 20px" }}>
         <div style={{ ...styleTitle, marginTop: "24px" }}>
           학번
-          <div style={styleContent}>{props.userInfoD?.subinfo?.kaist}</div>
+          <div style={styleContent}>{loginInfoDetail?.subinfo?.kaist}</div>
         </div>
         <div style={{ ...styleTitle, marginTop: "16px" }}>
           메일
-          <div style={styleContent}>{props.userInfoD?.email}</div>
+          <div style={styleContent}>{loginInfoDetail?.email}</div>
         </div>
         <div style={{ ...styleTitle, marginTop: "10px" }}>
           별명
@@ -209,13 +219,11 @@ const PopupMypage = (props) => {
     </Modal>
   );
 };
-PopupMypage.propTypes = {
-  userInfo: PropTypes.any,
-  userInfoD: PropTypes.any,
+PopupModify.propTypes = {
   profToken: PropTypes.any,
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
   onUpdate: PropTypes.func,
 };
 
-export default PopupMypage;
+export default PopupModify;

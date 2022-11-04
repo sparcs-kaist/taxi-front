@@ -59,7 +59,7 @@ const ReportList = (props: ReportListProps) => {
                 {getTypeText(report.type)}
               </div>
             </div>
-            <DottedLine direction="row" marginTop={2} marginBottom={2} />
+            <DottedLine direction="row" margin="2px 0" />
             {props.option === "Reporting" && (
               <div style={styleRow}>
                 <div style={styleProperty}>별명</div>

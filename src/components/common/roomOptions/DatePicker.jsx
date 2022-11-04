@@ -3,6 +3,7 @@ import { getToday10 } from "tools/moment";
 import PropTypes from "prop-types";
 import { theme } from "styles/theme";
 import DottedLine from "components/common/DottedLine";
+import MiniCircle from "components/common/MiniCircle";
 
 import TodayRoundedIcon from "@material-ui/icons/TodayRounded";
 import KeyboardArrowLeftRoundedIcon from "@material-ui/icons/KeyboardArrowLeftRounded";
@@ -101,18 +102,18 @@ const Date = (props) => {
       : theme.gray_line,
   };
   const styleToday = {
-    width: "3px",
-    height: "3px",
-    borderRadius: "50%",
+    // width: "3px",
+    // height: "3px",
+    // borderRadius: "50%",
     position: "absolute",
     top: "calc(50% + 8.5px)",
-    left: "calc(50% - 1.5px)",
-    background:
-      props.available === "today"
-        ? props.selected
-          ? theme.white
-          : theme.purple_disabled
-        : undefined,
+    left: "calc(50% - 2px)",
+    // background:
+    //   props.available === "today"
+    //     ? props.selected
+    //       ? theme.white
+    //       : theme.purple_disabled
+    //     : undefined,
   };
 
   const onClick = () => {
@@ -129,7 +130,11 @@ const Date = (props) => {
         onClick={onClick}
       >
         <div style={styleDate}>{props.date}</div>
-        <div style={styleToday} />
+        {props.available === "today" && (
+          <div style={styleToday}>
+            <MiniCircle type="date" isSelected={props.selected} />
+          </div>
+        )}
       </div>
     </div>
   );
