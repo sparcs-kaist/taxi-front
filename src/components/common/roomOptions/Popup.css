@@ -1,5 +1,9 @@
 .picker-item {
   font-size: 14px;
+  line-height: unset !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .picker-container .picker-highlight:before,
