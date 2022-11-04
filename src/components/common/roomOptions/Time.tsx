@@ -3,7 +3,7 @@ import WhiteContainer from "components/common/WhiteContainer";
 import Popup from "./Popup";
 import Picker from "react-mobile-picker-mod";
 import { theme } from "styles/theme";
-import { get2digit } from "tools/moment";
+import { time2str } from "tools/moment";
 
 import ScheduleRoundedIcon from "@material-ui/icons/ScheduleRounded";
 
@@ -23,18 +23,16 @@ interface TimeProps extends TimeCommonProps {
   page: Page;
 }
 
-const optionsHour = Array.from(Array(24).keys()).map((num) => get2digit(num));
-const optionsMin = Array.from(Array(6).keys()).map((num) =>
-  get2digit(num * 10)
-);
+const optionsHour = Array.from(Array(24).keys()).map((num) => time2str(num));
+const optionsMin = Array.from(Array(6).keys()).map((num) => time2str(num * 10));
 
 const PopupInput = (props: PopupInputProps) => {
   const [hour, setHour] = useState(optionsHour[0]);
   const [min, setMin] = useState(optionsMin[0]);
 
   const resetValue = () => {
-    setHour(get2digit(props.value[0]));
-    setMin(get2digit(props.value[1]));
+    setHour(time2str(props.value[0]));
+    setMin(time2str(props.value[1]));
   };
   useEffect(() => {
     resetValue();
@@ -127,11 +125,11 @@ const Time = (props: TimeProps) => {
         <ScheduleRoundedIcon style={styleIcon} />
         <div style={styleText}>시간 :</div>
         <div style={styleInput} onClick={() => setPopup(true)}>
-          {get2digit(props.value[0])}
+          {time2str(props.value[0])}
         </div>
         <div style={styleText}>시</div>
         <div style={styleInput} onClick={() => setPopup(true)}>
-          {get2digit(props.value[1])}
+          {time2str(props.value[1])}
         </div>
         <div style={styleText}>
           분 {props.page === "search" ? "이후" : "출발"}
