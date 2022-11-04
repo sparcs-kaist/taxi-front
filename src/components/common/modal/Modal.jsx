@@ -38,6 +38,11 @@ const Modal = (props) => {
             background: theme.white,
             borderRadius: "15px",
             padding: props.padding,
+            minHeight: "148px",
+            maxHeight: "720px",
+            display: "flex",
+            flexDirection: "column",
+            boxSizing: "border-box",
           }}
         >
           {props.children}

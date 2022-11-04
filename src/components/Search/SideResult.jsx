@@ -31,6 +31,7 @@ const SearchOptions = (props) => {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
+    position: "relative",
     height: "23px",
     color: theme.purple,
     ...theme.font10_bold,
@@ -39,7 +40,7 @@ const SearchOptions = (props) => {
     boxShadow: theme.shadow,
     borderRadius: "6px",
     background: props.color === "purple" ? theme.purple_light : "white",
-    cursor: "pointer",
+    cursor: theme.cursor(),
   };
 
   const styleCheckbox = {
@@ -62,7 +63,12 @@ const SearchOptions = (props) => {
     width: "11px",
   };
 
-  const styleSelect = { opacity: 0, position: "absolute", cursor: "pointer" };
+  const styleSelect = {
+    opacity: 0,
+    right: 0,
+    position: "absolute",
+    cursor: theme.cursor(),
+  };
 
   const styleShowOption = {
     display: "flex",
