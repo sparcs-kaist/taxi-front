@@ -211,17 +211,13 @@ class DatePicker extends Component {
     };
 
     this.state = {
-      selectedDate: props.selectedDate,
       showNext: false,
     };
     this.month1 = getDateInfo.getCurrent();
     this.month2 = getDateInfo.getNext();
   }
   dateHandler(year, month, date) {
-    this.setState({ selectedDate: [year, month, date] });
-    if (this.props.handler) {
-      this.props.handler(year, month, date);
-    }
+    this.props.handler(year, month, date);
   }
 
   resizeEvent() {
@@ -298,8 +294,8 @@ class DatePicker extends Component {
                 {item.map((item, index) => {
                   let selected = false;
                   if (
-                    month === this.state.selectedDate[1] &&
-                    item.date === this.state.selectedDate[2]
+                    month === this.props.selectedDate[1] &&
+                    item.date === this.props.selectedDate[2]
                   )
                     selected = true;
                   return (
