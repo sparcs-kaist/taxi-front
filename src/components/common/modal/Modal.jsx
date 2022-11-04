@@ -38,7 +38,7 @@ const Modal = (props) => {
             background: theme.white,
             borderRadius: "15px",
             padding: props.padding,
-            minHeight: "240px",
+            minHeight: "148px",
             maxHeight: "720px",
             display: "flex",
             flexDirection: "column",
