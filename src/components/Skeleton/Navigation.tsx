@@ -63,7 +63,7 @@ const NavigationMenu = (props: NavigationMenuProps) => {
 
   return (
     <Link
-      to={props.page}
+      to={"/" + props.page}
       style={styleBox}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
