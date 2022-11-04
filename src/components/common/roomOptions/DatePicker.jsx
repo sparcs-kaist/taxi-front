@@ -107,7 +107,7 @@ const Date = (props) => {
     // borderRadius: "50%",
     position: "absolute",
     top: "calc(50% + 8.5px)",
-    left: "calc(50% - 2.5px)",
+    left: "calc(50% - 2px)",
     // background:
     //   props.available === "today"
     //     ? props.selected

@@ -13,8 +13,8 @@ const MiniCircle = ({
   isSelected = false,
 }: MiniCircleProps) => {
   const style: CSS = {
-    width: "5px",
-    height: "5px",
+    width: type === "date" ? "4px" : "5px",
+    height: type === "date" ? "4px" : "5px",
     borderRadius: "50%",
     boxSizing: "border-box",
     backgroundColor:
