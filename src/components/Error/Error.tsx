@@ -1,4 +1,4 @@
-import React, { CSSProperties } from "react";
+import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import Button from "components/common/Button";
 import { theme } from "styles/theme";
@@ -10,7 +10,7 @@ const Error = () => {
 
   // FIXME Global State 에서 오류 가져오기
   // const errorPrimaryState = error ? error : "404";
-  const stylePage: CSSProperties = {
+  const stylePage: CSS = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
