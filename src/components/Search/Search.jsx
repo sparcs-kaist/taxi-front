@@ -310,12 +310,12 @@ const Search = () => {
     if (!Object.values(searchOptions).some((option) => option)) {
       history.push("/search?all=true");
     } else {
-      const date = moment(
-        `${valueDate[0]}-${
-          valueDate[1] < 10 ? "0" + valueDate[1] : valueDate[1]
-        }-${valueDate[2]}`
-      );
       let withTime = false;
+      const date = moment();
+
+      date.year(valueDate[0]);
+      date.month(valueDate[1] - 1);
+      date.date(valueDate[2]);
 
       if (searchOptions.time) {
         date.hour(valueTime[0]);
