@@ -89,7 +89,7 @@ const Room = (props) => {
     boxShadow:
       theme.shadow +
       (props.selected ? `, inset 0 0 0 0.5px ${theme.purple}` : ""),
-    cursor: theme.cursor(),
+    ...theme.cursor(),
     zIndex: 1,
   };
   const styleTop = {

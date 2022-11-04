@@ -68,7 +68,7 @@ const PlaceElement = (props) => {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    cursor: theme.cursor(),
+    ...theme.cursor(),
   };
   const styleType = {
     margin: "5px 0",

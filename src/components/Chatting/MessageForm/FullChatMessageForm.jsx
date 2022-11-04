@@ -14,7 +14,7 @@ const BtnSend = (props) => {
     height: "20px",
     bottom: "4px",
     right: "7px",
-    cursor: theme.cursor(!props.enable),
+    ...theme.cursor(!props.enable),
   });
   return (
     <animated.div style={style} onClick={props.onClick}>
@@ -40,7 +40,7 @@ const BtnImage = (props) => {
     height: "16px",
     bottom: "12px",
     left: "19px",
-    cursor: theme.cursor(),
+    ...theme.cursor(),
   });
   return (
     <animated.div style={style} onClick={props.onClick}>

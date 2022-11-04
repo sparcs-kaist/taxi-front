@@ -22,7 +22,7 @@ const NewMessage = (props) => {
     color: "#6E3678",
     textAlign: "center",
     config: { duration: 200 },
-    cursor: theme.cursor(),
+    ...theme.cursor(),
   });
   return (
     <animated.div style={style} onClick={props.onClick}>

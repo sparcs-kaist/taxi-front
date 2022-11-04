@@ -40,7 +40,7 @@ const SearchOption = (props) => {
     color: props.selected ? theme.white : theme.black,
     fontSize: "12px",
     config: { duration: 150 },
-    cursor: theme.cursor(),
+    ...theme.cursor(),
   });
   return (
     <animated.div

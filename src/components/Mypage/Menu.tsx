@@ -41,7 +41,7 @@ const Menu = (props: MenuProps) => {
     alignItems: "center",
     width: "fit-content",
     color: isHover ? theme.purple : undefined,
-    cursor: theme.cursor(),
+    ...theme.cursor(),
   };
   const styleText = {
     ...theme.font14,

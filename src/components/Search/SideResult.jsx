@@ -40,7 +40,7 @@ const SearchOptions = (props) => {
     boxShadow: theme.shadow,
     borderRadius: "6px",
     background: props.color === "purple" ? theme.purple_light : "white",
-    cursor: theme.cursor(),
+    ...theme.cursor(),
   };
 
   const styleCheckbox = {
@@ -67,7 +67,7 @@ const SearchOptions = (props) => {
     opacity: 0,
     right: 0,
     position: "absolute",
-    cursor: theme.cursor(),
+    ...theme.cursor(),
   };
 
   const styleShowOption = {

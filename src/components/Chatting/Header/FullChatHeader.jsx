@@ -22,7 +22,7 @@ const BtnBack = () => {
     borderRadius: "20px",
     background: `rgba(0,0,0,${isHover ? 0.05 : 0})`,
     config: { duration: 100 },
-    cursor: theme.cursor(),
+    ...theme.cursor(),
   });
   const styleImg = {
     position: "absolute",
@@ -56,7 +56,7 @@ const BtnMenu = (props) => {
     borderRadius: "20px",
     background: `rgba(0,0,0,${isHover ? 0.05 : 0})`,
     config: { duration: 100 },
-    cursor: theme.cursor(),
+    ...theme.cursor(),
   });
   const styleImg = {
     position: "absolute",

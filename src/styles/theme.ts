@@ -84,7 +84,7 @@ export const theme = {
 
   // Cursor
   cursor: (disabled?: boolean) => {
-    return disabled ? "not-allowed" : "pointer";
+    return { cursor: disabled ? "not-allowed" : "pointer" } as CSS;
   },
 
   // zIndex
