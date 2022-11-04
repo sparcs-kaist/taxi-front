@@ -70,7 +70,7 @@ const PlaceElement = (props) => {
     alignItems: "center",
   };
   const styleType = {
-    margin: "5px 0 5px",
+    margin: "5px 0",
     textAlign: "center",
     color: props.value ? theme.gray_text : theme.black,
     ...theme.font12,
