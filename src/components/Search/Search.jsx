@@ -284,6 +284,8 @@ const Search = () => {
   useEffect(() => {
     if (!searchOptions.date && valueDate[0] !== null)
       setDate([null, null, null]);
+    if (searchOptions.date)
+      setDate([getToday().year(), getToday().month() + 1, getToday().date()]);
   }, [searchOptions.date]);
   useEffect(() => {
     if (searchOptions.time) {

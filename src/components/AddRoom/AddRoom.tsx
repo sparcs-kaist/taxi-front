@@ -25,9 +25,9 @@ const AddRoom = () => {
   const [valueName, setName] = useState("");
   const [valuePlace, setPlace] = useState([null, null]);
   const [valueDate, setDate] = useState<Array<Nullable<number>>>([
-    null,
-    null,
-    null,
+    getToday().year(),
+    getToday().month() + 1,
+    getToday().date(),
   ]);
   const [valueMaxPeople, setMaxPeople] = useState(4);
   const today = getToday();
