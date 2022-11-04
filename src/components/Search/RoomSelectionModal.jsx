@@ -15,7 +15,7 @@ import Modal from "components/common/modal/Modal";
 import Button from "components/common/Button";
 import DottedLine from "components/common/DottedLine";
 import Tooltip from "@mui/material/Tooltip";
-import Circle from "components/common/Circle";
+import MiniCircle from "components/common/MiniCircle";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 
@@ -49,7 +49,7 @@ const PlaceSection = (props) => {
 
   return (
     <div style={style}>
-      <Circle type={props.type} />
+      <MiniCircle type={props.type} />
       <p style={stylePlaceType}>
         {props.type === "from" ? "출발지" : "도착지"}
       </p>

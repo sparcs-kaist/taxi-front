@@ -8,7 +8,7 @@ import Popup from "./Popup";
 import Picker from "react-mobile-picker-mod";
 import { theme } from "styles/theme";
 import DottedLine from "components/common/DottedLine";
-import Circle from "components/common/Circle";
+import MiniCircle from "components/common/MiniCircle";
 
 const PopupInput = (props) => {
   const [value, setValue] = useState({
@@ -97,7 +97,7 @@ const PlaceElement = (props) => {
       onMouseLeave={() => setHover(false)}
       onClick={props.onClick}
     >
-      <Circle type={props.type} isRequired={!props.value} />
+      <MiniCircle type={props.type} isRequired={!props.value} />
       <div style={styleType}>{props.type === "from" ? "출발지" : "도착지"}</div>
       <div style={styleTextGrid}>
         <div style={styleText}>

@@ -1,12 +1,12 @@
 import React from "react";
 import { theme } from "styles/theme";
 
-type CircleProps = {
+type MiniCircleProps = {
   type: "from" | "to";
   isRequired?: boolean;
 };
 
-const Circle = ({ type, isRequired = false }: CircleProps) => {
+const MiniCircle = ({ type, isRequired = false }: MiniCircleProps) => {
   const style: CSS = {
     width: "5px",
     height: "5px",
@@ -19,4 +19,4 @@ const Circle = ({ type, isRequired = false }: CircleProps) => {
   return <div style={style} />;
 };
 
-export default Circle;
+export default MiniCircle;
