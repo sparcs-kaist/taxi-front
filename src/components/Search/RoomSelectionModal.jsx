@@ -60,7 +60,7 @@ const PlaceSection = (props) => {
   );
 };
 PlaceSection.propTypes = {
-  type: PropTypes.PropTypes.oneOf(["from", "to"]),
+  type: PropTypes.oneOf(["from", "to"]),
   name: PropTypes.string.isRequired,
 };
 

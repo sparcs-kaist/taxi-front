@@ -110,7 +110,7 @@ const PlaceElement = (props) => {
 };
 PlaceElement.propTypes = {
   value: PropTypes.string,
-  type: PropTypes.PropTypes.oneOf(["from", "to"]),
+  type: PropTypes.oneOf(["from", "to"]),
   onClick: PropTypes.func,
 };
 
