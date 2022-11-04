@@ -22,6 +22,7 @@ const BtnBack = () => {
     borderRadius: "20px",
     background: `rgba(0,0,0,${isHover ? 0.05 : 0})`,
     config: { duration: 100 },
+    cursor: theme.cursor(),
   });
   const styleImg = {
     position: "absolute",
@@ -35,7 +36,6 @@ const BtnBack = () => {
   return (
     <animated.div
       style={style}
-      className="BTNC"
       onClick={() => history.goBack()}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
@@ -56,6 +56,7 @@ const BtnMenu = (props) => {
     borderRadius: "20px",
     background: `rgba(0,0,0,${isHover ? 0.05 : 0})`,
     config: { duration: 100 },
+    cursor: theme.cursor(),
   });
   const styleImg = {
     position: "absolute",
@@ -69,7 +70,6 @@ const BtnMenu = (props) => {
   return (
     <animated.div
       style={style}
-      className="BTNC"
       onClick={props.onClick}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}

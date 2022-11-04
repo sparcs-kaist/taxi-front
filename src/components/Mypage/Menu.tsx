@@ -41,6 +41,7 @@ const Menu = (props: MenuProps) => {
     alignItems: "center",
     width: "fit-content",
     color: isHover ? theme.purple : undefined,
+    cursor: theme.cursor(),
   };
   const styleText = {
     ...theme.font14,
@@ -49,7 +50,6 @@ const Menu = (props: MenuProps) => {
   return (
     <div
       style={style}
-      className="BTNC"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       onTouchStart={() => setHover(true)}

@@ -68,6 +68,7 @@ const PlaceElement = (props) => {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    cursor: theme.cursor(),
   };
   const styleType = {
     margin: "5px 0",
@@ -92,7 +93,6 @@ const PlaceElement = (props) => {
   return (
     <div
       style={style}
-      className="BTNC"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       onClick={props.onClick}

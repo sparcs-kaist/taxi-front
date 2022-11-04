@@ -40,11 +40,11 @@ const SearchOption = (props) => {
     color: props.selected ? theme.white : theme.black,
     fontSize: "12px",
     config: { duration: 150 },
+    cursor: theme.cursor(),
   });
   return (
     <animated.div
       style={style}
-      className="BTNC"
       onClick={() => props.onClick(props.id)}
       onMouseEnter={() => setHover(!(isMobile().phone || isMobile().tablet))}
       onMouseLeave={() => setHover(false)}

@@ -1,6 +1,7 @@
 import React from "react";
 import { useSpring, animated } from "react-spring";
 import PropTypes from "prop-types";
+import { theme } from "styles/theme";
 
 import { IoArrowDown } from "react-icons/io5";
 
@@ -21,9 +22,10 @@ const NewMessage = (props) => {
     color: "#6E3678",
     textAlign: "center",
     config: { duration: 200 },
+    cursor: theme.cursor(),
   });
   return (
-    <animated.div style={style} onClick={props.onClick} className="BTNC">
+    <animated.div style={style} onClick={props.onClick}>
       <IoArrowDown style={{ verticalAlign: "middle", marginTop: "-1px" }} />
       &nbsp;새로운 메시지&nbsp;
     </animated.div>
