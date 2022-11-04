@@ -29,24 +29,24 @@ const optionsMin = Array.from(Array(6).keys()).map((num) =>
 );
 
 const PopupInput = (props: PopupInputProps) => {
-  const [hour, setHour] = useState({ hour: optionsHour[0] });
-  const [min, setMin] = useState({ min: optionsMin[0] });
+  const [hour, setHour] = useState(optionsHour[0]);
+  const [min, setMin] = useState(optionsMin[0]);
 
   const resetValue = () => {
-    setHour({ hour: get2digit(props.value[0]) });
-    setMin({ min: get2digit(props.value[1]) });
+    setHour(get2digit(props.value[0]));
+    setMin(get2digit(props.value[1]));
   };
   useEffect(() => {
     resetValue();
   }, [props.isOpen]);
 
   const onClick = () => {
-    props.handler([parseInt(hour.hour), parseInt(min.min)]);
+    props.handler([parseInt(hour), parseInt(min)]);
     props.onClose();
   };
   const handler = (key: string, value: string) => {
-    if (key === "hour") setHour({ hour: value });
-    if (key === "min") setMin({ min: value });
+    if (key === "hour") setHour(value);
+    if (key === "min") setMin(value);
   };
 
   const styleContainer = {
@@ -73,7 +73,7 @@ const PopupInput = (props: PopupInputProps) => {
         <div style={stylePicker}>
           <Picker
             optionGroups={{ hour: optionsHour }}
-            valueGroups={hour}
+            valueGroups={{ hour: hour }}
             onChange={handler}
             itemHeight={29}
             height={221}
@@ -83,7 +83,7 @@ const PopupInput = (props: PopupInputProps) => {
         <div style={stylePicker}>
           <Picker
             optionGroups={{ min: optionsMin }}
-            valueGroups={min}
+            valueGroups={{ min: min }}
             onChange={handler}
             itemHeight={29}
             height={221}
