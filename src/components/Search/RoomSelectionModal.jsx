@@ -49,8 +49,10 @@ const PlaceSection = (props) => {
 
   return (
     <div style={style}>
-      <Circle isFrom={props.isFrom} />
-      <p style={stylePlaceType}>{props.isFrom ? "출발지" : "도착지"}</p>
+      <Circle type={props.type} />
+      <p style={stylePlaceType}>
+        {props.type === "from" ? "출발지" : "도착지"}
+      </p>
       <div style={stylePlaceNameWrapper}>
         <p style={stylePlaceName}>{props.name}</p>
       </div>
@@ -58,7 +60,7 @@ const PlaceSection = (props) => {
   );
 };
 PlaceSection.propTypes = {
-  isFrom: PropTypes.bool.isRequired,
+  type: PropTypes.PropTypes.oneOf(["from", "to"]),
   name: PropTypes.string.isRequired,
 };
 
@@ -165,12 +167,12 @@ const RoomSelectionModal = (props) => {
       <DottedLine margin="0 2px" />
       <div style={stylePlace}>
         <PlaceSection
-          isFrom={true}
+          type="from"
           name={getLocationName(roomInfo?.from, preference.lang)}
         />
         <ArrowRightAltRoundedIcon style={styleArrow} />
         <PlaceSection
-          isFrom={false}
+          type="to"
           name={getLocationName(roomInfo?.to, preference.lang)}
         />
       </div>

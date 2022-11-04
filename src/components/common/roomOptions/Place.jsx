@@ -97,12 +97,12 @@ const PlaceElement = (props) => {
       onMouseLeave={() => setHover(false)}
       onClick={props.onClick}
     >
-      <Circle isFrom={props.type === "출발지"} isRequired={!props.value} />
-      <div style={styleType}>{props.type}</div>
+      <Circle type={props.type} isRequired={!props.value} />
+      <div style={styleType}>{props.type === "from" ? "출발지" : "도착지"}</div>
       <div style={styleTextGrid}>
         <div style={styleText}>
           {props.value ??
-            (props.type === "출발지" ? "어디서 가시나요?" : "어디로 가시나요?")}
+            (props.type === "from" ? "어디서 가시나요?" : "어디로 가시나요?")}
         </div>
       </div>
     </div>
@@ -110,7 +110,7 @@ const PlaceElement = (props) => {
 };
 PlaceElement.propTypes = {
   value: PropTypes.string,
-  type: PropTypes.string,
+  type: PropTypes.PropTypes.oneOf(["from", "to"]),
   onClick: PropTypes.func,
 };
 
@@ -131,13 +131,13 @@ const Place = (props) => {
         <PlaceElement
           value={getPlaceName(props.value[0])}
           onClick={() => setPopup1(true)}
-          type="출발지"
+          type="from"
         />
         <DottedLine direction="column" />
         <PlaceElement
           value={getPlaceName(props.value[1])}
           onClick={() => setPopup2(true)}
-          type="도착지"
+          type="to"
         />
       </div>
       <PopupInput
