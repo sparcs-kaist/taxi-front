@@ -1,5 +1,5 @@
 import React from "react";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import Tooltip from "@mui/material/Tooltip";
 
 type ToolTipProps = {

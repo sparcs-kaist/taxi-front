@@ -1,7 +1,7 @@
-import React, { CSSProperties } from "react";
+import React from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import qs from "qs";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeftRounded";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRightRounded";
@@ -21,7 +21,7 @@ type PageButtonProps = {
 export const PAGE_MAX_ITEMS = 20;
 
 const PageButton = ({ page, onClick, selected }: PageButtonProps) => {
-  const style: CSSProperties = {
+  const style: CSS = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -69,7 +69,7 @@ const Pagination = ({
     width: "100%",
   };
 
-  const styleButtonsWrapper: CSSProperties = {
+  const styleButtonsWrapper: CSS = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -81,7 +81,7 @@ const Pagination = ({
     boxShadow: isMobile ? theme.shadow : undefined,
   };
 
-  const styleIcon: CSSProperties = {
+  const styleIcon: CSS = {
     color: theme.purple,
     cursor: "pointer",
   };

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 
 import ArrowDownwardRoundedIcon from "@mui/icons-material/ArrowDownwardRounded";
 
@@ -18,7 +18,7 @@ const NewMessage = (props) => {
     transition: "all 0.3s",
     columnGap: "4px",
     display: "flex",
-    cursor: theme.cursor(),
+    ...theme.cursor(),
   };
   return (
     <div style={style} onClick={props.onClick}>

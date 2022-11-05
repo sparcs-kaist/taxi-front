@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import regExpTest from "tools/regExpTest";
 import PropTypes from "prop-types";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 
 import CropOriginalRoundedIcon from "@mui/icons-material/CropOriginalRounded";
 import ArrowUpwardRoundedIcon from "@mui/icons-material/ArrowUpwardRounded";
@@ -16,7 +16,7 @@ const BtnSend = (props) => {
     backgroundColor: props.enable ? theme.purple : theme.gray_background,
     borderRadius: "14px",
     boxShadow: theme.shadow_gray_input_inset,
-    cursor: theme.cursor(!props.enable),
+    ...theme.cursor(!props.enable),
   };
   return (
     <div style={style} onClick={props.onClick}>
@@ -41,7 +41,7 @@ const BtnImage = (props) => {
     minWidth: "22px",
     height: "22px",
     marginBottom: "5px",
-    cursor: theme.cursor(),
+    ...theme.cursor(),
   };
   return (
     <div style={style} onClick={props.onClick}>

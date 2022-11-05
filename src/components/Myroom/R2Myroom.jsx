@@ -13,7 +13,7 @@ import useTaxiAPI from "hooks/useTaxiAPI";
 import PropTypes from "prop-types";
 import Empty from "components/common/Empty";
 import DottedLine from "components/common/DottedLine";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 
 const ChatHeader = (props) => {
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
