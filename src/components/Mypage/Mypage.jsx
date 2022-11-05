@@ -7,19 +7,16 @@ import PopupReport from "./PopupReport";
 import PopupPolicy from "./PopupPolicy";
 import PopupMembers from "./PopupMembers";
 import ProfileImg from "./ProfileImg";
-import useTaxiAPI from "hooks/useTaxiAPI";
 import axios from "tools/axios";
-import { theme } from "styles/theme";
-import { useSetRecoilState } from "recoil";
+import theme from "styles/theme";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import alertAtom from "recoil/alert";
 import Menu from "./Menu";
 
 const Mypage = () => {
   const [profToken, setProfToken] = useState(Date.now().toString());
-  const [, userInfo] = useTaxiAPI.get("/json/logininfo");
-  const [, userInfoDetail] = useTaxiAPI.get("/json/logininfo/detail", {}, [
-    profToken,
-  ]);
+  const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const [isOpenModify, setOpenModify] = useState(false);
   const [isOpenReport, setOpenReport] = useState(false);
   const [isOpenPolicy, setOpenPolicy] = useState(false);
@@ -84,7 +81,7 @@ const Mypage = () => {
             ) : null}
           </div>
           <div style={theme.font16_bold} className="selectable">
-            {userInfo?.name}
+            {userInfoDetail?.name}
           </div>
         </div>
         <div style={infoTitle}>
@@ -132,8 +129,6 @@ const Mypage = () => {
         isOpen={isOpenModify}
         onClose={() => setOpenModify(false)}
         onUpdate={() => handleUpdate()}
-        userInfo={userInfo}
-        userInfoD={userInfoDetail}
         profToken={profToken}
       />
       <PopupPolicy isOpen={isOpenPolicy} onClose={() => setOpenPolicy(false)} />

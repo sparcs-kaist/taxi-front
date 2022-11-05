@@ -1,19 +1,19 @@
 import React from "react";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 
 type Direction = "row" | "column";
 
 type LineProps = {
-  direction: Direction;
+  direction?: Direction;
   margin?: Exclude<
     Margin,
     `${PixelValue}` | `${PixelValue} ${PixelValue} ${PixelValue} ${PixelValue}`
   >;
 };
 
-const DottedLine = ({ direction, margin = "0 0" }: LineProps) => {
+const DottedLine = ({ direction = "row", margin = "0 0" }: LineProps) => {
   const wrapper = {
-    height: direction === "row" ? "1px" : "100%",
+    height: direction === "row" ? "1px" : undefined,
     width:
       direction === "row"
         ? `calc(100% - 2 * ${margin.toString().split(" ")[1]})`

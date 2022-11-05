@@ -10,7 +10,7 @@ import axios from "tools/axios";
 import moment, { getToday10, getToday } from "tools/moment";
 import PropTypes from "prop-types";
 import isMobile from "ismobilejs";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import Button from "components/common/Button";
 import Tooltip from "components/common/Tooltip";
 
@@ -40,11 +40,11 @@ const SearchOption = (props) => {
     color: props.selected ? theme.white : theme.black,
     fontSize: "12px",
     config: { duration: 150 },
+    ...theme.cursor(),
   });
   return (
     <animated.div
       style={style}
-      className="BTNC"
       onClick={() => props.onClick(props.id)}
       onMouseEnter={() => setHover(!(isMobile().phone || isMobile().tablet))}
       onMouseLeave={() => setHover(false)}
@@ -310,12 +310,12 @@ const Search = () => {
     if (!Object.values(searchOptions).some((option) => option)) {
       history.push("/search?all=true");
     } else {
-      const date = moment(
-        `${valueDate[0]}-${
-          valueDate[1] < 10 ? "0" + valueDate[1] : valueDate[1]
-        }-${valueDate[2]}`
-      );
       let withTime = false;
+      const date = moment();
+
+      date.year(valueDate[0]);
+      date.month(valueDate[1] - 1);
+      date.date(valueDate[2]);
 
       if (searchOptions.time) {
         date.hour(valueTime[0]);

@@ -7,7 +7,7 @@ import Title from "components/common/Title";
 import Button from "components/common/Button";
 import axios from "tools/axios";
 import { date2str, getToday10, getToday } from "tools/moment";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import { useSetRecoilState } from "recoil";
 import alertAtom from "recoil/alert";
 import FullParticipation from "./FullParticipation";
@@ -60,8 +60,6 @@ const AddRoom = () => {
     validatedMsg = "출발지와 도착지는 달라야 합니다";
   } else if (!valueDate[0] || !valueDate[1] || !valueDate[2]) {
     validatedMsg = "날짜를 선택해 주세요";
-  } else if (!valueTime[0] || !valueTime[1]) {
-    validatedMsg = "시간을 선택해 주세요";
   } else if (today.isSameOrAfter(calculatedTime)) {
     validatedMsg = "현재 시각 이후를 선택해주세요";
   } else if (valueName === "") {
