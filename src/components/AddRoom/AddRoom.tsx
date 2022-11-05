@@ -22,16 +22,16 @@ import OptionMaxPeople from "components/common/roomOptions/MaxPeople";
 const AddRoom = () => {
   const onCall = useRef(false);
   const history = useHistory();
+  const today = getToday();
+  const today10 = getToday10();
   const [valueName, setName] = useState("");
   const [valuePlace, setPlace] = useState([null, null]);
   const [valueDate, setDate] = useState<Array<Nullable<number>>>([
-    getToday().year(),
-    getToday().month() + 1,
-    getToday().date(),
+    today.year(),
+    today.month() + 1,
+    today.date(),
   ]);
   const [valueMaxPeople, setMaxPeople] = useState(4);
-  const today = getToday();
-  const today10 = getToday10();
   const [valueTime, setTime] = useState([today10.hour(), today10.minute()]);
   const [calculatedTime, setCalculatedTime] = useState<Date | null>(null);
   const setAlert = useSetRecoilState(alertAtom);
