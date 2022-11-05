@@ -9,7 +9,7 @@ import convertImg from "tools/convertImg";
 import PropTypes from "prop-types";
 import Modal from "components/common/modal/Modal";
 import DottedLine from "components/common/DottedLine";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import Button from "components/common/Button";
 
 const ProfImg = (props) => {

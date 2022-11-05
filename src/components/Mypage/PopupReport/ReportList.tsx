@@ -1,5 +1,5 @@
 import React from "react";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import { date2str } from "tools/moment";
 import { ReportOptionType } from "./ReportOption";
 import DottedLine from "components/common/DottedLine";
