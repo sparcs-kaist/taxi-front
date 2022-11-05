@@ -34,6 +34,9 @@ Info.propTypes = {
   title: PropTypes.string,
   children: PropTypes.node,
 };
+Info.defaultProps = {
+  children: null,
+};
 
 const User = (props) => {
   const isSettlement =
