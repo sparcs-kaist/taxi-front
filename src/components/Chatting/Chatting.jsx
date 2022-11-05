@@ -44,7 +44,7 @@ const Chatting = (props) => {
     headerInfToken,
   ]);
 
-  // Update the ongoing room list
+  // Update the room list
   useEffect(() => {
     setMyRoom(roomList);
   }, [roomList]);

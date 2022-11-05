@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import myRoomAtom from "recoil/myRoom";
 import Title from "components/common/Title";
 import WhiteContainer from "components/common/WhiteContainer";
 import ChatHeaderBody from "components/Chatting/Header/HeaderBody";
@@ -13,28 +15,34 @@ import useTaxiAPI from "hooks/useTaxiAPI";
 import PropTypes from "prop-types";
 import Empty from "components/common/Empty";
 import DottedLine from "components/common/DottedLine";
-import { theme } from "styles/theme";
 
 const ChatHeader = (props) => {
+  const setMyRoom = useSetRecoilState(myRoomAtom);
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
   const [, headerInfo] = useTaxiAPI.get(
     `/rooms/v2/info?id=${props.roomId}`,
     {},
     [headerInfToken]
   );
+  const [, roomList] = useTaxiAPI.get("/rooms/v2/searchByUser", {}, [
+    headerInfToken,
+  ]);
 
   useEffect(() => {
     props.resizeEvent();
   }, [headerInfo]);
 
-  const recallEvent = () => {
-    setHeaderInfToken(Date.now().toString());
-  };
+  useEffect(() => {
+    setMyRoom(roomList);
+  }, [roomList]);
 
   return (
     <div>
       <div style={{ height: "19px" }} />
-      <ChatHeaderBody info={headerInfo} recallEvent={recallEvent} />
+      <ChatHeaderBody
+        info={headerInfo}
+        recallEvent={() => setHeaderInfToken(Date.now().toString())}
+      />
     </div>
   );
 };
