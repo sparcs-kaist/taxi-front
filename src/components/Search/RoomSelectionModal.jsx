@@ -8,78 +8,79 @@ import PropTypes from "prop-types";
 import { date2str } from "tools/moment";
 import { getLocationName } from "tools/trans";
 import axios from "tools/axios";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import { MAX_PARTICIPATION } from "components/Myroom/Myroom";
 
-import Title from "components/common/Title";
 import Modal from "components/common/modal/Modal";
 import Button from "components/common/Button";
 import DottedLine from "components/common/DottedLine";
 import Tooltip from "@mui/material/Tooltip";
+import MiniCircle from "components/common/MiniCircle";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
-import CircleIcon from "@mui/icons-material/Circle";
 
 const PlaceSection = (props) => {
   const style = {
-    width: "150px",
-    height: "100%",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    margin: "10px 0",
-  };
-  const styleIcon = {
-    fontSize: "5px",
-    opacity: "0.5",
+    margin: "16px 12px 10px",
+    flex: "1 1 0",
   };
   const stylePlaceType = {
-    fontSize: "12px",
-    color: "#888888",
-    margin: "5px 0",
+    ...theme.font12,
+    color: theme.gray_text,
+    margin: "5px 0 1px",
+  };
+  const stylePlaceNameWrapper = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "39px",
+    width: "100%",
   };
   const stylePlaceName = {
-    height: "16px",
-    lineHeight: "16px",
+    ...theme.font16_bold,
+    color: theme.purple,
     textAlign: "center",
-    fontSize: "16px",
-    fontWeight: 700,
-    color: "#6E3678",
-    margin: "11px 0",
+    wordBreak: "keep-all",
   };
 
   return (
     <div style={style}>
-      <CircleIcon style={styleIcon} />
-      <p style={stylePlaceType}>{props.isFrom ? "출발지" : "도착지"}</p>
-      <p style={stylePlaceName}>{props.name}</p>
+      <MiniCircle type={props.type} />
+      <p style={stylePlaceType}>
+        {props.type === "from" ? "출발지" : "도착지"}
+      </p>
+      <div style={stylePlaceNameWrapper}>
+        <p style={stylePlaceName}>{props.name}</p>
+      </div>
     </div>
   );
 };
 PlaceSection.propTypes = {
-  isFrom: PropTypes.bool.isRequired,
+  type: PropTypes.oneOf(["from", "to"]),
   name: PropTypes.string.isRequired,
 };
 
 const InfoSection = (props) => {
   const style = {
-    margin: "12px 0",
     display: "flex",
     flexDirection: "column",
     alignItems: props.isAlignLeft ? "flex-start" : "flex-end",
+    rowGap: "5px",
     maxWidth: "fit-content",
     flex: props.isBold || props.isColored ? "1 0" : "1 1",
   };
   const styleTitle = {
-    fontSize: "12px",
-    color: "#888888",
-    marginBottom: "8px",
+    ...theme.font12,
+    color: theme.gray_text,
   };
   const styleText = {
-    fontSize: "15px",
-    color: props.isColored ? "#6E3678" : "#323232",
-    fontWeight: props.isBold || props.isColored ? 700 : 400,
+    ...theme.font14,
+    color: props.isColored ? theme.purple : undefined,
+    fontWeight: props.isBold || props.isColored ? 500 : undefined,
   };
 
   return (
@@ -119,10 +120,9 @@ const RoomSelectionModal = (props) => {
     if (props.isOpen) setRoomInfo(props.roomInfo);
   }, [props.isOpen]);
 
-  const styleTitleWrapper = {
-    padding: "0 20px 0 10px",
-    maxWidth: "100%",
-    overflowWrap: "anywhere",
+  const styleTitle = {
+    ...theme.font18,
+    padding: "10px 26px 18px 14px",
   };
   const stylePlace = {
     width: "100%",
@@ -131,16 +131,18 @@ const RoomSelectionModal = (props) => {
     alignItems: "center",
   };
   const styleArrow = {
-    height: "15px",
-    width: "15px",
-    color: "#888888",
+    fontSize: "24px",
+    color: theme.gray_text,
   };
   const styleInfoSectionWrapper = {
-    padding: "8px 20px",
+    padding: "16px 14px",
+    display: "grid",
+    rowGap: "16px",
   };
   const styleMultipleInfo = {
     display: "flex",
     justifyContent: "space-between",
+    columnGap: "12px",
   };
 
   const requestJoin = async () => {
@@ -160,28 +162,21 @@ const RoomSelectionModal = (props) => {
   };
 
   return (
-    <Modal
-      display={props.isOpen}
-      onClickClose={props.onClose}
-      padding="0 12px 12px"
-    >
-      <div style={{ height: "25px" }} />
-      <div style={styleTitleWrapper}>
-        <Title>{roomInfo?.name ?? ""}</Title>
-      </div>
-      <div style={{ height: "15px" }} />
-      <DottedLine direction="row" margin="0 12px" />
+    <Modal display={props.isOpen} onClickClose={props.onClose} padding="10px">
+      <div style={styleTitle}>{roomInfo?.name ?? ""}</div>
+      <DottedLine margin="0 2px" />
       <div style={stylePlace}>
         <PlaceSection
-          isFrom={true}
+          type="from"
           name={getLocationName(roomInfo?.from, preference.lang)}
         />
         <ArrowRightAltRoundedIcon style={styleArrow} />
         <PlaceSection
-          isFrom={false}
+          type="to"
           name={getLocationName(roomInfo?.to, preference.lang)}
         />
       </div>
+      <DottedLine margin="0 2px" />
       <div style={styleInfoSectionWrapper}>
         <InfoSection
           title="출발 시각 & 날짜"
@@ -190,7 +185,7 @@ const RoomSelectionModal = (props) => {
         />
         <div style={styleMultipleInfo}>
           <InfoSection
-            title="동승자"
+            title="탑승자"
             text={
               roomInfo?.part
                 .reduce((acc, user) => {

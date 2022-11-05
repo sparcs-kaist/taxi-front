@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import RLayout from "components/common/RLayout";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import LibraryAddRoundedIcon from "@mui/icons-material/LibraryAddRounded";
@@ -62,7 +62,7 @@ const NavigationMenu = (props: NavigationMenuProps) => {
 
   return (
     <Link
-      to={props.page}
+      to={"/" + props.page}
       style={styleBox}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
