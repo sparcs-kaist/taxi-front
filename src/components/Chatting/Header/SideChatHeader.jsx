@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useHistory, useParams } from "react-router-dom";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import FullscreenRoundedIcon from "@mui/icons-material/FullscreenRounded";
