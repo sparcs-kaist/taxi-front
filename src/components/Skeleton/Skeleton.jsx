@@ -119,10 +119,7 @@ const Skeleton = (props) => {
      */
     return <></>;
   }
-  if (pathname.startsWith("/chatting")) {
-    return <Container>{props.children}</Container>;
-  }
-  if (pathname.startsWith("/error")) {
+  if (pathname.startsWith("/chatting") || pathname.startsWith("/error")) {
     return (
       <Container>
         <HeaderBar />
