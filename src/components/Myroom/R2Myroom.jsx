@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Title from "components/common/Title";
 import WhiteContainer from "components/common/WhiteContainer";
 import ChatHeaderBody from "components/Chatting/Header/HeaderBody";
@@ -13,7 +13,6 @@ import useTaxiAPI from "hooks/useTaxiAPI";
 import PropTypes from "prop-types";
 import Empty from "components/common/Empty";
 import DottedLine from "components/common/DottedLine";
-import theme from "styles/theme";
 
 const ChatHeader = (props) => {
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
@@ -47,6 +46,7 @@ ChatHeader.propTypes = {
 const R2Myroom = (props) => {
   const refTitle = useRef();
   const refHeader = useRef();
+  const history = useHistory();
 
   const bodyHeightRef = useRef("0px");
   const [bodyHeight, setBodyHeight] = useState(bodyHeightRef.current);
@@ -83,6 +83,14 @@ const R2Myroom = (props) => {
       window.removeEventListener("resize", resizeEvent);
     };
   }, [props.roomId]);
+
+  const historyReplace = (path) => {
+    if (props.roomId) {
+      return () => history.replace(path);
+    } else {
+      return () => history.push(path);
+    }
+  };
 
   return (
     <div
@@ -121,10 +129,9 @@ const R2Myroom = (props) => {
                   <Empty screen="pc">참여 중인 방이 없습니다</Empty>
                 ) : (
                   props.ongoing.map((item) => (
-                    <Link
+                    <div
                       key={item._id}
-                      to={`/myroom/${item._id}`}
-                      style={{ textDecoration: "none" }}
+                      onClick={historyReplace(`/myroom/${item._id}`)}
                     >
                       <Room
                         data={item}
@@ -132,7 +139,7 @@ const R2Myroom = (props) => {
                         theme="purple"
                         marginTop="15px"
                       />
-                    </Link>
+                    </div>
                   ))
                 )}
               </WhiteContainer>
@@ -150,10 +157,9 @@ const R2Myroom = (props) => {
                         PAGE_MAX_ITEMS * props.donePageInfo.currentPage
                       )
                       .map((item) => (
-                        <Link
+                        <div
                           key={item._id}
-                          to={`/myroom/${item._id}`}
-                          style={{ textDecoration: "none" }}
+                          onClick={historyReplace(`/myroom/${item._id}`)}
                         >
                           <Room
                             data={item}
@@ -161,7 +167,7 @@ const R2Myroom = (props) => {
                             theme="purple"
                             marginTop="15px"
                           />
-                        </Link>
+                        </div>
                       ))}
                     <Pagination
                       totalPages={props.donePageInfo.totalPages}

@@ -20,7 +20,7 @@ const SideChatHeader = (props) => {
     justifyContent: "space-between",
     padding: "12px 20px",
   };
-  const styleIcon = { color: theme.white, cursor: theme.cursor() };
+  const styleIcon = { color: theme.white, ...theme.cursor() };
   const styleInfoWrap = {
     display: "flex",
     flexDirection: "column",
@@ -39,7 +39,7 @@ const SideChatHeader = (props) => {
     <div style={styleBox}>
       <ArrowBackRoundedIcon
         style={styleIcon}
-        onClick={() => history.push("/myroom")}
+        onClick={() => history.goBack()}
       />
       <div style={styleInfoWrap}>
         <div style={{ ...theme.font18, ...styleInfo }}>{props.info?.name}</div>
