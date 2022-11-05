@@ -147,7 +147,7 @@ const Search = () => {
   const today10 = getToday10();
   const history = useHistory();
   const location = useLocation();
-  console.log(location);
+
   const [searchOptions, setSearchOptions] = useState({});
   const [valueName, setName] = useState("");
   const [valuePlace, setPlace] = useState([null, null]);
