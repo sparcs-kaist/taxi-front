@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 
 import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
 import HelpOutlineRoundedIcon from "@material-ui/icons/HelpOutlineRounded";
@@ -41,6 +41,7 @@ const Menu = (props: MenuProps) => {
     alignItems: "center",
     width: "fit-content",
     color: isHover ? theme.purple : undefined,
+    ...theme.cursor(),
   };
   const styleText = {
     ...theme.font14,
@@ -49,7 +50,6 @@ const Menu = (props: MenuProps) => {
   return (
     <div
       style={style}
-      className="BTNC"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       onTouchStart={() => setHover(true)}

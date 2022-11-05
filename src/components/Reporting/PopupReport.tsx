@@ -4,7 +4,7 @@ import ProfileImg from "components/Mypage/ProfileImg";
 import { FaPen } from "react-icons/fa";
 import Modal from "components/common/modal/Modal";
 import axios from "tools/axios";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import { useSetRecoilState } from "recoil";
 import alertAtom from "recoil/alert";
 import regExpTest from "tools/regExpTest";
@@ -35,12 +35,12 @@ const PopupReport = ({
   const [etcDetail, setEtcDetail] = useState("");
   const setAlert = useSetRecoilState(alertAtom);
 
-  const styleProfImg: React.CSSProperties = {
+  const styleProfImg: CSS = {
     width: "50px",
     height: "50px",
     marginLeft: "24px",
   };
-  const styleTitle: React.CSSProperties = {
+  const styleTitle: CSS = {
     height: "20px",
     marginLeft: "12px",
     ...theme.font16_bold,
@@ -52,27 +52,27 @@ const PopupReport = ({
     whiteSpace: "nowrap",
     width: "200px",
   };
-  const styleTop: React.CSSProperties = {
+  const styleTop: CSS = {
     marginTop: "6px",
     width: "100%",
     display: "flex",
     alignItems: "center",
   };
-  const styleMiddle: React.CSSProperties = {
+  const styleMiddle: CSS = {
     margin: "18px 20px 0px",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     marginBottom: "6px",
   };
-  const styleLabel: React.CSSProperties = {
+  const styleLabel: CSS = {
     width: "2.5em",
     ...theme.font14,
     lineHeight: "16px",
     letterSpacing: "0.05em",
     color: theme.gray_text,
   };
-  const styleDropdown: React.CSSProperties = {
+  const styleDropdown: CSS = {
     width: "100%",
     marginLeft: "10px",
     height: "28px",
@@ -86,13 +86,13 @@ const PopupReport = ({
     lineHeight: "16px",
     color: theme.gray_text,
   };
-  const styleBottom: React.CSSProperties = {
+  const styleBottom: CSS = {
     marginTop: "10px",
     display: "flex",
     gap: "10px",
     justifyContent: "space-between",
   };
-  const styleBottomSubmitted: React.CSSProperties = {
+  const styleBottomSubmitted: CSS = {
     margin: "32px",
     display: "flex",
     flexDirection: "column",
@@ -100,7 +100,7 @@ const PopupReport = ({
     justifyContent: "center",
     gap: "10px",
   };
-  const styleCancel: React.CSSProperties = {
+  const styleCancel: CSS = {
     width: "77px",
     height: "36px",
     background: theme.gray_background,
@@ -110,7 +110,7 @@ const PopupReport = ({
     border: "none",
     outline: "none",
   };
-  const styleSubmit: React.CSSProperties = {
+  const styleSubmit: CSS = {
     width: "218px",
     height: "36px",
     background: "#6E3678",
@@ -120,7 +120,7 @@ const PopupReport = ({
     border: "none",
     outline: "none",
   };
-  const styleETC: React.CSSProperties = {
+  const styleETC: CSS = {
     display: "flex",
     justifyContent: "space-between",
     background: theme.gray_background,
@@ -128,7 +128,7 @@ const PopupReport = ({
     borderRadius: "6px",
     margin: "10px 20px 0px",
   };
-  const styleText: React.CSSProperties = {
+  const styleText: CSS = {
     background: theme.gray_background,
     width: "221px",
     minHeight: "16px",
@@ -140,7 +140,7 @@ const PopupReport = ({
     margin: "8px 8px 8px 0px",
     overflow: "hidden",
   };
-  const styleIcon: React.CSSProperties = {
+  const styleIcon: CSS = {
     position: "relative",
     top: "10.75px",
     left: "13.75px",

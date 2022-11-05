@@ -8,7 +8,7 @@ import PopupPolicy from "./PopupPolicy";
 import PopupMembers from "./PopupMembers";
 import ProfileImg from "./ProfileImg";
 import axios from "tools/axios";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import alertAtom from "recoil/alert";

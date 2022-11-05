@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import useTaxiAPI from "hooks/useTaxiAPI";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import Modal from "components/common/modal/Modal";
 import DottedLine from "components/common/DottedLine";
 import ReportOption, { ReportOptionType } from "./ReportOption";

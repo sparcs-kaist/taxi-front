@@ -5,7 +5,7 @@ import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import PropTypes from "prop-types";
 import Modal from "components/common/modal/Modal";
 import axios from "tools/axios";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import alertAtom from "recoil/alert";
 
 import Button from "components/common/Button";
