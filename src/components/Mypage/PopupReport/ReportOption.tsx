@@ -1,5 +1,5 @@
 import React from "react";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 
 export type ReportOptionType = "Reporting" | "Reported";
 
@@ -20,7 +20,7 @@ const ReportOption = (props: ReportOptionProps) => {
       ...theme.font10,
       borderRadius: "4px",
       padding: "3px 6px 3px",
-      cursor: theme.cursor(),
+      ...theme.cursor(),
       color: isSelected ? theme.white : theme.gray_text,
       backgroundColor: isSelected ? theme.purple : theme.gray_background,
       boxShadow: isSelected

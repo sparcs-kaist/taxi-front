@@ -1,6 +1,6 @@
 import React from "react";
 import WhiteContainer from "components/common/WhiteContainer";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
 

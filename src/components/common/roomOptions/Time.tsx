@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import WhiteContainer from "components/common/WhiteContainer";
 import Popup from "./Popup";
 import Picker from "react-mobile-picker-mod";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import { time2str } from "tools/moment";
 
 import ScheduleRoundedIcon from "@material-ui/icons/ScheduleRounded";

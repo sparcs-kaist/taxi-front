@@ -1,7 +1,7 @@
 import React from "react";
 import { backServer } from "serverconf";
 import Button from "components/common/Button";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import { ReactComponent as TaxiLogo } from "static/assets/TaxiLogo.svg";
 import HeaderBar from "components/common/HeaderBar";
 

@@ -10,7 +10,7 @@ import axios from "tools/axios";
 import moment, { getToday10, getToday } from "tools/moment";
 import PropTypes from "prop-types";
 import isMobile from "ismobilejs";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import Button from "components/common/Button";
 import Tooltip from "components/common/Tooltip";
 
@@ -40,11 +40,11 @@ const SearchOption = (props) => {
     color: props.selected ? theme.white : theme.black,
     fontSize: "12px",
     config: { duration: 150 },
+    ...theme.cursor(),
   });
   return (
     <animated.div
       style={style}
-      className="BTNC"
       onClick={() => props.onClick(props.id)}
       onMouseEnter={() => setHover(!(isMobile().phone || isMobile().tablet))}
       onMouseLeave={() => setHover(false)}

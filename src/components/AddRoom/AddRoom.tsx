@@ -7,7 +7,7 @@ import Title from "components/common/Title";
 import Button from "components/common/Button";
 import axios from "tools/axios";
 import { date2str, getToday10, getToday } from "tools/moment";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import { useSetRecoilState } from "recoil";
 import alertAtom from "recoil/alert";
 import FullParticipation from "./FullParticipation";

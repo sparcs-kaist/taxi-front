@@ -56,10 +56,6 @@ b {
   position: relative;
 }
 
-.BTNC {
-  cursor: pointer;
-}
-
 input[type="text"] {
   -webkit-appearance: none;
   -moz-appearance: none;
