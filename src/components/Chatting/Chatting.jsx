@@ -49,11 +49,10 @@ const Chatting = (props) => {
     headerInfToken,
   ]);
 
-  if (reactiveState !== 3 && prevReactiveState.current === 3) {
-    history.replace(`/myroom/${props.roomId}`);
-  }
-
   useEffect(() => {
+    if (reactiveState !== 3 && prevReactiveState.current === 3) {
+      history.replace(`/myroom/${props.roomId}`);
+    }
     if (reactiveState === 3 && prevReactiveState.current !== 3)
       prevReactiveState.current = reactiveState;
   }, [reactiveState]);
