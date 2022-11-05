@@ -47,7 +47,7 @@ const Chatting = (props) => {
   // Update the room list
   useEffect(() => {
     setMyRoom(roomList);
-  }, [roomList]);
+  }, [JSON.stringify(roomList)]);
 
   // scroll event
   const isTopOnScroll = (tol = 20) => {

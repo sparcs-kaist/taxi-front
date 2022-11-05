@@ -30,11 +30,11 @@ const ChatHeader = (props) => {
 
   useEffect(() => {
     props.resizeEvent();
-  }, [headerInfo]);
+  }, [JSON.stringify(headerInfo)]);
 
   useEffect(() => {
     setMyRoom(roomList);
-  }, [roomList]);
+  }, [JSON.stringify(roomList)]);
 
   return (
     <div>
