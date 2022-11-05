@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getS3Url } from "tools/trans";
 import PropTypes from "prop-types";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 
 import defaultImg from "static/assets/profileImgOnError.png";
 

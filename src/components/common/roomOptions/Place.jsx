@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import WhiteContainer from "components/common/WhiteContainer";
 import Popup from "./Popup";
 import Picker from "react-mobile-picker-mod";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import DottedLine from "components/common/DottedLine";
 import MiniCircle from "components/common/MiniCircle";
 
@@ -68,6 +68,7 @@ const PlaceElement = (props) => {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    ...theme.cursor(),
   };
   const styleType = {
     margin: "5px 0",
@@ -92,7 +93,6 @@ const PlaceElement = (props) => {
   return (
     <div
       style={style}
-      className="BTNC"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       onClick={props.onClick}

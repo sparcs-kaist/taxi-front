@@ -1,5 +1,5 @@
-import React, { useState, CSSProperties } from "react";
-import { theme, Font } from "styles/theme";
+import React, { useState } from "react";
+import theme, { Font } from "styles/theme";
 import isMobile from "tools/isMobile";
 
 type ButtonType = "purple" | "purple_inset" | "gray" | "white";
@@ -68,13 +68,13 @@ const Button = ({
     }
   };
 
-  const style: CSSProperties = {
+  const style: CSS = {
     ...font,
     width: width,
     padding: padding,
     borderRadius: radius,
     transitionDuration: theme.duration,
-    cursor: theme.cursor(disabled),
+    ...theme.cursor(disabled),
     textAlign: "center",
     ...getColor(),
   };

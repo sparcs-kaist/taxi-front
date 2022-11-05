@@ -4,7 +4,7 @@ export type Font = {
   fontWeight?: number;
 };
 
-export const theme = {
+const theme = {
   // Color
   white: "#FFFFFF",
   black: "#323232",
@@ -41,7 +41,12 @@ export const theme = {
   font16: { fontSize: 16, letterSpacing: -0.4 },
   font16_bold: { fontSize: 16, letterSpacing: -0.4, fontWeight: 700 },
   font16_icon: { fontSize: 16 },
-  font18: { fontSize: 18, letterSpacing: -0.6, fontWeight: 700 },
+  font18: {
+    fontSize: 18,
+    letterSpacing: -0.6,
+    fontWeight: 700,
+    lineHeight: "21px",
+  },
   font20: {
     fontSize: 20,
     letterSpacing: -0.75,
@@ -84,7 +89,7 @@ export const theme = {
 
   // Cursor
   cursor: (disabled?: boolean) => {
-    return disabled ? "not-allowed" : "pointer";
+    return { cursor: disabled ? "not-allowed" : "pointer" } as CSS;
   },
 
   // zIndex
@@ -96,3 +101,5 @@ export const theme = {
   zIndex_fullimage: 20,
   zIndex_alert: 30,
 };
+
+export default theme;
