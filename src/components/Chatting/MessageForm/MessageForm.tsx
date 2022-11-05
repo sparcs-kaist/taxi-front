@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import FullChatMessageForm from "./FullChatMessageForm";
 import NewMessage from "./NewMessage";
 import PropTypes from "prop-types";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 
 type MessageFormPRops = {
   isSideChat: boolean;

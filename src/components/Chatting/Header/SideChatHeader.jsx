@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
@@ -17,7 +17,7 @@ const SideChatHeader = (props) => {
     justifyContent: "space-between",
     padding: "12px 20px",
   };
-  const styleIcon = { color: theme.white, cursor: theme.cursor() };
+  const styleIcon = { color: theme.white, ...theme.cursor() };
   const styleInfoWrap = {
     display: "flex",
     flexDirection: "column",
