@@ -5,12 +5,9 @@ import theme from "styles/theme";
 
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import FullscreenRoundedIcon from "@mui/icons-material/FullscreenRounded";
-import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const SideChatHeader = (props) => {
   const history = useHistory();
-  const { roomId } = useParams();
 
   const styleBox = {
     background: theme.purple,
@@ -26,7 +23,7 @@ const SideChatHeader = (props) => {
     flexDirection: "column",
     rowGap: "5px",
     width: "100%",
-    marginLeft: "16px",
+    margin: "0 8px 0 16px",
     minWidth: "0px",
   };
   const styleInfo = {
@@ -35,6 +32,7 @@ const SideChatHeader = (props) => {
     whiteSpace: "nowrap",
     textOverflow: "ellipsis",
   };
+
   return (
     <div style={styleBox}>
       <ArrowBackRoundedIcon
@@ -48,10 +46,9 @@ const SideChatHeader = (props) => {
         </div>
       </div>
       <FullscreenRoundedIcon
-        style={{ ...styleIcon, marginRight: "12px" }}
-        onClick={() => history.replace(`/chatting/${roomId}`)}
+        style={styleIcon}
+        onClick={() => history.replace(`/chatting/${props.info?._id}`)}
       />
-      <MenuRoundedIcon style={styleIcon} onClick={() => {}} />
     </div>
   );
 };
