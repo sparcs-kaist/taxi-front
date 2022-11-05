@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import RLayout from "components/common/RLayout";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import ListAltRoundedIcon from "@mui/icons-material/ListAltRounded";

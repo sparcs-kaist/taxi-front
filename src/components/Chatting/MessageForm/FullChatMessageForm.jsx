@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useSpring, animated } from "react-spring";
 import regExpTest from "tools/regExpTest";
 import PropTypes from "prop-types";
+import theme from "styles/theme";
 
 import { IoMdSend } from "react-icons/io";
 import { BsImageFill } from "react-icons/bs";
@@ -13,9 +14,10 @@ const BtnSend = (props) => {
     height: "20px",
     bottom: "4px",
     right: "7px",
+    ...theme.cursor(!props.enable),
   });
   return (
-    <animated.div style={style} className="BTNC" onClick={props.onClick}>
+    <animated.div style={style} onClick={props.onClick}>
       <IoMdSend
         style={{
           width: "100%",
@@ -38,9 +40,10 @@ const BtnImage = (props) => {
     height: "16px",
     bottom: "12px",
     left: "19px",
+    ...theme.cursor(),
   });
   return (
-    <animated.div style={style} className="BTNC" onClick={props.onClick}>
+    <animated.div style={style} onClick={props.onClick}>
       <BsImageFill style={{ width: "100%", height: "100%", fill: "#323232" }} />
     </animated.div>
   );

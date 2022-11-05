@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import WhiteContainer from "components/common/WhiteContainer";
 import Popup from "./Popup";
 import Picker from "react-mobile-picker-mod";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
+import { time2str } from "tools/moment";
 
 import ScheduleRoundedIcon from "@material-ui/icons/ScheduleRounded";
 
@@ -22,38 +23,28 @@ interface TimeProps extends TimeCommonProps {
   page: Page;
 }
 
-const optionsHour = Array.from(Array(24).keys());
-const optionsMin = [0, 10, 20, 30, 40, 50];
+const optionsHour = Array.from(Array(24).keys()).map((num) => time2str(num));
+const optionsMin = Array.from(Array(6).keys()).map((num) => time2str(num * 10));
 
 const PopupInput = (props: PopupInputProps) => {
-  const [value1, setValue1] = useState({ hour: optionsHour[0] });
-  const [value2, setValue2] = useState({ min: optionsMin[0] });
-  const option1Group = {
-    hour: optionsHour.map((x) => {
-      return x;
-    }),
-  };
-  const option2Group = {
-    min: optionsMin.map((x) => {
-      return x;
-    }),
-  };
+  const [hour, setHour] = useState(optionsHour[0]);
+  const [min, setMin] = useState(optionsMin[0]);
 
   const resetValue = () => {
-    setValue1({ hour: props.value[0] });
-    setValue2({ min: props.value[1] });
+    setHour(time2str(props.value[0]));
+    setMin(time2str(props.value[1]));
   };
   useEffect(() => {
     resetValue();
   }, [props.isOpen]);
 
   const onClick = () => {
-    props.handler([value1.hour, value2.min]);
+    props.handler([parseInt(hour), parseInt(min)]);
     props.onClose();
   };
-  const handler = (key: string, value: number) => {
-    if (key === "hour") setValue1({ hour: value });
-    if (key === "min") setValue2({ min: value });
+  const handler = (key: string, value: string) => {
+    if (key === "hour") setHour(value);
+    if (key === "min") setMin(value);
   };
 
   const styleContainer = {
@@ -79,8 +70,8 @@ const PopupInput = (props: PopupInputProps) => {
         <div style={{ marginLeft: "6px" }}>시간 :</div>
         <div style={stylePicker}>
           <Picker
-            optionGroups={option1Group}
-            valueGroups={value1}
+            optionGroups={{ hour: optionsHour }}
+            valueGroups={{ hour: hour }}
             onChange={handler}
             itemHeight={29}
             height={221}
@@ -89,8 +80,8 @@ const PopupInput = (props: PopupInputProps) => {
         <div style={styleText}>시</div>
         <div style={stylePicker}>
           <Picker
-            optionGroups={option2Group}
-            valueGroups={value2}
+            optionGroups={{ min: optionsMin }}
+            valueGroups={{ min: min }}
             onChange={handler}
             itemHeight={29}
             height={221}
@@ -127,17 +118,18 @@ const Time = (props: TimeProps) => {
     cursor: "pointer",
     boxSizing: "border-box",
   };
+
   return (
     <WhiteContainer padding="9px">
       <div style={style}>
         <ScheduleRoundedIcon style={styleIcon} />
         <div style={styleText}>시간 :</div>
         <div style={styleInput} onClick={() => setPopup(true)}>
-          {props.value[0]}
+          {time2str(props.value[0])}
         </div>
         <div style={styleText}>시</div>
         <div style={styleInput} onClick={() => setPopup(true)}>
-          {props.value[1]}
+          {time2str(props.value[1])}
         </div>
         <div style={styleText}>
           분 {props.page === "search" ? "이후" : "출발"}

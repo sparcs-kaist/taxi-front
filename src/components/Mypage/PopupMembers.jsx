@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import DottedLine from "components/common/DottedLine";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import Modal from "components/common/modal/Modal";
 import members from "static/members";
 

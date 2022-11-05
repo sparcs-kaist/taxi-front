@@ -2,7 +2,7 @@ import React from "react";
 import RLayout from "components/common/RLayout";
 import PropTypes from "prop-types";
 import useDisableScroll from "hooks/useDisableScroll";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
@@ -38,6 +38,11 @@ const Modal = (props) => {
             background: theme.white,
             borderRadius: "15px",
             padding: props.padding,
+            minHeight: "148px",
+            maxHeight: "720px",
+            display: "flex",
+            flexDirection: "column",
+            boxSizing: "border-box",
           }}
         >
           {props.children}
