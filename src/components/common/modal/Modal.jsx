@@ -2,7 +2,7 @@ import React from "react";
 import RLayout from "components/common/RLayout";
 import PropTypes from "prop-types";
 import useDisableScroll from "hooks/useDisableScroll";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 

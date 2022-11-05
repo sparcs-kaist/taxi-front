@@ -4,7 +4,7 @@ export type Font = {
   fontWeight?: number;
 };
 
-export const theme = {
+const theme = {
   // Color
   white: "#FFFFFF",
   black: "#323232",
@@ -84,7 +84,7 @@ export const theme = {
 
   // Cursor
   cursor: (disabled?: boolean) => {
-    return disabled ? "not-allowed" : "pointer";
+    return { cursor: disabled ? "not-allowed" : "pointer" } as CSS;
   },
 
   // zIndex
@@ -96,3 +96,5 @@ export const theme = {
   zIndex_fullimage: 20,
   zIndex_alert: 30,
 };
+
+export default theme;

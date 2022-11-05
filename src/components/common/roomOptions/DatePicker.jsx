@@ -1,7 +1,7 @@
 import React, { Component, useState } from "react";
 import { getToday10 } from "tools/moment";
 import PropTypes from "prop-types";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import DottedLine from "components/common/DottedLine";
 import MiniCircle from "components/common/MiniCircle";
 
@@ -84,7 +84,7 @@ const Date = (props) => {
         ? theme.shadow_purple_button_inset
         : theme.shadow_purple_input_inset
       : undefined,
-    cursor: theme.cursor(!props.available),
+    ...theme.cursor(!props.available),
     transitionDuration: theme.duration,
   };
   const styleDate = {
@@ -182,7 +182,7 @@ class DatePicker extends Component {
       width: "24px",
       height: "24px",
       fill: theme.purple,
-      cursor: theme.cursor(),
+      ...theme.cursor(),
     };
     this.styleArrowGrid = {
       width: "56px",
