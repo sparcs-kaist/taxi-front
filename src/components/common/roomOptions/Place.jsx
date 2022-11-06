@@ -28,19 +28,34 @@ const PopupInput = (props) => {
     props.onClose();
   };
 
-  const handler = (_, changedValue) => {
+  const element = document.getElementsByClassName("picker-scroller");
+  const handler = (type) => (_, changedValue) => {
     if (changedValue && value.place !== changedValue)
       setValue({ place: changedValue });
+    const index = type === "from" ? 0 : 1;
+    const yLength = parseInt(
+      window
+        .getComputedStyle(element[index])
+        .transform.split(" ")[5]
+        .replace(")", "")
+    );
+    if (yLength > 221 / 2 - 35 / 2)
+      element[index].style.transform = `translate3d(0px, ${
+        221 / 2 - 35 / 2
+      }px, 0px)`;
+    if (yLength < 221 / 2 - 35 / 2 - 35 * 4)
+      element[index].style.transform = `translate3d(0px, ${
+        221 / 2 - 35 / 2 - 35 * 4
+      }px, 0px)`;
   };
-
   return (
     <Popup isOpen={props.isOpen} onClose={props.onClose} onClick={onClick}>
       <div style={{ width: "calc(100% - 20px)", marginLeft: "10px" }}>
         <Picker
           optionGroups={optionGroup}
           valueGroups={value}
-          onChange={handler}
-          itemHeight={29}
+          onChange={handler(props.type)}
+          itemHeight={35}
           height={221}
         />
       </div>
@@ -53,6 +68,7 @@ PopupInput.propTypes = {
   value: PropTypes.string,
   handler: PropTypes.func,
   placeOptions: PropTypes.array,
+  type: PropTypes.oneOf(["from", "to"]),
 };
 
 const PlaceElement = (props) => {
@@ -146,6 +162,7 @@ const Place = (props) => {
         value={getPlaceName(props.value[0])}
         handler={(x) => props.handler([x, props.value[1]])}
         placeOptions={taxiLocation}
+        type="from"
       />
       <PopupInput
         isOpen={isPopup2}
@@ -153,6 +170,7 @@ const Place = (props) => {
         value={getPlaceName(props.value[1])}
         handler={(x) => props.handler([props.value[0], x])}
         placeOptions={taxiLocation}
+        type="to"
       />
     </WhiteContainer>
   );
