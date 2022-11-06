@@ -42,25 +42,17 @@ const PopupInput = (props: PopupInputProps) => {
     props.handler([parseInt(hour), parseInt(min)]);
     props.onClose();
   };
-  const element = document.getElementsByClassName(
-    "picker-scroller"
-  ) as HTMLCollectionOf<HTMLElement>;
   const handler = (key: string, value: string) => {
     if (key === "hour") setHour(value);
     if (key === "min") setMin(value);
-    const index = key === "hour" ? 2 : 3;
+    const element = document.querySelector("." + key) as HTMLElement;
     const yLength = parseInt(
-      window
-        .getComputedStyle(element[index])
-        .transform.split(" ")[5]
-        .replace(")", "")
+      window.getComputedStyle(element).transform.split(" ")[5].replace(")", "")
     );
     if (yLength > 221 / 2 - 35 / 2)
-      element[index].style.transform = `translate3d(0px, ${
-        221 / 2 - 35 / 2
-      }px, 0px)`;
+      element.style.transform = `translate3d(0px, ${221 / 2 - 35 / 2}px, 0px)`;
     if (yLength < 221 / 2 - 35 / 2 - 35 * (key === "hour" ? 23 : 5))
-      element[index].style.transform = `translate3d(0px, ${
+      element.style.transform = `translate3d(0px, ${
         221 / 2 - 35 / 2 - 35 * (key === "hour" ? 23 : 5)
       }px, 0px)`;
   };

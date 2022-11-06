@@ -28,23 +28,17 @@ const PopupInput = (props) => {
     props.onClose();
   };
 
-  const element = document.getElementsByClassName("picker-scroller");
   const handler = (type) => (_, changedValue) => {
     if (changedValue && value.place !== changedValue)
       setValue({ place: changedValue });
-    const index = type === "from" ? 0 : 1;
+    const element = document.querySelector("." + type);
     const yLength = parseInt(
-      window
-        .getComputedStyle(element[index])
-        .transform.split(" ")[5]
-        .replace(")", "")
+      window.getComputedStyle(element).transform.split(" ")[5].replace(")", "")
     );
     if (yLength > 221 / 2 - 35 / 2)
-      element[index].style.transform = `translate3d(0px, ${
-        221 / 2 - 35 / 2
-      }px, 0px)`;
+      element.style.transform = `translate3d(0px, ${221 / 2 - 35 / 2}px, 0px)`;
     if (yLength < 221 / 2 - 35 / 2 - 35 * 4)
-      element[index].style.transform = `translate3d(0px, ${
+      element.style.transform = `translate3d(0px, ${
         221 / 2 - 35 / 2 - 35 * 4
       }px, 0px)`;
   };
