@@ -103,7 +103,6 @@ const Popup = (props) => {
           margin: "auto",
         }}
         onClick={(e) => e.stopPropagation()}
-        onTouchStart={(e) => e.preventDefault()}
       >
         {props.children}
       </div>
@@ -116,7 +115,6 @@ const Popup = (props) => {
           width: "100%",
         }}
         onClick={(e) => e.stopPropagation()}
-        onTouchStart={(e) => e.preventDefault()}
       >
         {props.children}
       </div>
