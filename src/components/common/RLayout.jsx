@@ -95,7 +95,7 @@ R2.defaultProps = {
 const Popup = (props) => {
   const state = usePopupstate(props.width);
 
-  if (state == 1) {
+  if (state === 1) {
     return (
       <div
         style={{
@@ -103,6 +103,7 @@ const Popup = (props) => {
           margin: "auto",
         }}
         onClick={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.preventDefault()}
       >
         {props.children}
       </div>
@@ -115,6 +116,7 @@ const Popup = (props) => {
           width: "100%",
         }}
         onClick={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.preventDefault()}
       >
         {props.children}
       </div>
