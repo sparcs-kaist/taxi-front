@@ -1,31 +1,33 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useSpring, animated } from "react-spring";
 import regExpTest from "tools/regExpTest";
 import PropTypes from "prop-types";
 import theme from "styles/theme";
 
-import { IoMdSend } from "react-icons/io";
-import { BsImageFill } from "react-icons/bs";
+import CropOriginalRoundedIcon from "@mui/icons-material/CropOriginalRounded";
+import ArrowUpwardRoundedIcon from "@mui/icons-material/ArrowUpwardRounded";
 
 const BtnSend = (props) => {
-  const style = useSpring({
+  const style = {
     position: "absolute",
-    width: "20px",
-    height: "20px",
-    bottom: "4px",
-    right: "7px",
+    width: "28px",
+    height: "28px",
+    bottom: "2px",
+    right: "2px",
+    backgroundColor: props.enable ? theme.purple : theme.gray_background,
+    borderRadius: "14px",
+    boxShadow: theme.shadow_gray_input_inset,
     ...theme.cursor(!props.enable),
-  });
+  };
   return (
-    <animated.div style={style} onClick={props.onClick}>
-      <IoMdSend
+    <div style={style} onClick={props.onClick}>
+      <ArrowUpwardRoundedIcon
         style={{
-          width: "100%",
-          height: "100%",
-          fill: props.enable ? "#323232" : "#888888",
+          fontSize: "22px",
+          margin: "3px",
+          fill: props.enable ? theme.white : theme.gray_line,
         }}
       />
-    </animated.div>
+    </div>
   );
 };
 BtnSend.propTypes = {
@@ -34,18 +36,19 @@ BtnSend.propTypes = {
 };
 
 const BtnImage = (props) => {
-  const style = useSpring({
-    position: "absolute",
-    width: "16px",
-    height: "16px",
-    bottom: "12px",
-    left: "19px",
+  const style = {
+    width: "22px",
+    minWidth: "22px",
+    height: "22px",
+    marginBottom: "5px",
     ...theme.cursor(),
-  });
+  };
   return (
-    <animated.div style={style} onClick={props.onClick}>
-      <BsImageFill style={{ width: "100%", height: "100%", fill: "#323232" }} />
-    </animated.div>
+    <div style={style} onClick={props.onClick}>
+      <CropOriginalRoundedIcon
+        style={{ width: "100%", height: "100%", fill: theme.gray_text }}
+      />
+    </div>
   );
 };
 BtnImage.propTypes = {
@@ -119,15 +122,21 @@ const FullChatMessageForm = (props) => {
     resizeEvent();
   }, [message]);
   useEffect(() => {
-    props.setContHeight(`calc(12px + ${formHeight})`);
+    props.setContHeight(`calc(16px + ${formHeight})`);
   }, [formHeight]);
 
   return (
     <div
       style={{
-        position: "relative",
-        background: "white",
-        minHeight: "40px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "flex-end",
+        width: "100%",
+        columnGap: "10px",
+        padding: "8px 12px",
+        boxSizing: "border-box",
+        background: theme.white,
+        borderRadius: "0 0 12px 12px",
       }}
     >
       <input
@@ -138,20 +147,17 @@ const FullChatMessageForm = (props) => {
         onChange={onChangeImage}
       />
       <BtnImage onClick={() => inputImage.current.click()} />
-      <div style={{ height: "6px" }} />
       <div
         ref={textareaContRef}
         style={{
           position: "relative",
-          background: "#EEEEEE",
-          boxShadow: "inset 1px 1px 2.5px -1px rgba(0, 0, 0, 0.075)",
-          borderRadius: "8px",
-          marginLeft: "53px",
-          marginRight: "18px",
+          background: theme.purple_light,
+          boxShadow: theme.shadow_purple_input_inset,
+          width: "100%",
+          borderRadius: "16px",
           overflow: "hidden",
-          minHeight: "28px",
           height: formHeight,
-          color: "#323232",
+          color: theme.black,
         }}
       >
         <textarea
@@ -162,23 +168,19 @@ const FullChatMessageForm = (props) => {
           onKeyDown={onKeyDown}
           onKeyUp={onKeyUp}
           style={{
-            width: "calc(100% - 46px)",
-            height: "calc(100% - 12px)",
+            width: "100%",
+            height: "100%",
             background: "none",
             border: "none",
             resize: "none",
             outline: "none",
-            fontSize: "14px",
-            lineHeight: "16px",
-            paddingTop: "6px",
-            paddingBottom: "6px",
-            paddingLeft: "12px",
-            paddingRight: "34px",
+            ...theme.font14,
+            padding: "8px 46px 8px 12px",
+            boxSizing: "border-box",
           }}
         />
         <BtnSend onClick={onSend} enable={isMessageValid()} />
       </div>
-      <div style={{ height: "6px" }} />
     </div>
   );
 };

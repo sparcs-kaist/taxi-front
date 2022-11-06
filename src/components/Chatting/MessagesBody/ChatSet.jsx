@@ -42,7 +42,7 @@ const ChatImage = (props) => {
         <img
           src={src}
           style={{
-            maxWidth: isMobile ? "75%" : "210px",
+            maxWidth: "100%",
             maxHeight: isMobile ? "360px" : "210px",
             verticalAlign: "middle",
             cursor: "pointer",
@@ -128,7 +128,7 @@ const ChatSet = (props) => {
     gap: "4px",
   };
   const styleChat = {
-    maxWidth: "calc(100% - 70px)",
+    maxWidth: isMobile ? "75%" : "210px",
     background: itsme ? "#6E3678" : "#FFFFFF",
     boxShadow:
       "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
