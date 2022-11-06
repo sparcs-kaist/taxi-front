@@ -11,6 +11,11 @@
   display: none !important;
 }
 
+.picker-highlight {
+  height: 29px;
+  margin-top: -14.5px;
+}
+
 .picker-container .picker-highlight {
   z-index: -1;
   background-color: #eeeeee;
