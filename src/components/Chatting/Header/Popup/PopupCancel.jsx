@@ -40,10 +40,9 @@ const PopupCancel = (props) => {
       roomId: props.roomId,
     });
     if (res.status === 200) {
-      axios.get("/rooms/v2/searchByUser").then(({ data }) => {
+      await axios.get("/rooms/v2/searchByUser").then(({ data }) => {
         setMyRoom(data);
       });
-      props.recallEvent();
       history.push("/myroom");
     } else {
       setAlert("탑승 취소를 실패하였습니다");
