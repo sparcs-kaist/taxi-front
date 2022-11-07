@@ -43,7 +43,7 @@ const PopupCancel = (props) => {
       await axios.get("/rooms/v2/searchByUser").then(({ data }) => {
         setMyRoom(data);
       });
-      history.push("/myroom");
+      history.replace("/myroom");
     } else {
       setAlert("탑승 취소를 실패하였습니다");
     }
@@ -71,7 +71,6 @@ PopupCancel.propTypes = {
   roomId: PropTypes.string,
   popup: PropTypes.bool,
   onClickClose: PropTypes.func,
-  recallEvent: PropTypes.func,
 };
 
 export default PopupCancel;

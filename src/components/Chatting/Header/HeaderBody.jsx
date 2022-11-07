@@ -156,7 +156,6 @@ const Button = (props) => {
         roomId={props.info?._id}
         popup={popupCancel}
         onClickClose={() => setPopupCancel(false)}
-        recallEvent={props.recallEvent}
       />
       <PopupPay
         roomId={props.info?._id}
