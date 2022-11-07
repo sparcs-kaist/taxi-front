@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
-import { useTranslation } from "lang/i18n";
+import { useTranslation } from "react-i18next";
 import Title from "components/common/Title";
 import WhiteContainer from "components/common/WhiteContainer";
 import PopupModify from "./PopupModify";
@@ -14,11 +14,10 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import alertAtom from "recoil/alert";
 import Menu from "./Menu";
-import TranslationButton from "./TranslationButton";
 import { nodeEnv } from "serverconf";
 
 const Mypage = () => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation("mypage");
   const [profToken, setProfToken] = useState(Date.now().toString());
   const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const [isOpenModify, setOpenModify] = useState(false);
@@ -37,9 +36,8 @@ const Mypage = () => {
     }
   };
   const handleUpdate = () => setProfToken(Date.now().toString());
-  const handleTranslation = () => {
-    i18n.changeLanguage("en");
-  }
+  const handleTranslation = () =>
+    i18n.changeLanguage(i18n.language === "ko" ? "en" : "ko");
 
   const styleProfile = {
     display: "flex",
@@ -112,11 +110,11 @@ const Mypage = () => {
         </div>
       </WhiteContainer>
 
-      { /* 개발 중인 기능, dev 에서만 언어 전환을 사용할 수 있습니다 */ }
+      {/* 개발 중인 기능, dev 에서만 언어 전환을 사용할 수 있습니다 */}
       {nodeEnv === "development" ? (
         <WhiteContainer marginAuto>
           <Menu icon="fixme" onClick={handleTranslation}>
-            English ↔ 한국어
+            {t("btn.translation")}
           </Menu>
         </WhiteContainer>
       ) : null}

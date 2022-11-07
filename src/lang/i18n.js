@@ -2,31 +2,36 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import { nodeEnv } from "serverconf";
 
-import TranslationEn from "lang/translation.en.json";
-import TranslationKo from "lang/translation.ko.json";
+import nsSearchKO from "./ko/search.json";
+import nsAddroomKO from "./ko/addroom.json";
+import nsMyroomKO from "./ko/myroom.json";
+import nsMypageKO from "./ko/mypage.json";
 
-const resource = {
-  en: {
-    translations: TranslationEn,
-  },
-  ko: {
-    translations: TranslationKo,
-  },
-};
+import nsSearchEN from "./en/search.json";
+import nsAddroomEN from "./en/addroom.json";
+import nsMyroomEN from "./en/myroom.json";
+import nsMypageEN from "./en/mypage.json";
 
 /** {@link https://www.i18next.com/overview/configuration-options} */
-i18n
-  .use(initReactI18next)
-  .init({
-    resources: resource,
-    debug: nodeEnv === 'development',
-
-    lng: "ko", // 초기 언어 설정
-    fallbackLng: "ko",
-    nsSeparator: ".",
-    keySeparator: false,
-    // defaultNS: "translation",
-    // ns: "translation",
-  });
+i18n.use(initReactI18next).init({
+  resources: {
+    ko: {
+      search: nsSearchKO,
+      addroom: nsAddroomKO,
+      myroom: nsMyroomKO,
+      mypage: nsMypageKO,
+    },
+    en: {
+      search: nsSearchEN,
+      addroom: nsAddroomEN,
+      myroom: nsMyroomEN,
+      mypage: nsMypageEN,
+    },
+  },
+  debug: nodeEnv === "development",
+  lng: "ko", // inintial language
+  fallbackLng: "ko",
+  defaultNS: "mypage", // default namespace
+});
 
 export default i18n;
