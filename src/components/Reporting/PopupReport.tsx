@@ -186,7 +186,7 @@ const PopupReport = ({
       onClickClose={handleClose}
       width={325}
       padding="10px"
-      closeBtn={true}
+      closeBtn
     >
       <div style={styleTop}>
         <div style={styleProfImg}>

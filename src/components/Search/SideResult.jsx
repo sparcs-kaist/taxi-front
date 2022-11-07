@@ -212,7 +212,7 @@ const SideResult = (props) => {
       <>
         <RoomSelectionModal
           isOpen={!!selectedRoomInfo}
-          isMobile={true}
+          isMobile
           onClose={() => {
             setSelectedRoomInfo(null);
           }}
