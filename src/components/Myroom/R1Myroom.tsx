@@ -24,7 +24,7 @@ type R1MyroomProps = {
 const R1Myroom = (props: R1MyroomProps) => {
   return (
     <RLayout.R1>
-      <Title icon="current" header={true}>
+      <Title icon="current" header>
         참여 중인 방
       </Title>
       {props.ongoing.length === 0 ? (
@@ -45,7 +45,7 @@ const R1Myroom = (props: R1MyroomProps) => {
           </Link>
         ))
       )}
-      <Title icon="past" header={true}>
+      <Title icon="past" header>
         과거 참여 방
       </Title>
       {props.done.length === 0 ? (

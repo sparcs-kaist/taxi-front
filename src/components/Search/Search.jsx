@@ -400,7 +400,7 @@ const Search = () => {
     );
   return (
     <div>
-      <Title icon="search" header={true} marginAuto={true}>
+      <Title icon="search" header marginAuto>
         방 검색하기
       </Title>
       <RLayout.R2

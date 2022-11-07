@@ -75,10 +75,10 @@ const Mypage = () => {
 
   return (
     <>
-      <Title icon="mypage" header={true} marginAuto={true}>
+      <Title icon="mypage" header marginAuto>
         마이 페이지
       </Title>
-      <WhiteContainer marginAuto={true} padding="16px 24px 24px">
+      <WhiteContainer marginAuto padding="16px 24px 24px">
         <div style={styleProfile}>
           <div style={styleProfImg}>
             {userInfoDetail?.profileImgUrl && profToken ? (
@@ -114,14 +114,14 @@ const Mypage = () => {
 
       { /* 개발 중인 기능, dev 에서만 언어 전환을 사용할 수 있습니다 */ }
       {nodeEnv === "development" ? (
-        <WhiteContainer marginAuto={true}>
+        <WhiteContainer marginAuto>
           <Menu icon="fixme" onClick={handleTranslation}>
             English ↔ 한국어
           </Menu>
         </WhiteContainer>
       ) : null}
 
-      <WhiteContainer marginAuto={true}>
+      <WhiteContainer marginAuto>
         <div style={{ display: "grid", rowGap: "16px" }}>
           <Menu icon="report" onClick={() => setOpenReport(true)}>
             신고 내역

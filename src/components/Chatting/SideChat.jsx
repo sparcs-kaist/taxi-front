@@ -15,7 +15,7 @@ const SideChat = ({ roomId }) => {
   };
   return (
     <div style={styleSideChat}>
-      <Chatting roomId={roomId} isSideChat={true} />
+      <Chatting roomId={roomId} isSideChat />
     </div>
   );
 };
