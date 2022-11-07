@@ -95,7 +95,7 @@ const AddRoom = () => {
 
   return (myRoom?.ongoing.length ?? 0) < MAX_PARTICIPATION ? (
     <div>
-      <Title icon="add" header={true} marginAuto={true}>
+      <Title icon="add" header marginAuto>
         방 개설하기
       </Title>
       <RLayout.R1>

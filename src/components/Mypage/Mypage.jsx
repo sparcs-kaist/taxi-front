@@ -67,10 +67,10 @@ const Mypage = () => {
 
   return (
     <>
-      <Title icon="mypage" header={true} marginAuto={true}>
+      <Title icon="mypage" header marginAuto>
         마이 페이지
       </Title>
-      <WhiteContainer marginAuto={true} padding="16px 24px 24px">
+      <WhiteContainer marginAuto padding="16px 24px 24px">
         <div style={styleProfile}>
           <div style={styleProfImg}>
             {userInfoDetail?.profileImgUrl && profToken ? (
@@ -103,7 +103,7 @@ const Mypage = () => {
           <div style={infoContent}>{userInfoDetail?.nickname}</div>
         </div>
       </WhiteContainer>
-      <WhiteContainer marginAuto={true}>
+      <WhiteContainer marginAuto>
         <div style={{ display: "grid", rowGap: "16px" }}>
           <Menu icon="report" onClick={() => setOpenReport(true)}>
             신고 내역

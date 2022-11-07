@@ -22,7 +22,7 @@ const AlertProvider = () => {
       width={315}
       padding="10px"
       closeBtn={false}
-      alert={true}
+      alert
     >
       <div
         style={{
