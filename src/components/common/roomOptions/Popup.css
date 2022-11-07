@@ -12,8 +12,8 @@
 }
 
 .picker-highlight {
-  height: 29px;
-  margin-top: -14.5px;
+  height: 29px !important;
+  margin-top: -14.5px !important;
 }
 
 .picker-container .picker-highlight {
