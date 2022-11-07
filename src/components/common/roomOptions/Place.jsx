@@ -5,7 +5,7 @@ import preferenceAtom from "recoil/preference";
 import PropTypes from "prop-types";
 import WhiteContainer from "components/common/WhiteContainer";
 import Popup from "./Popup";
-import Picker from "react-mobile-picker-mod";
+import Picker from "components/common/roomOptions/Picker";
 import theme from "styles/theme";
 import DottedLine from "components/common/DottedLine";
 import MiniCircle from "components/common/MiniCircle";
@@ -28,19 +28,9 @@ const PopupInput = (props) => {
     props.onClose();
   };
 
-  const handler = (type) => (_, changedValue) => {
+  const handler = (_, changedValue) => {
     if (changedValue && value.place !== changedValue)
       setValue({ place: changedValue });
-    const element = document.querySelector("." + type);
-    const yLength = parseInt(
-      window.getComputedStyle(element).transform.split(" ")[5].replace(")", "")
-    );
-    if (yLength > 221 / 2 - 35 / 2)
-      element.style.transform = `translate3d(0px, ${221 / 2 - 35 / 2}px, 0px)`;
-    if (yLength < 221 / 2 - 35 / 2 - 35 * 4)
-      element.style.transform = `translate3d(0px, ${
-        221 / 2 - 35 / 2 - 35 * 4
-      }px, 0px)`;
   };
   return (
     <Popup isOpen={props.isOpen} onClose={props.onClose} onClick={onClick}>
@@ -48,7 +38,7 @@ const PopupInput = (props) => {
         <Picker
           optionGroups={optionGroup}
           valueGroups={value}
-          onChange={handler(props.type)}
+          onChange={handler}
           itemHeight={35}
           height={221}
         />

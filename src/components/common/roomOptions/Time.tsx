@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import WhiteContainer from "components/common/WhiteContainer";
 import Popup from "./Popup";
-import Picker from "react-mobile-picker-mod";
+import Picker from "components/common/roomOptions/Picker";
 import theme from "styles/theme";
 import { time2str } from "tools/moment";
 
@@ -45,16 +45,6 @@ const PopupInput = (props: PopupInputProps) => {
   const handler = (key: string, value: string) => {
     if (key === "hour") setHour(value);
     if (key === "min") setMin(value);
-    const element = document.querySelector("." + key) as HTMLElement;
-    const yLength = parseInt(
-      window.getComputedStyle(element).transform.split(" ")[5].replace(")", "")
-    );
-    if (yLength > 221 / 2 - 35 / 2)
-      element.style.transform = `translate3d(0px, ${221 / 2 - 35 / 2}px, 0px)`;
-    if (yLength < 221 / 2 - 35 / 2 - 35 * (key === "hour" ? 23 : 5))
-      element.style.transform = `translate3d(0px, ${
-        221 / 2 - 35 / 2 - 35 * (key === "hour" ? 23 : 5)
-      }px, 0px)`;
   };
 
   const styleContainer = {
