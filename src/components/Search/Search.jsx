@@ -284,11 +284,6 @@ const Search = () => {
       (valuePlace[0] !== null || valuePlace[1] !== null)
     )
       setPlace([null, null]);
-    if (searchOptions.place) {
-      const element = document.getElementsByClassName("picker-scroller");
-      element[0].classList.add("from");
-      element[1].classList.add("to");
-    }
   }, [searchOptions.place]);
   useEffect(() => {
     if (!searchOptions.date && valueDate[0] !== null)
@@ -308,10 +303,6 @@ const Search = () => {
         const today = getToday10();
         setTime([today.hour(), today.minute()]);
       }
-      const element = document.getElementsByClassName("picker-scroller");
-      const index = searchOptions.place ? 2 : 0;
-      element[index].classList.add("hour");
-      element[index + 1].classList.add("min");
     } else if (valueTime[0] !== 0 || valueTime[1] !== 0) {
       setTime([today10.hour(), today10.minute()]);
     }

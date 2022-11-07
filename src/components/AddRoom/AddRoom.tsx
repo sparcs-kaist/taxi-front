@@ -38,14 +38,6 @@ const AddRoom = () => {
   const [myRoom, setMyRoom] = useRecoilState(myRoomAtom);
 
   useEffect(() => {
-    const element = document.getElementsByClassName("picker-scroller");
-    element[0].classList.add("from");
-    element[1].classList.add("to");
-    element[2].classList.add("hour");
-    element[3].classList.add("min");
-  }, []);
-
-  useEffect(() => {
     setCalculatedTime(
       new Date(
         valueDate[0]!,
