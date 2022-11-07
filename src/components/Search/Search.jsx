@@ -402,8 +402,8 @@ const Search = () => {
     <div>
       <Title
         icon="search"
-        header={true}
-        marginAuto={true}
+        header
+        marginAuto
         R2={searchResult !== null}
       >
         방 검색하기

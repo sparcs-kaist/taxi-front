@@ -59,7 +59,7 @@ const BtnProfImg = (props) => {
             setAlert("프로필 사진이 변경되었습니다.");
             setLoginInfoDetail({
               ...loginInfoDetail,
-              profileImageUrl: res2.data.profileImageUrl,
+              profileImgUrl: res2.data.profileImageUrl,
             });
             props.onUpdate();
             return;
