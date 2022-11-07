@@ -2,15 +2,15 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import { nodeEnv } from "serverconf";
 
-import nsSearchKO from "./ko/search.json";
-import nsAddroomKO from "./ko/addroom.json";
-import nsMyroomKO from "./ko/myroom.json";
-import nsMypageKO from "./ko/mypage.json";
+import nsSearchKO from "./search/ko.json";
+import nsAddroomKO from "./addroom/ko.json";
+import nsMyroomKO from "./myroom/ko.json";
+import nsMypageKO from "./mypage/ko.json";
 
-import nsSearchEN from "./en/search.json";
-import nsAddroomEN from "./en/addroom.json";
-import nsMyroomEN from "./en/myroom.json";
-import nsMypageEN from "./en/mypage.json";
+import nsSearchEN from "./search/en.json";
+import nsAddroomEN from "./addroom/en.json";
+import nsMyroomEN from "./myroom/en.json";
+import nsMypageEN from "./mypage/en.json";
 
 /** {@link https://www.i18next.com/overview/configuration-options} */
 i18n.use(initReactI18next).init({
