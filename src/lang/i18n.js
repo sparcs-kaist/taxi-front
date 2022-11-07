@@ -1,5 +1,6 @@
 import i18n from "i18next";
-import { useTranslation, initReactI18next } from "react-i18next";
+import { initReactI18next } from "react-i18next";
+import { nodeEnv } from "serverconf";
 
 import TranslationEn from "lang/translation.en.json";
 import TranslationKo from "lang/translation.ko.json";
@@ -13,23 +14,19 @@ const resource = {
   },
 };
 
+/** {@link https://www.i18next.com/overview/configuration-options} */
 i18n
-  .use(initReactI18next) // passes i18n down to react-i18next
+  .use(initReactI18next)
   .init({
-    // the translations
-    // (tip move them in a JSON file and import them,
-    // or even better, manage them via a UI: https://react.i18next.com/guides/multiple-translation-files#manage-your-translations-with-a-management-gui)
     resources: resource,
-    // 초기 언어 설정
-    lng: "ko", // if you're using a language detector, do not define the lng option
+    debug: nodeEnv === 'development',
+
+    lng: "ko", // 초기 언어 설정
     fallbackLng: "ko",
-    debug: true,
-    defaultNS: "translations",
-    ns: "translations",
+    nsSeparator: ".",
     keySeparator: false,
-    interpolation: {
-      escapeValue: false, // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
-    },
+    // defaultNS: "translation",
+    // ns: "translation",
   });
 
 export default i18n;
