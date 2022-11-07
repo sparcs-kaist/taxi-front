@@ -1,10 +1,14 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useLocation, Redirect } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import taxiLocationAtom from "recoil/taxiLocation";
-import loginInfoDetailAtom from "recoil/loginInfoDetail";
+import reactGA from "react-ga4";
 import PropTypes from "prop-types";
 import axios from "tools/axios";
+import { gaTrackingId } from "serverconf";
+
+import { useRecoilState, useSetRecoilState } from "recoil";
+import taxiLocationAtom from "recoil/taxiLocation";
+import loginInfoDetailAtom from "recoil/loginInfoDetail";
+import myRoomAtom from "recoil/myRoom";
 
 import HeaderBar from "components/common/HeaderBar";
 import Navigation from "components/Skeleton/Navigation";
@@ -34,48 +38,63 @@ const Skeleton = (props) => {
   const [taxiLocation, setTaxiLocation] = useRecoilState(taxiLocationAtom);
   const [loginInfoDetail, setLoginInfoDetail] =
     useRecoilState(loginInfoDetailAtom);
+  const setMyRoom = useSetRecoilState(myRoomAtom);
   const location = useLocation();
   const pathname = location.pathname;
   const currentPath = location.pathname + location.search;
+  const gaInitialized = useRef(false);
 
   const initializeGlobalInfo = useCallback(() => {
-    const getLoginInfoDetail = axios.get("/json/logininfo/detail");
     const getLocation = axios.get("/locations");
-
-    Promise.all([getLoginInfoDetail, getLocation]).then(
-      ([{ data: loginInfoDetailData }, { data: locationData }]) => {
+    const getRoomList = axios.get("/rooms/v2/searchByUser");
+    Promise.all([getLocation, getRoomList]).then(
+      ([{ data: locationData }, { data: roomData }]) => {
         setTaxiLocation(locationData.locations);
-        setLoginInfoDetail(loginInfoDetailData);
+        setMyRoom(roomData);
       }
     );
   }, []);
 
   useEffect(() => {
-    if (userId) initializeGlobalInfo();
-  }, [userId]);
-
-  // path가 수정될 때 마다 logininfo 요청
-  useEffect(() => {
+    // path가 수정될 때 마다 logininfo 요청
     axios
       .get("/json/logininfo")
       .then(({ data }) => {
-        setUserId(data.id ? data.id : null);
+        setUserId(data?.id ?? null);
       })
       .catch((e) => {
         // FIXME
       });
+
+    // Google Analytics
+    if (gaTrackingId) {
+      if (!gaInitialized.current) {
+        gaInitialized.current = true;
+        reactGA.initialize(gaTrackingId);
+      }
+      reactGA.send({ hitType: "pageview", page: pathname });
+    }
   }, [currentPath]);
 
-  // 로그인 정보 수정될 때 요청
   useEffect(() => {
+    // 로그인 정보 수정될 때 요청
     axios
       .get("/json/logininfo/detail")
       .then(({ data }) => {
-        setShowAgree(data.agreeOnTermsOfService === false);
+        setLoginInfoDetail(data);
+        setShowAgree(data?.agreeOnTermsOfService !== true);
       })
       .catch((e) => {
         // FIXME
       });
+
+    // recoil-state 초기화
+    if (userId) initializeGlobalInfo();
+
+    // Google Analytics
+    if (gaInitialized.current && userId) {
+      reactGA.set({ userId });
+    }
   }, [userId]);
 
   if (userId === null && pathname !== "/login") {
@@ -87,7 +106,6 @@ const Skeleton = (props) => {
   if (userId === undefined) {
     return (
       <Container>
-        <Navigation path={pathname} />
         <HeaderBar />
       </Container>
     );
@@ -101,10 +119,7 @@ const Skeleton = (props) => {
      */
     return <></>;
   }
-  if (pathname.startsWith("/chatting")) {
-    return <Container>{props.children}</Container>;
-  }
-  if (pathname.startsWith("/error")) {
+  if (pathname.startsWith("/chatting") || pathname.startsWith("/error")) {
     return (
       <Container>
         <HeaderBar />
@@ -112,9 +127,12 @@ const Skeleton = (props) => {
       </Container>
     );
   }
+  if (pathname === "/") {
+    return <Redirect to={`/search`} />;
+  }
   return (
     <Container>
-      <Navigation path={pathname} />
+      <Navigation />
       <HeaderBar />
       {props.children}
       <Footer />

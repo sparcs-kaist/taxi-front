@@ -3,6 +3,7 @@
   padding: 0px;
   font-family: "Roboto", "NanumSquare", sans-serif;
   font-weight: 300;
+  -webkit-tap-highlight-color: transparent;
   /* -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; */
 }
@@ -37,6 +38,10 @@ body::-webkit-scrollbar {
   display: none;
 }
 
+b {
+  font-weight: 700;
+}
+
 .selectable {
   -webkit-touch-callout: default; /* IOS Safari */
   -moz-user-select: auto; /* Old versions of Firefox */
@@ -49,10 +54,6 @@ body::-webkit-scrollbar {
   width: 100%;
   height: 100%;
   position: relative;
-}
-
-.BTNC {
-  cursor: pointer;
 }
 
 input[type="text"] {

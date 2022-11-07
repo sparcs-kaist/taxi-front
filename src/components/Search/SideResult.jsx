@@ -6,9 +6,9 @@ import Pagination, {
   PAGE_MAX_ITEMS,
 } from "components/common/pagination/Pagination";
 import RoomSelectionModal from "./RoomSelectionModal";
-import usePageFromSearchParams from "hooks/usePageFromSearchParams";
 import PropTypes from "prop-types";
-import { theme } from "styles/theme";
+import usePageFromSearchParams from "hooks/usePageFromSearchParams";
+import theme from "styles/theme";
 import Empty from "components/common/Empty";
 import DottedLine from "components/common/DottedLine";
 import CheckIcon from "@mui/icons-material/Check";
@@ -31,15 +31,16 @@ const SearchOptions = (props) => {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
+    position: "relative",
     height: "23px",
     color: theme.purple,
-    ...theme.font10,
+    ...theme.font10_bold,
     lineHeight: "12px",
     padding: "5px 8px",
     boxShadow: theme.shadow,
     borderRadius: "6px",
     background: props.color === "purple" ? theme.purple_light : "white",
-    cursor: "pointer",
+    ...theme.cursor(),
   };
 
   const styleCheckbox = {
@@ -62,7 +63,12 @@ const SearchOptions = (props) => {
     width: "11px",
   };
 
-  const styleSelect = { opacity: 0, position: "absolute", cursor: "pointer" };
+  const styleSelect = {
+    opacity: 0,
+    right: 0,
+    position: "absolute",
+    ...theme.cursor(),
+  };
 
   const styleShowOption = {
     display: "flex",
@@ -120,8 +126,8 @@ const SideResult = (props) => {
   const [isIncludeFullRoom, setIsIncludeFullRoom] = useState(false);
   const [sortOption, setSortOption] = useState(sortOptions.time);
   const [rooms, setRooms] = useState([]);
-  const [pageInfo, setPageInfo] = useState({ totalPages: 1, currentPage: 1 });
-  const { page, isValid: isValidPage } = usePageFromSearchParams();
+  const totalPages = Math.ceil(rooms.length / PAGE_MAX_ITEMS);
+  const currentPage = usePageFromSearchParams(totalPages);
 
   useEffect(() => {
     if (props.result === null) return;
@@ -148,14 +154,6 @@ const SideResult = (props) => {
 
     setRooms(roomsWithOptions);
   }, [isIncludeFullRoom, sortOption, props.result]);
-
-  useEffect(() => {
-    const totalPages = Math.ceil(rooms.length / PAGE_MAX_ITEMS);
-    setPageInfo({
-      totalPages,
-      currentPage: !isValidPage || page > totalPages ? 1 : page,
-    });
-  }, [rooms, page, isValidPage]);
 
   if (!props.mobile) {
     return (
@@ -184,8 +182,8 @@ const SideResult = (props) => {
             <>
               {rooms
                 .slice(
-                  PAGE_MAX_ITEMS * (pageInfo.currentPage - 1),
-                  PAGE_MAX_ITEMS * pageInfo.currentPage
+                  PAGE_MAX_ITEMS * (currentPage - 1),
+                  PAGE_MAX_ITEMS * currentPage
                 )
                 .map((room) => (
                   <Room
@@ -200,8 +198,8 @@ const SideResult = (props) => {
                   />
                 ))}
               <Pagination
-                totalPages={pageInfo.totalPages}
-                currentPage={pageInfo.currentPage}
+                totalPages={totalPages}
+                currentPage={currentPage}
                 isMobile={false}
               />
             </>
@@ -232,8 +230,8 @@ const SideResult = (props) => {
           <>
             {rooms
               .slice(
-                PAGE_MAX_ITEMS * (pageInfo.currentPage - 1),
-                PAGE_MAX_ITEMS * pageInfo.currentPage
+                PAGE_MAX_ITEMS * (currentPage - 1),
+                PAGE_MAX_ITEMS * currentPage
               )
               .map((room) => {
                 return (
@@ -250,8 +248,8 @@ const SideResult = (props) => {
                 );
               })}
             <Pagination
-              totalPages={pageInfo.totalPages}
-              currentPage={pageInfo.currentPage}
+              totalPages={totalPages}
+              currentPage={currentPage}
               isMobile
             />
           </>

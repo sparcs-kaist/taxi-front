@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import DottedLine from "components/common/DottedLine";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import Modal from "components/common/modal/Modal";
 import members from "static/members";
 
@@ -37,9 +37,8 @@ const Member = (props) => {
     fontWeight: "bold",
   };
   const stylePeriod = {
-    ...theme.font10,
+    ...theme.font10_bold,
     color: theme.gray_text,
-    fontWeight: 500,
   };
 
   return (
@@ -64,29 +63,30 @@ const PopupMembers = (props) => {
     ...theme.font18,
     display: "flex",
     alignItems: "center",
-    marginBottom: "16px",
+    marginBottom: "12px",
   };
   const styleLogo = {
     height: "21px",
     width: "auto",
-    margin: "0 8px 0 12px",
+    margin: "0 8px",
   };
   const styleContainer = {
     overflow: "auto",
-    marginTop: "4px",
-    paddingBottom: "8px",
-    marginBottom: "4px",
+    paddingTop: "12px",
     minHeight: "270px",
     height: "calc(100vh - 360px)",
+    maskImage:
+      "linear-gradient(to bottom, transparent, white 16px, white calc(100% - 16px), transparent 100%)",
   };
   const styleRole = {
     ...theme.font14_bold,
-    padding: "12px 0px 12px 12px",
+    padding: "0 0 12px 12px",
   };
   const styleMemberContainer = {
     display: "flex",
     flexWrap: "wrap",
     gap: "12px",
+    paddingBottom: "12px",
   };
   return (
     <Modal

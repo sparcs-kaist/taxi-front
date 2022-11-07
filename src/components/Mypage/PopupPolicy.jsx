@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useHistory } from "react-router";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import PropTypes from "prop-types";
 import Modal from "components/common/modal/Modal";
 import axios from "tools/axios";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
+import alertAtom from "recoil/alert";
 
 import Button from "components/common/Button";
 import { ReactComponent as TaxiLogo } from "static/assets/TaxiLogo.svg";
@@ -153,12 +156,15 @@ const Policy = () => {
 };
 
 const Agree = (props) => {
+  const setAlert = useSetRecoilState(alertAtom);
   const onAgree = async () => {
-    const result = await axios.post("/users/agreeOnTermsOfService");
-    if (result.status !== 200) {
-      alert("약관 동의에 실패하였습니다.");
+    const response = await axios.post("/users/agreeOnTermsOfService");
+    if (response.status !== 200) {
+      setAlert("약관 동의에 실패하였습니다.");
       return;
     }
+    const detail = await axios.get("/json/logininfo/detail");
+    props.setLoginInfoDetail(detail?.data);
     props.onAgree();
   };
   const styleBottom = {
@@ -201,17 +207,15 @@ Agree.propTypes = {
   didAgree: PropTypes.any,
   onClose: PropTypes.func,
   onAgree: PropTypes.func,
+  setLoginInfoDetail: PropTypes.func,
 };
 
 const PopupPolicy = (props) => {
   const history = useHistory();
-  const [didAgree, setDIdAgree] = useState(undefined);
-
-  useEffect(() => {
-    axios.get("/json/logininfo/detail").then(({ data }) => {
-      setDIdAgree(data.agreeOnTermsOfService);
-    });
-  }, []);
+  const setAlert = useSetRecoilState(alertAtom);
+  const [loginInfoDetail, setLoginInfoDetail] =
+    useRecoilState(loginInfoDetailAtom);
+  const didAgree = loginInfoDetail?.agreeOnTermsOfService ?? false;
 
   const onClose = async () => {
     if (didAgree === null) return;
@@ -223,7 +227,7 @@ const PopupPolicy = (props) => {
     if (response.status === 200) {
       history.push("/login");
     } else {
-      alert("로그아웃에 실패했습니다."); // TODO: AlertProvider로 대체
+      setAlert("로그아웃에 실패했습니다.");
     }
   };
 
@@ -252,6 +256,7 @@ const PopupPolicy = (props) => {
           didAgree={didAgree}
           onClose={onClose}
           onAgree={() => props.onClose()}
+          setLoginInfoDetail={setLoginInfoDetail}
         />
       </div>
     </Modal>

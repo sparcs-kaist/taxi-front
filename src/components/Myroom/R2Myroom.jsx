@@ -13,7 +13,7 @@ import useTaxiAPI from "hooks/useTaxiAPI";
 import PropTypes from "prop-types";
 import Empty from "components/common/Empty";
 import DottedLine from "components/common/DottedLine";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 
 const ChatHeader = (props) => {
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
@@ -29,7 +29,6 @@ const ChatHeader = (props) => {
 
   const recallEvent = () => {
     setHeaderInfToken(Date.now().toString());
-    props.recallEvent();
   };
 
   return (
@@ -43,7 +42,6 @@ const ChatHeader = (props) => {
 ChatHeader.propTypes = {
   roomId: PropTypes.string,
   resizeEvent: PropTypes.func,
-  recallEvent: PropTypes.func,
 };
 
 const R2Myroom = (props) => {
@@ -184,7 +182,6 @@ const R2Myroom = (props) => {
                     <ChatHeader
                       roomId={props.roomId}
                       resizeEvent={resizeEvent}
-                      recallEvent={props.recallEvent}
                     />
                   ) : (
                     <div>방을 선택하세요.</div>

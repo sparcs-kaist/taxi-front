@@ -1,9 +1,10 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import moment from "tools/moment";
 import ChatSet from "./ChatSet";
 import ChatDate from "./ChatDate";
 import ChatInOut from "./ChatInOut";
 import PropTypes from "prop-types";
+import PopupReport from "components/Reporting/PopupReport";
 
 // Chat {
 //   roomId: ObjectId, // 방의 objectId
@@ -16,12 +17,18 @@ import PropTypes from "prop-types";
 // }
 
 const MessagesBody = (props) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [path, setPath] = useState("");
+  const [name, setName] = useState("");
+  const [reportedId, setReportedId] = useState("");
+
   const chats = useMemo(() => {
     const list = [];
     let momentCache = null;
     let chatsCache = null;
     const dateFormat = "YYYY.MM.DD";
     const minFormat = "YYYY.MM.DD HH:mm";
+
     props.chats.forEach((item) => {
       if (item.type === "inf-checkout") {
         if (chatsCache) {
@@ -32,6 +39,10 @@ const MessagesBody = (props) => {
               authorId={props.user.oid}
               isBottomOnScroll={props.isBottomOnScroll}
               scrollToBottom={props.scrollToBottom}
+              setIsOpen={setIsOpen}
+              setPath={setPath}
+              setName={setName}
+              setReportedId={setReportedId}
             />
           );
         }
@@ -77,6 +88,10 @@ const MessagesBody = (props) => {
               authorId={props.user.oid}
               isBottomOnScroll={props.isBottomOnScroll}
               scrollToBottom={props.scrollToBottom}
+              setIsOpen={setIsOpen}
+              setPath={setPath}
+              setName={setName}
+              setReportedId={setReportedId}
             />
           );
           chatsCache = null;
@@ -94,17 +109,26 @@ const MessagesBody = (props) => {
           authorId={props.user.oid}
           isBottomOnScroll={props.isBottomOnScroll}
           scrollToBottom={props.scrollToBottom}
+          setIsOpen={setIsOpen}
+          setPath={setPath}
+          setName={setName}
+          setReportedId={setReportedId}
         />
       );
     }
     return list;
   }, [props.chats, props.user]);
 
+  const onClose = () => {
+    setIsOpen(false);
+  };
+
   return (
     <div
       style={{
-        marginTop: props.isSideChat ? "64px" : "70px",
+        marginTop: props.isSideChat ? undefined : "70px",
         marginBottom: props.marginBottom,
+        height: `calc(100% - ${props.marginBottom})`,
         width: "100%",
         overflow: "auto",
       }}
@@ -112,6 +136,13 @@ const MessagesBody = (props) => {
       onScroll={props.handleScroll}
     >
       <div>{chats}</div>
+      <PopupReport
+        isOpen={isOpen}
+        onClose={onClose}
+        path={path}
+        name={name}
+        reportedId={reportedId}
+      />
     </div>
   );
 };
@@ -125,6 +156,7 @@ MessagesBody.propTypes = {
   isBottomOnScroll: PropTypes.func,
   scrollToBottom: PropTypes.func,
   marginBottom: PropTypes.string,
+  setIsOpen: PropTypes.func,
 };
 
 MessagesBody.defaultProps = {
