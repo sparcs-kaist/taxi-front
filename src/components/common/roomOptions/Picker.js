@@ -147,6 +147,10 @@ class PickerColumn extends Component {
     let deltaY;
     const keyboard =
       !!event.keyCode && (event.keyCode == 38 || event.keyCode == 40);
+    const isTouchPad = event.wheelDeltaY
+      ? event.wheelDeltaY === -3 * event.deltaY
+      : event.deltaMode === 0;
+
     if (keyboard) {
       deltaY = event.keyCode == 38 ? 35 : -35;
     } else if (event.deltaY) {
@@ -162,7 +166,8 @@ class PickerColumn extends Component {
           : Math.max(
               -10,
               Math.min(Math.abs(deltaY) < 4 ? 0 : deltaY * 0.8, 10)
-            ));
+            )) *
+          (isTouchPad ? -1 : 1);
       const newTranslate = Math.max(
         minTranslate,
         Math.min(maxTranslate, newValue)
@@ -227,6 +232,11 @@ class PickerColumn extends Component {
   }
 
   render() {
+    const { itemHeight } = this.props;
+    const highlightStyle = {
+      height: itemHeight - 6,
+      marginTop: -((itemHeight - 6) / 2),
+    };
     const translateString = `translate3d(0, ${this.state.scrollerTranslate}px, 0)`;
     const style = {
       MsTransform: translateString,
@@ -252,6 +262,7 @@ class PickerColumn extends Component {
         <div className={`picker-scroller`} style={style}>
           {this.renderItems()}
         </div>
+        <div className="picker-highlight" style={highlightStyle}></div>
       </div>
     );
   }
@@ -278,10 +289,6 @@ export default class Picker extends Component {
   renderInner() {
     const { optionGroups, valueGroups, itemHeight, height, onChange, onClick } =
       this.props;
-    const highlightStyle = {
-      height: itemHeight - 6,
-      marginTop: -((itemHeight - 6) / 2),
-    };
     const columnNodes = [];
     for (let name in optionGroups) {
       columnNodes.push(
@@ -297,12 +304,7 @@ export default class Picker extends Component {
         />
       );
     }
-    return (
-      <div className="picker-inner">
-        {columnNodes}
-        <div className="picker-highlight" style={highlightStyle}></div>
-      </div>
-    );
+    return <div className="picker-inner">{columnNodes}</div>;
   }
 
   render() {

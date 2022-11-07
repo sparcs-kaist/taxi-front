@@ -13,6 +13,10 @@ input {
   color: #323232;
 }
 
+div:focus > .picker-highlight {
+  box-shadow: inset 0 0 0 1px #6e3678;
+}
+
 html {
   height: 100%;
 }
