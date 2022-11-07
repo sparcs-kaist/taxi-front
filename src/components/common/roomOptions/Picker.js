@@ -223,7 +223,7 @@ export default class Picker extends Component {
   static defaultProps = {
     onClick: () => {},
     itemHeight: 35,
-    height: 216,
+    height: 221,
   };
 
   renderInner() {

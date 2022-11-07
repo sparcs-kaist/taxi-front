@@ -3,13 +3,6 @@
   width: 100%;
 }
 
-/* &,
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-} */
-
 .picker-inner {
   position: relative;
   display: flex;
