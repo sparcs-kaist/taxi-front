@@ -119,21 +119,7 @@ class PickerColumn extends Component {
       startScrollerTranslate: 0,
     });
     setTimeout(() => {
-      const { options, itemHeight } = this.props;
-      const { scrollerTranslate, minTranslate, maxTranslate } = this.state;
-      let activeIndex;
-      if (scrollerTranslate > maxTranslate) {
-        this.setState({ scrollerTranslate: maxTranslate });
-        activeIndex = 0;
-      } else if (scrollerTranslate < minTranslate) {
-        this.setState({ scrollerTranslate: minTranslate });
-        activeIndex = options.length - 1;
-      } else {
-        activeIndex = -Math.floor(
-          (scrollerTranslate - maxTranslate) / itemHeight
-        );
-      }
-      this.onValueSelected(options[activeIndex]);
+      this.postMove();
     }, 0);
   };
 
@@ -156,6 +142,53 @@ class PickerColumn extends Component {
       this.props.onClick(this.props.name, this.props.value);
     }
   };
+
+  handleWheel = (event) => {
+    const deltaY = event.deltaY;
+    this.setState(({ scrollerTranslate, minTranslate, maxTranslate }) => {
+      const newValue =
+        scrollerTranslate +
+        Math.max(-10, Math.min(Math.abs(deltaY) < 4 ? 0 : deltaY * 0.8, 10));
+      const newTranslate = Math.max(
+        minTranslate,
+        Math.min(maxTranslate, newValue)
+      );
+      this.postWheel();
+      return {
+        scrollerTranslate: newTranslate,
+        isScrolling: Date.now(),
+      };
+    });
+  };
+
+  postMove() {
+    const { options, itemHeight } = this.props;
+    const { scrollerTranslate, minTranslate, maxTranslate } = this.state;
+    let activeIndex;
+    if (scrollerTranslate > maxTranslate) {
+      this.setState({ scrollerTranslate: maxTranslate });
+      activeIndex = 0;
+    } else if (scrollerTranslate < minTranslate) {
+      this.setState({ scrollerTranslate: minTranslate });
+      activeIndex = options.length - 1;
+    } else {
+      activeIndex = -Math.floor(
+        (scrollerTranslate - maxTranslate) / itemHeight
+      );
+    }
+    this.onValueSelected(options[activeIndex]);
+  }
+
+  postWheel() {
+    const that = this;
+    setTimeout(() => {
+      if (that.state.isScrolling > Date.now() - 250) {
+        this.postWheel();
+        return;
+      }
+      this.postMove();
+    }, 150);
+  }
 
   renderItems() {
     const { options, itemHeight, value } = this.props;
@@ -192,15 +225,15 @@ class PickerColumn extends Component {
       style.transitionDuration = "0ms";
     }
     return (
-      <div className="picker-column">
-        <div
-          className={`picker-scroller`}
-          style={style}
-          onTouchStart={this.handleTouchStart}
-          onTouchMove={this.handleTouchMove}
-          onTouchEnd={this.handleTouchEnd}
-          onTouchCancel={this.handleTouchCancel}
-        >
+      <div
+        className="picker-column"
+        onTouchStart={this.handleTouchStart}
+        onTouchMove={this.handleTouchMove}
+        onTouchEnd={this.handleTouchEnd}
+        onTouchCancel={this.handleTouchCancel}
+        onWheel={this.handleWheel}
+      >
+        <div className={`picker-scroller`} style={style}>
           {this.renderItems()}
         </div>
       </div>
