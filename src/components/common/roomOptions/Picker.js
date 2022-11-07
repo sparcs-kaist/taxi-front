@@ -143,12 +143,26 @@ class PickerColumn extends Component {
     }
   };
 
-  handleWheel = (event) => {
-    const deltaY = event.deltaY;
+  handleScroll = (event) => {
+    let deltaY;
+    const keyboard =
+      !!event.keyCode && (event.keyCode == 38 || event.keyCode == 40);
+    if (keyboard) {
+      deltaY = event.keyCode == 38 ? 35 : -35;
+    } else if (event.deltaY) {
+      deltaY = event.deltaY;
+    } else {
+      deltaY = 0;
+    }
     this.setState(({ scrollerTranslate, minTranslate, maxTranslate }) => {
       const newValue =
         scrollerTranslate +
-        Math.max(-10, Math.min(Math.abs(deltaY) < 4 ? 0 : deltaY * 0.8, 10));
+        (keyboard
+          ? deltaY
+          : Math.max(
+              -10,
+              Math.min(Math.abs(deltaY) < 4 ? 0 : deltaY * 0.8, 10)
+            ));
       const newTranslate = Math.max(
         minTranslate,
         Math.min(maxTranslate, newValue)
@@ -227,11 +241,13 @@ class PickerColumn extends Component {
     return (
       <div
         className="picker-column"
+        tabIndex={100}
         onTouchStart={this.handleTouchStart}
         onTouchMove={this.handleTouchMove}
         onTouchEnd={this.handleTouchEnd}
         onTouchCancel={this.handleTouchCancel}
-        onWheel={this.handleWheel}
+        onWheel={this.handleScroll}
+        onKeyDown={this.handleScroll}
       >
         <div className={`picker-scroller`} style={style}>
           {this.renderItems()}
