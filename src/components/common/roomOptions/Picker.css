@@ -56,3 +56,7 @@
   background-color: #eeeeee;
   border-radius: 6px;
 }
+
+div:focus > .picker-highlight {
+  box-shadow: inset 0 0 0 1px #6e3678;
+}
