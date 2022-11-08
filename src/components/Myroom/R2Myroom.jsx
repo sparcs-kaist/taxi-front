@@ -84,13 +84,12 @@ const R2Myroom = (props) => {
     };
   }, [props.roomId, isHeaderOpen]);
 
-  const historyReplace = (path) => {
-    if (props.roomId) {
-      return () => history.replace(path);
-    } else {
-      return () => history.push(path);
-    }
-  };
+  const onClickRoom = (_id) =>
+    props.roomId === _id
+      ? () => history.goBack()
+      : props.roomId
+      ? () => history.replace(`/myroom/${_id}`)
+      : () => history.push(`/myroom/${_id}`);
 
   return (
     <div
@@ -129,14 +128,7 @@ const R2Myroom = (props) => {
                   <Empty screen="pc">참여 중인 방이 없습니다</Empty>
                 ) : (
                   props.ongoing.map((item) => (
-                    <div
-                      key={item._id}
-                      onClick={
-                        props.roomId === item._id
-                          ? () => history.goBack()
-                          : historyReplace(`/myroom/${item._id}`)
-                      }
-                    >
+                    <div key={item._id} onClick={onClickRoom(item._id)}>
                       <Room
                         data={item}
                         selected={props.roomId === item._id}
@@ -161,14 +153,7 @@ const R2Myroom = (props) => {
                         PAGE_MAX_ITEMS * props.donePageInfo.currentPage
                       )
                       .map((item) => (
-                        <div
-                          key={item._id}
-                          onClick={
-                            props.roomId === item._id
-                              ? () => history.goBack()
-                              : historyReplace(`/myroom/${item._id}`)
-                          }
-                        >
+                        <div key={item._id} onClick={onClickRoom(item._id)}>
                           <Room
                             data={item}
                             selected={props.roomId === item._id}
