@@ -64,11 +64,6 @@ jobs:
     - name: install frontend dependencies
       run: npm install
 
-    - name: move to backend
-      run: |
-        cd ./taxi-back
-        ls
-
     - name: Start MongoDB  
       run: sudo docker run --name mongodb -d -p 27017:27017 mongo:${{ matrix.mongodb-version }}
 
@@ -102,14 +97,15 @@ jobs:
       run: docker exec mongodb sh -c 'mongorestore ${{ secrets.DB_PATH }} dump/${{ secrets.DB_NAME }}'
 
     - name: Install backend dependencies from package-lock.json
+      working-directory: ./taxi-back
       run: npm ci
 
     - name: install pm2 globally and run backend
+      working-directory: ./taxi-back
       run: |
         npm install -g pm2
         npm install -g serve
         pm2 start npm -- start
-        cd ../taxi-front
 
     - name: Install frontend dependencies from package-lock.json
       run: npm ci
