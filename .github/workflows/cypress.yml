@@ -104,7 +104,6 @@ jobs:
       working-directory: ./taxi-back
       run: |
         npm install -g pm2
-        npm install -g serve
         pm2 start npm -- start
 
     - name: Install frontend dependencies from package-lock.json
@@ -112,8 +111,7 @@ jobs:
 
     - name: run frontend
       run: |
-        npm run build
-        pm2 serve build 3000 --spa 
+        pm2 start npm -- start
 
     - name: runs cypress
       uses: cypress-io/github-action@v4
