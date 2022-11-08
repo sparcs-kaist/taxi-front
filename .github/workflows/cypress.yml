@@ -21,12 +21,12 @@ jobs:
       REACT_APP_BACK_URL : ${{ secrets.REACT_APP_BACK_URL }} 
       REACT_APP_S3_URL : ${{ secrets.REACT_APP_S3_URL }}
       REACT_APP_CHANNELTALK_PLUGIN_KEY : ${{ secrets.REACT_APP_CHANNELTALK_PLUGIN_KEY }}
+      NODE_ENV : ${{ secrets.NODE_ENV }}
       CI : false
-      
+
     name: cypress
     strategy:
       matrix:
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
         node-version: [16.x]
         mongodb-version: ['5.0']
     steps:
@@ -64,7 +64,7 @@ jobs:
     - name: install frontend dependencies
       run: npm install
 
-    - name: Start MongoDB  
+    - name: Start MongoDB
       run: sudo docker run --name mongodb -d -p 27017:27017 mongo:${{ matrix.mongodb-version }}
 
     - name: Install aws cli
