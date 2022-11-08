@@ -13,7 +13,6 @@ import useTaxiAPI from "hooks/useTaxiAPI";
 import PropTypes from "prop-types";
 import Empty from "components/common/Empty";
 import DottedLine from "components/common/DottedLine";
-import theme from "styles/theme";
 
 const ChatHeader = (props) => {
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
@@ -25,16 +24,15 @@ const ChatHeader = (props) => {
 
   useEffect(() => {
     props.resizeEvent();
-  }, [headerInfo]);
-
-  const recallEvent = () => {
-    setHeaderInfToken(Date.now().toString());
-  };
+  }, [JSON.stringify(headerInfo)]);
 
   return (
     <div>
       <div style={{ height: "19px" }} />
-      <ChatHeaderBody info={headerInfo} recallEvent={recallEvent} />
+      <ChatHeaderBody
+        info={headerInfo}
+        recallEvent={() => setHeaderInfToken(Date.now().toString())}
+      />
     </div>
   );
 };

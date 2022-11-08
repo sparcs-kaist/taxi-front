@@ -46,7 +46,7 @@ const Header = (props) => {
   const styleIcon = {
     fontSize: "24px",
     fill: theme.purple,
-    cursor: theme.cursor(),
+    ...theme.cursor(),
   };
   const styleInfo = {
     width: "100%",
