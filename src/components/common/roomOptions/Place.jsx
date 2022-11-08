@@ -143,7 +143,6 @@ const Place = (props) => {
         value={getPlaceName(props.value[0])}
         handler={(x) => props.handler([x, props.value[1]])}
         placeOptions={taxiLocation}
-        type="from"
       />
       <PopupInput
         isOpen={isPopup2}
@@ -151,7 +150,6 @@ const Place = (props) => {
         value={getPlaceName(props.value[1])}
         handler={(x) => props.handler([props.value[0], x])}
         placeOptions={taxiLocation}
-        type="to"
       />
     </WhiteContainer>
   );
