@@ -18,7 +18,7 @@ const Modal = (props) => {
     zIndex: props.alert ? theme.zIndex_alert : theme.zIndex_modal,
     background: props.alert ? theme.black_40 : theme.black_60,
     opacity: props.display ? 1 : 0,
-    transitionDuration: theme.duration,
+    transition: `opacity ${theme.duration} ease-in-out`,
     pointerEvents: props.display ? "auto" : "none",
   };
   const styleBtn = {
