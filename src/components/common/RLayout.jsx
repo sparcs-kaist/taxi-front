@@ -112,7 +112,7 @@ const Popup = (props) => {
       <div
         style={{
           margin: "auto 20px",
-          width: "100%",
+          width: "calc(100% - 40px)",
         }}
         onClick={(e) => e.stopPropagation()}
       >
