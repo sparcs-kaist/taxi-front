@@ -89,6 +89,7 @@ const Date = (props) => {
   };
   const styleDate = {
     ...theme.font12,
+    letterSpacing: undefined,
     marginTop: "1px",
     fontWeight: props.selected ? 500 : undefined,
     color: props.selected
