@@ -108,14 +108,12 @@ jobs:
     - name: Install frontend dependencies from package-lock.json
       run: npm ci
 
-    - name: run frontend
-      run: |
-        npm start & npx wait-on http://localhost:3000
-
     - name: runs cypress
       uses: cypress-io/github-action@v4
       with:
         browser: chrome
+        start: npm start
+        wait-on: 'http://localhost:3000'
 
     - name: upload artifacts
       if: always()
