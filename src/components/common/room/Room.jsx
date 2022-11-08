@@ -6,7 +6,7 @@ import { getLocationName } from "tools/trans";
 import { date2str } from "tools/moment";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import DottedLine from "components/common/DottedLine";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import "./Room.css";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
@@ -89,7 +89,7 @@ const Room = (props) => {
     boxShadow:
       theme.shadow +
       (props.selected ? `, inset 0 0 0 0.5px ${theme.purple}` : ""),
-    cursor: theme.cursor(),
+    ...theme.cursor(),
     zIndex: 1,
   };
   const styleTop = {
@@ -136,7 +136,7 @@ const Room = (props) => {
           theme={props.theme}
         />
       </div>
-      <DottedLine direction="row" margin={12} />
+      <DottedLine direction="row" margin="0 12px" />
       <div style={stylePlaceGrid}>
         <div style={stylePlace}>
           {getLocationName(props.data?.from, preference.lang)}

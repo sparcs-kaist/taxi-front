@@ -1,5 +1,5 @@
 import React from "react";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import { date2str } from "tools/moment";
 import { ReportOptionType } from "./ReportOption";
 import DottedLine from "components/common/DottedLine";
@@ -59,7 +59,7 @@ const ReportList = (props: ReportListProps) => {
                 {getTypeText(report.type)}
               </div>
             </div>
-            <DottedLine direction="row" marginTop={2} marginBottom={2} />
+            <DottedLine direction="row" margin="2px 0" />
             {props.option === "Reporting" && (
               <div style={styleRow}>
                 <div style={styleProperty}>별명</div>

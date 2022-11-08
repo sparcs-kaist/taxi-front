@@ -7,10 +7,10 @@ import PopupReport from "./PopupReport";
 import PopupPolicy from "./PopupPolicy";
 import PopupMembers from "./PopupMembers";
 import ProfileImg from "./ProfileImg";
-import useTaxiAPI from "hooks/useTaxiAPI";
 import axios from "tools/axios";
-import { theme } from "styles/theme";
-import { useSetRecoilState } from "recoil";
+import theme from "styles/theme";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import alertAtom from "recoil/alert";
 import Menu from "./Menu";
 import TranslationButton from "./TranslationButton";
@@ -18,10 +18,7 @@ import { nodeEnv } from "serverconf";
 
 const Mypage = () => {
   const [profToken, setProfToken] = useState(Date.now().toString());
-  const [, userInfo] = useTaxiAPI.get("/json/logininfo");
-  const [, userInfoDetail] = useTaxiAPI.get("/json/logininfo/detail", {}, [
-    profToken,
-  ]);
+  const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const [isOpenModify, setOpenModify] = useState(false);
   const [isOpenReport, setOpenReport] = useState(false);
   const [isOpenPolicy, setOpenPolicy] = useState(false);
@@ -72,10 +69,10 @@ const Mypage = () => {
 
   return (
     <>
-      <Title icon="mypage" header={true} marginAuto={true}>
+      <Title icon="mypage" header marginAuto>
         마이 페이지
       </Title>
-      <WhiteContainer marginAuto={true} padding="16px 24px 24px">
+      <WhiteContainer marginAuto padding="16px 24px 24px">
         <div style={styleProfile}>
           <div style={styleProfImg}>
             {userInfoDetail?.profileImgUrl && profToken ? (
@@ -86,7 +83,7 @@ const Mypage = () => {
             ) : null}
           </div>
           <div style={theme.font16_bold} className="selectable">
-            {userInfo?.name}
+            {userInfoDetail?.name}
           </div>
         </div>
         <div style={infoTitle}>
@@ -108,6 +105,7 @@ const Mypage = () => {
           <div style={infoContent}>{userInfoDetail?.nickname}</div>
         </div>
       </WhiteContainer>
+<<<<<<< HEAD
 
       {nodeEnv === "development" ? (
         <WhiteContainer>
@@ -116,6 +114,9 @@ const Mypage = () => {
       ) : null}
 
       <WhiteContainer marginAuto={true}>
+=======
+      <WhiteContainer marginAuto>
+>>>>>>> b32ac1c0212732c70a911ec833c2cc547b8239ea
         <div style={{ display: "grid", rowGap: "16px" }}>
           <Menu icon="report" onClick={() => setOpenReport(true)}>
             신고 내역
@@ -141,8 +142,6 @@ const Mypage = () => {
         isOpen={isOpenModify}
         onClose={() => setOpenModify(false)}
         onUpdate={() => handleUpdate()}
-        userInfo={userInfo}
-        userInfoD={userInfoDetail}
         profToken={profToken}
       />
       <PopupPolicy isOpen={isOpenPolicy} onClose={() => setOpenPolicy(false)} />

@@ -13,7 +13,9 @@ const getToday10 = () => {
   return today;
 };
 
+const time2str = (num) => num.toString().padStart(2, "0");
+
 const date2str = (date, format = "LLLL") => moment(date).format(format);
 
 export default moment;
-export { getToday, getToday10, date2str };
+export { getToday, getToday10, time2str, date2str };

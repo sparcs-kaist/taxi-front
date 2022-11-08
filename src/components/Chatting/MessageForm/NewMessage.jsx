@@ -1,32 +1,32 @@
 import React from "react";
-import { useSpring, animated } from "react-spring";
 import PropTypes from "prop-types";
+import theme from "styles/theme";
 
-import { IoArrowDown } from "react-icons/io5";
+import ArrowDownwardRoundedIcon from "@mui/icons-material/ArrowDownwardRounded";
 
 const NewMessage = (props) => {
-  const style = useSpring({
-    position: "absolute",
-    top: props.show ? "0px" : "50px",
-    left: "calc(50% - 55px)",
-    width: "110px",
-    height: "24px",
+  const style = {
+    marginBottom: props.show ? "12px" : "-26px",
+    opacity: props.show ? "1" : "0",
+    padding: "6px 10px 5px 8px",
     borderRadius: "13px",
-    background: "#FFFFFF",
-    border: "0.5px solid #6E3678",
-    boxShadow:
-      "0px 2px 4px rgba(110, 54, 120, 0.2), 0px 1px 18px rgba(110, 54, 120, 0.12), 0px 6px 10px rgba(110, 54, 120, 0.14)",
-    fontSize: "12px",
-    lineHeight: "24px",
-    color: "#6E3678",
-    textAlign: "center",
-    config: { duration: 200 },
-  });
+    background: theme.white,
+    border: `0.5px solid ${theme.purple}`,
+    boxShadow: theme.shadow_clicked,
+    color: theme.purple,
+    ...theme.font12,
+    transition: "all 0.3s",
+    columnGap: "4px",
+    display: "flex",
+    ...theme.cursor(),
+  };
   return (
-    <animated.div style={style} onClick={props.onClick} className="BTNC">
-      <IoArrowDown style={{ verticalAlign: "middle", marginTop: "-1px" }} />
-      &nbsp;새로운 메시지&nbsp;
-    </animated.div>
+    <div style={style} onClick={props.onClick}>
+      <ArrowDownwardRoundedIcon
+        style={{ fontSize: "11px", marginTop: "1px" }}
+      />
+      새로운 메시지
+    </div>
   );
 };
 

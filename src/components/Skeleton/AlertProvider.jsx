@@ -3,7 +3,7 @@ import Modal from "components/common/modal/Modal";
 import { useRecoilState } from "recoil";
 import alertAtom from "recoil/alert";
 import Button from "components/common/Button";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import DottedLine from "components/common/DottedLine";
 
 import WbIncandescentRoundedIcon from "@material-ui/icons/WbIncandescentRounded";
@@ -22,7 +22,7 @@ const AlertProvider = () => {
       width={315}
       padding="10px"
       closeBtn={false}
-      alert={true}
+      alert
     >
       <div
         style={{
@@ -36,7 +36,7 @@ const AlertProvider = () => {
         <WbIncandescentRoundedIcon style={{ fontSize: "16px" }} />
         알림
       </div>
-      <DottedLine direction="row" margin={2} />
+      <DottedLine direction="row" margin="0 2px" />
       <div
         style={{
           ...theme.font14,

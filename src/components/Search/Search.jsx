@@ -10,7 +10,7 @@ import axios from "tools/axios";
 import moment, { getToday10, getToday } from "tools/moment";
 import PropTypes from "prop-types";
 import isMobile from "ismobilejs";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import Button from "components/common/Button";
 import Tooltip from "components/common/Tooltip";
 
@@ -40,11 +40,11 @@ const SearchOption = (props) => {
     color: props.selected ? theme.white : theme.black,
     fontSize: "12px",
     config: { duration: 150 },
+    ...theme.cursor(),
   });
   return (
     <animated.div
       style={style}
-      className="BTNC"
       onClick={() => props.onClick(props.id)}
       onMouseEnter={() => setHover(!(isMobile().phone || isMobile().tablet))}
       onMouseLeave={() => setHover(false)}
@@ -143,9 +143,10 @@ const Search = () => {
   const reactiveState = useR2state();
   const onCall = useRef(false);
   const prevSearchParam = useRef("");
+  const today = useRef(getToday());
+  const today10 = getToday10();
   const history = useHistory();
   const location = useLocation();
-  const today10 = getToday10();
 
   const [searchOptions, setSearchOptions] = useState({});
   const [valueName, setName] = useState("");
@@ -156,13 +157,16 @@ const Search = () => {
   const [searchResult, setSearchResult] = useState(null);
   const [disabled, setDisabled] = useState(true);
   const [message, setMessage] = useState("검색 조건을 선택해주세요");
-
   const clearState = () => {
     onCall.current = false;
     setSearchOptions(defaultOptions);
     setName("");
     setPlace([null, null]);
-    setDate([null, null, null]);
+    setDate([
+      today.current.year(),
+      today.current.month() + 1,
+      today.current.date(),
+    ]);
     setTime([today10.hour(), today10.minute()]);
     setMaxPeople(null);
     setSearchResult(null);
@@ -232,7 +236,7 @@ const Search = () => {
     } else {
       history.replace("/search");
     }
-  }, [location]);
+  }, [JSON.stringify(location)]);
 
   useEffect(() => {
     if (!Object.values(searchOptions).some((option) => option)) {
@@ -284,6 +288,14 @@ const Search = () => {
   useEffect(() => {
     if (!searchOptions.date && valueDate[0] !== null)
       setDate([null, null, null]);
+    if (searchOptions.date) {
+      today.current = getToday();
+      setDate([
+        today.current.year(),
+        today.current.month() + 1,
+        today.current.date(),
+      ]);
+    }
   }, [searchOptions.date]);
   useEffect(() => {
     if (searchOptions.time) {
@@ -310,12 +322,12 @@ const Search = () => {
     if (!Object.values(searchOptions).some((option) => option)) {
       history.push("/search?all=true");
     } else {
-      const date = moment(
-        `${valueDate[0]}-${
-          valueDate[1] < 10 ? "0" + valueDate[1] : valueDate[1]
-        }-${valueDate[2]}`
-      );
       let withTime = false;
+      const date = moment();
+
+      date.year(valueDate[0]);
+      date.month(valueDate[1] - 1);
+      date.date(valueDate[2]);
 
       if (searchOptions.time) {
         date.hour(valueTime[0]);
@@ -388,7 +400,7 @@ const Search = () => {
     );
   return (
     <div>
-      <Title icon="search" header={true} marginAuto={true}>
+      <Title icon="search" header marginAuto>
         방 검색하기
       </Title>
       <RLayout.R2

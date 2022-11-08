@@ -1,6 +1,6 @@
 import React from "react";
 import WhiteContainer from "components/common/WhiteContainer";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 
 import PeopleRoundedIcon from "@material-ui/icons/PeopleRounded";
 import RemoveRoundedIcon from "@material-ui/icons/RemoveRounded";
@@ -47,7 +47,7 @@ const Counter = (props: CounterProps) => {
   const styledDecreaseButton: CSS = {
     ...styleButton,
     color: decreaseDisabled ? theme.gray_text : theme.red_button,
-    cursor: theme.cursor(decreaseDisabled),
+    ...theme.cursor(decreaseDisabled),
     backgroundColor: decreaseDisabled
       ? theme.gray_background
       : theme.red_background,
@@ -55,7 +55,7 @@ const Counter = (props: CounterProps) => {
   const styleIncreaseButton: CSS = {
     ...styleButton,
     color: increaseDisabled ? theme.gray_text : theme.green_button,
-    cursor: theme.cursor(increaseDisabled),
+    ...theme.cursor(increaseDisabled),
     backgroundColor: increaseDisabled
       ? theme.gray_background
       : theme.green_background,

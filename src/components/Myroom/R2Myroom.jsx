@@ -13,7 +13,7 @@ import useTaxiAPI from "hooks/useTaxiAPI";
 import PropTypes from "prop-types";
 import Empty from "components/common/Empty";
 import DottedLine from "components/common/DottedLine";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 
 const ChatHeader = (props) => {
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
@@ -93,7 +93,7 @@ const R2Myroom = (props) => {
       }}
     >
       <div ref={refTitle}>
-        <Title icon="myroom" header={true} marginAuto={true}>
+        <Title icon="myroom" header marginAuto>
           내 방 리스트
         </Title>
       </div>

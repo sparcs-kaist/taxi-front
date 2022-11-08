@@ -7,7 +7,7 @@ import Title from "components/common/Title";
 import Button from "components/common/Button";
 import axios from "tools/axios";
 import { date2str, getToday10, getToday } from "tools/moment";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import { useSetRecoilState } from "recoil";
 import alertAtom from "recoil/alert";
 import FullParticipation from "./FullParticipation";
@@ -22,16 +22,16 @@ import OptionMaxPeople from "components/common/roomOptions/MaxPeople";
 const AddRoom = () => {
   const onCall = useRef(false);
   const history = useHistory();
+  const today = getToday();
+  const today10 = getToday10();
   const [valueName, setName] = useState("");
   const [valuePlace, setPlace] = useState([null, null]);
   const [valueDate, setDate] = useState<Array<Nullable<number>>>([
-    null,
-    null,
-    null,
+    today.year(),
+    today.month() + 1,
+    today.date(),
   ]);
   const [valueMaxPeople, setMaxPeople] = useState(4);
-  const today = getToday();
-  const today10 = getToday10();
   const [valueTime, setTime] = useState([today10.hour(), today10.minute()]);
   const [calculatedTime, setCalculatedTime] = useState<Date | null>(null);
   const setAlert = useSetRecoilState(alertAtom);
@@ -60,8 +60,6 @@ const AddRoom = () => {
     validatedMsg = "출발지와 도착지는 달라야 합니다";
   } else if (!valueDate[0] || !valueDate[1] || !valueDate[2]) {
     validatedMsg = "날짜를 선택해 주세요";
-  } else if (!valueTime[0] || !valueTime[1]) {
-    validatedMsg = "시간을 선택해 주세요";
   } else if (today.isSameOrAfter(calculatedTime)) {
     validatedMsg = "현재 시각 이후를 선택해주세요";
   } else if (valueName === "") {
@@ -97,7 +95,7 @@ const AddRoom = () => {
 
   return (myRoom?.ongoing.length ?? 0) < MAX_PARTICIPATION ? (
     <div>
-      <Title icon="add" header={true} marginAuto={true}>
+      <Title icon="add" header marginAuto>
         방 개설하기
       </Title>
       <RLayout.R1>
