@@ -50,7 +50,6 @@ PopupInput.propTypes = {
   value: PropTypes.string,
   handler: PropTypes.func,
   placeOptions: PropTypes.array,
-  type: PropTypes.oneOf(["from", "to"]),
 };
 
 const PlaceElement = (props) => {
