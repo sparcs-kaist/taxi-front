@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Title from "components/common/Title";
 import WhiteContainer from "components/common/WhiteContainer";
 import ChatHeaderBody from "components/Chatting/Header/HeaderBody";
@@ -42,10 +42,31 @@ ChatHeader.propTypes = {
   resizeEvent: PropTypes.func,
 };
 
+const LinkRoom = (props) => {
+  const history = useHistory();
+
+  return props.currentId === props.id ? (
+    <div onClick={() => history.goBack()}>{props.children}</div>
+  ) : (
+    <Link
+      to={`/myroom/${props.id}`}
+      replace={props.currentId ? true : false}
+      style={{ textDecoration: "none" }}
+    >
+      {props.children}
+    </Link>
+  );
+};
+
+LinkRoom.propTypes = {
+  currentId: PropTypes.string,
+  id: PropTypes.string,
+  children: PropTypes.node,
+};
+
 const R2Myroom = (props) => {
   const refTitle = useRef();
   const refHeader = useRef();
-  const history = useHistory();
   const [isHeaderOpen, setHeaderOpen] = useState(true);
 
   const bodyHeightRef = useRef("0px");
@@ -84,13 +105,6 @@ const R2Myroom = (props) => {
     };
   }, [props.roomId, isHeaderOpen]);
 
-  const onClickRoom = (_id) =>
-    props.roomId === _id
-      ? () => history.goBack()
-      : props.roomId
-      ? () => history.replace(`/myroom/${_id}`)
-      : () => history.push(`/myroom/${_id}`);
-
   return (
     <div
       style={{
@@ -100,12 +114,7 @@ const R2Myroom = (props) => {
       }}
     >
       <div ref={refTitle}>
-        <Title
-          icon="myroom"
-          header
-          marginAuto
-          R2={props.roomId !== undefined}
-        >
+        <Title icon="myroom" header marginAuto R2={props.roomId !== undefined}>
           내 방 리스트
         </Title>
       </div>
@@ -128,14 +137,18 @@ const R2Myroom = (props) => {
                   <Empty screen="pc">참여 중인 방이 없습니다</Empty>
                 ) : (
                   props.ongoing.map((item) => (
-                    <div key={item._id} onClick={onClickRoom(item._id)}>
+                    <LinkRoom
+                      key={item._id}
+                      currentId={props.roomId}
+                      id={item._id}
+                    >
                       <Room
                         data={item}
                         selected={props.roomId === item._id}
                         theme="purple"
                         marginTop="15px"
                       />
-                    </div>
+                    </LinkRoom>
                   ))
                 )}
               </WhiteContainer>
@@ -153,14 +166,18 @@ const R2Myroom = (props) => {
                         PAGE_MAX_ITEMS * props.donePageInfo.currentPage
                       )
                       .map((item) => (
-                        <div key={item._id} onClick={onClickRoom(item._id)}>
+                        <LinkRoom
+                          key={item._id}
+                          currentId={props.roomId}
+                          id={item._id}
+                        >
                           <Room
                             data={item}
                             selected={props.roomId === item._id}
                             theme="purple"
                             marginTop="15px"
                           />
-                        </div>
+                        </LinkRoom>
                       ))}
                     <Pagination
                       totalPages={props.donePageInfo.totalPages}
