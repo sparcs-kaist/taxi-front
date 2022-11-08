@@ -92,7 +92,7 @@ const ButtonBody = (props) => {
     borderRadius: "6px",
     padding: "3px 5px 3px 6px",
     background: props.disabled ? theme.gray_background : theme.purple,
-    cursor: theme.cursor(props.disabled),
+    ...theme.cursor(props.disabled),
   };
   const styleText = {
     ...theme.font10,

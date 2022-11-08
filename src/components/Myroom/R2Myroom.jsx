@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import myRoomAtom from "recoil/myRoom";
 import Title from "components/common/Title";
 import WhiteContainer from "components/common/WhiteContainer";
 import ChatHeaderBody from "components/Chatting/Header/HeaderBody";
@@ -17,24 +15,16 @@ import Empty from "components/common/Empty";
 import DottedLine from "components/common/DottedLine";
 
 const ChatHeader = (props) => {
-  const setMyRoom = useSetRecoilState(myRoomAtom);
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
   const [, headerInfo] = useTaxiAPI.get(
     `/rooms/v2/info?id=${props.roomId}`,
     {},
     [headerInfToken]
   );
-  const [, roomList] = useTaxiAPI.get("/rooms/v2/searchByUser", {}, [
-    headerInfToken,
-  ]);
 
   useEffect(() => {
     props.resizeEvent();
   }, [JSON.stringify(headerInfo)]);
-
-  useEffect(() => {
-    setMyRoom(roomList);
-  }, [JSON.stringify(roomList)]);
 
   return (
     <div>
