@@ -3,7 +3,7 @@ import { useLocation, Redirect } from "react-router-dom";
 import reactGA from "react-ga4";
 import PropTypes from "prop-types";
 import axios from "tools/axios";
-import { gaTrackingId } from "serverconf";
+import { gaTrackingId, nodeEnv } from "serverconf";
 
 import { useRecoilState, useSetRecoilState } from "recoil";
 import taxiLocationAtom from "recoil/taxiLocation";
@@ -70,7 +70,9 @@ const Skeleton = (props) => {
     if (gaTrackingId) {
       if (!gaInitialized.current) {
         gaInitialized.current = true;
-        reactGA.initialize(gaTrackingId);
+        reactGA.initialize(gaTrackingId, {
+          testMode: nodeEnv === "development"
+        });
       }
       reactGA.send({ hitType: "pageview", page: pathname });
     }

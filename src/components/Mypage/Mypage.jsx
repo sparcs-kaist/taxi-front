@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
+import { useTranslation } from "react-i18next";
 import Title from "components/common/Title";
 import WhiteContainer from "components/common/WhiteContainer";
 import PopupModify from "./PopupModify";
@@ -13,10 +14,10 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import alertAtom from "recoil/alert";
 import Menu from "./Menu";
-import TranslationButton from "./TranslationButton";
 import { nodeEnv } from "serverconf";
 
 const Mypage = () => {
+  const { t, i18n } = useTranslation("mypage");
   const [profToken, setProfToken] = useState(Date.now().toString());
   const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const [isOpenModify, setOpenModify] = useState(false);
@@ -25,6 +26,7 @@ const Mypage = () => {
   const [isOpenMembers, setOpenMembers] = useState(false);
   const history = useHistory();
   const setAlert = useSetRecoilState(alertAtom);
+
   const handleLogout = async () => {
     const response = await axios.get("/auth/logout");
     if (response.status === 200) {
@@ -34,6 +36,8 @@ const Mypage = () => {
     }
   };
   const handleUpdate = () => setProfToken(Date.now().toString());
+  const handleTranslation = () =>
+    i18n.changeLanguage(i18n.language === "ko" ? "en" : "ko");
 
   const styleProfile = {
     display: "flex",
@@ -101,16 +105,28 @@ const Mypage = () => {
           <div style={infoContent}>{userInfoDetail?.email}</div>
         </div>
         <div style={infoType} className="selectable">
-          별명1
+          별명
           <div style={infoContent}>{userInfoDetail?.nickname}</div>
         </div>
       </WhiteContainer>
+<<<<<<< HEAD
+=======
+
+      {/* 개발 중인 기능, dev 에서만 언어 전환을 사용할 수 있습니다 */}
+>>>>>>> 736073ac4c881c07a568c5716fec522e04cb02e6
       {nodeEnv === "development" ? (
-        <WhiteContainer>
-          <TranslationButton />
+        <WhiteContainer marginAuto>
+          <Menu icon="fixme" onClick={handleTranslation}>
+            {t("btn.translation")}
+          </Menu>
         </WhiteContainer>
       ) : null}
+<<<<<<< HEAD
       <WhiteContainer marginAuto={true}>
+=======
+
+      <WhiteContainer marginAuto>
+>>>>>>> 736073ac4c881c07a568c5716fec522e04cb02e6
         <div style={{ display: "grid", rowGap: "16px" }}>
           <Menu icon="report" onClick={() => setOpenReport(true)}>
             신고 내역

@@ -48,7 +48,7 @@ const MessagesBody = (props) => {
         }
         chatsCache = null;
 
-        list.push(<div key={"checkout" + momentCache} />);
+        list.push(<div key={"checkout" + momentCache} chatcheckout="true" />);
         return;
       }
 

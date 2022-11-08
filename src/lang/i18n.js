@@ -1,35 +1,37 @@
 import i18n from "i18next";
-import { useTranslation, initReactI18next } from "react-i18next";
+import { initReactI18next } from "react-i18next";
+import { nodeEnv } from "serverconf";
 
-import TranslationEn from "lang/translation.en.json";
-import TranslationKo from "lang/translation.ko.json";
+import nsSearchKO from "./search/ko.json";
+import nsAddroomKO from "./addroom/ko.json";
+import nsMyroomKO from "./myroom/ko.json";
+import nsMypageKO from "./mypage/ko.json";
 
-const resource = {
-  en: {
-    translations: TranslationEn,
-  },
-  ko: {
-    translations: TranslationKo,
-  },
-};
+import nsSearchEN from "./search/en.json";
+import nsAddroomEN from "./addroom/en.json";
+import nsMyroomEN from "./myroom/en.json";
+import nsMypageEN from "./mypage/en.json";
 
-i18n
-  .use(initReactI18next) // passes i18n down to react-i18next
-  .init({
-    // the translations
-    // (tip move them in a JSON file and import them,
-    // or even better, manage them via a UI: https://react.i18next.com/guides/multiple-translation-files#manage-your-translations-with-a-management-gui)
-    resources: resource,
-    // 초기 언어 설정
-    lng: "ko", // if you're using a language detector, do not define the lng option
-    fallbackLng: "ko",
-    debug: true,
-    defaultNS: "translations",
-    ns: "translations",
-    keySeparator: false,
-    interpolation: {
-      escapeValue: false, // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
+/** {@link https://www.i18next.com/overview/configuration-options} */
+i18n.use(initReactI18next).init({
+  resources: {
+    ko: {
+      search: nsSearchKO,
+      addroom: nsAddroomKO,
+      myroom: nsMyroomKO,
+      mypage: nsMypageKO,
     },
-  });
+    en: {
+      search: nsSearchEN,
+      addroom: nsAddroomEN,
+      myroom: nsMyroomEN,
+      mypage: nsMypageEN,
+    },
+  },
+  debug: nodeEnv === "development",
+  lng: "ko", // inintial language
+  fallbackLng: "ko",
+  defaultNS: "mypage", // default namespace
+});
 
 export default i18n;
