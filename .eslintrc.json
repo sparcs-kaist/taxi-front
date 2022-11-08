@@ -21,6 +21,16 @@
   },
   "plugins": ["react", "cypress"],
   "rules": {
-    "no-unused-vars": 1
-  }
+    "no-unused-vars": 1,
+    "react/no-unknown-property": ["error", { "ignore": ["chatcheckout"] }]
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "no-undef": "off",
+        "no-unused-vars": "off"
+      }
+    }
+  ]
 }

@@ -2,21 +2,23 @@ import React, { useState, useEffect } from "react";
 import WhiteContainer from "components/common/WhiteContainer";
 import Title from "components/common/Title";
 import Room from "components/common/room/Room";
+import Pagination, {
+  PAGE_MAX_ITEMS,
+} from "components/common/pagination/Pagination";
 import RoomSelectionModal from "./RoomSelectionModal";
 import PropTypes from "prop-types";
-
+import usePageFromSearchParams from "hooks/usePageFromSearchParams";
+import theme from "styles/theme";
+import Empty from "components/common/Empty";
+import DottedLine from "components/common/DottedLine";
 import CheckIcon from "@mui/icons-material/Check";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import Pagination from "components/common/pagination/Pagination";
-import { theme } from "styles/theme";
 
 const sortOptions = {
   time: "출발 시간 순",
   leftPeopleReverse: "남은 인원 많은 순",
   leftPeopleNatural: "남은 인원 적은 순",
 };
-
-const PAGE_MAX_ROOMS = 20;
 
 const SearchOptions = (props) => {
   const styleWrapper = {
@@ -29,15 +31,16 @@ const SearchOptions = (props) => {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
+    position: "relative",
     height: "23px",
     color: theme.purple,
-    ...theme.font10,
+    ...theme.font10_bold,
     lineHeight: "12px",
     padding: "5px 8px",
     boxShadow: theme.shadow,
     borderRadius: "6px",
     background: props.color === "purple" ? theme.purple_light : "white",
-    cursor: "pointer",
+    ...theme.cursor(),
   };
 
   const styleCheckbox = {
@@ -60,7 +63,12 @@ const SearchOptions = (props) => {
     width: "11px",
   };
 
-  const styleSelect = { opacity: 0, position: "absolute", cursor: "pointer" };
+  const styleSelect = {
+    opacity: 0,
+    right: 0,
+    position: "absolute",
+    ...theme.cursor(),
+  };
 
   const styleShowOption = {
     display: "flex",
@@ -118,7 +126,8 @@ const SideResult = (props) => {
   const [isIncludeFullRoom, setIsIncludeFullRoom] = useState(false);
   const [sortOption, setSortOption] = useState(sortOptions.time);
   const [rooms, setRooms] = useState([]);
-  const [pageInfo, setPageInfo] = useState({ totalPages: 1, currentPage: 1 });
+  const totalPages = Math.ceil(rooms.length / PAGE_MAX_ITEMS);
+  const currentPage = usePageFromSearchParams(totalPages);
 
   useEffect(() => {
     if (props.result === null) return;
@@ -146,34 +155,6 @@ const SideResult = (props) => {
     setRooms(roomsWithOptions);
   }, [isIncludeFullRoom, sortOption, props.result]);
 
-  useEffect(() => {
-    setPageInfo({
-      totalPages: Math.ceil(rooms.length / PAGE_MAX_ROOMS),
-      currentPage: 1,
-    });
-  }, [rooms]);
-
-  const pageClickHandler = (page) => {
-    setPageInfo({ ...pageInfo, currentPage: page });
-  };
-
-  const prevPageHandler = () => {
-    if (pageInfo.currentPage <= 1) return;
-    setPageInfo({ ...pageInfo, currentPage: pageInfo.currentPage - 1 });
-  };
-
-  const nextPageHandler = () => {
-    if (pageInfo.currentPage >= pageInfo.totalPages) return;
-    setPageInfo({ ...pageInfo, currentPage: pageInfo.currentPage + 1 });
-  };
-
-  const styleEmpty = {
-    color: theme.gray_text,
-    fontWeight: "700",
-    textAlign: "center",
-    margin: "50px 0px 30px",
-  };
-
   if (!props.mobile) {
     return (
       <div style={{ marginTop: 26 }}>
@@ -194,14 +175,15 @@ const SideResult = (props) => {
             setSortOption={setSortOption}
             theme="purple"
           />
+          <DottedLine direction="row" />
           {rooms.length == 0 ? (
-            <div style={styleEmpty}>검색 결과가 없습니다.</div>
+            <Empty screen="pc">검색 결과가 없습니다</Empty>
           ) : (
             <>
               {rooms
                 .slice(
-                  PAGE_MAX_ROOMS * (pageInfo.currentPage - 1),
-                  PAGE_MAX_ROOMS * pageInfo.currentPage
+                  PAGE_MAX_ITEMS * (currentPage - 1),
+                  PAGE_MAX_ITEMS * currentPage
                 )
                 .map((room) => (
                   <Room
@@ -216,11 +198,8 @@ const SideResult = (props) => {
                   />
                 ))}
               <Pagination
-                totalPages={pageInfo.totalPages}
-                currentPage={pageInfo.currentPage}
-                onClickPage={pageClickHandler}
-                onClickNext={nextPageHandler}
-                onClickPrev={prevPageHandler}
+                totalPages={totalPages}
+                currentPage={currentPage}
                 isMobile={false}
               />
             </>
@@ -233,7 +212,7 @@ const SideResult = (props) => {
       <>
         <RoomSelectionModal
           isOpen={!!selectedRoomInfo}
-          isMobile={true}
+          isMobile
           onClose={() => {
             setSelectedRoomInfo(null);
           }}
@@ -246,15 +225,13 @@ const SideResult = (props) => {
           setSortOption={setSortOption}
         />
         {rooms.length == 0 ? (
-          <WhiteContainer style={styleEmpty}>
-            <div style={styleEmpty}>검색 결과가 없습니다</div>
-          </WhiteContainer>
+          <Empty screen="mobile">검색 결과가 없습니다</Empty>
         ) : (
           <>
             {rooms
               .slice(
-                PAGE_MAX_ROOMS * (pageInfo.currentPage - 1),
-                PAGE_MAX_ROOMS * pageInfo.currentPage
+                PAGE_MAX_ITEMS * (currentPage - 1),
+                PAGE_MAX_ITEMS * currentPage
               )
               .map((room) => {
                 return (
@@ -271,11 +248,8 @@ const SideResult = (props) => {
                 );
               })}
             <Pagination
-              totalPages={pageInfo.totalPages}
-              currentPage={pageInfo.currentPage}
-              onClickPage={pageClickHandler}
-              onClickNext={nextPageHandler}
-              onClickPrev={prevPageHandler}
+              totalPages={totalPages}
+              currentPage={currentPage}
               isMobile
             />
           </>

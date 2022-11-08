@@ -1,102 +1,38 @@
 import React, { useState, useMemo } from "react";
+import { useRecoilValue } from "recoil";
+import loginInfoDetailAtom from "recoil/loginInfoDetail";
+import PropTypes from "prop-types";
+import { date2str } from "tools/moment";
 import PopupCancel from "./Popup/PopupCancel";
 import PopupPay from "./Popup/PopupPay";
 import PopupSend from "./Popup/PopupSend";
-import { date2str } from "tools/moment";
-import PropTypes from "prop-types";
 import ProfileImg from "components/Mypage/ProfileImg";
+import theme from "styles/theme";
 
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import PaymentRoundedIcon from "@mui/icons-material/PaymentRounded";
-import PeopleRoundedIcon from "@mui/icons-material/EmojiPeopleRounded";
-import useTaxiAPI from "hooks/useTaxiAPI";
+import SendRoundedIcon from "@material-ui/icons/SendRounded";
 
-const InfoSide = (props) => {
+const Info = (props) => {
   return (
-    <div>
-      <div
-        style={{
-          height: "9px",
-          lineHeight: "9px",
-          fontSize: "8px",
-          color: "#888888",
-        }}
-      >
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        rowGap: "4px",
+        width: "fit-content",
+      }}
+    >
+      <div style={{ ...theme.font10_bold, color: theme.gray_text }}>
         {props.title}
       </div>
-      <div style={{ height: "5px" }} />
-      <div
-        style={{
-          height: "12px",
-          lineHeight: "12px",
-          fontSize: "10px",
-          color: "#323232",
-        }}
-      >
-        {props.children}
-      </div>
+      <div style={{ ...theme.font12 }}>{props.children}</div>
     </div>
   );
 };
-InfoSide.propTypes = {
+Info.propTypes = {
   title: PropTypes.string,
-  children: PropTypes.string,
-};
-
-const BtnSide = (props) => {
-  const style = {
-    width: "67px",
-    height: "21px",
-    borderRadius: "6px",
-    background: props.disable ? "#EEEEEE" : "#6E3678",
-    overflow: "hidden",
-    position: "relative",
-    cursor: props.disable ? "not-allowed" : "pointer",
-  };
-  const styleIcon = {
-    position: "absolute",
-    top: "3px",
-    right: "3px",
-    width: "15px",
-    height: "15px",
-    fill: props.disable ? "#888888" : "#FFFFFF",
-  };
-
-  let icon = null;
-  if (props.icon === "cancel") {
-    icon = <LogoutRoundedIcon style={styleIcon} />;
-  } else if (props.icon === "card") {
-    icon = <PaymentRoundedIcon style={styleIcon} />;
-  } else if (props.icon === "people") {
-    icon = <PeopleRoundedIcon style={styleIcon} />;
-  }
-
-  return (
-    <div style={style} onClick={props.onClick}>
-      <div
-        style={{
-          height: "21px",
-          lineHeight: "21px",
-          fontSize: "10px",
-          color: props.disable ? "#888888" : "#FFFFFF",
-          paddingLeft: "6px",
-        }}
-      >
-        {props.children}
-      </div>
-      {icon}
-    </div>
-  );
-};
-BtnSide.propTypes = {
-  icon: PropTypes.string,
-  children: PropTypes.string,
-  onClick: PropTypes.func,
-  disable: PropTypes.bool,
-};
-BtnSide.defaultProps = {
-  onClick: () => {},
-  disable: false,
+  children: PropTypes.node,
 };
 
 const User = (props) => {
@@ -106,32 +42,30 @@ const User = (props) => {
     <div
       style={{
         display: "flex",
-        position: "relative",
+        alignItems: "center",
         gap: "4px",
+        maxWidth: "100%",
       }}
     >
       <div
         style={{
-          position: "relative",
-          width: "21px",
+          minWidth: "21px",
           height: "21px",
-          borderRadius: "11px",
-          background: "#EEEEEE",
           overflow: "hidden",
+          borderRadius: "50%",
+          background: theme.gray_line,
         }}
       >
         <ProfileImg path={props.info?.profileImageUrl} />
       </div>
       <div
         style={{
-          height: "12px",
-          lineHeight: "12px",
-          fontSize: "10px",
-          padding: "4px 6px 3px",
-          color: isSettlement ? "#FFFFFF" : "#888888",
-          background: isSettlement ? "#6E3678" : "#EEEEEE",
+          ...theme.font10,
           borderRadius: "6px",
-          marginTop: "1px",
+          padding: "4px 6px 3px",
+          boxShadow: theme.shadow_gray_input_inset,
+          color: isSettlement ? theme.white : theme.gray_text,
+          background: isSettlement ? theme.purple : theme.gray_background,
           overflow: "hidden",
           whiteSpace: "nowrap",
           textOverflow: "ellipsis",
@@ -139,7 +73,7 @@ const User = (props) => {
       >
         {props.info?.nickname}
         {props.isDeparted && !isSettlement ? (
-          <span style={{ fontSize: "8px" }}>&nbsp;&#40;미정산&#41;</span>
+          <span style={theme.font8}>(미정산)</span>
         ) : null}
       </div>
     </div>
@@ -150,95 +84,73 @@ User.propTypes = {
   isDeparted: PropTypes.bool,
 };
 
-const HeaderBody = (props) => {
-  const [, userInfoDetail] = useTaxiAPI.get("/json/logininfo/detail");
-  const users = props.info?.part || [];
+const ButtonBody = (props) => {
+  const style = {
+    display: "flex",
+    alignItems: "center",
+    columnGap: "4px",
+    borderRadius: "6px",
+    padding: "3px 5px 3px 6px",
+    background: props.disabled ? theme.gray_background : theme.purple,
+    cursor: theme.cursor(props.disabled),
+  };
+  const styleText = {
+    ...theme.font10,
+    color: props.disabled ? theme.gray_text : theme.white,
+  };
+  const styleIcon = {
+    ...theme.font15_icon,
+    fill: props.disabled ? theme.gray_text : theme.white,
+  };
+
+  const getIcon = (type) => {
+    switch (type) {
+      case "탑승취소":
+        return <LogoutRoundedIcon style={styleIcon} />;
+      case "결제하기" || "결제완료":
+        return <PaymentRoundedIcon style={styleIcon} />;
+      case "정산하기" || "정산완료":
+        return <SendRoundedIcon style={styleIcon} />;
+    }
+  };
+
+  return (
+    <div style={style} onClick={props.onClick}>
+      <div style={styleText}>{props.type}</div>
+      {getIcon(props.type)}
+    </div>
+  );
+};
+ButtonBody.propTypes = {
+  type: PropTypes.string,
+  onClick: PropTypes.func,
+  disabled: PropTypes.bool,
+};
+ButtonBody.defaultProps = {
+  onClick: () => {},
+  disabled: false,
+};
+
+const Button = (props) => {
   const [popupCancel, setPopupCancel] = useState(false);
   const [popupPay, setPopupPay] = useState(false);
   const [popupSend, setPopupSend] = useState(false);
-  const isSettlementForMe = useMemo(
-    () =>
-      users.filter((user) => user._id === userInfoDetail?.oid)?.[0]
-        ?.isSettlement,
-    [userInfoDetail?.oid, JSON.stringify(users)]
-  );
-
-  let btnContBody = null;
-  if (!props.info?.isDeparted) {
-    btnContBody = (
-      <BtnSide icon="cancel" onClick={() => setPopupCancel(true)}>
-        탑승취소
-      </BtnSide>
-    );
-  } else if (!props.info?.settlementTotal) {
-    btnContBody = (
-      <BtnSide icon="people" onClick={() => setPopupPay(true)}>
-        결제하기
-      </BtnSide>
-    );
-  } else if (isSettlementForMe === "send-required") {
-    btnContBody = (
-      <BtnSide icon="card" onClick={() => setPopupSend(true)}>
-        정산하기
-      </BtnSide>
-    );
-  } else if (isSettlementForMe === "paid") {
-    btnContBody = (
-      <BtnSide icon="people" disable={true}>
-        결제완료
-      </BtnSide>
-    );
-  } else if (isSettlementForMe === "sent") {
-    btnContBody = (
-      <BtnSide icon="card" disable={true}>
-        정산완료
-      </BtnSide>
-    );
-  }
-
   return (
-    <div>
-      <div>
-        <InfoSide title="출발 시각 &#38; 날짜">
-          {date2str(props.info?.time)}
-        </InfoSide>
-      </div>
-      <div style={{ height: "16px" }} />
-      <div
-        style={{
-          display: "flex",
-          position: "relative",
-          justifyContent: "space-between",
-          alignItems: "flex-end",
-        }}
-      >
-        <div
-          style={{
-            width: "calc(100% - 87px)",
-            display: "flex",
-            gap: "9px",
-            flexWrap: "wrap",
-            overflow: "hidden",
-          }}
-        >
-          {users.map((item) => (
-            <User
-              key={item._id}
-              info={item}
-              isDeparted={props.info?.isDeparted}
-            />
-          ))}
-        </div>
-        <div
-          style={{
-            width: "67px",
-            display: "flex",
-            gap: "6px",
-            flexDirection: "column",
-          }}
-        >
-          {btnContBody}
-        </div>
+    <>
+      <div style={{ minWidth: "fit-content" }}>
+        {!props.info?.isDeparted ? (
+          <ButtonBody type="탑승취소" onClick={() => setPopupCancel(true)} />
+        ) : !props.info?.settlementTotal ? (
+          <ButtonBody type="결제하기" onClick={() => setPopupPay(true)} />
+        ) : props.isSettlementForMe === "paid" ? (
+          <ButtonBody type="결제완료" disabled />
+        ) : props.isSettlementForMe === "send-required" ? (
+          <ButtonBody type="정산하기" onClick={() => setPopupSend(true)} />
+        ) : props.isSettlementForMe === "sent" ? (
+          <ButtonBody type="정산완료" disabled />
+        ) : (
+          <></>
+        )}
       </div>
       <PopupCancel
         roomId={props.info?._id}
@@ -258,6 +170,65 @@ const HeaderBody = (props) => {
         onClickClose={() => setPopupSend(false)}
         recallEvent={props.recallEvent}
       />
+    </>
+  );
+};
+Button.propTypes = {
+  isSettlementForMe: PropTypes.string,
+  recallEvent: PropTypes.func,
+  info: PropTypes.object,
+};
+
+const HeaderBody = (props) => {
+  const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
+  const users = props.info?.part ?? [];
+  const isSettlementForMe = useMemo(
+    () =>
+      users.filter((user) => user._id === userInfoDetail?.oid)?.[0]
+        ?.isSettlement,
+    [userInfoDetail?.oid, JSON.stringify(users)]
+  );
+
+  return (
+    <div>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <Info title="출발 시각 & 날짜">{date2str(props.info?.time)}</Info>
+        <Info title="탑승 및 최대 인원">
+          <b>{props.info?.part.length}명</b> / {props.info?.maxPartLength}명
+        </Info>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-end",
+          marginTop: "16px",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            overflow: "hidden",
+            rowGap: "6px",
+            columnGap: "8px",
+            paddingRight: "12px",
+          }}
+        >
+          {users.map((item) => (
+            <User
+              key={item._id}
+              info={item}
+              isDeparted={props.info?.isDeparted}
+            />
+          ))}
+        </div>
+        <Button
+          isSettlementForMe={isSettlementForMe}
+          recallEvent={props.recallEvent}
+          info={props.info}
+        />
+      </div>
     </div>
   );
 };

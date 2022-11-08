@@ -93,13 +93,13 @@ R2.defaultProps = {
 };
 
 const Popup = (props) => {
-  const state = usePopupstate();
+  const state = usePopupstate(props.width);
 
   if (state == 1) {
     return (
       <div
         style={{
-          width: "335px",
+          width: props.width,
           margin: "auto",
         }}
         onClick={(e) => e.stopPropagation()}
@@ -123,6 +123,10 @@ const Popup = (props) => {
 };
 Popup.propTypes = {
   children: PropTypes.any,
+  width: PropTypes.number,
+};
+Popup.defaultProps = {
+  width: 335,
 };
 
 export default { R1, R2, Popup };
