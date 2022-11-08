@@ -105,18 +105,12 @@ const Mypage = () => {
           <div style={infoContent}>{userInfoDetail?.nickname}</div>
         </div>
       </WhiteContainer>
-<<<<<<< HEAD
-
       {nodeEnv === "development" ? (
         <WhiteContainer>
           <TranslationButton />
         </WhiteContainer>
       ) : null}
-
       <WhiteContainer marginAuto={true}>
-=======
-      <WhiteContainer marginAuto>
->>>>>>> b32ac1c0212732c70a911ec833c2cc547b8239ea
         <div style={{ display: "grid", rowGap: "16px" }}>
           <Menu icon="report" onClick={() => setOpenReport(true)}>
             신고 내역
