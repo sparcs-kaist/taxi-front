@@ -8,21 +8,21 @@ import DottedLine from "components/common/DottedLine";
 
 import WbIncandescentRoundedIcon from "@material-ui/icons/WbIncandescentRounded";
 
-const useDelay = (isMounted, delayTime, type) => {
+const useDelay = (isOpen, delayTime, type) => {
   const [shouldRender, setShouldRender] = useState(false);
 
   useEffect(() => {
     let timeoutId;
-    if (isMounted && !shouldRender) {
-      if (type === "render") setShouldRender(true);
+    if (isOpen && !shouldRender) {
+      if (type === "mount") setShouldRender(true);
       else timeoutId = setTimeout(() => setShouldRender(true), delayTime);
-    } else if (!isMounted && shouldRender) {
-      if (type === "render")
+    } else if (!isOpen && shouldRender) {
+      if (type === "mount")
         timeoutId = setTimeout(() => setShouldRender(false), delayTime);
       else setShouldRender(false);
     }
     return () => clearTimeout(timeoutId);
-  }, [isMounted]);
+  }, [isOpen]);
   return shouldRender;
 };
 
@@ -30,7 +30,7 @@ const AlertProvider = () => {
   const messageCache = useRef("");
   const [message, setMessage] = useRecoilState(alertAtom);
 
-  const shouldMount = useDelay(message, 150, "render");
+  const shouldMount = useDelay(message, 150, "mount");
   const shouldDisplay = useDelay(message, 0, "display");
 
   const onClickClose = () => setMessage(null);
