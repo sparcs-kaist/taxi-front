@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import RLayout from "components/common/RLayout";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import ListAltRoundedIcon from "@mui/icons-material/ListAltRounded";
@@ -46,29 +46,23 @@ const getIcon = (icon) => {
 
 const Title = (props) => {
   const title = (
-    <div>
-      <div style={{ height: props.header ? "30px" : "0px" }} />
+    <div
+      style={{
+        display: "flex",
+        alignItems: "flex-end",
+        padding: props.header ? "30px 0 25px" : undefined,
+      }}
+    >
+      {getIcon(props.icon)}
       <div
         style={{
-          display: "flex",
-          alignItems: "flex-end",
+          ...theme.font20,
+          color: theme.purple,
+          marginLeft: "8px",
         }}
       >
-        {getIcon(props.icon)}
-        <div
-          style={{
-            marginLeft: "8px",
-            lineHeight: "23px",
-            fontSize: "20px",
-            fontWeight: "bold",
-            letterSpacing: "0.03em",
-            color: theme.purple,
-          }}
-        >
-          {props.children}
-        </div>
+        {props.children}
       </div>
-      <div style={{ height: props.header ? "25px" : "0px" }} />
     </div>
   );
 

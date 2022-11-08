@@ -42,7 +42,7 @@ const ChatImage = (props) => {
         <img
           src={src}
           style={{
-            maxWidth: isMobile ? "75%" : "210px",
+            maxWidth: "100%",
             maxHeight: isMobile ? "360px" : "210px",
             verticalAlign: "middle",
             cursor: "pointer",
@@ -82,7 +82,7 @@ const ChatText = (props) => {
         fontSize: "13px",
         whiteSpace: "pre-line",
       }}
-      className="chat-selectable"
+      className="selectable"
     >
       {props.text}
     </div>
@@ -128,7 +128,7 @@ const ChatSet = (props) => {
     gap: "4px",
   };
   const styleChat = {
-    maxWidth: "calc(100% - 70px)",
+    maxWidth: isMobile ? "75%" : "210px",
     background: itsme ? "#6E3678" : "#FFFFFF",
     boxShadow:
       "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
@@ -143,6 +143,14 @@ const ChatSet = (props) => {
     fontSize: "9px",
     color: "#888888",
   };
+
+  const handleOpen = () => {
+    props.setIsOpen(true);
+    props.setPath(props.chats[0].authorProfileUrl);
+    props.setName(props.chats[0].authorName);
+    props.setReportedId(props.chats[0].authorId);
+  };
+
   const onClose = () => {
     setFullImage("");
   };
@@ -157,7 +165,7 @@ const ChatSet = (props) => {
           width: "53px",
         }}
       >
-        <div style={styleProfCont}>
+        <div style={styleProfCont} onClick={handleOpen}>
           <ProfileImg path={props.chats[0].authorProfileUrl} />
         </div>
       </div>
@@ -198,6 +206,10 @@ ChatSet.propTypes = {
   authorId: PropTypes.string,
   isBottomOnScroll: PropTypes.func,
   scrollToBottom: PropTypes.func,
+  setIsOpen: PropTypes.func,
+  setPath: PropTypes.func,
+  setName: PropTypes.func,
+  setReportedId: PropTypes.func,
 };
 
 export default ChatSet;

@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
+import { useRecoilValue } from "recoil";
+import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import PropTypes from "prop-types";
 import { io } from "socket.io-client";
+import { useRecoilState } from "recoil";
 import Header from "./Header/Header";
 import MessagesBody from "./MessagesBody/MessagesBody";
 import MessageForm from "./MessageForm/MessageForm";
@@ -12,8 +15,7 @@ import convertImg from "tools/convertImg";
 import axios from "tools/axios";
 import axiosOri from "axios";
 import useTaxiAPI from "hooks/useTaxiAPI";
-
-import "./Style/Chatting.css";
+import myRoomAtom from "recoil/myRoom";
 
 const Chatting = (props) => {
   const sendingMessage = useRef();
@@ -25,16 +27,25 @@ const Chatting = (props) => {
   const [chats, setChats] = useStateWithCallbackLazy([]);
   const [showNewMessage, setShowNewMessage] = useState(false);
   const [messageFormHeight, setMessageFormHeight] =
-    useStateWithCallbackLazy("40px");
+    useStateWithCallbackLazy("48px");
 
   const socket = useRef(undefined);
+  const [, setMyRoom] = useRecoilState(myRoomAtom);
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
-  const [, userInfoDetail] = useTaxiAPI.get("/json/logininfo/detail");
+  const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const [, headerInfo] = useTaxiAPI.get(
     `/rooms/v2/info?id=${props.roomId}`,
     {},
     [headerInfToken]
   );
+  const [, roomList] = useTaxiAPI.get("/rooms/v2/searchByUser", {}, [
+    headerInfToken,
+  ]);
+
+  // Update the ongoing room list
+  useEffect(() => {
+    setMyRoom(roomList);
+  }, [roomList]);
 
   // scroll event
   const isTopOnScroll = (tol = 20) => {
@@ -234,33 +245,31 @@ const Chatting = (props) => {
   };
 
   return (
-    <div className="ChatContainer">
-      <div className="ChatRoomContainer">
-        <Header
-          isSideChat={props.isSideChat}
-          info={headerInfo}
-          recallEvent={() => setHeaderInfToken(Date.now().toString())}
-        />
-        <MessagesBody
-          isSideChat={props.isSideChat}
-          chats={chats}
-          user={userInfoDetail}
-          forwardedRef={messagesBody}
-          handleScroll={handleScroll}
-          isBottomOnScroll={isBottomOnScroll}
-          scrollToBottom={() => scrollToBottom(false)}
-          marginBottom={messageFormHeight}
-        />
-        <MessageForm
-          isSideChat={props.isSideChat}
-          handleSendMessage={handleSendMessage}
-          handleSendImage={handleSendImage}
-          showNewMessage={showNewMessage}
-          onClickNewMessage={() => scrollToBottom(true)}
-          setContHeight={handleMessageFormHeight}
-        />
-      </div>
-    </div>
+    <>
+      <Header
+        isSideChat={props.isSideChat}
+        info={headerInfo}
+        recallEvent={() => setHeaderInfToken(Date.now().toString())}
+      />
+      <MessagesBody
+        isSideChat={props.isSideChat}
+        chats={chats}
+        user={userInfoDetail}
+        forwardedRef={messagesBody}
+        handleScroll={handleScroll}
+        isBottomOnScroll={isBottomOnScroll}
+        scrollToBottom={() => scrollToBottom(false)}
+        marginBottom={messageFormHeight}
+      />
+      <MessageForm
+        isSideChat={props.isSideChat}
+        handleSendMessage={handleSendMessage}
+        handleSendImage={handleSendImage}
+        showNewMessage={showNewMessage}
+        onClickNewMessage={() => scrollToBottom(true)}
+        setContHeight={handleMessageFormHeight}
+      />
+    </>
   );
 };
 

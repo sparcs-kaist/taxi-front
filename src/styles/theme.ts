@@ -4,35 +4,35 @@ export type Font = {
   fontWeight?: number;
 };
 
-export const theme = {
+const theme = {
   // Color
+  white: "#FFFFFF",
   black: "#323232",
   black_40: "rgba(0, 0, 0, 0.4)",
   black_60: "rgba(0, 0, 0, 0.6)",
-  white: "#FFFFFF",
-
   purple: "#6E3678",
   purple_disabled: "#B89DBD",
   purple_dark: "#572A5E",
   purple_light: "#FAF6FB",
   purple_background: "#FAF8FB",
   purple_hover: "#F4EAF6",
-
   gray_text: "#888888",
   gray_background: "#EEEEEE",
   gray_line: "#C8C8C8",
-
   red_text: "#DD616E",
   red_button: "#91313B",
   red_background: "#F9E8E7",
-
   green_button: "#23913C",
   green_background: "#E6F7E4",
+  blue_text: "#576ADE",
+
+  yellow: "#F2A024",
 
   // Font Size
   font8: { fontSize: 8, letterSpacing: -0.2 },
   font8_medium: { fontSize: 8, letterSpacing: -0.2, fontWeight: 500 },
-  font10: { fontSize: 10 },
+  font10: { fontSize: 10, fontWeight: 300 },
+  font10_bold: { fontSize: 10, fontWeight: 700 },
   font12: { fontSize: 12, letterSpacing: 0.4 },
   font14: { fontSize: 14, lineHeight: "16px" },
   font14_bold: { fontSize: 14, fontWeight: 700, lineHeight: "16px" },
@@ -40,8 +40,19 @@ export const theme = {
   font15_icon: { fontSize: 15 },
   font16: { fontSize: 16, letterSpacing: -0.4 },
   font16_bold: { fontSize: 16, letterSpacing: -0.4, fontWeight: 700 },
-  font18: { fontSize: 18, letterSpacing: -0.6 },
-  font20: { fontSize: 20, letterSpacing: -0.75 },
+  font16_icon: { fontSize: 16 },
+  font18: {
+    fontSize: 18,
+    letterSpacing: -0.6,
+    fontWeight: 700,
+    lineHeight: "21px",
+  },
+  font20: {
+    fontSize: 20,
+    letterSpacing: -0.75,
+    fontWeight: 700,
+    lineHeight: "23px",
+  },
 
   // Shadow
 
@@ -77,8 +88,8 @@ export const theme = {
   container_max_width: 325,
 
   // Cursor
-  cursor: (disabled: boolean) => {
-    return disabled ? "not-allowed" : "pointer";
+  cursor: (disabled?: boolean) => {
+    return { cursor: disabled ? "not-allowed" : "pointer" } as CSS;
   },
 
   // zIndex
@@ -88,4 +99,7 @@ export const theme = {
   zIndex_background: 10,
   zIndex_header: 20,
   zIndex_fullimage: 20,
+  zIndex_alert: 30,
 };
+
+export default theme;

@@ -1,8 +1,9 @@
 import React, { Component, useState } from "react";
 import { getToday10 } from "tools/moment";
 import PropTypes from "prop-types";
-import { theme } from "styles/theme";
+import theme from "styles/theme";
 import DottedLine from "components/common/DottedLine";
+import MiniCircle from "components/common/MiniCircle";
 
 import TodayRoundedIcon from "@material-ui/icons/TodayRounded";
 import KeyboardArrowLeftRoundedIcon from "@material-ui/icons/KeyboardArrowLeftRounded";
@@ -83,7 +84,7 @@ const Date = (props) => {
         ? theme.shadow_purple_button_inset
         : theme.shadow_purple_input_inset
       : undefined,
-    cursor: theme.cursor(!props.available),
+    ...theme.cursor(!props.available),
     transitionDuration: theme.duration,
   };
   const styleDate = {
@@ -93,22 +94,26 @@ const Date = (props) => {
     color: props.selected
       ? theme.white
       : props.available
-      ? theme.black
+      ? props.index === 0
+        ? theme.red_text
+        : props.index === 6
+        ? theme.blue_text
+        : theme.black
       : theme.gray_line,
   };
   const styleToday = {
-    width: "3px",
-    height: "3px",
-    borderRadius: "50%",
+    // width: "3px",
+    // height: "3px",
+    // borderRadius: "50%",
     position: "absolute",
     top: "calc(50% + 8.5px)",
-    left: "calc(50% - 1.5px)",
-    background:
-      props.available === "today"
-        ? props.selected
-          ? theme.white
-          : theme.purple_disabled
-        : undefined,
+    left: "calc(50% - 2px)",
+    // background:
+    //   props.available === "today"
+    //     ? props.selected
+    //       ? theme.white
+    //       : theme.purple_disabled
+    //     : undefined,
   };
 
   const onClick = () => {
@@ -125,19 +130,24 @@ const Date = (props) => {
         onClick={onClick}
       >
         <div style={styleDate}>{props.date}</div>
-        <div style={styleToday} />
+        {props.available === "today" && (
+          <div style={styleToday}>
+            <MiniCircle type="date" isSelected={props.selected} />
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
 Date.propTypes = {
-  available: PropTypes.any,
-  selected: PropTypes.any,
-  handler: PropTypes.func,
+  index: PropTypes.number,
   year: PropTypes.any,
   month: PropTypes.any,
   date: PropTypes.any,
+  available: PropTypes.any,
+  selected: PropTypes.any,
+  handler: PropTypes.func,
 };
 
 class DatePicker extends Component {
@@ -151,7 +161,7 @@ class DatePicker extends Component {
       { color: theme.black, text: "수" },
       { color: theme.black, text: "목" },
       { color: theme.black, text: "금" },
-      { color: theme.red_text, text: "토" },
+      { color: theme.blue_text, text: "토" },
     ];
 
     this.styleTop = {
@@ -172,7 +182,7 @@ class DatePicker extends Component {
       width: "24px",
       height: "24px",
       fill: theme.purple,
-      cursor: theme.cursor(false),
+      ...theme.cursor(),
     };
     this.styleArrowGrid = {
       width: "56px",
@@ -201,17 +211,13 @@ class DatePicker extends Component {
     };
 
     this.state = {
-      selectedDate: props.selectedDate,
       showNext: false,
     };
     this.month1 = getDateInfo.getCurrent();
     this.month2 = getDateInfo.getNext();
   }
   dateHandler(year, month, date) {
-    this.setState({ selectedDate: [year, month, date] });
-    if (this.props.handler) {
-      this.props.handler(year, month, date);
-    }
+    this.props.handler(year, month, date);
   }
 
   resizeEvent() {
@@ -278,23 +284,23 @@ class DatePicker extends Component {
           })}
         </div>
         <div style={this.styleMonth}>
-          {dateInfo.map((item) => {
+          {dateInfo.map((item, index) => {
             return (
               <div
-                key={item[0].date}
+                key={index}
                 style={{ ...this.styleWeek }}
                 className="datepicker-week"
               >
                 {item.map((item, index) => {
                   let selected = false;
                   if (
-                    month === this.state.selectedDate[1] &&
-                    item.date === this.state.selectedDate[2]
+                    month === this.props.selectedDate[1] &&
+                    item.date === this.props.selectedDate[2]
                   )
                     selected = true;
                   return (
                     <Date
-                      key={item.date}
+                      key={index}
                       index={index}
                       year={item.year}
                       month={item.month}
