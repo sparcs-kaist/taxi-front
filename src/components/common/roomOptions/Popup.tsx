@@ -4,8 +4,6 @@ import theme from "styles/theme";
 import useDisableScroll from "hooks/useDisableScroll";
 import Button from "components/common/Button";
 
-import "./Popup.css";
-
 type PopupProps = {
   isOpen: boolean;
   onClose: () => void;

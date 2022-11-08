@@ -86,7 +86,7 @@ R2.defaultProps = {
 const Popup = (props) => {
   const state = usePopupstate(props.width);
 
-  if (state == 1) {
+  if (state === 1) {
     return (
       <div
         style={{
@@ -103,7 +103,7 @@ const Popup = (props) => {
       <div
         style={{
           margin: "auto 20px",
-          width: "100%",
+          width: "calc(100% - 40px)",
         }}
         onClick={(e) => e.stopPropagation()}
       >
