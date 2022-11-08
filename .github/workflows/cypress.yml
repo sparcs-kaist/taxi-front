@@ -100,18 +100,17 @@ jobs:
       working-directory: ./taxi-back
       run: npm ci
 
-    - name: install pm2 globally and run backend
+    - name: run backend
       working-directory: ./taxi-back
       run: |
-        npm install -g pm2
-        pm2 start npm -- start
+        npm start &
 
     - name: Install frontend dependencies from package-lock.json
       run: npm ci
 
     - name: run frontend
       run: |
-        pm2 start npm -- start
+        npm start &
 
     - name: runs cypress
       uses: cypress-io/github-action@v4
