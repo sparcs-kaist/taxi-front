@@ -110,7 +110,7 @@ jobs:
 
     - name: run frontend
       run: |
-        npm start &
+        npm start & npx wait-on http://localhost:3000
 
     - name: runs cypress
       uses: cypress-io/github-action@v4
