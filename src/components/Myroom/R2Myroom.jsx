@@ -15,6 +15,8 @@ import theme from "styles/theme";
 
 import Empty from "components/common/Empty";
 import DottedLine from "components/common/DottedLine";
+import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const ChatHeader = (props) => {
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
@@ -28,7 +30,12 @@ const ChatHeader = (props) => {
     props.resizeEvent();
   }, [JSON.stringify(headerInfo)]);
 
-  return <ChatHeaderBody info={headerInfo} recallEvent={() => setHeaderInfToken(Date.now().toString())} />;
+  return (
+    <ChatHeaderBody
+      info={headerInfo}
+      recallEvent={() => setHeaderInfToken(Date.now().toString())}
+    />
+  );
 };
 
 ChatHeader.propTypes = {
