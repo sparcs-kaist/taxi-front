@@ -22,16 +22,16 @@ import OptionMaxPeople from "components/common/roomOptions/MaxPeople";
 const AddRoom = () => {
   const onCall = useRef(false);
   const history = useHistory();
+  const today = getToday();
+  const today10 = getToday10();
   const [valueName, setName] = useState("");
   const [valuePlace, setPlace] = useState([null, null]);
   const [valueDate, setDate] = useState<Array<Nullable<number>>>([
-    null,
-    null,
-    null,
+    today.year(),
+    today.month() + 1,
+    today.date(),
   ]);
   const [valueMaxPeople, setMaxPeople] = useState(4);
-  const today = getToday();
-  const today10 = getToday10();
   const [valueTime, setTime] = useState([today10.hour(), today10.minute()]);
   const [calculatedTime, setCalculatedTime] = useState<Date | null>(null);
   const setAlert = useSetRecoilState(alertAtom);
@@ -95,7 +95,7 @@ const AddRoom = () => {
 
   return (myRoom?.ongoing.length ?? 0) < MAX_PARTICIPATION ? (
     <div>
-      <Title icon="add" header={true} marginAuto={true}>
+      <Title icon="add" header marginAuto>
         방 개설하기
       </Title>
       <RLayout.R1>

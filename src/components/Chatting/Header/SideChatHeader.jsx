@@ -8,7 +8,7 @@ import FullscreenRoundedIcon from "@mui/icons-material/FullscreenRounded";
 
 const SideChatHeader = (props) => {
   const history = useHistory();
-
+  
   const styleBox = {
     background: theme.purple,
     boxShadow: theme.shadow_3,

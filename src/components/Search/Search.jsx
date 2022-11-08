@@ -143,9 +143,10 @@ const Search = () => {
   const reactiveState = useR2state();
   const onCall = useRef(false);
   const prevSearchParam = useRef("");
+  const today = useRef(getToday());
+  const today10 = getToday10();
   const history = useHistory();
   const location = useLocation();
-  const today10 = getToday10();
 
   const [searchOptions, setSearchOptions] = useState({});
   const [valueName, setName] = useState("");
@@ -156,13 +157,16 @@ const Search = () => {
   const [searchResult, setSearchResult] = useState(null);
   const [disabled, setDisabled] = useState(true);
   const [message, setMessage] = useState("검색 조건을 선택해주세요");
-
   const clearState = () => {
     onCall.current = false;
     setSearchOptions(defaultOptions);
     setName("");
     setPlace([null, null]);
-    setDate([null, null, null]);
+    setDate([
+      today.current.year(),
+      today.current.month() + 1,
+      today.current.date(),
+    ]);
     setTime([today10.hour(), today10.minute()]);
     setMaxPeople(null);
     setSearchResult(null);
@@ -232,7 +236,7 @@ const Search = () => {
     } else {
       history.replace("/search");
     }
-  }, [location]);
+  }, [JSON.stringify(location)]);
 
   useEffect(() => {
     if (!Object.values(searchOptions).some((option) => option)) {
@@ -284,6 +288,14 @@ const Search = () => {
   useEffect(() => {
     if (!searchOptions.date && valueDate[0] !== null)
       setDate([null, null, null]);
+    if (searchOptions.date) {
+      today.current = getToday();
+      setDate([
+        today.current.year(),
+        today.current.month() + 1,
+        today.current.date(),
+      ]);
+    }
   }, [searchOptions.date]);
   useEffect(() => {
     if (searchOptions.time) {
@@ -390,8 +402,8 @@ const Search = () => {
     <div>
       <Title
         icon="search"
-        header={true}
-        marginAuto={true}
+        header
+        marginAuto
         R2={searchResult !== null}
       >
         방 검색하기

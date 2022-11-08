@@ -9,7 +9,7 @@ import theme from "styles/theme";
 const FullParticipation = () => {
   return (
     <RLayout.R1>
-      <Title icon="add" header={true}>
+      <Title icon="add" header>
         방 개설하기
       </Title>
       <WhiteContainer padding="12px 16px">
