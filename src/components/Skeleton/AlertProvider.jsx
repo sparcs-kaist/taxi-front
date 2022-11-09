@@ -30,8 +30,8 @@ const AlertProvider = () => {
   const messageCache = useRef("");
   const [message, setMessage] = useRecoilState(alertAtom);
 
-  const shouldMount = useDelay(message, 150, "mount");
-  const shouldDisplay = useDelay(message, 0, "display");
+  const shouldMount = useDelay(!!message, 150, "mount");
+  const shouldDisplay = useDelay(!!message, 0, "display");
 
   const onClickClose = () => setMessage(null);
   if (message) messageCache.current = message;
