@@ -13,6 +13,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import alertAtom from "recoil/alert";
 import Menu from "./Menu";
+import betaNotice from "static/betaNotice";
 
 const Mypage = () => {
   const [profToken, setProfToken] = useState(Date.now().toString());
@@ -102,6 +103,11 @@ const Mypage = () => {
           별명
           <div style={infoContent}>{userInfoDetail?.nickname}</div>
         </div>
+      </WhiteContainer>
+      <WhiteContainer padding="16px 24px" marginAuto>
+        <Menu icon="beta" onClick={() => setAlert(betaNotice)}>
+          베타 서비스 안내
+        </Menu>
       </WhiteContainer>
       <WhiteContainer marginAuto>
         <div style={{ display: "grid", rowGap: "16px" }}>
