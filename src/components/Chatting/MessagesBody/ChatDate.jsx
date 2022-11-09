@@ -12,7 +12,7 @@ const ChatDate = (props) => {
     <div
       style={{
         position: "relative",
-        margin: "6px 12px",
+        margin: "16px 12px 6px",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",

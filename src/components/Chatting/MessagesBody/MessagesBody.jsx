@@ -127,7 +127,7 @@ const MessagesBody = (props) => {
         height: `calc(100% - ${props.marginBottom})`,
         width: "100%",
         overflow: "auto",
-        padding: "10px 0",
+        padding: "0 0 16px",
       }}
       ref={props.forwardedRef}
       onScroll={props.handleScroll}
