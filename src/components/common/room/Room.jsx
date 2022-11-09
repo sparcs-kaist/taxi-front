@@ -20,11 +20,8 @@ const Tag = (props) => {
     gap: "3px",
     padding: "4px 6px 3px",
     background:
-      props.theme === "purple" ? theme.gray_background : theme.purple_light,
-    boxShadow:
-      props.theme === "purple"
-        ? theme.shadow_purple_input_inset
-        : theme.shadow_gray_input_inset,
+      props.theme === "purple" ? theme.purple_hover : theme.purple_light,
+    boxShadow: theme.shadow_purple_input_inset,
   };
   const paid = props.users.find((user) => user.isSettlement === "paid");
   let isDone = null;
