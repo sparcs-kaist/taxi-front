@@ -11,7 +11,7 @@ const R1 = (props) => {
         style={{
           position: props.position,
           height: props.height,
-          width: "755px",
+          width: "390px",
           margin: "auto",
         }}
       >
@@ -60,25 +60,16 @@ const R2 = (props) => {
           justifyContent: "center",
         }}
       >
-        <div style={{ width: state == 1 ? "370px" : "calc(50% - 27.5px)" }}>
+        <div style={{ width: state == 1 ? "390px" : "calc(50% - 27.5px)" }}>
           {props.left}
         </div>
-        <div style={{ width: state == 1 ? "370px" : "calc(50% - 27.5px)" }}>
+        <div style={{ width: state == 1 ? "390px" : "calc(50% - 27.5px)" }}>
           {props.right}
         </div>
       </div>
     );
   } else {
-    return (
-      <div
-        style={{
-          marginLeft: "20px",
-          marginRight: "20px",
-        }}
-      >
-        {props.priority === "left" ? props.left : props.right}
-      </div>
-    );
+    return <R1>{props.priority === "left" ? props.left : props.right}</R1>;
   }
 };
 R2.propTypes = {

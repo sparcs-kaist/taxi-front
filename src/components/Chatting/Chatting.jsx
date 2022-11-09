@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 import { useRecoilValue } from "recoil";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
@@ -8,6 +9,7 @@ import Header from "./Header/Header";
 import MessagesBody from "./MessagesBody/MessagesBody";
 import MessageForm from "./MessageForm/MessageForm";
 import regExpTest from "tools/regExpTest";
+import { useR2state } from "hooks/useReactiveState";
 
 import { ioServer } from "serverconf";
 import convertImg from "tools/convertImg";
@@ -21,6 +23,7 @@ const Chatting = (props) => {
   const isBottomOnScrollCache = useRef(true);
   const roomIdCache = useRef();
   const messagesBody = useRef();
+  const history = useHistory();
 
   const [chats, setChats] = useStateWithCallbackLazy([]);
   const [showNewMessage, setShowNewMessage] = useState(false);
@@ -28,6 +31,8 @@ const Chatting = (props) => {
     useStateWithCallbackLazy("48px");
 
   const socket = useRef(undefined);
+  const reactiveState = useR2state();
+  const prevReactiveState = useRef(reactiveState);
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
   const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const [, headerInfo] = useTaxiAPI.get(
@@ -35,6 +40,14 @@ const Chatting = (props) => {
     {},
     [headerInfToken]
   );
+  
+  useEffect(() => {
+    if (reactiveState !== 3 && prevReactiveState.current === 3) {
+      history.replace(`/myroom/${props.roomId}`);
+    }
+    if (reactiveState === 3 && prevReactiveState.current !== 3)
+      prevReactiveState.current = reactiveState;
+  }, [reactiveState]);
 
   // scroll event
   const isTopOnScroll = (tol = 20) => {
