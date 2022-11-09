@@ -23,5 +23,5 @@
   font-family: "NanumSquare";
   src: local("NanumSquare"),
     url("./static/fonts/NanumSquare_acEB.ttf") format("truetype");
-  font-weight: 900;
+  font-weight: 700;
 }
