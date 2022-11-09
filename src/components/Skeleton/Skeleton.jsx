@@ -47,7 +47,20 @@ const Skeleton = (props) => {
   const pathname = location.pathname;
   const currentPath = location.pathname + location.search;
   const gaInitialized = useRef(false);
-  const [cookies, setCookie, removeCookie] = useCookies(["beta"]);
+
+  const [cookies, setCookie] = useCookies(["betaNoticed"]);
+  useEffect(() => {
+    if (!cookies.betaNoticed) {
+      const expires = new Date();
+      expires.setHours(5);
+      expires.setMinutes(0);
+      if (expires.getTime() < new Date().getTime())
+        expires.setDate(expires.getDate() + 1);
+
+      setCookie("betaNoticed", true, { path: "/", expires: expires });
+      setAlert(betaNotice);
+    }
+  }, []);
 
   const initializeGlobalInfo = useCallback(() => {
     const getLocation = axios.get("/locations");
@@ -58,15 +71,6 @@ const Skeleton = (props) => {
         setMyRoom(roomData);
       }
     );
-  }, []);
-
-  useEffect(() => {
-    if (!cookies.beta) {
-      const expires = new Date();
-      expires.setSeconds(expires.getSeconds() + 3);
-      setCookie("beta", true, { path: "/", expires: expires });
-      setAlert(betaNotice);
-    }
   }, []);
 
   useEffect(() => {
