@@ -356,9 +356,8 @@ const Search = () => {
     <>
       <div
         style={{
-          color: "#6E3678",
-          fontSize: "14px",
-          letterSpacing: "0.03em",
+          color: theme.purple,
+          ...theme.font14,
         }}
       >
         어떤 조건으로 검색할까요?
@@ -400,12 +399,7 @@ const Search = () => {
     );
   return (
     <div>
-      <Title
-        icon="search"
-        header
-        marginAuto
-        R2={searchResult !== null}
-      >
+      <Title icon="search" header marginAuto R2={searchResult !== null}>
         방 검색하기
       </Title>
       <RLayout.R2
