@@ -16,15 +16,15 @@ export default (
   >
     <b style={{ color: theme.purple }}>Taxi 베타 서비스</b>에 대해 안내드립니다.{" "}
     <br /> <br />
-    <ol style={{ paddingLeft: "20px" }}>
+    <ol style={{ padding: "0 4px 0 20px" }}>
       <li>
         The <b>English version</b> of the service is also currently under
         development and will be available from the official launch.
       </li>
       <li>
-        베타 서비스 기간은 11월 21일 까지이며 베타 서비스란 서비스 정식 출시
-        이전의 <b>가오픈</b>과 같은 개념으로 서비스의 상태가 불안정할 수 있다는
-        점 양해 부탁드립니다.
+        베타 서비스 기간은 <b>11월 21일</b>까지이며 베타 서비스란 서비스 정식
+        출시 이전의 <b>가오픈</b>과 같은 개념으로 서비스의 상태가 불안정할 수
+        있다는 점 양해 부탁드립니다.
       </li>
       <li>
         서비스 개발이 여전히 진행 중인 상태이기에 베타 서비스 기간 중에도 기능의
