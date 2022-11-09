@@ -159,15 +159,12 @@ class PickerColumn extends Component {
       deltaY = 0;
     }
     this.setState(({ scrollerTranslate, minTranslate, maxTranslate }) => {
+      console.log(deltaY);
       const newValue =
         scrollerTranslate +
         (keyboard
           ? deltaY
-          : Math.max(
-              -10,
-              Math.min(Math.abs(deltaY) < 2 ? 0 : deltaY * 0.8, 10)
-            )) *
-          (isTouchPad ? -1 : 1);
+          : (Math.abs(deltaY) < 15 ? 0 : deltaY) * (isTouchPad ? -1 : 1));
       const newTranslate = Math.max(
         minTranslate,
         Math.min(maxTranslate, newValue)
