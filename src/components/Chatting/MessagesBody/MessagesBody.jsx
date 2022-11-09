@@ -43,6 +43,7 @@ const MessagesBody = (props) => {
               setPath={setPath}
               setName={setName}
               setReportedId={setReportedId}
+              isSideChat={props.isSideChat}
             />
           );
         }
@@ -88,6 +89,7 @@ const MessagesBody = (props) => {
               setPath={setPath}
               setName={setName}
               setReportedId={setReportedId}
+              isSideChat={props.isSideChat}
             />
           );
           chatsCache = null;
@@ -109,6 +111,7 @@ const MessagesBody = (props) => {
           setPath={setPath}
           setName={setName}
           setReportedId={setReportedId}
+          isSideChat={props.isSideChat}
         />
       );
     }
