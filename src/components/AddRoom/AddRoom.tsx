@@ -107,7 +107,7 @@ const AddRoom = () => {
         <Button
           type="purple"
           disabled={validatedMsg ? true : false}
-          padding="13px 0px 14px"
+          padding="14px 0 13px"
           radius={12}
           font={theme.font16_bold}
           onClick={onClickAdd}
