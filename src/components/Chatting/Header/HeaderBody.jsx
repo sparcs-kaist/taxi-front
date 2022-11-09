@@ -99,7 +99,7 @@ const ButtonBody = (props) => {
     color: props.disabled ? theme.gray_text : theme.white,
   };
   const styleIcon = {
-    ...theme.font15_icon,
+    fontSize: "15px",
     fill: props.disabled ? theme.gray_text : theme.white,
   };
 

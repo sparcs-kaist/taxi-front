@@ -114,7 +114,7 @@ const Room = (props) => {
     textAlign: "center",
   };
   const styleArrow = {
-    ...theme.font16_icon,
+    fontSize: "16px",
     color: theme.gray_text,
   };
   const styleDate = {

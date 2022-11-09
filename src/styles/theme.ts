@@ -41,8 +41,6 @@ const theme = {
   font12: { fontSize: 12, letterSpacing: 0.4, lineHeight: "14px" },
   font14: { fontSize: 14, lineHeight: "16px" },
   font14_bold: { fontSize: 14, fontWeight: 700, lineHeight: "16px" },
-  font14_icon: { fontSize: 14 },
-  font15_icon: { fontSize: 15 },
   font16: { fontSize: 16, letterSpacing: -0.4, lineHeight: "19px" },
   font16_bold: {
     fontSize: 16,
@@ -50,7 +48,6 @@ const theme = {
     fontWeight: 700,
     lineHeight: "19px",
   },
-  font16_icon: { fontSize: 16 },
   font18: {
     fontSize: 18,
     letterSpacing: -0.6,
