@@ -165,7 +165,7 @@ class PickerColumn extends Component {
           ? deltaY
           : Math.max(
               -10,
-              Math.min(Math.abs(deltaY) < 4 ? 0 : deltaY * 0.8, 10)
+              Math.min(Math.abs(deltaY) < 2 ? 0 : deltaY * 0.8, 10)
             )) *
           (isTouchPad ? -1 : 1);
       const newTranslate = Math.max(
@@ -191,11 +191,12 @@ class PickerColumn extends Component {
       this.setState({ scrollerTranslate: minTranslate });
       activeIndex = options.length - 1;
     } else {
-      activeIndex = -Math.floor(
+      activeIndex = -Math.round(
         (scrollerTranslate - maxTranslate) / itemHeight
       );
     }
     this.onValueSelected(options[activeIndex]);
+    this.setState(this.computeTranslate(this.props));
   }
 
   postWheel() {
