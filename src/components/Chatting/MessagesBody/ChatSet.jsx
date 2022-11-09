@@ -192,7 +192,7 @@ const ChatSet = (props) => {
             </div>
             {index === props.chats.length - 1 ? (
               <div style={styleTime}>
-                {moment(chat.time).format("H시 MM분")}
+                {moment(chat.time).format("H시 mm분")}
               </div>
             ) : null}
           </div>
