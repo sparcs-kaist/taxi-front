@@ -159,7 +159,6 @@ class PickerColumn extends Component {
       deltaY = 0;
     }
     this.setState(({ scrollerTranslate, minTranslate, maxTranslate }) => {
-      console.log(deltaY);
       const newValue =
         scrollerTranslate +
         (keyboard

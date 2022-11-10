@@ -163,7 +163,7 @@ const RoomSelectionModal = (props) => {
           const { data } = await axios.get("/rooms/v2/searchByUser");
           setMyRoom(data);
         } catch (error) {
-          setAlert("예상치 못한 오류가 발생했습니다. 새로고침 부탁드립니다.");
+          setAlert("예상치 못한 오류가 발생했습니다. 새로고침 해주세요.");
         }
       } else {
         setAlert("방 개설에 실패하였습니다.");
