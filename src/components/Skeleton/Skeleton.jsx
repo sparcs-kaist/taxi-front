@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useLocation, Redirect } from "react-router-dom";
+import { useCookies } from "react-cookie";
 import reactGA from "react-ga4";
 import PropTypes from "prop-types";
 import axios from "tools/axios";
@@ -9,11 +10,13 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import taxiLocationAtom from "recoil/taxiLocation";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import myRoomAtom from "recoil/myRoom";
+import alertAtom from "recoil/alert";
 
 import HeaderBar from "components/common/HeaderBar";
 import Navigation from "components/Skeleton/Navigation";
 import Footer from "components/Skeleton/Footer";
 import PopupPolicy from "components/Mypage/PopupPolicy";
+import betaNotice from "static/betaNotice";
 
 const Container = (props) => {
   return (
@@ -39,10 +42,25 @@ const Skeleton = (props) => {
   const [loginInfoDetail, setLoginInfoDetail] =
     useRecoilState(loginInfoDetailAtom);
   const setMyRoom = useSetRecoilState(myRoomAtom);
+  const setAlert = useSetRecoilState(alertAtom);
   const location = useLocation();
   const pathname = location.pathname;
   const currentPath = location.pathname + location.search;
   const gaInitialized = useRef(false);
+
+  const [cookies, setCookie] = useCookies(["betaNoticed"]);
+  useEffect(() => {
+    if (!cookies.betaNoticed) {
+      const expires = new Date();
+      expires.setHours(5);
+      expires.setMinutes(0);
+      if (expires.getTime() < new Date().getTime())
+        expires.setDate(expires.getDate() + 1);
+
+      setCookie("betaNoticed", true, { path: "/", expires: expires });
+      setAlert(betaNotice);
+    }
+  }, []);
 
   const initializeGlobalInfo = useCallback(() => {
     const getLocation = axios.get("/locations");

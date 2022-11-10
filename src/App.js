@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { CookiesProvider } from "react-cookie";
 import { RecoilRoot } from "recoil";
 import ScrollRestoration from "react-scroll-restoration";
 import ChannelTalk from "components/Skeleton/ChannelTalk";
@@ -19,27 +20,29 @@ import "Font.css";
 
 const App = () => {
   return (
-    <RecoilRoot>
-      <Router>
-        <ScrollRestoration />
-        <ChannelTalk />
-        <AlertProvider />
-        <Skeleton>
-          <Switch>
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/" component={Search} />
-            <Route exact path="/search" component={Search} />
-            <Route exact path="/addroom" component={AddRoom} />
-            <Route exact path="/myroom" component={Myroom} />
-            <Route exact path="/myroom/:roomId" component={Myroom} />
-            <Route exact path="/mypage" component={Mypage} />
-            <Route exact path="/chatting/:roomId" component={WrapChat} />
-            <Route exact path="/error/:error" component={Error} />
-            <Route path="*" component={Error} />
-          </Switch>
-        </Skeleton>
-      </Router>
-    </RecoilRoot>
+    <CookiesProvider>
+      <RecoilRoot>
+        <Router>
+          <ScrollRestoration />
+          <ChannelTalk />
+          <AlertProvider />
+          <Skeleton>
+            <Switch>
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/" component={Search} />
+              <Route exact path="/search" component={Search} />
+              <Route exact path="/addroom" component={AddRoom} />
+              <Route exact path="/myroom" component={Myroom} />
+              <Route exact path="/myroom/:roomId" component={Myroom} />
+              <Route exact path="/mypage" component={Mypage} />
+              <Route exact path="/chatting/:roomId" component={WrapChat} />
+              <Route exact path="/error/:error" component={Error} />
+              <Route path="*" component={Error} />
+            </Switch>
+          </Skeleton>
+        </Router>
+      </RecoilRoot>
+    </CookiesProvider>
   );
 };
 
