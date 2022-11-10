@@ -11,7 +11,7 @@ export default (
       boxSizing: "border-box",
       lineHeight: "20px",
       maxHeight: "calc(100vh - 240px)",
-      overflow: "scroll",
+      overflow: "auto",
     }}
   >
     <b style={{ color: theme.purple }}>Taxi 베타 서비스</b>에 대해 안내드립니다.{" "}
