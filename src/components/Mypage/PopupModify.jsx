@@ -197,7 +197,7 @@ const PopupModify = (props) => {
         <Button
           type="gray"
           width="calc(50% - 5px)"
-          padding="9px 0px 10px"
+          padding="10px 0 9px"
           radius={8}
           font={theme.font14}
           onClick={onClose}
@@ -208,7 +208,7 @@ const PopupModify = (props) => {
           type="purple_inset"
           disabled={nickName == nickNameReal || !regexNickname.test(nickName)}
           width="calc(50% - 5px)"
-          padding="9px 0px 10px"
+          padding="10px 0 9px"
           radius={8}
           font={theme.font14_bold}
           onClick={onClickEditNickName}

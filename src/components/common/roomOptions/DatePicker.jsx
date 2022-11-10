@@ -176,7 +176,7 @@ class DatePicker extends Component {
       ...theme.font14,
     };
     this.styleIcon = {
-      ...theme.font15_icon,
+      fontSize: "15px",
       margin: "0 6px 0 9px",
     };
     this.styleArrow = {

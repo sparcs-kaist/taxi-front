@@ -234,7 +234,7 @@ const RoomSelectionModal = (props) => {
           <Button
             type="purple"
             disabled={isRoomFull || disableJoinBtn || fullParticipation}
-            padding="10px 0px 9px"
+            padding="10px 0 9px"
             radius={8}
             font={theme.font14_bold}
             onClick={requestJoin}

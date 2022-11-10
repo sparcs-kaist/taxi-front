@@ -47,7 +47,7 @@ const Popup = (props: PopupProps) => {
             <Button
               type="gray"
               width="calc(40% - 10px)"
-              padding="10px 0px 9px"
+              padding="10px 0 9px"
               radius={8}
               font={theme.font14}
               onClick={props.onClose}
@@ -57,7 +57,7 @@ const Popup = (props: PopupProps) => {
             <Button
               type="purple"
               width="60%"
-              padding="10px 0px 9px"
+              padding="10px 0 9px"
               radius={8}
               font={theme.font14_bold}
               onClick={props.onClick}

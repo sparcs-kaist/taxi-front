@@ -18,7 +18,7 @@ type MenuProps = {
 
 const getIcon = (icon: string) => {
   const styleIcon = {
-    ...theme.font15_icon,
+    fontSize: "15px",
     marginRight: "8px",
   };
   switch (icon) {
@@ -61,7 +61,7 @@ const Menu = (props: MenuProps) => {
     >
       {getIcon(props.icon)}
       <div style={styleText}>{props.children}</div>
-      {isHover && <KeyboardArrowLeftRoundedIcon style={theme.font15_icon} />}
+      {isHover && <KeyboardArrowLeftRoundedIcon style={{ fontSize: "15px" }} />}
     </div>
   );
 };
