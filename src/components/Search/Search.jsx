@@ -323,7 +323,7 @@ const Search = () => {
     } else {
       let withTime = false;
       let date = null;
-      if (valueDate[0] !== null) {
+      if (searchOptions.date && valueDate[0] !== null) {
         date = moment();
         date.year(valueDate[0]);
         date.month(valueDate[1] - 1);
