@@ -170,18 +170,26 @@ class DatePicker extends Component {
       fontSize: "15px",
       margin: "0 6px 0 9px",
     };
-    this.styleArrow = (disabled) => {
+    this.styleArrow = (disabled, type) => {
       return {
         width: "24px",
         height: "24px",
-        fill: disabled ? theme.gray_line : theme.purple,
+        opacity: type === "left" && !this.state.isOpen ? 0 : 1,
+        fill: !this.state.isOpen || !disabled ? theme.purple : theme.gray_line,
         ...theme.cursor(disabled),
+        transform: this.state.isOpen
+          ? undefined
+          : type === "right"
+          ? "rotate(90deg)"
+          : "translate(32px, 0) rotate(-90deg)",
+        transition: "all 0.3s ease-out",
       };
     };
     this.styleArrowGrid = {
       width: "56px",
       display: "flex",
-      justifyContent: "space-between",
+      justifyContent: "flex-end",
+      columnGap: "8px",
     };
     this.styleMonth = {
       display: "flex",
@@ -207,14 +215,18 @@ class DatePicker extends Component {
     this.state = {
       showNext: false,
       isOpen: true,
+      timeoutId: null,
     };
     this.month1 = getDateInfo.getCurrent();
     this.month2 = getDateInfo.getNext();
   }
   dateHandler(year, month, date) {
     this.props.handler(year, month, date);
-    this.setState({ isOpen: false });
-    console.log(this.state);
+    if (this.state.timeoutId) clearTimeout(this.state.timeoutId);
+    const timeoutId = setTimeout(() => {
+      this.setState({ isOpen: false });
+    }, 1500);
+    this.setState({ timeoutId });
   }
 
   resizeEvent() {
@@ -247,10 +259,16 @@ class DatePicker extends Component {
     }
 
     const onClickBack = () => {
-      this.setState({ showNext: false });
+      if (this.state.timeoutId) clearTimeout(this.state.timeoutId);
+      if (this.state.isOpen) this.setState({ showNext: false });
     };
     const onClickNext = () => {
-      this.setState({ showNext: true });
+      if (this.state.timeoutId) clearTimeout(this.state.timeoutId);
+      if (this.state.isOpen) {
+        this.setState({ showNext: true });
+      } else {
+        this.setState({ isOpen: true });
+      }
     };
 
     return (
@@ -263,15 +281,16 @@ class DatePicker extends Component {
         <div style={this.styleTop}>
           <div style={this.styleInfo}>
             <TodayRoundedIcon style={this.styleIcon} />
-            날짜 : {year}년 {month}월
+            날짜 : {year}년 {month}월{" "}
+            {!this.state.isOpen && this.props.selectedDate[2] + "일"}
           </div>
           <div style={this.styleArrowGrid}>
             <KeyboardArrowLeftRoundedIcon
-              style={this.styleArrow(!this.state.showNext)}
+              style={this.styleArrow(!this.state.showNext, "left")}
               onClick={onClickBack}
             />
             <KeyboardArrowRightRoundedIcon
-              style={this.styleArrow(this.state.showNext)}
+              style={this.styleArrow(this.state.showNext, "right")}
               onClick={onClickNext}
             />
           </div>
