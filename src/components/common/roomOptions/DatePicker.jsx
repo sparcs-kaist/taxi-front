@@ -103,18 +103,9 @@ const Date = (props) => {
       : theme.gray_line,
   };
   const styleToday = {
-    // width: "3px",
-    // height: "3px",
-    // borderRadius: "50%",
     position: "absolute",
-    top: "calc(50% + 8.5px)",
+    top: "calc(50% + 8px)",
     left: "calc(50% - 2px)",
-    // background:
-    //   props.available === "today"
-    //     ? props.selected
-    //       ? theme.white
-    //       : theme.purple_disabled
-    //     : undefined,
   };
 
   const onClick = () => {
@@ -179,11 +170,13 @@ class DatePicker extends Component {
       fontSize: "15px",
       margin: "0 6px 0 9px",
     };
-    this.styleArrow = {
-      width: "24px",
-      height: "24px",
-      fill: theme.purple,
-      ...theme.cursor(),
+    this.styleArrow = (disabled) => {
+      return {
+        width: "24px",
+        height: "24px",
+        fill: disabled ? theme.gray_line : theme.purple,
+        ...theme.cursor(disabled),
+      };
     };
     this.styleArrowGrid = {
       width: "56px",
@@ -213,22 +206,33 @@ class DatePicker extends Component {
 
     this.state = {
       showNext: false,
+      isOpen: true,
     };
     this.month1 = getDateInfo.getCurrent();
     this.month2 = getDateInfo.getNext();
   }
   dateHandler(year, month, date) {
     this.props.handler(year, month, date);
+    this.setState({ isOpen: false });
+    console.log(this.state);
   }
 
   resizeEvent() {
     const weeks = document.getElementsByClassName("datepicker-week");
+    let selectorHeight = -6 + 32 + 1 + 10 + 24;
     if (weeks.length > 0) {
       const width = (weeks[0].clientWidth - 36) / 7;
       const height = `${Math.min(width, 48)}px`;
+      selectorHeight += (Math.min(width, 48) + 6) * weeks.length + 6;
       for (let i = 0; i < weeks.length; i++) {
         weeks[i].style.height = height;
       }
+    }
+    const picker = document.querySelector(".datepicker");
+    if (this.state.isOpen) {
+      picker.style.height = `${selectorHeight}px`;
+    } else {
+      picker.style.height = "24px";
     }
   }
 
@@ -236,7 +240,7 @@ class DatePicker extends Component {
     const dateInfo = this.state.showNext ? this.month2 : this.month1;
     let year = "",
       month = "";
-
+    console.log(dateInfo);
     if (dateInfo.length > 1) {
       year = dateInfo[1][0].year;
       month = dateInfo[1][0].month;
@@ -250,7 +254,12 @@ class DatePicker extends Component {
     };
 
     return (
-      <>
+      <div
+        className="datepicker"
+        style={{
+          transition: "height 0.3s ease-in-out",
+        }}
+      >
         <div style={this.styleTop}>
           <div style={this.styleInfo}>
             <TodayRoundedIcon style={this.styleIcon} />
@@ -258,65 +267,74 @@ class DatePicker extends Component {
           </div>
           <div style={this.styleArrowGrid}>
             <KeyboardArrowLeftRoundedIcon
-              style={this.styleArrow}
+              style={this.styleArrow(!this.state.showNext)}
               onClick={onClickBack}
             />
             <KeyboardArrowRightRoundedIcon
-              style={this.styleArrow}
+              style={this.styleArrow(this.state.showNext)}
               onClick={onClickNext}
             />
           </div>
         </div>
-        <DottedLine direction="row" />
-        <div style={this.styleDay}>
-          {this.week.map((item, index) => {
-            return (
-              <div
-                key={index}
-                style={{
-                  ...this.styleDayItem,
-                  color: item.color,
-                  opacity: 0.632,
-                }}
-              >
-                {item.text}
-              </div>
-            );
-          })}
+        <div
+          className="datepicker-selector"
+          style={{
+            opacity: this.state.isOpen ? 1 : 0,
+            transition: "opacity 0.3s ease-in-out",
+            marginBottom: "5px",
+          }}
+        >
+          <DottedLine direction="row" />
+          <div style={this.styleDay}>
+            {this.week.map((item, index) => {
+              return (
+                <div
+                  key={index}
+                  style={{
+                    ...this.styleDayItem,
+                    color: item.color,
+                    opacity: 0.632,
+                  }}
+                >
+                  {item.text}
+                </div>
+              );
+            })}
+          </div>
+          <div style={this.styleMonth}>
+            {dateInfo.map((item, index) => {
+              return (
+                <div
+                  key={index}
+                  style={{ ...this.styleWeek }}
+                  className="datepicker-week"
+                >
+                  {item.map((item, index) => {
+                    let selected = false;
+                    if (
+                      month === this.props.selectedDate[1] &&
+                      item.date === this.props.selectedDate[2]
+                    )
+                      selected = true;
+                    return (
+                      <Date
+                        key={index}
+                        index={index}
+                        year={item.year}
+                        month={item.month}
+                        date={item.date}
+                        available={item.available}
+                        selected={selected}
+                        handler={(x, y, z) => this.dateHandler(x, y, z)}
+                      />
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
         </div>
-        <div style={this.styleMonth}>
-          {dateInfo.map((item, index) => {
-            return (
-              <div
-                key={index}
-                style={{ ...this.styleWeek }}
-                className="datepicker-week"
-              >
-                {item.map((item, index) => {
-                  let selected = false;
-                  if (
-                    month === this.props.selectedDate[1] &&
-                    item.date === this.props.selectedDate[2]
-                  )
-                    selected = true;
-                  return (
-                    <Date
-                      key={index}
-                      index={index}
-                      year={item.year}
-                      month={item.month}
-                      date={item.date}
-                      available={item.available}
-                      selected={selected}
-                      handler={(x, y, z) => this.dateHandler(x, y, z)}
-                    />
-                  );
-                })}
-              </div>
-            );
-          })}
-        </div>
-      </>
+      </div>
     );
   }
   componentDidMount() {
