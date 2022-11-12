@@ -322,26 +322,24 @@ const Search = () => {
       history.push("/search?all=true");
     } else {
       let withTime = false;
-      const date = moment();
-
-      date.year(valueDate[0]);
-      date.month(valueDate[1] - 1);
-      date.date(valueDate[2]);
-
+      let date = null;
+      if (searchOptions.date && valueDate[0] !== null) {
+        date = moment();
+        date.year(valueDate[0]);
+        date.month(valueDate[1] - 1);
+        date.date(valueDate[2]);
+      }
       if (searchOptions.time) {
         date.hour(valueTime[0]);
         date.minute(valueTime[1]);
         withTime = true;
-      } else if (date.isSame(getToday(), "day")) {
-        date.hour(getToday().hour());
-        date.minute(getToday().minute());
       }
       const q = qs.stringify(
         {
           name: valueName.length ? valueName : null,
           from: valuePlace[0],
           to: valuePlace[1],
-          time: date.toISOString(),
+          time: date?.toISOString(),
           withTime,
           maxPeople: valueMaxPeople,
         },
