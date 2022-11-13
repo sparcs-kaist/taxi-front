@@ -3,6 +3,7 @@ import RLayout from "components/common/RLayout";
 import theme from "styles/theme";
 import useDisableScroll from "hooks/useDisableScroll";
 import Button from "components/common/Button";
+import useKeyboardOperation from "hooks/useKeyboardOperation";
 
 type PopupProps = {
   isOpen: boolean;
@@ -13,6 +14,12 @@ type PopupProps = {
 
 const Popup = (props: PopupProps) => {
   useDisableScroll(props.isOpen);
+  useKeyboardOperation({
+    display: props.isOpen,
+    onEnter: props.onClick,
+    onEscape: props.onClose,
+  });
+
   const styleBgd: CSS = {
     position: "fixed",
     display: "flex",
