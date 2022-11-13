@@ -167,6 +167,7 @@ const PopupModify = (props) => {
       display={props.isOpen}
       onClickClose={onClose}
       padding="32px 10px 10px"
+      onEnter={onClickEditNickName}
     >
       <div style={styleName}>{loginInfoDetail?.name}</div>
       <ProfImg
