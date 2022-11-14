@@ -243,21 +243,11 @@ class DatePicker extends Component {
 
   resizeEvent() {
     const weeks = document.getElementsByClassName("datepicker-week");
-    let selectorHeight = -6 + 32 + 1 + 10 + 24;
-    if (weeks.length > 0) {
-      const width = (weeks[0].clientWidth - 36) / 7;
-      const height = `${width}px`;
-      selectorHeight += (width + 6) * weeks.length + 6;
-      for (let i = 0; i < weeks.length; i++) {
-        weeks[i].style.height = height;
-      }
-    }
-    const picker = document.querySelector(".datepicker");
-    if (this.state.isOpen) {
-      picker.style.height = `${selectorHeight}px`;
-    } else {
-      picker.style.height = "24px";
-    }
+    const width = ((weeks[0]?.clientWidth ?? 36) - 36) / 7;
+    [...weeks].map((week) => (week.style.height = `${width}px`));
+    let selectorHeight =
+      24 + (this.state.isOpen ? 32 + 1 + 10 + (width + 6) * weeks.length : 0);
+    document.querySelector(".datepicker").style.height = `${selectorHeight}px`;
   }
 
   render() {
@@ -280,7 +270,7 @@ class DatePicker extends Component {
       }
     };
     const onClickTop = () => {
-      this.clicked = true;
+      this.clicked = false;
       if (!this.state.isOpen) this.setState({ isOpen: true });
     };
 
@@ -373,7 +363,6 @@ class DatePicker extends Component {
   }
   componentDidUpdate() {
     this.resizeEvent();
-    window.addEventListener("resize", this.resizeEvent);
   }
   componentWillUnmount() {
     window.removeEventListener("resize", this.resizeEvent);
