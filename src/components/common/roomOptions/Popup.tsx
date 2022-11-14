@@ -29,7 +29,6 @@ const Popup = (props: PopupProps) => {
     height: "100%",
     zIndex: theme.zIndex_modal,
     background: theme.black_60,
-    opacity: props.isOpen ? 1 : 0,
     transitionDuration: theme.duration,
     pointerEvents: props.isOpen ? "auto" : "none",
   };
@@ -39,6 +38,7 @@ const Popup = (props: PopupProps) => {
     background: theme.white,
   };
 
+  if (!props.isOpen) return null;
   return (
     <div style={styleBgd} onClick={props.onClose}>
       <RLayout.Popup>
