@@ -155,7 +155,7 @@ class DatePicker extends Component {
     this.month1 = getDateInfo.getCurrent();
     this.month2 = getDateInfo.getNext();
     this.pickerRef = React.createRef(null);
-    this.clickedRef = React.createRef(false);
+    this.clicked = false;
 
     this.dateHandler = this.dateHandler.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
@@ -232,15 +232,12 @@ class DatePicker extends Component {
   }
 
   dateHandler(year, month, date) {
-    if (!this.clickedRef.current) this.clickedRef.current = true;
+    if (!this.clicked) this.clicked = true;
     this.props.handler(year, month, date);
   }
 
   handleClickOutside(event) {
-    if (
-      this.clickedRef.current &&
-      !this.pickerRef?.current.contains(event.target)
-    )
+    if (this.clicked && !this.pickerRef?.current.contains(event.target))
       this.setState({ isOpen: false });
   }
 
@@ -283,6 +280,7 @@ class DatePicker extends Component {
       }
     };
     const onClickTop = () => {
+      this.clicked = true;
       if (!this.state.isOpen) this.setState({ isOpen: true });
     };
 
@@ -314,7 +312,7 @@ class DatePicker extends Component {
             />
           </div>
         </div>
-        <div className="datepicker-selector" style={{ marginBottom: "5px" }}>
+        <div style={{ marginBottom: "5px" }}>
           <DottedLine direction="row" />
           <div style={this.styleDay}>
             {this.week.map((item, index) => {
