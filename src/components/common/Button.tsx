@@ -12,6 +12,7 @@ type ButtonProps = {
   radius?: number;
   font?: Font;
   onClick?: () => void;
+  href?: string;
   children?: React.ReactNode;
 };
 
@@ -23,6 +24,7 @@ const Button = ({
   radius,
   font,
   onClick,
+  href,
   children,
 }: ButtonProps) => {
   const [isHover, setHover] = useState(false);
@@ -41,7 +43,8 @@ const Button = ({
             ? theme.purple_dark
             : theme.purple,
           color: theme.white,
-          boxShadow: isClicked ? theme.shadow_clicked : theme.shadow,
+          boxShadow:
+            isClicked && !disabled ? theme.shadow_clicked : theme.shadow,
         };
       case "purple_inset":
         return {
@@ -84,6 +87,7 @@ const Button = ({
     <div
       onClick={disabled ? undefined : onClick}
       style={style}
+      id={href}
       onMouseEnter={() => setHover(!isMobile)}
       onMouseLeave={() => setHoverClicked(false)}
       onMouseDown={() => setClicked(!disabled)}

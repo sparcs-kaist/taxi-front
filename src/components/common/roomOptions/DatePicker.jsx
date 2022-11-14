@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import theme from "styles/theme";
 import DottedLine from "components/common/DottedLine";
 import MiniCircle from "components/common/MiniCircle";
+import isMobile from "tools/isMobile";
 
 import TodayRoundedIcon from "@material-ui/icons/TodayRounded";
 import KeyboardArrowLeftRoundedIcon from "@material-ui/icons/KeyboardArrowLeftRounded";
@@ -62,6 +63,7 @@ const Date = (props) => {
   const style = {
     width: "calc((100% - 36px) / 7)",
     height: "100%",
+    textDecoration: "none",
   };
   const styleBox = {
     height: "100%",
@@ -114,7 +116,7 @@ const Date = (props) => {
 
   if (!props.date) return <div style={style} />;
   return (
-    <div style={style}>
+    <a href={isMobile ? "#scroll" : undefined} style={style}>
       <div
         style={styleBox}
         onMouseEnter={() => setHover(true)}
@@ -128,7 +130,7 @@ const Date = (props) => {
           </div>
         )}
       </div>
-    </div>
+    </a>
   );
 };
 
@@ -145,6 +147,19 @@ Date.propTypes = {
 class DatePicker extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      showNext: false,
+      isOpen: true,
+    };
+
+    this.month1 = getDateInfo.getCurrent();
+    this.month2 = getDateInfo.getNext();
+
+    this.dateHandler = this.dateHandler.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+    this.resizeEvent = this.resizeEvent.bind(this);
+    this.pickerRef = React.createRef(null);
+    this.clickedRef = React.createRef(false);
 
     this.week = [
       { color: theme.red_text, text: "일" },
@@ -156,10 +171,13 @@ class DatePicker extends Component {
       { color: theme.blue_text, text: "토" },
     ];
 
-    this.styleTop = {
-      display: "flex",
-      justifyContent: "space-between",
-      marginBottom: "10px",
+    this.styleTop = () => {
+      return {
+        display: "flex",
+        justifyContent: "space-between",
+        marginBottom: "10px",
+        cursor: !this.state.isOpen ? "pointer" : undefined,
+      };
     };
     this.styleInfo = {
       display: "flex",
@@ -176,7 +194,7 @@ class DatePicker extends Component {
         height: "24px",
         opacity: type === "left" && !this.state.isOpen ? 0 : 1,
         fill: !this.state.isOpen || !disabled ? theme.purple : theme.gray_line,
-        ...theme.cursor(disabled),
+        ...theme.cursor(this.state.isOpen && disabled),
         transform: this.state.isOpen
           ? undefined
           : type === "right"
@@ -211,22 +229,19 @@ class DatePicker extends Component {
       display: "flex",
       columnGap: "6px",
     };
-
-    this.state = {
-      showNext: false,
-      isOpen: true,
-      timeoutId: null,
-    };
-    this.month1 = getDateInfo.getCurrent();
-    this.month2 = getDateInfo.getNext();
   }
+
   dateHandler(year, month, date) {
+    if (!this.clickedRef.current) this.clickedRef.current = true;
     this.props.handler(year, month, date);
-    if (this.state.timeoutId) clearTimeout(this.state.timeoutId);
-    const timeoutId = setTimeout(() => {
+  }
+
+  handleClickOutside(event) {
+    if (
+      this.clickedRef.current &&
+      !this.pickerRef?.current.contains(event.target)
+    )
       this.setState({ isOpen: false });
-    }, 1500);
-    this.setState({ timeoutId });
   }
 
   resizeEvent() {
@@ -252,36 +267,38 @@ class DatePicker extends Component {
     const dateInfo = this.state.showNext ? this.month2 : this.month1;
     let year = "",
       month = "";
-    console.log(dateInfo);
     if (dateInfo.length > 1) {
       year = dateInfo[1][0].year;
       month = dateInfo[1][0].month;
     }
 
     const onClickBack = () => {
-      if (this.state.timeoutId) clearTimeout(this.state.timeoutId);
       if (this.state.isOpen) this.setState({ showNext: false });
     };
     const onClickNext = () => {
-      if (this.state.timeoutId) clearTimeout(this.state.timeoutId);
       if (this.state.isOpen) {
         this.setState({ showNext: true });
       } else {
         this.setState({ isOpen: true });
       }
     };
+    const onClickTop = () => {
+      if (!this.state.isOpen) this.setState({ isOpen: true });
+    };
 
     return (
       <div
         className="datepicker"
+        ref={this.pickerRef}
         style={{
           transition: "height 0.3s ease-in-out",
         }}
       >
-        <div style={this.styleTop}>
+        <div style={this.styleTop()} onClick={onClickTop}>
           <div style={this.styleInfo}>
             <TodayRoundedIcon style={this.styleIcon} />
-            날짜 : {year}년 {month}월{" "}
+            날짜 : {year}년{" "}
+            {this.state.isOpen ? month : this.props.selectedDate[1]}월{" "}
             {!this.state.isOpen && this.props.selectedDate[2] + "일"}
           </div>
           <div style={this.styleArrowGrid}>
@@ -295,14 +312,7 @@ class DatePicker extends Component {
             />
           </div>
         </div>
-        <div
-          className="datepicker-selector"
-          style={{
-            opacity: this.state.isOpen ? 1 : 0,
-            transition: "opacity 0.3s ease-in-out",
-            marginBottom: "5px",
-          }}
-        >
+        <div className="datepicker-selector" style={{ marginBottom: "5px" }}>
           <DottedLine direction="row" />
           <div style={this.styleDay}>
             {this.week.map((item, index) => {
@@ -359,6 +369,7 @@ class DatePicker extends Component {
   componentDidMount() {
     this.resizeEvent();
     window.addEventListener("resize", this.resizeEvent);
+    document.addEventListener("mouseup", this.handleClickOutside);
   }
   componentDidUpdate() {
     this.resizeEvent();
@@ -366,6 +377,7 @@ class DatePicker extends Component {
   }
   componentWillUnmount() {
     window.removeEventListener("resize", this.resizeEvent);
+    document.removeEventListener("mouseup", this.handleClickOutside);
   }
 }
 
