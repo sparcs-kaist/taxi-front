@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import RLayout from "components/common/RLayout";
 import PropTypes from "prop-types";
 import useDisableScroll from "hooks/useDisableScroll";
@@ -14,6 +14,8 @@ const Modal = (props) => {
     onEnter: props?.onEnter,
     onEscape: props.onClickClose,
   });
+  const modalRef = useRef(null);
+  const clickRef = useRef(false);
 
   const styleBgd = {
     position: "fixed",
@@ -37,8 +39,21 @@ const Modal = (props) => {
     cursor: "pointer",
   };
   return (
-    <div style={styleBgd} onClick={props.onClickClose}>
-      <RLayout.Popup width={props.width}>
+    <div
+      style={styleBgd}
+      onMouseDown={(event) => {
+        if (!modalRef.current.contains(event.target)) {
+          clickRef.current = true;
+        }
+      }}
+      onMouseUp={(event) => {
+        if (clickRef.current && !modalRef.current.contains(event.target)) {
+          props.onClickClose();
+        }
+        clickRef.current = false;
+      }}
+    >
+      <RLayout.Popup width={props.width} modalRef={modalRef}>
         <div
           style={{
             position: "relative",
