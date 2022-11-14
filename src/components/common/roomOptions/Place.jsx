@@ -61,7 +61,7 @@ const PlaceElement = (props) => {
     borderRadius: "6px",
     transitionDuration: theme.duration,
     overflow: "hidden",
-    padding: "14px 0 8px",
+    padding: "14px 0 6px",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
