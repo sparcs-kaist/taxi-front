@@ -12,6 +12,7 @@ class PickerColumn extends Component {
       columnHeight: PropTypes.number.isRequired,
       onChange: PropTypes.func.isRequired,
       onClick: PropTypes.func.isRequired,
+      time: PropTypes.boolean,
     };
   }
 
@@ -25,13 +26,39 @@ class PickerColumn extends Component {
     };
   }
 
-  // eslint-disable-next-line react/no-deprecated
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.state.isMoving) {
       return;
     }
     this.setState(this.computeTranslate(nextProps));
   }
+
+  componentDidMount() {
+    document.addEventListener("keydown", this.handleKeyDown);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleKeyDown);
+  }
+
+  handleKeyDown = (event) => {
+    const picker = document.getElementsByClassName("picker-column");
+    if (!this.props.time && (event.keyCode === 38 || event.keyCode === 40)) {
+      if (document.activeElement !== picker[0]) this.handleScroll(event);
+      picker[0].focus();
+    }
+    if (this.props.time) {
+      if (
+        document.activeElement !== picker[1] &&
+        (event.keyCode === 38 || event.keyCode === 40)
+      )
+        picker[0].focus();
+      if (event.keyCode === 39 && document.activeElement === picker[0])
+        picker[1].focus();
+      if (event.keyCode === 37 && document.activeElement === picker[1])
+        picker[0].focus();
+    }
+  };
 
   computeTranslate = (props) => {
     const { options, value, itemHeight, columnHeight } = props;
@@ -155,6 +182,7 @@ class PickerColumn extends Component {
       deltaY = event.keyCode == 38 ? 35 : -35;
     } else if (event.deltaY) {
       deltaY = event.deltaY;
+      document.getElementsByClassName("picker-column")[0].blur();
     } else {
       deltaY = 0;
     }
@@ -163,7 +191,7 @@ class PickerColumn extends Component {
         scrollerTranslate +
         (keyboard
           ? deltaY
-          : (Math.abs(deltaY) < 15 ? 0 : deltaY) * (isTouchPad ? -1 : 1));
+          : (Math.abs(deltaY) < 10 ? 0 : deltaY) * (isTouchPad ? -1 : 1));
       const newTranslate = Math.max(
         minTranslate,
         Math.min(maxTranslate, newValue)
@@ -274,6 +302,7 @@ export default class Picker extends Component {
       onClick: PropTypes.func,
       itemHeight: PropTypes.number,
       height: PropTypes.number,
+      time: PropTypes.boolean,
     };
   }
 
@@ -284,8 +313,15 @@ export default class Picker extends Component {
   };
 
   renderInner() {
-    const { optionGroups, valueGroups, itemHeight, height, onChange, onClick } =
-      this.props;
+    const {
+      optionGroups,
+      valueGroups,
+      itemHeight,
+      height,
+      onChange,
+      onClick,
+      time,
+    } = this.props;
     const columnNodes = [];
     for (let name in optionGroups) {
       columnNodes.push(
@@ -298,6 +334,7 @@ export default class Picker extends Component {
           columnHeight={height}
           onChange={onChange}
           onClick={onClick}
+          time={time}
         />
       );
     }

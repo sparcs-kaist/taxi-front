@@ -73,6 +73,7 @@ const PopupInput = (props: PopupInputProps) => {
             optionGroups={{ hour: optionsHour }}
             valueGroups={{ hour: hour }}
             onChange={handler}
+            time
           />
         </div>
         <div style={styleText}>시</div>
@@ -81,6 +82,7 @@ const PopupInput = (props: PopupInputProps) => {
             optionGroups={{ min: optionsMin }}
             valueGroups={{ min: min }}
             onChange={handler}
+            time
           />
         </div>
         <div style={styleText}>분</div>
