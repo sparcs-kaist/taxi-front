@@ -92,7 +92,7 @@ const Date = (props) => {
   const styleDate = {
     ...theme.font12,
     letterSpacing: undefined,
-    marginTop: "1px",
+    marginTop: "3px",
     fontWeight: props.selected ? 500 : undefined,
     color: props.selected
       ? theme.white
@@ -154,12 +154,12 @@ class DatePicker extends Component {
 
     this.month1 = getDateInfo.getCurrent();
     this.month2 = getDateInfo.getNext();
+    this.pickerRef = React.createRef(null);
+    this.clickedRef = React.createRef(false);
 
     this.dateHandler = this.dateHandler.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
     this.resizeEvent = this.resizeEvent.bind(this);
-    this.pickerRef = React.createRef(null);
-    this.clickedRef = React.createRef(false);
 
     this.week = [
       { color: theme.red_text, text: "일" },
@@ -249,8 +249,8 @@ class DatePicker extends Component {
     let selectorHeight = -6 + 32 + 1 + 10 + 24;
     if (weeks.length > 0) {
       const width = (weeks[0].clientWidth - 36) / 7;
-      const height = `${Math.min(width, 48)}px`;
-      selectorHeight += (Math.min(width, 48) + 6) * weeks.length + 6;
+      const height = `${width}px`;
+      selectorHeight += (width + 6) * weeks.length + 6;
       for (let i = 0; i < weeks.length; i++) {
         weeks[i].style.height = height;
       }
