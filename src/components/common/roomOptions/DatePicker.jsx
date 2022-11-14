@@ -292,6 +292,8 @@ class DatePicker extends Component {
         ref={this.pickerRef}
         style={{
           transition: "height 0.3s ease-in-out",
+          margin: "-10px -15px",
+          padding: "10px 15px",
         }}
       >
         <div style={this.styleTop()} onClick={onClickTop}>
