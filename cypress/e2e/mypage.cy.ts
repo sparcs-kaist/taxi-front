@@ -17,7 +17,7 @@ describe("Mypage functionallity test", () => {
 
   it("People who made should be shown", () => {
     cy.contains("만든 사람들").click();
-    cy.react("PopupSparcs").should("be.visible");
+    cy.react("PopupMembers").should("be.visible");
   });
 
   it("User should be moved to login page when logout", () => {
