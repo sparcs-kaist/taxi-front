@@ -2,7 +2,7 @@ name: Cypress on Chrome
 on:
   push:
     branches:
-      - main
+      - "#251-automatic-cypress-check"
   workflow_dispatch:
   pull_request:
     branches:
@@ -90,14 +90,13 @@ jobs:
     - name: Download mongoDB dump file
       run: aws s3 cp --recursive s3://${{ secrets.AWS_S3_BUCKET_NAME }}/dump dump
 
-
     - name: Copy to mongodb container
       run: docker cp dump mongodb:/dump
 
     - name: Restore DB from dump file
       run: docker exec mongodb sh -c 'mongorestore ${{ secrets.DB_PATH }} dump/${{ secrets.DB_NAME }}'
 
-    - name: Install backend dependencies from package-lock.json
+    - name: Install backend dependencies
       working-directory: ./taxi-back
       run: npm ci
 
@@ -106,7 +105,7 @@ jobs:
       run: |
         npm start &
 
-    - name: Install frontend dependencies from package-lock.json
+    - name: Install frontend dependencies
       run: npm ci
 
     - name: runs cypress
