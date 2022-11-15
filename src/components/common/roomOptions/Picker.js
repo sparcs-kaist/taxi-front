@@ -12,7 +12,7 @@ class PickerColumn extends Component {
       columnHeight: PropTypes.number.isRequired,
       onChange: PropTypes.func.isRequired,
       onClick: PropTypes.func.isRequired,
-      isTime: PropTypes.boolean,
+      isTime: PropTypes.bool,
     };
   }
 
@@ -43,19 +43,25 @@ class PickerColumn extends Component {
 
   handleKeyDown = (event) => {
     const picker = document.getElementsByClassName("picker-column");
-    if (!this.props.isTime && (event.keyCode === 38 || event.keyCode === 40)) {
+    if (
+      !this.props.isTime &&
+      (event.key === "ArrowDown" || event.key === "ArrowUp")
+    ) {
       if (document.activeElement !== picker[0]) this.handleScroll(event);
       picker[0].focus();
     }
     if (this.props.isTime) {
       if (
         document.activeElement !== picker[1] &&
-        (event.keyCode === 38 || event.keyCode === 40)
+        (event.key === "ArrowDown" || event.key === "ArrowUp")
       )
         picker[0].focus();
-      if (event.keyCode === 39 && document.activeElement === picker[0])
+      if (event.key === "ArrowRight" && document.activeElement === picker[0])
         picker[1].focus();
-      if (event.keyCode === 37 && document.activeElement === picker[1])
+      else if (
+        event.key === "ArrowLeft" &&
+        document.activeElement === picker[1]
+      )
         picker[0].focus();
     }
   };
@@ -173,13 +179,13 @@ class PickerColumn extends Component {
   handleScroll = (event) => {
     let deltaY;
     const keyboard =
-      !!event.keyCode && (event.keyCode == 38 || event.keyCode == 40);
+      !!event.key && (event.key == "ArrowDown" || event.key == "ArrowUp");
     const isTouchPad = event.wheelDeltaY
       ? event.wheelDeltaY === -3 * event.deltaY
       : event.deltaMode === 0;
 
     if (keyboard) {
-      deltaY = event.keyCode == 38 ? 35 : -35;
+      deltaY = event.key === "ArrowUp" ? 35 : -35;
     } else if (event.deltaY) {
       deltaY = event.deltaY;
       document.getElementsByClassName("picker-column")[0].blur();
@@ -302,7 +308,7 @@ export default class Picker extends Component {
       onClick: PropTypes.func,
       itemHeight: PropTypes.number,
       height: PropTypes.number,
-      isTime: PropTypes.boolean,
+      isTime: PropTypes.bool,
     };
   }
 
