@@ -92,14 +92,14 @@ const ButtonBody = (props) => {
     borderRadius: "6px",
     padding: "3px 5px 3px 6px",
     background: props.disabled ? theme.gray_background : theme.purple,
-    cursor: theme.cursor(props.disabled),
+    ...theme.cursor(props.disabled),
   };
   const styleText = {
     ...theme.font10,
     color: props.disabled ? theme.gray_text : theme.white,
   };
   const styleIcon = {
-    ...theme.font15_icon,
+    fontSize: "15px",
     fill: props.disabled ? theme.gray_text : theme.white,
   };
 
@@ -156,7 +156,6 @@ const Button = (props) => {
         roomId={props.info?._id}
         popup={popupCancel}
         onClickClose={() => setPopupCancel(false)}
-        recallEvent={props.recallEvent}
       />
       <PopupPay
         roomId={props.info?._id}

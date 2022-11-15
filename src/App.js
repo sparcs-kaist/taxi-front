@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { CookiesProvider } from "react-cookie";
 import { RecoilRoot } from "recoil";
 import { I18nextProvider } from "react-i18next";
 import i18n from "lang/i18n";
@@ -21,8 +22,13 @@ import "Font.css";
 
 const App = () => {
   return (
+<<<<<<< HEAD
     <RecoilRoot>
       <I18nextProvider i18n={i18n}>
+=======
+    <CookiesProvider>
+      <RecoilRoot>
+>>>>>>> 43e695381897a8eae64653e2b028474698573913
         <Router>
           <ScrollRestoration />
           <ChannelTalk />
@@ -42,8 +48,13 @@ const App = () => {
             </Switch>
           </Skeleton>
         </Router>
+<<<<<<< HEAD
       </I18nextProvider>
     </RecoilRoot>
+=======
+      </RecoilRoot>
+    </CookiesProvider>
+>>>>>>> 43e695381897a8eae64653e2b028474698573913
   );
 };
 

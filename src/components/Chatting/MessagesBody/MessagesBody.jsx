@@ -43,6 +43,7 @@ const MessagesBody = (props) => {
               setPath={setPath}
               setName={setName}
               setReportedId={setReportedId}
+              isSideChat={props.isSideChat}
             />
           );
         }
@@ -59,11 +60,7 @@ const MessagesBody = (props) => {
       }
       if (momentCache.format(dateFormat) !== currentMoment.format(dateFormat)) {
         list.push(
-          <ChatDate
-            key={"date" + currentMoment}
-            date={currentMoment}
-            background={""}
-          />
+          <ChatDate key={"date" + currentMoment} date={currentMoment} />
         );
       }
       if (item.type === "in" || item.type === "out") {
@@ -92,6 +89,7 @@ const MessagesBody = (props) => {
               setPath={setPath}
               setName={setName}
               setReportedId={setReportedId}
+              isSideChat={props.isSideChat}
             />
           );
           chatsCache = null;
@@ -113,6 +111,7 @@ const MessagesBody = (props) => {
           setPath={setPath}
           setName={setName}
           setReportedId={setReportedId}
+          isSideChat={props.isSideChat}
         />
       );
     }
@@ -131,6 +130,7 @@ const MessagesBody = (props) => {
         height: `calc(100% - ${props.marginBottom})`,
         width: "100%",
         overflow: "auto",
+        padding: "0 0 16px",
       }}
       ref={props.forwardedRef}
       onScroll={props.handleScroll}

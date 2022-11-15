@@ -14,7 +14,8 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import alertAtom from "recoil/alert";
 import Menu from "./Menu";
-import { nodeEnv } from "serverconf";
+import betaNotice from "static/betaNotice";
+import nodeEnv from "types/serverconfigjs";
 
 const Mypage = () => {
   const { t, i18n } = useTranslation("mypage");
@@ -116,7 +117,12 @@ const Mypage = () => {
           </Menu>
         </WhiteContainer>
       ) : null}
-      <WhiteContainer marginAuto={true}>
+      <WhiteContainer padding="16px 24px" marginAuto>
+        <Menu icon="beta" onClick={() => setAlert(betaNotice)}>
+          베타 서비스 안내
+        </Menu>
+      </WhiteContainer>
+      <WhiteContainer marginAuto>
         <div style={{ display: "grid", rowGap: "16px" }}>
           <Menu icon="report" onClick={() => setOpenReport(true)}>
             신고 내역

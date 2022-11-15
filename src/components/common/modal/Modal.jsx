@@ -2,12 +2,19 @@ import React from "react";
 import RLayout from "components/common/RLayout";
 import PropTypes from "prop-types";
 import useDisableScroll from "hooks/useDisableScroll";
+import useKeyboardOperation from "hooks/useKeyboardOperation";
 import theme from "styles/theme";
 
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const Modal = (props) => {
   useDisableScroll(props.display);
+  useKeyboardOperation({
+    display: props.display,
+    onEnter: props?.onEnter,
+    onEscape: props.onClickClose,
+  });
+
   const styleBgd = {
     position: "fixed",
     display: "flex",
@@ -63,6 +70,7 @@ Modal.propTypes = {
   children: PropTypes.any,
   closeBtn: PropTypes.bool,
   alert: PropTypes.bool,
+  onEnter: PropTypes.func,
 };
 Modal.defaultProps = {
   onClickClose: () => {},
