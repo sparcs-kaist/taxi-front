@@ -24,6 +24,12 @@ class PickerColumn extends Component {
       startScrollerTranslate: 0,
       ...this.computeTranslate(props),
     };
+    this.handleScroll = this.handleScroll.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleTouchStart = this.handleTouchStart.bind(this);
+    this.handleTouchMove = this.handleTouchMove.bind(this);
+    this.handleTouchEnd = this.handleTouchEnd.bind(this);
+    this.handleTouchCancel = this.handleTouchCancel.bind(this);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -41,7 +47,7 @@ class PickerColumn extends Component {
     document.removeEventListener("keydown", this.handleKeyDown);
   }
 
-  handleKeyDown = (event) => {
+  handleKeyDown(event) {
     const picker = document.getElementsByClassName("picker-column");
     if (
       !this.props.isTime &&
@@ -64,20 +70,12 @@ class PickerColumn extends Component {
       )
         picker[0].focus();
     }
-  };
+  }
 
-  computeTranslate = (props) => {
+  computeTranslate(props) {
     const { options, value, itemHeight, columnHeight } = props;
     let selectedIndex = options.indexOf(value);
     if (selectedIndex < 0) {
-      // throw new ReferenceError();
-      console.warn(
-        'Warning: "' +
-          this.props.name +
-          '" doesn\'t contain an option of "' +
-          value +
-          '".'
-      );
       this.onValueSelected(options[0]);
       selectedIndex = 0;
     }
@@ -88,28 +86,28 @@ class PickerColumn extends Component {
         columnHeight / 2 - itemHeight * options.length + itemHeight / 2,
       maxTranslate: columnHeight / 2 - itemHeight / 2,
     };
-  };
+  }
 
-  onValueSelected = (newValue) => {
+  onValueSelected(newValue) {
     this.props.onChange(this.props.name, newValue);
-  };
+  }
 
-  handleTouchStart = (event) => {
+  handleTouchStart(event) {
     const startTouchY = event.targetTouches[0].pageY;
     this.setState(({ scrollerTranslate }) => ({
       startTouchY,
       startScrollerTranslate: scrollerTranslate,
     }));
-  };
+  }
 
-  safePreventDefault = (event) => {
+  safePreventDefault(event) {
     const passiveEvents = ["onTouchStart", "onTouchMove", "onWheel"];
     if (!passiveEvents.includes(event._reactName)) {
       event.preventDefault();
     }
-  };
+  }
 
-  handleTouchMove = (event) => {
+  handleTouchMove(event) {
     this.safePreventDefault(event);
     const touchY = event.targetTouches[0].pageY;
     this.setState(
@@ -140,9 +138,9 @@ class PickerColumn extends Component {
         };
       }
     );
-  };
+  }
 
-  handleTouchEnd = () => {
+  handleTouchEnd() {
     if (!this.state.isMoving) {
       return;
     }
@@ -154,9 +152,9 @@ class PickerColumn extends Component {
     setTimeout(() => {
       this.postMove();
     }, 0);
-  };
+  }
 
-  handleTouchCancel = () => {
+  handleTouchCancel() {
     if (!this.state.isMoving) {
       return;
     }
@@ -166,17 +164,17 @@ class PickerColumn extends Component {
       startScrollerTranslate: 0,
       scrollerTranslate: startScrollerTranslate,
     }));
-  };
+  }
 
-  handleItemClick = (option) => {
+  handleItemClick(option) {
     if (option !== this.props.value) {
       this.onValueSelected(option);
     } else {
       this.props.onClick(this.props.name, this.props.value);
     }
-  };
+  }
 
-  handleScroll = (event) => {
+  handleScroll(event) {
     let deltaY;
     const keyboard =
       !!event.key && (event.key == "ArrowDown" || event.key == "ArrowUp");
@@ -208,7 +206,7 @@ class PickerColumn extends Component {
         isScrolling: Date.now(),
       };
     });
-  };
+  }
 
   postMove() {
     const { options, itemHeight } = this.props;
