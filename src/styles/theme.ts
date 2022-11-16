@@ -82,7 +82,8 @@ const theme = {
   shadow_color_button: "1px 1.5px 2.5px -1px rgba(110, 54, 120, 0.15)",
 
   // Transition
-  duration: "0.15s",
+  duration: "150ms",
+  duration_num: 150,
 
   // White Container Width
   container_max_width: 325,

@@ -30,7 +30,7 @@ const AlertProvider = () => {
   const messageCache = useRef("");
   const [message, setMessage] = useRecoilState(alertAtom);
 
-  const shouldMount = useDelay(!!message, 150, "mount");
+  const shouldMount = useDelay(!!message, theme.duration_num, "mount");
   const shouldDisplay = useDelay(!!message, 0, "display");
 
   const onClickClose = () => setMessage(null);
