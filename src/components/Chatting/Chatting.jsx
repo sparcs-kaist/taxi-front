@@ -1,21 +1,21 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 import { useRecoilValue } from "recoil";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import PropTypes from "prop-types";
 import { io } from "socket.io-client";
-import { useRecoilState } from "recoil";
 import Header from "./Header/Header";
 import MessagesBody from "./MessagesBody/MessagesBody";
 import MessageForm from "./MessageForm/MessageForm";
 import regExpTest from "tools/regExpTest";
+import { useR2state } from "hooks/useReactiveState";
 
 import { ioServer } from "serverconf";
 import convertImg from "tools/convertImg";
 import axios from "tools/axios";
 import axiosOri from "axios";
 import useTaxiAPI from "hooks/useTaxiAPI";
-import myRoomAtom from "recoil/myRoom";
 
 const Chatting = (props) => {
   const sendingMessage = useRef();
@@ -23,6 +23,7 @@ const Chatting = (props) => {
   const isBottomOnScrollCache = useRef(true);
   const roomIdCache = useRef();
   const messagesBody = useRef();
+  const history = useHistory();
 
   const [chats, setChats] = useStateWithCallbackLazy([]);
   const [showNewMessage, setShowNewMessage] = useState(false);
@@ -30,7 +31,8 @@ const Chatting = (props) => {
     useStateWithCallbackLazy("48px");
 
   const socket = useRef(undefined);
-  const [, setMyRoom] = useRecoilState(myRoomAtom);
+  const reactiveState = useR2state();
+  const prevReactiveState = useRef(reactiveState);
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
   const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const [, headerInfo] = useTaxiAPI.get(
@@ -38,14 +40,14 @@ const Chatting = (props) => {
     {},
     [headerInfToken]
   );
-  const [, roomList] = useTaxiAPI.get("/rooms/v2/searchByUser", {}, [
-    headerInfToken,
-  ]);
-
-  // Update the ongoing room list
+  
   useEffect(() => {
-    setMyRoom(roomList);
-  }, [roomList]);
+    if (reactiveState !== 3 && prevReactiveState.current === 3) {
+      history.replace(`/myroom/${props.roomId}`);
+    }
+    if (reactiveState === 3 && prevReactiveState.current !== 3)
+      prevReactiveState.current = reactiveState;
+  }, [reactiveState]);
 
   // scroll event
   const isTopOnScroll = (tol = 20) => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Title from "components/common/Title";
 import WhiteContainer from "components/common/WhiteContainer";
 import ChatHeaderBody from "components/Chatting/Header/HeaderBody";
@@ -11,9 +11,12 @@ import Pagination, {
 import RLayout from "components/common/RLayout";
 import useTaxiAPI from "hooks/useTaxiAPI";
 import PropTypes from "prop-types";
+import theme from "styles/theme";
+
 import Empty from "components/common/Empty";
 import DottedLine from "components/common/DottedLine";
-import theme from "styles/theme";
+import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const ChatHeader = (props) => {
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
@@ -25,17 +28,13 @@ const ChatHeader = (props) => {
 
   useEffect(() => {
     props.resizeEvent();
-  }, [headerInfo]);
-
-  const recallEvent = () => {
-    setHeaderInfToken(Date.now().toString());
-  };
+  }, [JSON.stringify(headerInfo)]);
 
   return (
-    <div>
-      <div style={{ height: "19px" }} />
-      <ChatHeaderBody info={headerInfo} recallEvent={recallEvent} />
-    </div>
+    <ChatHeaderBody
+      info={headerInfo}
+      recallEvent={() => setHeaderInfToken(Date.now().toString())}
+    />
   );
 };
 
@@ -44,9 +43,32 @@ ChatHeader.propTypes = {
   resizeEvent: PropTypes.func,
 };
 
+const LinkRoom = (props) => {
+  const history = useHistory();
+
+  return props.currentId === props.id ? (
+    <div onClick={() => history.goBack()}>{props.children}</div>
+  ) : (
+    <Link
+      to={`/myroom/${props.id}`}
+      replace={props.currentId ? true : false}
+      style={{ textDecoration: "none" }}
+    >
+      {props.children}
+    </Link>
+  );
+};
+
+LinkRoom.propTypes = {
+  currentId: PropTypes.string,
+  id: PropTypes.string,
+  children: PropTypes.node,
+};
+
 const R2Myroom = (props) => {
   const refTitle = useRef();
   const refHeader = useRef();
+  const [isHeaderOpen, setHeaderOpen] = useState(true);
 
   const bodyHeightRef = useRef("0px");
   const [bodyHeight, setBodyHeight] = useState(bodyHeightRef.current);
@@ -57,7 +79,7 @@ const R2Myroom = (props) => {
     try {
       const height1 = refTitle.current.clientHeight;
       const height2 = document.getElementById("navigation-body").clientHeight;
-      const height3 = refHeader.current.clientHeight;
+      const height3 = refHeader.current?.clientHeight;
       const height4 = document.body.clientHeight;
 
       const newHeight = `${height4 - height1 - height2}px`;
@@ -82,7 +104,7 @@ const R2Myroom = (props) => {
     return () => {
       window.removeEventListener("resize", resizeEvent);
     };
-  }, [props.roomId]);
+  }, [props.roomId, isHeaderOpen]);
 
   return (
     <div
@@ -93,7 +115,7 @@ const R2Myroom = (props) => {
       }}
     >
       <div ref={refTitle}>
-        <Title icon="myroom" header marginAuto>
+        <Title icon="myroom" header marginAuto R2={props.roomId !== undefined}>
           내 방 리스트
         </Title>
       </div>
@@ -116,10 +138,10 @@ const R2Myroom = (props) => {
                   <Empty screen="pc">참여 중인 방이 없습니다</Empty>
                 ) : (
                   props.ongoing.map((item) => (
-                    <Link
+                    <LinkRoom
                       key={item._id}
-                      to={`/myroom/${item._id}`}
-                      style={{ textDecoration: "none" }}
+                      currentId={props.roomId}
+                      id={item._id}
                     >
                       <Room
                         data={item}
@@ -127,7 +149,7 @@ const R2Myroom = (props) => {
                         theme="purple"
                         marginTop="15px"
                       />
-                    </Link>
+                    </LinkRoom>
                   ))
                 )}
               </WhiteContainer>
@@ -145,10 +167,10 @@ const R2Myroom = (props) => {
                         PAGE_MAX_ITEMS * props.donePageInfo.currentPage
                       )
                       .map((item) => (
-                        <Link
+                        <LinkRoom
                           key={item._id}
-                          to={`/myroom/${item._id}`}
-                          style={{ textDecoration: "none" }}
+                          currentId={props.roomId}
+                          id={item._id}
                         >
                           <Room
                             data={item}
@@ -156,7 +178,7 @@ const R2Myroom = (props) => {
                             theme="purple"
                             marginTop="15px"
                           />
-                        </Link>
+                        </LinkRoom>
                       ))}
                     <Pagination
                       totalPages={props.donePageInfo.totalPages}
@@ -172,30 +194,53 @@ const R2Myroom = (props) => {
             </div>
           }
           right={
-            <div>
-              <div ref={refHeader}>
-                <WhiteContainer padding="20px">
-                  <Title icon="chat">채팅 창</Title>
-                  <div style={{ height: "19px" }} />
-                  <DottedLine direction="row" />
-                  {props.roomId ? (
-                    <ChatHeader
-                      roomId={props.roomId}
-                      resizeEvent={resizeEvent}
-                    />
-                  ) : (
-                    <div>방을 선택하세요.</div>
-                  )}
-                </WhiteContainer>
-              </div>
-              {props.roomId ? (
+            props.roomId ? (
+              <>
+                <div ref={refHeader}>
+                  <WhiteContainer padding="16px">
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        padding: "0 4px 0 8px",
+                      }}
+                    >
+                      <Title icon="chat">채팅 창</Title>
+                      {isHeaderOpen ? (
+                        <CloseRoundedIcon
+                          style={{ color: theme.purple, ...theme.cursor() }}
+                          onClick={() => setHeaderOpen(false)}
+                        />
+                      ) : (
+                        <MenuRoundedIcon
+                          style={{ color: theme.purple, ...theme.cursor() }}
+                          onClick={() => setHeaderOpen(true)}
+                        />
+                      )}
+                    </div>
+                    {isHeaderOpen && (
+                      <>
+                        <DottedLine direction="row" margin="16px 0" />
+                        <ChatHeader
+                          roomId={props.roomId}
+                          resizeEvent={resizeEvent}
+                        />
+                      </>
+                    )}
+                  </WhiteContainer>
+                </div>
                 <WhiteContainer padding="0px">
-                  <div style={{ height: chatHeight, position: "relative" }}>
+                  <div
+                    style={{
+                      height: chatHeight,
+                      position: "relative",
+                    }}
+                  >
                     <SideChat roomId={props.roomId} />
                   </div>
                 </WhiteContainer>
-              ) : null}
-            </div>
+              </>
+            ) : null
           }
         />
       </div>

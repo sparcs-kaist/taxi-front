@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import axios from "tools/axios";
 import { useSetRecoilState } from "recoil";
 import alertAtom from "recoil/alert";
+import myRoomAtom from "recoil/myRoom";
 
 const PopupPay = (props) => {
   const styleTextCont = {
@@ -31,11 +32,14 @@ const PopupPay = (props) => {
   };
 
   const setAlert = useSetRecoilState(alertAtom);
+  const setMyRoom = useSetRecoilState(myRoomAtom);
   const onClick = async () => {
     const res = await axios.post("/rooms/v2/commitPayment", {
       roomId: props.roomId,
     });
     if (res.status === 200) {
+      const { data } = await axios.get("/rooms/v2/searchByUser");
+      setMyRoom(data);
       props.recallEvent();
       props.onClickClose();
     } else {

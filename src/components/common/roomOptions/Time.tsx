@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import WhiteContainer from "components/common/WhiteContainer";
 import Popup from "./Popup";
-import Picker from "react-mobile-picker-mod";
+import Picker from "components/common/roomOptions/Picker";
 import theme from "styles/theme";
 import { time2str } from "tools/moment";
 
@@ -66,15 +66,13 @@ const PopupInput = (props: PopupInputProps) => {
   return (
     <Popup isOpen={props.isOpen} onClose={props.onClose} onClick={onClick}>
       <div style={styleContainer}>
-        <ScheduleRoundedIcon style={theme.font15_icon} />
+        <ScheduleRoundedIcon style={{ fontSize: "15px" }} />
         <div style={{ marginLeft: "6px" }}>시간 :</div>
         <div style={stylePicker}>
           <Picker
             optionGroups={{ hour: optionsHour }}
             valueGroups={{ hour: hour }}
             onChange={handler}
-            itemHeight={29}
-            height={221}
           />
         </div>
         <div style={styleText}>시</div>
@@ -83,8 +81,6 @@ const PopupInput = (props: PopupInputProps) => {
             optionGroups={{ min: optionsMin }}
             valueGroups={{ min: min }}
             onChange={handler}
-            itemHeight={29}
-            height={221}
           />
         </div>
         <div style={styleText}>분</div>
@@ -102,7 +98,7 @@ const Time = (props: TimeProps) => {
     ...theme.font14,
   };
   const styleIcon = {
-    ...theme.font15_icon,
+    fontSize: "15px",
     margin: "0 2px 0 15px",
   };
   const styleText = {

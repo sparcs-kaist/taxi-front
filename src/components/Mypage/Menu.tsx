@@ -8,6 +8,7 @@ import AssignmentOutlinedIcon from "@material-ui/icons/AssignmentOutlined";
 import PortraitRoundedIcon from "@material-ui/icons/PortraitRounded";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
 import KeyboardArrowLeftRoundedIcon from "@material-ui/icons/KeyboardArrowLeftRounded";
+import StarRoundedIcon from "@mui/icons-material/StarRounded";
 
 type MenuProps = {
   icon: string;
@@ -17,7 +18,7 @@ type MenuProps = {
 
 const getIcon = (icon: string) => {
   const styleIcon = {
-    ...theme.font15_icon,
+    fontSize: "15px",
     marginRight: "8px",
   };
   switch (icon) {
@@ -31,6 +32,8 @@ const getIcon = (icon: string) => {
       return <PortraitRoundedIcon style={styleIcon} />;
     case "logout":
       return <ExitToAppRoundedIcon style={styleIcon} />;
+    case "beta":
+      return <StarRoundedIcon style={styleIcon} />;
   }
 };
 
@@ -38,7 +41,7 @@ const Menu = (props: MenuProps) => {
   const [isHover, setHover] = useState(false);
   const style = {
     display: "flex",
-    alignItems: "center",
+    alignItems: "flex-start",
     width: "fit-content",
     color: isHover ? theme.purple : undefined,
     ...theme.cursor(),
@@ -58,7 +61,7 @@ const Menu = (props: MenuProps) => {
     >
       {getIcon(props.icon)}
       <div style={styleText}>{props.children}</div>
-      {isHover && <KeyboardArrowLeftRoundedIcon style={theme.font15_icon} />}
+      {isHover && <KeyboardArrowLeftRoundedIcon style={{ fontSize: "15px" }} />}
     </div>
   );
 };

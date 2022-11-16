@@ -67,7 +67,13 @@ const Title = (props) => {
   );
 
   if (props.marginAuto) {
-    return <RLayout.R1>{title}</RLayout.R1>;
+    return (
+      <RLayout.R2
+        left={title}
+        right={props.R2 ? <></> : null}
+        priority="left"
+      />
+    );
   }
   return title;
 };
@@ -77,10 +83,12 @@ Title.propTypes = {
   children: PropTypes.node,
   marginAuto: PropTypes.bool,
   header: PropTypes.bool,
+  R2: PropTypes.bool,
 };
 Title.defaultProps = {
   marginAuto: false,
   header: false,
+  R2: false,
 };
 
 export default Title;
