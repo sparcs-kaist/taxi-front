@@ -20,3 +20,8 @@ const useDelay = (value, isValid, delayTime) => {
 
   return delayedValue;
 };
+
+const useDelayBoolean = (value, delayTime) => useDelay(value, value, delayTime);
+
+export default useDelay;
+export { useDelay, useDelayBoolean };

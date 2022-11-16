@@ -1,6 +1,7 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef } from "react";
 import Modal from "components/common/modal/Modal";
 import { useRecoilState } from "recoil";
+import { useDelayBoolean } from "hooks/useDelay";
 import alertAtom from "recoil/alert";
 import Button from "components/common/Button";
 import theme from "styles/theme";
@@ -8,30 +9,10 @@ import DottedLine from "components/common/DottedLine";
 
 import WbIncandescentRoundedIcon from "@material-ui/icons/WbIncandescentRounded";
 
-const useDelay = (isOpen, delayTime, type) => {
-  const [value, setValue] = useState(false);
-
-  useEffect(() => {
-    let timeoutId;
-    if (isOpen && !value) {
-      if (type === "mount") setValue(true);
-      else timeoutId = setTimeout(() => setValue(true), delayTime);
-    } else if (!isOpen && value) {
-      if (type === "mount")
-        timeoutId = setTimeout(() => setValue(false), delayTime);
-      else setValue(false);
-    }
-    return () => clearTimeout(timeoutId);
-  }, [isOpen]);
-  return value;
-};
-
 const AlertProvider = () => {
   const messageCache = useRef("");
+  const shouldMount = useDelayBoolean(!!message, 150);
   const [message, setMessage] = useRecoilState(alertAtom);
-
-  const shouldMount = useDelay(!!message, theme.duration_num, "mount");
-  const shouldDisplay = useDelay(!!message, 0, "display");
 
   const onClickClose = () => setMessage(null);
   if (message) messageCache.current = message;
@@ -39,7 +20,7 @@ const AlertProvider = () => {
   if (!shouldMount) return null;
   return (
     <Modal
-      display={shouldDisplay}
+      display={!!message}
       onClickClose={onClickClose}
       width={315}
       padding="10px"
