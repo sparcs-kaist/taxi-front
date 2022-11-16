@@ -11,8 +11,8 @@ import WbIncandescentRoundedIcon from "@material-ui/icons/WbIncandescentRounded"
 
 const AlertProvider = () => {
   const messageCache = useRef("");
-  const shouldMount = useDelayBoolean(!!message, 150);
   const [message, setMessage] = useRecoilState(alertAtom);
+  const shouldMount = useDelayBoolean(!!message, theme.duration_num);
 
   const onClickClose = () => setMessage(null);
   if (message) messageCache.current = message;

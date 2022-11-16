@@ -1,12 +1,16 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 
-const useDelay = (value, isValid, delayTime) => {
+const useDelay = <TypeValue,>(
+  value: TypeValue,
+  isValid: boolean,
+  delayTime: number
+): TypeValue => {
   const valueRef = useRef(value);
   const [delayedValue, setDelayedValue] = useState(value);
-  
-  const updateValue = (x) => {
+
+  const updateValue = (x: TypeValue) => {
     if (valueRef.current === x) setDelayedValue(x);
-  }
+  };
 
   useEffect(() => {
     valueRef.current = value;
@@ -14,14 +18,15 @@ const useDelay = (value, isValid, delayTime) => {
     if (isValid) updateValue(value);
     else {
       const timeoutId = setTimeout(() => updateValue(value), delayTime);
-      return () => clearTimeout(timeoutId)
+      return () => clearTimeout(timeoutId);
     }
   }, [value, isValid]);
 
   return delayedValue;
 };
 
-const useDelayBoolean = (value, delayTime) => useDelay(value, value, delayTime);
+const useDelayBoolean = (value: boolean, delayTime: number): boolean =>
+  useDelay(value, value, delayTime);
 
 export default useDelay;
 export { useDelay, useDelayBoolean };
