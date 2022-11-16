@@ -32,7 +32,7 @@ const AlertProvider = () => {
           ...theme.font16_bold,
           display: "flex",
           alignItems: "center",
-          margin: "2px 0px 8px 6px",
+          margin: "2px 0 8px 6px",
           columnGap: "4px",
         }}
       >

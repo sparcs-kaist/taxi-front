@@ -34,14 +34,13 @@ const NavigationMenu = (props: NavigationMenuProps) => {
     ? theme.purple
     : theme.gray_text;
   const styleIcon = {
-    width: 20,
-    height: 20,
-    marginTop: 9.5,
+    fontSize: "20px",
+    marginTop: "10px",
     transition: `fill ${theme.duration}`,
     fill: styleColor,
   };
   const styleText = {
-    marginTop: 4,
+    marginTop: "4px",
     width: "fit-content",
     ...theme.font10_bold,
     transitionDuration: theme.duration,

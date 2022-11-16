@@ -89,6 +89,7 @@ const Date = (props) => {
   };
   const styleDate = {
     ...theme.font12,
+    letterSpacing: undefined,
     marginTop: "1px",
     fontWeight: props.selected ? 500 : undefined,
     color: props.selected
@@ -175,7 +176,7 @@ class DatePicker extends Component {
       ...theme.font14,
     };
     this.styleIcon = {
-      ...theme.font15_icon,
+      fontSize: "15px",
       margin: "0 6px 0 9px",
     };
     this.styleArrow = {

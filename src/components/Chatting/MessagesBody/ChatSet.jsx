@@ -5,19 +5,20 @@ import ImageFullscreen from "components/Chatting/MessagesBody/ImageFullscreen";
 import { getS3Url } from "tools/trans";
 import isMobile from "tools/isMobile";
 import PropTypes from "prop-types";
+import theme from "styles/theme";
 
 const ChatImageLoading = (props) => {
   return (
     <div
       style={{
-        width: "150px",
-        padding: "8px 12px 7px",
+        width: "100%",
+        padding: "7px 10px 6px",
       }}
     >
       <div
         style={{
-          color: props.itsme ? "#FFFFFF" : "#323232",
-          fontSize: "13px",
+          color: props.itsme ? theme.white : theme.black,
+          ...theme.font14,
           textAlign: "center",
         }}
       >
@@ -75,11 +76,10 @@ const ChatText = (props) => {
   return (
     <div
       style={{
-        padding: "8px 12px 7px",
-        color: props.itsme ? "#FFFFFF" : "#323232",
+        padding: "7px 10px 6px",
+        color: props.itsme ? theme.white : theme.black,
         wordBreak: "break-all",
-        letterSpacing: "0.05em",
-        fontSize: "13px",
+        ...theme.font14,
         whiteSpace: "pre-line",
       }}
       className="selectable"
@@ -99,7 +99,7 @@ const ChatSet = (props) => {
   const style = {
     position: "relative",
     display: "flex",
-    paddingTop: "6px",
+    paddingTop: "10px",
   };
   const styleProfCont = {
     display: itsme ? "none" : null,
@@ -108,40 +108,42 @@ const ChatSet = (props) => {
     height: "30px",
     borderRadius: "15px",
     overflow: "hidden",
-    filter:
-      "drop-shadow(0px 1px 1px rgba(110, 54, 120, 0.05)) drop-shadow(0px 2px 1px rgba(110, 54, 120, 0.03)) drop-shadow(0px 1px 3px rgba(110, 54, 120, 0.11))",
+    boxShadow: theme.shadow,
   };
   const styleName = {
     display: itsme ? "none" : null,
-    height: "13px",
-    lineHeight: "13px",
-    fontSize: "11px",
-    paddingBottom: "4px",
+    ...theme.font12,
     paddingLeft: "5px",
-    color: "#323232",
+    color: theme.black,
+    margin: "1px 0 -2px",
   };
   const styleChatCont = {
     display: "flex",
     flexDirection: itsme ? "row-reverse" : "row",
+    alignItems: "flex-end",
     position: "relative",
-    marginBottom: "6px",
     gap: "4px",
   };
   const styleChat = {
     maxWidth: isMobile ? "75%" : "210px",
-    background: itsme ? "#6E3678" : "#FFFFFF",
-    boxShadow:
-      "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), 0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), 0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
+    background: itsme
+      ? theme.purple
+      : props.isSideChat
+      ? theme.purple_hover
+      : theme.white,
+    boxShadow: props.isSideChat
+      ? itsme
+        ? theme.shadow_purple_button_inset
+        : theme.shadow_purple_input_inset
+      : theme.shadow,
     borderRadius: "8px",
     lineHeight: "15px",
     overflow: "hidden",
   };
   const styleTime = {
-    height: "11px",
-    lineHeight: "11px",
-    marginTop: "auto",
-    fontSize: "9px",
-    color: "#888888",
+    ...theme.font8,
+    color: theme.gray_text,
+    marginBottom: "1px",
   };
 
   const handleOpen = () => {
@@ -172,9 +174,14 @@ const ChatSet = (props) => {
       <div
         style={{
           width: "calc(100% - 71px)",
+          display: "flex",
+          flexDirection: "column",
+          rowGap: "6px",
         }}
       >
-        <div style={styleName}>{props.chats[0].authorName}</div>
+        <div style={styleName} className="selectable">
+          {props.chats[0].authorName}
+        </div>
         {props.chats.map((chat, index) => (
           <div key={index} style={styleChatCont}>
             <div style={styleChat}>
@@ -191,8 +198,8 @@ const ChatSet = (props) => {
               )}
             </div>
             {index === props.chats.length - 1 ? (
-              <div style={styleTime}>
-                {moment(chat.time).format("H시 MM분")}
+              <div style={styleTime} className="selectable">
+                {moment(chat.time).format("H시 mm분")}
               </div>
             ) : null}
           </div>
@@ -210,6 +217,7 @@ ChatSet.propTypes = {
   setPath: PropTypes.func,
   setName: PropTypes.func,
   setReportedId: PropTypes.func,
+  isSideChat: PropTypes.bool,
 };
 
 export default ChatSet;

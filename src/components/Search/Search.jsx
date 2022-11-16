@@ -26,7 +26,7 @@ const defaultOptions = { place: true, date: true, time: true };
 const SearchOption = (props) => {
   const [isHover, setHover] = useState(false);
   const style = useSpring({
-    height: "15px",
+    ...theme.font12,
     borderRadius: "15px",
     padding: "8px 15px 7px 15px",
     boxShadow: theme.shadow,
@@ -38,7 +38,6 @@ const SearchOption = (props) => {
       ? theme.purple_hover
       : theme.white,
     color: props.selected ? theme.white : theme.black,
-    fontSize: "12px",
     config: { duration: 150 },
     ...theme.cursor(),
   });
@@ -323,26 +322,24 @@ const Search = () => {
       history.push("/search?all=true");
     } else {
       let withTime = false;
-      const date = moment();
-
-      date.year(valueDate[0]);
-      date.month(valueDate[1] - 1);
-      date.date(valueDate[2]);
-
+      let date = null;
+      if (searchOptions.date && valueDate[0] !== null) {
+        date = moment();
+        date.year(valueDate[0]);
+        date.month(valueDate[1] - 1);
+        date.date(valueDate[2]);
+      }
       if (searchOptions.time) {
         date.hour(valueTime[0]);
         date.minute(valueTime[1]);
         withTime = true;
-      } else if (date.isSame(getToday(), "day")) {
-        date.hour(getToday().hour());
-        date.minute(getToday().minute());
       }
       const q = qs.stringify(
         {
           name: valueName.length ? valueName : null,
           from: valuePlace[0],
           to: valuePlace[1],
-          time: date.toISOString(),
+          time: date?.toISOString(),
           withTime,
           maxPeople: valueMaxPeople,
         },
@@ -356,9 +353,8 @@ const Search = () => {
     <>
       <div
         style={{
-          color: "#6E3678",
-          fontSize: "14px",
-          letterSpacing: "0.03em",
+          color: theme.purple,
+          ...theme.font14,
         }}
       >
         어떤 조건으로 검색할까요?
@@ -378,7 +374,7 @@ const Search = () => {
       <Button
         type="purple"
         disabled={disabled}
-        padding="13px 0px 14px"
+        padding="14px 0 13px"
         radius={12}
         font={theme.font16_bold}
         onClick={onClickSearch}
@@ -400,7 +396,7 @@ const Search = () => {
     );
   return (
     <div>
-      <Title icon="search" header marginAuto>
+      <Title icon="search" header marginAuto R2={searchResult !== null}>
         방 검색하기
       </Title>
       <RLayout.R2

@@ -29,7 +29,7 @@ const Empty = ({ screen, children }: EmptyProps) => {
 
   return (
     <div style={screen === "pc" ? stylePC : styleMobile}>
-      <NotInterestedIcon style={theme.font15_icon} />
+      <NotInterestedIcon style={{ fontSize: "15px" }} />
       {children}
     </div>
   );
