@@ -1,10 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 
-const useDelay = <T,>(
-  value: T,
-  isValid: boolean,
-  delayTime: number
-): T => {
+const useDelay = <T,>(value: T, isValid: boolean, delayTime: number): T => {
   const valueRef = useRef(value);
   const [delayedValue, setDelayedValue] = useState(value);
 
