@@ -1,14 +1,14 @@
 import { useRef, useState, useEffect } from "react";
 
-const useDelay = <TypeValue,>(
-  value: TypeValue,
+const useDelay = <T,>(
+  value: T,
   isValid: boolean,
   delayTime: number
-): TypeValue => {
+): T => {
   const valueRef = useRef(value);
   const [delayedValue, setDelayedValue] = useState(value);
 
-  const updateValue = (x: TypeValue) => {
+  const updateValue = (x: T) => {
     if (valueRef.current === x) setDelayedValue(x);
   };
 
