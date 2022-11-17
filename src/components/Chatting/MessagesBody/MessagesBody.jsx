@@ -124,6 +124,7 @@ const MessagesBody = (props) => {
 
   return (
     <div
+      className="chatting-body"
       style={{
         marginTop: props.isSideChat ? undefined : "69px",
         marginBottom: props.marginBottom,
