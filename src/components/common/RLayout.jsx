@@ -95,7 +95,6 @@ const Popup = (props) => {
         }}
         onClick={(e) => e.stopPropagation()}
         onMouseUp={(e) => e.stopPropagation()}
-        ref={props.modalRef}
       >
         {props.children}
       </div>
@@ -109,7 +108,6 @@ const Popup = (props) => {
         }}
         onClick={(e) => e.stopPropagation()}
         onMouseUp={(e) => e.stopPropagation()}
-        ref={props.modalRef}
       >
         {props.children}
       </div>
@@ -119,7 +117,6 @@ const Popup = (props) => {
 Popup.propTypes = {
   children: PropTypes.any,
   width: PropTypes.number,
-  modalRef: PropTypes.any,
 };
 Popup.defaultProps = {
   width: 335,

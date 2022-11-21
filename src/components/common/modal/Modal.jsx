@@ -53,8 +53,9 @@ const Modal = (props) => {
         clickRef.current = false;
       }}
     >
-      <RLayout.Popup width={props.width} modalRef={modalRef}>
+      <RLayout.Popup width={props.width}>
         <div
+          ref={modalRef}
           style={{
             position: "relative",
             background: theme.white,
