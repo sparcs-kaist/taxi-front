@@ -117,6 +117,16 @@ const Skeleton = (props) => {
     }
   }, [userId]);
 
+  const pathList = [
+    "/",
+    "/search",
+    "/addroom",
+    "/myroom",
+    "/mypage",
+    "/chatting",
+    "/error",
+  ];
+
   if (userId === null && pathname !== "/login") {
     return (
       <Redirect to={`/login?redirect=${encodeURIComponent(currentPath)}`} />
@@ -139,7 +149,11 @@ const Skeleton = (props) => {
      */
     return <></>;
   }
-  if (pathname.startsWith("/chatting") || pathname.startsWith("/error")) {
+  if (
+    pathname.startsWith("/chatting") ||
+    pathname.startsWith("/error") ||
+    !pathList.find((path) => path === pathname.split("/")[0])
+  ) {
     return (
       <Container>
         <HeaderBar />
