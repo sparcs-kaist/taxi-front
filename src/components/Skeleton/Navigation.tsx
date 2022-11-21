@@ -5,9 +5,9 @@ import RLayout from "components/common/RLayout";
 import theme from "styles/theme";
 
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
-import LibraryAddRoundedIcon from "@mui/icons-material/LibraryAddRounded";
-import LibraryBooksRoundedIcon from "@material-ui/icons/LibraryBooksRounded";
-import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import SubjectRoundedIcon from "@mui/icons-material/SubjectRounded";
+import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 
 type PageType = "search" | "addroom" | "myroom" | "mypage";
 type NavigationMenuProps = {
@@ -52,11 +52,11 @@ const NavigationMenu = (props: NavigationMenuProps) => {
       case "search":
         return <SearchRoundedIcon style={styleIcon} />;
       case "addroom":
-        return <LibraryAddRoundedIcon style={styleIcon} />;
+        return <AddRoundedIcon style={styleIcon} />;
       case "myroom":
-        return <LibraryBooksRoundedIcon style={styleIcon} />;
+        return <SubjectRoundedIcon style={styleIcon} />;
       case "mypage":
-        return <AccountCircleRoundedIcon style={styleIcon} />;
+        return <PersonOutlineRoundedIcon style={styleIcon} />;
     }
   };
 
@@ -93,7 +93,7 @@ const Navigation = () => {
         <div style={{ display: "flex", height: "56px" }}>
           <NavigationMenu text="검색" page="search" path={path} />
           <NavigationMenu text="방 개설" page="addroom" path={path} />
-          <NavigationMenu text="내 방 목록" page="myroom" path={path} />
+          <NavigationMenu text="내 방" page="myroom" path={path} />
           <NavigationMenu text="마이 페이지" page="mypage" path={path} />
         </div>
       </RLayout.R1>
