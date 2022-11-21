@@ -63,10 +63,9 @@ const Date = (props) => {
   const style = {
     width: "calc((100% - 36px) / 7)",
     height: "100%",
-    textDecoration: "none",
   };
   const styleBox = {
-    height: "100%",
+    ...style,
     borderRadius: "6px",
     position: "relative",
     display: "flex",
@@ -111,26 +110,37 @@ const Date = (props) => {
   };
 
   const onClick = () => {
-    if (props.available) props.handler(props.year, props.month, props.date);
+    if (props.available) {
+      props.handler(props.year, props.month, props.date);
+
+      const scrollTo =
+        document.querySelector(".scrollTo").getBoundingClientRect().top +
+        (window.scrollY + 56 + 46 + 15) -
+        window.innerHeight;
+
+      if (window.scrollY < scrollTo)
+        window.scrollTo({
+          top: scrollTo,
+          behavior: "smooth",
+        });
+    }
   };
 
   if (!props.date) return <div style={style} />;
   return (
-    <a href={isMobile ? "#scroll" : undefined} style={style}>
-      <div
-        style={styleBox}
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-        onClick={onClick}
-      >
-        <div style={styleDate}>{props.date}</div>
-        {props.available === "today" && (
-          <div style={styleToday}>
-            <MiniCircle type="date" isSelected={props.selected} />
-          </div>
-        )}
-      </div>
-    </a>
+    <div
+      style={styleBox}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      onClick={onClick}
+    >
+      <div style={styleDate}>{props.date}</div>
+      {props.available === "today" && (
+        <div style={styleToday}>
+          <MiniCircle type="date" isSelected={props.selected} />
+        </div>
+      )}
+    </div>
   );
 };
 
