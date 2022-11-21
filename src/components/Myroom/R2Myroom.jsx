@@ -127,7 +127,6 @@ const R2Myroom = (props) => {
         }}
       >
         <RLayout.R2
-          priority="left"
           left={
             <div
               style={{

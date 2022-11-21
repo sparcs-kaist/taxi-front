@@ -67,13 +67,7 @@ const Title = (props) => {
   );
 
   if (props.marginAuto) {
-    return (
-      <RLayout.R2
-        left={title}
-        right={props.R2 ? <></> : null}
-        priority="left"
-      />
-    );
+    return <RLayout.R2 left={title} right={props.R2 ? <></> : null} />;
   }
   return title;
 };
