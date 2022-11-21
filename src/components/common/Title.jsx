@@ -4,13 +4,13 @@ import RLayout from "components/common/RLayout";
 import theme from "styles/theme";
 
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import ListAltRoundedIcon from "@mui/icons-material/ListAltRounded";
-import LibraryBooksRoundedIcon from "@mui/icons-material/LibraryBooksRounded";
+import ManageSearchRoundedIcon from "@mui/icons-material/ManageSearchRounded";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
 import QuestionAnswerRoundedIcon from "@mui/icons-material/QuestionAnswerRounded";
-import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
+import SubjectRoundedIcon from "@mui/icons-material/SubjectRounded";
 import LocalTaxiRoundedIcon from "@mui/icons-material/LocalTaxiRounded";
-import LibraryAddRoundedIcon from "@mui/icons-material/LibraryAddRounded";
+import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 import ErrorOutlineRounded from "@mui/icons-material/ErrorOutlineRounded";
 
 const iconStyle = {
@@ -24,11 +24,11 @@ const getIcon = (icon) => {
     case "search":
       return <SearchRoundedIcon style={iconStyle} />;
     case "search_result":
-      return <ListAltRoundedIcon style={iconStyle} />;
+      return <ManageSearchRoundedIcon style={iconStyle} />;
     case "add":
-      return <LibraryAddRoundedIcon style={iconStyle} />;
+      return <AddRoundedIcon style={iconStyle} />;
     case "myroom":
-      return <LibraryBooksRoundedIcon style={iconStyle} />;
+      return <SubjectRoundedIcon style={iconStyle} />;
     case "current":
       return <LocalTaxiRoundedIcon style={iconStyle} />;
     case "past":
@@ -36,7 +36,7 @@ const getIcon = (icon) => {
     case "chat":
       return <QuestionAnswerRoundedIcon style={iconStyle} />;
     case "mypage":
-      return <AccountCircleRoundedIcon style={iconStyle} />;
+      return <PersonOutlineRoundedIcon style={iconStyle} />;
     case "error":
       return <ErrorOutlineRounded style={iconStyle} />;
     default:
