@@ -149,8 +149,11 @@ const Skeleton = (props) => {
      */
     return <HeaderBar />;
   }
-  if (pathname === "/" || !pathList.includes("/" + pathname.split("/")[1])) {
+  if (pathname === "/") {
     return <Redirect to={`/search`} />;
+  }
+  if (!pathList.includes("/" + pathname.split("/")[1])) {
+    return <Redirect to={`/error`} />;
   }
   if (pathname.startsWith("/chatting") || pathname.startsWith("/error")) {
     return (
