@@ -12,7 +12,7 @@ type ButtonProps = {
   radius?: number;
   font?: Font;
   onClick?: () => void;
-  href?: string;
+  className?: string;
   children?: React.ReactNode;
 };
 
@@ -24,7 +24,7 @@ const Button = ({
   radius,
   font,
   onClick,
-  href,
+  className,
   children,
 }: ButtonProps) => {
   const [isHover, setHover] = useState(false);
@@ -87,7 +87,7 @@ const Button = ({
     <div
       onClick={disabled ? undefined : onClick}
       style={style}
-      id={href}
+      className={className}
       onMouseEnter={() => setHover(!isMobile)}
       onMouseLeave={() => setHoverClicked(false)}
       onMouseDown={() => setClicked(!disabled)}

@@ -380,7 +380,7 @@ const Search = () => {
         radius={12}
         font={theme.font16_bold}
         onClick={onClickSearch}
-        href="scroll"
+        className="scrollTo"
       >
         {message}
       </Button>
