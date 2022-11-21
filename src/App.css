@@ -11,6 +11,7 @@
 div,
 input {
   color: #323232;
+  scrollbar-color: transparent transparent;
 }
 
 html {
@@ -34,8 +35,13 @@ body {
   user-select: none; /* Chrome, Edge, Opera, and Firefox */
 }
 
-body::-webkit-scrollbar {
+body::-webkit-scrollbar,
+div:not(.chatting-body)::-webkit-scrollbar {
   display: none;
+}
+
+.chatting-body {
+  scrollbar-color: auto;
 }
 
 b {
