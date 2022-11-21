@@ -147,22 +147,18 @@ const Skeleton = (props) => {
     /**
      * @todo 로딩 화면 추가
      */
-    return <></>;
+    return <HeaderBar />;
   }
-  if (
-    pathname.startsWith("/chatting") ||
-    pathname.startsWith("/error") ||
-    !pathList.find((path) => path === pathname.split("/")[0])
-  ) {
+  if (pathname === "/" || !pathList.includes("/" + pathname.split("/")[1])) {
+    return <Redirect to={`/search`} />;
+  }
+  if (pathname.startsWith("/chatting") || pathname.startsWith("/error")) {
     return (
       <Container>
         <HeaderBar />
         {props.children}
       </Container>
     );
-  }
-  if (pathname === "/") {
-    return <Redirect to={`/search`} />;
   }
   return (
     <Container>
