@@ -349,6 +349,13 @@ const Search = () => {
     }
   };
 
+  useEffect(() => {
+    if (!onCall.current) return;
+    setTimeout(() => {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    }, 0);
+  }, [searchResult]);
+
   const leftLay = (
     <>
       <div
@@ -388,24 +395,23 @@ const Search = () => {
           }
         />
       )}
+      {searchResult && reactiveState === 3 && (
+        <div style={{ marginTop: "30px" }}>
+          <Title icon="search_result">검색 결과</Title>
+          <SideResult result={searchResult} mobile />
+        </div>
+      )}
     </>
   );
-  const rightLay =
-    searchResult === null ? null : (
-      <SideResult result={searchResult} mobile={reactiveState === 3} />
-    );
+  const rightLay = reactiveState !== 3 && searchResult && (
+    <SideResult result={searchResult} />
+  );
   return (
     <div>
       <Title icon="search" header marginAuto R2={searchResult !== null}>
         방 검색하기
       </Title>
-      <RLayout.R2
-        left={reactiveState === 3 && searchResult !== null ? null : leftLay}
-        right={rightLay}
-        priority={
-          reactiveState === 3 && searchResult !== null ? "right" : "left"
-        }
-      />
+      <RLayout.R2 left={leftLay} right={rightLay} />
     </div>
   );
 };

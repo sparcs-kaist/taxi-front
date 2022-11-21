@@ -266,4 +266,8 @@ SideResult.propTypes = {
   mobile: PropTypes.bool,
 };
 
+SideResult.defaultProps = {
+  mobile: false,
+};
+
 export default SideResult;
