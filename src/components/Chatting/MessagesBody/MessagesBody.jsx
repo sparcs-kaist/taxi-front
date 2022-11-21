@@ -123,30 +123,32 @@ const MessagesBody = (props) => {
   };
 
   return (
-    <div
-      className="chatting-body"
-      style={{
-        marginTop: props.isSideChat ? undefined : "69px",
-        marginBottom: props.marginBottom,
-        paddingBottom: "12px",
-        height: `calc(100% - ${props.marginBottom} - ${
-          props.isSideChat ? "0px" : "69px"
-        })`,
-        width: "100%",
-        overflow: "auto",
-        boxSizing: "border-box",
-      }}
-      ref={props.forwardedRef}
-      onScroll={props.handleScroll}
-    >
-      {chats}
-      <PopupReport
-        isOpen={isOpen}
-        onClose={onClose}
-        path={path}
-        name={name}
-        reportedId={reportedId}
-      />
+    <div style={{ overflow: "auto" }}>
+      <div
+        className="chatting-body"
+        style={{
+          marginTop: props.isSideChat ? undefined : "69px",
+          marginBottom: props.marginBottom,
+          paddingBottom: "12px",
+          height: `calc(100% - ${props.marginBottom} - ${
+            props.isSideChat ? "0px" : "69px"
+          })`,
+          width: "100%",
+          overflow: "auto",
+          boxSizing: "border-box",
+        }}
+        ref={props.forwardedRef}
+        onScroll={props.handleScroll}
+      >
+        {chats}
+        <PopupReport
+          isOpen={isOpen}
+          onClose={onClose}
+          path={path}
+          name={name}
+          reportedId={reportedId}
+        />
+      </div>
     </div>
   );
 };

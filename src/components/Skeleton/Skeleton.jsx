@@ -25,7 +25,6 @@ const Container = (props) => {
         width: "100%",
         height: "calc(100% + env(safe-area-inset-top))",
         position: "relative",
-        overflow: "auto",
       }}
     >
       {props.children}
