@@ -23,9 +23,10 @@ const Container = (props) => {
     <div
       style={{
         width: "100%",
-        height: "calc(100% + env(safe-area-inset-top))",
+        height: "calc(100% - env(safe-area-inset-bottom))",
         position: "relative",
-        overflow: "auto",
+        paddingTop: "env(safe-area-inset-top)",
+        paddingBottom: "env(safe-area-inset-bottom)",
       }}
     >
       {props.children}
