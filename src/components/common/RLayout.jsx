@@ -62,6 +62,7 @@ const Popup = (props) => {
         width: state === 1 ? props.width : "calc(100% - 40px)",
       }}
       onClick={(e) => e.stopPropagation()}
+      onMouseUp={(e) => e.stopPropagation()}
     >
       {props.children}
     </div>
