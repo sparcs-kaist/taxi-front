@@ -352,7 +352,9 @@ const Search = () => {
   useEffect(() => {
     if (!onCall.current || reactiveState !== 3) return;
     setTimeout(() => {
-      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+      var scrollToResult =
+        document.querySelector(".scrollToResult").offsetTop + 79 - 30;
+      window.scrollTo({ top: scrollToResult, behavior: "smooth" });
     }, 0);
   }, [searchResult]);
 
@@ -396,7 +398,7 @@ const Search = () => {
         />
       )}
       {searchResult && reactiveState === 3 && (
-        <div style={{ marginTop: "30px" }}>
+        <div style={{ marginTop: "30px" }} className="scrollToResult">
           <Title icon="search_result">검색 결과</Title>
           <SideResult result={searchResult} mobile />
         </div>
