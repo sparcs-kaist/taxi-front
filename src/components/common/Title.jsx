@@ -9,7 +9,7 @@ import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
 import QuestionAnswerRoundedIcon from "@mui/icons-material/QuestionAnswerRounded";
 import SubjectRoundedIcon from "@mui/icons-material/SubjectRounded";
-import LocalTaxiRoundedIcon from "@mui/icons-material/LocalTaxiRounded";
+import HailRoundedIcon from "@mui/icons-material/HailRounded";
 import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 import ErrorOutlineRounded from "@mui/icons-material/ErrorOutlineRounded";
 
@@ -30,7 +30,7 @@ const getIcon = (icon) => {
     case "myroom":
       return <SubjectRoundedIcon style={iconStyle} />;
     case "current":
-      return <LocalTaxiRoundedIcon style={iconStyle} />;
+      return <HailRoundedIcon style={{ ...iconStyle, marginRight: "-3px" }} />;
     case "past":
       return <HistoryRoundedIcon style={iconStyle} />;
     case "chat":
