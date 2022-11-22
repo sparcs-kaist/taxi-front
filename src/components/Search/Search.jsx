@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { animated, useSpring } from "react-spring";
 import { useHistory, useLocation } from "react-router-dom";
+import { useCookies } from "react-cookie";
 import qs from "qs";
 import { useR2state } from "hooks/useReactiveState";
 import RLayout from "components/common/RLayout";
@@ -156,6 +157,12 @@ const Search = () => {
   const [searchResult, setSearchResult] = useState(null);
   const [disabled, setDisabled] = useState(true);
   const [message, setMessage] = useState("검색 조건을 선택해주세요");
+  const [cookies, setCookie] = useCookies(["defaultFromTo"]);
+
+  useEffect(() => {
+    setCookie("defaultFromTo", valuePlace);
+  }, [valuePlace]);
+
   const clearState = () => {
     onCall.current = false;
     setSearchOptions(defaultOptions);

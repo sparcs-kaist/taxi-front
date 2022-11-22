@@ -12,6 +12,7 @@ import { useSetRecoilState } from "recoil";
 import alertAtom from "recoil/alert";
 import FullParticipation from "./FullParticipation";
 import { MAX_PARTICIPATION } from "components/Myroom/Myroom";
+import { useCookies } from "react-cookie";
 
 import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
@@ -35,6 +36,7 @@ const AddRoom = () => {
   const [valueMaxPeople, setMaxPeople] = useState(4);
   const [valueTime, setTime] = useState([today10.hour(), today10.minute()]);
   const [calculatedTime, setCalculatedTime] = useState<Date | null>(null);
+  const [cookies, setCookie] = useCookies(["defaultFromTo"]);
   const setAlert = useSetRecoilState(alertAtom);
   const [myRoom, setMyRoom] = useRecoilState(myRoomAtom);
 
@@ -57,6 +59,9 @@ const AddRoom = () => {
     setRandomName(
       randomRoomNames[Math.floor(Math.random() * randomRoomNames.length)]
     );
+    if (cookies.defaultFromTo) {
+      setPlace(cookies.defaultFromTo);
+    }
   }, []);
 
   useEffect(() => {
