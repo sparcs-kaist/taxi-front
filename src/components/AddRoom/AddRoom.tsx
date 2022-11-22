@@ -37,6 +37,20 @@ const AddRoom = () => {
   const setAlert = useSetRecoilState(alertAtom);
   const [myRoom, setMyRoom] = useRecoilState(myRoomAtom);
 
+  const randomRoomNames = [
+    "같이 가요",
+    "택시 타요",
+    "택시 타고 가요",
+    "택시 타고 갈래요",
+    "택시 타고 갑니다",
+  ];
+
+  useEffect(() => {
+    const randomName =
+      randomRoomNames[Math.floor(Math.random() * randomRoomNames.length)];
+    setName(randomName);
+  }, []);
+
   useEffect(() => {
     setCalculatedTime(
       new Date(
