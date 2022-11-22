@@ -24,5 +24,4 @@ const useDelay = <T,>(value: T, isValid: boolean, delayTime: number): T => {
 const useDelayBoolean = (value: boolean, delayTime: number): boolean =>
   useDelay(value, value, delayTime);
 
-export default useDelay;
 export { useDelay, useDelayBoolean };
