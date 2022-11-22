@@ -350,7 +350,7 @@ const Search = () => {
   };
 
   useEffect(() => {
-    if (!onCall.current) return;
+    if (!onCall.current || reactiveState !== 3) return;
     setTimeout(() => {
       window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
     }, 0);
