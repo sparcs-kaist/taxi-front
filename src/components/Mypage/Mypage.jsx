@@ -75,7 +75,7 @@ const Mypage = () => {
   return (
     <>
       <Title icon="mypage" header marginAuto>
-        마이 페이지
+        {t("myPage.translation")}
       </Title>
       <WhiteContainer marginAuto padding="16px 24px 24px">
         <div style={styleProfile}>
@@ -92,21 +92,21 @@ const Mypage = () => {
           </div>
         </div>
         <div style={infoTitle}>
-          <div style={theme.font14_bold}>내 정보</div>
+          <div style={theme.font14_bold}>{t("myInformation.translation")}</div>
           <div style={infoModify} onClick={() => setOpenModify(true)}>
-            수정하기
+            {t("revise.translation")}
           </div>
         </div>
         <div style={infoType} className="selectable">
-          학번
+          {t("student_id.translation")}
           <div style={infoContent}>{userInfoDetail?.subinfo.kaist}</div>
         </div>
         <div style={infoType} className="selectable">
-          메일
+          {t("mail.translation")}
           <div style={infoContent}>{userInfoDetail?.email}</div>
         </div>
         <div style={infoType} className="selectable">
-          별명
+          {t("nickname.translation")}
           <div style={infoContent}>{userInfoDetail?.nickname}</div>
         </div>
       </WhiteContainer>
@@ -119,27 +119,27 @@ const Mypage = () => {
       ) : null}
       <WhiteContainer padding="16px 24px" marginAuto>
         <Menu icon="beta" onClick={() => setAlert(betaNotice)}>
-          베타 서비스 안내
+          {t("beta_service_guide.translation")}
         </Menu>
       </WhiteContainer>
       <WhiteContainer marginAuto>
         <div style={{ display: "grid", rowGap: "16px" }}>
           <Menu icon="report" onClick={() => setOpenReport(true)}>
-            신고 내역
+            {t("report_record.translation")}
           </Menu>
           <a className="popup-channeltalk">
             <Menu icon="ask" onClick={() => {}}>
-              채널톡 문의하기
+              {t("channeltalk_ask.translation")}
             </Menu>
           </a>
           <Menu icon="policy" onClick={() => setOpenPolicy(true)}>
-            사용 약관 및 개인정보 보호 규칙
+            {t("rule.translation")}
           </Menu>
           <Menu icon="credit" onClick={() => setOpenMembers(true)}>
-            만든 사람들
+            {t("developer.translation")}
           </Menu>
           <Menu icon="logout" onClick={handleLogout}>
-            로그아웃
+            {t("logout.translation")}
           </Menu>
         </div>
       </WhiteContainer>
