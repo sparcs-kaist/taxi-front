@@ -25,6 +25,7 @@ const AddRoom = () => {
   const today = getToday();
   const today10 = getToday10();
   const [valueName, setName] = useState("");
+  const [randomName, setRandomName] = useState("");
   const [valuePlace, setPlace] = useState([null, null]);
   const [valueDate, setDate] = useState<Array<Nullable<number>>>([
     today.year(),
@@ -37,18 +38,17 @@ const AddRoom = () => {
   const setAlert = useSetRecoilState(alertAtom);
   const [myRoom, setMyRoom] = useRecoilState(myRoomAtom);
 
-  const randomRoomNames = [
-    "같이 가요",
-    "택시 타요",
-    "택시 타고 가요",
-    "택시 타고 갈래요",
-    "택시 타고 갑니다",
-  ];
-
   useEffect(() => {
-    const randomName =
-      randomRoomNames[Math.floor(Math.random() * randomRoomNames.length)];
-    setName(randomName);
+    const randomRoomNames = [
+      "같이 가요",
+      "택시 타요",
+      "택시 타고 가요",
+      "택시 타고 갈래요",
+      "택시 타고 갑니다",
+    ];
+    setRandomName(
+      randomRoomNames[Math.floor(Math.random() * randomRoomNames.length)]
+    );
   }, []);
 
   useEffect(() => {
@@ -76,9 +76,8 @@ const AddRoom = () => {
     validatedMsg = "날짜를 선택해 주세요";
   } else if (today.isSameOrAfter(calculatedTime)) {
     validatedMsg = "현재 시각 이후를 선택해주세요";
-  } else if (valueName === "") {
-    validatedMsg = "방 이름을 입력해 주세요";
   } else if (
+    valueName !== "" &&
     !RegExp("^[A-Za-z0-9가-힣ㄱ-ㅎㅏ-ㅣ,.?! _-]{1,50}$").test(valueName)
   ) {
     validatedMsg = "방 이름으로 사용될 수 없습니다";
@@ -88,7 +87,7 @@ const AddRoom = () => {
     if (!onCall.current) {
       onCall.current = true;
       const result = await axios.post("/rooms/v2/create", {
-        name: valueName,
+        name: valueName ? valueName : randomName,
         from: valuePlace[0],
         to: valuePlace[1],
         time: calculatedTime!.toISOString(),
@@ -115,7 +114,11 @@ const AddRoom = () => {
       <RLayout.R1>
         <OptionPlace value={valuePlace} handler={setPlace} />
         <OptionDate value={valueDate} handler={setDate} />
-        <OptionName value={valueName} handler={setName} />
+        <OptionName
+          value={valueName}
+          handler={setName}
+          placeholder={randomName}
+        />
         <OptionTime value={valueTime} handler={setTime} page="add" />
         <OptionMaxPeople value={valueMaxPeople} handler={setMaxPeople} />
         <Button

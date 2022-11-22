@@ -7,6 +7,7 @@ import EditRoundedIcon from "@material-ui/icons/EditRounded";
 type ButtonProps = {
   value: string;
   handler: (value: string) => void;
+  placeholder: string;
 };
 
 const Name = (props: ButtonProps) => {
@@ -43,6 +44,7 @@ const Name = (props: ButtonProps) => {
           type="text"
           style={styleInput}
           value={props.value}
+          placeholder={props.placeholder}
         />
       </div>
     </WhiteContainer>
