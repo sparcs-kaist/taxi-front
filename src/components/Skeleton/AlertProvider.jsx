@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import Modal from "components/common/modal/Modal";
 import { useRecoilState } from "recoil";
-import { useDelayBoolean } from "hooks/useDelay";
 import alertAtom from "recoil/alert";
 import Button from "components/common/Button";
 import theme from "styles/theme";
@@ -12,12 +11,10 @@ import WbIncandescentRoundedIcon from "@material-ui/icons/WbIncandescentRounded"
 const AlertProvider = () => {
   const messageCache = useRef("");
   const [message, setMessage] = useRecoilState(alertAtom);
-  const shouldMount = useDelayBoolean(!!message, theme.duration_num);
 
   const onClickClose = () => setMessage(null);
   if (message) messageCache.current = message;
 
-  if (!shouldMount) return null;
   return (
     <Modal
       display={!!message}

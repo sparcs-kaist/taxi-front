@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import RLayout from "components/common/RLayout";
 import PropTypes from "prop-types";
+import { useDelayBoolean } from "hooks/useDelay";
 import useDisableScroll from "hooks/useDisableScroll";
 import useKeyboardOperation from "hooks/useKeyboardOperation";
 import theme from "styles/theme";
@@ -9,6 +10,7 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const Modal = (props) => {
   const [display, setDisplay] = useState(false);
+  const shouldMount = useDelayBoolean(props.display, theme.duration_num);
 
   useDisableScroll(props.display);
   useKeyboardOperation({
@@ -16,7 +18,7 @@ const Modal = (props) => {
     onEnter: props?.onEnter,
     onEscape: props.onClickClose,
   });
-  useEffect(() => setDisplay(props.display), [props.display]);
+  useEffect(() => setDisplay(props.display), [shouldMount]);
 
   const styleBgd = {
     position: "fixed",
@@ -27,7 +29,7 @@ const Modal = (props) => {
     height: "100%",
     zIndex: props.alert ? theme.zIndex_alert : theme.zIndex_modal,
     background: props.alert ? theme.black_40 : theme.black_60,
-    opacity: display ? 1 : 0,
+    opacity: props.display ? (display ? 1 : 0) : 0,
     transition: `opacity ${theme.duration} ease-in-out`,
     pointerEvents: props.display ? "auto" : "none",
   };
@@ -39,6 +41,7 @@ const Modal = (props) => {
     fontSize: "24px",
     cursor: "pointer",
   };
+  if (!shouldMount) return null;
   return (
     <div style={styleBgd} onClick={props.onClickClose}>
       <RLayout.Popup width={props.width}>
