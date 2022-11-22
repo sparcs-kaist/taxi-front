@@ -13,6 +13,7 @@ import isMobile from "ismobilejs";
 import theme from "styles/theme";
 import Button from "components/common/Button";
 import Tooltip from "components/common/Tooltip";
+import ScrollButton from "./ScrollButton";
 
 import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
@@ -156,6 +157,8 @@ const Search = () => {
   const [searchResult, setSearchResult] = useState(null);
   const [disabled, setDisabled] = useState(true);
   const [message, setMessage] = useState("검색 조건을 선택해주세요");
+  const [showScrollButton, setShowScrollButton] = useState(false);
+
   const clearState = () => {
     onCall.current = false;
     setSearchOptions(defaultOptions);
@@ -195,6 +198,18 @@ const Search = () => {
     }
     if (newSearchOptions.maxPeople) setMaxPeople(Number(q.maxPeople));
   };
+
+  const onScroll = () => {
+    if (!searchResult && reactiveState !== 3) return;
+    const scrolled =
+      document.querySelector(".scrollToResult")?.getBoundingClientRect().top <
+      (window.innerHeight * 2) / 3;
+    setShowScrollButton(scrolled);
+  };
+  useEffect(() => {
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     const q = qs.parse(location.search.slice(1), searchQueryOption);
@@ -401,6 +416,11 @@ const Search = () => {
         <div style={{ marginTop: "30px" }} className="scrollToResult">
           <Title icon="search_result">검색 결과</Title>
           <SideResult result={searchResult} mobile />
+          {showScrollButton && (
+            <ScrollButton
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            />
+          )}
         </div>
       )}
     </>
