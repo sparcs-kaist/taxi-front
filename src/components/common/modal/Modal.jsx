@@ -1,6 +1,7 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import RLayout from "components/common/RLayout";
 import PropTypes from "prop-types";
+import { useDelayBoolean } from "hooks/useDelay";
 import useDisableScroll from "hooks/useDisableScroll";
 import useKeyboardOperation from "hooks/useKeyboardOperation";
 import theme from "styles/theme";
@@ -8,14 +9,21 @@ import theme from "styles/theme";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const Modal = (props) => {
+  const [display, setDisplay] = useState(false);
+  const shouldMount = useDelayBoolean(props.display, theme.duration_num);
+  const modalRef = useRef(null);
+  const clickRef = useRef(false);
+
   useDisableScroll(props.display);
   useKeyboardOperation({
     display: props.display,
     onEnter: props?.onEnter,
     onEscape: props.onClickClose,
   });
-  const modalRef = useRef(null);
-  const clickRef = useRef(false);
+  useEffect(
+    () => setDisplay(shouldMount && props.display),
+    [shouldMount, props.display]
+  );
 
   const styleBgd = {
     position: "fixed",
@@ -26,8 +34,8 @@ const Modal = (props) => {
     height: "100%",
     zIndex: props.alert ? theme.zIndex_alert : theme.zIndex_modal,
     background: props.alert ? theme.black_40 : theme.black_60,
-    opacity: props.display ? 1 : 0,
-    transitionDuration: theme.duration,
+    opacity: display ? 1 : 0,
+    transition: `opacity ${theme.duration} ease-in-out`,
     pointerEvents: props.display ? "auto" : "none",
   };
   const styleBtn = {
@@ -38,6 +46,7 @@ const Modal = (props) => {
     fontSize: "24px",
     cursor: "pointer",
   };
+  if (!shouldMount) return null;
   return (
     <div
       style={styleBgd}

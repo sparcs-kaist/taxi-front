@@ -129,7 +129,14 @@ const R2Myroom = (props) => {
         <RLayout.R2
           priority="left"
           left={
-            <div style={{ height: bodyHeight, overflow: "auto" }}>
+            <div
+              style={{
+                height: bodyHeight,
+                overflow: "auto",
+                margin: "0 -4px",
+                padding: "0 4px",
+              }}
+            >
               <WhiteContainer padding="20px 20px 22px">
                 <Title icon="current">참여 중인 방</Title>
                 <div style={{ height: "19px" }} />
