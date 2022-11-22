@@ -114,7 +114,7 @@ const Date = (props) => {
       props.handler(props.year, props.month, props.date);
 
       const scrollTo =
-        document.querySelector(".scrollTo").getBoundingClientRect().top +
+        document.querySelector(".scrollToButton").getBoundingClientRect().top +
         (window.scrollY + 56 + 46 + 15) -
         window.innerHeight;
 
