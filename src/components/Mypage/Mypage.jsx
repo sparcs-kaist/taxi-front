@@ -15,7 +15,7 @@ import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import alertAtom from "recoil/alert";
 import Menu from "./Menu";
 import betaNotice from "static/betaNotice";
-import nodeEnv from "types/serverconfigjs";
+import { nodeEnv } from "../../serverconf.js";
 
 const Mypage = () => {
   const { t, i18n } = useTranslation("mypage");
