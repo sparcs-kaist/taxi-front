@@ -18,7 +18,10 @@ const Modal = (props) => {
     onEnter: props?.onEnter,
     onEscape: props.onClickClose,
   });
-  useEffect(() => setDisplay(props.display), [shouldMount]);
+  useEffect(
+    () => setDisplay(shouldMount && props.display),
+    [shouldMount, props.display]
+  );
 
   const styleBgd = {
     position: "fixed",
@@ -29,7 +32,7 @@ const Modal = (props) => {
     height: "100%",
     zIndex: props.alert ? theme.zIndex_alert : theme.zIndex_modal,
     background: props.alert ? theme.black_40 : theme.black_60,
-    opacity: props.display ? (display ? 1 : 0) : 0,
+    opacity: display ? 1 : 0,
     transition: `opacity ${theme.duration} ease-in-out`,
     pointerEvents: props.display ? "auto" : "none",
   };
