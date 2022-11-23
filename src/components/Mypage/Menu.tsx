@@ -41,7 +41,7 @@ const Menu = (props: MenuProps) => {
   const [isHover, setHover] = useState(false);
   const style = {
     display: "flex",
-    alignItems: "center",
+    alignItems: "flex-start",
     width: "fit-content",
     color: isHover ? theme.purple : undefined,
     ...theme.cursor(),

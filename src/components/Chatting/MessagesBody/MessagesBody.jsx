@@ -124,18 +124,22 @@ const MessagesBody = (props) => {
 
   return (
     <div
+      className="chatting-body"
       style={{
-        marginTop: props.isSideChat ? undefined : "70px",
+        marginTop: props.isSideChat ? undefined : "69px",
         marginBottom: props.marginBottom,
-        height: `calc(100% - ${props.marginBottom})`,
+        paddingBottom: "12px",
+        height: `calc(100% - ${props.marginBottom} - ${
+          props.isSideChat ? "0px" : "69px"
+        })`,
         width: "100%",
         overflow: "auto",
-        padding: "0 0 16px",
+        boxSizing: "border-box",
       }}
       ref={props.forwardedRef}
       onScroll={props.handleScroll}
     >
-      <div>{chats}</div>
+      {chats}
       <PopupReport
         isOpen={isOpen}
         onClose={onClose}

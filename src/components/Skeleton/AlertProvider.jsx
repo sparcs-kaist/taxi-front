@@ -17,7 +17,7 @@ const AlertProvider = () => {
 
   return (
     <Modal
-      display={message ? true : false}
+      display={!!message}
       onClickClose={onClickClose}
       width={315}
       padding="10px"

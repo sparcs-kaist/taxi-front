@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
 import preferenceAtom from "recoil/preference";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
+import alertAtom from "recoil/alert";
 import myRoomAtom from "recoil/myRoom";
 import PropTypes from "prop-types";
 import { date2str } from "tools/moment";
@@ -104,11 +105,13 @@ InfoSection.defaultProps = {
 };
 
 const RoomSelectionModal = (props) => {
+  const onCall = useRef(false);
   const [roomInfo, setRoomInfo] = useState(null);
   const history = useHistory();
-  const myRoom = useRecoilValue(myRoomAtom);
+  const [myRoom, setMyRoom] = useRecoilState(myRoomAtom);
   const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const preference = useRecoilValue(preferenceAtom);
+  const setAlert = useSetRecoilState(alertAtom);
   const disableJoinBtn =
     roomInfo?.part.some((user) => user._id === loginInfoDetail?.oid) ?? true;
   const isRoomFull = roomInfo
@@ -119,6 +122,10 @@ const RoomSelectionModal = (props) => {
   useEffect(() => {
     if (props.isOpen) setRoomInfo(props.roomInfo);
   }, [props.isOpen]);
+
+  useEffect(() => {
+    if (onCall.current) history.push(`/myroom/${roomInfo._id}`);
+  }, [myRoom?.ongoing.length]);
 
   const styleTitle = {
     ...theme.font18,
@@ -146,18 +153,21 @@ const RoomSelectionModal = (props) => {
   };
 
   const requestJoin = async () => {
-    // TODO: request join api
-    try {
+    if (!onCall.current) {
+      onCall.current = true;
       const result = await axios.post("/rooms/v2/join", {
         roomId: roomInfo._id,
       });
-      if (result.status === 200) history.push(`/myroom/${roomInfo._id}`);
-      else throw Error();
-    } catch (_) {
-      /**
-       * @todo move to error page
-       * - 409: already joined
-       */
+      if (result.status === 200) {
+        try {
+          const { data } = await axios.get("/rooms/v2/searchByUser");
+          setMyRoom(data);
+        } catch (error) {
+          setAlert("예상치 못한 오류가 발생했습니다. 새로고침 해주세요.");
+        }
+      } else {
+        setAlert("방 개설에 실패하였습니다.");
+      }
     }
   };
 
