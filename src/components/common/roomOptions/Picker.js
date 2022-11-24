@@ -39,7 +39,11 @@ class PickerColumn extends Component {
   }
 
   componentDidMount() {
+    const picker = document.getElementsByClassName("picker-column")[0];
+    if (picker.classList.contains("eventAdded")) return;
+
     document.addEventListener("keydown", this.handleKeyDown);
+    picker.classList.add("eventAdded");
   }
 
   componentWillUnmount() {
