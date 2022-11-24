@@ -12,7 +12,6 @@ class PickerColumn extends Component {
       columnHeight: PropTypes.number.isRequired,
       onChange: PropTypes.func.isRequired,
       onClick: PropTypes.func.isRequired,
-      isTime: PropTypes.bool,
     };
   }
 
@@ -50,13 +49,13 @@ class PickerColumn extends Component {
   handleKeyDown(event) {
     const picker = document.getElementsByClassName("picker-column");
     if (
-      !this.props.isTime &&
+      picker.length === 1 &&
       (event.key === "ArrowDown" || event.key === "ArrowUp")
     ) {
       if (document.activeElement !== picker[0]) this.handleScroll(event);
       picker[0].focus();
     }
-    if (this.props.isTime) {
+    if (picker.length === 2) {
       if (
         document.activeElement !== picker[1] &&
         (event.key === "ArrowDown" || event.key === "ArrowUp")
@@ -187,6 +186,7 @@ class PickerColumn extends Component {
     } else if (event.deltaY) {
       deltaY = event.deltaY;
       document.getElementsByClassName("picker-column")[0].blur();
+      document.getElementsByClassName("picker-column")[1]?.blur();
     } else {
       deltaY = 0;
     }
@@ -306,7 +306,6 @@ export default class Picker extends Component {
       onClick: PropTypes.func,
       itemHeight: PropTypes.number,
       height: PropTypes.number,
-      isTime: PropTypes.bool,
     };
   }
 
@@ -317,15 +316,8 @@ export default class Picker extends Component {
   };
 
   renderInner() {
-    const {
-      optionGroups,
-      valueGroups,
-      itemHeight,
-      height,
-      onChange,
-      onClick,
-      isTime,
-    } = this.props;
+    const { optionGroups, valueGroups, itemHeight, height, onChange, onClick } =
+      this.props;
     const columnNodes = [];
     for (let name in optionGroups) {
       columnNodes.push(
@@ -338,7 +330,6 @@ export default class Picker extends Component {
           columnHeight={height}
           onChange={onChange}
           onClick={onClick}
-          isTime={isTime}
         />
       );
     }
