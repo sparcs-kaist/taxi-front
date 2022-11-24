@@ -50,7 +50,7 @@ class PickerColumn extends Component {
     document.removeEventListener("keydown", this.handleKeyDown);
     document
       .getElementsByClassName("picker-column")[0]
-      .classList.add("eventAdded");
+      .classList.remove("eventAdded");
   }
 
   handleKeyDown(event) {
