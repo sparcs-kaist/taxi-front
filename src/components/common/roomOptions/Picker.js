@@ -23,6 +23,7 @@ class PickerColumn extends Component {
       startScrollerTranslate: 0,
       ...this.computeTranslate(props),
     };
+    this.pickerRef = React.createRef();
     this.handleScroll = this.handleScroll.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleTouchStart = this.handleTouchStart.bind(this);
@@ -40,17 +41,12 @@ class PickerColumn extends Component {
 
   componentDidMount() {
     const picker = document.getElementsByClassName("picker-column")[0];
-    if (picker.classList.contains("eventAdded")) return;
-
+    if (picker !== this.pickerRef.current) return;
     document.addEventListener("keydown", this.handleKeyDown);
-    picker.classList.add("eventAdded");
   }
 
   componentWillUnmount() {
     document.removeEventListener("keydown", this.handleKeyDown);
-    document
-      .getElementsByClassName("picker-column")[0]
-      .classList.remove("eventAdded");
   }
 
   handleKeyDown(event) {
@@ -287,6 +283,7 @@ class PickerColumn extends Component {
     return (
       <div
         className="picker-column"
+        ref={this.pickerRef}
         tabIndex={100}
         onTouchStart={this.handleTouchStart}
         onTouchMove={this.handleTouchMove}
