@@ -116,7 +116,7 @@ const R2Myroom = (props) => {
     >
       <div ref={refTitle}>
         <Title icon="myroom" header marginAuto R2={props.roomId !== undefined}>
-          내 방 목록
+          내 방 보기
         </Title>
       </div>
       <div
