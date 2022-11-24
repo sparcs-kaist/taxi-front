@@ -99,6 +99,7 @@ const FullChatMessageForm = (props) => {
 
   // resizeEvent
   const resizeEvent = () => {
+    if (!textareaContRef.current) return;
     const cacheHeight = textareaContRef.current.style.height;
     textareaContRef.current.style.height = 0;
     const newHeight = `${Math.max(
