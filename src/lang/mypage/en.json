@@ -1,15 +1,15 @@
 {
   "btn.translation": "English -> 한국어",
-  "myPage.translation": "My Page",
+  "myPage": "My Page",
   "myInformation.translation": "My Information",
-  "revise.translation": "Revise",
-  "student_id.translation": "Student Id",
-  "mail.translation": "Mail",
-  "nickname.translation": "Nickname",
-  "beta_service_guide.translation": "Beta service guide",
-  "report_record.translation": "Report record",
-  "channeltalk_ask.translation": "Ask to channeltalk",
-  "rule.translation": "How to use and private information policy",
-  "developer.translation": "Developer",
-  "logout.translation": "Logout"
+  "revise": "Revise",
+  "student_id": "Student Id",
+  "mail": "Mail",
+  "nickname": "Nickname",
+  "beta_service_guide": "Beta service guide",
+  "report_record": "Report record",
+  "channeltalk_ask": "Ask to channeltalk",
+  "rule": "How to use and private information policy",
+  "developer": "Developer",
+  "logout": "Logout"
 }

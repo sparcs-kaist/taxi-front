@@ -75,7 +75,7 @@ const Mypage = () => {
   return (
     <>
       <Title icon="mypage" header marginAuto>
-        {t("myPage.translation")}
+        {t("myPage")}
       </Title>
       <WhiteContainer marginAuto padding="16px 24px 24px">
         <div style={styleProfile}>
@@ -94,19 +94,19 @@ const Mypage = () => {
         <div style={infoTitle}>
           <div style={theme.font14_bold}>{t("myInformation.translation")}</div>
           <div style={infoModify} onClick={() => setOpenModify(true)}>
-            {t("revise.translation")}
+            {t("revise")}
           </div>
         </div>
         <div style={infoType} className="selectable">
-          {t("student_id.translation")}
+          {t("student_id")}
           <div style={infoContent}>{userInfoDetail?.subinfo.kaist}</div>
         </div>
         <div style={infoType} className="selectable">
-          {t("mail.translation")}
+          {t("mail")}
           <div style={infoContent}>{userInfoDetail?.email}</div>
         </div>
         <div style={infoType} className="selectable">
-          {t("nickname.translation")}
+          {t("nickname")}
           <div style={infoContent}>{userInfoDetail?.nickname}</div>
         </div>
       </WhiteContainer>
@@ -119,27 +119,27 @@ const Mypage = () => {
       ) : null}
       <WhiteContainer padding="16px 24px" marginAuto>
         <Menu icon="beta" onClick={() => setAlert(betaNotice)}>
-          {t("beta_service_guide.translation")}
+          {t("beta_service_guide")}
         </Menu>
       </WhiteContainer>
       <WhiteContainer marginAuto>
         <div style={{ display: "grid", rowGap: "16px" }}>
           <Menu icon="report" onClick={() => setOpenReport(true)}>
-            {t("report_record.translation")}
+            {t("report_record")}
           </Menu>
           <a className="popup-channeltalk">
             <Menu icon="ask" onClick={() => {}}>
-              {t("channeltalk_ask.translation")}
+              {t("channeltalk_ask")}
             </Menu>
           </a>
           <Menu icon="policy" onClick={() => setOpenPolicy(true)}>
-            {t("rule.translation")}
+            {t("rule")}
           </Menu>
           <Menu icon="credit" onClick={() => setOpenMembers(true)}>
-            {t("developer.translation")}
+            {t("developer")}
           </Menu>
           <Menu icon="logout" onClick={handleLogout}>
-            {t("logout.translation")}
+            {t("logout")}
           </Menu>
         </div>
       </WhiteContainer>
