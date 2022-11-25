@@ -21,6 +21,7 @@ import betaNotice from "static/betaNotice";
 const Container = (props) => {
   return (
     <div
+      id="skeleton-container" // For useDisableScroll
       style={{
         width: "100%",
         height: "calc(100% + env(safe-area-inset-top))",

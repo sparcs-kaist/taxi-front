@@ -3,13 +3,13 @@ import { useEffect } from "react";
 const useDisableScroll = (open: boolean) => {
   useEffect(() => {
     if (open) {
-      const body = document.body;
-      body.style.overflow = "hidden";
-      body.style.position = "fixed";
+      const container = document.getElementById("skeleton-container")!;
+      container.style.overflow = "hidden";
+      container.style.position = "fixed";
 
       return () => {
-        body.style.overflow = "unset";
-        body.style.position = "unset";
+        container.style.overflow = "unset";
+        container.style.position = "unset";
       };
     }
   }, [open]);
