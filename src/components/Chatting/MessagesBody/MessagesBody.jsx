@@ -59,6 +59,24 @@ const MessagesBody = (props) => {
         momentCache.subtract(1, "years");
       }
       if (momentCache.format(dateFormat) !== currentMoment.format(dateFormat)) {
+        if (chatsCache) {
+          list.push(
+            <ChatSet
+              key={"chat" + chatsCache[0].time}
+              chats={chatsCache}
+              authorId={props.user.oid}
+              isBottomOnScroll={props.isBottomOnScroll}
+              scrollToBottom={props.scrollToBottom}
+              setIsOpen={setIsOpen}
+              setPath={setPath}
+              setName={setName}
+              setReportedId={setReportedId}
+              isSideChat={props.isSideChat}
+            />
+          );
+          chatsCache = null;
+        }
+
         list.push(
           <ChatDate key={"date" + currentMoment} date={currentMoment} />
         );
