@@ -4,7 +4,7 @@ import NewMessage from "./NewMessage";
 import PropTypes from "prop-types";
 import theme from "styles/theme";
 
-type MessageFormPRops = {
+type MessageFormProps = {
   isSideChat: boolean;
   showNewMessage: boolean;
   handleSendMessage: (message: string) => void;
@@ -13,7 +13,7 @@ type MessageFormPRops = {
   setContHeight: (height: PixelValue) => void;
 };
 
-const MessageForm = (props: MessageFormPRops) => {
+const MessageForm = (props: MessageFormProps) => {
   const [contHeight, setContHeight] = useState<PixelValue>("48px");
 
   useEffect(() => {
@@ -33,6 +33,8 @@ const MessageForm = (props: MessageFormPRops) => {
         justifyContent: "flex-end",
         alignItems: "center",
         boxShadow: theme.shadow_clicked,
+        backgroundColor: theme.white,
+        paddingBottom: "env(safe-area-inset-bottom)",
       }}
     >
       <NewMessage
