@@ -32,7 +32,7 @@
 .picker-item {
   font-size: 14px;
   position: relative;
-  padding: 9.5px 10px;
+  padding: 10px 8px 9px;
   color: #888888;
   overflow: hidden;
   text-overflow: ellipsis;
