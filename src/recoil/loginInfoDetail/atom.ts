@@ -1,20 +1,7 @@
 import { atom } from "recoil";
+import { LoginInfoDetailType } from "./index";
 
-type LoginInfoType = {
-  agreeOnTermsOfService: boolean;
-  ban: boolean;
-  email: string;
-  id: string;
-  joinat: string;
-  name: string;
-  nickname: string;
-  oid: string;
-  profileImgUrl: string;
-  subinfo: { kaist: string; sparcs: string; facebook: string; twitter: string };
-  withdraw: boolean;
-};
-
-const loginInfoDetailAtom = atom<Nullable<LoginInfoType>>({
+const loginInfoDetailAtom = atom<Nullable<LoginInfoDetailType>>({
   key: "loginInfoDetailAtom",
   default: null,
 });
