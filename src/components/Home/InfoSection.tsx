@@ -31,7 +31,7 @@ const InfoSection = () => {
     .slice()
     .sort((a, b) => (a.time > b.time ? 1 : -1));
 
-  const getMessage = () => {
+  const getMessageAndRoom = () => {
     const notDeparted = sortedMyRoom?.find((room) => !room.isDeparted);
     const notOver = myRoom?.ongoing.find((room) => !room.isOver);
     if (!myRoom?.ongoing.length) {
@@ -56,6 +56,7 @@ const InfoSection = () => {
     }
     return { message: "", room: null };
   };
+  const { message, room } = getMessageAndRoom();
 
   return (
     <div className="info-section" style={styleContainer}>
@@ -63,15 +64,10 @@ const InfoSection = () => {
         <div style={{ padding: "25px 20px 32px" }}>
           <TaxiLogoWhite />
           <div style={styleName}>안녕하세요, {loginInfo?.nickname}님!</div>
-          <div style={{ ...theme.font14, color: theme.white }}>
-            {getMessage().message}
-          </div>
-          {getMessage().room && (
-            <Link
-              to={`/myroom/${getMessage().room._id}`}
-              style={{ textDecoration: "none" }}
-            >
-              <Room data={getMessage().room} marginTop="24px" />
+          <div style={{ ...theme.font14, color: theme.white }}>{message}</div>
+          {room && (
+            <Link to={`/myroom/${room._id}`} style={{ textDecoration: "none" }}>
+              <Room data={room} marginTop="24px" />
             </Link>
           )}
         </div>
