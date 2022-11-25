@@ -23,9 +23,10 @@ const Container = (props) => {
     <div
       style={{
         width: "100%",
-        height: "calc(100% + env(safe-area-inset-top))",
+        height: "calc(100% - env(safe-area-inset-bottom))",
         position: "relative",
-        overflow: "auto",
+        paddingTop: "env(safe-area-inset-top)",
+        paddingBottom: "env(safe-area-inset-bottom)",
       }}
     >
       {props.children}
@@ -136,7 +137,10 @@ const Skeleton = (props) => {
     /**
      * @todo 로딩 화면 추가
      */
-    return <></>;
+    return <HeaderBar />;
+  }
+  if (pathname === "/") {
+    return <Redirect to={`/search`} />;
   }
   if (pathname.startsWith("/chatting") || pathname.startsWith("/error")) {
     return (
@@ -145,9 +149,6 @@ const Skeleton = (props) => {
         {props.children}
       </Container>
     );
-  }
-  if (pathname === "/") {
-    return <Redirect to={`/search`} />;
   }
   return (
     <Container>
