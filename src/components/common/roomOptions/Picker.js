@@ -23,28 +23,61 @@ class PickerColumn extends Component {
       startScrollerTranslate: 0,
       ...this.computeTranslate(props),
     };
+    this.pickerRef = React.createRef();
+    this.handleScroll = this.handleScroll.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleTouchStart = this.handleTouchStart.bind(this);
+    this.handleTouchMove = this.handleTouchMove.bind(this);
+    this.handleTouchEnd = this.handleTouchEnd.bind(this);
+    this.handleTouchCancel = this.handleTouchCancel.bind(this);
   }
 
-  // eslint-disable-next-line react/no-deprecated
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.state.isMoving) {
       return;
     }
     this.setState(this.computeTranslate(nextProps));
   }
 
-  computeTranslate = (props) => {
+  componentDidMount() {
+    const picker = document.getElementsByClassName("picker-column")[0];
+    if (picker !== this.pickerRef.current) return;
+    document.addEventListener("keydown", this.handleKeyDown);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleKeyDown);
+  }
+
+  handleKeyDown(event) {
+    const picker = document.getElementsByClassName("picker-column");
+    if (
+      picker.length === 1 &&
+      (event.key === "ArrowDown" || event.key === "ArrowUp")
+    ) {
+      if (document.activeElement !== picker[0]) this.handleScroll(event);
+      picker[0].focus();
+    }
+    if (picker.length === 2) {
+      if (
+        document.activeElement !== picker[1] &&
+        (event.key === "ArrowDown" || event.key === "ArrowUp")
+      )
+        picker[0].focus();
+      if (event.key === "ArrowRight" && document.activeElement === picker[0])
+        picker[1].focus();
+      else if (
+        event.key === "ArrowLeft" &&
+        document.activeElement === picker[1]
+      )
+        picker[0].focus();
+    }
+  }
+
+  computeTranslate(props) {
     const { options, value, itemHeight, columnHeight } = props;
     let selectedIndex = options.indexOf(value);
     if (selectedIndex < 0) {
-      // throw new ReferenceError();
-      console.warn(
-        'Warning: "' +
-          this.props.name +
-          '" doesn\'t contain an option of "' +
-          value +
-          '".'
-      );
       this.onValueSelected(options[0]);
       selectedIndex = 0;
     }
@@ -55,28 +88,28 @@ class PickerColumn extends Component {
         columnHeight / 2 - itemHeight * options.length + itemHeight / 2,
       maxTranslate: columnHeight / 2 - itemHeight / 2,
     };
-  };
+  }
 
-  onValueSelected = (newValue) => {
+  onValueSelected(newValue) {
     this.props.onChange(this.props.name, newValue);
-  };
+  }
 
-  handleTouchStart = (event) => {
+  handleTouchStart(event) {
     const startTouchY = event.targetTouches[0].pageY;
     this.setState(({ scrollerTranslate }) => ({
       startTouchY,
       startScrollerTranslate: scrollerTranslate,
     }));
-  };
+  }
 
-  safePreventDefault = (event) => {
+  safePreventDefault(event) {
     const passiveEvents = ["onTouchStart", "onTouchMove", "onWheel"];
     if (!passiveEvents.includes(event._reactName)) {
       event.preventDefault();
     }
-  };
+  }
 
-  handleTouchMove = (event) => {
+  handleTouchMove(event) {
     this.safePreventDefault(event);
     const touchY = event.targetTouches[0].pageY;
     this.setState(
@@ -107,9 +140,9 @@ class PickerColumn extends Component {
         };
       }
     );
-  };
+  }
 
-  handleTouchEnd = () => {
+  handleTouchEnd() {
     if (!this.state.isMoving) {
       return;
     }
@@ -121,9 +154,9 @@ class PickerColumn extends Component {
     setTimeout(() => {
       this.postMove();
     }, 0);
-  };
+  }
 
-  handleTouchCancel = () => {
+  handleTouchCancel() {
     if (!this.state.isMoving) {
       return;
     }
@@ -133,28 +166,30 @@ class PickerColumn extends Component {
       startScrollerTranslate: 0,
       scrollerTranslate: startScrollerTranslate,
     }));
-  };
+  }
 
-  handleItemClick = (option) => {
+  handleItemClick(option) {
     if (option !== this.props.value) {
       this.onValueSelected(option);
     } else {
       this.props.onClick(this.props.name, this.props.value);
     }
-  };
+  }
 
-  handleScroll = (event) => {
+  handleScroll(event) {
     let deltaY;
     const keyboard =
-      !!event.keyCode && (event.keyCode == 38 || event.keyCode == 40);
+      !!event.key && (event.key == "ArrowDown" || event.key == "ArrowUp");
     const isTouchPad = event.wheelDeltaY
       ? event.wheelDeltaY === -3 * event.deltaY
       : event.deltaMode === 0;
 
     if (keyboard) {
-      deltaY = event.keyCode == 38 ? 35 : -35;
+      deltaY = event.key === "ArrowUp" ? 35 : -35;
     } else if (event.deltaY) {
       deltaY = event.deltaY;
+      document.getElementsByClassName("picker-column")[0].blur();
+      document.getElementsByClassName("picker-column")[1]?.blur();
     } else {
       deltaY = 0;
     }
@@ -163,7 +198,7 @@ class PickerColumn extends Component {
         scrollerTranslate +
         (keyboard
           ? deltaY
-          : (Math.abs(deltaY) < 15 ? 0 : deltaY) * (isTouchPad ? -1 : 1));
+          : (Math.abs(deltaY) < 10 ? 0 : deltaY) * (isTouchPad ? -1 : 1));
       const newTranslate = Math.max(
         minTranslate,
         Math.min(maxTranslate, newValue)
@@ -174,7 +209,7 @@ class PickerColumn extends Component {
         isScrolling: Date.now(),
       };
     });
-  };
+  }
 
   postMove() {
     const { options, itemHeight } = this.props;
@@ -248,6 +283,7 @@ class PickerColumn extends Component {
     return (
       <div
         className="picker-column"
+        ref={this.pickerRef}
         tabIndex={100}
         onTouchStart={this.handleTouchStart}
         onTouchMove={this.handleTouchMove}
