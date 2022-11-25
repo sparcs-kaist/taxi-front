@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
+import InfoSection from "./InfoSection";
 
 const Home = () => {
-  return <></>;
+  return <InfoSection />;
 };
 
 export default Home;
