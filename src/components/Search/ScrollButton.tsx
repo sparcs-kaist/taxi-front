@@ -2,11 +2,7 @@ import React from "react";
 import theme from "styles/theme";
 import ArrowUpwardRoundedIcon from "@mui/icons-material/ArrowUpwardRounded";
 
-type ScrollButtonProps = {
-  onClick: () => void;
-};
-
-const ScrollButton = (props: ScrollButtonProps) => {
+const ScrollButton = () => {
   return (
     <div
       style={{
@@ -24,7 +20,7 @@ const ScrollButton = (props: ScrollButtonProps) => {
         alignItems: "center",
         ...theme.cursor(),
       }}
-      onClick={props.onClick}
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
     >
       <ArrowUpwardRoundedIcon style={{ color: theme.purple, fontSize: 28 }} />
     </div>

@@ -203,7 +203,7 @@ const Search = () => {
     if (!searchResult && reactiveState !== 3) return;
     const scrolled =
       document.querySelector(".scrollToResult")?.getBoundingClientRect().top <
-      (window.innerHeight * 2) / 3;
+      window.innerHeight / 2;
     setShowScrollButton(scrolled);
   };
   useEffect(() => {
@@ -416,11 +416,7 @@ const Search = () => {
         <div style={{ marginTop: "30px" }} className="scrollToResult">
           <Title icon="search_result">검색 결과</Title>
           <SideResult result={searchResult} mobile />
-          {showScrollButton && (
-            <ScrollButton
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            />
-          )}
+          {showScrollButton && <ScrollButton />}
         </div>
       )}
     </>
