@@ -15,8 +15,8 @@ import theme from "styles/theme";
 
 import Empty from "components/common/Empty";
 import DottedLine from "components/common/DottedLine";
-import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import UnfoldMoreRoundedIcon from "@mui/icons-material/UnfoldMoreRounded";
+import UnfoldLessRoundedIcon from "@mui/icons-material/UnfoldLessRounded";
 
 const ChatHeader = (props) => {
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
@@ -116,7 +116,7 @@ const R2Myroom = (props) => {
     >
       <div ref={refTitle}>
         <Title icon="myroom" header marginAuto R2={props.roomId !== undefined}>
-          내 방 리스트
+          내 방 보기
         </Title>
       </div>
       <div
@@ -129,7 +129,14 @@ const R2Myroom = (props) => {
         <RLayout.R2
           priority="left"
           left={
-            <div style={{ height: bodyHeight, overflow: "auto" }}>
+            <div
+              style={{
+                height: bodyHeight,
+                overflow: "auto",
+                margin: "0 -4px",
+                padding: "0 4px",
+              }}
+            >
               <WhiteContainer padding="20px 20px 22px">
                 <Title icon="current">참여 중인 방</Title>
                 <div style={{ height: "19px" }} />
@@ -207,12 +214,12 @@ const R2Myroom = (props) => {
                     >
                       <Title icon="chat">채팅 창</Title>
                       {isHeaderOpen ? (
-                        <CloseRoundedIcon
+                        <UnfoldLessRoundedIcon
                           style={{ color: theme.purple, ...theme.cursor() }}
                           onClick={() => setHeaderOpen(false)}
                         />
                       ) : (
-                        <MenuRoundedIcon
+                        <UnfoldMoreRoundedIcon
                           style={{ color: theme.purple, ...theme.cursor() }}
                           onClick={() => setHeaderOpen(true)}
                         />

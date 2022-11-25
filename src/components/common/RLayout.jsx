@@ -94,6 +94,7 @@ const Popup = (props) => {
           margin: "auto",
         }}
         onClick={(e) => e.stopPropagation()}
+        onMouseUp={(e) => e.stopPropagation()}
       >
         {props.children}
       </div>
@@ -106,6 +107,7 @@ const Popup = (props) => {
           width: "calc(100% - 40px)",
         }}
         onClick={(e) => e.stopPropagation()}
+        onMouseUp={(e) => e.stopPropagation()}
       >
         {props.children}
       </div>
