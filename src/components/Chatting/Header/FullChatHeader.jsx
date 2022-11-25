@@ -45,8 +45,7 @@ const Header = (props) => {
     justifyContent: "space-between",
     alignItems: "center",
     padding: "12px 20px",
-    height: "100%",
-    boxSizing: "border-box",
+    minHeight: "40px",
   };
   const styleIcon = {
     fontSize: "24px",
