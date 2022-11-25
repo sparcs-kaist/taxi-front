@@ -61,7 +61,7 @@ const InfoSection = () => {
   return (
     <div className="info-section" style={styleContainer}>
       <RLayout.R1>
-        <div style={{ padding: "25px 20px 32px" }}>
+        <div style={{ padding: "25px 0 32px" }}>
           <TaxiLogoWhite />
           <div style={styleName}>안녕하세요, {loginInfo?.nickname}님!</div>
           <div style={{ ...theme.font14, color: theme.white }}>{message}</div>
