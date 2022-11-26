@@ -6,55 +6,42 @@ import DottedLine from "components/common/DottedLine";
 import MiniCircle from "components/common/MiniCircle";
 
 import TodayRoundedIcon from "@material-ui/icons/TodayRounded";
-import KeyboardArrowLeftRoundedIcon from "@material-ui/icons/KeyboardArrowLeftRounded";
-import KeyboardArrowRightRoundedIcon from "@material-ui/icons/KeyboardArrowRightRounded";
 
-const widing = (startDate, currentMonth = false) => {
-  const date = startDate.clone().date(1);
-  const year = date.year();
-  const month = date.month() + 1;
+const getCalendarDates = () => {
+  const MAX_AVAILABLE_DATES = 14;
+  const today = getToday10();
+  const date = today.clone();
+  date.subtract(date.day(), "day");
+
   const calendar = [];
+  let datesCount = 0;
 
-  while (date.month() + 1 === month) {
+  while (datesCount < MAX_AVAILABLE_DATES) {
     const week = [];
     for (let i = 0; i < 7; i++) {
-      if (date.month() + 1 === month && date.day() === i) {
-        let available = null;
-        if (date.date() === startDate.date() && currentMonth) {
-          available = "today";
-        } else if (date.date() >= startDate.date() || !currentMonth) {
-          available = true;
-        }
-
-        week.push({
-          year: year,
-          month: month,
-          date: date.date(),
-          available: available,
-        });
-        date.add(1, "day");
-      } else {
-        week.push({ date: null });
+      let available = null;
+      if (date.isSame(today, "day")) {
+        available = "today";
+        datesCount++;
+      } else if (
+        datesCount < MAX_AVAILABLE_DATES &&
+        date.isAfter(today, "day")
+      ) {
+        available = true;
+        datesCount++;
       }
+      week.push({
+        year: date.year(),
+        month: date.month() + 1,
+        date: date.date(),
+        available,
+      });
+      date.add(1, "day");
     }
     calendar.push(week);
   }
   return calendar;
 };
-
-const getCurrent = () => {
-  const today = getToday10();
-  const currentMonth = widing(today, true);
-  return currentMonth;
-};
-
-const getNext = () => {
-  const date = getToday10().add(1, "month");
-  const nextMonth = widing(date, false);
-  return nextMonth;
-};
-
-const getDateInfo = { getCurrent, getNext };
 
 const Date = (props) => {
   const [isHover, setHover] = useState(false);
@@ -103,18 +90,9 @@ const Date = (props) => {
       : theme.gray_line,
   };
   const styleToday = {
-    // width: "3px",
-    // height: "3px",
-    // borderRadius: "50%",
     position: "absolute",
     top: "calc(50% + 8.5px)",
     left: "calc(50% - 2px)",
-    // background:
-    //   props.available === "today"
-    //     ? props.selected
-    //       ? theme.white
-    //       : theme.purple_disabled
-    //     : undefined,
   };
 
   const onClick = () => {
@@ -174,6 +152,7 @@ class DatePicker extends Component {
       display: "flex",
       alignItems: "center",
       ...theme.font14,
+      padding: "4px 0",
     };
     this.styleIcon = {
       fontSize: "15px",
@@ -210,13 +189,8 @@ class DatePicker extends Component {
       display: "flex",
       columnGap: "6px",
     };
-
-    this.state = {
-      showNext: false,
-    };
-    this.month1 = getDateInfo.getCurrent();
-    this.month2 = getDateInfo.getNext();
   }
+
   dateHandler(year, month, date) {
     this.props.handler(year, month, date);
   }
@@ -233,56 +207,31 @@ class DatePicker extends Component {
   }
 
   render() {
-    const dateInfo = this.state.showNext ? this.month2 : this.month1;
-    let year = "",
-      month = "";
-
-    if (dateInfo.length > 1) {
-      year = dateInfo[1][0].year;
-      month = dateInfo[1][0].month;
-    }
-
-    const onClickBack = () => {
-      this.setState({ showNext: false });
-    };
-    const onClickNext = () => {
-      this.setState({ showNext: true });
-    };
+    const dateInfo = getCalendarDates();
+    const [selectedYear, selectedMonth, selectedDate] = this.props.selectedDate;
 
     return (
       <>
         <div style={this.styleTop}>
           <div style={this.styleInfo}>
             <TodayRoundedIcon style={this.styleIcon} />
-            날짜 : {year}년 {month}월
-          </div>
-          <div style={this.styleArrowGrid}>
-            <KeyboardArrowLeftRoundedIcon
-              style={this.styleArrow}
-              onClick={onClickBack}
-            />
-            <KeyboardArrowRightRoundedIcon
-              style={this.styleArrow}
-              onClick={onClickNext}
-            />
+            날짜 : {selectedYear}년 {selectedMonth}월 {selectedDate}일
           </div>
         </div>
         <DottedLine direction="row" />
         <div style={this.styleDay}>
-          {this.week.map((item, index) => {
-            return (
-              <div
-                key={index}
-                style={{
-                  ...this.styleDayItem,
-                  color: item.color,
-                  opacity: 0.632,
-                }}
-              >
-                {item.text}
-              </div>
-            );
-          })}
+          {this.week.map((item, index) => (
+            <div
+              key={index}
+              style={{
+                ...this.styleDayItem,
+                color: item.color,
+                opacity: 0.632,
+              }}
+            >
+              {item.text}
+            </div>
+          ))}
         </div>
         <div style={this.styleMonth}>
           {dateInfo.map((item, index) => {
@@ -292,26 +241,18 @@ class DatePicker extends Component {
                 style={{ ...this.styleWeek }}
                 className="datepicker-week"
               >
-                {item.map((item, index) => {
-                  let selected = false;
-                  if (
-                    month === this.props.selectedDate[1] &&
-                    item.date === this.props.selectedDate[2]
-                  )
-                    selected = true;
-                  return (
-                    <Date
-                      key={index}
-                      index={index}
-                      year={item.year}
-                      month={item.month}
-                      date={item.date}
-                      available={item.available}
-                      selected={selected}
-                      handler={(x, y, z) => this.dateHandler(x, y, z)}
-                    />
-                  );
-                })}
+                {item.map((item, index) => (
+                  <Date
+                    key={index}
+                    index={index}
+                    year={item.year}
+                    month={item.month}
+                    date={item.date}
+                    available={item.available}
+                    selected={item.date === selectedDate}
+                    handler={(x, y, z) => this.dateHandler(x, y, z)}
+                  />
+                ))}
               </div>
             );
           })}
@@ -333,9 +274,8 @@ class DatePicker extends Component {
 }
 
 DatePicker.propTypes = {
-  // FIXME specify type
   selectedDate: PropTypes.array,
-  handler: PropTypes.any,
+  handler: PropTypes.func,
 };
 
 export default DatePicker;
