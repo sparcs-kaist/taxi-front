@@ -6,33 +6,37 @@ const getCalendarDates = () => {
   const today = getToday10();
   const date = today.clone().subtract(1, "day");
 
-  return Array.apply(null, Array(7)).map(() => {
-    let available = null;
-    if (date.isSame(today, "day")) {
-      available = "today";
+  return Array.apply(null, Array(8)).map((_, index) => {
+    if (!index) {
+      return {
+        year: date.year(),
+        month: date.month() + 1,
+        date: date.date(),
+        index: -1,
+        type: "all" as const,
+      };
+    } else {
+      return {
+        year: date.year(),
+        month: date.month() + 1,
+        date: date.date(),
+        index: date.day(),
+        type: date.isSame(today, "day") ? ("today" as const) : null,
+      };
     }
-    available = true;
-    date.add(1, "day");
-    return {
-      year: date.year(),
-      month: date.month() + 1,
-      date: date.date(),
-      index: date.day(),
-      available,
-    };
   });
-};
-
-type SelectDateType = {
-  selectedDate: number;
-  onClick: (x: number, y: number, z: number) => void;
 };
 
 const resizeEvent = () => {
   const week = document.querySelector<HTMLElement>(".select-week");
   if (!week) return;
-  const width = (week.clientWidth - 36) / 7;
+  const width = (week.clientWidth - 42) / 8;
   week.style.height = `${Math.min(width, 48)}px`;
+};
+
+type SelectDateType = {
+  selectedDate: number;
+  onClick: (date: [number, number, number]) => void;
 };
 
 const SelectDate = (props: SelectDateType) => {
@@ -49,10 +53,8 @@ const SelectDate = (props: SelectDateType) => {
         <Date
           key={index}
           index={day.index}
-          year={day.year}
-          month={day.month}
-          date={day.date}
-          available={day.available}
+          date={[day.year, day.month, day.date]}
+          type={day.type}
           selected={day.date === props.selectedDate}
           onClick={props.onClick}
         />

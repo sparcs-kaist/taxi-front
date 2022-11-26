@@ -5,10 +5,11 @@ import Title from "components/common/Title";
 import SelectDate from "./SelectDate";
 
 const RoomSection = () => {
+  const today = getToday().subtract(1, "day");
   const [selectedDate, setSelectedDate] = useState([
-    getToday().year(),
-    getToday().month(),
-    getToday().date(),
+    today.year(),
+    today.month(),
+    today.date(),
   ]);
   return (
     <RLayout.R1>
@@ -17,7 +18,7 @@ const RoomSection = () => {
       </div>
       <SelectDate
         selectedDate={selectedDate[2]}
-        onClick={(year, month, date) => setSelectedDate([month, year, date])}
+        onClick={([year, month, date]) => setSelectedDate([year, month, date])}
       />
     </RLayout.R1>
   );
