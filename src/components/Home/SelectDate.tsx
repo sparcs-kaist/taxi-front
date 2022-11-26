@@ -10,7 +10,7 @@ const getCalendarDates = () => {
     if (!index) {
       return {
         year: date.year(),
-        month: date.month() + 1,
+        month: date.month(),
         date: date.date(),
         index: -1,
         type: "all" as const,
@@ -19,7 +19,7 @@ const getCalendarDates = () => {
       date.add(1, "day");
       return {
         year: date.year(),
-        month: date.month() + 1,
+        month: date.month(),
         date: date.date(),
         index: date.day(),
         type: date.isSame(today, "day") ? ("today" as const) : null,
@@ -35,12 +35,12 @@ const resizeEvent = () => {
   week.style.height = `${Math.min(width, 48)}px`;
 };
 
-type SelectDateType = {
+type SelectDateProps = {
   selectedDate: number;
   onClick: (date: [number, number, number]) => void;
 };
 
-const SelectDate = (props: SelectDateType) => {
+const SelectDate = (props: SelectDateProps) => {
   useEffect(() => {
     resizeEvent();
     window.addEventListener("resize", resizeEvent);
