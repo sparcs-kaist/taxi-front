@@ -18,7 +18,9 @@ type NavigationMenuProps = {
 
 const NavigationMenu = (props: NavigationMenuProps) => {
   const [isHover, setHover] = useState(false);
-  const selected = props.path.startsWith("/" + props.page);
+  const selected =
+    props.path.startsWith("/" + props.page) ||
+    (props.page.startsWith("home") && props.path === "/");
 
   const styleBox: CSS = {
     width: "25%",
