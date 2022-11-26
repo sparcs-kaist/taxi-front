@@ -34,7 +34,9 @@ const InfoSection = () => {
     const sortedMyRoom =
       myRoom?.ongoing.slice().sort((a, b) => (a.time > b.time ? 1 : -1)) ?? [];
     const notDeparted = sortedMyRoom.find((room) => !room.isDeparted);
-    const notOver = sortedMyRoom.find((room) => !room.isOver);
+    const notOver = sortedMyRoom.find(
+      (room) => !room.isOver && room.isDeparted
+    );
     if (!sortedMyRoom.length)
       return { message: "현재 참여중인 방이 없습니다.", room: null };
     if (notDeparted) {
@@ -47,6 +49,13 @@ const InfoSection = () => {
           message: `${diffDays}일 후 출발 예정인 방이 있습니다.`,
           room: notDeparted,
         };
+      } else {
+        if (!notOver) {
+          return {
+            message: `${diffDays}일 후 출발 예정인 방이 있습니다.`,
+            room: notDeparted,
+          };
+        }
       }
     }
     if (notOver) {
