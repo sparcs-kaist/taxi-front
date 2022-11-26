@@ -7,9 +7,10 @@ import MiniCircle from "components/common/MiniCircle";
 
 import TodayRoundedIcon from "@material-ui/icons/TodayRounded";
 
-const getCalendarDates = (startDate) => {
+const getCalendarDates = () => {
   const MAX_AVAILABLE_DATES = 14;
-  const date = startDate.clone();
+  const today = getToday10();
+  const date = today.clone();
   date.subtract(date.day(), "day");
 
   const calendar = [];
@@ -19,12 +20,12 @@ const getCalendarDates = (startDate) => {
     const week = [];
     for (let i = 0; i < 7; i++) {
       let available = null;
-      if (date.isSame(startDate, "day")) {
+      if (date.isSame(today, "day")) {
         available = "today";
         datesCount++;
       } else if (
         datesCount < MAX_AVAILABLE_DATES &&
-        date.isAfter(startDate, "day")
+        date.isAfter(today, "day")
       ) {
         available = true;
         datesCount++;
@@ -206,8 +207,7 @@ class DatePicker extends Component {
   }
 
   render() {
-    const today = getToday10();
-    const dateInfo = getCalendarDates(today);
+    const dateInfo = getCalendarDates();
     let year = "",
       month = "";
 
