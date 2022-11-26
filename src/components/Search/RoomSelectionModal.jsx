@@ -264,7 +264,6 @@ const RoomSelectionModal = (props) => {
 };
 RoomSelectionModal.propTypes = {
   isOpen: PropTypes.bool,
-  isMobile: PropTypes.bool,
   onClose: PropTypes.func,
   roomInfo: PropTypes.object,
 };
