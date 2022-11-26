@@ -14,7 +14,6 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import alertAtom from "recoil/alert";
 import Menu from "./Menu";
-import betaNotice from "static/betaNotice";
 import { nodeEnv } from "../../serverconf.js";
 
 const Mypage = () => {
@@ -117,11 +116,6 @@ const Mypage = () => {
           </Menu>
         </WhiteContainer>
       ) : null}
-      <WhiteContainer padding="16px 24px" marginAuto>
-        <Menu icon="beta" onClick={() => setAlert(betaNotice)}>
-          {t("beta_service_guide")}
-        </Menu>
-      </WhiteContainer>
       <WhiteContainer marginAuto>
         <div style={{ display: "grid", rowGap: "16px" }}>
           <Menu icon="report" onClick={() => setOpenReport(true)}>
