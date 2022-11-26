@@ -16,6 +16,7 @@ const getCalendarDates = () => {
         type: "all" as const,
       };
     } else {
+      date.add(1, "day");
       return {
         year: date.year(),
         month: date.month() + 1,
@@ -41,8 +42,8 @@ type SelectDateType = {
 
 const SelectDate = (props: SelectDateType) => {
   useEffect(() => {
-    window.addEventListener("resize", resizeEvent);
     resizeEvent();
+    window.addEventListener("resize", resizeEvent);
     return () => {
       window.removeEventListener("resize", resizeEvent);
     };

@@ -15,7 +15,6 @@ const Date = (props: DateProps) => {
 
   const styleBox: CSS = {
     width: "calc((100% - 42px) / 8)",
-    height: "100%",
     borderRadius: "8px",
     position: "relative",
     display: "flex",
@@ -47,7 +46,7 @@ const Date = (props: DateProps) => {
   };
   const styleToday: CSS = {
     position: "absolute",
-    top: "calc(50% + 8.5px)",
+    top: "calc(50% + 8px)",
     left: "calc(50% - 2px)",
   };
 
