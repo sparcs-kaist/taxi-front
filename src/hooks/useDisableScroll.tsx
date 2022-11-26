@@ -1,15 +1,18 @@
 import { useEffect } from "react";
 
+// if fix this name, change App.css
+const SCOLL_LOCK_CLASSNAME = "lock-scroll";
+
 const useDisableScroll = (open: boolean) => {
   useEffect(() => {
-    if (open) {
-      const container = document.getElementById("skeleton-container")!;
-      container.style.overflow = "hidden";
-      container.style.position = "fixed";
+    if (
+      open &&
+      !document.documentElement.classList.contains(SCOLL_LOCK_CLASSNAME)
+    ) {
+      document.documentElement.classList.add(SCOLL_LOCK_CLASSNAME);
 
       return () => {
-        container.style.overflow = "unset";
-        container.style.position = "unset";
+        document.documentElement.classList.remove(SCOLL_LOCK_CLASSNAME);
       };
     }
   }, [open]);

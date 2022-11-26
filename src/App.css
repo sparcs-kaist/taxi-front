@@ -18,6 +18,13 @@ html {
   height: 100%;
 }
 
+html.lock-scroll,
+html.lock-scroll body {
+  height: calc(var(--window-inner-height) - 1px);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
 body {
   height: 100%;
   background: #faf8fb;

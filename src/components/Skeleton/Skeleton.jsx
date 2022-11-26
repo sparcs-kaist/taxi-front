@@ -16,6 +16,7 @@ import HeaderBar from "components/common/HeaderBar";
 import Navigation from "components/Skeleton/Navigation";
 import Footer from "components/Skeleton/Footer";
 import PopupPolicy from "components/Mypage/PopupPolicy";
+import useWindowInnerHeight from "hooks/useWindowInnerHeight";
 import betaNotice from "static/betaNotice";
 
 const Container = (props) => {
@@ -49,6 +50,7 @@ const Skeleton = (props) => {
   const pathname = location.pathname;
   const currentPath = location.pathname + location.search;
   const gaInitialized = useRef(false);
+  useWindowInnerHeight();
 
   const [cookies, setCookie] = useCookies(["betaNoticed"]);
   useEffect(() => {
