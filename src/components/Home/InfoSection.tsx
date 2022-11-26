@@ -1,11 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import RLayout from "components/common/RLayout";
 import { useRecoilValue } from "recoil";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import myRoomAtom from "recoil/myRoom";
 import theme from "styles/theme";
 import moment, { getToday } from "tools/moment";
+import Button from "components/common/Button";
 
 import Room from "components/common/room/Room";
 import { ReactComponent as TaxiLogoWhite } from "static/assets/TaxiLogoWhite.svg";
@@ -25,12 +26,13 @@ const InfoSection = () => {
     margin: "32px 0 12px",
   };
 
+  const history = useHistory();
   const loginInfo = useRecoilValue(loginInfoDetailAtom);
   const myRoom = useRecoilValue(myRoomAtom);
-  const sortedMyRoom =
-    myRoom?.ongoing.slice().sort((a, b) => (a.time > b.time ? 1 : -1)) ?? [];
 
   const getMessageAndRoom = () => {
+    const sortedMyRoom =
+      myRoom?.ongoing.slice().sort((a, b) => (a.time > b.time ? 1 : -1)) ?? [];
     const notDeparted = sortedMyRoom.find((room) => !room.isDeparted);
     const notOver = sortedMyRoom.find((room) => !room.isOver);
     if (!sortedMyRoom.length)
@@ -65,10 +67,33 @@ const InfoSection = () => {
           <TaxiLogoWhite />
           <div style={styleName}>안녕하세요, {loginInfo?.nickname}님!</div>
           <div style={{ ...theme.font14, color: theme.white }}>{message}</div>
-          {room && (
+          {room ? (
             <Link to={`/myroom/${room._id}`} style={{ textDecoration: "none" }}>
               <Room data={room} marginTop="24px" />
             </Link>
+          ) : (
+            <div
+              style={{ marginTop: "32px", display: "flex", columnGap: "10px" }}
+            >
+              <Button
+                type="purple"
+                padding="12px 20px 11px"
+                radius={12}
+                font={theme.font16_bold}
+                onClick={() => history.push("/search")}
+              >
+                방 검색하기
+              </Button>
+              <Button
+                type="white"
+                padding="12px 20px 11px"
+                radius={12}
+                font={theme.font16_bold}
+                onClick={() => history.push("/addroom")}
+              >
+                방 개설하기
+              </Button>
+            </div>
           )}
         </div>
       </RLayout.R1>
