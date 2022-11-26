@@ -27,27 +27,27 @@ const InfoSection = () => {
 
   const loginInfo = useRecoilValue(loginInfoDetailAtom);
   const myRoom = useRecoilValue(myRoomAtom);
-  const sortedMyRoom = myRoom?.ongoing
-    .slice()
-    .sort((a, b) => (a.time > b.time ? 1 : -1));
+  const sortedMyRoom =
+    myRoom?.ongoing.slice().sort((a, b) => (a.time > b.time ? 1 : -1)) ?? [];
 
   const getMessageAndRoom = () => {
-    const notDeparted = sortedMyRoom?.find((room) => !room.isDeparted);
-    const notOver = myRoom?.ongoing.find((room) => !room.isOver);
-    if (!myRoom?.ongoing.length) {
+    const notDeparted = sortedMyRoom.find((room) => !room.isDeparted);
+    const notOver = sortedMyRoom.find((room) => !room.isOver);
+    if (!sortedMyRoom.length)
       return { message: "현재 참여중인 방이 없습니다.", room: null };
-    } else if (notDeparted) {
+    if (notDeparted) {
       const departure = moment(notDeparted.time);
       const diffDays = departure.diff(getToday(), "days");
       if (diffDays === 0) {
         return { message: "오늘 출발하는 방이 있습니다.", room: notDeparted };
-      } else {
+      } else if (diffDays < 2) {
         return {
           message: `${diffDays}일 후 출발 예정인 방이 있습니다.`,
           room: notDeparted,
         };
       }
-    } else if (notOver) {
+    }
+    if (notOver) {
       return {
         message:
           "현재 정산/결제가 완료되지 않은 방이 있습니다.\n아래 방을 눌러 완료해주세요.",
