@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
 import InfoSection from "./InfoSection";
+import RoomSection from "./RoomSection";
 
 const Home = () => {
-  return <InfoSection />;
+  return (
+    <>
+      <InfoSection />
+      <RoomSection />
+    </>
+  );
 };
 
 export default Home;

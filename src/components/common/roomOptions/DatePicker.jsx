@@ -43,7 +43,7 @@ const getCalendarDates = () => {
   return calendar;
 };
 
-const Date = (props) => {
+export const Date = (props) => {
   const [isHover, setHover] = useState(false);
 
   const style = {
