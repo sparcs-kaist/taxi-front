@@ -274,7 +274,6 @@ class DatePicker extends Component {
 }
 
 DatePicker.propTypes = {
-  // FIXME specify type
   selectedDate: PropTypes.array,
   handler: PropTypes.func,
 };
