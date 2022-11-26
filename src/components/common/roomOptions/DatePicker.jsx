@@ -152,7 +152,7 @@ class DatePicker extends Component {
       display: "flex",
       alignItems: "center",
       ...theme.font14,
-      padding: "5px 0",
+      padding: "4px 0",
     };
     this.styleIcon = {
       fontSize: "15px",
@@ -208,20 +208,14 @@ class DatePicker extends Component {
 
   render() {
     const dateInfo = getCalendarDates();
-    let year = "",
-      month = "";
-
-    if (dateInfo.length > 1) {
-      year = dateInfo[1][0].year;
-      month = dateInfo[1][0].month;
-    }
+    const [selectedYear, selectedMonth, selectedDate] = this.props.selectedDate;
 
     return (
       <>
         <div style={this.styleTop}>
           <div style={this.styleInfo}>
             <TodayRoundedIcon style={this.styleIcon} />
-            날짜 : {year}년 {month}월
+            날짜 : {selectedYear}년 {selectedMonth}월 {selectedDate}일
           </div>
         </div>
         <DottedLine direction="row" />
@@ -255,7 +249,7 @@ class DatePicker extends Component {
                     month={item.month}
                     date={item.date}
                     available={item.available}
-                    selected={item.date === this.props.selectedDate[2]}
+                    selected={item.date === selectedDate}
                     handler={(x, y, z) => this.dateHandler(x, y, z)}
                   />
                 ))}
