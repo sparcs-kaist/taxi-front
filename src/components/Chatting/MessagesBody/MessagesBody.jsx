@@ -29,6 +29,17 @@ const MessagesBody = (props) => {
     const dateFormat = "YYYY.MM.DD";
     const minFormat = "YYYY.MM.DD HH:mm";
 
+    const chatSetCommonProps = {
+      authorId: props.user.oid,
+      isBottomOnScroll: props.isBottomOnScroll,
+      scrollToBottom: props.scrollToBottom,
+      setIsOpen,
+      setPath,
+      setName,
+      setReportedId,
+      isSideChat: props.isSideChat,
+    };
+
     props.chats.forEach((item) => {
       if (item.type === "inf-checkout") {
         if (chatsCache) {
@@ -36,14 +47,7 @@ const MessagesBody = (props) => {
             <ChatSet
               key={"chat" + chatsCache[0].time}
               chats={chatsCache}
-              authorId={props.user.oid}
-              isBottomOnScroll={props.isBottomOnScroll}
-              scrollToBottom={props.scrollToBottom}
-              setIsOpen={setIsOpen}
-              setPath={setPath}
-              setName={setName}
-              setReportedId={setReportedId}
-              isSideChat={props.isSideChat}
+              {...chatSetCommonProps}
             />
           );
         }
@@ -59,6 +63,17 @@ const MessagesBody = (props) => {
         momentCache.subtract(1, "years");
       }
       if (momentCache.format(dateFormat) !== currentMoment.format(dateFormat)) {
+        if (chatsCache) {
+          list.push(
+            <ChatSet
+              key={"chat" + chatsCache[0].time}
+              chats={chatsCache}
+              {...chatSetCommonProps}
+            />
+          );
+          chatsCache = null;
+        }
+
         list.push(
           <ChatDate key={"date" + currentMoment} date={currentMoment} />
         );
@@ -82,14 +97,7 @@ const MessagesBody = (props) => {
             <ChatSet
               key={"chat" + chatsCache[0].time}
               chats={chatsCache}
-              authorId={props.user.oid}
-              isBottomOnScroll={props.isBottomOnScroll}
-              scrollToBottom={props.scrollToBottom}
-              setIsOpen={setIsOpen}
-              setPath={setPath}
-              setName={setName}
-              setReportedId={setReportedId}
-              isSideChat={props.isSideChat}
+              {...chatSetCommonProps}
             />
           );
           chatsCache = null;
@@ -104,14 +112,7 @@ const MessagesBody = (props) => {
         <ChatSet
           key={"chatLast" + chatsCache[0].time}
           chats={chatsCache}
-          authorId={props.user.oid}
-          isBottomOnScroll={props.isBottomOnScroll}
-          scrollToBottom={props.scrollToBottom}
-          setIsOpen={setIsOpen}
-          setPath={setPath}
-          setName={setName}
-          setReportedId={setReportedId}
-          isSideChat={props.isSideChat}
+          {...chatSetCommonProps}
         />
       );
     }
