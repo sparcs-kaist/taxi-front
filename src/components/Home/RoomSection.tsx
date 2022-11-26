@@ -8,25 +8,20 @@ import RoomList from "./RoomList";
 
 const RoomSection = () => {
   const today = getToday().subtract(1, "day");
+  const [rooms, setRooms] = useState(null);
   const [selectedDate, setSelectedDate] = useState([
     today.year(),
     today.month(),
     today.date(),
   ]);
-  const [rooms, setRooms] = useState(null);
   useEffect(() => {
-    const date = moment(selectedDate);
-    axios
-      .get("rooms/v2/search", {
-        params: { time: date?.toISOString(), withTime: false },
-      })
-      .then((res) => {
-        console.log(res);
-        setRooms(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
+    const fetchRooms = async () => {
+      const { data } = await axios.get("rooms/v2/search", {
+        params: { time: moment(selectedDate).toISOString(), withTime: false },
       });
+      setRooms(data);
+    };
+    fetchRooms();
   }, [selectedDate]);
   return (
     <RLayout.R1>
