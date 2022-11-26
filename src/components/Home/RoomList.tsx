@@ -8,15 +8,15 @@ type RoomListProps = {
 
 const RoomList = (props: RoomListProps) => {
   return (
-    <div style={{ marginTop: "20px" }}>
+    <>
       {props.rooms?.length ? (
         props.rooms?.map((room) => {
           return <Room key={room.id} data={room} marginBottom="15px" />;
         })
       ) : (
-        <Empty screen="pc">해당 요일에 개설된 방이 없습니다</Empty>
+        <Empty screen="mobile">해당 요일에 개설된 방이 없습니다</Empty>
       )}
-    </div>
+    </>
   );
 };
 

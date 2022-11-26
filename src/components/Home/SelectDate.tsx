@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { getToday10 } from "tools/moment";
 import Date from "./Date";
+import theme from "styles/theme";
 
-const getCalendarDates = () => {
+const getWeekDates = () => {
   const today = getToday10();
   const date = today.clone().subtract(1, "day");
 
@@ -36,7 +37,7 @@ const resizeEvent = () => {
 };
 
 type SelectDateProps = {
-  selectedDate: number;
+  selectedDate: [number, number, number];
   onClick: (date: [number, number, number]) => void;
 };
 
@@ -48,19 +49,39 @@ const SelectDate = (props: SelectDateProps) => {
       window.removeEventListener("resize", resizeEvent);
     };
   }, []);
+  const week = getWeekDates();
   return (
-    <div className="select-week" style={{ display: "flex", columnGap: "6px" }}>
-      {getCalendarDates().map((day, index) => (
-        <Date
-          key={index}
-          index={day.index}
-          date={[day.year, day.month, day.date]}
-          type={day.type}
-          selected={day.date === props.selectedDate}
-          onClick={props.onClick}
-        />
-      ))}
-    </div>
+    <>
+      <div
+        className="select-week"
+        style={{ display: "flex", columnGap: "6px" }}
+      >
+        {week.map((day, index) => (
+          <Date
+            key={index}
+            index={day.index}
+            date={[day.year, day.month, day.date]}
+            type={day.type}
+            selected={day.date === props.selectedDate[2]}
+            onClick={props.onClick}
+          />
+        ))}
+      </div>
+      <div
+        style={{
+          ...theme.font14,
+          color: theme.purple,
+          margin: "20px 4px 15px",
+        }}
+      >
+        날짜 : {props.selectedDate[0]}년 {props.selectedDate[1]}월{" "}
+        {week[0].date === props.selectedDate[2]
+          ? `${week[1].date}일 ~ ${
+              week[1].month !== week[7].month ? `${week[7].month}월 ` : ""
+            }${week[7].date}일`
+          : `${props.selectedDate[2]}일`}
+      </div>
+    </>
   );
 };
 

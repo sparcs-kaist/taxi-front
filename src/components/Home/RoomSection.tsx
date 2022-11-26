@@ -9,7 +9,7 @@ import RoomList from "./RoomList";
 const RoomSection = () => {
   const today = getToday().subtract(1, "day");
   const [rooms, setRooms] = useState(null);
-  const [selectedDate, setSelectedDate] = useState([
+  const [selectedDate, setSelectedDate] = useState<[number, number, number]>([
     today.year(),
     today.month(),
     today.date(),
@@ -29,7 +29,7 @@ const RoomSection = () => {
         <Title icon="taxi">요일별 출발하는 방</Title>
       </div>
       <SelectDate
-        selectedDate={selectedDate[2]}
+        selectedDate={selectedDate}
         onClick={([year, month, date]) => setSelectedDate([year, month, date])}
       />
       <RoomList rooms={rooms} />
