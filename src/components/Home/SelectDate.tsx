@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { getToday10 } from "tools/moment";
 import Date from "./Date";
 import theme from "styles/theme";
@@ -29,19 +29,19 @@ const getWeekDates = () => {
   });
 };
 
-const resizeEvent = () => {
-  const week = document.querySelector<HTMLElement>(".select-week");
-  if (!week) return;
-  const width = (week.clientWidth - 42) / 8;
-  week.style.height = `${Math.min(width, 48)}px`;
-};
-
 type SelectDateProps = {
   selectedDate: [number, number, number];
   onClick: (date: [number, number, number]) => void;
 };
 
 const SelectDate = (props: SelectDateProps) => {
+  const [weekHeight, setWeekHeight] = useState("30px");
+  const resizeEvent = () => {
+    const week = document.querySelector<HTMLElement>(".select-week");
+    if (!week) return;
+    const width = (week.clientWidth - 42) / 8;
+    setWeekHeight(`${Math.min(width, 44)}px`);
+  };
   useEffect(() => {
     resizeEvent();
     window.addEventListener("resize", resizeEvent);
@@ -54,7 +54,7 @@ const SelectDate = (props: SelectDateProps) => {
     <>
       <div
         className="select-week"
-        style={{ display: "flex", columnGap: "6px" }}
+        style={{ display: "flex", columnGap: "6px", height: weekHeight }}
       >
         {week.map((day, index) => (
           <Date
