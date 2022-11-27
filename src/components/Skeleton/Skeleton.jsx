@@ -4,7 +4,7 @@ import { useCookies } from "react-cookie";
 import reactGA from "react-ga4";
 import PropTypes from "prop-types";
 import axios from "tools/axios";
-import { gaTrackingId } from "serverconf";
+import { gaTrackingId, nodeEnv } from "serverconf";
 
 import { useRecoilState, useSetRecoilState } from "recoil";
 import taxiLocationAtom from "recoil/taxiLocation";
@@ -23,8 +23,10 @@ const Container = (props) => {
     <div
       style={{
         width: "100%",
-        height: "calc(100% + env(safe-area-inset-top))",
+        height: "calc(100% - env(safe-area-inset-bottom))",
         position: "relative",
+        paddingTop: "env(safe-area-inset-top)",
+        paddingBottom: "env(safe-area-inset-bottom)",
       }}
     >
       {props.children}
@@ -88,7 +90,9 @@ const Skeleton = (props) => {
     if (gaTrackingId) {
       if (!gaInitialized.current) {
         gaInitialized.current = true;
-        reactGA.initialize(gaTrackingId);
+        reactGA.initialize(gaTrackingId, {
+          testMode: nodeEnv === "development"
+        });
       }
       reactGA.send({ hitType: "pageview", page: pathname });
     }
@@ -135,7 +139,10 @@ const Skeleton = (props) => {
     /**
      * @todo 로딩 화면 추가
      */
-    return <></>;
+    return <HeaderBar />;
+  }
+  if (pathname === "/") {
+    return <Redirect to={`/search`} />;
   }
   if (pathname.startsWith("/chatting") || pathname.startsWith("/error")) {
     return (
@@ -144,9 +151,6 @@ const Skeleton = (props) => {
         {props.children}
       </Container>
     );
-  }
-  if (pathname === "/") {
-    return <Redirect to={`/search`} />;
   }
   return (
     <Container>
