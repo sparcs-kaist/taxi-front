@@ -10,7 +10,9 @@ import Button from "components/common/Button";
 
 import Room from "components/common/room/Room";
 import { ReactComponent as TaxiLogoWhite } from "static/assets/TaxiLogoWhite.svg";
-import BackgroundImage from "static/assets/BackgroundImage.png";
+import BackgroundImage from "static/assets/BackgroundImage.jpg";
+import BackgroundImageMobile from "static/assets/BackgroundImageMobile.webp";
+import BackgroundImageDesktop from "static/assets/BackgroundImageDesktop.webp";
 
 const InfoSection = () => {
   const styleContainer: CSS = {
@@ -80,7 +82,15 @@ const InfoSection = () => {
 
   return (
     <div className="info-section" style={styleContainer}>
-      <img src={BackgroundImage} style={styleImage} />
+      <picture>
+        <img
+          // type="image/webp"
+          style={styleImage}
+          src={BackgroundImageDesktop}
+          srcSet={`${BackgroundImageMobile} 430w, ${BackgroundImageDesktop} 1980w`}
+        />
+        <img style={styleImage} src={BackgroundImageDesktop} />
+      </picture>
       <RLayout.R1>
         <div style={{ padding: "25px 0 32px" }}>
           <TaxiLogoWhite />
