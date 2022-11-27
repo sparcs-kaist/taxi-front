@@ -9,7 +9,6 @@ type EmptyProps = { screen: ScreenType; children: React.ReactNode };
 const Empty = ({ screen, children }: EmptyProps) => {
   const styleCommon: CSS = {
     display: "flex",
-    alignItems: "center",
     justifyContent: "center",
     ...theme.font14_bold,
     color: theme.gray_text,
