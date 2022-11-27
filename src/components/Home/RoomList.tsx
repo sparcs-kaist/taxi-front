@@ -31,18 +31,16 @@ const RoomList = (props: RoomListProps) => {
               PAGE_MAX_ITEMS * (currentPage - 1),
               PAGE_MAX_ITEMS * currentPage
             )
-            .map((room) => {
-              return (
-                <Room
-                  key={room.id}
-                  data={room}
-                  marginBottom="15px"
-                  onClick={() => {
-                    setSelectedRoom(room);
-                  }}
-                />
-              );
-            })}
+            .map((room) => (
+              <Room
+                key={room.id}
+                data={room}
+                marginBottom="15px"
+                onClick={() => {
+                  setSelectedRoom(room);
+                }}
+              />
+            ))}
           {props.rooms.length > PAGE_MAX_ITEMS && (
             <Pagination
               totalPages={totalPages}
