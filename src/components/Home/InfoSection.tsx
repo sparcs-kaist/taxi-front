@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import RLayout from "components/common/RLayout";
 import { useRecoilValue } from "recoil";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
@@ -26,7 +26,6 @@ const InfoSection = () => {
     margin: "32px 0 12px",
   };
 
-  const history = useHistory();
   const loginInfo = useRecoilValue(loginInfoDetailAtom);
   const myRoom = useRecoilValue(myRoomAtom);
 
@@ -84,24 +83,26 @@ const InfoSection = () => {
             <div
               style={{ marginTop: "32px", display: "flex", columnGap: "10px" }}
             >
-              <Button
-                type="purple"
-                padding="12px 20px 11px"
-                radius={12}
-                font={theme.font16_bold}
-                onClick={() => history.push("/search")}
-              >
-                방 검색하기
-              </Button>
-              <Button
-                type="white"
-                padding="12px 20px 11px"
-                radius={12}
-                font={theme.font16_bold}
-                onClick={() => history.push("/addroom")}
-              >
-                방 개설하기
-              </Button>
+              <Link to="/search" style={{ textDecoration: "none" }}>
+                <Button
+                  type="purple"
+                  padding="12px 20px 11px"
+                  radius={8}
+                  font={theme.font16_bold}
+                >
+                  방 검색하기
+                </Button>
+              </Link>
+              <Link to="/addroom" style={{ textDecoration: "none" }}>
+                <Button
+                  type="white"
+                  padding="12px 20px 11px"
+                  radius={8}
+                  font={theme.font16_bold}
+                >
+                  방 개설하기
+                </Button>
+              </Link>
             </div>
           )}
         </div>
