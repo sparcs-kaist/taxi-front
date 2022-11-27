@@ -10,6 +10,7 @@ import Button from "components/common/Button";
 
 import Room from "components/common/room/Room";
 import { ReactComponent as TaxiLogoWhite } from "static/assets/TaxiLogoWhite.svg";
+import BackgroundImage from "static/assets/BackgroundImage.png";
 
 const InfoSection = () => {
   const styleContainer: CSS = {
@@ -19,6 +20,16 @@ const InfoSection = () => {
     paddingTop: "5px",
     background:
       "linear-gradient(to right top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.1) 100%)",
+  };
+  const styleImage: CSS = {
+    backgroundSize: "cover",
+    zIndex: -1,
+    opacity: 0.8,
+    width: "100%",
+    height: "100%",
+    position: "absolute",
+    inset: "0px",
+    objectFit: "cover",
   };
   const styleName: CSS = {
     ...theme.font28,
@@ -69,6 +80,7 @@ const InfoSection = () => {
 
   return (
     <div className="info-section" style={styleContainer}>
+      <img src={BackgroundImage} style={styleImage} />
       <RLayout.R1>
         <div style={{ padding: "25px 0 32px" }}>
           <TaxiLogoWhite />
