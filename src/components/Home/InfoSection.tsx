@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import RLayout from "components/common/RLayout";
 import { useRecoilValue } from "recoil";
@@ -29,7 +29,7 @@ const InfoSection = () => {
   const loginInfo = useRecoilValue(loginInfoDetailAtom);
   const myRoom = useRecoilValue(myRoomAtom);
 
-  const getMessageAndRoom = () => {
+  const { message, room } = useMemo(() => {
     const sortedMyRoom =
       myRoom?.ongoing.slice().sort((a, b) => (a.time > b.time ? 1 : -1)) ?? [];
     const notDeparted = sortedMyRoom.find((room) => !room.isDeparted);
@@ -65,8 +65,7 @@ const InfoSection = () => {
       };
     }
     return { message: "", room: null };
-  };
-  const { message, room } = getMessageAndRoom();
+  }, [JSON.stringify(myRoom)]);
 
   return (
     <div className="info-section" style={styleContainer}>
