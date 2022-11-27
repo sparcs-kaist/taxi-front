@@ -8,21 +8,32 @@ import RoomList from "./RoomList";
 
 const RoomSection = () => {
   const today = getToday().subtract(1, "day");
-  const [rooms, setRooms] = useState(null);
+  const [allRooms, setAllRooms] = useState<Nullable<Array<any>>>([]);
+  const [rooms, setRooms] = useState<Nullable<Array<any>>>(null);
   const [selectedDate, setSelectedDate] = useState<[number, number, number]>([
     today.year(),
     today.month(),
     today.date(),
   ]);
+
   useEffect(() => {
-    const fetchRooms = async () => {
-      const { data } = await axios.get("rooms/v2/search", {
-        params: { time: moment(selectedDate).toISOString(), withTime: false },
-      });
-      setRooms(data);
+    const fetchAllRooms = async () => {
+      const { data } = await axios.get("rooms/v2/search");
+      setAllRooms(data);
     };
-    fetchRooms();
-  }, [selectedDate]);
+    fetchAllRooms();
+  }, []);
+  useEffect(() => {
+    const time = moment(selectedDate);
+    if (time.date() == today.date()) {
+      setRooms(allRooms);
+    } else {
+      setRooms(
+        allRooms?.filter((room) => moment(room.time).date() == time.date())
+      );
+    }
+  }, [selectedDate, allRooms]);
+
   return (
     <RLayout.R1>
       <div style={{ margin: "20px 0" }}>

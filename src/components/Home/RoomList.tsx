@@ -33,7 +33,7 @@ const RoomList = (props: RoomListProps) => {
             )
             .map((room) => (
               <Room
-                key={room.id}
+                key={room._id}
                 data={room}
                 marginBottom="15px"
                 onClick={() => {
