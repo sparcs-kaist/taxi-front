@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useLocation, Redirect } from "react-router-dom";
-import { useCookies } from "react-cookie";
+// import { useCookies } from "react-cookie";
 import reactGA from "react-ga4";
 import PropTypes from "prop-types";
 import axios from "tools/axios";
@@ -50,19 +50,20 @@ const Skeleton = (props) => {
   const currentPath = location.pathname + location.search;
   const gaInitialized = useRef(false);
 
-  const [cookies, setCookie] = useCookies(["betaNoticed"]);
-  useEffect(() => {
-    if (!cookies.betaNoticed) {
-      const expires = new Date();
-      expires.setHours(5);
-      expires.setMinutes(0);
-      if (expires.getTime() < new Date().getTime())
-        expires.setDate(expires.getDate() + 1);
+  // 베타 서비스 안내창 띄우기 중지
+  // const [cookies, setCookie] = useCookies(["betaNoticed"]);
+  // useEffect(() => {
+  //   if (!cookies.betaNoticed) {
+  //     const expires = new Date();
+  //     expires.setHours(5);
+  //     expires.setMinutes(0);
+  //     if (expires.getTime() < new Date().getTime())
+  //       expires.setDate(expires.getDate() + 1);
 
-      setCookie("betaNoticed", true, { path: "/", expires: expires });
-      setAlert(betaNotice);
-    }
-  }, []);
+  //     setCookie("betaNoticed", true, { path: "/", expires: expires });
+  //     setAlert(betaNotice);
+  //   }
+  // }, []);
 
   const initializeGlobalInfo = useCallback(() => {
     const getLocation = axios.get("/locations");
@@ -91,7 +92,7 @@ const Skeleton = (props) => {
       if (!gaInitialized.current) {
         gaInitialized.current = true;
         reactGA.initialize(gaTrackingId, {
-          testMode: nodeEnv === "development"
+          testMode: nodeEnv === "development",
         });
       }
       reactGA.send({ hitType: "pageview", page: pathname });

@@ -14,7 +14,6 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import alertAtom from "recoil/alert";
 import Menu from "./Menu";
-import betaNotice from "static/betaNotice";
 import { nodeEnv } from "../../serverconf.js";
 
 const Mypage = () => {
@@ -110,18 +109,13 @@ const Mypage = () => {
           <div style={infoContent}>{userInfoDetail?.nickname}</div>
         </div>
       </WhiteContainer>
-      {nodeEnv === "development" ? (
+      {/* nodeEnv === "development" ? (
         <WhiteContainer marginAuto>
           <Menu icon="fixme" onClick={handleTranslation}>
             {t("btn.translation")}
           </Menu>
         </WhiteContainer>
-      ) : null}
-      <WhiteContainer padding="16px 24px" marginAuto>
-        <Menu icon="beta" onClick={() => setAlert(betaNotice)}>
-          {t("beta_service_guide")}
-        </Menu>
-      </WhiteContainer>
+      ) : null */}
       <WhiteContainer marginAuto>
         <div style={{ display: "grid", rowGap: "16px" }}>
           <Menu icon="report" onClick={() => setOpenReport(true)}>
