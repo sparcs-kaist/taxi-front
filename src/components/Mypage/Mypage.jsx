@@ -109,13 +109,13 @@ const Mypage = () => {
           <div style={infoContent}>{userInfoDetail?.nickname}</div>
         </div>
       </WhiteContainer>
-      {nodeEnv === "development" ? (
+      {/* nodeEnv === "development" ? (
         <WhiteContainer marginAuto>
           <Menu icon="fixme" onClick={handleTranslation}>
             {t("btn.translation")}
           </Menu>
         </WhiteContainer>
-      ) : null}
+      ) : null */}
       <WhiteContainer marginAuto>
         <div style={{ display: "grid", rowGap: "16px" }}>
           <Menu icon="report" onClick={() => setOpenReport(true)}>
