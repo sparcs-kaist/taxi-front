@@ -83,13 +83,13 @@ const InfoSection = () => {
   return (
     <div className="info-section" style={styleContainer}>
       <picture>
-        <img
-          // type="image/webp"
+        <source
+          type="image/webp"
           style={styleImage}
           src={BackgroundImageDesktop}
           srcSet={`${BackgroundImageMobile} 430w, ${BackgroundImageDesktop} 1980w`}
         />
-        <img style={styleImage} src={BackgroundImageDesktop} />
+        <img style={styleImage} src={BackgroundImage} />
       </picture>
       <RLayout.R1>
         <div style={{ padding: "25px 0 32px" }}>
