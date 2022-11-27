@@ -199,14 +199,14 @@ const Search = () => {
     if (newSearchOptions.maxPeople) setMaxPeople(Number(q.maxPeople));
   };
 
-  const onScroll = () => {
-    if (!searchResult && reactiveState !== 3) return;
-    const scrolled =
-      document.querySelector(".scrollToResult")?.getBoundingClientRect().top <
-      window.innerHeight / 2;
-    setShowScrollButton(scrolled);
-  };
   useEffect(() => {
+    const onScroll = () => {
+      if (!searchResult && reactiveState !== 3) return;
+      const scrolled =
+        document.querySelector(".scrollToResult")?.getBoundingClientRect().top <
+        window.innerHeight / 2;
+      setShowScrollButton(scrolled);
+    };
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -367,7 +367,7 @@ const Search = () => {
   useEffect(() => {
     if (!onCall.current || reactiveState !== 3) return;
     setTimeout(() => {
-      var scrollToResult =
+      const scrollToResult =
         document.querySelector(".scrollToResult").offsetTop + 79 - 30;
       window.scrollTo({ top: scrollToResult, behavior: "smooth" });
     }, 0);
