@@ -142,9 +142,6 @@ const Skeleton = (props) => {
      */
     return <HeaderBar />;
   }
-  if (pathname === "/") {
-    return <Redirect to={`/search`} />;
-  }
   if (pathname.startsWith("/chatting") || pathname.startsWith("/error")) {
     return (
       <Container>

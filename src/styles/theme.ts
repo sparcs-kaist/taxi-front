@@ -60,6 +60,12 @@ const theme = {
     fontWeight: 700,
     lineHeight: "23px",
   },
+  font28: {
+    fontSize: 28,
+    letterSpacing: -1,
+    fontWeight: 700,
+    lineHeight: "33px",
+  },
 
   // Shadow
 
