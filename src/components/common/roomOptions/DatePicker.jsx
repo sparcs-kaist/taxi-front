@@ -232,8 +232,10 @@ class DatePicker extends Component {
   }
 
   onClickTop() {
-    this.clicked = false;
-    if (!this.state.isOpen) this.setState({ isOpen: true });
+    if (!this.state.isOpen) {
+      this.clicked = false;
+      this.setState({ isOpen: true });
+    }
   }
 
   render() {
@@ -268,14 +270,6 @@ class DatePicker extends Component {
               onClick={() => this.setState({ isOpen: true })}
             />
           )}
-          {/* <KeyboardArrowLeftRoundedIcon
-            style={this.styleArrow(!this.state.showNext, "left")}
-            onClick={onClickBack}
-          />
-          <KeyboardArrowRightRoundedIcon
-            style={this.styleArrow(this.state.showNext, "right")}
-            onClick={onClickNext}
-          /> */}
         </div>
         <div style={{ marginBottom: "5px" }}>
           <DottedLine direction="row" />
