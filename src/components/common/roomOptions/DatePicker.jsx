@@ -104,9 +104,10 @@ const Date = (props) => {
 
       const scrollTo =
         document.querySelector(".scroll-to-button").getBoundingClientRect()
-          .top +
-        (window.scrollY + 56 + 46 + 15) -
-        window.innerHeight;
+          .top + // 화면 상에서 버튼의 현재 위치
+        window.scrollY + // 스크롤 위치
+        (46 + 15 + 56) - // 버튼의 높이 + 버튼과 네비게이션 사이의 간격 + 네비게이션 높이
+        window.innerHeight; // - 화면 높이
 
       if (window.scrollY < scrollTo)
         window.scrollTo({
