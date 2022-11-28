@@ -111,7 +111,7 @@ const AddRoom = () => {
           radius={12}
           font={theme.font16_bold}
           onClick={onClickAdd}
-          className="scrollToButton"
+          className="scroll-to-button"
         >
           {validatedMsg
             ? validatedMsg
