@@ -35,11 +35,18 @@ ProfImg.propTypes = {
 
 const BtnProfImg = (props) => {
   const inputImage = useRef(null);
-  const setAlert = useSetRecoilState(alertAtom);
+  const [profileAlert, setProfileAlert] = useState(null);
   const [loginInfoDetail, setLoginInfoDetail] =
     useRecoilState(loginInfoDetailAtom);
 
+  useEffect(() => {
+    if (profileAlert === "LOADING") return;
+    const timeoutID = setTimeout(() => setProfileAlert(null), 1500);
+    return () => clearTimeout(timeoutID);
+  }, [profileAlert]);
+
   const handleUploadProfileImage = async () => {
+    setProfileAlert("LOADING");
     try {
       const image = await convertImg(inputImage.current?.files?.[0]);
       if (!image) return;
@@ -56,32 +63,44 @@ const BtnProfImg = (props) => {
         if (res.status === 204) {
           const res2 = await axios.get("/users/editProfileImg/done");
           if (res2.data.result) {
-            setAlert("프로필 사진이 변경되었습니다.");
             setLoginInfoDetail({
               ...loginInfoDetail,
               profileImgUrl: res2.data.profileImageUrl,
             });
             props.onUpdate();
+            setProfileAlert("SUCCESS");
             return;
           }
         }
       }
-      setAlert("프로필 사진 변경에 실패했습니다.");
+      setProfileAlert("FAIL");
     } catch (e) {
-      setAlert("프로필 사진 변경에 실패했습니다.");
+      setProfileAlert("FAIL");
     }
   };
   const style = {
     textAlign: "center",
     ...theme.font10_bold,
-    color: theme.purple,
+    color:
+      profileAlert === "SUCCESS"
+        ? theme.green_button
+        : profileAlert === "FAIL"
+        ? theme.red_button
+        : profileAlert === "LOADING"
+        ? theme.gray_text
+        : theme.purple,
     width: "fit-content",
     margin: "16px auto",
-    cursor: "pointer",
+    cursor: profileAlert ? "default" : "pointer",
+  };
+  const onClick = () => {
+    if (!profileAlert) {
+      inputImage.current.click();
+    }
   };
 
   return (
-    <div style={style} onClick={() => inputImage.current.click()}>
+    <div style={style} onClick={onClick}>
       <input
         type="file"
         accept="image/jpg, image/png, image/jpeg, image/heic"
@@ -89,7 +108,13 @@ const BtnProfImg = (props) => {
         onChange={handleUploadProfileImage}
         ref={inputImage}
       />
-      프로필 사진 변경
+      {profileAlert === "SUCCESS"
+        ? "프로필 사진이 변경되었습니다."
+        : profileAlert === "FAIL"
+        ? "프로필 사진 변경에 실패했습니다."
+        : profileAlert === "LOADING"
+        ? "변경 중입니다..."
+        : "프로필 사진 변경"}
     </div>
   );
 };
