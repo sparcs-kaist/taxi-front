@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useLocation, Redirect } from "react-router-dom";
-import { useCookies } from "react-cookie";
+// import { useCookies } from "react-cookie";
 import reactGA from "react-ga4";
 import PropTypes from "prop-types";
 import axios from "tools/axios";
-import { gaTrackingId } from "serverconf";
+import { gaTrackingId, nodeEnv } from "serverconf";
 
 import { useRecoilState, useSetRecoilState } from "recoil";
 import taxiLocationAtom from "recoil/taxiLocation";
@@ -23,9 +23,10 @@ const Container = (props) => {
     <div
       style={{
         width: "100%",
-        height: "calc(100% + env(safe-area-inset-top))",
+        height: "calc(100% - env(safe-area-inset-bottom))",
         position: "relative",
-        overflow: "auto",
+        paddingTop: "env(safe-area-inset-top)",
+        paddingBottom: "env(safe-area-inset-bottom)",
       }}
     >
       {props.children}
@@ -49,19 +50,20 @@ const Skeleton = (props) => {
   const currentPath = location.pathname + location.search;
   const gaInitialized = useRef(false);
 
-  const [cookies, setCookie] = useCookies(["betaNoticed"]);
-  useEffect(() => {
-    if (!cookies.betaNoticed) {
-      const expires = new Date();
-      expires.setHours(5);
-      expires.setMinutes(0);
-      if (expires.getTime() < new Date().getTime())
-        expires.setDate(expires.getDate() + 1);
+  // 베타 서비스 안내창 띄우기 중지
+  // const [cookies, setCookie] = useCookies(["betaNoticed"]);
+  // useEffect(() => {
+  //   if (!cookies.betaNoticed) {
+  //     const expires = new Date();
+  //     expires.setHours(5);
+  //     expires.setMinutes(0);
+  //     if (expires.getTime() < new Date().getTime())
+  //       expires.setDate(expires.getDate() + 1);
 
-      setCookie("betaNoticed", true, { path: "/", expires: expires });
-      setAlert(betaNotice);
-    }
-  }, []);
+  //     setCookie("betaNoticed", true, { path: "/", expires: expires });
+  //     setAlert(betaNotice);
+  //   }
+  // }, []);
 
   const initializeGlobalInfo = useCallback(() => {
     const getLocation = axios.get("/locations");
@@ -89,7 +91,9 @@ const Skeleton = (props) => {
     if (gaTrackingId) {
       if (!gaInitialized.current) {
         gaInitialized.current = true;
-        reactGA.initialize(gaTrackingId);
+        reactGA.initialize(gaTrackingId, {
+          testMode: nodeEnv === "development",
+        });
       }
       reactGA.send({ hitType: "pageview", page: pathname });
     }
@@ -136,7 +140,7 @@ const Skeleton = (props) => {
     /**
      * @todo 로딩 화면 추가
      */
-    return <></>;
+    return <HeaderBar />;
   }
   if (pathname.startsWith("/chatting") || pathname.startsWith("/error")) {
     return (
@@ -145,9 +149,6 @@ const Skeleton = (props) => {
         {props.children}
       </Container>
     );
-  }
-  if (pathname === "/") {
-    return <Redirect to={`/search`} />;
   }
   return (
     <Container>

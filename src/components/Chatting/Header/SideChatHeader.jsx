@@ -4,7 +4,7 @@ import { useHistory, useParams } from "react-router-dom";
 import theme from "styles/theme";
 
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
-import FullscreenRoundedIcon from "@mui/icons-material/FullscreenRounded";
+import OpenInFullRoundedIcon from "@mui/icons-material/OpenInFullRounded";
 
 const SideChatHeader = (props) => {
   const history = useHistory();
@@ -45,8 +45,8 @@ const SideChatHeader = (props) => {
           {props?.info?.from?.koName}&nbsp; → &nbsp;{props?.info?.to?.koName}
         </div>
       </div>
-      <FullscreenRoundedIcon
-        style={styleIcon}
+      <OpenInFullRoundedIcon
+        style={{ ...styleIcon, fontSize: "22px" }}
         onClick={() => history.replace(`/chatting/${props.info?._id}`)}
       />
     </div>
