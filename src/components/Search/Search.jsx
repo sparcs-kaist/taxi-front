@@ -143,6 +143,7 @@ const Search = () => {
   const reactiveState = useR2state();
   const onCall = useRef(false);
   const prevSearchParam = useRef("");
+  const scrollRef = useRef(null);
   const today = useRef(getToday());
   const today10 = getToday10();
   const history = useHistory();
@@ -203,8 +204,7 @@ const Search = () => {
     const onScrollOrResize = () => {
       if (!searchResult && reactiveState !== 3) return;
       const scrolled =
-        document.querySelector(".scrollToResult")?.getBoundingClientRect().top <
-        window.innerHeight / 2;
+        scrollRef.current?.getBoundingClientRect().top < window.innerHeight / 2;
       setShowScrollButton(scrolled);
     };
     window.addEventListener("scroll", onScrollOrResize);
@@ -371,8 +371,7 @@ const Search = () => {
   useEffect(() => {
     if (!onCall.current || reactiveState !== 3) return;
     setTimeout(() => {
-      const scrollToResult =
-        document.querySelector(".scrollToResult").offsetTop + 79 - 30;
+      const scrollToResult = scrollRef.current?.offsetTop + 79 - 30;
       window.scrollTo({ top: scrollToResult, behavior: "smooth" });
     }, 0);
   }, [searchResult]);
@@ -417,7 +416,7 @@ const Search = () => {
         />
       )}
       {searchResult && reactiveState === 3 && (
-        <div style={{ marginTop: "30px" }} className="scrollToResult">
+        <div style={{ marginTop: "30px" }} ref={scrollRef}>
           <Title icon="search_result">검색 결과</Title>
           <SideResult result={searchResult} mobile />
           {showScrollButton && <ScrollButton />}
