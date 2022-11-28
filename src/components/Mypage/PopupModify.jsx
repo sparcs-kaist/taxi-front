@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import alertAtom from "recoil/alert";
+import { useRecoilState } from "recoil";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import ProfileImg from "./ProfileImg";
 import axios from "tools/axios";
@@ -127,7 +126,7 @@ const PopupModify = (props) => {
   const regexNickname = new RegExp("^[A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ0-9-_ ]{3,25}$");
   const [nickName, setNickName] = useState("");
   const [nickNameReal, setNickNameReal] = useState("");
-  const setAlert = useSetRecoilState(alertAtom);
+  const [message, setMessage] = useState(null);
   const [loginInfoDetail, setLoginInfoDetail] =
     useRecoilState(loginInfoDetailAtom);
 
@@ -137,6 +136,10 @@ const PopupModify = (props) => {
       setNickNameReal(loginInfoDetail?.nickname);
     }
   }, [loginInfoDetail]);
+  useEffect(() => {
+    const timeoutID = setTimeout(() => setMessage(null), 1500);
+    return () => clearTimeout(timeoutID);
+  }, [message]);
 
   const onClose = () => {
     setNickName(nickNameReal);
@@ -147,7 +150,7 @@ const PopupModify = (props) => {
       nickname: nickName,
     });
     if (result.status !== 200) {
-      setAlert("닉네임 변경에 실패하였습니다.");
+      setMessage("닉네임 변경에 실패하였습니다.");
       return;
     }
     setLoginInfoDetail({ ...loginInfoDetail, nickname: nickName });
@@ -169,6 +172,12 @@ const PopupModify = (props) => {
   const styleContent = {
     ...theme.font14,
     marginLeft: "12px",
+  };
+  const styleMessage = {
+    color: theme.red_button,
+    ...theme.font10,
+    margin: "4px 0 -16px 0",
+    textAlign: "right",
   };
   const styleNickname = {
     width: "100%",
@@ -218,6 +227,7 @@ const PopupModify = (props) => {
             onChange={(e) => setNickName(e.target.value)}
           />
         </div>
+        {message && <div style={styleMessage}>{message}</div>}
       </div>
       <div style={styleButton}>
         <Button
