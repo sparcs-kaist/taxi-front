@@ -16,11 +16,13 @@ import HeaderBar from "components/common/HeaderBar";
 import Navigation from "components/Skeleton/Navigation";
 import Footer from "components/Skeleton/Footer";
 import PopupPolicy from "components/Mypage/PopupPolicy";
+import useWindowInnerHeight from "hooks/useWindowInnerHeight";
 import betaNotice from "static/betaNotice";
 
 const Container = (props) => {
   return (
     <div
+      id="skeleton-container" // For useDisableScroll
       style={{
         width: "100%",
         height: "calc(100% - env(safe-area-inset-bottom))",
@@ -49,6 +51,7 @@ const Skeleton = (props) => {
   const pathname = location.pathname;
   const currentPath = location.pathname + location.search;
   const gaInitialized = useRef(false);
+  useWindowInnerHeight();
 
   // 베타 서비스 안내창 띄우기 중지
   // const [cookies, setCookie] = useCookies(["betaNoticed"]);
