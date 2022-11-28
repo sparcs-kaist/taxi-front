@@ -10,6 +10,7 @@ import AlertProvider from "components/Skeleton/AlertProvider";
 import Skeleton from "components/Skeleton/Skeleton";
 
 import Login from "components/Login/Login";
+import Home from "components/Home";
 import Search from "components/Search/Search";
 import AddRoom from "components/AddRoom/AddRoom";
 import Myroom from "components/Myroom/Myroom";
@@ -31,7 +32,8 @@ const App = () => {
           <Skeleton>
             <Switch>
               <Route exact path="/login" component={Login} />
-              <Route exact path="/" component={Search} />
+              <Route exact path="/" component={Home} />
+              <Route exact path="/home" component={Home} />
               <Route exact path="/search" component={Search} />
               <Route exact path="/addroom" component={AddRoom} />
               <Route exact path="/myroom" component={Myroom} />

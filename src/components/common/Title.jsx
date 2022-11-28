@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import RLayout from "components/common/RLayout";
 import theme from "styles/theme";
 
+import LocalTaxiRoundedIcon from "@mui/icons-material/LocalTaxiRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import ManageSearchRoundedIcon from "@mui/icons-material/ManageSearchRounded";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
@@ -21,6 +22,8 @@ const iconStyle = {
 
 const getIcon = (icon) => {
   switch (icon) {
+    case "taxi":
+      return <LocalTaxiRoundedIcon style={iconStyle} />;
     case "search":
       return <SearchRoundedIcon style={iconStyle} />;
     case "search_result":
