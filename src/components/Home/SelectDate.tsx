@@ -74,10 +74,10 @@ const SelectDate = (props: SelectDateProps) => {
           margin: "20px 4px 15px",
         }}
       >
-        날짜 : {props.selectedDate[0]}년 {props.selectedDate[1]}월{" "}
+        날짜 : {props.selectedDate[0]}년 {props.selectedDate[1] + 1}월{" "}
         {week[0].date === props.selectedDate[2]
           ? `${week[1].date}일 ~ ${
-              week[1].month !== week[7].month ? `${week[7].month}월 ` : ""
+              week[1].month !== week[7].month ? `${week[7].month + 1}월 ` : ""
             }${week[7].date}일`
           : `${props.selectedDate[2]}일`}
       </div>
