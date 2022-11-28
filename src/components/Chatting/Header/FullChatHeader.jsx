@@ -46,6 +46,7 @@ const Header = (props) => {
     justifyContent: "space-between",
     alignItems: "center",
     padding: "12px 20px",
+    minHeight: "40px",
   };
   const styleIcon = {
     fill: theme.purple,

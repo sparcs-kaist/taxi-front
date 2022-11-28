@@ -19,6 +19,13 @@ html {
   scroll-behavior: smooth;
 }
 
+html.lock-scroll body {
+  height: calc(var(--window-inner-height) - 1px);
+  overflow: hidden;
+  box-sizing: border-box;
+  touch-action: none;
+}
+
 body {
   height: 100%;
   background: #faf8fb;
