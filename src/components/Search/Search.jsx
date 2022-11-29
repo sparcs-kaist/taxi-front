@@ -419,15 +419,7 @@ const Search = () => {
       {searchResult && reactiveState === 3 && (
         <div style={{ paddingTop: "30px" }} ref={scrollRef}>
           <Title icon="search_result">검색 결과</Title>
-          <SideResult
-            result={searchResult
-              .concat(searchResult)
-              .concat(searchResult)
-              .concat(searchResult)
-              .concat(searchResult)
-              .concat(searchResult)}
-            mobile
-          />
+          <SideResult result={searchResult} mobile />
           {showScrollButton && <ScrollButton />}
         </div>
       )}
