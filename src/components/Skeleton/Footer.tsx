@@ -1,11 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 
-class Footer extends Component {
-  render() {
-    return (
-      <div style={{ height: "calc(88px + env(safe-area-inset-bottom))" }}></div>
-    );
-  }
-}
+const Footer = () => (
+  <div style={{ height: "calc(88px + env(safe-area-inset-bottom))" }} />
+);
 
 export default Footer;
