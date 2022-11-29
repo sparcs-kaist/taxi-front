@@ -13,6 +13,7 @@ import alertAtom from "recoil/alert";
 import FullParticipation from "./FullParticipation";
 import { MAX_PARTICIPATION } from "components/Myroom/Myroom";
 import { useCookies } from "react-cookie";
+import randomRoomName from "static/randomRoomName";
 
 import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
@@ -41,25 +42,10 @@ const AddRoom = () => {
   const [myRoom, setMyRoom] = useRecoilState(myRoomAtom);
 
   useEffect(() => {
-    // 재치있는 택시 방 이름들
-    const randomRoomNames = [
-      "택시타고 가자",
-      "택시타고 가요",
-      "택시타고 가요~",
-      "모두 택시로 가요",
-      "택시타러 가요",
-      "누가 걸어가요?",
-      "누가 걸어가요? 택시타요",
-      "편하게 택시타요",
-      "편하게 택시타요~",
-      "운동은 나중에",
-      "인생은 택시",
-      "카이생의 택시",
-    ];
     setRandomName(
-      randomRoomNames[Math.floor(Math.random() * randomRoomNames.length)]
+      randomRoomName[Math.floor(Math.random() * randomRoomName.length)]
     );
-    if (cookies.defaultFromTo) {
+    if (cookies.defaultFromTo[0] && cookies.defaultFromTo[1]) {
       setPlace(cookies.defaultFromTo);
     }
   }, []);

@@ -160,8 +160,17 @@ const Search = () => {
   const [cookies, setCookie] = useCookies(["defaultFromTo"]);
 
   useEffect(() => {
-    setCookie("defaultFromTo", valuePlace);
+    if (valuePlace[0] && valuePlace[1]) {
+      setCookie("defaultFromTo", valuePlace);
+    }
   }, [valuePlace]);
+
+  useEffect(() => {
+    const defaultFromTo = cookies.defaultFromTo;
+    if (defaultFromTo[0] && defaultFromTo[1]) {
+      setPlace(defaultFromTo);
+    }
+  }, []);
 
   const clearState = () => {
     onCall.current = false;
