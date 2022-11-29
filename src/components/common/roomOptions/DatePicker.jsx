@@ -151,10 +151,12 @@ class DatePicker extends Component {
     this.state = {
       showNext: false,
       isOpen: true,
+      weekHeight: 46,
     };
 
     this.pickerRef = React.createRef(null);
     this.clicked = false;
+    this.weekLength = 3;
 
     this.dateHandler = this.dateHandler.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
@@ -224,12 +226,9 @@ class DatePicker extends Component {
   }
 
   resizeEvent() {
-    const weeks = document.getElementsByClassName("datepicker-week");
-    const width = (Math.min(360, weeks[0].clientWidth) - 36) / 7;
-    [...weeks].map((week) => (week.style.height = `${width}px`));
-    let selectorHeight =
-      24 + (this.state.isOpen ? 32 + 1 + 10 + (width + 6) * weeks.length : 0);
-    document.querySelector(".datepicker").style.height = `${selectorHeight}px`;
+    const dateWidth =
+      (Math.min(360, this.pickerRef.current.clientWidth - 30) - 36) / 7;
+    this.setState({ weekHeight: dateWidth });
   }
 
   onClickTop() {
@@ -251,6 +250,11 @@ class DatePicker extends Component {
           transition: "height 0.3s ease-in-out",
           margin: "-10px -15px",
           padding: "10px 15px",
+          height:
+            24 +
+            (this.state.isOpen
+              ? 10 + 1 + 32 + (this.state.weekHeight + 6) * this.weekLength
+              : 0),
           cursor: !this.state.isOpen ? "pointer" : undefined,
         }}
         onClick={this.onClickTop}
@@ -272,57 +276,55 @@ class DatePicker extends Component {
             />
           )}
         </div>
-        <div style={{ marginBottom: "5px" }}>
-          <DottedLine direction="row" />
-          <div style={this.styleDay}>
-            {this.week.map((item, index) => (
+        <DottedLine direction="row" />
+        <div style={this.styleDay}>
+          {this.week.map((item, index) => (
+            <div
+              key={index}
+              style={{
+                ...this.styleDayItem,
+                color: item.color,
+                opacity: 0.632,
+              }}
+            >
+              {item.text}
+            </div>
+          ))}
+        </div>
+        <div style={this.styleMonth}>
+          {dateInfo.map((item, index) => {
+            return (
               <div
                 key={index}
                 style={{
-                  ...this.styleDayItem,
-                  color: item.color,
-                  opacity: 0.632,
+                  ...this.styleWeek,
+                  height: this.state.weekHeight,
                 }}
               >
-                {item.text}
+                {item.map((item, index) => (
+                  <Date
+                    key={index}
+                    index={index}
+                    year={item.year}
+                    month={item.month}
+                    date={item.date}
+                    available={item.available}
+                    selected={item.date === selectedDate}
+                    handler={(x, y, z) => this.dateHandler(x, y, z)}
+                  />
+                ))}
               </div>
-            ))}
-          </div>
-          <div style={this.styleMonth}>
-            {dateInfo.map((item, index) => {
-              return (
-                <div
-                  key={index}
-                  style={{ ...this.styleWeek }}
-                  className="datepicker-week"
-                >
-                  {item.map((item, index) => (
-                    <Date
-                      key={index}
-                      index={index}
-                      year={item.year}
-                      month={item.month}
-                      date={item.date}
-                      available={item.available}
-                      selected={item.date === selectedDate}
-                      handler={(x, y, z) => this.dateHandler(x, y, z)}
-                    />
-                  ))}
-                </div>
-              );
-            })}
-          </div>
+            );
+          })}
         </div>
       </div>
     );
   }
   componentDidMount() {
+    this.weekLength = getCalendarDates().length;
     this.resizeEvent();
     window.addEventListener("resize", this.resizeEvent);
     document.addEventListener("mouseup", this.handleClickOutside);
-  }
-  componentDidUpdate() {
-    this.resizeEvent();
   }
   componentWillUnmount() {
     window.removeEventListener("resize", this.resizeEvent);
