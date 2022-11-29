@@ -26,9 +26,18 @@ const AddRoom = () => {
   const history = useHistory();
   const today = getToday();
   const today10 = getToday10();
+  const [cookies, setCookie] = useCookies(["defaultFromTo"]);
   const [valueName, setName] = useState("");
-  const [randomName, setRandomName] = useState("");
-  const [valuePlace, setPlace] = useState([null, null]);
+  const [randomName, setRandomName] = useState(
+    randomRoomName[Math.floor(Math.random() * randomRoomName.length)]
+  );
+  const [valuePlace, setPlace] = useState(
+    cookies.defaultFromTo &&
+      cookies.defaultFromTo[0] &&
+      cookies.defaultFromTo[1]
+      ? cookies.defaultFromTo
+      : [null, null]
+  );
   const [valueDate, setDate] = useState<Array<Nullable<number>>>([
     today.year(),
     today.month() + 1,
@@ -37,19 +46,8 @@ const AddRoom = () => {
   const [valueMaxPeople, setMaxPeople] = useState(4);
   const [valueTime, setTime] = useState([today10.hour(), today10.minute()]);
   const [calculatedTime, setCalculatedTime] = useState<Date | null>(null);
-  const [cookies, setCookie] = useCookies(["defaultFromTo"]);
   const setAlert = useSetRecoilState(alertAtom);
   const [myRoom, setMyRoom] = useRecoilState(myRoomAtom);
-
-  useEffect(() => {
-    setRandomName(
-      randomRoomName[Math.floor(Math.random() * randomRoomName.length)]
-    );
-    const defaultFromTo = cookies.defaultFromTo;
-    if (defaultFromTo[0] && defaultFromTo[1]) {
-      setPlace(defaultFromTo);
-    }
-  }, []);
 
   useEffect(() => {
     if (valuePlace[0] && valuePlace[1]) {

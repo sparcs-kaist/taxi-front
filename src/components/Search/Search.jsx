@@ -148,16 +148,22 @@ const Search = () => {
   const history = useHistory();
   const location = useLocation();
 
+  const [cookies, setCookie] = useCookies(["defaultFromTo"]);
   const [searchOptions, setSearchOptions] = useState({});
   const [valueName, setName] = useState("");
-  const [valuePlace, setPlace] = useState([null, null]);
+  const defaultPlace =
+    cookies.defaultFromTo &&
+    cookies.defaultFromTo[0] &&
+    cookies.defaultFromTo[1]
+      ? cookies.defaultFromTo
+      : [null, null];
+  const [valuePlace, setPlace] = useState(defaultPlace);
   const [valueDate, setDate] = useState([null, null, null]);
   const [valueTime, setTime] = useState([today10.hour(), today10.minute()]);
   const [valueMaxPeople, setMaxPeople] = useState(null);
   const [searchResult, setSearchResult] = useState(null);
   const [disabled, setDisabled] = useState(true);
   const [message, setMessage] = useState("검색 조건을 선택해주세요");
-  const [cookies, setCookie] = useCookies(["defaultFromTo"]);
 
   useEffect(() => {
     if (valuePlace[0] && valuePlace[1]) {
@@ -165,18 +171,11 @@ const Search = () => {
     }
   }, [valuePlace]);
 
-  useEffect(() => {
-    const defaultFromTo = cookies.defaultFromTo;
-    if (defaultFromTo[0] && defaultFromTo[1]) {
-      setPlace(defaultFromTo);
-    }
-  }, []);
-
   const clearState = () => {
     onCall.current = false;
     setSearchOptions(defaultOptions);
     setName("");
-    setPlace([null, null]);
+    setPlace(defaultPlace);
     setDate([
       today.current.year(),
       today.current.month() + 1,
@@ -298,7 +297,7 @@ const Search = () => {
       !searchOptions.place &&
       (valuePlace[0] !== null || valuePlace[1] !== null)
     )
-      setPlace([null, null]);
+      setPlace(defaultPlace);
   }, [searchOptions.place]);
   useEffect(() => {
     if (!searchOptions.date && valueDate[0] !== null)
