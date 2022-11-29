@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import alertAtom from "recoil/alert";
+import { useRecoilState } from "recoil";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import ProfileImg from "./ProfileImg";
 import axios from "tools/axios";
@@ -35,11 +34,18 @@ ProfImg.propTypes = {
 
 const BtnProfImg = (props) => {
   const inputImage = useRef(null);
-  const setAlert = useSetRecoilState(alertAtom);
+  const [profileAlert, setProfileAlert] = useState(null);
   const [loginInfoDetail, setLoginInfoDetail] =
     useRecoilState(loginInfoDetailAtom);
 
+  useEffect(() => {
+    if (profileAlert === "LOADING") return;
+    const timeoutID = setTimeout(() => setProfileAlert(null), 1500);
+    return () => clearTimeout(timeoutID);
+  }, [profileAlert]);
+
   const handleUploadProfileImage = async () => {
+    setProfileAlert("LOADING");
     try {
       const image = await convertImg(inputImage.current?.files?.[0]);
       if (!image) return;
@@ -56,32 +62,44 @@ const BtnProfImg = (props) => {
         if (res.status === 204) {
           const res2 = await axios.get("/users/editProfileImg/done");
           if (res2.data.result) {
-            setAlert("프로필 사진이 변경되었습니다.");
             setLoginInfoDetail({
               ...loginInfoDetail,
               profileImgUrl: res2.data.profileImageUrl,
             });
             props.onUpdate();
+            setProfileAlert("SUCCESS");
             return;
           }
         }
       }
-      setAlert("프로필 사진 변경에 실패했습니다.");
+      setProfileAlert("FAIL");
     } catch (e) {
-      setAlert("프로필 사진 변경에 실패했습니다.");
+      setProfileAlert("FAIL");
     }
   };
   const style = {
     textAlign: "center",
     ...theme.font10_bold,
-    color: theme.purple,
+    color:
+      profileAlert === "SUCCESS"
+        ? theme.green_button
+        : profileAlert === "FAIL"
+        ? theme.red_button
+        : profileAlert === "LOADING"
+        ? theme.gray_text
+        : theme.purple,
     width: "fit-content",
     margin: "16px auto",
-    cursor: "pointer",
+    cursor: profileAlert ? "default" : "pointer",
+  };
+  const onClick = () => {
+    if (!profileAlert) {
+      inputImage.current.click();
+    }
   };
 
   return (
-    <div style={style} onClick={() => inputImage.current.click()}>
+    <div style={style} onClick={onClick}>
       <input
         type="file"
         accept="image/jpg, image/png, image/jpeg, image/heic"
@@ -89,7 +107,13 @@ const BtnProfImg = (props) => {
         onChange={handleUploadProfileImage}
         ref={inputImage}
       />
-      프로필 사진 변경
+      {profileAlert === "SUCCESS"
+        ? "프로필 사진이 변경되었습니다."
+        : profileAlert === "FAIL"
+        ? "프로필 사진 변경에 실패했습니다."
+        : profileAlert === "LOADING"
+        ? "변경 중입니다..."
+        : "프로필 사진 변경"}
     </div>
   );
 };
@@ -102,7 +126,7 @@ const PopupModify = (props) => {
   const regexNickname = new RegExp("^[A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ0-9-_ ]{3,25}$");
   const [nickName, setNickName] = useState("");
   const [nickNameReal, setNickNameReal] = useState("");
-  const setAlert = useSetRecoilState(alertAtom);
+  const [message, setMessage] = useState(null);
   const [loginInfoDetail, setLoginInfoDetail] =
     useRecoilState(loginInfoDetailAtom);
 
@@ -112,6 +136,10 @@ const PopupModify = (props) => {
       setNickNameReal(loginInfoDetail?.nickname);
     }
   }, [loginInfoDetail]);
+  useEffect(() => {
+    const timeoutID = setTimeout(() => setMessage(null), 1500);
+    return () => clearTimeout(timeoutID);
+  }, [message]);
 
   const onClose = () => {
     setNickName(nickNameReal);
@@ -122,7 +150,7 @@ const PopupModify = (props) => {
       nickname: nickName,
     });
     if (result.status !== 200) {
-      setAlert("닉네임 변경에 실패하였습니다.");
+      setMessage("닉네임 변경에 실패하였습니다.");
       return;
     }
     setLoginInfoDetail({ ...loginInfoDetail, nickname: nickName });
@@ -144,6 +172,12 @@ const PopupModify = (props) => {
   const styleContent = {
     ...theme.font14,
     marginLeft: "12px",
+  };
+  const styleMessage = {
+    color: theme.red_button,
+    ...theme.font10,
+    margin: "4px 0 -16px 0",
+    textAlign: "right",
   };
   const styleNickname = {
     width: "100%",
@@ -193,6 +227,7 @@ const PopupModify = (props) => {
             onChange={(e) => setNickName(e.target.value)}
           />
         </div>
+        {message && <div style={styleMessage}>{message}</div>}
       </div>
       <div style={styleButton}>
         <Button

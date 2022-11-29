@@ -14,6 +14,7 @@ import isMobile from "ismobilejs";
 import theme from "styles/theme";
 import Button from "components/common/Button";
 import Tooltip from "components/common/Tooltip";
+import ScrollButton from "./ScrollButton";
 
 import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
@@ -143,6 +144,7 @@ const Search = () => {
   const reactiveState = useR2state();
   const onCall = useRef(false);
   const prevSearchParam = useRef("");
+  const scrollRef = useRef(null);
   const today = useRef(getToday());
   const today10 = getToday10();
   const history = useHistory();
@@ -164,6 +166,7 @@ const Search = () => {
   const [searchResult, setSearchResult] = useState(null);
   const [disabled, setDisabled] = useState(true);
   const [message, setMessage] = useState("검색 조건을 선택해주세요");
+  const [showScrollButton, setShowScrollButton] = useState(false);
 
   useEffect(() => {
     const expirationDate = new Date();
@@ -214,6 +217,21 @@ const Search = () => {
     }
     if (newSearchOptions.maxPeople) setMaxPeople(Number(q.maxPeople));
   };
+
+  useEffect(() => {
+    const onScrollOrResize = () => {
+      if (!searchResult && reactiveState !== 3) return;
+      const scrolled =
+        scrollRef.current?.getBoundingClientRect().top < window.innerHeight / 2;
+      setShowScrollButton(scrolled);
+    };
+    window.addEventListener("scroll", onScrollOrResize);
+    window.addEventListener("resize", onScrollOrResize);
+    return () => {
+      window.removeEventListener("scroll", onScrollOrResize);
+      window.removeEventListener("resize", onScrollOrResize);
+    };
+  }, []);
 
   useEffect(() => {
     const q = qs.parse(location.search.slice(1), searchQueryOption);
@@ -368,6 +386,14 @@ const Search = () => {
     }
   };
 
+  useEffect(() => {
+    if (!onCall.current || reactiveState !== 3) return;
+    setTimeout(() => {
+      const scrollToResult = scrollRef.current?.offsetTop + 79 - 30;
+      window.scrollTo({ top: scrollToResult, behavior: "smooth" });
+    }, 0);
+  }, [searchResult]);
+
   const leftLay = (
     <>
       <div
@@ -407,24 +433,24 @@ const Search = () => {
           }
         />
       )}
+      {searchResult && reactiveState === 3 && (
+        <div style={{ marginTop: "30px" }} ref={scrollRef}>
+          <Title icon="search_result">검색 결과</Title>
+          <SideResult result={searchResult} mobile />
+          {showScrollButton && <ScrollButton />}
+        </div>
+      )}
     </>
   );
-  const rightLay =
-    searchResult === null ? null : (
-      <SideResult result={searchResult} mobile={reactiveState === 3} />
-    );
+  const rightLay = reactiveState !== 3 && searchResult && (
+    <SideResult result={searchResult} />
+  );
   return (
     <div>
       <Title icon="search" header marginAuto R2={searchResult !== null}>
         방 검색하기
       </Title>
-      <RLayout.R2
-        left={reactiveState === 3 && searchResult !== null ? null : leftLay}
-        right={rightLay}
-        priority={
-          reactiveState === 3 && searchResult !== null ? "right" : "left"
-        }
-      />
+      <RLayout.R2 left={leftLay} right={rightLay} />
     </div>
   );
 };

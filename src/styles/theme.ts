@@ -60,6 +60,12 @@ const theme = {
     fontWeight: 700,
     lineHeight: "23px",
   },
+  font28: {
+    fontSize: 28,
+    letterSpacing: -1,
+    fontWeight: 700,
+    lineHeight: "33px",
+  },
 
   // Shadow
 
@@ -89,7 +95,8 @@ const theme = {
   shadow_color_button: "1px 1.5px 2.5px -1px rgba(110, 54, 120, 0.15)",
 
   // Transition
-  duration: "0.15s",
+  duration: "150ms",
+  duration_num: 150,
 
   // White Container Width
   container_max_width: 325,
@@ -101,12 +108,12 @@ const theme = {
 
   // zIndex
   zIndex_nav: 10,
-  zIndex_headerBar: 10,
-  zIndex_modal: 20,
+  zIndex_headerBar: 40,
+  zIndex_modal: 50,
   zIndex_background: 10,
   zIndex_header: 20,
   zIndex_fullimage: 20,
-  zIndex_alert: 30,
+  zIndex_alert: 60,
 };
 
 export default theme;

@@ -4,34 +4,18 @@ import PropTypes from "prop-types";
 
 const R1 = (props) => {
   const state = useR1state();
-
-  if (state == 1) {
-    return (
-      <div
-        style={{
-          position: props.position,
-          height: props.height,
-          width: "390px",
-          margin: "auto",
-        }}
-      >
-        {props.children}
-      </div>
-    );
-  } else {
-    return (
-      <div
-        style={{
-          position: props.position,
-          height: props.height,
-          marginLeft: "20px",
-          marginRight: "20px",
-        }}
-      >
-        {props.children}
-      </div>
-    );
-  }
+  return (
+    <div
+      style={{
+        position: props.position,
+        height: props.height,
+        width: state === 1 ? "390px" : undefined,
+        margin: state === 1 ? "auto" : "0 20px",
+      }}
+    >
+      {props.children}
+    </div>
+  );
 };
 R1.propTypes = {
   position: PropTypes.string,
@@ -44,73 +28,45 @@ R1.defaultProps = {
 
 const R2 = (props) => {
   const state = useR2state();
+  if (state === 3 || !props.right) return <R1>{props.left}</R1>;
 
-  if (state == 1 || state == 2) {
-    if (props.priority === "left" && props.right === null) {
-      return <R1>{props.left}</R1>;
-    }
-    if (props.priority === "right" && props.left === null) {
-      return <R1>{props.right}</R1>;
-    }
-    return (
-      <div
-        style={{
-          display: "flex",
-          gap: "15px",
-          justifyContent: "center",
-        }}
-      >
-        <div style={{ width: state == 1 ? "390px" : "calc(50% - 27.5px)" }}>
-          {props.left}
-        </div>
-        <div style={{ width: state == 1 ? "390px" : "calc(50% - 27.5px)" }}>
-          {props.right}
-        </div>
-      </div>
-    );
-  } else {
-    return <R1>{props.priority === "left" ? props.left : props.right}</R1>;
-  }
+  const styleColumn = { width: state == 1 ? "390px" : "calc(50% - 27.5px)" };
+  return (
+    <div
+      style={{
+        display: "flex",
+        gap: "15px",
+        justifyContent: "center",
+      }}
+    >
+      <div style={styleColumn}>{props.left}</div>
+      <div style={styleColumn}>{props.right}</div>
+    </div>
+  );
 };
 R2.propTypes = {
   left: PropTypes.any,
   right: PropTypes.any,
-  priority: PropTypes.string,
 };
 R2.defaultProps = {
   left: null,
   right: null,
-  priority: "right",
 };
 
 const Popup = (props) => {
   const state = usePopupstate(props.width);
-
-  if (state === 1) {
-    return (
-      <div
-        style={{
-          width: props.width,
-          margin: "auto",
-        }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {props.children}
-      </div>
-    );
-  } else {
-    return (
-      <div
-        style={{
-          margin: "auto 20px",
-          width: "calc(100% - 40px)",
-        }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {props.children}
-      </div>
-    );
-  }
+  return (
+    <div
+      style={{
+        margin: state === 1 ? "auto" : "auto 20px",
+        width: state === 1 ? props.width : "calc(100% - 40px)",
+      }}
+      onClick={(e) => e.stopPropagation()}
+      onMouseUp={(e) => e.stopPropagation()}
+    >
+      {props.children}
+    </div>
+  );
 };
 Popup.propTypes = {
   children: PropTypes.any,

@@ -7,7 +7,7 @@ import DottedLine from "components/common/DottedLine";
 import { useR2state } from "hooks/useReactiveState";
 
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
-import FullscreenExitRoundedIcon from "@mui/icons-material/FullscreenExitRounded";
+import CloseFullscreenRoundedIcon from "@mui/icons-material/CloseFullscreenRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
@@ -38,6 +38,7 @@ const Header = (props) => {
     boxShadow: theme.shadow_3,
     zIndex: theme.zIndex_header,
     height: `${64 + (isOpen ? bodyHeight : 0)}px`,
+    paddingTop: "calc(env(safe-area-inset-top) - 5px)",
     transition: "height 0.3s",
   };
   const styleHeaderTop = {
@@ -45,9 +46,9 @@ const Header = (props) => {
     justifyContent: "space-between",
     alignItems: "center",
     padding: "12px 20px",
+    minHeight: "40px",
   };
   const styleIcon = {
-    fontSize: "24px",
     fill: theme.purple,
     ...theme.cursor(),
   };
@@ -95,8 +96,8 @@ const Header = (props) => {
             </div>
           </div>
           {reactiveState !== 3 && (
-            <FullscreenExitRoundedIcon
-              style={{ ...styleIcon, marginRight: "12px" }}
+            <CloseFullscreenRoundedIcon
+              style={{ ...styleIcon, marginRight: "12px", fontSize: "20px" }}
               onClick={() => history.replace(`/myroom/${props.info?._id}`)}
             />
           )}
