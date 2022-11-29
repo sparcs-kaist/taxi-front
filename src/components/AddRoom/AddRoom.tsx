@@ -45,10 +45,17 @@ const AddRoom = () => {
     setRandomName(
       randomRoomName[Math.floor(Math.random() * randomRoomName.length)]
     );
-    if (cookies.defaultFromTo[0] && cookies.defaultFromTo[1]) {
-      setPlace(cookies.defaultFromTo);
+    const defaultFromTo = cookies.defaultFromTo;
+    if (defaultFromTo[0] && defaultFromTo[1]) {
+      setPlace(defaultFromTo);
     }
   }, []);
+
+  useEffect(() => {
+    if (valuePlace[0] && valuePlace[1]) {
+      setCookie("defaultFromTo", valuePlace);
+    }
+  }, [valuePlace]);
 
   useEffect(() => {
     setCalculatedTime(
