@@ -164,10 +164,14 @@ const Search = () => {
   const [searchResult, setSearchResult] = useState(null);
   const [disabled, setDisabled] = useState(true);
   const [message, setMessage] = useState("검색 조건을 선택해주세요");
+  const expirationDate = new Date();
+  expirationDate.setFullYear(expirationDate.getFullYear() + 10);
 
   useEffect(() => {
     if (valuePlace[0] && valuePlace[1]) {
-      setCookie("defaultFromTo", valuePlace);
+      setCookie("defaultFromTo", valuePlace, {
+        expires: expirationDate,
+      });
     }
   }, [valuePlace]);
 

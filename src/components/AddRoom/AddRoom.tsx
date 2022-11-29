@@ -48,10 +48,14 @@ const AddRoom = () => {
   const [calculatedTime, setCalculatedTime] = useState<Date | null>(null);
   const setAlert = useSetRecoilState(alertAtom);
   const [myRoom, setMyRoom] = useRecoilState(myRoomAtom);
+  const expirationDate = new Date();
+  expirationDate.setFullYear(expirationDate.getFullYear() + 10);
 
   useEffect(() => {
     if (valuePlace[0] && valuePlace[1]) {
-      setCookie("defaultFromTo", valuePlace);
+      setCookie("defaultFromTo", valuePlace, {
+        expires: expirationDate,
+      });
     }
   }, [valuePlace]);
 
