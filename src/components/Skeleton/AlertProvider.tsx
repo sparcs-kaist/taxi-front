@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, ReactNode } from "react";
 import Modal from "components/common/modal/Modal";
 import { useRecoilState } from "recoil";
 import alertAtom from "recoil/alert";
@@ -9,7 +9,7 @@ import DottedLine from "components/common/DottedLine";
 import WbIncandescentRoundedIcon from "@material-ui/icons/WbIncandescentRounded";
 
 const AlertProvider = () => {
-  const messageCache = useRef("");
+  const messageCache = useRef<ReactNode>("");
   const [message, setMessage] = useRecoilState(alertAtom);
 
   const onClickClose = () => setMessage(null);
@@ -51,7 +51,7 @@ const AlertProvider = () => {
       <Button
         type="purple_inset"
         padding="9px 10px"
-        radius="8px"
+        radius={8}
         font={theme.font14_bold}
         onClick={onClickClose}
       >
