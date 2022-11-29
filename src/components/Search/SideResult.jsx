@@ -162,7 +162,6 @@ const SideResult = (props) => {
       <div style={{ marginTop: 26 }}>
         <RoomSelectionModal
           isOpen={!!selectedRoomInfo}
-          isMobile={false}
           onClose={() => {
             setSelectedRoomInfo(null);
           }}
@@ -199,11 +198,7 @@ const SideResult = (props) => {
                     theme="purple"
                   />
                 ))}
-              <Pagination
-                totalPages={totalPages}
-                currentPage={currentPage}
-                isMobile={false}
-              />
+              <Pagination totalPages={totalPages} currentPage={currentPage} />
             </>
           )}
         </WhiteContainer>
@@ -214,7 +209,6 @@ const SideResult = (props) => {
       <>
         <RoomSelectionModal
           isOpen={!!selectedRoomInfo}
-          isMobile
           onClose={() => {
             setSelectedRoomInfo(null);
           }}
@@ -249,11 +243,7 @@ const SideResult = (props) => {
                   />
                 );
               })}
-            <Pagination
-              totalPages={totalPages}
-              currentPage={currentPage}
-              isMobile
-            />
+            <Pagination totalPages={totalPages} currentPage={currentPage} />
           </>
         )}
       </>
@@ -264,6 +254,10 @@ const SideResult = (props) => {
 SideResult.propTypes = {
   result: PropTypes.array,
   mobile: PropTypes.bool,
+};
+
+SideResult.defaultProps = {
+  mobile: false,
 };
 
 export default SideResult;

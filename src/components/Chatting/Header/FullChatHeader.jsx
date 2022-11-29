@@ -38,6 +38,7 @@ const Header = (props) => {
     boxShadow: theme.shadow_3,
     zIndex: theme.zIndex_header,
     height: `${64 + (isOpen ? bodyHeight : 0)}px`,
+    paddingTop: "calc(env(safe-area-inset-top) - 5px)",
     transition: "height 0.3s",
   };
   const styleHeaderTop = {
@@ -45,6 +46,7 @@ const Header = (props) => {
     justifyContent: "space-between",
     alignItems: "center",
     padding: "12px 20px",
+    minHeight: "40px",
   };
   const styleIcon = {
     fill: theme.purple,

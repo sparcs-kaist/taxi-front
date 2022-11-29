@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
+import { useTranslation } from "react-i18next";
 import Title from "components/common/Title";
 import WhiteContainer from "components/common/WhiteContainer";
 import PopupModify from "./PopupModify";
@@ -13,9 +14,10 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import alertAtom from "recoil/alert";
 import Menu from "./Menu";
-import betaNotice from "static/betaNotice";
+import { nodeEnv } from "../../serverconf.js";
 
 const Mypage = () => {
+  const { t, i18n } = useTranslation("mypage");
   const [profToken, setProfToken] = useState(Date.now().toString());
   const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const [isOpenModify, setOpenModify] = useState(false);
@@ -24,6 +26,7 @@ const Mypage = () => {
   const [isOpenMembers, setOpenMembers] = useState(false);
   const history = useHistory();
   const setAlert = useSetRecoilState(alertAtom);
+
   const handleLogout = async () => {
     const response = await axios.get("/auth/logout");
     if (response.status === 200) {
@@ -33,6 +36,8 @@ const Mypage = () => {
     }
   };
   const handleUpdate = () => setProfToken(Date.now().toString());
+  const handleTranslation = () =>
+    i18n.changeLanguage(i18n.language === "ko" ? "en" : "ko");
 
   const styleProfile = {
     display: "flex",
@@ -69,7 +74,7 @@ const Mypage = () => {
   return (
     <>
       <Title icon="mypage" header marginAuto>
-        마이 페이지
+        {t("myPage")}
       </Title>
       <WhiteContainer marginAuto padding="16px 24px 24px">
         <div style={styleProfile}>
@@ -86,47 +91,49 @@ const Mypage = () => {
           </div>
         </div>
         <div style={infoTitle}>
-          <div style={theme.font14_bold}>내 정보</div>
+          <div style={theme.font14_bold}>{t("myInformation.translation")}</div>
           <div style={infoModify} onClick={() => setOpenModify(true)}>
-            수정하기
+            {t("revise")}
           </div>
         </div>
         <div style={infoType} className="selectable">
-          학번
+          {t("student_id")}
           <div style={infoContent}>{userInfoDetail?.subinfo.kaist}</div>
         </div>
         <div style={infoType} className="selectable">
-          메일
+          {t("mail")}
           <div style={infoContent}>{userInfoDetail?.email}</div>
         </div>
         <div style={infoType} className="selectable">
-          별명
+          {t("nickname")}
           <div style={infoContent}>{userInfoDetail?.nickname}</div>
         </div>
       </WhiteContainer>
-      <WhiteContainer padding="16px 24px" marginAuto>
-        <Menu icon="beta" onClick={() => setAlert(betaNotice)}>
-          베타 서비스 안내
-        </Menu>
-      </WhiteContainer>
+      {/* nodeEnv === "development" ? (
+        <WhiteContainer marginAuto>
+          <Menu icon="fixme" onClick={handleTranslation}>
+            {t("btn.translation")}
+          </Menu>
+        </WhiteContainer>
+      ) : null */}
       <WhiteContainer marginAuto>
         <div style={{ display: "grid", rowGap: "16px" }}>
           <Menu icon="report" onClick={() => setOpenReport(true)}>
-            신고 내역
+            {t("report_record")}
           </Menu>
           <a className="popup-channeltalk">
             <Menu icon="ask" onClick={() => {}}>
-              채널톡 문의하기
+              {t("channeltalk_ask")}
             </Menu>
           </a>
           <Menu icon="policy" onClick={() => setOpenPolicy(true)}>
-            사용 약관 및 개인정보 보호 규칙
+            {t("rule")}
           </Menu>
           <Menu icon="credit" onClick={() => setOpenMembers(true)}>
-            만든 사람들
+            {t("developer")}
           </Menu>
           <Menu icon="logout" onClick={handleLogout}>
-            로그아웃
+            {t("logout")}
           </Menu>
         </div>
       </WhiteContainer>

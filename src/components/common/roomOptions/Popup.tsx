@@ -1,9 +1,10 @@
-import React from "react";
-import RLayout from "components/common/RLayout";
-import theme from "styles/theme";
+import React, { useState, useEffect } from "react";
+import { useDelayBoolean } from "hooks/useDelay";
 import useDisableScroll from "hooks/useDisableScroll";
-import Button from "components/common/Button";
 import useKeyboardOperation from "hooks/useKeyboardOperation";
+import theme from "styles/theme";
+import RLayout from "components/common/RLayout";
+import Button from "components/common/Button";
 
 type PopupProps = {
   isOpen: boolean;
@@ -13,12 +14,19 @@ type PopupProps = {
 };
 
 const Popup = (props: PopupProps) => {
+  const [display, setDisplay] = useState(false);
+  const shouldMount = useDelayBoolean(props.isOpen, theme.duration_num);
+
   useDisableScroll(props.isOpen);
   useKeyboardOperation({
     display: props.isOpen,
     onEnter: props.onClick,
     onEscape: props.onClose,
   });
+  useEffect(
+    () => setDisplay(shouldMount && props.isOpen),
+    [shouldMount, props.isOpen]
+  );
 
   const styleBgd: CSS = {
     position: "fixed",
@@ -29,7 +37,7 @@ const Popup = (props: PopupProps) => {
     height: "100%",
     zIndex: theme.zIndex_modal,
     background: theme.black_60,
-    opacity: props.isOpen ? 1 : 0,
+    opacity: display ? 1 : 0,
     transitionDuration: theme.duration,
     pointerEvents: props.isOpen ? "auto" : "none",
   };
@@ -39,6 +47,7 @@ const Popup = (props: PopupProps) => {
     background: theme.white,
   };
 
+  if (!shouldMount) return null;
   return (
     <div style={styleBgd} onClick={props.onClose}>
       <RLayout.Popup>
