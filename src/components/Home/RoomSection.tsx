@@ -12,7 +12,7 @@ const RoomSection = () => {
   const [rooms, setRooms] = useState<Nullable<Array<any>>>(null);
   const [selectedDate, setSelectedDate] = useState<[number, number, number]>([
     today.year(),
-    today.month(),
+    today.month() + 1,
     today.date(),
   ]);
 
