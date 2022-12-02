@@ -15,7 +15,7 @@ const Name = (props: ButtonProps) => {
     alignItems: "center",
   };
   const styleIcon = {
-    ...theme.font15_icon,
+    fontSize: "15px",
     marginLeft: "15px",
   };
   const styleName: CSS = {

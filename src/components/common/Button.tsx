@@ -58,6 +58,7 @@ const Button = ({
           backgroundColor: isHover ? theme.gray_line : theme.gray_background,
           color: isHover ? theme.white : theme.gray_text,
           boxShadow: theme.shadow_gray_button_inset,
+          fontWeight: isHover ? 500 : undefined,
         };
       case "white":
         return {

@@ -29,18 +29,25 @@ const theme = {
   yellow: "#F2A024",
 
   // Font Size
-  font8: { fontSize: 8, letterSpacing: -0.2 },
-  font8_medium: { fontSize: 8, letterSpacing: -0.2, fontWeight: 500 },
-  font10: { fontSize: 10, fontWeight: 300 },
-  font10_bold: { fontSize: 10, fontWeight: 700 },
-  font12: { fontSize: 12, letterSpacing: 0.4 },
+  font8: { fontSize: 8, letterSpacing: -0.2, lineHeight: "9px" },
+  font8_medium: {
+    fontSize: 8,
+    letterSpacing: -0.2,
+    fontWeight: 500,
+    lineHeight: "9px",
+  },
+  font10: { fontSize: 10, fontWeight: 300, lineHeight: "12px" },
+  font10_bold: { fontSize: 10, fontWeight: 700, lineHeight: "12px" },
+  font12: { fontSize: 12, letterSpacing: 0.4, lineHeight: "14px" },
   font14: { fontSize: 14, lineHeight: "16px" },
   font14_bold: { fontSize: 14, fontWeight: 700, lineHeight: "16px" },
-  font14_icon: { fontSize: 14 },
-  font15_icon: { fontSize: 15 },
-  font16: { fontSize: 16, letterSpacing: -0.4 },
-  font16_bold: { fontSize: 16, letterSpacing: -0.4, fontWeight: 700 },
-  font16_icon: { fontSize: 16 },
+  font16: { fontSize: 16, letterSpacing: -0.4, lineHeight: "19px" },
+  font16_bold: {
+    fontSize: 16,
+    letterSpacing: -0.4,
+    fontWeight: 700,
+    lineHeight: "19px",
+  },
   font18: {
     fontSize: 18,
     letterSpacing: -0.6,
@@ -52,6 +59,12 @@ const theme = {
     letterSpacing: -0.75,
     fontWeight: 700,
     lineHeight: "23px",
+  },
+  font28: {
+    fontSize: 28,
+    letterSpacing: -1,
+    fontWeight: 700,
+    lineHeight: "33px",
   },
 
   // Shadow
@@ -82,7 +95,8 @@ const theme = {
   shadow_color_button: "1px 1.5px 2.5px -1px rgba(110, 54, 120, 0.15)",
 
   // Transition
-  duration: "0.15s",
+  duration: "150ms",
+  duration_num: 150,
 
   // White Container Width
   container_max_width: 325,
@@ -94,12 +108,12 @@ const theme = {
 
   // zIndex
   zIndex_nav: 10,
-  zIndex_headerBar: 10,
-  zIndex_modal: 20,
+  zIndex_headerBar: 40,
+  zIndex_modal: 50,
   zIndex_background: 10,
   zIndex_header: 20,
   zIndex_fullimage: 20,
-  zIndex_alert: 30,
+  zIndex_alert: 60,
 };
 
 export default theme;

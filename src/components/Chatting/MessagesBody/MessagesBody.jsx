@@ -29,6 +29,17 @@ const MessagesBody = (props) => {
     const dateFormat = "YYYY.MM.DD";
     const minFormat = "YYYY.MM.DD HH:mm";
 
+    const chatSetCommonProps = {
+      authorId: props.user.oid,
+      isBottomOnScroll: props.isBottomOnScroll,
+      scrollToBottom: props.scrollToBottom,
+      setIsOpen,
+      setPath,
+      setName,
+      setReportedId,
+      isSideChat: props.isSideChat,
+    };
+
     props.chats.forEach((item) => {
       if (item.type === "inf-checkout") {
         if (chatsCache) {
@@ -36,13 +47,7 @@ const MessagesBody = (props) => {
             <ChatSet
               key={"chat" + chatsCache[0].time}
               chats={chatsCache}
-              authorId={props.user.oid}
-              isBottomOnScroll={props.isBottomOnScroll}
-              scrollToBottom={props.scrollToBottom}
-              setIsOpen={setIsOpen}
-              setPath={setPath}
-              setName={setName}
-              setReportedId={setReportedId}
+              {...chatSetCommonProps}
             />
           );
         }
@@ -58,12 +63,19 @@ const MessagesBody = (props) => {
         momentCache.subtract(1, "years");
       }
       if (momentCache.format(dateFormat) !== currentMoment.format(dateFormat)) {
+        if (chatsCache) {
+          list.push(
+            <ChatSet
+              key={"chat" + chatsCache[0].time}
+              chats={chatsCache}
+              {...chatSetCommonProps}
+            />
+          );
+          chatsCache = null;
+        }
+
         list.push(
-          <ChatDate
-            key={"date" + currentMoment}
-            date={currentMoment}
-            background={""}
-          />
+          <ChatDate key={"date" + currentMoment} date={currentMoment} />
         );
       }
       if (item.type === "in" || item.type === "out") {
@@ -85,13 +97,7 @@ const MessagesBody = (props) => {
             <ChatSet
               key={"chat" + chatsCache[0].time}
               chats={chatsCache}
-              authorId={props.user.oid}
-              isBottomOnScroll={props.isBottomOnScroll}
-              scrollToBottom={props.scrollToBottom}
-              setIsOpen={setIsOpen}
-              setPath={setPath}
-              setName={setName}
-              setReportedId={setReportedId}
+              {...chatSetCommonProps}
             />
           );
           chatsCache = null;
@@ -106,13 +112,7 @@ const MessagesBody = (props) => {
         <ChatSet
           key={"chatLast" + chatsCache[0].time}
           chats={chatsCache}
-          authorId={props.user.oid}
-          isBottomOnScroll={props.isBottomOnScroll}
-          scrollToBottom={props.scrollToBottom}
-          setIsOpen={setIsOpen}
-          setPath={setPath}
-          setName={setName}
-          setReportedId={setReportedId}
+          {...chatSetCommonProps}
         />
       );
     }
@@ -124,25 +124,32 @@ const MessagesBody = (props) => {
   };
 
   return (
-    <div
-      style={{
-        marginTop: props.isSideChat ? undefined : "70px",
-        marginBottom: props.marginBottom,
-        height: `calc(100% - ${props.marginBottom})`,
-        width: "100%",
-        overflow: "auto",
-      }}
-      ref={props.forwardedRef}
-      onScroll={props.handleScroll}
-    >
-      <div>{chats}</div>
-      <PopupReport
-        isOpen={isOpen}
-        onClose={onClose}
-        path={path}
-        name={name}
-        reportedId={reportedId}
-      />
+    <div style={{ overflow: "auto" }}>
+      <div
+        className="chatting-body"
+        style={{
+          marginTop: props.isSideChat ? undefined : "69px",
+          marginBottom: props.marginBottom,
+          paddingBottom: "12px",
+          height: `calc(100% - ${props.marginBottom} - ${
+            props.isSideChat ? "0px" : "69px"
+          })`,
+          width: "100%",
+          overflow: "auto",
+          boxSizing: "border-box",
+        }}
+        ref={props.forwardedRef}
+        onScroll={props.handleScroll}
+      >
+        {chats}
+        <PopupReport
+          isOpen={isOpen}
+          onClose={onClose}
+          path={path}
+          name={name}
+          reportedId={reportedId}
+        />
+      </div>
     </div>
   );
 };

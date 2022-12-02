@@ -32,14 +32,13 @@ const SearchOptions = (props) => {
     justifyContent: "space-between",
     alignItems: "center",
     position: "relative",
-    height: "23px",
     color: theme.purple,
     ...theme.font10_bold,
-    lineHeight: "12px",
-    padding: "5px 8px",
-    boxShadow: theme.shadow,
     borderRadius: "6px",
-    background: props.color === "purple" ? theme.purple_light : "white",
+    boxShadow: theme.shadow,
+    boxSizing: "border-box",
+    padding: "5px 11px 5px 8px",
+    background: props.theme === "purple" ? theme.purple_light : "white",
     ...theme.cursor(),
   };
 
@@ -47,20 +46,15 @@ const SearchOptions = (props) => {
     width: "13px",
     height: "13px",
     background: props.isIncludeFullRoom ? theme.purple : theme.gray_background,
-    boxShadow: theme.shadow_purple_input_inset,
+    boxShadow: theme.shadow_gray_input_inset,
     borderRadius: "3px",
     marginRight: "6px",
   };
 
   const styleCheckIcon = {
-    color: "white",
-    width: "100%",
-    height: "100%",
-  };
-
-  const styleArrowIcon = {
-    color: theme.purple,
-    width: "11px",
+    color: theme.white,
+    width: "12px",
+    height: "13px",
   };
 
   const styleSelect = {
@@ -73,7 +67,15 @@ const SearchOptions = (props) => {
   const styleShowOption = {
     display: "flex",
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "flex-start",
+    color: theme.purple,
+    ...theme.font10_bold,
+    marginRight: "-3px",
+  };
+
+  const styleArrowIcon = {
+    color: theme.purple,
+    fontSize: "11px",
   };
 
   return (
@@ -87,7 +89,7 @@ const SearchOptions = (props) => {
         <div style={styleCheckbox}>
           {props.isIncludeFullRoom && <CheckIcon style={styleCheckIcon} />}
         </div>
-        <p>만석인 방 포함하기</p>
+        만석인 방 포함하기
       </div>
       <div style={styleOption}>
         <select
@@ -102,7 +104,7 @@ const SearchOptions = (props) => {
           ))}
         </select>
         <div style={styleShowOption}>
-          <p>{props.sortOption}</p>
+          {props.sortOption}
           <ArrowDropDownIcon style={styleArrowIcon} />
         </div>
       </div>
@@ -111,7 +113,7 @@ const SearchOptions = (props) => {
 };
 
 SearchOptions.propTypes = {
-  color: PropTypes.string,
+  theme: PropTypes.string,
   isIncludeFullRoom: PropTypes.bool.isRequired,
   sortOption: PropTypes.string.isRequired,
   setIsIncludeFullRoom: PropTypes.func.isRequired,
@@ -160,7 +162,6 @@ const SideResult = (props) => {
       <div style={{ marginTop: 26 }}>
         <RoomSelectionModal
           isOpen={!!selectedRoomInfo}
-          isMobile={false}
           onClose={() => {
             setSelectedRoomInfo(null);
           }}
@@ -197,11 +198,7 @@ const SideResult = (props) => {
                     theme="purple"
                   />
                 ))}
-              <Pagination
-                totalPages={totalPages}
-                currentPage={currentPage}
-                isMobile={false}
-              />
+              <Pagination totalPages={totalPages} currentPage={currentPage} />
             </>
           )}
         </WhiteContainer>
@@ -212,7 +209,6 @@ const SideResult = (props) => {
       <>
         <RoomSelectionModal
           isOpen={!!selectedRoomInfo}
-          isMobile={true}
           onClose={() => {
             setSelectedRoomInfo(null);
           }}
@@ -247,11 +243,7 @@ const SideResult = (props) => {
                   />
                 );
               })}
-            <Pagination
-              totalPages={totalPages}
-              currentPage={currentPage}
-              isMobile
-            />
+            <Pagination totalPages={totalPages} currentPage={currentPage} />
           </>
         )}
       </>
@@ -262,6 +254,10 @@ const SideResult = (props) => {
 SideResult.propTypes = {
   result: PropTypes.array,
   mobile: PropTypes.bool,
+};
+
+SideResult.defaultProps = {
+  mobile: false,
 };
 
 export default SideResult;

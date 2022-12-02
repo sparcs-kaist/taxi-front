@@ -4,8 +4,10 @@ import HeaderBody from "./HeaderBody";
 import PropTypes from "prop-types";
 import theme from "styles/theme";
 import DottedLine from "components/common/DottedLine";
+import { useR2state } from "hooks/useReactiveState";
 
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
+import CloseFullscreenRoundedIcon from "@mui/icons-material/CloseFullscreenRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
@@ -14,6 +16,7 @@ const Header = (props) => {
   const [isOpen, setOpen] = useState(false);
   const [bodyHeight, setBodyHeight] = useState(0);
   const history = useHistory();
+  const reactiveState = useR2state();
 
   const styleBgd = {
     position: "fixed",
@@ -35,6 +38,7 @@ const Header = (props) => {
     boxShadow: theme.shadow_3,
     zIndex: theme.zIndex_header,
     height: `${64 + (isOpen ? bodyHeight : 0)}px`,
+    paddingTop: "calc(env(safe-area-inset-top) - 5px)",
     transition: "height 0.3s",
   };
   const styleHeaderTop = {
@@ -42,22 +46,28 @@ const Header = (props) => {
     justifyContent: "space-between",
     alignItems: "center",
     padding: "12px 20px",
+    minHeight: "40px",
   };
   const styleIcon = {
-    fontSize: "24px",
     fill: theme.purple,
-    cursor: theme.cursor(),
+    ...theme.cursor(),
   };
   const styleInfo = {
     width: "100%",
-    rowGap: 5,
-    marginLeft: 16,
+    rowGap: "5px",
+    margin: "0 8px 0 16px",
     display: "flex",
     flexDirection: "column",
+    minWidth: 0,
+  };
+  const styleText = {
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+    overflow: "hidden",
   };
 
   const resizeEvent = () => {
-    setBodyHeight(bodyRef.current.clientHeight);
+    setBodyHeight(bodyRef.current?.clientHeight);
   };
   useEffect(() => {
     resizeEvent();
@@ -75,14 +85,22 @@ const Header = (props) => {
             onClick={() => history.goBack()}
           />
           <div style={styleInfo}>
-            <div style={{ ...theme.font18, color: theme.purple }}>
+            <div style={{ ...theme.font18, color: theme.purple, ...styleText }}>
               {props.info?.name}
             </div>
-            <div style={{ ...theme.font12, color: theme.gray_text }}>
+            <div
+              style={{ ...theme.font12, color: theme.gray_text, ...styleText }}
+            >
               {props?.info?.from?.koName}&nbsp; → &nbsp;
               {props?.info?.to?.koName}
             </div>
           </div>
+          {reactiveState !== 3 && (
+            <CloseFullscreenRoundedIcon
+              style={{ ...styleIcon, marginRight: "12px", fontSize: "20px" }}
+              onClick={() => history.replace(`/myroom/${props.info?._id}`)}
+            />
+          )}
           {isOpen ? (
             <CloseRoundedIcon
               style={styleIcon}

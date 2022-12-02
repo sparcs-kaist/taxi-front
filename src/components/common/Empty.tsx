@@ -9,7 +9,6 @@ type EmptyProps = { screen: ScreenType; children: React.ReactNode };
 const Empty = ({ screen, children }: EmptyProps) => {
   const styleCommon: CSS = {
     display: "flex",
-    alignItems: "center",
     justifyContent: "center",
     ...theme.font14_bold,
     color: theme.gray_text,
@@ -29,7 +28,7 @@ const Empty = ({ screen, children }: EmptyProps) => {
 
   return (
     <div style={screen === "pc" ? stylePC : styleMobile}>
-      <NotInterestedIcon style={theme.font15_icon} />
+      <NotInterestedIcon style={{ fontSize: "15px" }} />
       {children}
     </div>
   );

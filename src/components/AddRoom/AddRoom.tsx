@@ -85,7 +85,7 @@ const AddRoom = () => {
           const { data } = await axios.get("/rooms/v2/searchByUser");
           setMyRoom(data);
         } catch (error) {
-          console.log(error);
+          setAlert("예상치 못한 오류가 발생했습니다. 새로고침 해주세요.");
         }
       } else {
         setAlert("방 개설에 실패하였습니다.");
@@ -95,7 +95,7 @@ const AddRoom = () => {
 
   return (myRoom?.ongoing.length ?? 0) < MAX_PARTICIPATION ? (
     <div>
-      <Title icon="add" header={true} marginAuto={true}>
+      <Title icon="add" header marginAuto>
         방 개설하기
       </Title>
       <RLayout.R1>
@@ -107,7 +107,7 @@ const AddRoom = () => {
         <Button
           type="purple"
           disabled={validatedMsg ? true : false}
-          padding="13px 0px 14px"
+          padding="14px 0 13px"
           radius={12}
           font={theme.font16_bold}
           onClick={onClickAdd}

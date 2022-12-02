@@ -1,7 +1,7 @@
 * {
   margin: 0px;
   padding: 0px;
-  font-family: "Roboto", "NanumSquare", sans-serif;
+  font-family: "NanumSquare", "Helvetica", "Arial", sans-serif;
   font-weight: 300;
   -webkit-tap-highlight-color: transparent;
   /* -webkit-font-smoothing: antialiased;
@@ -11,10 +11,18 @@
 div,
 input {
   color: #323232;
+  scrollbar-color: transparent transparent;
 }
 
 html {
   height: 100%;
+}
+
+html.lock-scroll body {
+  height: calc(var(--window-inner-height) - 1px);
+  overflow: hidden;
+  box-sizing: border-box;
+  touch-action: none;
 }
 
 body {
@@ -34,8 +42,13 @@ body {
   user-select: none; /* Chrome, Edge, Opera, and Firefox */
 }
 
-body::-webkit-scrollbar {
+body::-webkit-scrollbar,
+div:not(.chatting-body)::-webkit-scrollbar {
   display: none;
+}
+
+.chatting-body {
+  scrollbar-color: auto;
 }
 
 b {

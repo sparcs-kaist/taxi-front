@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import RLayout from "components/common/RLayout";
 import theme from "styles/theme";
 
+import RoofingRoundedIcon from "@mui/icons-material/RoofingRounded";
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
-import LibraryAddRoundedIcon from "@mui/icons-material/LibraryAddRounded";
-import LibraryBooksRoundedIcon from "@material-ui/icons/LibraryBooksRounded";
-import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import SubjectRoundedIcon from "@mui/icons-material/SubjectRounded";
+import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 
-type PageType = "search" | "addroom" | "myroom" | "mypage";
+type PageType = "home" | "search" | "addroom" | "myroom" | "mypage";
 type NavigationMenuProps = {
   text: string;
   page: PageType;
@@ -18,7 +18,9 @@ type NavigationMenuProps = {
 
 const NavigationMenu = (props: NavigationMenuProps) => {
   const [isHover, setHover] = useState(false);
-  const selected = props.path.startsWith("/" + props.page);
+  const selected =
+    props.path.startsWith("/" + props.page) ||
+    (props.page.startsWith("home") && props.path === "/");
 
   const styleBox: CSS = {
     width: "25%",
@@ -34,14 +36,13 @@ const NavigationMenu = (props: NavigationMenuProps) => {
     ? theme.purple
     : theme.gray_text;
   const styleIcon = {
-    width: 20,
-    height: 20,
-    marginTop: 9.5,
+    fontSize: "20px",
+    marginTop: "10px",
     transition: `fill ${theme.duration}`,
     fill: styleColor,
   };
   const styleText = {
-    marginTop: 4,
+    marginTop: "4px",
     width: "fit-content",
     ...theme.font10_bold,
     transitionDuration: theme.duration,
@@ -50,14 +51,16 @@ const NavigationMenu = (props: NavigationMenuProps) => {
 
   const getIcon = (type: PageType) => {
     switch (type) {
+      case "home":
+        return <RoofingRoundedIcon style={styleIcon} />;
       case "search":
         return <SearchRoundedIcon style={styleIcon} />;
       case "addroom":
-        return <LibraryAddRoundedIcon style={styleIcon} />;
+        return <AddRoundedIcon style={styleIcon} />;
       case "myroom":
-        return <LibraryBooksRoundedIcon style={styleIcon} />;
+        return <SubjectRoundedIcon style={styleIcon} />;
       case "mypage":
-        return <AccountCircleRoundedIcon style={styleIcon} />;
+        return <PersonOutlineRoundedIcon style={styleIcon} />;
     }
   };
 
@@ -90,14 +93,20 @@ const Navigation = () => {
         zIndex: theme.zIndex_nav,
       }}
     >
-      <RLayout.R1 height="100%">
-        <div style={{ display: "flex", height: "56px" }}>
-          <NavigationMenu text="검색" page="search" path={path} />
-          <NavigationMenu text="방 개설" page="addroom" path={path} />
-          <NavigationMenu text="내 방 목록" page="myroom" path={path} />
-          <NavigationMenu text="마이 페이지" page="mypage" path={path} />
-        </div>
-      </RLayout.R1>
+      <div
+        style={{
+          width: "min(430px, 100%)",
+          margin: "auto",
+          display: "flex",
+          height: "56px",
+        }}
+      >
+        <NavigationMenu text="홈" page="home" path={path} />
+        <NavigationMenu text="검색" page="search" path={path} />
+        <NavigationMenu text="개설" page="addroom" path={path} />
+        <NavigationMenu text="내 방" page="myroom" path={path} />
+        <NavigationMenu text="마이" page="mypage" path={path} />
+      </div>
     </div>
   );
 };

@@ -65,7 +65,7 @@ const Pagination = ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: "18px",
+    margin: isMobile ? "20px 0 0" : "8px 0 -14px",
     width: "100%",
   };
 
@@ -76,8 +76,8 @@ const Pagination = ({
     width: "max-content",
     height: "44px",
     borderRadius: "12px",
-    background: "white",
     padding: "0 6px",
+    background: theme.white,
     boxShadow: isMobile ? theme.shadow : undefined,
   };
 

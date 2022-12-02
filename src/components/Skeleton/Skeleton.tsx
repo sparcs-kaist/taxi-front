@@ -1,48 +1,82 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  ReactNode,
+} from "react";
 import { useLocation, Redirect } from "react-router-dom";
+// import { useCookies } from "react-cookie";
 import reactGA from "react-ga4";
-import PropTypes from "prop-types";
 import axios from "tools/axios";
-import { gaTrackingId } from "serverconf";
+import { gaTrackingId, nodeEnv } from "serverconf";
 
 import { useRecoilState, useSetRecoilState } from "recoil";
 import taxiLocationAtom from "recoil/taxiLocation";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import myRoomAtom from "recoil/myRoom";
+// import alertAtom from "recoil/alert";
 
 import HeaderBar from "components/common/HeaderBar";
 import Navigation from "components/Skeleton/Navigation";
 import Footer from "components/Skeleton/Footer";
 import PopupPolicy from "components/Mypage/PopupPolicy";
+import useWindowInnerHeight from "hooks/useWindowInnerHeight";
+// import betaNotice from "static/betaNotice";
 
-const Container = (props) => {
+type ContainerProps = {
+  children: ReactNode;
+};
+
+type SkeletonProps = {
+  children: ReactNode;
+};
+
+const Container = (props: ContainerProps) => {
   return (
     <div
+      id="skeleton-container" // For useDisableScroll
       style={{
         width: "100%",
-        height: "calc(100% + env(safe-area-inset-top))",
+        height: "calc(100% - env(safe-area-inset-bottom))",
         position: "relative",
+        paddingTop: "env(safe-area-inset-top)",
+        paddingBottom: "env(safe-area-inset-bottom)",
       }}
     >
       {props.children}
     </div>
   );
 };
-Container.propTypes = {
-  children: PropTypes.node,
-};
 
-const Skeleton = (props) => {
+const Skeleton = (props: SkeletonProps) => {
   const [userId, setUserId] = useState(undefined);
   const [showAgree, setShowAgree] = useState(false);
   const [taxiLocation, setTaxiLocation] = useRecoilState(taxiLocationAtom);
   const [loginInfoDetail, setLoginInfoDetail] =
     useRecoilState(loginInfoDetailAtom);
   const setMyRoom = useSetRecoilState(myRoomAtom);
+  // const setAlert = useSetRecoilState(alertAtom);
   const location = useLocation();
   const pathname = location.pathname;
   const currentPath = location.pathname + location.search;
   const gaInitialized = useRef(false);
+  useWindowInnerHeight();
+
+  // 베타 서비스 안내창 띄우기 중지
+  // const [cookies, setCookie] = useCookies(["betaNoticed"]);
+  // useEffect(() => {
+  //   if (!cookies.betaNoticed) {
+  //     const expires = new Date();
+  //     expires.setHours(5);
+  //     expires.setMinutes(0);
+  //     if (expires.getTime() < new Date().getTime())
+  //       expires.setDate(expires.getDate() + 1);
+
+  //     setCookie("betaNoticed", true, { path: "/", expires: expires });
+  //     setAlert(betaNotice);
+  //   }
+  // }, []);
 
   const initializeGlobalInfo = useCallback(() => {
     const getLocation = axios.get("/locations");
@@ -70,7 +104,9 @@ const Skeleton = (props) => {
     if (gaTrackingId) {
       if (!gaInitialized.current) {
         gaInitialized.current = true;
-        reactGA.initialize(gaTrackingId);
+        reactGA.initialize(gaTrackingId, {
+          testMode: nodeEnv === "development",
+        });
       }
       reactGA.send({ hitType: "pageview", page: pathname });
     }
@@ -117,7 +153,7 @@ const Skeleton = (props) => {
     /**
      * @todo 로딩 화면 추가
      */
-    return <></>;
+    return <HeaderBar />;
   }
   if (pathname.startsWith("/chatting") || pathname.startsWith("/error")) {
     return (
@@ -126,9 +162,6 @@ const Skeleton = (props) => {
         {props.children}
       </Container>
     );
-  }
-  if (pathname === "/") {
-    return <Redirect to={`/search`} />;
   }
   return (
     <Container>
@@ -139,10 +172,6 @@ const Skeleton = (props) => {
       <PopupPolicy isOpen={showAgree} onClose={() => setShowAgree(false)} />
     </Container>
   );
-};
-
-Skeleton.propTypes = {
-  children: PropTypes.node,
 };
 
 export default Skeleton;

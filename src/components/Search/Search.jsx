@@ -13,6 +13,7 @@ import isMobile from "ismobilejs";
 import theme from "styles/theme";
 import Button from "components/common/Button";
 import Tooltip from "components/common/Tooltip";
+import ScrollButton from "./ScrollButton";
 
 import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
@@ -26,7 +27,7 @@ const defaultOptions = { place: true, date: true, time: true };
 const SearchOption = (props) => {
   const [isHover, setHover] = useState(false);
   const style = useSpring({
-    height: "15px",
+    ...theme.font12,
     borderRadius: "15px",
     padding: "8px 15px 7px 15px",
     boxShadow: theme.shadow,
@@ -38,7 +39,6 @@ const SearchOption = (props) => {
       ? theme.purple_hover
       : theme.white,
     color: props.selected ? theme.white : theme.black,
-    fontSize: "12px",
     config: { duration: 150 },
     ...theme.cursor(),
   });
@@ -143,6 +143,7 @@ const Search = () => {
   const reactiveState = useR2state();
   const onCall = useRef(false);
   const prevSearchParam = useRef("");
+  const scrollRef = useRef(null);
   const today = useRef(getToday());
   const today10 = getToday10();
   const history = useHistory();
@@ -157,6 +158,8 @@ const Search = () => {
   const [searchResult, setSearchResult] = useState(null);
   const [disabled, setDisabled] = useState(true);
   const [message, setMessage] = useState("검색 조건을 선택해주세요");
+  const [showScrollButton, setShowScrollButton] = useState(false);
+
   const clearState = () => {
     onCall.current = false;
     setSearchOptions(defaultOptions);
@@ -196,6 +199,21 @@ const Search = () => {
     }
     if (newSearchOptions.maxPeople) setMaxPeople(Number(q.maxPeople));
   };
+
+  useEffect(() => {
+    const onScrollOrResize = () => {
+      if (!searchResult && reactiveState !== 3) return;
+      const scrolled =
+        scrollRef.current?.getBoundingClientRect().top < window.innerHeight / 2;
+      setShowScrollButton(scrolled);
+    };
+    window.addEventListener("scroll", onScrollOrResize);
+    window.addEventListener("resize", onScrollOrResize);
+    return () => {
+      window.removeEventListener("scroll", onScrollOrResize);
+      window.removeEventListener("resize", onScrollOrResize);
+    };
+  }, []);
 
   useEffect(() => {
     const q = qs.parse(location.search.slice(1), searchQueryOption);
@@ -323,26 +341,24 @@ const Search = () => {
       history.push("/search?all=true");
     } else {
       let withTime = false;
-      const date = moment();
-
-      date.year(valueDate[0]);
-      date.month(valueDate[1] - 1);
-      date.date(valueDate[2]);
-
+      let date = null;
+      if (searchOptions.date && valueDate[0] !== null) {
+        date = moment();
+        date.year(valueDate[0]);
+        date.month(valueDate[1] - 1);
+        date.date(valueDate[2]);
+      }
       if (searchOptions.time) {
         date.hour(valueTime[0]);
         date.minute(valueTime[1]);
         withTime = true;
-      } else if (date.isSame(getToday(), "day")) {
-        date.hour(getToday().hour());
-        date.minute(getToday().minute());
       }
       const q = qs.stringify(
         {
           name: valueName.length ? valueName : null,
           from: valuePlace[0],
           to: valuePlace[1],
-          time: date.toISOString(),
+          time: date?.toISOString(),
           withTime,
           maxPeople: valueMaxPeople,
         },
@@ -352,13 +368,20 @@ const Search = () => {
     }
   };
 
+  useEffect(() => {
+    if (!onCall.current || reactiveState !== 3) return;
+    setTimeout(() => {
+      const scrollToResult = scrollRef.current?.offsetTop + 79 - 30;
+      window.scrollTo({ top: scrollToResult, behavior: "smooth" });
+    }, 0);
+  }, [searchResult]);
+
   const leftLay = (
     <>
       <div
         style={{
-          color: "#6E3678",
-          fontSize: "14px",
-          letterSpacing: "0.03em",
+          color: theme.purple,
+          ...theme.font14,
         }}
       >
         어떤 조건으로 검색할까요?
@@ -378,7 +401,7 @@ const Search = () => {
       <Button
         type="purple"
         disabled={disabled}
-        padding="13px 0px 14px"
+        padding="14px 0 13px"
         radius={12}
         font={theme.font16_bold}
         onClick={onClickSearch}
@@ -392,24 +415,24 @@ const Search = () => {
           }
         />
       )}
+      {searchResult && reactiveState === 3 && (
+        <div style={{ marginTop: "30px" }} ref={scrollRef}>
+          <Title icon="search_result">검색 결과</Title>
+          <SideResult result={searchResult} mobile />
+          {showScrollButton && <ScrollButton />}
+        </div>
+      )}
     </>
   );
-  const rightLay =
-    searchResult === null ? null : (
-      <SideResult result={searchResult} mobile={reactiveState === 3} />
-    );
+  const rightLay = reactiveState !== 3 && searchResult && (
+    <SideResult result={searchResult} />
+  );
   return (
     <div>
-      <Title icon="search" header={true} marginAuto={true}>
+      <Title icon="search" header marginAuto R2={searchResult !== null}>
         방 검색하기
       </Title>
-      <RLayout.R2
-        left={reactiveState === 3 && searchResult !== null ? null : leftLay}
-        right={rightLay}
-        priority={
-          reactiveState === 3 && searchResult !== null ? "right" : "left"
-        }
-      />
+      <RLayout.R2 left={leftLay} right={rightLay} />
     </div>
   );
 };
