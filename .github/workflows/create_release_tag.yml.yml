@@ -1,0 +1,52 @@
+name: Create Release and Tag
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+
+jobs:
+  if_merged:
+    if: github.event.pull_request.merged == true
+    name: Create Release and Tag
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    
+    - name: Get previous tag-version
+      id: previous_tag
+      uses: WyriHaximus/github-action-get-previous-tag@v1
+      with:
+        fallback: 1.0.0
+    
+    - name: Get next minor tag-version
+      id: minor_tag
+      uses: WyriHaximus/github-action-next-semvers@v1
+      with:
+        version: ${{ steps.previous_tag.outputs.tag }}
+    
+    - name: Get current time
+      uses: josStorer/get-current-time@v2.0.2
+      id: date
+      with:
+        format: YYYY-MM-DD
+        utcOffset: "+09:00"
+    
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.minor_tag.outputs.v_patch }}
+        release_name: ${{ steps.minor_tag.outputs.v_patch }}
+        body: |
+          ${{ steps.date.outputs.formattedTime }}
+          Github action released ${{ steps.minor_tag.outputs.v_patch }}
+        draft: false
+        prerelease: false
