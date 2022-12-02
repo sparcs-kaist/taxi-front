@@ -5,7 +5,7 @@ WORKDIR /usr/src/app
 COPY . .
 
 # Install requirements
-RUN npm ci
+RUN npm install
 RUN npm install react-inject-env@2.1.0 --save
 RUN npm install serve@14.1.2 -g
 
