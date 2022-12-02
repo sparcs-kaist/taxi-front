@@ -1,8 +1,13 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  ReactNode,
+} from "react";
 import { useLocation, Redirect } from "react-router-dom";
 // import { useCookies } from "react-cookie";
 import reactGA from "react-ga4";
-import PropTypes from "prop-types";
 import axios from "tools/axios";
 import { gaTrackingId, nodeEnv } from "serverconf";
 
@@ -10,16 +15,24 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import taxiLocationAtom from "recoil/taxiLocation";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import myRoomAtom from "recoil/myRoom";
-import alertAtom from "recoil/alert";
+// import alertAtom from "recoil/alert";
 
 import HeaderBar from "components/common/HeaderBar";
 import Navigation from "components/Skeleton/Navigation";
 import Footer from "components/Skeleton/Footer";
 import PopupPolicy from "components/Mypage/PopupPolicy";
 import useWindowInnerHeight from "hooks/useWindowInnerHeight";
-import betaNotice from "static/betaNotice";
+// import betaNotice from "static/betaNotice";
 
-const Container = (props) => {
+type ContainerProps = {
+  children: ReactNode;
+};
+
+type SkeletonProps = {
+  children: ReactNode;
+};
+
+const Container = (props: ContainerProps) => {
   return (
     <div
       id="skeleton-container" // For useDisableScroll
@@ -35,18 +48,15 @@ const Container = (props) => {
     </div>
   );
 };
-Container.propTypes = {
-  children: PropTypes.node,
-};
 
-const Skeleton = (props) => {
+const Skeleton = (props: SkeletonProps) => {
   const [userId, setUserId] = useState(undefined);
   const [showAgree, setShowAgree] = useState(false);
   const [taxiLocation, setTaxiLocation] = useRecoilState(taxiLocationAtom);
   const [loginInfoDetail, setLoginInfoDetail] =
     useRecoilState(loginInfoDetailAtom);
   const setMyRoom = useSetRecoilState(myRoomAtom);
-  const setAlert = useSetRecoilState(alertAtom);
+  // const setAlert = useSetRecoilState(alertAtom);
   const location = useLocation();
   const pathname = location.pathname;
   const currentPath = location.pathname + location.search;
@@ -162,10 +172,6 @@ const Skeleton = (props) => {
       <PopupPolicy isOpen={showAgree} onClose={() => setShowAgree(false)} />
     </Container>
   );
-};
-
-Skeleton.propTypes = {
-  children: PropTypes.node,
 };
 
 export default Skeleton;
