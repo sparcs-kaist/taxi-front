@@ -16,6 +16,7 @@ const SideChatHeader = (props) => {
     alignItems: "center",
     justifyContent: "space-between",
     padding: "12px 20px",
+    zIndex: 1,
   };
   const styleIcon = { color: theme.white, ...theme.cursor() };
   const styleInfoWrap = {

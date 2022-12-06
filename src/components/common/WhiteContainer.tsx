@@ -6,6 +6,7 @@ type WhiteContainerProps = {
   padding?: string;
   margin?: string;
   marginAuto?: boolean;
+  style?: CSS;
   children: React.ReactNode;
 };
 
@@ -13,6 +14,7 @@ const WhiteContainer = ({
   padding = "24px",
   margin = "0 0 15px",
   marginAuto = false,
+  style,
   ...props
 }: WhiteContainerProps) => {
   const box = (
@@ -25,6 +27,7 @@ const WhiteContainer = ({
         overflow: "hidden",
         position: "relative",
         borderRadius: "12px",
+        ...style,
       }}
     >
       {props.children}
