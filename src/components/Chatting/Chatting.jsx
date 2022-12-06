@@ -25,7 +25,6 @@ const Chatting = (props) => {
   const messagesBody = useRef();
   const history = useHistory();
 
-  const infinite = useRef(false);
   const [chats, setChats] = useStateWithCallbackLazy([]);
   const [showNewMessage, setShowNewMessage] = useState(false);
   const [messageFormHeight, setMessageFormHeight] =
@@ -43,22 +42,16 @@ const Chatting = (props) => {
   );
 
   useLayoutEffect(() => {
-    if (infinite.current) {
-      infinite.current = false;
-      let scrollTop = 0;
-      const bodyChildren = messagesBody.current.children;
-      for (let i = 0; i < bodyChildren.length; i++) {
-        const child = bodyChildren[i];
-        if (child.getAttribute("chatcheckout")) break;
-        if (child.style.marginTop) {
-          const marginList = child.style.margin.replaceAll("px", "").split(" ");
-          scrollTop += parseInt(marginList[0]) + parseInt(marginList[2]);
-        }
-        scrollTop += child.clientHeight;
-      }
-      messagesBody.current.scrollTop = scrollTop - 34; // 34는 ChatDate의 높이
-      callingInfScroll.current = false;
+    if (!callingInfScroll.current) return;
+
+    callingInfScroll.current = false;
+    let scrollTop = -34; // 34는 ChatDate의 높이
+    const bodyChildren = messagesBody.current.children;
+    for (let i = 0; i < bodyChildren.length; i++) {
+      if (bodyChildren[i].getAttribute("chatcheckout")) break;
+      scrollTop += bodyChildren[i].clientHeight;
     }
+    messagesBody.current.scrollTop = scrollTop;
   }, [chats]);
 
   useEffect(() => {
@@ -173,7 +166,6 @@ const Chatting = (props) => {
         }
 
         const checkoutChat = { type: "inf-checkout" };
-        infinite.current = true;
         setChats((prevChats) => [...data.chats, checkoutChat, ...prevChats]);
       });
 
