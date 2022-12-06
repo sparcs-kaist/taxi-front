@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 import { useRecoilValue } from "recoil";
@@ -25,6 +25,7 @@ const Chatting = (props) => {
   const messagesBody = useRef();
   const history = useHistory();
 
+  const infinite = useRef(false);
   const [chats, setChats] = useStateWithCallbackLazy([]);
   const [showNewMessage, setShowNewMessage] = useState(false);
   const [messageFormHeight, setMessageFormHeight] =
@@ -41,6 +42,25 @@ const Chatting = (props) => {
     [headerInfToken]
   );
 
+  useLayoutEffect(() => {
+    if (infinite.current) {
+      infinite.current = false;
+      let scrollTop = 0;
+      const bodyChildren = messagesBody.current.children;
+      for (let i = 0; i < bodyChildren.length; i++) {
+        const child = bodyChildren[i];
+        if (child.getAttribute("chatcheckout")) break;
+        if (child.style.marginTop) {
+          const marginList = child.style.margin.replaceAll("px", "").split(" ");
+          scrollTop += parseInt(marginList[0]) + parseInt(marginList[2]);
+        }
+        scrollTop += child.clientHeight;
+      }
+      messagesBody.current.scrollTop = scrollTop - 34; // 34는 ChatDate의 높이
+      callingInfScroll.current = false;
+    }
+  }, [chats]);
+
   useEffect(() => {
     if (reactiveState !== 3 && prevReactiveState.current === 3) {
       history.replace(`/myroom/${props.roomId}`);
@@ -50,7 +70,7 @@ const Chatting = (props) => {
   }, [reactiveState]);
 
   // scroll event
-  const isTopOnScroll = (tol = 20) => {
+  const isTopOnScroll = (tol = 0) => {
     if (messagesBody.current) {
       const scrollTop = Math.max(messagesBody.current.scrollTop, 0);
       if (scrollTop <= tol) {
@@ -153,19 +173,8 @@ const Chatting = (props) => {
         }
 
         const checkoutChat = { type: "inf-checkout" };
-        setChats(
-          (prevChats) => [...data.chats, checkoutChat, ...prevChats],
-          () => {
-            let scrollTop = 0;
-            const bodyChildren = messagesBody.current.children;
-            for (let i = 0; i < bodyChildren.length; i++) {
-              if (bodyChildren[i].getAttribute("chatcheckout")) break;
-              scrollTop += bodyChildren[i].clientHeight;
-            }
-            messagesBody.current.scrollTop = scrollTop;
-            callingInfScroll.current = false;
-          }
-        );
+        infinite.current = true;
+        setChats((prevChats) => [...data.chats, checkoutChat, ...prevChats]);
       });
 
       socket.current.emit("chats-join", props.roomId);
