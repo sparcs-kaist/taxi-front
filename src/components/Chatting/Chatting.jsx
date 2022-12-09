@@ -47,9 +47,9 @@ const Chatting = (props) => {
     callingInfScroll.current = false;
     let scrollTop = -34; // 34는 ChatDate의 높이
     const bodyChildren = messagesBody.current.children;
-    for (let i = 0; i < bodyChildren.length; i++) {
-      if (bodyChildren[i].getAttribute("chatcheckout")) break;
-      scrollTop += bodyChildren[i].clientHeight;
+    for (const children of bodyChildren) {
+      if (children.getAttribute("chatcheckout")) break;
+      scrollTop += children.clientHeight;
     }
     messagesBody.current.scrollTop = scrollTop;
   }, [chats]);
