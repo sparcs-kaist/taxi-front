@@ -1,4 +1,4 @@
-name: Push Image to Amazon ECR
+name: Push Prod Image to Amazon ECR
 
 # when tagging action success
 on:
