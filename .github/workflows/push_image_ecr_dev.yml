@@ -6,6 +6,9 @@ on:
     branches:
       - dev
 
+env:
+  AWS_REGION: ap-northeast-2
+
 jobs:
   if_merged:
     if: github.event.pull_request.merged == true
