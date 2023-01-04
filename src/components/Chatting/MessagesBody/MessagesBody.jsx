@@ -124,7 +124,7 @@ const MessagesBody = (props) => {
   };
 
   return (
-    <div style={{ overflow: "auto", height: "100%" }}>
+    <div style={{ overflow: "auto" }}>
       <div
         className="chatting-body"
         style={{
