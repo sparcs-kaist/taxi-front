@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 import { useRecoilValue } from "recoil";
@@ -41,6 +41,19 @@ const Chatting = (props) => {
     [headerInfToken]
   );
 
+  useLayoutEffect(() => {
+    if (!callingInfScroll.current) return;
+
+    callingInfScroll.current = false;
+    let scrollTop = -34; // 34는 ChatDate의 높이
+    const bodyChildren = messagesBody.current.children;
+    for (const children of bodyChildren) {
+      if (children.getAttribute("chatcheckout")) break;
+      scrollTop += children.clientHeight;
+    }
+    messagesBody.current.scrollTop = scrollTop;
+  }, [chats]);
+
   useEffect(() => {
     if (reactiveState !== 3 && prevReactiveState.current === 3) {
       history.replace(`/myroom/${props.roomId}`);
@@ -50,7 +63,7 @@ const Chatting = (props) => {
   }, [reactiveState]);
 
   // scroll event
-  const isTopOnScroll = (tol = 20) => {
+  const isTopOnScroll = (tol = 0) => {
     if (messagesBody.current) {
       const scrollTop = Math.max(messagesBody.current.scrollTop, 0);
       if (scrollTop <= tol) {
@@ -153,19 +166,7 @@ const Chatting = (props) => {
         }
 
         const checkoutChat = { type: "inf-checkout" };
-        setChats(
-          (prevChats) => [...data.chats, checkoutChat, ...prevChats],
-          () => {
-            let scrollTop = 0;
-            const bodyChildren = messagesBody.current.children;
-            for (let i = 0; i < bodyChildren.length; i++) {
-              if (bodyChildren[i].getAttribute("chatcheckout")) break;
-              scrollTop += bodyChildren[i].clientHeight;
-            }
-            messagesBody.current.scrollTop = scrollTop;
-            callingInfScroll.current = false;
-          }
-        );
+        setChats((prevChats) => [...data.chats, checkoutChat, ...prevChats]);
       });
 
       socket.current.emit("chats-join", props.roomId);
