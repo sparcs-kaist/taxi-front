@@ -40,7 +40,7 @@ const Chatting = (props) => {
     {},
     [headerInfToken]
   );
-  
+
   useEffect(() => {
     if (reactiveState !== 3 && prevReactiveState.current === 3) {
       history.replace(`/myroom/${props.roomId}`);
@@ -157,7 +157,7 @@ const Chatting = (props) => {
           (prevChats) => [...data.chats, checkoutChat, ...prevChats],
           () => {
             let scrollTop = 0;
-            const bodyChildren = messagesBody.current.children[0].children;
+            const bodyChildren = messagesBody.current.children;
             for (let i = 0; i < bodyChildren.length; i++) {
               if (bodyChildren[i].getAttribute("chatcheckout")) break;
               scrollTop += bodyChildren[i].clientHeight;
