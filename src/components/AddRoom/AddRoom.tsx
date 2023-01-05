@@ -28,9 +28,7 @@ const AddRoom = () => {
   const today10 = getToday10();
   const [cookies, setCookies] = useCookies(["defaultFromTo"]);
   const [valueName, setName] = useState("");
-  const [randomName, setRandomName] = useState(
-    randomRoomName[Math.floor(Math.random() * randomRoomName.length)]
-  );
+  const [randomName, setRandomName] = useState(randomRoomName);
   const [valuePlace, setPlace] = useState(
     cookies.defaultFromTo &&
       cookies.defaultFromTo[0] &&
