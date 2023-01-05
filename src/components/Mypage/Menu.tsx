@@ -18,7 +18,7 @@ type MenuProps = {
 
 const getIcon = (icon: string) => {
   const styleIcon = {
-    fontSize: "15px",
+    fontSize: "16px",
     marginRight: "8px",
   };
   switch (icon) {
@@ -61,7 +61,7 @@ const Menu = (props: MenuProps) => {
     >
       {getIcon(props.icon)}
       <div style={styleText}>{props.children}</div>
-      {isHover && <KeyboardArrowLeftRoundedIcon style={{ fontSize: "15px" }} />}
+      {isHover && <KeyboardArrowLeftRoundedIcon style={{ fontSize: "16px" }} />}
     </div>
   );
 };

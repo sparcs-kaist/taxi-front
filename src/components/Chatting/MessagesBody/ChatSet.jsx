@@ -144,6 +144,7 @@ const ChatSet = (props) => {
     ...theme.font8,
     color: theme.gray_text,
     marginBottom: "1px",
+    minWidth: "fit-content",
   };
 
   const handleOpen = () => {

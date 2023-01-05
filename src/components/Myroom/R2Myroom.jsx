@@ -26,10 +26,6 @@ const ChatHeader = (props) => {
     [headerInfToken]
   );
 
-  useEffect(() => {
-    props.resizeEvent();
-  }, [JSON.stringify(headerInfo)]);
-
   return (
     <ChatHeaderBody
       info={headerInfo}
@@ -40,7 +36,6 @@ const ChatHeader = (props) => {
 
 ChatHeader.propTypes = {
   roomId: PropTypes.string,
-  resizeEvent: PropTypes.func,
 };
 
 const LinkRoom = (props) => {
@@ -70,72 +65,22 @@ const R2Myroom = (props) => {
   const refHeader = useRef();
   const [isHeaderOpen, setHeaderOpen] = useState(true);
 
-  const bodyHeightRef = useRef("0px");
-  const [bodyHeight, setBodyHeight] = useState(bodyHeightRef.current);
-  const chatHeightRef = useRef("0px");
-  const [chatHeight, setChatHeight] = useState(chatHeightRef.current);
-
-  const resizeEvent = () => {
-    try {
-      const height1 = refTitle.current.clientHeight;
-      const height2 = document.getElementById("navigation-body").clientHeight;
-      const height3 = refHeader.current?.clientHeight;
-      const height4 = document.body.clientHeight;
-
-      const newHeight = `${height4 - height1 - height2}px`;
-      if (bodyHeightRef.current !== newHeight) {
-        bodyHeightRef.current = newHeight;
-        setBodyHeight(newHeight);
-      }
-
-      const newChatHeight = `${height4 - height1 - height2 - height3 - 30}px`;
-      if (chatHeightRef.current !== newChatHeight) {
-        chatHeightRef.current = newChatHeight;
-        setChatHeight(newChatHeight);
-      }
-    } catch (e) {
-      console.log(e);
-      // FIXME
-    }
-  };
-  useEffect(() => {
-    resizeEvent();
-    window.addEventListener("resize", resizeEvent);
-    return () => {
-      window.removeEventListener("resize", resizeEvent);
-    };
-  }, [props.roomId, isHeaderOpen]);
-
   return (
-    <div
-      style={{
-        position: "absolute",
-        width: "100%",
-        height: "calc(100% - 50px)",
-      }}
-    >
-      <div ref={refTitle}>
-        <Title icon="myroom" header marginAuto R2={props.roomId !== undefined}>
-          내 방 보기
-        </Title>
-      </div>
-      <div
-        style={{
-          height: bodyHeight,
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        <RLayout.R2
-          left={
-            <div
-              style={{
-                height: bodyHeight,
-                overflow: "auto",
-                margin: "0 -4px",
-                padding: "0 4px",
-              }}
-            >
+    <div style={{ width: "100%", height: "calc(100vh - 56px)" }}>
+      <RLayout.R2
+        left={
+          <>
+            <div ref={refTitle}>
+              <Title
+                icon="myroom"
+                header
+                marginAuto
+                R2={props.roomId !== undefined}
+              >
+                내 방 보기
+              </Title>
+            </div>
+            <div style={{ margin: "0 -4px", padding: "0 4px" }}>
               <WhiteContainer padding="20px 20px 22px">
                 <Title icon="current">참여 중인 방</Title>
                 <div style={{ height: "19px" }} />
@@ -196,60 +141,61 @@ const R2Myroom = (props) => {
                   </>
                 )}
               </WhiteContainer>
-              <div style={{ height: "50px" }} />
+              <div style={{ height: "56px" }} />
             </div>
-          }
-          right={
-            props.roomId ? (
-              <>
-                <div ref={refHeader}>
-                  <WhiteContainer padding="16px">
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        padding: "0 4px 0 8px",
-                      }}
-                    >
-                      <Title icon="chat">채팅 창</Title>
-                      {isHeaderOpen ? (
-                        <UnfoldLessRoundedIcon
-                          style={{ color: theme.purple, ...theme.cursor() }}
-                          onClick={() => setHeaderOpen(false)}
-                        />
-                      ) : (
-                        <UnfoldMoreRoundedIcon
-                          style={{ color: theme.purple, ...theme.cursor() }}
-                          onClick={() => setHeaderOpen(true)}
-                        />
-                      )}
-                    </div>
-                    {isHeaderOpen && (
-                      <>
-                        <DottedLine direction="row" margin="16px 0" />
-                        <ChatHeader
-                          roomId={props.roomId}
-                          resizeEvent={resizeEvent}
-                        />
-                      </>
-                    )}
-                  </WhiteContainer>
-                </div>
-                <WhiteContainer padding="0px">
-                  <div
-                    style={{
-                      height: chatHeight,
-                      position: "relative",
-                    }}
-                  >
-                    <SideChat roomId={props.roomId} />
-                  </div>
-                </WhiteContainer>
-              </>
-            ) : null
-          }
-        />
-      </div>
+          </>
+        }
+        right={props.roomId ? <></> : null}
+      />
+      {props.roomId ? (
+        <div
+          style={{
+            position: "fixed",
+            width: "min(390px, calc(50% - 27.5px))",
+            top: 20,
+            left: "calc(50% + 7.5px)",
+            height: "calc(100vh - 20px - 56px - 15px)",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <div ref={refHeader}>
+            <WhiteContainer padding="16px">
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  padding: "0 4px 0 8px",
+                }}
+              >
+                <Title icon="chat">채팅 창</Title>
+                {isHeaderOpen ? (
+                  <UnfoldLessRoundedIcon
+                    style={{ color: theme.purple, ...theme.cursor() }}
+                    onClick={() => setHeaderOpen(false)}
+                  />
+                ) : (
+                  <UnfoldMoreRoundedIcon
+                    style={{ color: theme.purple, ...theme.cursor() }}
+                    onClick={() => setHeaderOpen(true)}
+                  />
+                )}
+              </div>
+              {isHeaderOpen && (
+                <>
+                  <DottedLine direction="row" margin="16px 0" />
+                  <ChatHeader roomId={props.roomId} />
+                </>
+              )}
+            </WhiteContainer>
+          </div>
+          <div style={{ height: "100%", minHeight: 0 }}>
+            <WhiteContainer padding="0px" style={{ height: "100%", zIndex: 0 }}>
+              <SideChat roomId={props.roomId} />
+            </WhiteContainer>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };

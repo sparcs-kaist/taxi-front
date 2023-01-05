@@ -66,7 +66,7 @@ const PopupInput = (props: PopupInputProps) => {
   return (
     <Popup isOpen={props.isOpen} onClose={props.onClose} onClick={onClick}>
       <div style={styleContainer}>
-        <ScheduleRoundedIcon style={{ fontSize: "15px" }} />
+        <ScheduleRoundedIcon style={{ fontSize: "16px" }} />
         <div style={{ marginLeft: "6px" }}>시간 :</div>
         <div style={stylePicker}>
           <Picker
@@ -98,7 +98,7 @@ const Time = (props: TimeProps) => {
     ...theme.font14,
   };
   const styleIcon = {
-    fontSize: "15px",
+    fontSize: "16px",
     margin: "0 2px 0 15px",
   };
   const styleText = {
