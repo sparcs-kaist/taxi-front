@@ -1,4 +1,4 @@
-export default [
+const roomNames = [
   "택시타고 가자",
   "택시타고 가요",
   "택시타고 가요~",
@@ -12,3 +12,6 @@ export default [
   "인생은 택시",
   "카이생의 택시",
 ];
+const randomRoomName = roomNames[Math.floor(Math.random() * roomNames.length)];
+
+export default randomRoomName;

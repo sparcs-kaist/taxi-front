@@ -26,7 +26,7 @@ const AddRoom = () => {
   const history = useHistory();
   const today = getToday();
   const today10 = getToday10();
-  const [cookies, setCookie] = useCookies(["defaultFromTo"]);
+  const [cookies, setCookies] = useCookies(["defaultFromTo"]);
   const [valueName, setName] = useState("");
   const [randomName, setRandomName] = useState(
     randomRoomName[Math.floor(Math.random() * randomRoomName.length)]
@@ -53,7 +53,7 @@ const AddRoom = () => {
     const expirationDate = new Date();
     expirationDate.setFullYear(expirationDate.getFullYear() + 10);
     if (valuePlace[0] && valuePlace[1]) {
-      setCookie("defaultFromTo", valuePlace, {
+      setCookies("defaultFromTo", valuePlace, {
         expires: expirationDate,
       });
     }
