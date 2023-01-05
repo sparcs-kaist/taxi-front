@@ -51,6 +51,7 @@ const Date = (props) => {
 
   const style = {
     width: "calc((100% - 36px) / 7)",
+    aspectRatio: "1 / 1",
     height: "100%",
   };
   const styleBox = {
@@ -197,6 +198,7 @@ class DatePicker extends Component {
       display: "flex",
       flexDirection: "column",
       rowGap: "6px",
+      marginBottom: "5px",
     };
     this.styleDay = {
       display: "flex",
@@ -241,20 +243,20 @@ class DatePicker extends Component {
   render() {
     const dateInfo = getCalendarDates();
     const [selectedYear, selectedMonth, selectedDate] = this.props.selectedDate;
-
+    // const monthHeight =
+    //   document.getElementsByClassName("month")[0]?.clientHeight ?? 0;
+    // console.log(monthHeight);
     return (
       <div
         className="datepicker"
         ref={this.pickerRef}
         style={{
-          transition: "height 0.3s ease-in-out",
+          transition: "max-height 0.3s ease-in-out",
           margin: "-10px -15px",
           padding: "10px 15px",
-          height:
-            24 +
-            (this.state.isOpen
-              ? 10 + 1 + 32 + (this.state.weekHeight + 6) * this.weekLength
-              : 0),
+          maxHeight: this.state.isOpen ? 243 : 24,
+          // maxHeight:
+          //   24 + (this.state.isOpen ? 10 + 1 + 32 + monthHeight + 5 : 0),
           cursor: !this.state.isOpen ? "pointer" : undefined,
         }}
         onClick={this.onClickTop}
@@ -291,14 +293,14 @@ class DatePicker extends Component {
             </div>
           ))}
         </div>
-        <div style={this.styleMonth}>
+        <div className="month" style={this.styleMonth}>
           {dateInfo.map((item, index) => {
             return (
               <div
                 key={index}
                 style={{
                   ...this.styleWeek,
-                  height: this.state.weekHeight,
+                  // height: this.state.weekHeight,
                 }}
               >
                 {item.map((item, index) => (
@@ -321,13 +323,13 @@ class DatePicker extends Component {
     );
   }
   componentDidMount() {
-    this.weekLength = getCalendarDates().length;
-    this.resizeEvent();
-    window.addEventListener("resize", this.resizeEvent);
+    // this.weekLength = getCalendarDates().length;
+    // this.resizeEvent();
+    // window.addEventListener("resize", this.resizeEvent);
     document.addEventListener("mouseup", this.handleClickOutside);
   }
   componentWillUnmount() {
-    window.removeEventListener("resize", this.resizeEvent);
+    // window.removeEventListener("resize", this.resizeEvent);
     document.removeEventListener("mouseup", this.handleClickOutside);
   }
 }
