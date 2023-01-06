@@ -150,7 +150,7 @@ class DatePicker extends Component {
     super(props);
     this.state = {
       isOpen: true,
-      maxHeight: undefined,
+      // maxHeight: undefined,
     };
 
     this.pickerRef = React.createRef(null);
