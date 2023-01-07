@@ -66,7 +66,7 @@ const R2Myroom = (props) => {
   const [isHeaderOpen, setHeaderOpen] = useState(true);
 
   return (
-    <div style={{ width: "100%", height: "calc(100vh - 56px)" }}>
+    <>
       <RLayout.R2
         left={
           <>
@@ -104,7 +104,7 @@ const R2Myroom = (props) => {
                   ))
                 )}
               </WhiteContainer>
-              <WhiteContainer padding="20px 20px 22px">
+              <WhiteContainer padding="20px 20px 22px" margin="0px 0px -15px">
                 <Title icon="past">과거 참여 방</Title>
                 <div style={{ height: "19px" }} />
                 <DottedLine direction="row" />
@@ -141,7 +141,6 @@ const R2Myroom = (props) => {
                   </>
                 )}
               </WhiteContainer>
-              <div style={{ height: "56px" }} />
             </div>
           </>
         }
@@ -157,6 +156,7 @@ const R2Myroom = (props) => {
             height: "calc(100vh - 20px - 56px - 15px)",
             display: "flex",
             flexDirection: "column",
+            zIndex: 10,
           }}
         >
           <div ref={refHeader}>
@@ -196,7 +196,7 @@ const R2Myroom = (props) => {
           </div>
         </div>
       ) : null}
-    </div>
+    </>
   );
 };
 
