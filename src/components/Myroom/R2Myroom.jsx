@@ -134,9 +134,6 @@ const R2Myroom = (props) => {
                     <Pagination
                       totalPages={props.donePageInfo.totalPages}
                       currentPage={props.donePageInfo.currentPage}
-                      onClickPage={props.donePageClickHandler}
-                      onClickPrev={props.donePrevPageHandler}
-                      onClickNext={props.doneNextPageHandler}
                     />
                   </>
                 )}
