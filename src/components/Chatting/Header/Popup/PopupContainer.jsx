@@ -10,11 +10,8 @@ const PopupContainer = (props) => {
       onClickClose={props.onClickClose}
       padding="10px"
     >
-      <div style={{ height: "26px" }} />
-      {props.children}
-      <div style={{ height: "24px" }} />
+      <div style={{ margin: "26px 0 24px" }}>{props.children}</div>
       <ButtonCancelOk
-        nameCancel="돌아가기"
         nameOk={props.nameOk}
         onClickCancel={props.onClickClose}
         onClickOk={props.onClickOk}
