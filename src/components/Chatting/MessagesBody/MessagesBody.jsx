@@ -79,6 +79,16 @@ const MessagesBody = (props) => {
         );
       }
       if (item.type === "in" || item.type === "out") {
+        if (chatsCache) {
+          list.push(
+            <ChatSet
+              key={"chat" + chatsCache[0].time}
+              chats={chatsCache}
+              {...chatSetCommonProps}
+            />
+          );
+          chatsCache = null;
+        }
         list.push(
           <ChatInOut
             key={"inout" + currentMoment}
