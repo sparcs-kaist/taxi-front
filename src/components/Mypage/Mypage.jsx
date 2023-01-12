@@ -27,14 +27,7 @@ const Mypage = () => {
   const history = useHistory();
   const setAlert = useSetRecoilState(alertAtom);
 
-  const handleLogout = async () => {
-    const response = await axios.get("/auth/logout");
-    if (response.status === 200) {
-      history.push("/login");
-    } else {
-      setAlert("로그아웃에 실패했습니다.");
-    }
-  };
+  const handleLogout = () => history.push("/logout");
   const handleUpdate = () => setProfToken(Date.now().toString());
   const handleTranslation = () =>
     i18n.changeLanguage(i18n.language === "ko" ? "en" : "ko");
