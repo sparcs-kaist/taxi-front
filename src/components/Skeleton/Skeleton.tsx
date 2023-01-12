@@ -146,7 +146,7 @@ const Skeleton = (props: SkeletonProps) => {
       </Container>
     );
   }
-  if (pathname.startsWith("/login")) {
+  if (pathname.startsWith("/login") || pathname.startsWith("/logout")) {
     return <Container>{props.children}</Container>;
   }
   if (taxiLocation.length === 0 || loginInfoDetail === null) {
