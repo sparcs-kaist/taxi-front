@@ -30,7 +30,7 @@ const Mypage = () => {
   const handleLogout = async () => {
     const response = await axios.get("/auth/logout");
     if (response.status === 200) {
-      history.push("/logout");
+      history.push("/login");
     } else {
       setAlert("로그아웃에 실패했습니다.");
     }
