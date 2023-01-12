@@ -1,0 +1,43 @@
+name: Push Dev Image to Amazon ECR
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - dev
+
+env:
+  AWS_REGION: ap-northeast-2
+
+jobs:
+  if_merged:
+    if: github.event.pull_request.merged == true
+    name: Create Release and Tag
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+    
+    - name: Login to AWS ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+    
+    - name: Build and Push to AWS ECR
+      id: build_image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: taxi-front
+      run: |
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:dev .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:dev
+        echo "Push iamge : $ECR_REGISTRY/$ECR_REPOSITORY:dev"

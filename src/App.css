@@ -16,6 +16,7 @@ input {
 
 html {
   height: 100%;
+  scroll-behavior: smooth;
 }
 
 html.lock-scroll body {

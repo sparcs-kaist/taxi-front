@@ -104,24 +104,24 @@ const InfoSection = () => {
             <div
               style={{ marginTop: "32px", display: "flex", columnGap: "10px" }}
             >
-              <Link to="/search" style={{ textDecoration: "none" }}>
+              <Link to="/addroom" style={{ textDecoration: "none" }}>
                 <Button
                   type="purple"
                   padding="12px 20px 11px"
                   radius={8}
                   font={theme.font16_bold}
                 >
-                  방 검색하기
+                  방 개설하기
                 </Button>
               </Link>
-              <Link to="/addroom" style={{ textDecoration: "none" }}>
+              <Link to="/search" style={{ textDecoration: "none" }}>
                 <Button
                   type="white"
                   padding="12px 20px 11px"
                   radius={8}
                   font={theme.font16_bold}
                 >
-                  방 개설하기
+                  방 검색하기
                 </Button>
               </Link>
             </div>

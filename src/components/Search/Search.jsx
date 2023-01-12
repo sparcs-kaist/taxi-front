@@ -204,7 +204,7 @@ const Search = () => {
     const onScrollOrResize = () => {
       if (!searchResult && reactiveState !== 3) return;
       const scrolled =
-        scrollRef.current?.getBoundingClientRect().top < window.innerHeight / 2;
+        scrollRef.current?.getBoundingClientRect().top < window.innerHeight / 2; // 화면의 1/2 지점을 넘어설 때
       setShowScrollButton(scrolled);
     };
     window.addEventListener("scroll", onScrollOrResize);
@@ -371,7 +371,7 @@ const Search = () => {
   useEffect(() => {
     if (!onCall.current || reactiveState !== 3) return;
     setTimeout(() => {
-      const scrollToResult = scrollRef.current?.offsetTop + 79 - 30;
+      const scrollToResult = scrollRef.current?.offsetTop + 79; // '검색 결과'의 parent 내에서의 offset + '방 검색하기'의 height
       window.scrollTo({ top: scrollToResult, behavior: "smooth" });
     }, 0);
   }, [searchResult]);
@@ -405,6 +405,7 @@ const Search = () => {
         radius={12}
         font={theme.font16_bold}
         onClick={onClickSearch}
+        className="scroll-to-button"
       >
         {message}
       </Button>
@@ -416,7 +417,7 @@ const Search = () => {
         />
       )}
       {searchResult && reactiveState === 3 && (
-        <div style={{ marginTop: "30px" }} ref={scrollRef}>
+        <div style={{ paddingTop: "30px" }} ref={scrollRef}>
           <Title icon="search_result">검색 결과</Title>
           <SideResult result={searchResult} mobile />
           {showScrollButton && <ScrollButton />}

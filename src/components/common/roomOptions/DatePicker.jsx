@@ -6,6 +6,8 @@ import DottedLine from "components/common/DottedLine";
 import MiniCircle from "components/common/MiniCircle";
 
 import TodayRoundedIcon from "@material-ui/icons/TodayRounded";
+import UnfoldMoreRoundedIcon from "@mui/icons-material/UnfoldMoreRounded";
+import UnfoldLessRoundedIcon from "@mui/icons-material/UnfoldLessRounded";
 
 const getCalendarDates = () => {
   const MAX_AVAILABLE_DATES = 14;
@@ -48,10 +50,11 @@ const Date = (props) => {
 
   const style = {
     width: "calc((100% - 36px) / 7)",
+    aspectRatio: "1 / 1",
     height: "100%",
   };
   const styleBox = {
-    height: "100%",
+    ...style,
     borderRadius: "6px",
     position: "relative",
     display: "flex",
@@ -77,7 +80,7 @@ const Date = (props) => {
   const styleDate = {
     ...theme.font12,
     letterSpacing: undefined,
-    marginTop: "1px",
+    marginTop: "3px",
     fontWeight: props.selected ? 500 : undefined,
     color: props.selected
       ? theme.white
@@ -91,30 +94,43 @@ const Date = (props) => {
   };
   const styleToday = {
     position: "absolute",
-    top: "calc(50% + 8.5px)",
+    top: "calc(50% + 8px)",
     left: "calc(50% - 2px)",
   };
 
   const onClick = () => {
-    if (props.available) props.handler(props.year, props.month, props.date);
+    if (props.available) {
+      props.handler(props.year, props.month, props.date);
+
+      const scrollTo =
+        document.querySelector(".scroll-to-button").getBoundingClientRect()
+          .top + // 화면 상에서 버튼의 현재 위치
+        window.scrollY + // 스크롤 위치
+        (46 + 15 + 56) - // 버튼의 높이 + 버튼과 네비게이션 사이의 간격 + 네비게이션 높이
+        window.innerHeight; // - 화면 높이
+
+      if (window.scrollY < scrollTo)
+        window.scrollTo({
+          top: scrollTo,
+          behavior: "smooth",
+        });
+    }
   };
 
   if (!props.date) return <div style={style} />;
   return (
-    <div style={style}>
-      <div
-        style={styleBox}
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-        onClick={onClick}
-      >
-        <div style={styleDate}>{props.date}</div>
-        {props.available === "today" && (
-          <div style={styleToday}>
-            <MiniCircle type="date" isSelected={props.selected} />
-          </div>
-        )}
-      </div>
+    <div
+      style={styleBox}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      onClick={onClick}
+    >
+      <div style={styleDate}>{props.date}</div>
+      {props.available === "today" && (
+        <div style={styleToday}>
+          <MiniCircle type="date" isSelected={props.selected} />
+        </div>
+      )}
     </div>
   );
 };
@@ -132,6 +148,19 @@ Date.propTypes = {
 class DatePicker extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isOpen: true,
+      // maxHeight: undefined,
+    };
+
+    this.pickerRef = React.createRef(null);
+    this.clicked = false;
+
+    this.dateHandler = this.dateHandler.bind(this);
+    this.onClickOutside = this.onClickOutside.bind(this);
+    this.onClickTop = this.onClickTop.bind(this);
+    this.onOpen = this.onOpen.bind(this);
+    this.onClose = this.onClose.bind(this);
 
     this.week = [
       { color: theme.red_text, text: "일" },
@@ -152,10 +181,9 @@ class DatePicker extends Component {
       display: "flex",
       alignItems: "center",
       ...theme.font14,
-      padding: "4px 0",
     };
     this.styleIcon = {
-      fontSize: "15px",
+      fontSize: "16px",
       margin: "0 6px 0 9px",
     };
     this.styleArrow = {
@@ -164,15 +192,11 @@ class DatePicker extends Component {
       fill: theme.purple,
       ...theme.cursor(),
     };
-    this.styleArrowGrid = {
-      width: "56px",
-      display: "flex",
-      justifyContent: "space-between",
-    };
     this.styleMonth = {
       display: "flex",
       flexDirection: "column",
       rowGap: "6px",
+      marginBottom: "5px",
     };
     this.styleDay = {
       display: "flex",
@@ -192,18 +216,40 @@ class DatePicker extends Component {
   }
 
   dateHandler(year, month, date) {
+    if (!this.clicked) this.clicked = true;
     this.props.handler(year, month, date);
   }
 
-  resizeEvent() {
-    const weeks = document.getElementsByClassName("datepicker-week");
-    if (weeks.length > 0) {
-      const width = (weeks[0].clientWidth - 36) / 7;
-      const height = `${Math.min(width, 48)}px`;
-      for (let i = 0; i < weeks.length; i++) {
-        weeks[i].style.height = height;
-      }
-    }
+  handleMaxHeight(event, callback) {
+    event.stopPropagation();
+    const monthHeight =
+      document.getElementsByClassName("month")[0]?.clientHeight ?? 0;
+    this.setState({ maxHeight: 24 + 10 + 1 + 32 + monthHeight + 5 }, callback);
+  }
+
+  onOpen(event) {
+    this.handleMaxHeight(event, () =>
+      this.setState({ isOpen: true }, () => {
+        setTimeout(() => this.setState({ maxHeight: undefined }), 300);
+      })
+    );
+  }
+
+  onClose(event) {
+    this.handleMaxHeight(event, () =>
+      setTimeout(() => this.setState({ isOpen: false }), 0)
+    );
+  }
+
+  onClickTop(event) {
+    if (this.state.isOpen) return;
+    this.clicked = false;
+    this.onOpen(event);
+  }
+
+  onClickOutside(event) {
+    if (this.clicked && !this.pickerRef?.current.contains(event.target))
+      this.onClose(event);
   }
 
   render() {
@@ -211,12 +257,34 @@ class DatePicker extends Component {
     const [selectedYear, selectedMonth, selectedDate] = this.props.selectedDate;
 
     return (
-      <>
+      <div
+        className="datepicker"
+        ref={this.pickerRef}
+        style={{
+          transition: "max-height 0.3s ease-in-out",
+          margin: "-10px -15px",
+          padding: "10px 15px",
+          maxHeight: this.state.isOpen ? this.state.maxHeight : 24,
+          cursor: !this.state.isOpen ? "pointer" : undefined,
+        }}
+        onClick={this.onClickTop}
+      >
         <div style={this.styleTop}>
           <div style={this.styleInfo}>
             <TodayRoundedIcon style={this.styleIcon} />
             날짜 : {selectedYear}년 {selectedMonth}월 {selectedDate}일
           </div>
+          {this.state.isOpen ? (
+            <UnfoldLessRoundedIcon
+              style={this.styleArrow}
+              onClick={this.onClose}
+            />
+          ) : (
+            <UnfoldMoreRoundedIcon
+              style={this.styleArrow}
+              onClick={this.onOpen}
+            />
+          )}
         </div>
         <DottedLine direction="row" />
         <div style={this.styleDay}>
@@ -233,14 +301,10 @@ class DatePicker extends Component {
             </div>
           ))}
         </div>
-        <div style={this.styleMonth}>
+        <div className="month" style={this.styleMonth}>
           {dateInfo.map((item, index) => {
             return (
-              <div
-                key={index}
-                style={{ ...this.styleWeek }}
-                className="datepicker-week"
-              >
+              <div key={index} style={this.styleWeek}>
                 {item.map((item, index) => (
                   <Date
                     key={index}
@@ -257,19 +321,14 @@ class DatePicker extends Component {
             );
           })}
         </div>
-      </>
+      </div>
     );
   }
   componentDidMount() {
-    this.resizeEvent();
-    window.addEventListener("resize", this.resizeEvent);
-  }
-  componentDidUpdate() {
-    this.resizeEvent();
-    window.addEventListener("resize", this.resizeEvent);
+    document.addEventListener("mouseup", this.onClickOutside);
   }
   componentWillUnmount() {
-    window.removeEventListener("resize", this.resizeEvent);
+    document.removeEventListener("mouseup", this.onClickOutside);
   }
 }
 
