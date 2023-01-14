@@ -12,17 +12,16 @@ const Logout = () => {
        * @todo @fixme
        * 로그아웃 에러 처리 어떻게 할지 고민하기
        */
-    }
-    else if (!isLodding && response) {
+    } else if (!isLodding && response) {
       /**
        * @todo @fixme
        * 글로벌 변수 초기화 필요
        */
-      history.push("/login");
+      history.replace("/login");
     }
-  }, [error, response]);
+  }, [error, response, isLodding]);
 
   return null;
-}
+};
 
 export default Logout;
