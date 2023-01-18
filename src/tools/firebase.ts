@@ -1,6 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getMessaging, getToken } from "firebase/messaging";
-import { onBackgroundMessage } from "firebase/messaging/sw";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import axios from "tools/axios";
 
 const firebaseConfig = {
@@ -16,7 +15,7 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 const firebaseMessaging = getMessaging(firebaseApp);
 
-const requestToken = async () => {
+const requestNotification = async () => {
   try {
     const token = await getToken(firebaseMessaging);
     await axios.post("/auth/registerDeviceToken", { deviceToken: token });
@@ -25,8 +24,8 @@ const requestToken = async () => {
   }
 };
 
-onBackgroundMessage(firebaseMessaging, (payload) => {
+onMessage(firebaseMessaging, (payload) => {
   console.log(payload);
 });
 
-export default requestToken;
+export default requestNotification;
