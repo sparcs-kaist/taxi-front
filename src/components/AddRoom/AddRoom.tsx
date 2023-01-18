@@ -28,11 +28,8 @@ const AddRoom = () => {
   const today10 = getToday10();
   const [cookies, setCookies] = useCookies(["defaultFromTo"]);
   const [valueName, setName] = useState("");
-  const [randomName, setRandomName] = useState(randomRoomName);
   const [valuePlace, setPlace] = useState(
-    cookies.defaultFromTo &&
-      cookies.defaultFromTo[0] &&
-      cookies.defaultFromTo[1]
+    cookies?.defaultFromTo?.[0] && cookies?.defaultFromTo?.[1]
       ? cookies.defaultFromTo
       : [null, null]
   );
@@ -93,7 +90,7 @@ const AddRoom = () => {
     if (!onCall.current) {
       onCall.current = true;
       const result = await axios.post("/rooms/v2/create", {
-        name: valueName ? valueName : randomName,
+        name: valueName ? valueName : randomRoomName,
         from: valuePlace[0],
         to: valuePlace[1],
         time: calculatedTime!.toISOString(),
@@ -123,7 +120,7 @@ const AddRoom = () => {
         <OptionName
           value={valueName}
           handler={setName}
-          placeholder={randomName}
+          placeholder={randomRoomName}
         />
         <OptionTime value={valueTime} handler={setTime} page="add" />
         <OptionMaxPeople value={valueMaxPeople} handler={setMaxPeople} />
