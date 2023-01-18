@@ -154,9 +154,7 @@ const Search = () => {
   const [searchOptions, setSearchOptions] = useState({});
   const [valueName, setName] = useState("");
   const defaultPlace =
-    cookies.defaultFromTo &&
-    cookies.defaultFromTo[0] &&
-    cookies.defaultFromTo[1]
+    cookies?.defaultFromTo?.[0] && cookies?.defaultFromTo?.[1]
       ? cookies.defaultFromTo
       : [null, null];
   const [valuePlace, setPlace] = useState(defaultPlace);
