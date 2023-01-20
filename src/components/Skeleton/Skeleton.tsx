@@ -92,7 +92,7 @@ const Skeleton = (props: SkeletonProps) => {
   useEffect(() => {
     // path가 수정될 때 마다 logininfo 요청
     axios
-      .get("/json/logininfo")
+      .get("/logininfo")
       .then(({ data }) => {
         setUserId(data?.id ?? null);
       })
@@ -115,7 +115,7 @@ const Skeleton = (props: SkeletonProps) => {
   useEffect(() => {
     // 로그인 정보 수정될 때 요청
     axios
-      .get("/json/logininfo/detail")
+      .get("/logininfo/detail")
       .then(({ data }) => {
         setLoginInfoDetail(data);
         setShowAgree(data?.agreeOnTermsOfService !== true);

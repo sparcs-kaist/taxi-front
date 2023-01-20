@@ -163,7 +163,7 @@ const Agree = (props) => {
       setAlert("약관 동의에 실패하였습니다.");
       return;
     }
-    const detail = await axios.get("/json/logininfo/detail");
+    const detail = await axios.get("/logininfo/detail");
     props.setLoginInfoDetail(detail?.data);
     props.onAgree();
   };
