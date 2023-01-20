@@ -80,7 +80,7 @@ const Skeleton = (props: SkeletonProps) => {
 
   const initializeGlobalInfo = useCallback(() => {
     const getLocation = axios.get("/locations");
-    const getRoomList = axios.get("/rooms/v2/searchByUser");
+    const getRoomList = axios.get("/rooms/searchByUser");
     Promise.all([getLocation, getRoomList]).then(
       ([{ data: locationData }, { data: roomData }]) => {
         setTaxiLocation(locationData.locations);

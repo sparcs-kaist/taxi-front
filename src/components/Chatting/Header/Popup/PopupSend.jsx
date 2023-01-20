@@ -34,11 +34,11 @@ const PopupSend = (props) => {
   const setAlert = useSetRecoilState(alertAtom);
   const setMyRoom = useSetRecoilState(myRoomAtom);
   const onClick = async () => {
-    const res = await axios.post("/rooms/v2/commitSettlement", {
+    const res = await axios.post("/rooms/commitSettlement", {
       roomId: props.roomId,
     });
     if (res.status === 200) {
-      const { data } = await axios.get("/rooms/v2/searchByUser");
+      const { data } = await axios.get("/rooms/searchByUser");
       setMyRoom(data);
       props.recallEvent();
       props.onClickClose();
