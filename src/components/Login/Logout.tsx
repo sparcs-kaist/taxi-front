@@ -1,10 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useEffect } from "react";
 import useTaxiAPI from "hooks/useTaxiAPI";
-import { useHistory } from "react-router";
 
 const Logout = () => {
   const [error, response, isLoading] = useTaxiAPI.get("/auth/logout");
-  const history = useHistory();
 
   useEffect(() => {
     if (error) {
