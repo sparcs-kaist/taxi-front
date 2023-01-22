@@ -12,6 +12,8 @@ import { useSetRecoilState } from "recoil";
 import alertAtom from "recoil/alert";
 import FullParticipation from "./FullParticipation";
 import { MAX_PARTICIPATION } from "components/Myroom/Myroom";
+import { useCookies } from "react-cookie";
+import randomRoomName from "static/randomRoomName";
 
 import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
@@ -24,8 +26,13 @@ const AddRoom = () => {
   const history = useHistory();
   const today = getToday();
   const today10 = getToday10();
+  const [cookies, setCookies] = useCookies(["defaultFromTo"]);
   const [valueName, setName] = useState("");
-  const [valuePlace, setPlace] = useState([null, null]);
+  const [valuePlace, setPlace] = useState(
+    cookies?.defaultFromTo?.[0] && cookies?.defaultFromTo?.[1]
+      ? cookies.defaultFromTo
+      : [null, null]
+  );
   const [valueDate, setDate] = useState<Array<Nullable<number>>>([
     today.year(),
     today.month() + 1,
@@ -36,6 +43,16 @@ const AddRoom = () => {
   const [calculatedTime, setCalculatedTime] = useState<Date | null>(null);
   const setAlert = useSetRecoilState(alertAtom);
   const [myRoom, setMyRoom] = useRecoilState(myRoomAtom);
+
+  useEffect(() => {
+    const expirationDate = new Date();
+    expirationDate.setFullYear(expirationDate.getFullYear() + 10);
+    if (valuePlace[0] && valuePlace[1]) {
+      setCookies("defaultFromTo", valuePlace, {
+        expires: expirationDate,
+      });
+    }
+  }, [valuePlace]);
 
   useEffect(() => {
     setCalculatedTime(
@@ -62,9 +79,8 @@ const AddRoom = () => {
     validatedMsg = "날짜를 선택해 주세요";
   } else if (today.isSameOrAfter(calculatedTime)) {
     validatedMsg = "현재 시각 이후를 선택해주세요";
-  } else if (valueName === "") {
-    validatedMsg = "방 이름을 입력해 주세요";
   } else if (
+    valueName !== "" &&
     !RegExp("^[A-Za-z0-9가-힣ㄱ-ㅎㅏ-ㅣ,.?! _-]{1,50}$").test(valueName)
   ) {
     validatedMsg = "방 이름으로 사용될 수 없습니다";
@@ -74,7 +90,7 @@ const AddRoom = () => {
     if (!onCall.current) {
       onCall.current = true;
       const result = await axios.post("/rooms/create", {
-        name: valueName,
+        name: valueName ? valueName : randomRoomName,
         from: valuePlace[0],
         to: valuePlace[1],
         time: calculatedTime!.toISOString(),
@@ -101,7 +117,11 @@ const AddRoom = () => {
       <RLayout.R1>
         <OptionPlace value={valuePlace} handler={setPlace} />
         <OptionDate value={valueDate} handler={setDate} />
-        <OptionName value={valueName} handler={setName} />
+        <OptionName
+          value={valueName}
+          handler={setName}
+          placeholder={randomRoomName}
+        />
         <OptionTime value={valueTime} handler={setTime} page="add" />
         <OptionMaxPeople value={valueMaxPeople} handler={setMaxPeople} />
         <Button
