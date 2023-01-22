@@ -89,7 +89,7 @@ const AddRoom = () => {
   const onClickAdd = async () => {
     if (!onCall.current) {
       onCall.current = true;
-      const result = await axios.post("/rooms/v2/create", {
+      const result = await axios.post("/rooms/create", {
         name: valueName ? valueName : randomRoomName,
         from: valuePlace[0],
         to: valuePlace[1],
@@ -98,7 +98,7 @@ const AddRoom = () => {
       });
       if (result.status === 200) {
         try {
-          const { data } = await axios.get("/rooms/v2/searchByUser");
+          const { data } = await axios.get("/rooms/searchByUser");
           setMyRoom(data);
         } catch (error) {
           setAlert("예상치 못한 오류가 발생했습니다. 새로고침 해주세요.");

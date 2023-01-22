@@ -245,7 +245,7 @@ const Search = () => {
 
     if (isSearchAll(q)) {
       axios
-        .get("rooms/v2/search")
+        .get("rooms/search")
         .then((res) => {
           setSearchResult(res.data);
         })
@@ -258,7 +258,7 @@ const Search = () => {
         delete Object.assign(q, { maxPartLength: q.maxPeople }).maxPeople;
       }
       axios
-        .get("rooms/v2/search", {
+        .get("rooms/search", {
           params: q,
         })
         .then((res) => {
