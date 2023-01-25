@@ -20,7 +20,6 @@ const ChatImageLoading = (props) => {
         style={{
           color: props.itsme ? theme.white : theme.black,
           ...theme.font14,
-          textAlign: "center",
         }}
       >
         이미지 불러오는 중...
@@ -63,7 +62,7 @@ const ChatImage = (props) => {
     imageObj.src = getS3Url(`/chat-img/${props.id}`);
   }, [props.id]);
 
-  return !image ? image : <ChatImageLoading itsme={props.itsme} />;
+  return image ? image : <ChatImageLoading itsme={props.itsme} />;
 };
 ChatImage.propTypes = {
   itsme: PropTypes.bool,
