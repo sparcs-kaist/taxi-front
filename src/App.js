@@ -10,6 +10,7 @@ import AlertProvider from "components/Skeleton/AlertProvider";
 import Skeleton from "components/Skeleton/Skeleton";
 
 import Login from "components/Login/Login";
+import LoginFail from "components/Login/LoginFail";
 import Logout from "components/Login/Logout";
 import Home from "components/Home";
 import Search from "components/Search/Search";
@@ -33,6 +34,7 @@ const App = () => {
           <Skeleton>
             <Switch>
               <Route exact path="/login" component={Login} />
+              <Route exact path="/login/fail" component={LoginFail} />
               <Route exact path="/logout" component={Logout} />
               <Route exact path="/" component={Home} />
               <Route exact path="/home" component={Home} />

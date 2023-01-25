@@ -133,7 +133,7 @@ const Skeleton = (props: SkeletonProps) => {
     }
   }, [userId]);
 
-  if (userId === null && pathname !== "/login") {
+  if (userId === null && !pathname.startsWith("/login")) {
     return (
       <Redirect to={`/login?redirect=${encodeURIComponent(currentPath)}`} />
     );
