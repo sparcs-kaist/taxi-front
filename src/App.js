@@ -44,7 +44,6 @@ const App = () => {
               <Route exact path="/myroom/:roomId" component={Myroom} />
               <Route exact path="/mypage" component={Mypage} />
               <Route exact path="/chatting/:roomId" component={WrapChat} />
-              <Route exact path="/error/:error" component={Error} />
               <Route path="*" component={Error} />
             </Switch>
           </Skeleton>
