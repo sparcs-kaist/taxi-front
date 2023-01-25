@@ -96,7 +96,9 @@ const MessagesBody = (props) => {
             users={item.inOutNames}
           />
         );
-      } else if (item.type === "text" || item.type === "s3img") {
+      } else if (
+        ["text", "s3img", "payment", "settlement"].includes(item.type)
+      ) {
         if (
           chatsCache &&
           (chatsCache[0].authorId !== item.authorId ||

@@ -6,6 +6,7 @@ import { getS3Url } from "tools/trans";
 import isMobile from "tools/isMobile";
 import PropTypes from "prop-types";
 import theme from "styles/theme";
+import ChatPaySettle from "./ChatPaySettle";
 
 const ChatImageLoading = (props) => {
   return (
@@ -62,7 +63,7 @@ const ChatImage = (props) => {
     imageObj.src = getS3Url(`/chat-img/${props.id}`);
   }, [props.id]);
 
-  return image ? image : <ChatImageLoading itsme={props.itsme} />;
+  return !image ? image : <ChatImageLoading itsme={props.itsme} />;
 };
 ChatImage.propTypes = {
   itsme: PropTypes.bool,
@@ -158,6 +159,27 @@ const ChatSet = (props) => {
     setFullImage("");
   };
 
+  const getChat = (type, content) => {
+    switch (type) {
+      case "text":
+        return <ChatText itsme={itsme} text={content} />;
+      case "s3img":
+        return (
+          <ChatImage
+            itsme={itsme}
+            id={content}
+            isBottomOnScroll={props.isBottomOnScroll}
+            scrollToBottom={props.scrollToBottom}
+            setFullImage={setFullImage}
+          />
+        );
+      case "pay" || "settlement":
+        return <ChatPaySettle itsme={itsme} type={type} />;
+      default:
+        return <></>;
+    }
+  };
+
   return (
     <div style={style}>
       {fullImage ? (
@@ -185,19 +207,7 @@ const ChatSet = (props) => {
         </div>
         {props.chats.map((chat, index) => (
           <div key={index} style={styleChatCont}>
-            <div style={styleChat}>
-              {chat.type === "text" ? (
-                <ChatText itsme={itsme} text={chat.content} />
-              ) : (
-                <ChatImage
-                  itsme={itsme}
-                  id={chat.content}
-                  isBottomOnScroll={props.isBottomOnScroll}
-                  scrollToBottom={props.scrollToBottom}
-                  setFullImage={setFullImage}
-                />
-              )}
-            </div>
+            <div style={styleChat}>{getChat(chat.type, chat.content)}</div>
             {index === props.chats.length - 1 ? (
               <div style={styleTime} className="selectable">
                 {moment(chat.time).format("H시 mm분")}
