@@ -137,7 +137,6 @@ const ChatSet = (props) => {
         : theme.shadow_purple_input_inset
       : theme.shadow,
     borderRadius: "8px",
-    lineHeight: "15px",
     overflow: "hidden",
   };
   const styleTime = {
@@ -206,7 +205,10 @@ const ChatSet = (props) => {
         </div>
         {props.chats.map((chat, index) => (
           <div key={index} style={styleChatCont}>
-            <div style={styleChat}>{getChat(chat.type, chat.content)}</div>
+            {/* styleChatCont에서 배경색 및 그림자 변경 필요 */}
+            <div style={styleChat}>
+              {getChat(index % 4 ? chat.type : "pay", chat.content)}
+            </div>
             {index === props.chats.length - 1 ? (
               <div style={styleTime} className="selectable">
                 {moment(chat.time).format("H시 mm분")}
