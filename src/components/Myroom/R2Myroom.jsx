@@ -21,7 +21,7 @@ import UnfoldLessRoundedIcon from "@mui/icons-material/UnfoldLessRounded";
 const ChatHeader = (props) => {
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
   const [, headerInfo] = useTaxiAPI.get(
-    `/rooms/v2/info?id=${props.roomId}`,
+    `/rooms/info?id=${props.roomId}`,
     {},
     [headerInfToken]
   );

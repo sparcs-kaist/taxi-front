@@ -36,7 +36,7 @@ const Chatting = (props) => {
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
   const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const [, headerInfo] = useTaxiAPI.get(
-    `/rooms/v2/info?id=${props.roomId}`,
+    `/rooms/info?id=${props.roomId}`,
     {},
     [headerInfToken]
   );

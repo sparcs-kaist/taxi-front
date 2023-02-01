@@ -155,12 +155,12 @@ const RoomSelectionModal = (props) => {
   const requestJoin = async () => {
     if (!onCall.current) {
       onCall.current = true;
-      const result = await axios.post("/rooms/v2/join", {
+      const result = await axios.post("/rooms/join", {
         roomId: roomInfo._id,
       });
       if (result.status === 200) {
         try {
-          const { data } = await axios.get("/rooms/v2/searchByUser");
+          const { data } = await axios.get("/rooms/searchByUser");
           setMyRoom(data);
         } catch (error) {
           setAlert("예상치 못한 오류가 발생했습니다. 새로고침 해주세요.");
