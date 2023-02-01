@@ -12,7 +12,6 @@ const ChatPaySettle = ({ itsme, type }: ChatPaySettleProps) => {
       style={{
         padding: "9px 12px 8px",
         color: itsme ? theme.white : theme.black,
-        // backgroundColor: itsme ? theme.purple_dark : theme.gray_background,
         ...theme.font16,
       }}
       className="selectable"

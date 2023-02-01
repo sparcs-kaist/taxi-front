@@ -124,13 +124,17 @@ const ChatSet = (props) => {
     position: "relative",
     gap: "4px",
   };
+  const getBackground = (type) => {
+    if (type === "pay" || type === "settlement") {
+      if (itsme) return theme.purple_dark;
+      return theme.gray_background;
+    }
+    if (itsme) return theme.purple;
+    if (props.isSideChat) return theme.purple_hover;
+    return theme.white;
+  };
   const styleChat = {
     maxWidth: isMobile ? "75%" : "210px",
-    background: itsme
-      ? theme.purple
-      : props.isSideChat
-      ? theme.purple_hover
-      : theme.white,
     boxShadow: props.isSideChat
       ? itsme
         ? theme.shadow_purple_button_inset
@@ -171,7 +175,8 @@ const ChatSet = (props) => {
             setFullImage={setFullImage}
           />
         );
-      case "pay" || "settlement":
+      case "pay":
+      case "settlement":
         return <ChatPaySettle itsme={itsme} type={type} />;
       default:
         return <></>;
@@ -205,9 +210,15 @@ const ChatSet = (props) => {
         </div>
         {props.chats.map((chat, index) => (
           <div key={index} style={styleChatCont}>
-            {/* styleChatCont에서 배경색 및 그림자 변경 필요 */}
-            <div style={styleChat}>
-              {getChat(index % 4 ? chat.type : "pay", chat.content)}
+            <div
+              style={{
+                ...styleChat,
+                backgroundColor: getBackground(
+                  index % 4 ? chat.type : "settlement"
+                ),
+              }}
+            >
+              {getChat(index % 4 ? chat.type : "settlement", chat.content)}
             </div>
             {index === props.chats.length - 1 ? (
               <div style={styleTime} className="selectable">
