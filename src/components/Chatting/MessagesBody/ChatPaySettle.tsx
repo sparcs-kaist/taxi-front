@@ -1,5 +1,7 @@
 import React from "react";
 import theme from "styles/theme";
+import CreditCardRoundedIcon from "@mui/icons-material/CreditCardRounded";
+import SendRoundedIcon from "@mui/icons-material/SendRounded";
 
 type ChatPaySettleProps = {
   itsme: boolean;
@@ -11,11 +13,18 @@ const ChatPaySettle = ({ itsme, type }: ChatPaySettleProps) => {
     <div
       style={{
         padding: "9px 12px 8px",
-        color: itsme ? theme.white : theme.black,
+        display: "flex",
+        columnGap: "6px",
         ...theme.font16,
+        color: itsme ? theme.white : theme.black,
       }}
       className="selectable"
     >
+      {type === "pay" ? (
+        <CreditCardRoundedIcon style={{ fontSize: "18px" }} />
+      ) : (
+        <SendRoundedIcon style={{ fontSize: "18px" }} />
+      )}
       {type === "pay" ? "결제를 완료하였습니다." : "정산을 완료하였습니다."}
     </div>
   );

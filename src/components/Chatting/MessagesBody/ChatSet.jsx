@@ -124,15 +124,6 @@ const ChatSet = (props) => {
     position: "relative",
     gap: "4px",
   };
-  const getBackground = (type) => {
-    if (type === "pay" || type === "settlement") {
-      if (itsme) return theme.purple_dark;
-      return theme.gray_background;
-    }
-    if (itsme) return theme.purple;
-    if (props.isSideChat) return theme.purple_hover;
-    return theme.white;
-  };
   const styleChat = {
     maxWidth: isMobile ? "75%" : "210px",
     boxShadow: props.isSideChat
@@ -142,6 +133,15 @@ const ChatSet = (props) => {
       : theme.shadow,
     borderRadius: "8px",
     overflow: "hidden",
+  };
+  const getBackground = (type) => {
+    if (type === "pay" || type === "settlement") {
+      if (itsme) return theme.purple_dark;
+      return theme.gray_background;
+    }
+    if (itsme) return theme.purple;
+    if (props.isSideChat) return theme.purple_hover;
+    return theme.white;
   };
   const styleTime = {
     ...theme.font8,
@@ -213,12 +213,10 @@ const ChatSet = (props) => {
             <div
               style={{
                 ...styleChat,
-                backgroundColor: getBackground(
-                  index % 4 ? chat.type : "settlement"
-                ),
+                backgroundColor: getBackground(chat.type),
               }}
             >
-              {getChat(index % 4 ? chat.type : "settlement", chat.content)}
+              {getChat(chat.type, chat.content)}
             </div>
             {index === props.chats.length - 1 ? (
               <div style={styleTime} className="selectable">
