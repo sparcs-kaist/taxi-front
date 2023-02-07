@@ -1,5 +1,7 @@
+import { s3BaseUrl } from "serverconf";
+
 const getS3Url = (x) => {
-  return `${process.env.REACT_APP_S3_URL}${x}`;
+  return `${s3BaseUrl}{x}`;
 };
 
 const getLocationName = (location, langPreference) => {
