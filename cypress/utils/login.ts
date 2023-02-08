@@ -1,5 +1,5 @@
 const login = () => {
-  cy.request(`${Cypress.env("backendUrl")}/json/logininfo`).then((data) => {
+  cy.request(`${Cypress.env("backendUrl")}/logininfo`).then((data) => {
     if (!data.body?.id)
       cy.request("POST", `${Cypress.env("backendUrl")}/auth/try`, {
         id: "test-id",
