@@ -1,7 +1,8 @@
 import React from "react";
 import Modal from "components/common/modal/Modal";
-import ButtonCancelOk from "components/common/modal/ButtonCancelOk";
 import PropTypes from "prop-types";
+import Button from "components/common//Button";
+import theme from "styles/theme";
 
 const PopupContainer = (props) => {
   return (
@@ -11,11 +12,35 @@ const PopupContainer = (props) => {
       padding="10px"
     >
       <div style={{ margin: "26px 0 24px" }}>{props.children}</div>
-      <ButtonCancelOk
-        nameOk={props.nameOk}
-        onClickCancel={props.onClickClose}
-        onClickOk={props.onClickOk}
-      />
+      <div
+        style={{
+          position: "relative",
+          display: "flex",
+          justifyContent: "space-between",
+          gap: "10px",
+        }}
+      >
+        <Button
+          type="gray"
+          width="calc(50% - 5px)"
+          padding="10px 0 9px"
+          radius={8}
+          font={theme.font14}
+          onClick={props.onClickClose}
+        >
+          돌아가기
+        </Button>
+        <Button
+          type="purple_inset"
+          width="calc(50% - 5px)"
+          padding="10px 0 9px"
+          radius={8}
+          font={theme.font14_bold}
+          onClick={props.onClickOk}
+        >
+          {props.nameOk}
+        </Button>
+      </div>
     </Modal>
   );
 };
