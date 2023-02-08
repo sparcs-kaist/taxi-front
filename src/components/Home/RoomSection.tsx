@@ -18,7 +18,7 @@ const RoomSection = () => {
 
   useEffect(() => {
     const fetchAllRooms = async () => {
-      const { data } = await axios.get("rooms/v2/search");
+      const { data } = await axios.get("rooms/search");
       setAllRooms(data);
     };
     fetchAllRooms();
