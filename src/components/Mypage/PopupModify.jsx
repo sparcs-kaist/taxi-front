@@ -10,6 +10,8 @@ import Modal from "components/common/modal/Modal";
 import DottedLine from "components/common/DottedLine";
 import theme from "styles/theme";
 import Button from "components/common/Button";
+// 왠지는 모르겠는데 이미 react-select가 깔려있어서 썼습니당
+import Select from "react-select";
 
 const ProfImg = (props) => {
   const style = {
@@ -124,7 +126,10 @@ BtnProfImg.propTypes = {
 
 const PopupModify = (props) => {
   const regexNickname = new RegExp("^[A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ0-9-_ ]{3,25}$");
+  const regexAccountNumber = new RegExp("^[0-9]{8,11}$");
   const [nickName, setNickName] = useState("");
+  const [accountNumber, setAccountNumber] = useState("");
+  const [accountNumberReal, setAccountNumberReal] = useState("");
   const [nickNameReal, setNickNameReal] = useState("");
   const [message, setMessage] = useState(null);
   const [loginInfoDetail, setLoginInfoDetail] =
@@ -190,11 +195,51 @@ const PopupModify = (props) => {
     background: theme.purple_light,
     boxShadow: theme.shadow_purple_input_inset,
   };
+  const styleBanks = {
+    width: "75px",
+    ...theme.font14,
+    color: theme.purple,
+    fontWeight: "400",
+    border: "none",
+    outline: "none",
+    borderRadius: "6px",
+    padding: "6px 4px",
+    marginLeft: "10px",
+    background: theme.purple_light,
+    boxShadow: theme.shadow_purple_input_inset,
+    textAlign: "center",
+  };
   const styleButton = {
     display: "flex",
     justifyContent: "space-between",
     marginTop: "24px",
   };
+
+  const reactSelectOptions = [
+    { value: "NH농협", label: "NH농협" },
+    { value: "KB국민", label: "KB국민" },
+    { value: "카카오뱅크", label: "카카오뱅크" },
+    { value: "신한", label: "신한" },
+    { value: "우리", label: "우리" },
+    { value: "IBK기업", label: "IBK기업" },
+    { value: "하나", label: "하나" },
+    { value: "토스뱅크", label: "토스뱅크" },
+    { value: "새마을", label: "새마을" },
+    { value: "부산", label: "부산" },
+    { value: "대구", label: "대구" },
+    { value: "케이뱅크", label: "케이뱅크" },
+    { value: "신협", label: "신협" },
+    { value: "우체국", label: "우체국" },
+    { value: "SC제일", label: "SC제일" },
+    { value: "경남", label: "경남" },
+    { value: "수협", label: "수협" },
+    { value: "광주", label: "광주" },
+    { value: "전북", label: "전북" },
+    { value: "저축은행", label: "저축은행" },
+    { value: "씨티", label: "씨티" },
+    { value: "제주", label: "제주" },
+    { value: "KDB산업", label: "KDB산업" },
+  ];
 
   return (
     <Modal
@@ -227,6 +272,23 @@ const PopupModify = (props) => {
             onChange={(e) => setNickName(e.target.value)}
           />
         </div>
+        <div style={{ ...styleTitle, marginTop: "10px" }}>
+          계좌
+          <select style={styleBanks}>
+            {reactSelectOptions.map((option) => {
+              return (
+                <option value={option.value} key={option.value}>
+                  {option.label}
+                </option>
+              );
+            })}
+          </select>
+          <input
+            style={styleNickname}
+            value={accountNumber}
+            onChange={(e) => setAccountNumber(e.target.value)}
+          />
+        </div>
         {message && <div style={styleMessage}>{message}</div>}
       </div>
       <div style={styleButton}>
@@ -242,7 +304,11 @@ const PopupModify = (props) => {
         </Button>
         <Button
           type="purple_inset"
-          disabled={nickName == nickNameReal || !regexNickname.test(nickName)}
+          disabled={
+            !regexAccountNumber.test(accountNumber) ||
+            !regexNickname.test(nickName) ||
+            (nickName == nickNameReal && accountNumber == accountNumberReal)
+          }
           width="calc(50% - 5px)"
           padding="10px 0 9px"
           radius={8}
