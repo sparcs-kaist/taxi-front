@@ -128,7 +128,8 @@ const PopupReport = ({
     minHeight: "16px",
     ...theme.font14,
     color: theme.gray_text,
-    overflow: "hidden",
+    overflow: "scroll",
+    maxHeight: "calc(100vh - 320px)",
   };
   const styleIcon: CSS = {
     color: theme.black,
