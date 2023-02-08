@@ -16,6 +16,7 @@ const Error = () => {
   const stylePage: CSS = {
     display: "flex",
     alignItems: "center",
+    textAlign: "center",
     justifyContent: "center",
     flexDirection: "column",
     height: "100%",
