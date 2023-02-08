@@ -1,8 +1,6 @@
 import { s3BaseUrl } from "serverconf";
 
-const getS3Url = (x) => {
-  return `${s3BaseUrl}{x}`;
-};
+const getS3Url = (x) => `${s3BaseUrl}${x}`;
 
 const getLocationName = (location, langPreference) => {
   if (!location) return "";
