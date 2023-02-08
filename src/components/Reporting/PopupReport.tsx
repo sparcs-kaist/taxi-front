@@ -9,6 +9,8 @@ import { useSetRecoilState } from "recoil";
 import alertAtom from "recoil/alert";
 import regExpTest from "tools/regExpTest";
 
+import Button from "components/common//Button";
+
 type PopupReportProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -260,10 +262,34 @@ const PopupReport = ({
         </div>
       ) : (
         <div style={styleBottom}>
-          <button style={styleCancel}>취소</button>
-          <button style={styleSubmit} onClick={handleSubmit}>
+          {/* <div
+            style={{
+              position: "relative",
+              display: "flex",
+              justifyContent: "space-between",
+              gap: "10px",
+            }}
+          > */}
+          <Button
+            type="gray"
+            width="calc(50% - 5px)"
+            padding="10px 0 9px"
+            radius={8}
+            font={theme.font14}
+            onClick={handleClose}
+          >
+            돌아가기
+          </Button>
+          <Button
+            type="purple_inset"
+            width="calc(50% - 5px)"
+            padding="10px 0 9px"
+            radius={8}
+            font={theme.font14_bold}
+            onClick={handleSubmit}
+          >
             신고하기
-          </button>
+          </Button>
         </div>
       )}
     </Modal>
