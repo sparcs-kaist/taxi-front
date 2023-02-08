@@ -10,6 +10,7 @@ import regExpTest from "tools/regExpTest";
 
 import Button from "components/common//Button";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
+import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
 
 type PopupReportProps = {
   isOpen: boolean;
@@ -41,18 +42,15 @@ const PopupReport = ({
     width: "50px",
     height: "50px",
     marginLeft: "14px",
+    flexShrink: 0,
   };
   const styleTitle: CSS = {
-    height: "20px",
-    marginLeft: "12px",
+    margin: "0 24px 0 12px",
     ...theme.font16_bold,
-    lineHeight: "20px",
-    letterSpacing: "0.1em",
     color: theme.black,
     overflow: "hidden",
     textOverflow: "ellipsis",
     whiteSpace: "nowrap",
-    width: "200px",
   };
   const styleTop: CSS = {
     marginTop: "6px",
@@ -72,11 +70,24 @@ const PopupReport = ({
     lineHeight: "16px",
     color: theme.gray_text,
   };
+  const styleDropdownContainer: CSS = {
+    position: "relative",
+    display: "flex",
+    flex: 1,
+    marginLeft: "12px",
+  };
+  const styleArrow: CSS = {
+    position: "absolute",
+    top: "6px",
+    right: "9px",
+    fontSize: "16px",
+    color: theme.gray_text,
+    zIndex: 1,
+  };
   const styleDropdown = (isSubmitted: boolean) =>
     ({
       appearance: "none",
       flex: 1,
-      marginLeft: "12px",
       height: "28px",
       background: theme.gray_background,
       boxShadow: theme.shadow_gray_input_inset,
@@ -86,6 +97,7 @@ const PopupReport = ({
       padding: "6px 12px",
       ...theme.font14,
       color: theme.gray_text,
+      position: "relative",
       cursor: isSubmitted ? "auto" : "pointer",
     } as CSS);
   const styleBottom: CSS = {
@@ -119,7 +131,7 @@ const PopupReport = ({
     overflow: "hidden",
   };
   const styleIcon: CSS = {
-    fill: theme.black,
+    color: theme.black,
     fontSize: "14px",
     margin: "9px 6px 9px 12px",
   };
@@ -170,19 +182,21 @@ const PopupReport = ({
         </div>
         <div style={styleTitle}>{name}</div>
       </div>
-
       <div style={styleMiddle}>
         <div style={styleLabel}>사유</div>
-        <select
-          style={styleDropdown(isSubmitted)}
-          value={type}
-          onChange={handleType}
-          disabled={isSubmitted}
-        >
-          <option value={ReportTypes.NoSettlement}>정산을 하지 않음</option>
-          <option value={ReportTypes.NoShow}>택시에 동승하지 않음</option>
-          <option value={ReportTypes.ETCReason}>기타 사유</option>
-        </select>
+        <div style={styleDropdownContainer}>
+          {!isSubmitted && <ArrowDropDownRoundedIcon style={styleArrow} />}
+          <select
+            style={styleDropdown(isSubmitted)}
+            value={type}
+            onChange={handleType}
+            disabled={isSubmitted}
+          >
+            <option value={ReportTypes.NoSettlement}>정산을 하지 않음</option>
+            <option value={ReportTypes.NoShow}>택시에 동승하지 않음</option>
+            <option value={ReportTypes.ETCReason}>기타 사유</option>
+          </select>
+        </div>
       </div>
       {type === ReportTypes.ETCReason ? (
         <div style={styleETC}>
