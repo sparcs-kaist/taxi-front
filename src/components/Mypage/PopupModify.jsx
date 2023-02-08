@@ -126,7 +126,7 @@ BtnProfImg.propTypes = {
 
 const PopupModify = (props) => {
   const regexNickname = new RegExp("^[A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ0-9-_ ]{3,25}$");
-  const regexAccountNumber = new RegExp("^[0-9]{8,11}$");
+  const regexAccountNumber = new RegExp("^[A-Za-z가-힣]{2,7} [0-9]{10,14}$");
   const [nickName, setNickName] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
   const [accountNumberReal, setAccountNumberReal] = useState("");
@@ -159,6 +159,18 @@ const PopupModify = (props) => {
       return;
     }
     setLoginInfoDetail({ ...loginInfoDetail, nickname: nickName });
+    props.onUpdate();
+    props.onClose();
+  };
+  const onClickEditAccountNumber = async () => {
+    const result = await axios.post(`/users/editAccount`, {
+      account: accountNumber,
+    });
+    if (result.status !== 200) {
+      setMessage("계좌번호 변경에 실패하였습니다.");
+      return;
+    }
+    setLoginInfoDetail({ ...loginInfoDetail, account: accountNumber });
     props.onUpdate();
     props.onClose();
   };
