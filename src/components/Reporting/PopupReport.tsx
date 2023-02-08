@@ -148,10 +148,14 @@ const PopupReport = ({
       etcDetail,
       time: new Date(),
     };
-    const res: ReportResponse = await axios.post("/reports/create", data);
-    if (res.status === 200) {
-      setIsSubmitted(true);
-    } else {
+    try {
+      const res: ReportResponse = await axios.post("/reports/create", data);
+      if (res.status === 200) {
+        setIsSubmitted(true);
+      } else {
+        setAlert("신고에 실패했습니다.");
+      }
+    } catch (error) {
       setAlert("신고에 실패했습니다.");
     }
   };
