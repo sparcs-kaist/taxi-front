@@ -20,12 +20,8 @@ const requestNotification = async () => {
     const token = await getToken(firebaseMessaging);
     await axios.post("/auth/registerDeviceToken", { deviceToken: token });
   } catch (error) {
-    console.log("FCM ERROR: ", error);
+    console.error("FCM ERROR: ", error);
   }
 };
-
-onMessage(firebaseMessaging, (payload) => {
-  console.log(payload);
-});
 
 export default requestNotification;
