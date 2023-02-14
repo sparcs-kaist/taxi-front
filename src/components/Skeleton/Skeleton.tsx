@@ -11,16 +11,18 @@ import reactGA from "react-ga4";
 import axios from "tools/axios";
 import { gaTrackingId, nodeEnv } from "serverconf";
 
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 import taxiLocationAtom from "recoil/taxiLocation";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import myRoomAtom from "recoil/myRoom";
+import errorAtom from "recoil/error";
 // import alertAtom from "recoil/alert";
 
 import HeaderBar from "components/common/HeaderBar";
 import Navigation from "components/Skeleton/Navigation";
 import Footer from "components/Skeleton/Footer";
 import PopupPolicy from "components/Mypage/PopupPolicy";
+import Error from "components/Error";
 import useWindowInnerHeight from "hooks/useWindowInnerHeight";
 // import betaNotice from "static/betaNotice";
 
@@ -56,6 +58,7 @@ const Skeleton = (props: SkeletonProps) => {
   const [loginInfoDetail, setLoginInfoDetail] =
     useRecoilState(loginInfoDetailAtom);
   const setMyRoom = useSetRecoilState(myRoomAtom);
+  const error = useRecoilValue(errorAtom);
   // const setAlert = useSetRecoilState(alertAtom);
   const location = useLocation();
   const pathname = location.pathname;
@@ -80,7 +83,7 @@ const Skeleton = (props: SkeletonProps) => {
 
   const initializeGlobalInfo = useCallback(() => {
     const getLocation = axios.get("/locations");
-    const getRoomList = axios.get("/rooms/v2/searchByUser");
+    const getRoomList = axios.get("/rooms/searchByUser");
     Promise.all([getLocation, getRoomList]).then(
       ([{ data: locationData }, { data: roomData }]) => {
         setTaxiLocation(locationData.locations);
@@ -92,7 +95,7 @@ const Skeleton = (props: SkeletonProps) => {
   useEffect(() => {
     // path가 수정될 때 마다 logininfo 요청
     axios
-      .get("/json/logininfo")
+      .get("/logininfo")
       .then(({ data }) => {
         setUserId(data?.id ?? null);
       })
@@ -115,7 +118,7 @@ const Skeleton = (props: SkeletonProps) => {
   useEffect(() => {
     // 로그인 정보 수정될 때 요청
     axios
-      .get("/json/logininfo/detail")
+      .get("/logininfo/detail")
       .then(({ data }) => {
         setLoginInfoDetail(data);
         setShowAgree(data?.agreeOnTermsOfService !== true);
@@ -133,7 +136,16 @@ const Skeleton = (props: SkeletonProps) => {
     }
   }, [userId]);
 
-  if (userId === null && pathname !== "/login") {
+  if (error) {
+    return (
+      <Container>
+        <HeaderBar />
+        <Error />
+      </Container>
+    );
+  }
+
+  if (userId === null && !pathname.startsWith("/login")) {
     return (
       <Redirect to={`/login?redirect=${encodeURIComponent(currentPath)}`} />
     );
@@ -155,7 +167,7 @@ const Skeleton = (props: SkeletonProps) => {
      */
     return <HeaderBar />;
   }
-  if (pathname.startsWith("/chatting") || pathname.startsWith("/error")) {
+  if (pathname.startsWith("/chatting")) {
     return (
       <Container>
         <HeaderBar />

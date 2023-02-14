@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { animated, useSpring } from "react-spring";
 import { useHistory, useLocation } from "react-router-dom";
+import { useCookies } from "react-cookie";
 import qs from "qs";
 import { useR2state } from "hooks/useReactiveState";
 import RLayout from "components/common/RLayout";
@@ -149,9 +150,14 @@ const Search = () => {
   const history = useHistory();
   const location = useLocation();
 
+  const [cookies, setCookie] = useCookies(["defaultFromTo"]);
   const [searchOptions, setSearchOptions] = useState({});
   const [valueName, setName] = useState("");
-  const [valuePlace, setPlace] = useState([null, null]);
+  const defaultPlace =
+    cookies?.defaultFromTo?.[0] && cookies?.defaultFromTo?.[1]
+      ? cookies.defaultFromTo
+      : [null, null];
+  const [valuePlace, setPlace] = useState(defaultPlace);
   const [valueDate, setDate] = useState([null, null, null]);
   const [valueTime, setTime] = useState([today10.hour(), today10.minute()]);
   const [valueMaxPeople, setMaxPeople] = useState(null);
@@ -160,11 +166,21 @@ const Search = () => {
   const [message, setMessage] = useState("검색 조건을 선택해주세요");
   const [showScrollButton, setShowScrollButton] = useState(false);
 
+  useEffect(() => {
+    const expirationDate = new Date();
+    expirationDate.setFullYear(expirationDate.getFullYear() + 10);
+    if (valuePlace[0] && valuePlace[1]) {
+      setCookie("defaultFromTo", valuePlace, {
+        expires: expirationDate,
+      });
+    }
+  }, [valuePlace]);
+
   const clearState = () => {
     onCall.current = false;
     setSearchOptions(defaultOptions);
     setName("");
-    setPlace([null, null]);
+    setPlace(defaultPlace);
     setDate([
       today.current.year(),
       today.current.month() + 1,
@@ -229,7 +245,7 @@ const Search = () => {
 
     if (isSearchAll(q)) {
       axios
-        .get("rooms/v2/search")
+        .get("rooms/search")
         .then((res) => {
           setSearchResult(res.data);
         })
@@ -242,7 +258,7 @@ const Search = () => {
         delete Object.assign(q, { maxPartLength: q.maxPeople }).maxPeople;
       }
       axios
-        .get("rooms/v2/search", {
+        .get("rooms/search", {
           params: q,
         })
         .then((res) => {
@@ -301,7 +317,7 @@ const Search = () => {
       !searchOptions.place &&
       (valuePlace[0] !== null || valuePlace[1] !== null)
     )
-      setPlace([null, null]);
+      setPlace(defaultPlace);
   }, [searchOptions.place]);
   useEffect(() => {
     if (!searchOptions.date && valueDate[0] !== null)
