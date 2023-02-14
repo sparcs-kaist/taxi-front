@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { getMessaging, getToken, isSupported } from "firebase/messaging";
 import axios from "tools/axios";
 
 const firebaseConfig = {
@@ -13,12 +13,17 @@ const firebaseConfig = {
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
-const firebaseMessaging = getMessaging(firebaseApp);
 
 const requestNotification = async () => {
   try {
-    const token = await getToken(firebaseMessaging);
-    await axios.post("/auth/registerDeviceToken", { deviceToken: token });
+    const supportsFCM = await isSupported();
+    if (supportsFCM) {
+      const firebaseMessaging = getMessaging(firebaseApp);
+      const token = await getToken(firebaseMessaging);
+      await axios.post("/auth/registerDeviceToken", { deviceToken: token });
+    } else {
+      console.log("This browser does not support FCM.");
+    }
   } catch (error) {
     console.error("FCM ERROR: ", error);
   }
