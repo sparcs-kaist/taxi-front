@@ -1,5 +1,10 @@
 import { initializeApp } from "firebase/app";
-import { getMessaging, getToken, isSupported } from "firebase/messaging";
+import {
+  getMessaging,
+  getToken,
+  isSupported,
+  onMessage,
+} from "firebase/messaging";
 import axios from "tools/axios";
 
 const firebaseConfig = {
@@ -19,6 +24,11 @@ const requestNotification = async () => {
     const supportsFCM = await isSupported();
     if (supportsFCM) {
       const firebaseMessaging = getMessaging(firebaseApp);
+
+      onMessage(firebaseMessaging, (payload) => {
+        console.log(payload);
+      });
+
       const token = await getToken(firebaseMessaging);
       await axios.post("/auth/registerDeviceToken", { deviceToken: token });
     } else {

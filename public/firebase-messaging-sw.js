@@ -13,6 +13,7 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
+// 백그라운드 메시지가 도착했을 때 알림을 표시하는 이벤트 리스너를 추가합니다.
 messaging.onBackgroundMessage((payload) => {
   const notificationTitle = payload?.data?.title || "Title does not exist";
   const notificationOptions = {
@@ -20,6 +21,20 @@ messaging.onBackgroundMessage((payload) => {
     icon:
       payload?.data?.icon ||
       "https://sparcs-taxi-dev.s3.ap-northeast-2.amazonaws.com/profile-img/default/GooseGeoul.png",
+    data: {
+      url: payload?.data?.url || "/",
+    },
   };
+
+  // 알림을 클릭했을 때 링크를 여는 이벤트 리스너를 추가합니다.
+  self.addEventListener("notificationclick", (event) => {
+    console.log("notificationclick", event);
+    const urlToRedirect = event.notification.data.url;
+    console.log(urlToRedirect);
+    event.notification.close();
+    event.waitUntil(self.clients.openWindow(urlToRedirect));
+  });
+
+  // Notification API를 사용하여 기기에서 알림을 표시합니다.
   self.registration.showNotification(notificationTitle, notificationOptions);
 });
