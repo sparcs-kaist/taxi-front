@@ -22,7 +22,7 @@ import HeaderBar from "components/common/HeaderBar";
 import Navigation from "components/Skeleton/Navigation";
 import Footer from "components/Skeleton/Footer";
 import PopupPolicy from "components/Mypage/PopupPolicy";
-import Error from "components/Error/Error";
+import Error from "components/Error";
 import useWindowInnerHeight from "hooks/useWindowInnerHeight";
 // import betaNotice from "static/betaNotice";
 
