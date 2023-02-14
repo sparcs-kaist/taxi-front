@@ -19,5 +19,5 @@ messaging.onBackgroundMessage((payload) => {
     body: payload?.data?.body || "Body does not exist",
     icon: "https://sparcs-taxi-dev.s3.ap-northeast-2.amazonaws.com/profile-img/default/GooseGeoul.png",
   };
-  self.registration.showNofication(notificationTitle, notificationOptions);
+  self.registration.showNotification(notificationTitle, notificationOptions);
 });
