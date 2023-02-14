@@ -35,7 +35,7 @@ const Error = () => {
   };
   const onClickHome = () => {
     setError(null);
-    history.push("/");
+    history.replace("/");
   };
 
   return (
