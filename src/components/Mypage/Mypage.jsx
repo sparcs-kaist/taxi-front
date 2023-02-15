@@ -90,7 +90,7 @@ const Mypage = () => {
           <div style={infoContent}>{userInfoDetail?.subinfo.kaist}</div>
         </div>
         <div style={infoType} className="selectable">
-          {t("mail")}
+          {t("email")}
           <div style={infoContent}>{userInfoDetail?.email}</div>
         </div>
         <div style={infoType} className="selectable">

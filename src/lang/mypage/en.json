@@ -4,7 +4,7 @@
   "my_information": "My Information",
   "revise": "Modify",
   "student_id": "Student ID",
-  "mail": "E-mail",
+  "email": "E-mail",
   "nickname": "Nickname",
   "beta_service_guide": "Beta service guide",
   "report_record": "Report Details",
@@ -12,6 +12,15 @@
   "terms": "Terms and Conditions",
   "credit": "Credit",
   "logout": "Logout",
+  "page_modify": {
+    "cancel": "Cancel",
+    "modify": "Modify",
+    "profile_image_change": "Change profile image",
+    "profile_image_success": "Changed successfully",
+    "profile_image_failed": "Failed to change",
+    "profile_image_loading": "Chaning...",
+    "nickname_failed": "Failed to change nickname"
+  },
   "page_report": {
     "inquiry": "If you have inquiries about the report details, please use the 'Contact us' menu.",
     "reported": "Reported",
