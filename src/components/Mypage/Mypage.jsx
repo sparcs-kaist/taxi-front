@@ -84,7 +84,7 @@ const Mypage = () => {
           </div>
         </div>
         <div style={infoTitle}>
-          <div style={theme.font14_bold}>{t("myInformation.translation")}</div>
+          <div style={theme.font14_bold}>{t("myInformation")}</div>
           <div style={infoModify} onClick={() => setOpenModify(true)}>
             {t("revise")}
           </div>
@@ -102,13 +102,11 @@ const Mypage = () => {
           <div style={infoContent}>{userInfoDetail?.nickname}</div>
         </div>
       </WhiteContainer>
-      {/* nodeEnv === "development" ? (
-        <WhiteContainer marginAuto>
-          <Menu icon="fixme" onClick={handleTranslation}>
-            {t("btn.translation")}
-          </Menu>
-        </WhiteContainer>
-      ) : null */}
+      <WhiteContainer marginAuto>
+        <Menu icon="lang" onClick={handleTranslation}>
+          {t("btn.translation")}
+        </Menu>
+      </WhiteContainer>
       <WhiteContainer marginAuto>
         <div style={{ display: "grid", rowGap: "16px" }}>
           <Menu icon="report" onClick={() => setOpenReport(true)}>
