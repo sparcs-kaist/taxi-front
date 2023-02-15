@@ -8,13 +8,10 @@ import PopupReport from "./PopupReport";
 import PopupPolicy from "./PopupPolicy";
 import PopupMembers from "./PopupMembers";
 import ProfileImg from "./ProfileImg";
-import axios from "tools/axios";
 import theme from "styles/theme";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
-import alertAtom from "recoil/alert";
 import Menu from "./Menu";
-import { nodeEnv } from "../../serverconf.js";
 
 const Mypage = () => {
   const { t, i18n } = useTranslation("mypage");
@@ -25,7 +22,6 @@ const Mypage = () => {
   const [isOpenPolicy, setOpenPolicy] = useState(false);
   const [isOpenMembers, setOpenMembers] = useState(false);
   const history = useHistory();
-  const setAlert = useSetRecoilState(alertAtom);
 
   const handleLogout = () => history.push("/logout");
   const handleUpdate = () => setProfToken(Date.now().toString());
