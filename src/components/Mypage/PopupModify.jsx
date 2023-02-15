@@ -10,8 +10,7 @@ import Modal from "components/common/modal/Modal";
 import DottedLine from "components/common/DottedLine";
 import theme from "styles/theme";
 import Button from "components/common/Button";
-// 왠지는 모르겠는데 이미 react-select가 깔려있어서 썼습니당
-import Select from "react-select";
+import bankNames from "static/bankNames";
 
 const ProfImg = (props) => {
   const style = {
@@ -130,6 +129,8 @@ const PopupModify = (props) => {
   const [nickName, setNickName] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
   const [accountNumberReal, setAccountNumberReal] = useState("");
+  const [bankNumber, setBankNumber] = useState("");
+  const [bankName, setBankName] = useState(bankNames[0]);
   const [nickNameReal, setNickNameReal] = useState("");
   const [message, setMessage] = useState(null);
   const [loginInfoDetail, setLoginInfoDetail] =
@@ -140,17 +141,30 @@ const PopupModify = (props) => {
       setNickName(loginInfoDetail?.nickname);
       setNickNameReal(loginInfoDetail?.nickname);
     }
+    if (loginInfoDetail?.account) {
+      console.log(loginInfoDetail?.account);
+      setAccountNumberReal(loginInfoDetail?.account);
+      if (regexAccountNumber.test(loginInfoDetail?.account)) {
+        const arr = loginInfoDetail?.account.split(" ");
+        setBankName(arr[0]);
+        setBankNumber(arr[1]);
+      }
+    }
   }, [loginInfoDetail]);
   useEffect(() => {
     const timeoutID = setTimeout(() => setMessage(null), 1500);
     return () => clearTimeout(timeoutID);
   }, [message]);
+  useEffect(() => {
+    setAccountNumber(bankName + " " + bankNumber);
+  }, [bankName, bankNumber]);
 
   const onClose = () => {
     setNickName(nickNameReal);
     props.onClose();
   };
   const onClickEditNickName = async () => {
+    console.log("닉네임 변경");
     const result = await axios.post(`/users/editNickname`, {
       nickname: nickName,
     });
@@ -163,6 +177,7 @@ const PopupModify = (props) => {
     props.onClose();
   };
   const onClickEditAccountNumber = async () => {
+    console.log("계좌번호 변경");
     const result = await axios.post(`/users/editAccount`, {
       account: accountNumber,
     });
@@ -174,6 +189,15 @@ const PopupModify = (props) => {
     props.onUpdate();
     props.onClose();
   };
+  const handleEditProfile = () => {
+    if (nickName !== nickNameReal) {
+      onClickEditNickName();
+    }
+    if (accountNumber !== accountNumberReal) {
+      onClickEditAccountNumber();
+    }
+  };
+
   const styleName = {
     ...theme.font20,
     textAlign: "center",
@@ -227,36 +251,6 @@ const PopupModify = (props) => {
     marginTop: "24px",
   };
 
-  const handleBankChange = (e) => {
-    
-  }
-
-  const reactSelectOptions = [
-    { value: "NH농협", label: "NH농협" },
-    { value: "KB국민", label: "KB국민" },
-    { value: "카카오뱅크", label: "카카오뱅크" },
-    { value: "신한", label: "신한" },
-    { value: "우리", label: "우리" },
-    { value: "IBK기업", label: "IBK기업" },
-    { value: "하나", label: "하나" },
-    { value: "토스뱅크", label: "토스뱅크" },
-    { value: "새마을", label: "새마을" },
-    { value: "부산", label: "부산" },
-    { value: "대구", label: "대구" },
-    { value: "케이뱅크", label: "케이뱅크" },
-    { value: "신협", label: "신협" },
-    { value: "우체국", label: "우체국" },
-    { value: "SC제일", label: "SC제일" },
-    { value: "경남", label: "경남" },
-    { value: "수협", label: "수협" },
-    { value: "광주", label: "광주" },
-    { value: "전북", label: "전북" },
-    { value: "저축은행", label: "저축은행" },
-    { value: "씨티", label: "씨티" },
-    { value: "제주", label: "제주" },
-    { value: "KDB산업", label: "KDB산업" },
-  ];
-
   return (
     <Modal
       display={props.isOpen}
@@ -290,19 +284,25 @@ const PopupModify = (props) => {
         </div>
         <div style={{ ...styleTitle, marginTop: "10px" }}>
           계좌
-          <select style={styleBanks} onChange={}>
-            {reactSelectOptions.map((option) => {
+          <select
+            style={styleBanks}
+            value={bankName}
+            onChange={(e) => {
+              setBankName(e.target.value);
+            }}
+          >
+            {bankNames.map((option) => {
               return (
-                <option value={option.value} key={option.value}>
-                  {option.label}
+                <option value={option} key={option}>
+                  {option}
                 </option>
               );
             })}
           </select>
           <input
             style={styleNickname}
-            value={accountNumber}
-            onChange={(e) => setAccountNumber(e.target.value)}
+            value={bankNumber}
+            onChange={(e) => setBankNumber(e.target.value)}
           />
         </div>
         {message && <div style={styleMessage}>{message}</div>}
@@ -329,7 +329,7 @@ const PopupModify = (props) => {
           padding="10px 0 9px"
           radius={8}
           font={theme.font14_bold}
-          onClick={onClickEditNickName}
+          onClick={handleEditProfile}
         >
           수정하기
         </Button>
