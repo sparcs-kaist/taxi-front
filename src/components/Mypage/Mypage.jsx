@@ -63,7 +63,7 @@ const Mypage = () => {
   return (
     <>
       <Title icon="mypage" header marginAuto>
-        {t("myPage")}
+        {t("my_page")}
       </Title>
       <WhiteContainer marginAuto padding="16px 24px 24px">
         <div style={styleProfile}>
@@ -80,7 +80,7 @@ const Mypage = () => {
           </div>
         </div>
         <div style={infoTitle}>
-          <div style={theme.font14_bold}>{t("myInformation")}</div>
+          <div style={theme.font14_bold}>{t("my_information")}</div>
           <div style={infoModify} onClick={() => setOpenModify(true)}>
             {t("revise")}
           </div>
@@ -100,7 +100,7 @@ const Mypage = () => {
       </WhiteContainer>
       <WhiteContainer marginAuto>
         <Menu icon="lang" onClick={handleTranslation}>
-          {t("btn.translation")}
+          {t("translation")}
         </Menu>
       </WhiteContainer>
       <WhiteContainer marginAuto>
@@ -114,10 +114,10 @@ const Mypage = () => {
             </Menu>
           </a>
           <Menu icon="policy" onClick={() => setOpenPolicy(true)}>
-            {t("rule")}
+            {t("terms")}
           </Menu>
           <Menu icon="credit" onClick={() => setOpenMembers(true)}>
-            {t("developer")}
+            {t("credit")}
           </Menu>
           <Menu icon="logout" onClick={handleLogout}>
             {t("logout")}
