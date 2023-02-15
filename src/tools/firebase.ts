@@ -24,11 +24,6 @@ const requestNotification = async () => {
     const supportsFCM = await isSupported();
     if (supportsFCM) {
       const firebaseMessaging = getMessaging(firebaseApp);
-
-      onMessage(firebaseMessaging, (payload) => {
-        console.log(payload);
-      });
-
       const token = await getToken(firebaseMessaging);
       await axios.post("/auth/registerDeviceToken", { deviceToken: token });
     } else {
