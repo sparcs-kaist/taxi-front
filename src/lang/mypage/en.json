@@ -8,8 +8,20 @@
   "nickname": "Nickname",
   "beta_service_guide": "Beta service guide",
   "report_record": "Report Details",
-  "channeltalk_ask": "Contact Us",
+  "contact": "Contact Us",
   "terms": "Terms and Conditions",
   "credit": "Credit",
-  "logout": "Logout"
+  "logout": "Logout",
+  "page_report": {
+    "inquiry": "If you have inquiries about the report details, please use the 'Contact us' menu.",
+    "reported": "Reported",
+    "received": "Received",
+    "reason": "Reason",
+    "date": "Date",
+    "no_settlement": "Not settled",
+    "no_show": "No show",
+    "etc_reason": "Other reasons",
+    "empty_reported": "There's no report history",
+    "empty_received": "There's no report received"
+  }
 }

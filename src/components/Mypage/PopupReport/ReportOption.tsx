@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import theme from "styles/theme";
 
 export type ReportOptionType = "Reporting" | "Reported";
@@ -9,6 +10,7 @@ type ReportOptionProps = {
 };
 
 const ReportOption = (props: ReportOptionProps) => {
+  const { t } = useTranslation("mypage");
   const styleContainer = {
     display: "flex",
     columnGap: "8px",
@@ -34,13 +36,13 @@ const ReportOption = (props: ReportOptionProps) => {
         style={styleButton(props.option === "Reporting")}
         onClick={() => props.onClick("Reporting")}
       >
-        신고한 내역
+        {t("page_report.reported")}
       </div>
       <div
         style={styleButton(props.option === "Reported")}
         onClick={() => props.onClick("Reported")}
       >
-        신고 받은 내역
+        {t("page_report.received")}
       </div>
     </div>
   );

@@ -110,7 +110,7 @@ const Mypage = () => {
           </Menu>
           <a className="popup-channeltalk">
             <Menu icon="ask" onClick={() => {}}>
-              {t("channeltalk_ask")}
+              {t("contact")}
             </Menu>
           </a>
           <Menu icon="policy" onClick={() => setOpenPolicy(true)}>

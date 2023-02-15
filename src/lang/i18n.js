@@ -30,6 +30,7 @@ i18n.use(initReactI18next).init({
   },
   debug: nodeEnv === "development",
   lng: "ko", // inintial language
+  keySeparator: ".",
   fallbackLng: "ko",
   defaultNS: "mypage", // default namespace
 });

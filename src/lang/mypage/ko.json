@@ -8,8 +8,20 @@
   "nickname": "별명",
   "beta_service_guide": "베타 서비스 안내",
   "report_record": "신고 내역",
-  "channeltalk_ask": "채널톡 문의하기",
+  "contact": "채널톡 문의하기",
   "terms": "사용 약관 및 개인정보 보호 규칙",
   "credit": "만든 사람들",
-  "logout": "로그아웃"
+  "logout": "로그아웃",
+  "page_report": {
+    "inquiry": "아래 신고 내역에 대해 문의하고 싶으신 경우 “채널톡 문의하기” 메뉴를 이용해주세요.",
+    "reported": "신고한 내역",
+    "received": "신고받은 내역",
+    "reason": "신고 사유",
+    "date": "신고 일시",
+    "no_settlement": "정산 미완료",
+    "no_show": "출발 시간에 나타나지 않음",
+    "etc_reason": "기타 사유",
+    "empty_reported": "신고한 기록이 없습니다",
+    "empty_received": "신고 받은 기록이 없습니다"
+  }
 }
