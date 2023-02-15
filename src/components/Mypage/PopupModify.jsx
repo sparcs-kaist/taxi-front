@@ -227,6 +227,10 @@ const PopupModify = (props) => {
     marginTop: "24px",
   };
 
+  const handleBankChange = (e) => {
+    
+  }
+
   const reactSelectOptions = [
     { value: "NH농협", label: "NH농협" },
     { value: "KB국민", label: "KB국민" },
@@ -286,7 +290,7 @@ const PopupModify = (props) => {
         </div>
         <div style={{ ...styleTitle, marginTop: "10px" }}>
           계좌
-          <select style={styleBanks}>
+          <select style={styleBanks} onChange={}>
             {reactSelectOptions.map((option) => {
               return (
                 <option value={option.value} key={option.value}>
