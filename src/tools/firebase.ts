@@ -1,10 +1,5 @@
 import { initializeApp } from "firebase/app";
-import {
-  getMessaging,
-  getToken,
-  isSupported,
-  onMessage,
-} from "firebase/messaging";
+import { getMessaging, getToken, isSupported } from "firebase/messaging";
 import axios from "tools/axios";
 
 const firebaseConfig = {
@@ -19,7 +14,7 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 
-const requestNotification = async () => {
+const registerToken = async () => {
   try {
     const supportsFCM = await isSupported();
     if (supportsFCM) {
@@ -34,4 +29,9 @@ const requestNotification = async () => {
   }
 };
 
-export default requestNotification;
+const registerTokenOnClick = () => {
+  document.addEventListener("click", registerToken, { once: true });
+  document.addEventListener("touchend", registerToken, { once: true });
+};
+
+export default registerTokenOnClick;

@@ -9,6 +9,7 @@ import { useLocation, Redirect } from "react-router-dom";
 // import { useCookies } from "react-cookie";
 import reactGA from "react-ga4";
 import axios from "tools/axios";
+import registerTokenOnClick from "tools/firebase";
 import { gaTrackingId, nodeEnv } from "serverconf";
 
 import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
@@ -127,8 +128,11 @@ const Skeleton = (props: SkeletonProps) => {
         // FIXME
       });
 
-    // recoil-state 초기화
-    if (userId) initializeGlobalInfo();
+    // recoil-state 초기화 및 FCM 디바이스 토큰 등록
+    if (userId) {
+      initializeGlobalInfo();
+      registerTokenOnClick();
+    }
 
     // Google Analytics
     if (gaInitialized.current && userId) {

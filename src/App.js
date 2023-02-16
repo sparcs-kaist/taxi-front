@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { CookiesProvider } from "react-cookie";
 import { RecoilRoot } from "recoil";
-import requestNotification from "tools/firebase";
 import ScrollRestoration from "tools/ScrollRestoration";
 import { I18nextProvider } from "react-i18next";
 import i18n from "lang/i18n";
@@ -23,9 +22,6 @@ import PageNotFound from "components/Error/PageNotFound";
 
 import "App.css";
 import "Font.css";
-
-document.addEventListener("click", requestNotification, { once: true });
-document.addEventListener("touchend", requestNotification, { once: true });
 
 const App = () => {
   return (
