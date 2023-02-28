@@ -11,6 +11,8 @@ const Logout = () => {
        * 로그아웃 에러 처리 어떻게 할지 고민하기
        */
     } else if (!isLoading && response?.ssoLogoutUrl) {
+      // response?.ssoLogoutUrl = SSO로그아웃과 함께 다시 taxi-front로 redirect해주는 URL
+      // "/auth/logout" API 명세서 참고
       window.location.href = response?.ssoLogoutUrl;
     }
   }, [error, response, isLoading]);
