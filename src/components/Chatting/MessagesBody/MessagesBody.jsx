@@ -79,6 +79,16 @@ const MessagesBody = (props) => {
         );
       }
       if (item.type === "in" || item.type === "out") {
+        if (chatsCache) {
+          list.push(
+            <ChatSet
+              key={"chat" + chatsCache[0].time}
+              chats={chatsCache}
+              {...chatSetCommonProps}
+            />
+          );
+          chatsCache = null;
+        }
         list.push(
           <ChatInOut
             key={"inout" + currentMoment}
@@ -86,7 +96,9 @@ const MessagesBody = (props) => {
             users={item.inOutNames}
           />
         );
-      } else if (item.type === "text" || item.type === "s3img") {
+      } else if (
+        ["text", "s3img", "payment", "settlement"].includes(item.type)
+      ) {
         if (
           chatsCache &&
           (chatsCache[0].authorId !== item.authorId ||
