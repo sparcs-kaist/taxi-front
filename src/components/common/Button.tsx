@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, ReactNode } from "react";
 import theme, { Font } from "styles/theme";
 import isMobile from "tools/isMobile";
 
@@ -13,7 +13,7 @@ type ButtonProps = {
   font?: Font;
   onClick?: () => void;
   className?: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
 };
 
 const Button = ({

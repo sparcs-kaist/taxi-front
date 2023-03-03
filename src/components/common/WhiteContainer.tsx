@@ -1,4 +1,4 @@
-import React from "react";
+import { ReactNode } from "react";
 import RLayout from "components/common/RLayout";
 import theme from "styles/theme";
 
@@ -7,7 +7,7 @@ type WhiteContainerProps = {
   margin?: string;
   marginAuto?: boolean;
   style?: CSS;
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 const WhiteContainer = ({

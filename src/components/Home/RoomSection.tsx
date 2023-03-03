@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "tools/axios";
 import moment, { getToday } from "tools/moment";
 import RLayout from "components/common/RLayout";

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import useTaxiAPI from "hooks/useTaxiAPI";
 import theme from "styles/theme";
 import Modal from "components/common/modal/Modal";

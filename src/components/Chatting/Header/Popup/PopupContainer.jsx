@@ -1,4 +1,3 @@
-import React from "react";
 import Modal from "components/common/modal/Modal";
 import ButtonCancelOk from "components/common/modal/ButtonCancelOk";
 import PropTypes from "prop-types";

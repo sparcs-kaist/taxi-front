@@ -1,4 +1,3 @@
-import React from "react";
 import _ScrollRestoration from "react-scroll-restoration";
 import { useLocation } from "react-router-dom";
 

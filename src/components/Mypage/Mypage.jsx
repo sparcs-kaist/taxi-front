@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router";
 import { useTranslation } from "react-i18next";
 import Title from "components/common/Title";
@@ -8,7 +8,6 @@ import PopupReport from "./PopupReport";
 import PopupPolicy from "./PopupPolicy";
 import PopupMembers from "./PopupMembers";
 import ProfileImg from "./ProfileImg";
-import axios from "tools/axios";
 import theme from "styles/theme";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";

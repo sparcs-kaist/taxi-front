@@ -1,4 +1,4 @@
-import React, { useRef, ReactNode } from "react";
+import { useRef, ReactNode } from "react";
 import Modal from "components/common/modal/Modal";
 import { useRecoilState } from "recoil";
 import alertAtom from "recoil/alert";

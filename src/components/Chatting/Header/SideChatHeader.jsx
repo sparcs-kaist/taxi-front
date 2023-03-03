@@ -1,6 +1,5 @@
-import React from "react";
 import PropTypes from "prop-types";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import theme from "styles/theme";
 
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";

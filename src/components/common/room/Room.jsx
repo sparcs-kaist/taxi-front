@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import { useMemo } from "react";
 import { useRecoilValue } from "recoil";
 import preferenceAtom from "recoil/preference";
 import PropTypes from "prop-types";

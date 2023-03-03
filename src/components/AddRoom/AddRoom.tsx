@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import myRoomAtom from "recoil/myRoom";

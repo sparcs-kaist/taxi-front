@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Title from "components/common/Title";
 import WhiteContainer from "components/common/WhiteContainer";
@@ -20,11 +20,9 @@ import UnfoldLessRoundedIcon from "@mui/icons-material/UnfoldLessRounded";
 
 const ChatHeader = (props) => {
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
-  const [, headerInfo] = useTaxiAPI.get(
-    `/rooms/info?id=${props.roomId}`,
-    {},
-    [headerInfToken]
-  );
+  const [, headerInfo] = useTaxiAPI.get(`/rooms/info?id=${props.roomId}`, {}, [
+    headerInfToken,
+  ]);
 
   return (
     <ChatHeaderBody
