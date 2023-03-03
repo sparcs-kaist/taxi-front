@@ -5,7 +5,7 @@ import SendRoundedIcon from "@mui/icons-material/SendRounded";
 
 type ChatPaySettleProps = {
   itsme: boolean;
-  type: "pay" | "settlement";
+  type: "payment" | "settlement";
 };
 
 const ChatPaySettle = ({ itsme, type }: ChatPaySettleProps) => {
@@ -20,12 +20,12 @@ const ChatPaySettle = ({ itsme, type }: ChatPaySettleProps) => {
       }}
       className="selectable"
     >
-      {type === "pay" ? (
+      {type === "payment" ? (
         <CreditCardRoundedIcon style={{ fontSize: "18px" }} />
       ) : (
         <SendRoundedIcon style={{ fontSize: "18px" }} />
       )}
-      {type === "pay" ? "결제를 완료하였습니다." : "정산을 완료하였습니다."}
+      {type === "payment" ? "결제를 완료하였습니다." : "정산을 완료하였습니다."}
     </div>
   );
 };
