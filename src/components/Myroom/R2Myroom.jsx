@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Title from "components/common/Title";
 import WhiteContainer from "components/common/WhiteContainer";
@@ -59,25 +59,21 @@ LinkRoom.propTypes = {
 };
 
 const R2Myroom = (props) => {
-  const refTitle = useRef();
-  const refHeader = useRef();
   const [isHeaderOpen, setHeaderOpen] = useState(true);
 
   return (
-    <div style={{ width: "100%", height: "calc(100vh - 56px)" }}>
+    <>
       <RLayout.R2
         left={
           <>
-            <div ref={refTitle}>
-              <Title
-                icon="myroom"
-                header
-                marginAuto
-                R2={props.roomId !== undefined}
-              >
-                내 방 보기
-              </Title>
-            </div>
+            <Title
+              icon="myroom"
+              header
+              marginAuto
+              R2={props.roomId !== undefined}
+            >
+              내 방 보기
+            </Title>
             <div style={{ margin: "0 -4px", padding: "0 4px" }}>
               <WhiteContainer padding="20px 20px 22px">
                 <Title icon="current">참여 중인 방</Title>
@@ -102,7 +98,7 @@ const R2Myroom = (props) => {
                   ))
                 )}
               </WhiteContainer>
-              <WhiteContainer padding="20px 20px 22px">
+              <WhiteContainer padding="20px 20px 22px" margin="0px 0px -17px">
                 <Title icon="past">과거 참여 방</Title>
                 <div style={{ height: "19px" }} />
                 <DottedLine direction="row" />
@@ -132,14 +128,10 @@ const R2Myroom = (props) => {
                     <Pagination
                       totalPages={props.donePageInfo.totalPages}
                       currentPage={props.donePageInfo.currentPage}
-                      onClickPage={props.donePageClickHandler}
-                      onClickPrev={props.donePrevPageHandler}
-                      onClickNext={props.doneNextPageHandler}
                     />
                   </>
                 )}
               </WhiteContainer>
-              <div style={{ height: "56px" }} />
             </div>
           </>
         }
@@ -155,38 +147,37 @@ const R2Myroom = (props) => {
             height: "calc(100vh - 20px - 56px - 15px)",
             display: "flex",
             flexDirection: "column",
+            zIndex: 10,
           }}
         >
-          <div ref={refHeader}>
-            <WhiteContainer padding="16px">
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  padding: "0 4px 0 8px",
-                }}
-              >
-                <Title icon="chat">채팅 창</Title>
-                {isHeaderOpen ? (
-                  <UnfoldLessRoundedIcon
-                    style={{ color: theme.purple, ...theme.cursor() }}
-                    onClick={() => setHeaderOpen(false)}
-                  />
-                ) : (
-                  <UnfoldMoreRoundedIcon
-                    style={{ color: theme.purple, ...theme.cursor() }}
-                    onClick={() => setHeaderOpen(true)}
-                  />
-                )}
-              </div>
-              {isHeaderOpen && (
-                <>
-                  <DottedLine direction="row" margin="16px 0" />
-                  <ChatHeader roomId={props.roomId} />
-                </>
+          <WhiteContainer padding="16px" style={{ flex: "0 0 auto" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                padding: "0 4px 0 8px",
+              }}
+            >
+              <Title icon="chat">채팅 창</Title>
+              {isHeaderOpen ? (
+                <UnfoldLessRoundedIcon
+                  style={{ color: theme.purple, ...theme.cursor() }}
+                  onClick={() => setHeaderOpen(false)}
+                />
+              ) : (
+                <UnfoldMoreRoundedIcon
+                  style={{ color: theme.purple, ...theme.cursor() }}
+                  onClick={() => setHeaderOpen(true)}
+                />
               )}
-            </WhiteContainer>
-          </div>
+            </div>
+            {isHeaderOpen && (
+              <>
+                <DottedLine direction="row" margin="16px 0" />
+                <ChatHeader roomId={props.roomId} />
+              </>
+            )}
+          </WhiteContainer>
           <div style={{ height: "100%", minHeight: 0 }}>
             <WhiteContainer padding="0px" style={{ height: "100%", zIndex: 0 }}>
               <SideChat roomId={props.roomId} />
@@ -194,7 +185,7 @@ const R2Myroom = (props) => {
           </div>
         </div>
       ) : null}
-    </div>
+    </>
   );
 };
 
