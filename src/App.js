@@ -2,9 +2,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { CookiesProvider } from "react-cookie";
 import { RecoilRoot } from "recoil";
 import ScrollRestoration from "tools/ScrollRestoration";
-import { I18nextProvider } from "react-i18next";
-import i18n from "lang/i18n";
 import ChannelTalk from "components/Skeleton/ChannelTalk";
+import I18nextProvider from "lang/I18nextProvider";
 import AlertProvider from "components/Skeleton/AlertProvider";
 import Skeleton from "components/Skeleton/Skeleton";
 
@@ -29,6 +28,7 @@ const App = () => {
         <Router>
           <ScrollRestoration />
           <ChannelTalk />
+          <I18nextProvider />
           <AlertProvider />
           <Skeleton>
             <Switch>
