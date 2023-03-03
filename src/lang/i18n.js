@@ -1,5 +1,6 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
 import { nodeEnv } from "serverconf";
 
 import nsSearchKO from "./search/ko.json";
@@ -12,26 +13,32 @@ import nsAddroomEN from "./addroom/en.json";
 import nsMyroomEN from "./myroom/en.json";
 import nsMypageEN from "./mypage/en.json";
 
-/** {@link https://www.i18next.com/overview/configuration-options} */
-i18n.use(initReactI18next).init({
-  resources: {
-    ko: {
-      search: nsSearchKO,
-      addroom: nsAddroomKO,
-      myroom: nsMyroomKO,
-      mypage: nsMypageKO,
+/**
+ * {@link https://www.i18next.com/overview/configuration-options}
+ * {@link https://github.com/i18next/i18next-browser-languageDetector}
+ * */
+i18n
+  .use(initReactI18next)
+  .use(LanguageDetector)
+  .init({
+    resources: {
+      ko: {
+        search: nsSearchKO,
+        addroom: nsAddroomKO,
+        myroom: nsMyroomKO,
+        mypage: nsMypageKO,
+      },
+      en: {
+        search: nsSearchEN,
+        addroom: nsAddroomEN,
+        myroom: nsMyroomEN,
+        mypage: nsMypageEN,
+      },
     },
-    en: {
-      search: nsSearchEN,
-      addroom: nsAddroomEN,
-      myroom: nsMyroomEN,
-      mypage: nsMypageEN,
-    },
-  },
-  debug: nodeEnv === "development",
-  lng: "ko", // inintial language
-  fallbackLng: "ko",
-  defaultNS: "mypage", // default namespace
-});
+    debug: nodeEnv === "development",
+    keySeparator: ".",
+    fallbackLng: "ko",
+    defaultNS: "mypage", // default namespace
+  });
 
 export default i18n;
