@@ -175,7 +175,7 @@ const ChatSet = (props) => {
             setFullImage={setFullImage}
           />
         );
-      case "pay":
+      case "payment":
       case "settlement":
         return <ChatPaySettle itsme={itsme} type={type} />;
       default:
