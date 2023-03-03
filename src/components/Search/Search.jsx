@@ -10,7 +10,6 @@ import SideResult from "./SideResult";
 import axios from "tools/axios";
 import moment, { getToday10, getToday } from "tools/moment";
 import PropTypes from "prop-types";
-import isMobile from "ismobilejs";
 import theme from "styles/theme";
 import Button from "components/common/Button";
 import Tooltip from "components/common/Tooltip";
@@ -47,7 +46,7 @@ const SearchOption = (props) => {
     <animated.div
       style={style}
       onClick={() => props.onClick(props.id)}
-      onMouseEnter={() => setHover(!(isMobile().phone || isMobile().tablet))}
+      onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
       {props.children}

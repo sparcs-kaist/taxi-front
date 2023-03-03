@@ -1,6 +1,5 @@
 import { useState, ReactNode } from "react";
 import theme, { Font } from "styles/theme";
-import isMobile from "tools/isMobile";
 
 type ButtonType = "purple" | "purple_inset" | "gray" | "white";
 
@@ -88,7 +87,7 @@ const Button = ({
       onClick={disabled ? undefined : onClick}
       style={style}
       className={className}
-      onMouseEnter={() => setHover(!isMobile)}
+      onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHoverClicked(false)}
       onMouseDown={() => setClicked(!disabled)}
       onMouseUp={() => setClicked(false)}
