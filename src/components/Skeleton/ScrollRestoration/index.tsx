@@ -1,66 +1,49 @@
-import { useRef, useEffect, memo } from "react";
-import { withRouter, RouteComponentProps } from "react-router-dom";
-import { scrollTo, getScrollPage } from "./utils";
+import { useEffect, useRef } from "react";
+import { useHistory, useLocation } from "react-router-dom";
+import { scrollTo, getScrollPage, isBothStartsWith } from "./utils";
 
-export const DefaultKey = "init-enter";
+const defaultKey = "init-enter";
 
-interface IProps {
-  visitedUrl: Map<string, number>;
-}
-
-const ScrollRestorationBody = ({
-  history,
-  visitedUrl,
-}: RouteComponentProps & IProps) => {
-  const handlePopStateChange = () => {
-    const { location } = history;
-    const { key } = location;
-    const existingRecord = visitedUrl.get(key || DefaultKey);
-
-    if (existingRecord !== undefined) {
-      scrollTo(existingRecord);
-    }
-  };
+const ScrollRestoration = () => {
+  const visitedUrl = useRef(new Map());
+  const history = useHistory();
+  const location = useLocation();
+  const prevLocation = useRef(location);
 
   useEffect(() => {
-    window.addEventListener("popstate", handlePopStateChange);
-    return () => {
-      window.removeEventListener("popstate", handlePopStateChange);
-    };
-  }, []);
+    const key = prevLocation.current.key || defaultKey;
+    const locationChanged =
+      (location.pathname !== prevLocation.current.pathname ||
+        location.search !== prevLocation.current.search) &&
+      location.hash === "";
+    const scroll = getScrollPage();
+
+    if (locationChanged) {
+      if (
+        !isBothStartsWith(
+          location.pathname,
+          prevLocation.current.pathname,
+          "/myroom"
+        ) &&
+        !isBothStartsWith(
+          location.pathname,
+          prevLocation.current.pathname,
+          "/search"
+        )
+      ) {
+        // console.log(location.pathname, prevLocation.current.pathname);
+        if (history.action === "POP") {
+          // console.log(456);
+          const existingRecord = visitedUrl.current.get(key || defaultKey);
+          if (existingRecord !== undefined) scrollTo(existingRecord);
+        } else scrollTo(0);
+      }
+      visitedUrl.current.set(key, scroll);
+    }
+    prevLocation.current = location;
+  }, [location.pathname, location.search, location.hash]);
 
   return null;
 };
 
-const ScrollRestoration = withRouter(
-  memo(ScrollRestorationBody, (prevProps, nextProps) => {
-    const { location: prevLoaction, visitedUrl, history } = prevProps;
-    const { location: nextLoaction } = nextProps;
-
-    const key = prevLoaction.key || DefaultKey;
-
-    const locationChanged =
-      (nextLoaction.pathname !== prevLoaction.pathname ||
-        nextLoaction.search !== prevLoaction.search) &&
-      nextLoaction.hash === "";
-
-    const scroll = getScrollPage();
-
-    if (locationChanged) {
-      if (history.action !== "POP") {
-        scrollTo(0);
-        visitedUrl.set(key, scroll);
-      } else {
-        visitedUrl.set(key, scroll);
-      }
-    }
-
-    return false;
-  })
-);
-
-export default function Wrapper() {
-  const visitedUrl = useRef(new Map());
-
-  return <ScrollRestoration visitedUrl={visitedUrl.current} />;
-}
+export default ScrollRestoration;
