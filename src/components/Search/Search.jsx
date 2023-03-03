@@ -151,7 +151,7 @@ const Search = () => {
   const location = useLocation();
 
   const [cookies, setCookie] = useCookies(["defaultFromTo"]);
-  const [searchOptions, setSearchOptions] = useState({});
+  const [searchOptions, setSearchOptions] = useState(defaultOptions);
   const [valueName, setName] = useState("");
   const defaultPlace =
     cookies?.defaultFromTo?.[0] && cookies?.defaultFromTo?.[1]
