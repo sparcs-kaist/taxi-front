@@ -22,7 +22,7 @@ const PopupReport = (props: RecordProps) => {
   const { t } = useTranslation("mypage");
   const [option, setOption] = useState<ReportOptionType>("Reporting");
   const [, reportHistory] = useTaxiAPI.get("/reports/searchByUser");
-  console.log(reportHistory);
+
   const styleTitle = {
     ...theme.font18,
     display: "flex",

@@ -12,6 +12,7 @@ import theme from "styles/theme";
 import { useRecoilValue } from "recoil";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import Menu from "./Menu";
+import { nodeEnv } from "../../serverconf.js";
 
 const Mypage = () => {
   const { t, i18n } = useTranslation("mypage");
@@ -98,11 +99,13 @@ const Mypage = () => {
           <div style={infoContent}>{userInfoDetail?.nickname}</div>
         </div>
       </WhiteContainer>
-      <WhiteContainer marginAuto>
-        <Menu icon="lang" onClick={handleTranslation}>
-          {t("translation")}
-        </Menu>
-      </WhiteContainer>
+      {nodeEnv === "development" && (
+        <WhiteContainer marginAuto>
+          <Menu icon="lang" onClick={handleTranslation}>
+            {t("translation")}
+          </Menu>
+        </WhiteContainer>
+      )}
       <WhiteContainer marginAuto>
         <div style={{ display: "grid", rowGap: "16px" }}>
           <Menu icon="report" onClick={() => setOpenReport(true)}>
