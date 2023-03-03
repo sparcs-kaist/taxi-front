@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { CookiesProvider } from "react-cookie";
 import { RecoilRoot } from "recoil";
-import ScrollRestoration from "tools/ScrollRestoration";
+import ScrollRestoration from "components/Skeleton/ScrollRestoration";
 import ChannelTalkProvider from "components/Skeleton/ChannelTalkProvider";
 import I18nextProvider from "lang/I18nextProvider";
 import AlertProvider from "components/Skeleton/AlertProvider";
