@@ -29,7 +29,7 @@ const R2 = (props) => {
   const state = useR2state();
   if (state === 3 || !props.right) return <R1>{props.left}</R1>;
 
-  const styleColumn = { width: state == 1 ? "390px" : "calc(50% - 27.5px)" };
+  const styleColumn = { width: state === 1 ? "390px" : "calc(50% - 27.5px)" };
   return (
     <div
       style={{
