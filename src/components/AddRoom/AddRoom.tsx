@@ -110,20 +110,7 @@ const AddRoom = () => {
   };
 
   return (myRoom?.ongoing.length ?? 0) < MAX_PARTICIPATION ? (
-    <div
-      style={{
-        position: "relative",
-        overflow: "auto",
-      }}
-    >
-      <div
-        style={{
-          position: "absolute",
-          left: "0px",
-          width: "1px",
-          height: "calc(100% + 1px)",
-        }}
-      />
+    <div>
       <Title icon="add" header marginAuto>
         방 개설하기
       </Title>
