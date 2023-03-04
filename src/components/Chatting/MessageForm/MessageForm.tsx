@@ -37,7 +37,10 @@ const MessageForm = (props: MessageFormProps) => {
         alignItems: "center",
         boxShadow: theme.shadow_clicked,
         backgroundColor: theme.white,
-        paddingBottom: isVKDetected ? "0px" : "env(safe-area-inset-bottom)",
+        paddingBottom:
+          props.isSideChat || isVKDetected
+            ? "0px"
+            : "env(safe-area-inset-bottom)",
       }}
     >
       <NewMessage

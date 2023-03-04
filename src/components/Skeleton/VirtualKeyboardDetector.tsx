@@ -35,8 +35,15 @@ const VirtualKeyboardDetector = () => {
       return () => visualViewport?.removeEventListener("resize", resizeEvent);
     }
     if (isIOS) {
-      const onFocus = () => setIsVKDetected(true);
-      const onBlur = () => setIsVKDetected(false);
+      let isVKDetected = false;
+      const onFocus = () => {
+        isVKDetected = true;
+        setIsVKDetected(true);
+      };
+      const onBlur = () => {
+        isVKDetected = false;
+        setIsVKDetected(false);
+      };
       const root = document.getElementById("root");
       const observer = new MutationObserver((mutations) => {
         const addedList = mutations.filter(
@@ -53,9 +60,31 @@ const VirtualKeyboardDetector = () => {
           Array.prototype.forEach.call(textareas, callback);
         }
       });
-      if (!root) return;
-      observer.observe(root, { childList: true, subtree: true });
-      return observer.disconnect;
+      if (root) observer.observe(root, { childList: true, subtree: true });
+
+      let prevVVHeight = 0;
+      const resizeEvent = () => {
+        const currentVVHeight = visualViewport?.height;
+        if (!currentVVHeight) return;
+        if (
+          prevVVHeight - 30 > currentVVHeight &&
+          prevVVHeight - 100 < currentVVHeight &&
+          isVKDetected
+        ) {
+          const scrollHeight = window?.document?.scrollingElement?.scrollHeight;
+          if (!scrollHeight) return;
+
+          const scrollTop = scrollHeight - currentVVHeight;
+          window.scrollTo(0, scrollTop);
+        }
+        prevVVHeight = currentVVHeight;
+      };
+      visualViewport?.addEventListener("resize", resizeEvent);
+
+      return () => {
+        observer.disconnect();
+        visualViewport?.removeEventListener("resize", resizeEvent);
+      };
     }
   }, []);
   return null;
