@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import useTaxiAPI from "hooks/useTaxiAPI";
 import { useTranslation } from "react-i18next";
 import theme from "styles/theme";

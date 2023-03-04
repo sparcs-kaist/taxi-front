@@ -1,4 +1,3 @@
-import React from "react";
 import WhiteContainer from "components/common/WhiteContainer";
 import theme from "styles/theme";
 

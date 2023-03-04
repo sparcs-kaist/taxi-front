@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import FullChatMessageForm from "./FullChatMessageForm";
 import NewMessage from "./NewMessage";
 import PropTypes from "prop-types";

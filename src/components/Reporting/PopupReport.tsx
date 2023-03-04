@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import ProfileImg from "components/Mypage/ProfileImg";
 import Modal from "components/common/modal/Modal";
 import axios from "tools/axios";
@@ -137,7 +136,7 @@ const PopupReport = ({
     margin: "9px 6px 9px 12px",
   };
 
-  const handleType = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleType = (event: ChangeEvent<HTMLSelectElement>) => {
     setType(event.target.value as ReportTypes);
   };
 
@@ -166,7 +165,7 @@ const PopupReport = ({
     setType(ReportTypes.NoSettlement);
   };
 
-  const handleEtcDetail = (event: React.FormEvent<HTMLSpanElement>) => {
+  const handleEtcDetail = (event: FormEvent<HTMLSpanElement>) => {
     if (!regExpTest.reportMsg(event.currentTarget.innerText)) {
       setAlert("신고 이유는 1500자 까지 허용됩니다.");
     }

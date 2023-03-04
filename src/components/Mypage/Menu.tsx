@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { ReactElement, useState } from "react";
 
 import theme from "styles/theme";
 
@@ -14,7 +14,7 @@ import StarRoundedIcon from "@mui/icons-material/StarRounded";
 type MenuProps = {
   icon: string;
   onClick: () => void;
-  children: React.ReactElement;
+  children: ReactElement;
 };
 
 const getIcon = (icon: string) => {

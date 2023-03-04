@@ -1,4 +1,3 @@
-import React from "react";
 import theme from "styles/theme";
 import ArrowUpwardRoundedIcon from "@mui/icons-material/ArrowUpwardRounded";
 

@@ -41,4 +41,6 @@ i18n
     defaultNS: "mypage", // default namespace
   });
 
-export default i18n;
+const I18nextProvider = () => null;
+
+export default I18nextProvider;
