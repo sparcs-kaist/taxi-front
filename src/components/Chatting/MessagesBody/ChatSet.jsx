@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import moment from "tools/moment";
 import ProfileImg from "components/Mypage/ProfileImg";
 import ImageFullscreen from "components/Chatting/MessagesBody/ImageFullscreen";

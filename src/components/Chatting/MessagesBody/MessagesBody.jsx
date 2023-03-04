@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import moment from "tools/moment";
 import ChatSet from "./ChatSet";
 import ChatDate from "./ChatDate";

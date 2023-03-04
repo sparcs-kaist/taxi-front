@@ -1,4 +1,3 @@
-import React from "react";
 import { backServer } from "serverconf";
 import Button from "components/common/Button";
 import theme from "styles/theme";
