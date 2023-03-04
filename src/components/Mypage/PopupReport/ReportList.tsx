@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import theme from "styles/theme";
 import { date2str } from "tools/moment";
 import { ReportOptionType } from "./ReportOption";
@@ -11,6 +12,7 @@ type ReportListProps = {
 };
 
 const ReportList = (props: ReportListProps) => {
+  const { t } = useTranslation("mypage");
   const styleBox: CSS = {
     display: "flex",
     flexDirection: "column",
@@ -20,31 +22,32 @@ const ReportList = (props: ReportListProps) => {
     boxShadow: theme.shadow_gray_button_inset,
     backgroundColor: theme.gray_background,
   };
-  const styleRow = {
+  const styleRow: CSS = {
     display: "flex",
+    flexWrap: "nowrap",
+    columnGap: "8px",
   };
   const styleProperty = {
     ...theme.font12,
     color: theme.gray_text,
-    minWidth: "66px",
+    minWidth: "58px",
   };
   const styleInfo: CSS = {
     ...theme.font12,
-    wordBreak: "keep-all",
   };
   const getTypeText = (type: string) => {
     return type === "no-settlement"
-      ? "정산 미완료"
+      ? t("page_report.no_settlement")
       : type === "no-show"
-      ? "출발 시간에 나타나지 않음"
-      : "기타 사유";
+      ? t("page_report.no_show")
+      : t("page_report.etc_reason");
   };
   if (!props.selectedReportHistory?.length) {
     return (
       <Empty screen="mobile">
         {props.option === "Reporting"
-          ? "신고한 기록이 없습니다"
-          : "신고 받은 기록이 없습니다"}
+          ? t("page_report.empty_reported")
+          : t("page_report.empty_received")}
       </Empty>
     );
   }
@@ -54,7 +57,7 @@ const ReportList = (props: ReportListProps) => {
         return (
           <div key={report._id} style={styleBox}>
             <div style={styleRow}>
-              <div style={styleProperty}>신고 사유</div>
+              <div style={styleProperty}>{t("page_report.reason")}</div>
               <div style={{ ...styleInfo, color: theme.purple }}>
                 {getTypeText(report.type)}
               </div>
@@ -62,17 +65,17 @@ const ReportList = (props: ReportListProps) => {
             <DottedLine direction="row" margin="2px 0" />
             {props.option === "Reporting" && (
               <div style={styleRow}>
-                <div style={styleProperty}>별명</div>
+                <div style={styleProperty}>{t("nickname")}</div>
                 <div style={styleInfo}>{report.reportedId.nickname}</div>
               </div>
             )}
             <div style={styleRow}>
-              <div style={styleProperty}>신고 일시</div>
+              <div style={styleProperty}>{t("page_report.date")}</div>
               <div style={styleInfo}>{date2str(report.time)}</div>
             </div>
             {report.type === "etc-reason" && (
               <div style={styleRow}>
-                <div style={styleProperty}>기타 사유</div>
+                <div style={styleProperty}>{t("page_report.etc_reason")}</div>
                 <div style={styleInfo}>{report.etcDetail}</div>
               </div>
             )}
