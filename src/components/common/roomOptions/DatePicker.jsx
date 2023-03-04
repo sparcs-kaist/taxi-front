@@ -1,4 +1,4 @@
-import { Component, useState, createRef } from "react";
+import { Component, useState, createRef, memo } from "react";
 import { getToday10 } from "tools/moment";
 import PropTypes from "prop-types";
 import theme from "styles/theme";
@@ -134,6 +134,7 @@ const Date = (props) => {
     </div>
   );
 };
+const MemoizedDate = memo(Date);
 
 Date.propTypes = {
   index: PropTypes.number,
@@ -306,7 +307,7 @@ class DatePicker extends Component {
             return (
               <div key={index} style={this.styleWeek}>
                 {item.map((item, index) => (
-                  <Date
+                  <MemoizedDate
                     key={index}
                     index={index}
                     year={item.year}
@@ -314,7 +315,7 @@ class DatePicker extends Component {
                     date={item.date}
                     available={item.available}
                     selected={item.date === selectedDate}
-                    handler={(x, y, z) => this.dateHandler(x, y, z)}
+                    handler={this.dateHandler}
                   />
                 ))}
               </div>

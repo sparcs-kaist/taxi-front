@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 import { useRecoilValue } from "recoil";
 import { taxiLocataionWithName } from "recoil/taxiLocation";
 import preferenceAtom from "recoil/preference";
@@ -159,4 +159,4 @@ Place.propTypes = {
   handler: PropTypes.func,
 };
 
-export default Place;
+export default memo(Place);
