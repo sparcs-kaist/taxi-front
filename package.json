@@ -26,7 +26,6 @@
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.3",
-    "on-screen-keyboard-detector": "^2.3.0",
     "prop-types": "^15.8.1",
     "qs": "^6.11.0",
     "react": "^17.0.1",
