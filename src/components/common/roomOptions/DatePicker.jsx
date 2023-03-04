@@ -1,4 +1,4 @@
-import { Component, useState, createRef, memo } from "react";
+import { PureComponent, useState, createRef, memo } from "react";
 import { getToday10 } from "tools/moment";
 import PropTypes from "prop-types";
 import theme from "styles/theme";
@@ -146,7 +146,7 @@ Date.propTypes = {
   handler: PropTypes.func,
 };
 
-class DatePicker extends Component {
+class DatePicker extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
