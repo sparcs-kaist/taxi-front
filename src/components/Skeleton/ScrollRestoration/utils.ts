@@ -1,6 +1,5 @@
 export const scrollTo = (scrollnumber = 0): number =>
   window.requestAnimationFrame(() => {
-    console.log("scroll", scrollnumber);
     window.scrollTo(0, scrollnumber);
   });
 
