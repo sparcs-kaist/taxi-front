@@ -44,10 +44,13 @@ const VirtualKeyboardDetector = () => {
         );
         if (addedList.length > 0) {
           const inputs = document.getElementsByTagName("input");
-          Array.prototype.forEach.call(inputs, (element) => {
+          const textareas = document.getElementsByTagName("textarea");
+          const callback = (element: HTMLElement) => {
             element.addEventListener("focus", onFocus);
             element.addEventListener("blur", onBlur);
-          });
+          };
+          Array.prototype.forEach.call(inputs, callback);
+          Array.prototype.forEach.call(textareas, callback);
         }
       });
       if (!root) return;
