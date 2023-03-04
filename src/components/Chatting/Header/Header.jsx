@@ -1,4 +1,3 @@
-import React from "react";
 import FullChatHeader from "./FullChatHeader";
 import SideChatHeader from "./SideChatHeader";
 import PropTypes from "prop-types";

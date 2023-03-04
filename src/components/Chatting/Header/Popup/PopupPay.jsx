@@ -1,4 +1,3 @@
-import React from "react";
 import PopupContainer from "./PopupContainer";
 import PropTypes from "prop-types";
 import axios from "tools/axios";

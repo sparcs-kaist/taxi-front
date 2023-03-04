@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import RLayout from "components/common/RLayout";
 import Title from "components/common/Title";

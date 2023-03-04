@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import RLayout from "components/common/RLayout";
 import { useRecoilValue } from "recoil";
