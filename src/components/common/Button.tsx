@@ -1,4 +1,4 @@
-import { useState, ReactNode, memo } from "react";
+import { useState, ReactNode } from "react";
 import theme, { Font } from "styles/theme";
 import isMobile from "tools/isMobile";
 
@@ -100,4 +100,4 @@ const Button = ({
   );
 };
 
-export default memo(Button);
+export default Button;

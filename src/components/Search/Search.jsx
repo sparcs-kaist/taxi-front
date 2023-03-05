@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback, memo } from "react";
+import { useState, useRef, useEffect, memo } from "react";
 import { animated, useSpring } from "react-spring";
 import { useHistory, useLocation } from "react-router-dom";
 import { useCookies } from "react-cookie";
@@ -350,7 +350,7 @@ const Search = () => {
     } else if (valueMaxPeople !== null) setMaxPeople(null);
   }, [searchOptions.maxPeople]);
 
-  const onClickSearch = useCallback(async () => {
+  const onClickSearch = async () => {
     if (!onCall.current) {
       onCall.current = true;
       setSearchResult([]);
@@ -385,7 +385,7 @@ const Search = () => {
       );
       history.push(`/search?${q}`);
     }
-  }, []);
+  };
 
   useEffect(() => {
     if (!onCall.current || reactiveState !== 3) return;
