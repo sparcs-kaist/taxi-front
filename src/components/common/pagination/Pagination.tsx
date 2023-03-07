@@ -1,4 +1,4 @@
-import React from "react";
+import { ReactElement } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import qs from "qs";
 import theme from "styles/theme";
@@ -57,7 +57,7 @@ const Pagination = ({
   totalPages,
   currentPage,
   isMobile,
-}: PaginationProps): React.ReactElement => {
+}: PaginationProps): ReactElement => {
   const location = useLocation();
   const history = useHistory();
 

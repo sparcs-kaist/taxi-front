@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component, createRef } from "react";
 import PropTypes from "prop-types";
 import "./Picker.css";
 
@@ -23,7 +23,7 @@ class PickerColumn extends Component {
       startScrollerTranslate: 0,
       ...this.computeTranslate(props),
     };
-    this.pickerRef = React.createRef();
+    this.pickerRef = createRef();
     this.handleScroll = this.handleScroll.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleTouchStart = this.handleTouchStart.bind(this);

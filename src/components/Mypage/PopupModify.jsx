@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { useRecoilState } from "recoil";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import ProfileImg from "./ProfileImg";
@@ -109,21 +110,23 @@ const BtnProfImg = (props) => {
         ref={inputImage}
       />
       {profileAlert === "SUCCESS"
-        ? "프로필 사진이 변경되었습니다."
+        ? props.t("page_modify.profile_image_success")
         : profileAlert === "FAIL"
-        ? "프로필 사진 변경에 실패했습니다."
+        ? props.t("page_modify.profile_image_failed")
         : profileAlert === "LOADING"
-        ? "변경 중입니다..."
-        : "프로필 사진 변경"}
+        ? props.t("page_modify.profile_image_loading")
+        : props.t("page_modify.profile_image_change")}
     </div>
   );
 };
 BtnProfImg.propTypes = {
   onUpdate: PropTypes.func,
   onClose: PropTypes.func,
+  t: PropTypes.any,
 };
 
 const PopupModify = (props) => {
+  const { t } = useTranslation("mypage");
   const regexNickname = new RegExp("^[A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ0-9-_ ]{3,25}$");
   const regexAccountNumber = new RegExp("^[A-Za-z가-힣]{2,7} [0-9]{10,14}$");
   const [nickName, setNickName] = useState("");
@@ -169,7 +172,7 @@ const PopupModify = (props) => {
       nickname: nickName,
     });
     if (result.status !== 200) {
-      setMessage("닉네임 변경에 실패하였습니다.");
+      setMessage(t("page_modify.nickname_failed"));
       return;
     }
     setLoginInfoDetail({ ...loginInfoDetail, nickname: nickName });
@@ -263,19 +266,19 @@ const PopupModify = (props) => {
         profileImgUrl={loginInfoDetail?.profileImgUrl}
         token={props.profToken}
       />
-      <BtnProfImg onClose={props.onClose} onUpdate={props.onUpdate} />
+      <BtnProfImg onClose={props.onClose} onUpdate={props.onUpdate} t={t} />
       <DottedLine direction="row" margin="0 2px" />
       <div style={{ rowGap: "10px", padding: "0px 20px" }}>
         <div style={{ ...styleTitle, marginTop: "24px" }}>
-          학번
+          {t("student_id")}
           <div style={styleContent}>{loginInfoDetail?.subinfo?.kaist}</div>
         </div>
         <div style={{ ...styleTitle, marginTop: "16px" }}>
-          메일
+          {t("email")}
           <div style={styleContent}>{loginInfoDetail?.email}</div>
         </div>
         <div style={{ ...styleTitle, marginTop: "10px" }}>
-          별명
+          {t("nickname")}
           <input
             style={styleNickname}
             value={nickName}
@@ -316,7 +319,7 @@ const PopupModify = (props) => {
           font={theme.font14}
           onClick={onClose}
         >
-          취소
+          {t("page_modify.cancel")}
         </Button>
         <Button
           type="purple_inset"
@@ -331,7 +334,7 @@ const PopupModify = (props) => {
           font={theme.font14_bold}
           onClick={handleEditProfile}
         >
-          수정하기
+          {t("page_modify.modify")}
         </Button>
       </div>
     </Modal>

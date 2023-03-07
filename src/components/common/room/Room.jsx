@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import { useMemo } from "react";
 import { useRecoilValue } from "recoil";
 import preferenceAtom from "recoil/preference";
 import PropTypes from "prop-types";
@@ -87,7 +87,7 @@ const Room = (props) => {
       theme.shadow +
       (props.selected ? `, inset 0 0 0 0.5px ${theme.purple}` : ""),
     ...theme.cursor(),
-    zIndex: 1,
+    zIndex: 0,
   };
   const styleTop = {
     display: "flex",
