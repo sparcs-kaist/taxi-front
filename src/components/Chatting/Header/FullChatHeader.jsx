@@ -82,7 +82,11 @@ const Header = (props) => {
         <div style={styleHeaderTop}>
           <ArrowBackRoundedIcon
             style={styleIcon}
-            onClick={() => history.push("/myroom")}
+            onClick={
+              history.length <= 1
+                ? () => history.replace("/myroom")
+                : () => history.goBack()
+            }
           />
           <div style={styleInfo}>
             <div style={{ ...theme.font18, color: theme.purple, ...styleText }}>
