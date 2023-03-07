@@ -7,6 +7,25 @@ import isMobile from "tools/isMobile";
 import PropTypes from "prop-types";
 import theme from "styles/theme";
 
+const ChatAccount = (props) => {
+  return (
+    <div
+      style={{
+        padding: "7px 10px 6px",
+        wordBreak: "break-all",
+        ...theme.font14,
+        whiteSpace: "pre-line",
+      }}
+      className="selectable"
+    >
+      {props.account}
+    </div>
+  );
+};
+ChatAccount.propTypes = {
+  account: PropTypes.string,
+};
+
 const ChatImageLoading = (props) => {
   return (
     <div
@@ -188,7 +207,7 @@ const ChatSet = (props) => {
             <div style={styleChat}>
               {chat.type === "text" ? (
                 <ChatText itsme={itsme} text={chat.content} />
-              ) : (
+              ) : chat.type === "image" ? (
                 <ChatImage
                   itsme={itsme}
                   id={chat.content}
@@ -196,7 +215,9 @@ const ChatSet = (props) => {
                   scrollToBottom={props.scrollToBottom}
                   setFullImage={setFullImage}
                 />
-              )}
+              ) : chat.type === "account" ? (
+                <ChatAccount account={chat.content} />
+              ) : null}
             </div>
             {index === props.chats.length - 1 ? (
               <div style={styleTime} className="selectable">
