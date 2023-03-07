@@ -1,26 +1,22 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  useRef,
-  ReactNode,
-} from "react";
+import { useState, useEffect, useCallback, useRef, ReactNode } from "react";
 import { useLocation, Redirect } from "react-router-dom";
 // import { useCookies } from "react-cookie";
 import reactGA from "react-ga4";
 import axios from "tools/axios";
 import { gaTrackingId, nodeEnv } from "serverconf";
 
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 import taxiLocationAtom from "recoil/taxiLocation";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import myRoomAtom from "recoil/myRoom";
+import errorAtom from "recoil/error";
 // import alertAtom from "recoil/alert";
 
 import HeaderBar from "components/common/HeaderBar";
 import Navigation from "components/Skeleton/Navigation";
 import Footer from "components/Skeleton/Footer";
 import PopupPolicy from "components/Mypage/PopupPolicy";
+import Error from "components/Error";
 import useWindowInnerHeight from "hooks/useWindowInnerHeight";
 // import betaNotice from "static/betaNotice";
 
@@ -56,6 +52,7 @@ const Skeleton = (props: SkeletonProps) => {
   const [loginInfoDetail, setLoginInfoDetail] =
     useRecoilState(loginInfoDetailAtom);
   const setMyRoom = useSetRecoilState(myRoomAtom);
+  const error = useRecoilValue(errorAtom);
   // const setAlert = useSetRecoilState(alertAtom);
   const location = useLocation();
   const pathname = location.pathname;
@@ -133,7 +130,16 @@ const Skeleton = (props: SkeletonProps) => {
     }
   }, [userId]);
 
-  if (userId === null && pathname !== "/login") {
+  if (error) {
+    return (
+      <Container>
+        <HeaderBar />
+        <Error />
+      </Container>
+    );
+  }
+
+  if (userId === null && !pathname.startsWith("/login")) {
     return (
       <Redirect to={`/login?redirect=${encodeURIComponent(currentPath)}`} />
     );
@@ -155,7 +161,7 @@ const Skeleton = (props: SkeletonProps) => {
      */
     return <HeaderBar />;
   }
-  if (pathname.startsWith("/chatting") || pathname.startsWith("/error")) {
+  if (pathname.startsWith("/chatting")) {
     return (
       <Container>
         <HeaderBar />

@@ -1,18 +1,20 @@
-import React from "react";
+import { useRecoilState } from "recoil";
+import errorAtom from "recoil/error";
+
 import { Link, useHistory } from "react-router-dom";
 import Button from "components/common/Button";
+
 import theme from "styles/theme";
 import { ReactComponent as TaxiLogo } from "static/assets/TaxiLogo.svg";
 
 const Error = () => {
-  // const { error } = useParams<ErrorParams>();
+  const [error, setError] = useRecoilState(errorAtom);
   const history = useHistory();
 
-  // FIXME Global State 에서 오류 가져오기
-  // const errorPrimaryState = error ? error : "404";
   const stylePage: CSS = {
     display: "flex",
     alignItems: "center",
+    textAlign: "center",
     justifyContent: "center",
     flexDirection: "column",
     height: "100%",
@@ -25,32 +27,39 @@ const Error = () => {
     marginBottom: 24,
   };
 
+  const onClickBack = () => {
+    setError(null);
+    history.goBack();
+  };
+  const onClickHome = () => {
+    setError(null);
+    history.replace("/");
+  };
+
   return (
     <div style={stylePage}>
       <TaxiLogo style={styleLogo} />
-      <div style={styleTitle}>예상치 못한 오류가 발생하였습니다</div>
-      {/* // FIXME 에러 메세지 만들기 */}
-      <div style={styleMessage}>아래 버튼을 클릭해주세요</div>
+      <div style={styleTitle}>{error?.title}</div>
+      <div style={styleMessage}>{error?.message}</div>
       <div style={{ display: "flex", columnGap: "12px" }}>
         <Button
           type="white"
           padding="13px 24px 14px"
           radius={12}
           font={theme.font14}
-          onClick={history.goBack}
+          onClick={onClickBack}
         >
           이전 페이지
         </Button>
-        <Link to="/" style={{ textDecoration: "none" }}>
-          <Button
-            type="purple"
-            padding="13px 24px 14px"
-            radius={12}
-            font={theme.font14_bold}
-          >
-            홈으로 가기
-          </Button>
-        </Link>
+        <Button
+          type="purple"
+          padding="13px 24px 14px"
+          radius={12}
+          font={theme.font14_bold}
+          onClick={onClickHome}
+        >
+          홈으로 가기
+        </Button>
       </div>
     </div>
   );

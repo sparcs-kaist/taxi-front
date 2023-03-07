@@ -1,4 +1,3 @@
-import React from "react";
 import { useR1state, useR2state, usePopupstate } from "hooks/useReactiveState";
 import PropTypes from "prop-types";
 

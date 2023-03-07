@@ -1,10 +1,10 @@
-import React from "react";
+import { ReactNode } from "react";
 import theme from "styles/theme";
 import NotInterestedIcon from "@material-ui/icons/NotInterested";
 
 type ScreenType = "mobile" | "pc";
 
-type EmptyProps = { screen: ScreenType; children: React.ReactNode };
+type EmptyProps = { screen: ScreenType; children: ReactNode };
 
 const Empty = ({ screen, children }: EmptyProps) => {
   const styleCommon: CSS = {
