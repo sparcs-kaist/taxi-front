@@ -1,14 +1,19 @@
 importScripts("https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js");
 importScripts("https://www.gstatic.com/firebasejs/8.7.1/firebase-messaging.js");
 
-firebase.initializeApp({
-  apiKey: "AIzaSyDHXTGYqV4gxXppv2Q1IQiegT6YhQLKN1c",
-  authDomain: "taxi-app-d226a.firebaseapp.com",
-  projectId: "taxi-app-d226a",
-  storageBucket: "taxi-app-d226a.appspot.com",
-  messagingSenderId: "595225681170",
-  appId: "1:595225681170:web:b49bfd19de352984e227cb",
-  measurementId: "G-1CZN13H363",
+// 환경변수가 새로 설정된 경우, 환경변수에 따라 Firebase config를 설정합니다.
+self.addEventListener("fetch", () => {
+  const urlParams = new URLSearchParams(location.search);
+  self.firebaseConfig = Object.fromEntries(urlParams);
 });
 
-const messaging = firebase.messaging();
+// 처음에 Firebase config가 설정되어 있지 않을 때 오류가 발생하지 않도록 주입될 기본 config입니다.
+const defaultConfig = {
+  apiKey: true,
+  projectId: true,
+  messagingSenderId: true,
+  appId: true,
+};
+
+// Firebase app을 초기화합니다.
+firebase.initializeApp(self.firebaseConfig || defaultConfig);

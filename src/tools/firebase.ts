@@ -1,37 +1,47 @@
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, isSupported } from "firebase/messaging";
 import axios from "tools/axios";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDHXTGYqV4gxXppv2Q1IQiegT6YhQLKN1c",
-  authDomain: "taxi-app-d226a.firebaseapp.com",
-  projectId: "taxi-app-d226a",
-  storageBucket: "taxi-app-d226a.appspot.com",
-  messagingSenderId: "595225681170",
-  appId: "1:595225681170:web:b49bfd19de352984e227cb",
-  measurementId: "G-1CZN13H363",
-};
+import { firebaseConfig } from "serverconf";
 
 const firebaseApp = initializeApp(firebaseConfig);
 
-const registerToken = async () => {
+const registerToken = async (trial: number) => {
+  // 토큰 등록 실패 시 10초 간격으로 최대 3회 시도
+  const maxTrial = 3;
+  const trialIntervalInMs = 10000;
+  if (trial > maxTrial) return;
+
   try {
     const supportsFCM = await isSupported();
     if (supportsFCM) {
+      // 브라우저가 FCM을 지원하는 경우 FCM 서버로부터 deviceToken을 발급받습니다.
       const firebaseMessaging = getMessaging(firebaseApp);
-      const token = await getToken(firebaseMessaging);
-      await axios.post("/auth/registerDeviceToken", { deviceToken: token });
+      const deviceToken = await getToken(firebaseMessaging);
+
+      // 환경변수가 주입된 서비스 워커를 새로 등록합니다.
+      if ("serviceWorker" in navigator) {
+        const firebaseConfigUrlParams = new URLSearchParams(
+          firebaseConfig
+        ).toString();
+        await navigator.serviceWorker.register(
+          `/firebase-messaging-sw.js?${firebaseConfigUrlParams}`
+        );
+      }
+
+      // 백엔드 서버에 새 deviceToken을 등록합니다.
+      await axios.post("/auth/registerDeviceToken", { deviceToken });
     } else {
       console.log("This browser does not support FCM.");
     }
   } catch (error) {
     console.error("FCM ERROR: ", error);
+    setTimeout(() => registerToken(++trial), trialIntervalInMs);
   }
 };
 
 const registerTokenOnClick = () => {
-  document.addEventListener("click", registerToken, { once: true });
-  document.addEventListener("touchend", registerToken, { once: true });
+  document.addEventListener("click", () => registerToken(1), { once: true });
+  document.addEventListener("touchend", () => registerToken(1), { once: true });
 };
 
 export default registerTokenOnClick;
