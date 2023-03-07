@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { taxiLocataionWithName } from "recoil/taxiLocation";
 import preferenceAtom from "recoil/preference";

@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  useRef,
-  ReactNode,
-} from "react";
+import { useState, useEffect, useCallback, useRef, ReactNode } from "react";
 import { useLocation, Redirect } from "react-router-dom";
 // import { useCookies } from "react-cookie";
 import reactGA from "react-ga4";

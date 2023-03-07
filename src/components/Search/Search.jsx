@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { animated, useSpring } from "react-spring";
 import { useHistory, useLocation } from "react-router-dom";
 import { useCookies } from "react-cookie";

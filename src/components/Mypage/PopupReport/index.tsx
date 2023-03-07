@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import useTaxiAPI from "hooks/useTaxiAPI";
+import { useTranslation } from "react-i18next";
 import theme from "styles/theme";
 import Modal from "components/common/modal/Modal";
 import DottedLine from "components/common/DottedLine";
@@ -18,8 +19,10 @@ type RecordProps = {
 };
 
 const PopupReport = (props: RecordProps) => {
+  const { t } = useTranslation("mypage");
   const [option, setOption] = useState<ReportOptionType>("Reporting");
   const [, reportHistory] = useTaxiAPI.get("/reports/searchByUser");
+
   const styleTitle = {
     ...theme.font18,
     display: "flex",
@@ -53,12 +56,9 @@ const PopupReport = (props: RecordProps) => {
     >
       <div style={styleTitle}>
         <ErrorOutlineRoundedIcon style={styleLogo} />
-        신고 내역
+        {t("report_record")}
       </div>
-      <div style={styleGuide}>
-        아래 신고 내역에 대해 문의하고 싶으신 경우 “채널톡 문의하기” 메뉴를
-        이용해주세요.
-      </div>
+      <div style={styleGuide}>{t("page_report.inquiry")}</div>
       <DottedLine direction="row" />
       <ReportOption
         option={option}

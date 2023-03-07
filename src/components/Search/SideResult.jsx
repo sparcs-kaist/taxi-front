@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import WhiteContainer from "components/common/WhiteContainer";
 import Title from "components/common/Title";
 import Room from "components/common/room/Room";

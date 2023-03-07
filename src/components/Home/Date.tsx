@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import theme from "styles/theme";
 import MiniCircle from "components/common/MiniCircle";
 

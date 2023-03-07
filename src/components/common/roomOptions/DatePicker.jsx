@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import { Component, useState, createRef } from "react";
 import { getToday10 } from "tools/moment";
 import PropTypes from "prop-types";
 import theme from "styles/theme";
@@ -153,7 +153,7 @@ class DatePicker extends Component {
       // maxHeight: undefined,
     };
 
-    this.pickerRef = React.createRef(null);
+    this.pickerRef = createRef(null);
     this.clicked = false;
 
     this.dateHandler = this.dateHandler.bind(this);

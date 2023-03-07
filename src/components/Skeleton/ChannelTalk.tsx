@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import ChannelService from "tools/channelService";

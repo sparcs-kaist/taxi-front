@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, ReactElement } from "react";
 import { useDelayBoolean } from "hooks/useDelay";
 import useDisableScroll from "hooks/useDisableScroll";
 import useKeyboardOperation from "hooks/useKeyboardOperation";
@@ -10,7 +10,7 @@ type PopupProps = {
   isOpen: boolean;
   onClose: () => void;
   onClick: () => void;
-  children: React.ReactElement;
+  children: ReactElement;
 };
 
 const Popup = (props: PopupProps) => {

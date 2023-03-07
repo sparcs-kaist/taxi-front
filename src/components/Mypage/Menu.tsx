@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import { ReactElement, useState } from "react";
 
 import theme from "styles/theme";
 
+import LanguageRoundedIcon from "@mui/icons-material/LanguageRounded";
 import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
 import HelpOutlineRoundedIcon from "@material-ui/icons/HelpOutlineRounded";
 import AssignmentOutlinedIcon from "@material-ui/icons/AssignmentOutlined";
@@ -13,7 +14,7 @@ import StarRoundedIcon from "@mui/icons-material/StarRounded";
 type MenuProps = {
   icon: string;
   onClick: () => void;
-  children: React.ReactElement;
+  children: ReactElement;
 };
 
 const getIcon = (icon: string) => {
@@ -22,6 +23,8 @@ const getIcon = (icon: string) => {
     marginRight: "8px",
   };
   switch (icon) {
+    case "lang":
+      return <LanguageRoundedIcon style={styleIcon} />;
     case "report":
       return <ErrorOutlineRoundedIcon style={styleIcon} />;
     case "ask":

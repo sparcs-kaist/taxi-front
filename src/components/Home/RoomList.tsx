@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Room from "components/common/room/Room";
 import Empty from "components/common/Empty";
 import RoomSelectionModal from "components/Search/RoomSelectionModal";

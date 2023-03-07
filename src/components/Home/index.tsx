@@ -1,4 +1,3 @@
-import React from "react";
 import InfoSection from "./InfoSection";
 import RoomSection from "./RoomSection";
 
