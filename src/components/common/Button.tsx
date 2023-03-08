@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState, ReactNode } from "react";
+import hoverEventSet from "tools/hoverEventSet";
 import theme, { Font } from "styles/theme";
-import isMobile from "tools/isMobile";
 
 type ButtonType = "purple" | "purple_inset" | "gray" | "white";
 
@@ -13,7 +13,7 @@ type ButtonProps = {
   font?: Font;
   onClick?: () => void;
   className?: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
 };
 
 const Button = ({
@@ -67,7 +67,8 @@ const Button = ({
         return {
           backgroundColor: isHover ? theme.purple_hover : theme.white,
           color: theme.purple,
-          boxShadow: isClicked ? theme.shadow_clicked : theme.shadow,
+          boxShadow:
+            isClicked && !disabled ? theme.shadow_clicked : theme.shadow,
         };
     }
   };
@@ -88,12 +89,7 @@ const Button = ({
       onClick={disabled ? undefined : onClick}
       style={style}
       className={className}
-      onMouseEnter={() => setHover(!isMobile)}
-      onMouseLeave={() => setHoverClicked(false)}
-      onMouseDown={() => setClicked(!disabled)}
-      onMouseUp={() => setClicked(false)}
-      onTouchStart={() => setHoverClicked(true)}
-      onTouchEnd={() => setHoverClicked(false)}
+      {...hoverEventSet(setHover, setClicked)}
     >
       {children}
     </div>

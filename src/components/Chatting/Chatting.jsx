@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
+import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 import { useRecoilValue } from "recoil";
@@ -35,11 +35,9 @@ const Chatting = (props) => {
   const prevReactiveState = useRef(reactiveState);
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
   const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
-  const [, headerInfo] = useTaxiAPI.get(
-    `/rooms/info?id=${props.roomId}`,
-    {},
-    [headerInfToken]
-  );
+  const [, headerInfo] = useTaxiAPI.get(`/rooms/info?id=${props.roomId}`, {}, [
+    headerInfToken,
+  ]);
 
   useLayoutEffect(() => {
     if (!callingInfScroll.current) return;
@@ -236,7 +234,7 @@ const Chatting = (props) => {
               onFail();
             }
           })
-          .catch((e) => {
+          .catch(() => {
             onFail();
           });
       } catch (e) {

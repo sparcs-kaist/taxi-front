@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import hoverEventSet from "tools/hoverEventSet";
 import theme from "styles/theme";
 import MiniCircle from "components/common/MiniCircle";
 
@@ -54,9 +55,8 @@ const Date = (props: DateProps) => {
   return (
     <div
       style={styleBox}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
       onClick={() => props.onClick(props.date)}
+      {...hoverEventSet(setHover)}
     >
       <div style={styleDate}>
         {props.type === "all" ? "전체" : props.date[2]}

@@ -1,4 +1,4 @@
-import React from "react";
+import { memo } from "react";
 import PropTypes from "prop-types";
 import RLayout from "components/common/RLayout";
 import theme from "styles/theme";
@@ -88,4 +88,4 @@ Title.defaultProps = {
   R2: false,
 };
 
-export default Title;
+export default memo(Title);

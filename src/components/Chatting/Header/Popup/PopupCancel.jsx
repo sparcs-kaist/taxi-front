@@ -1,4 +1,3 @@
-import React from "react";
 import { useHistory } from "react-router-dom";
 import PopupContainer from "./PopupContainer";
 import PropTypes from "prop-types";
@@ -61,7 +60,11 @@ const PopupCancel = (props) => {
         <span style={styleTxt3}>취소</span>
         <span style={styleTxt2}>하시겠습니까?</span>
       </div>
-      <div style={styleTextCont2}>취소 후 재탑승이 가능합니다.</div>
+      <div style={styleTextCont2}>
+        취소 후 재탑승이 가능합니다.
+        <br />
+        다만, 혼자 탑승 중인 경우에는 방이 사라집니다.
+      </div>
     </PopupContainer>
   );
 };

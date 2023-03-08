@@ -1,5 +1,6 @@
-import React, { Component, useState } from "react";
+import { PureComponent, useState, createRef, memo } from "react";
 import { getToday10 } from "tools/moment";
+import hoverEventSet from "tools/hoverEventSet";
 import PropTypes from "prop-types";
 import theme from "styles/theme";
 import DottedLine from "components/common/DottedLine";
@@ -119,12 +120,7 @@ const Date = (props) => {
 
   if (!props.date) return <div style={style} />;
   return (
-    <div
-      style={styleBox}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      onClick={onClick}
-    >
+    <div style={styleBox} onClick={onClick} {...hoverEventSet(setHover)}>
       <div style={styleDate}>{props.date}</div>
       {props.available === "today" && (
         <div style={styleToday}>
@@ -134,6 +130,7 @@ const Date = (props) => {
     </div>
   );
 };
+const MemoizedDate = memo(Date);
 
 Date.propTypes = {
   index: PropTypes.number,
@@ -145,7 +142,7 @@ Date.propTypes = {
   handler: PropTypes.func,
 };
 
-class DatePicker extends Component {
+class DatePicker extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -153,7 +150,7 @@ class DatePicker extends Component {
       // maxHeight: undefined,
     };
 
-    this.pickerRef = React.createRef(null);
+    this.pickerRef = createRef(null);
     this.clicked = false;
 
     this.dateHandler = this.dateHandler.bind(this);
@@ -306,7 +303,7 @@ class DatePicker extends Component {
             return (
               <div key={index} style={this.styleWeek}>
                 {item.map((item, index) => (
-                  <Date
+                  <MemoizedDate
                     key={index}
                     index={index}
                     year={item.year}
@@ -314,7 +311,7 @@ class DatePicker extends Component {
                     date={item.date}
                     available={item.available}
                     selected={item.date === selectedDate}
-                    handler={(x, y, z) => this.dateHandler(x, y, z)}
+                    handler={this.dateHandler}
                   />
                 ))}
               </div>

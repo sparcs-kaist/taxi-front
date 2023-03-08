@@ -1,4 +1,4 @@
-import React from "react";
+import { memo } from "react";
 import WhiteContainer from "components/common/WhiteContainer";
 import theme from "styles/theme";
 
@@ -51,4 +51,4 @@ const Name = (props: ButtonProps) => {
   );
 };
 
-export default Name;
+export default memo(Name);

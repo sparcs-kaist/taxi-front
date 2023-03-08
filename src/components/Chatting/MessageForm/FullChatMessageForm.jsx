@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import regExpTest from "tools/regExpTest";
 import PropTypes from "prop-types";
 import theme from "styles/theme";
@@ -69,6 +69,7 @@ const FullChatMessageForm = (props) => {
     return regExpTest.chatMsg(message);
   };
   const onSend = () => {
+    textareaRef.current.focus();
     if (isMessageValid()) {
       const result = props.handleSendMessage(message);
       if (result) setMessage("");

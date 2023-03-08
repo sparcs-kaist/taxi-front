@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import moment from "tools/moment";
 import ProfileImg from "components/Mypage/ProfileImg";
 import ImageFullscreen from "components/Chatting/MessagesBody/ImageFullscreen";
 import { getS3Url } from "tools/trans";
-import isMobile from "tools/isMobile";
 import PropTypes from "prop-types";
 import theme from "styles/theme";
+import ChatPaySettle from "./ChatPaySettle";
 
 const ChatImageLoading = (props) => {
   return (
@@ -19,7 +19,6 @@ const ChatImageLoading = (props) => {
         style={{
           color: props.itsme ? theme.white : theme.black,
           ...theme.font14,
-          textAlign: "center",
         }}
       >
         이미지 불러오는 중...
@@ -44,7 +43,7 @@ const ChatImage = (props) => {
           src={src}
           style={{
             maxWidth: "100%",
-            maxHeight: isMobile ? "360px" : "210px",
+            maxHeight: "360px",
             verticalAlign: "middle",
             cursor: "pointer",
           }}
@@ -125,20 +124,23 @@ const ChatSet = (props) => {
     gap: "4px",
   };
   const styleChat = {
-    maxWidth: isMobile ? "75%" : "210px",
-    background: itsme
-      ? theme.purple
-      : props.isSideChat
-      ? theme.purple_hover
-      : theme.white,
+    maxWidth: "max(75%, 210px)",
     boxShadow: props.isSideChat
       ? itsme
         ? theme.shadow_purple_button_inset
         : theme.shadow_purple_input_inset
       : theme.shadow,
     borderRadius: "8px",
-    lineHeight: "15px",
     overflow: "hidden",
+  };
+  const getBackground = (type) => {
+    if (type === "pay" || type === "settlement") {
+      if (itsme) return theme.purple_dark;
+      return theme.gray_background;
+    }
+    if (itsme) return theme.purple;
+    if (props.isSideChat) return theme.purple_hover;
+    return theme.white;
   };
   const styleTime = {
     ...theme.font8,
@@ -156,6 +158,28 @@ const ChatSet = (props) => {
 
   const onClose = () => {
     setFullImage("");
+  };
+
+  const getChat = (type, content) => {
+    switch (type) {
+      case "text":
+        return <ChatText itsme={itsme} text={content} />;
+      case "s3img":
+        return (
+          <ChatImage
+            itsme={itsme}
+            id={content}
+            isBottomOnScroll={props.isBottomOnScroll}
+            scrollToBottom={props.scrollToBottom}
+            setFullImage={setFullImage}
+          />
+        );
+      case "payment":
+      case "settlement":
+        return <ChatPaySettle itsme={itsme} type={type} />;
+      default:
+        return <></>;
+    }
   };
 
   return (
@@ -185,18 +209,13 @@ const ChatSet = (props) => {
         </div>
         {props.chats.map((chat, index) => (
           <div key={index} style={styleChatCont}>
-            <div style={styleChat}>
-              {chat.type === "text" ? (
-                <ChatText itsme={itsme} text={chat.content} />
-              ) : (
-                <ChatImage
-                  itsme={itsme}
-                  id={chat.content}
-                  isBottomOnScroll={props.isBottomOnScroll}
-                  scrollToBottom={props.scrollToBottom}
-                  setFullImage={setFullImage}
-                />
-              )}
+            <div
+              style={{
+                ...styleChat,
+                backgroundColor: getBackground(chat.type),
+              }}
+            >
+              {getChat(chat.type, chat.content)}
             </div>
             {index === props.chats.length - 1 ? (
               <div style={styleTime} className="selectable">

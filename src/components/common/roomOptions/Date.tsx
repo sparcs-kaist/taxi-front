@@ -1,4 +1,4 @@
-import React from "react";
+import { memo } from "react";
 import WhiteContainer from "components/common/WhiteContainer";
 import DatePicker from "components/common/roomOptions/DatePicker";
 
@@ -18,4 +18,4 @@ const Date = (props: DateProps) => {
   );
 };
 
-export default Date;
+export default memo(Date);
