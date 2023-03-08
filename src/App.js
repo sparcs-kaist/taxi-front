@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { CookiesProvider } from "react-cookie";
 import { RecoilRoot } from "recoil";
 import ScrollRestoration from "components/Skeleton/ScrollRestoration";
+import VirtualKeyboardDetector from "components/Skeleton/VirtualKeyboardDetector";
 import ChannelTalkProvider from "components/Skeleton/ChannelTalkProvider";
 import I18nextProvider from "lang/I18nextProvider";
 import AlertProvider from "components/Skeleton/AlertProvider";
@@ -27,6 +28,7 @@ const App = () => {
       <RecoilRoot>
         <Router>
           <ScrollRestoration />
+          <VirtualKeyboardDetector />
           <ChannelTalkProvider />
           <I18nextProvider />
           <AlertProvider />

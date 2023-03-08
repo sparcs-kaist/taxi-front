@@ -234,7 +234,7 @@ const Chatting = (props) => {
               onFail();
             }
           })
-          .catch((e) => {
+          .catch(() => {
             onFail();
           });
       } catch (e) {

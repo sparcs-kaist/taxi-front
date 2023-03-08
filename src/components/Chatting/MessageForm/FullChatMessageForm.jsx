@@ -69,6 +69,7 @@ const FullChatMessageForm = (props) => {
     return regExpTest.chatMsg(message);
   };
   const onSend = () => {
+    textareaRef.current.focus();
     if (isMessageValid()) {
       const result = props.handleSendMessage(message);
       if (result) setMessage("");
