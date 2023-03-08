@@ -3,7 +3,6 @@ import moment from "tools/moment";
 import ProfileImg from "components/Mypage/ProfileImg";
 import ImageFullscreen from "components/Chatting/MessagesBody/ImageFullscreen";
 import { getS3Url } from "tools/trans";
-import isMobile from "tools/isMobile";
 import PropTypes from "prop-types";
 import theme from "styles/theme";
 import ChatPaySettle from "./ChatPaySettle";
@@ -44,7 +43,7 @@ const ChatImage = (props) => {
           src={src}
           style={{
             maxWidth: "100%",
-            maxHeight: isMobile ? "360px" : "210px",
+            maxHeight: "360px",
             verticalAlign: "middle",
             cursor: "pointer",
           }}
@@ -125,7 +124,7 @@ const ChatSet = (props) => {
     gap: "4px",
   };
   const styleChat = {
-    maxWidth: isMobile ? "75%" : "210px",
+    maxWidth: "max(75%, 210px)",
     boxShadow: props.isSideChat
       ? itsme
         ? theme.shadow_purple_button_inset

@@ -2,16 +2,17 @@ import { useState, useRef, useEffect } from "react";
 import { animated, useSpring } from "react-spring";
 import { useHistory, useLocation } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import qs from "qs";
 import { useR2state } from "hooks/useReactiveState";
+import qs from "qs";
+import hoverEventSet from "tools/hoverEventSet";
+import axios from "tools/axios";
+import theme from "styles/theme";
+
 import RLayout from "components/common/RLayout";
 import Title from "components/common/Title";
 import SideResult from "./SideResult";
-import axios from "tools/axios";
 import moment, { getToday10, getToday } from "tools/moment";
 import PropTypes from "prop-types";
-import isMobile from "ismobilejs";
-import theme from "styles/theme";
 import Button from "components/common/Button";
 import Tooltip from "components/common/Tooltip";
 import ScrollButton from "./ScrollButton";
@@ -47,8 +48,7 @@ const SearchOption = (props) => {
     <animated.div
       style={style}
       onClick={() => props.onClick(props.id)}
-      onMouseEnter={() => setHover(!(isMobile().phone || isMobile().tablet))}
-      onMouseLeave={() => setHover(false)}
+      {...hoverEventSet(setHover)}
     >
       {props.children}
     </animated.div>
@@ -151,7 +151,7 @@ const Search = () => {
   const location = useLocation();
 
   const [cookies, setCookie] = useCookies(["defaultFromTo"]);
-  const [searchOptions, setSearchOptions] = useState({});
+  const [searchOptions, setSearchOptions] = useState(defaultOptions);
   const [valueName, setName] = useState("");
   const defaultPlace =
     cookies?.defaultFromTo?.[0] && cookies?.defaultFromTo?.[1]
