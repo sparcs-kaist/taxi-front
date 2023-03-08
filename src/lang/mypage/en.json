@@ -10,7 +10,8 @@
   "account": "Account",
   "report_record": "Report Details",
   "contact": "Contact Us",
-  "terms": "Terms and Conditions",
+  "terms": "Terms",
+  "privacy_policy": "Privacy Policy",
   "credit": "Credit",
   "logout": "Logout",
   "page_modify": {

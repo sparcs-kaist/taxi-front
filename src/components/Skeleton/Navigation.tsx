@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import hoverEventSet from "tools/hoverEventSet";
 import theme from "styles/theme";
 
 import RoofingRoundedIcon from "@mui/icons-material/RoofingRounded";
@@ -65,12 +66,7 @@ const NavigationMenu = (props: NavigationMenuProps) => {
   };
 
   return (
-    <Link
-      to={"/" + props.page}
-      style={styleBox}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-    >
+    <Link to={"/" + props.page} style={styleBox} {...hoverEventSet(setHover)}>
       {getIcon(props.page)}
       <div style={styleText}>{props.text}</div>
     </Link>

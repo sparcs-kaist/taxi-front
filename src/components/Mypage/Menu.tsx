@@ -1,4 +1,5 @@
 import { ReactElement, useState } from "react";
+import hoverEventSet from "tools/hoverEventSet";
 
 import theme from "styles/theme";
 
@@ -56,11 +57,8 @@ const Menu = (props: MenuProps) => {
   return (
     <div
       style={style}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      onTouchStart={() => setHover(true)}
-      onTouchEnd={() => setHover(false)}
       onClick={() => props.onClick()}
+      {...hoverEventSet(setHover)}
     >
       {getIcon(props.icon)}
       <div style={styleText}>{props.children}</div>

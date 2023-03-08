@@ -10,7 +10,8 @@
   "report_record": "신고 내역",
   "account": "계좌번호",
   "contact": "채널톡 문의하기",
-  "terms": "사용 약관 및 개인정보 보호 규칙",
+  "terms": "이용 약관",
+  "privacy_policy": "개인정보 처리방침",
   "credit": "만든 사람들",
   "logout": "로그아웃",
   "page_modify": {
