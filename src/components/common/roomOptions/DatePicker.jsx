@@ -1,5 +1,6 @@
 import { PureComponent, useState, createRef, memo } from "react";
 import { getToday10 } from "tools/moment";
+import hoverEventSet from "tools/hoverEventSet";
 import PropTypes from "prop-types";
 import theme from "styles/theme";
 import DottedLine from "components/common/DottedLine";
@@ -119,12 +120,7 @@ const Date = (props) => {
 
   if (!props.date) return <div style={style} />;
   return (
-    <div
-      style={styleBox}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      onClick={onClick}
-    >
+    <div style={styleBox} onClick={onClick} {...hoverEventSet(setHover)}>
       <div style={styleDate}>{props.date}</div>
       {props.available === "today" && (
         <div style={styleToday}>

@@ -105,7 +105,7 @@ const R2Myroom = (props) => {
                 {props.done.length === 0 ? (
                   <Empty screen="pc">과거 참여했던 방이 없습니다</Empty>
                 ) : (
-                  <>
+                  <div>
                     {props.done
                       .slice(
                         PAGE_MAX_ITEMS * (props.donePageInfo.currentPage - 1),
@@ -129,7 +129,7 @@ const R2Myroom = (props) => {
                       totalPages={props.donePageInfo.totalPages}
                       currentPage={props.donePageInfo.currentPage}
                     />
-                  </>
+                  </div>
                 )}
               </WhiteContainer>
             </div>

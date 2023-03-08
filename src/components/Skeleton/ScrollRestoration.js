@@ -3,7 +3,8 @@ import { useLocation } from "react-router-dom";
 
 const ScrollRestoration = () => {
   const { pathname } = useLocation();
-  if (pathname === "/search") return null;
+  if (pathname.startsWith("/search") || pathname.startsWith("/myroom"))
+    return null;
   return <_ScrollRestoration />;
 };
 
