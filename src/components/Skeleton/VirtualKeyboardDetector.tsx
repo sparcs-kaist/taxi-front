@@ -22,11 +22,13 @@ const VirtualKeyboardDetector = () => {
      * Android에서는 window의 resize이벤트 핸들러를 등록하여 키보드 활성화 여부를 알 수 있습니다.
      */
     if (isAndroid) {
-      const initialClientHeight = window.innerHeight;
+      const minKeyboardHeight = 300;
       const resizeEvent = () => {
         const visualViewportHeight = visualViewport?.height;
+        const windowScreenHeight = window.screen.height;
         setIsVKDetected(
-          visualViewportHeight && visualViewportHeight < initialClientHeight
+          visualViewportHeight &&
+            visualViewportHeight < windowScreenHeight - minKeyboardHeight
             ? true
             : false
         );
