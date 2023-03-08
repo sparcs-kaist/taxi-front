@@ -31,9 +31,7 @@ const ScrollRestoration = () => {
           "/search"
         )
       ) {
-        // console.log(location.pathname, prevLocation.current.pathname);
         if (history.action === "POP") {
-          // console.log(456);
           const existingRecord = visitedUrl.current.get(key || defaultKey);
           if (existingRecord !== undefined) scrollTo(existingRecord);
         } else scrollTo(0);
