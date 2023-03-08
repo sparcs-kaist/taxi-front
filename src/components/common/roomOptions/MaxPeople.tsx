@@ -1,3 +1,4 @@
+import { memo } from "react";
 import WhiteContainer from "components/common/WhiteContainer";
 import theme from "styles/theme";
 
@@ -100,4 +101,4 @@ const MaxPeople = (props: MaxPeopleProps) => {
   );
 };
 
-export default MaxPeople;
+export default memo(MaxPeople);
