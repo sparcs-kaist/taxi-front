@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 import { useRecoilValue } from "recoil";
 import { taxiLocataionWithName } from "recoil/taxiLocation";
 import hoverEventSet from "tools/hoverEventSet";
@@ -155,4 +155,4 @@ Place.propTypes = {
   handler: PropTypes.func,
 };
 
-export default Place;
+export default memo(Place);
