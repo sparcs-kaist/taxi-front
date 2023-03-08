@@ -195,6 +195,7 @@ const Chatting = (props) => {
       socket.current.emit("chats-send", {
         roomId: props.roomId,
         content: text,
+        type: "text",
       });
       return true;
     }
@@ -245,15 +246,16 @@ const Chatting = (props) => {
     }
   };
   const handleSendAccount = () => {
-    // if (regExpTest.chatMsg(text) && !sendingMessage.current) {
-    //   sendingMessage.current = true;
-    //   socket.current.emit("chats-send", {
-    //     roomId: props.roomId,
-    //     content: text,
-    //   });
-    //   return true;
-    // }
-    // return false;
+    if (!sendingMessage.current) {
+      sendingMessage.current = true;
+      socket.current.emit("chats-send", {
+        roomId: props.roomId,
+        content: userInfoDetail.account,
+        type: "account",
+      });
+      return true;
+    }
+    return false;
   };
 
   return (
