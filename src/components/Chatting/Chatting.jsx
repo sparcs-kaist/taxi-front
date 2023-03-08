@@ -234,7 +234,7 @@ const Chatting = (props) => {
               onFail();
             }
           })
-          .catch((e) => {
+          .catch(() => {
             onFail();
           });
       } catch (e) {
@@ -243,6 +243,17 @@ const Chatting = (props) => {
         console.log(e);
       }
     }
+  };
+  const handleSendAccount = () => {
+    // if (regExpTest.chatMsg(text) && !sendingMessage.current) {
+    //   sendingMessage.current = true;
+    //   socket.current.emit("chats-send", {
+    //     roomId: props.roomId,
+    //     content: text,
+    //   });
+    //   return true;
+    // }
+    // return false;
   };
 
   return (
@@ -266,6 +277,7 @@ const Chatting = (props) => {
         isSideChat={props.isSideChat}
         handleSendMessage={handleSendMessage}
         handleSendImage={handleSendImage}
+        handleSendAccount={handleSendAccount}
         showNewMessage={showNewMessage}
         onClickNewMessage={() => scrollToBottom(true)}
         setContHeight={handleMessageFormHeight}

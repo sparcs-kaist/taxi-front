@@ -97,7 +97,9 @@ const MessagesBody = (props) => {
           />
         );
       } else if (
-        ["text", "s3img", "payment", "settlement"].includes(item.type)
+        ["text", "s3img", "payment", "settlement", "account"].includes(
+          item.type
+        )
       ) {
         if (
           chatsCache &&

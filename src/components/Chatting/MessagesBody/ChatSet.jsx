@@ -7,19 +7,95 @@ import isMobile from "tools/isMobile";
 import PropTypes from "prop-types";
 import theme from "styles/theme";
 import ChatPaySettle from "./ChatPaySettle";
+import WalletIcon from "@mui/icons-material/Wallet";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 const ChatAccount = (props) => {
+  const bankName = props.account.split(" ")[0];
+  const accounNumber = props.account.split(" ")[1];
+  const nameStyle = {
+    color: theme.gray_text,
+  };
+  const accountWrapperStyle = {
+    display: "flex",
+    gap: "6px",
+  };
+  const handleCopy = () => {
+    if (!navigator.clipboard) {
+      alert("dev env에서는 복사가 작동하지 않습니다.");
+      return;
+    }
+    navigator.clipboard.writeText(props.account);
+  };
   return (
-    <div
-      style={{
-        padding: "7px 10px 6px",
-        wordBreak: "break-all",
-        ...theme.font14,
-        whiteSpace: "pre-line",
-      }}
-      className="selectable"
-    >
-      {props.account}
+    <div>
+      <div
+        style={{
+          display: "flex",
+          gap: "6px",
+          alignItems: "center",
+          ...theme.font16,
+          color: theme.white,
+          padding: "7px 10px 6px",
+          boxSizing: "border-box",
+          height: "32px",
+        }}
+      >
+        <WalletIcon />
+        정산 계좌
+      </div>
+      <div
+        style={{
+          padding: "7px 10px 6px",
+          ...theme.font14,
+          color: theme.black,
+          backgroundColor: theme.white,
+          width: "210px",
+          height: "58px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          boxSizing: "border-box",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-around",
+            height: "100%",
+          }}
+        >
+          <div style={accountWrapperStyle}>
+            <div style={nameStyle}>은행</div>
+            {bankName}
+          </div>
+          <div style={accountWrapperStyle}>
+            <div style={nameStyle}>계좌</div>
+            {accounNumber}
+          </div>
+        </div>
+        <div
+          style={{
+            boxShadow: theme.shadow_gray_button_inset,
+            color: theme.gray_text,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "30px",
+            height: "30px",
+            borderRadius: "6px",
+            backgroundColor: theme.gray_background,
+          }}
+          onClick={handleCopy}
+        >
+          <ContentCopyIcon
+            style={{
+              fontSize: "16px",
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 };
@@ -198,7 +274,7 @@ const ChatSet = (props) => {
       case "settlement":
         return <ChatPaySettle itsme={itsme} type={type} />;
       case "account":
-        return <ChatAccount account={chat.content} />;
+        return <ChatAccount account={content} />;
       default:
         return <></>;
     }
