@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, memo } from "react";
 import { animated, useSpring } from "react-spring";
 import { useHistory, useLocation } from "react-router-dom";
 import { useCookies } from "react-cookie";
@@ -44,10 +44,21 @@ const SearchOption = (props) => {
     config: { duration: 150 },
     ...theme.cursor(),
   });
+  const onClick = () => {
+    props.handler((prevState) => {
+      const _options = { ...prevState };
+      _options[props.id] = !props.selected;
+      if (!_options.date && _options.time) {
+        if (props.id === "date") _options.time = false;
+        if (props.id === "time") _options.date = true;
+      }
+      return _options;
+    });
+  };
   return (
     <animated.div
       style={style}
-      onClick={() => props.onClick(props.id)}
+      onClick={onClick}
       {...hoverEventSet(setHover)}
     >
       {props.children}
@@ -58,8 +69,9 @@ SearchOption.propTypes = {
   children: PropTypes.string,
   id: PropTypes.string,
   selected: PropTypes.bool,
-  onClick: PropTypes.func,
+  handler: PropTypes.func,
 };
+const MemoizedSearchOption = memo(SearchOption);
 
 const SelectSearchOptions = (props) => {
   const options = [
@@ -81,24 +93,15 @@ const SelectSearchOptions = (props) => {
     >
       {options.map((item, index) => {
         const selected = props.options[item.id] ?? false;
-        const onClick = (id) => {
-          const _options = { ...props.options };
-          _options[item.id] = !selected;
-          if (!_options.date && _options.time) {
-            if (id === "date") _options.time = false;
-            if (id === "time") _options.date = true;
-          }
-          props.handler(_options);
-        };
         return (
-          <SearchOption
+          <MemoizedSearchOption
             key={index}
             id={item.id}
-            onClick={onClick}
+            handler={props.handler}
             selected={selected}
           >
             {item.name}
-          </SearchOption>
+          </MemoizedSearchOption>
         );
       })}
     </div>
