@@ -3,7 +3,8 @@
   "env": {
     "browser": true,
     "es2021": true,
-    "cypress/globals": true
+    "cypress/globals": true,
+    "node": true
   },
   "extends": [
     "plugin:cypress/recommended",
@@ -27,7 +28,7 @@
   },
   "overrides": [
     {
-      "files": ["*.ts", "*.tsx"],
+      "files": ["*.ts", "*.tsx", "public/firebase-messaging-sw.js"],
       "rules": {
         "no-undef": "off",
         "no-unused-vars": "off"
