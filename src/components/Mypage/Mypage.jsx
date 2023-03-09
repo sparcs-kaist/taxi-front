@@ -6,6 +6,7 @@ import WhiteContainer from "components/common/WhiteContainer";
 import PopupModify from "./PopupModify";
 import PopupReport from "./PopupReport";
 import PopupPolicy from "./PopupPolicy";
+import PopupPrivacyPolicy from "./PopupPrivacyPolicy";
 import PopupMembers from "./PopupMembers";
 import ProfileImg from "./ProfileImg";
 import theme from "styles/theme";
@@ -21,6 +22,7 @@ const Mypage = () => {
   const [isOpenModify, setOpenModify] = useState(false);
   const [isOpenReport, setOpenReport] = useState(false);
   const [isOpenPolicy, setOpenPolicy] = useState(false);
+  const [isOpenPrivacyPolicy, setOpenPrivacyPolicy] = useState(false);
   const [isOpenMembers, setOpenMembers] = useState(false);
   const history = useHistory();
 
@@ -119,6 +121,9 @@ const Mypage = () => {
           <Menu icon="policy" onClick={() => setOpenPolicy(true)}>
             {t("terms")}
           </Menu>
+          <Menu icon="policy" onClick={() => setOpenPrivacyPolicy(true)}>
+            {t("privacy_policy")}
+          </Menu>
           <Menu icon="credit" onClick={() => setOpenMembers(true)}>
             {t("credit")}
           </Menu>
@@ -135,6 +140,10 @@ const Mypage = () => {
         profToken={profToken}
       />
       <PopupPolicy isOpen={isOpenPolicy} onClose={() => setOpenPolicy(false)} />
+      <PopupPrivacyPolicy
+        isOpen={isOpenPrivacyPolicy}
+        onClose={() => setOpenPrivacyPolicy(false)}
+      />
       <PopupMembers
         isOpen={isOpenMembers}
         onClose={() => setOpenMembers(false)}

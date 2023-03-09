@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 import { useRecoilValue } from "recoil";
 import { taxiLocataionWithName } from "recoil/taxiLocation";
+import hoverEventSet from "tools/hoverEventSet";
 import preferenceAtom from "recoil/preference";
 import PropTypes from "prop-types";
 import WhiteContainer from "components/common/WhiteContainer";
@@ -88,12 +89,7 @@ const PlaceElement = (props) => {
     overflow: "hidden",
   };
   return (
-    <div
-      style={style}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      onClick={props.onClick}
-    >
+    <div style={style} onClick={props.onClick} {...hoverEventSet(setHover)}>
       <MiniCircle type={props.type} isRequired={!props.value} />
       <div style={styleType}>{props.type === "from" ? "출발지" : "도착지"}</div>
       <div style={styleTextGrid}>
@@ -159,4 +155,4 @@ Place.propTypes = {
   handler: PropTypes.func,
 };
 
-export default Place;
+export default memo(Place);
