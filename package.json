@@ -33,8 +33,7 @@
   "scripts": {
     "start": "craco start",
     "build": "cross-env GENERATE_SOURCEMAP=false craco build",
-    "test": "cypress open",
-    "eject": "craco eject"
+    "test": "cypress open"
   },
   "eslintConfig": {
     "extends": [
