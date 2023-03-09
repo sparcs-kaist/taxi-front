@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect, memo } from "react";
-import { animated, useSpring } from "react-spring";
 import { useHistory, useLocation } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useR2state } from "hooks/useReactiveState";
@@ -28,7 +27,7 @@ const defaultOptions = { place: true, date: true, time: true };
 
 const SearchOption = (props) => {
   const [isHover, setHover] = useState(false);
-  const style = useSpring({
+  const style = {
     ...theme.font12,
     borderRadius: "15px",
     padding: "8px 15px 7px 15px",
@@ -43,7 +42,7 @@ const SearchOption = (props) => {
     color: props.selected ? theme.white : theme.black,
     config: { duration: 150 },
     ...theme.cursor(),
-  });
+  };
   const onClick = () => {
     props.handler((prevState) => {
       const _options = { ...prevState };
@@ -56,13 +55,9 @@ const SearchOption = (props) => {
     });
   };
   return (
-    <animated.div
-      style={style}
-      onClick={onClick}
-      {...hoverEventSet(setHover)}
-    >
+    <div style={style} onClick={onClick} {...hoverEventSet(setHover)}>
       {props.children}
-    </animated.div>
+    </div>
   );
 };
 SearchOption.propTypes = {

@@ -29,10 +29,7 @@ const Button = ({
 }: ButtonProps) => {
   const [isHover, setHover] = useState(false);
   const [isClicked, setClicked] = useState(false);
-  const setHoverClicked = (bool: boolean) => {
-    setHover(bool);
-    setClicked(bool);
-  };
+
   const getColor = () => {
     switch (type) {
       case "purple":

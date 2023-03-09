@@ -39,7 +39,6 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-select": "^4.3.1",
-    "react-spring": "^9.1.2",
     "react-toast-notifications": "^2.5.1",
     "react-toastify": "^8.1.0",
     "recoil": "^0.7.5",
