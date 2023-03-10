@@ -3,7 +3,7 @@ import { getMessaging, getToken, isSupported } from "firebase/messaging";
 import axios from "tools/axios";
 import { firebaseConfig } from "serverconf";
 
-const firebaseApp = initializeApp(firebaseConfig);
+const firebaseApp = firebaseConfig && initializeApp(firebaseConfig);
 
 const registerToken = async (trial: number) => {
   // 토큰 등록 실패 시 10초 간격으로 최대 3회 시도
@@ -39,9 +39,13 @@ const registerToken = async (trial: number) => {
   }
 };
 
+const registerEvent = () => registerToken(1);
+
 const registerTokenOnClick = () => {
-  document.addEventListener("click", () => registerToken(1), { once: true });
-  document.addEventListener("touchend", () => registerToken(1), { once: true });
+  if (firebaseApp) {
+    document.addEventListener("click", registerEvent, { once: true });
+    document.addEventListener("touchend", registerEvent, { once: true });
+  }
 };
 
 export default registerTokenOnClick;
