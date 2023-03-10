@@ -39,11 +39,12 @@ const registerToken = async (trial: number) => {
   }
 };
 
+const registerEvent = () => registerToken(1);
+
 const registerTokenOnClick = () => {
   if (firebaseApp) {
-    const event = () => registerToken(1);
-    document.addEventListener("click", event, { once: true });
-    document.addEventListener("touchend", event, { once: true });
+    document.addEventListener("click", registerEvent, { once: true });
+    document.addEventListener("touchend", registerEvent, { once: true });
   }
 };
 
