@@ -6,6 +6,7 @@ import theme from "styles/theme";
 import CropOriginalRoundedIcon from "@mui/icons-material/CropOriginalRounded";
 import ArrowUpwardRoundedIcon from "@mui/icons-material/ArrowUpwardRounded";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
+import PopupAccount from "./PopupAccount";
 
 type BtnSendProps = {
   enable: boolean;
@@ -92,6 +93,7 @@ const FullChatMessageForm = (props: FullChatMessageFormProps) => {
   const inputImage = useRef<HTMLInputElement>(null);
   const [message, setMessage] = useState("");
   const [formHeight, setFormHeight] = useState("28px");
+  const [popupAccount, setPopupAccount] = useState(false);
 
   const enterPressed = useRef(false);
   const shiftPressed = useRef(false);
@@ -213,6 +215,14 @@ const FullChatMessageForm = (props: FullChatMessageFormProps) => {
             ...theme.font14,
             padding: "8px 46px 8px 12px",
             boxSizing: "border-box",
+          }}
+        />
+        <PopupAccount
+          popup={popupAccount}
+          onClickClose={() => setPopupAccount(false)}
+          onClickOk={() => {
+            setPopupAccount(false);
+            props.handleSendAccount();
           }}
         />
         <BtnSend onClick={onSend} enable={isMessageValid()} />
