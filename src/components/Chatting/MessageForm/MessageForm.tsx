@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import FullChatMessageForm from "./FullChatMessageForm";
 import NewMessage from "./NewMessage";
-import PropTypes from "prop-types";
 import theme from "styles/theme";
+
+import { useRecoilValue } from "recoil";
+import isVirtualKeyboardDetectedAtom from "recoil/isVirtualKeyboardDetectedAtom";
 
 type MessageFormProps = {
   isSideChat: boolean;
@@ -15,6 +17,7 @@ type MessageFormProps = {
 };
 
 const MessageForm = (props: MessageFormProps) => {
+  const isVKDetected = useRecoilValue(isVirtualKeyboardDetectedAtom);
   const [contHeight, setContHeight] = useState<PixelValue>("48px");
 
   useEffect(() => {
@@ -35,7 +38,10 @@ const MessageForm = (props: MessageFormProps) => {
         alignItems: "center",
         boxShadow: theme.shadow_clicked,
         backgroundColor: theme.white,
-        paddingBottom: "env(safe-area-inset-bottom)",
+        paddingBottom:
+          props.isSideChat || isVKDetected
+            ? "0px"
+            : "env(safe-area-inset-bottom)",
       }}
     >
       <NewMessage
