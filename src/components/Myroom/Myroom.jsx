@@ -1,13 +1,12 @@
+import { useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
-
-import { useR2state } from "hooks/useReactiveState";
 import { useRecoilValue } from "recoil";
-import myRoomAtom from "recoil/myRoom";
+import { useR2state } from "hooks/useReactiveState";
 import usePageFromSearchParams from "hooks/usePageFromSearchParams";
+import { PAGE_MAX_ITEMS } from "components/common/pagination/Pagination";
 import R1Myroom from "./R1Myroom";
 import R2Myroom from "./R2Myroom";
-
-import { PAGE_MAX_ITEMS } from "components/common/pagination/Pagination";
+import myRoomAtom from "recoil/myRoom";
 export const MAX_PARTICIPATION = 5;
 
 const Myroom = () => {
@@ -18,9 +17,11 @@ const Myroom = () => {
   const totalPages = Math.ceil((myRoom?.done?.length ?? 0) / PAGE_MAX_ITEMS);
   const currentPage = usePageFromSearchParams(totalPages);
 
-  if (reactiveState == 3 && roomId) {
-    history.replace(`/chatting/${roomId}`);
-  }
+  useEffect(() => {
+    if (reactiveState == 3 && roomId) {
+      history.replace(`/chatting/${roomId}`);
+    }
+  }, [reactiveState, roomId, history]);
 
   return reactiveState === 3 ? (
     <R1Myroom
