@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import useTaxiAPI from "hooks/useTaxiAPI";
+import { useQuery } from "hooks/useTaxiAPI";
 
 const Logout = () => {
-  const [error, response, isLoading] = useTaxiAPI.get("/auth/logout");
+  const [error, response, isLoading] = useQuery.get("/auth/logout");
 
   useEffect(() => {
     if (error) {
