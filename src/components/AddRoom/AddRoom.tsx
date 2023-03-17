@@ -1,27 +1,29 @@
 import { useState, useRef, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import myRoomAtom from "recoil/myRoom";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { useCookies } from "react-cookie";
+import { useAxios } from "hooks/useTaxiAPI";
+
 import RLayout from "components/common/RLayout";
 import Title from "components/common/Title";
 import Button from "components/common/Button";
-import axios from "tools/axios";
-import { date2str, getToday10, getToday } from "tools/moment";
-import theme from "styles/theme";
-import { useSetRecoilState } from "recoil";
-import alertAtom from "recoil/alert";
-import FullParticipation from "./FullParticipation";
 import { MAX_PARTICIPATION } from "components/Myroom/Myroom";
-import { useCookies } from "react-cookie";
-import randomRoomName from "static/randomRoomName";
-
+import FullParticipation from "./FullParticipation";
 import OptionName from "components/common/roomOptions/Name";
 import OptionPlace from "components/common/roomOptions/Place";
 import OptionDate from "components/common/roomOptions/Date";
 import OptionTime from "components/common/roomOptions/Time";
 import OptionMaxPeople from "components/common/roomOptions/MaxPeople";
 
+import alertAtom from "recoil/alert";
+import myRoomAtom from "recoil/myRoom";
+
+import { date2str, getToday10, getToday } from "tools/moment";
+import theme from "styles/theme";
+import randomRoomName from "static/randomRoomName";
+
 const AddRoom = () => {
+  const axios = useAxios();
   const onCall = useRef(false);
   const history = useHistory();
   const today = getToday();
@@ -66,10 +68,6 @@ const AddRoom = () => {
     );
   }, [valueDate, valueTime]);
 
-  useEffect(() => {
-    if (onCall.current) history.push("/myroom");
-  }, [myRoom?.ongoing.length]);
-
   let validatedMsg = null;
   if (!valuePlace[0] || !valuePlace[1]) {
     validatedMsg = "출발지와 도착지를 선택해 주세요";
@@ -89,23 +87,30 @@ const AddRoom = () => {
   const onClickAdd = async () => {
     if (!onCall.current) {
       onCall.current = true;
-      const result = await axios.post("/rooms/create", {
-        name: valueName ? valueName : randomRoomName,
-        from: valuePlace[0],
-        to: valuePlace[1],
-        time: calculatedTime!.toISOString(),
-        maxPartLength: valueMaxPeople,
+      // FIXME: "/rooms/create" API가 myRoom을 반환하도록 수정
+      await axios({
+        url: "/rooms/create",
+        method: "post",
+        data: {
+          name: valueName ? valueName : randomRoomName,
+          from: valuePlace[0],
+          to: valuePlace[1],
+          time: calculatedTime!.toISOString(),
+          maxPartLength: valueMaxPeople,
+        },
+        onSuccess: async () =>
+          setMyRoom(
+            await axios({
+              url: "/rooms/searchByUser",
+              method: "get",
+              onSuccess: () => history.push("/myroom"),
+              onError: () =>
+                setAlert("예상치 못한 오류가 발생했습니다. 새로고침 해주세요."),
+            })
+          ),
+        onError: () => setAlert("방 개설에 실패하였습니다."),
       });
-      if (result.status === 200) {
-        try {
-          const { data } = await axios.get("/rooms/searchByUser");
-          setMyRoom(data);
-        } catch (error) {
-          setAlert("예상치 못한 오류가 발생했습니다. 새로고침 해주세요.");
-        }
-      } else {
-        setAlert("방 개설에 실패하였습니다.");
-      }
+      onCall.current = false;
     }
   };
 

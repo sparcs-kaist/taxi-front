@@ -1,11 +1,13 @@
 import { useEffect, useState, useRef } from "react";
-import axios from "tools/axios";
+import axios from "./axios";
 
-const wrapUseTaxiAPI =
-  (method) =>
-  (url, data, dep = []) => {
-    const [res, setRes] = useState({});
-    const [loading, setLoading] = useState(true);
+type Method = "get" | "post";
+
+const wrapUseQuery =
+  (method: Method) =>
+  (url: string, data?: any, dep = []): [any, any, boolean] => {
+    const [res, setRes] = useState<any>({});
+    const [loading, setLoading] = useState<any>(true);
     const latestReqID = useRef(0);
 
     useEffect(() => {
@@ -33,15 +35,10 @@ const wrapUseTaxiAPI =
       };
     }, [url, JSON.stringify(dep), JSON.stringify(data)]);
 
-    return [res.error, res.data, loading];
+    return [res?.error, res?.data, loading];
   };
 
-const useTaxiAPI = {
-  get: wrapUseTaxiAPI("get"),
-  post: wrapUseTaxiAPI("post"),
+export default {
+  get: wrapUseQuery("get"),
+  post: wrapUseQuery("post"),
 };
-export default useTaxiAPI;
-
-const get = useTaxiAPI.get;
-const post = useTaxiAPI.post;
-export { get, post };
