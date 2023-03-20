@@ -11,7 +11,6 @@ const CSSVariablesProvider = () => {
     window.addEventListener("resize", syncHeight);
     return () => window.removeEventListener("resize", syncHeight);
   }, []);
-
   return null;
 };
 

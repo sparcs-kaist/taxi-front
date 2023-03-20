@@ -1,10 +1,8 @@
-import { useState, useEffect, useCallback, useRef, ReactNode } from "react";
+import { useState, useEffect, useCallback, ReactNode } from "react";
 import { useLocation, Redirect } from "react-router-dom";
 import { useAxios } from "hooks/useTaxiAPI";
 // import { useCookies } from "react-cookie";
-import reactGA from "react-ga4";
 import registerTokenOnClick from "tools/firebase";
-import { gaTrackingId, nodeEnv } from "serverconf";
 
 import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 import taxiLocationAtom from "recoil/taxiLocation";
@@ -58,7 +56,6 @@ const Skeleton = (props: SkeletonProps) => {
   const location = useLocation();
   const { pathname, search } = location;
   const currentPath = pathname + search;
-  const gaInitialized = useRef(false);
 
   // 베타 서비스 안내창 띄우기 중지
   // const [cookies, setCookie] = useCookies(["betaNoticed"]);
@@ -85,25 +82,12 @@ const Skeleton = (props: SkeletonProps) => {
   }, []);
 
   useEffect(() => {
-    // Google Analytics
-    if (gaTrackingId) {
-      if (!gaInitialized.current) {
-        gaInitialized.current = true;
-        reactGA.initialize(gaTrackingId, {
-          testMode: nodeEnv === "development",
-        });
-      }
-      reactGA.send({ hitType: "pageview", page: pathname });
-    }
-  }, [currentPath]);
-
-  useEffect(() => {
     // 로그인 정보 수정될 때 요청
     axios({
       url: "/logininfo/detail",
       method: "get",
       onSuccess: (loginInfoDetail) => {
-        console.log(loginInfoDetail); // REMOVE ME
+        // console.log(loginInfoDetail); // REMOVE ME
         setLoginInfoDetail(loginInfoDetail);
         setShowAgree(loginInfoDetail?.agreeOnTermsOfService !== true);
       },
@@ -124,11 +108,6 @@ const Skeleton = (props: SkeletonProps) => {
 
       // FCM 디바이스 토큰 등록
       registerTokenOnClick();
-    }
-
-    // Google Analytics
-    if (gaInitialized.current && userId) {
-      reactGA.set({ userId });
     }
   }, [userId]);
 
