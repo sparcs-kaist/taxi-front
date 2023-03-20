@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback, useRef, ReactNode } from "react";
 import { useLocation, Redirect } from "react-router-dom";
+import { useAxios } from "hooks/useTaxiAPI";
 // import { useCookies } from "react-cookie";
 import reactGA from "react-ga4";
-import axios from "tools/axios";
 import registerTokenOnClick from "tools/firebase";
 import { gaTrackingId, nodeEnv } from "serverconf";
 
@@ -47,6 +47,7 @@ const Container = (props: ContainerProps) => {
 };
 
 const Skeleton = (props: SkeletonProps) => {
+  const axios = useAxios();
   const [userId, setUserId] = useState(undefined);
   const [showAgree, setShowAgree] = useState(false);
   const [taxiLocation, setTaxiLocation] = useRecoilState(taxiLocationAtom);
@@ -56,8 +57,8 @@ const Skeleton = (props: SkeletonProps) => {
   const error = useRecoilValue(errorAtom);
   // const setAlert = useSetRecoilState(alertAtom);
   const location = useLocation();
-  const pathname = location.pathname;
-  const currentPath = location.pathname + location.search;
+  const { pathname, search } = location;
+  const currentPath = pathname + search;
   const gaInitialized = useRef(false);
   useWindowInnerHeight();
 
@@ -76,28 +77,16 @@ const Skeleton = (props: SkeletonProps) => {
   //   }
   // }, []);
 
-  const initializeGlobalInfo = useCallback(() => {
-    const getLocation = axios.get("/locations");
-    const getRoomList = axios.get("/rooms/searchByUser");
-    Promise.all([getLocation, getRoomList]).then(
-      ([{ data: locationData }, { data: roomData }]) => {
-        setTaxiLocation(locationData.locations);
-        setMyRoom(roomData);
-      }
-    );
+  useEffect(() => {
+    // userId 초기화
+    axios({
+      url: "/logininfo",
+      method: "get",
+      onSuccess: (loginInfo) => setUserId(loginInfo?.id ?? null),
+    });
   }, []);
 
   useEffect(() => {
-    // path가 수정될 때 마다 logininfo 요청
-    axios
-      .get("/logininfo")
-      .then(({ data }) => {
-        setUserId(data?.id ?? null);
-      })
-      .catch((e) => {
-        // FIXME
-      });
-
     // Google Analytics
     if (gaTrackingId) {
       if (!gaInitialized.current) {
@@ -112,19 +101,30 @@ const Skeleton = (props: SkeletonProps) => {
 
   useEffect(() => {
     // 로그인 정보 수정될 때 요청
-    axios
-      .get("/logininfo/detail")
-      .then(({ data }) => {
-        setLoginInfoDetail(data);
-        setShowAgree(data?.agreeOnTermsOfService !== true);
-      })
-      .catch((e) => {
-        // FIXME
+    axios({
+      url: "/logininfo/detail",
+      method: "get",
+      onSuccess: (loginInfoDetail) => {
+        console.log(loginInfoDetail); // REMOVE ME
+        setLoginInfoDetail(loginInfoDetail);
+        setShowAgree(loginInfoDetail?.agreeOnTermsOfService !== true);
+      },
+    });
+
+    if (userId) {
+      // locations atom 초기화
+      axios({
+        url: "/locations",
+        method: "get",
+        onSuccess: ({ locations }) => setTaxiLocation(locations),
+      });
+      axios({
+        url: "/rooms/searchByUser",
+        method: "get",
+        onSuccess: (data) => setMyRoom(data),
       });
 
-    // recoil-state 초기화 및 FCM 디바이스 토큰 등록
-    if (userId) {
-      initializeGlobalInfo();
+      // FCM 디바이스 토큰 등록
       registerTokenOnClick();
     }
 
@@ -148,7 +148,6 @@ const Skeleton = (props: SkeletonProps) => {
       <Redirect to={`/login?redirect=${encodeURIComponent(currentPath)}`} />
     );
   }
-
   if (userId === undefined) {
     return (
       <Container>
