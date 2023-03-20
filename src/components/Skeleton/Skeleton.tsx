@@ -18,7 +18,6 @@ import Navigation from "components/Skeleton/Navigation";
 import Footer from "components/Skeleton/Footer";
 import PopupPolicy from "components/Mypage/PopupPolicy";
 import Error from "components/Error";
-import useWindowInnerHeight from "hooks/useWindowInnerHeight";
 // import betaNotice from "static/betaNotice";
 
 type ContainerProps = {
@@ -60,7 +59,6 @@ const Skeleton = (props: SkeletonProps) => {
   const { pathname, search } = location;
   const currentPath = pathname + search;
   const gaInitialized = useRef(false);
-  useWindowInnerHeight();
 
   // 베타 서비스 안내창 띄우기 중지
   // const [cookies, setCookie] = useCookies(["betaNoticed"]);
