@@ -61,12 +61,12 @@ const PopupAccount = (props: SendAccoundModalProps) => {
         </div>
         {loginInfoDetail?.account ? (
           <div style={styleText}>
-            본인의 계좌 정보를 채팅창에 전송할 수 있습니다.
+            계좌를 변경하고 싶으신 경우 <Link to="/mypage">마이 페이지</Link>의
+            “수정하기” 메뉴를 이용해주세요.
           </div>
         ) : (
           <div style={styleText}>
-            계좌를 변경하고 싶으신 경우 <Link to="/mypage">마이 페이지</Link>의
-            “수정하기” 메뉴를 이용해주세요.
+            본인의 계좌 정보를 채팅창에 전송할 수 있습니다.
           </div>
         )}
         <DottedLine />
