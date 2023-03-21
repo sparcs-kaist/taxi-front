@@ -9,11 +9,21 @@ import ChatPaySettle from "./ChatPaySettle";
 import WalletIcon from "@mui/icons-material/Wallet";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { height } from "@mui/system";
+import hoverEventSet from "tools/hoverEventSet";
+import CheckIcon from "@mui/icons-material/Check";
 
 const ChatAccount = (props) => {
   const bankName = props.account.split(" ")[0];
   const accounNumber = props.account.split(" ")[1];
   const [clicked, setClicked] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
+
+  useEffect(() => {
+    if (isCopied) {
+      setTimeout(() => setIsCopied(false), 1000);
+    }
+  }, [isCopied]);
+
   const nameStyle = {
     color: theme.gray_text,
   };
@@ -27,8 +37,8 @@ const ChatAccount = (props) => {
       return;
     }
     navigator.clipboard.writeText(props.account);
+    setIsCopied(true);
   };
-  const handleAnim = () => {};
 
   return (
     <div
@@ -67,23 +77,28 @@ const ChatAccount = (props) => {
           boxSizing: "border-box",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-around",
-            height: "100%",
-          }}
-        >
-          <div style={accountWrapperStyle}>
-            <div style={nameStyle}>은행</div>
-            {bankName}
+        {isCopied ? (
+          <div style={accountWrapperStyle}>계좌가 복사되었습니다!</div>
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-around",
+              height: "100%",
+            }}
+          >
+            <div style={accountWrapperStyle}>
+              <div style={nameStyle}>은행</div>
+              {bankName}
+            </div>
+            <div style={accountWrapperStyle}>
+              <div style={nameStyle}>계좌</div>
+              {accounNumber}
+            </div>
           </div>
-          <div style={accountWrapperStyle}>
-            <div style={nameStyle}>계좌</div>
-            {accounNumber}
-          </div>
-        </div>
+        )}
+
         <div
           style={{
             boxShadow: theme.shadow_gray_button_inset,
@@ -98,16 +113,21 @@ const ChatAccount = (props) => {
             cursor: "pointer",
           }}
           onClick={handleCopy}
-          onMouseDown={handleAnim(true)}
-          onMouseUp={handleAnim(false)}
-          onTouchStart={handleAnim(true)}
-          onTouchEnd={handleAnim(false)}
+          {...hoverEventSet(() => {}, setClicked)}
         >
-          <ContentCopyIcon
-            style={{
-              fontSize: "16px",
-            }}
-          />
+          {isCopied ? (
+            <CheckIcon
+              style={{
+                fontSize: "16px",
+              }}
+            />
+          ) : (
+            <ContentCopyIcon
+              style={{
+                fontSize: "16px",
+              }}
+            />
+          )}
         </div>
       </div>
       <div
@@ -118,9 +138,11 @@ const ChatAccount = (props) => {
           top: "-90px",
           zIndex: "1000",
           background:
-            "linear-gradient(to left, salmon 50%, lightblue 50%) right",
+            "linear-gradient(to left, transparent 50%, rgba(0,0,0,0.065) 50%) right",
           backgroundSize: "200%",
-          transition: ".5s ease-out",
+          transition: ".25s ease-out",
+          backgroundPosition: clicked ? "left" : "right",
+          pointerEvents: "none",
         }}
       ></div>
     </div>
@@ -217,7 +239,6 @@ ChatText.propTypes = {
 };
 
 const ChatSet = (props) => {
-  console.log(props.chats);
   const [fullImage, setFullImage] = useState("");
   const itsme = props.authorId === props.chats[0].authorId;
   const style = {

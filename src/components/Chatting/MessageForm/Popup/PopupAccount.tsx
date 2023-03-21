@@ -17,7 +17,6 @@ type SendAccoundModalProps = {
 };
 
 const PopupAccount = (props: SendAccoundModalProps) => {
-  console.log("popupAccount");
   const [accountNumber, setAccountNumber] = useState("");
   const [loginInfoDetail, setLoginInfoDetail] =
     useRecoilState(loginInfoDetailAtom);
@@ -40,7 +39,6 @@ const PopupAccount = (props: SendAccoundModalProps) => {
   };
 
   const handleClickOk = () => {
-    console.log("click ok");
     props.onClickOk(accountNumber);
   };
 

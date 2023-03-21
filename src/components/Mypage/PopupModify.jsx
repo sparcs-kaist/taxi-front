@@ -143,7 +143,6 @@ const PopupModify = (props) => {
       setNickNameReal(loginInfoDetail?.nickname);
     }
     if (loginInfoDetail?.account) {
-      console.log(loginInfoDetail?.account);
       setAccountNumberReal(loginInfoDetail?.account);
       setAccountNumber(loginInfoDetail?.account);
     }
@@ -159,7 +158,6 @@ const PopupModify = (props) => {
     props.onClose();
   };
   const onClickEditNickName = async () => {
-    console.log("닉네임 변경");
     const result = await axios.post(`/users/editNickname`, {
       nickname: nickName,
     });
@@ -172,7 +170,6 @@ const PopupModify = (props) => {
     props.onClose();
   };
   const onClickEditAccountNumber = async () => {
-    console.log("계좌번호 변경");
     const result = await axios.post(`/users/editAccount`, {
       account: accountNumber,
     });

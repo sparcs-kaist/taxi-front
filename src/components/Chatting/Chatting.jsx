@@ -250,7 +250,6 @@ const Chatting = (props) => {
   const handleSendAccount = (account) => {
     if (!sendingMessage.current) {
       sendingMessage.current = true;
-      console.log(userInfoDetail.account);
       socket.current.emit("chats-send", {
         roomId: props.roomId,
         content: account,
