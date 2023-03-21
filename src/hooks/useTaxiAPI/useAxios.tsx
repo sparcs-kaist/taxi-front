@@ -9,6 +9,7 @@ type AxiosOption = {
   url: string;
   method: "get" | "post";
   data?: any;
+  params?: any;
   onError?: (error: unknown) => void;
   onSuccess?: (data: any) => void;
 };
@@ -21,9 +22,9 @@ const useAxios = () => {
   const currentPath = pathname + search;
 
   return useCallback(
-    async ({ url, method, data, onError, onSuccess }: AxiosOption) => {
+    async ({ url, method, data, params, onError, onSuccess }: AxiosOption) => {
       try {
-        const res = await axios({ url, method, data });
+        const res = await axios({ url, method, data, params });
         if (res?.status === 403 && res.data?.error === "not logged in") {
           history.replace(`/login?redirect=${encodeURIComponent(currentPath)}`);
         } else if (res.status !== 200) {

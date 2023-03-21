@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useRecoilState } from "recoil";
+import { useAxios } from "hooks/useTaxiAPI";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import ProfileImg from "./ProfileImg";
-import axios from "tools/axios";
 import axiosOri from "axios";
 import convertImg from "tools/convertImg";
 import PropTypes from "prop-types";
@@ -34,6 +34,7 @@ ProfImg.propTypes = {
 };
 
 const BtnProfImg = (props) => {
+  const axios = useAxios();
   const inputImage = useRef(null);
   const [profileAlert, setProfileAlert] = useState(null);
   const [loginInfoDetail, setLoginInfoDetail] =
@@ -50,8 +51,12 @@ const BtnProfImg = (props) => {
     try {
       const image = await convertImg(inputImage.current?.files?.[0]);
       if (!image) return;
-      const { data } = await axios.post("/users/editProfileImg/getPUrl", {
-        type: image.type,
+      const data = await axios({
+        url: "/users/editProfileImg/getPUrl",
+        method: "post",
+        data: {
+          type: image.type,
+        },
       });
       if (data.url && data.fields) {
         const formData = new FormData();
@@ -61,11 +66,14 @@ const BtnProfImg = (props) => {
         formData.append("file", image);
         const res = await axiosOri.post(data.url, formData);
         if (res.status === 204) {
-          const res2 = await axios.get("/users/editProfileImg/done");
-          if (res2.data.result) {
+          const data2 = await axios({
+            url: "/users/editProfileImg/done",
+            method: "get",
+          });
+          if (data2?.result) {
             setLoginInfoDetail({
               ...loginInfoDetail,
-              profileImgUrl: res2.data.profileImageUrl,
+              profileImgUrl: data2.profileImageUrl,
             });
             props.onUpdate();
             setProfileAlert("SUCCESS");
@@ -126,6 +134,7 @@ BtnProfImg.propTypes = {
 
 const PopupModify = (props) => {
   const { t } = useTranslation("mypage");
+  const axios = useAxios();
   const regexNickname = new RegExp("^[A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ0-9-_ ]{3,25}$");
   const [nickName, setNickName] = useState("");
   const [nickNameReal, setNickNameReal] = useState("");
@@ -148,17 +157,18 @@ const PopupModify = (props) => {
     setNickName(nickNameReal);
     props.onClose();
   };
-  const onClickEditNickName = async () => {
-    const result = await axios.post(`/users/editNickname`, {
-      nickname: nickName,
+  const onClickEditNickName = () => {
+    axios({
+      url: "/users/editNickname",
+      method: "post",
+      data: { nickname: nickName },
+      onSuccess: () => {
+        setLoginInfoDetail({ ...loginInfoDetail, nickname: nickName });
+        props.onUpdate();
+        props.onClose();
+      },
+      onError: () => setMessage(t("page_modify.nickname_failed")),
     });
-    if (result.status !== 200) {
-      setMessage(t("page_modify.nickname_failed"));
-      return;
-    }
-    setLoginInfoDetail({ ...loginInfoDetail, nickname: nickName });
-    props.onUpdate();
-    props.onClose();
   };
   const styleName = {
     ...theme.font20,

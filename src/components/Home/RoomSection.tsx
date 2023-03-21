@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "tools/axios";
+import { useQuery } from "hooks/useTaxiAPI";
 import moment, { getToday } from "tools/moment";
 import RLayout from "components/common/RLayout";
 import Title from "components/common/Title";
@@ -8,7 +8,7 @@ import RoomList from "./RoomList";
 
 const RoomSection = () => {
   const today = getToday().subtract(1, "day");
-  const [allRooms, setAllRooms] = useState<Nullable<Array<any>>>([]);
+  const [, allRooms] = useQuery.get("/rooms/search");
   const [rooms, setRooms] = useState<Nullable<Array<any>>>(null);
   const [selectedDate, setSelectedDate] = useState<[number, number, number]>([
     today.year(),
@@ -17,20 +17,17 @@ const RoomSection = () => {
   ]);
 
   useEffect(() => {
-    const fetchAllRooms = async () => {
-      const { data } = await axios.get("rooms/search");
-      setAllRooms(data);
-    };
-    fetchAllRooms();
-  }, []);
-  useEffect(() => {
-    const time = moment(selectedDate);
-    if (time.date() == today.date()) {
-      setRooms(allRooms);
-    } else {
-      setRooms(
-        allRooms?.filter((room) => moment(room.time).date() == time.date())
-      );
+    if (allRooms) {
+      const time = moment(selectedDate);
+      if (time.date() == today.date()) {
+        setRooms(allRooms);
+      } else {
+        setRooms(
+          allRooms?.filter(
+            (room: Room) => moment(room.time).date() == time.date()
+          )
+        );
+      }
     }
   }, [selectedDate, allRooms]);
 

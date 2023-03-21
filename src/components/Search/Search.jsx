@@ -2,9 +2,9 @@ import { useState, useRef, useEffect, memo } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useR2state } from "hooks/useReactiveState";
+import { useAxios } from "hooks/useTaxiAPI";
 import qs from "qs";
 import hoverEventSet from "tools/hoverEventSet";
-import axios from "tools/axios";
 import theme from "styles/theme";
 
 import RLayout from "components/common/RLayout";
@@ -147,6 +147,7 @@ const Search = () => {
   const today10 = getToday10();
   const history = useHistory();
   const location = useLocation();
+  const axios = useAxios();
 
   const [cookies, setCookie] = useCookies(["defaultFromTo"]);
   const [searchOptions, setSearchOptions] = useState(defaultOptions);
@@ -242,29 +243,22 @@ const Search = () => {
     prevSearchParam.current = searchParamWithoutPage;
 
     if (isSearchAll(q)) {
-      axios
-        .get("rooms/search")
-        .then((res) => {
-          setSearchResult(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      axios({
+        url: "rooms/search",
+        method: "get",
+        onSuccess: (data) => setSearchResult(data),
+      });
     } else if (isValidQuery(q)) {
       setStatesFromQuery(q);
       if (q.maxPeople) {
         delete Object.assign(q, { maxPartLength: q.maxPeople }).maxPeople;
       }
-      axios
-        .get("rooms/search", {
-          params: q,
-        })
-        .then((res) => {
-          setSearchResult(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      axios({
+        url: "rooms/search",
+        method: "get",
+        params: q,
+        onSuccess: (data) => setSearchResult(data),
+      });
     } else {
       history.replace("/search");
     }

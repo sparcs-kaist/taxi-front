@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import ProfileImg from "components/Mypage/ProfileImg";
 import Modal from "components/common/modal/Modal";
-import axios from "tools/axios";
+import { useAxios } from "hooks/useTaxiAPI";
 import theme from "styles/theme";
 import { useSetRecoilState } from "recoil";
 import alertAtom from "recoil/alert";
@@ -32,6 +32,7 @@ const PopupReport = ({
   name,
   reportedId,
 }: PopupReportProps) => {
+  const axios = useAxios();
   const [type, setType] = useState<ReportTypes>(ReportTypes.NoSettlement);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [etcDetail, setEtcDetail] = useState("");
@@ -140,23 +141,20 @@ const PopupReport = ({
     setType(event.target.value as ReportTypes);
   };
 
-  const handleSubmit = async (): Promise<void> => {
+  const handleSubmit = () => {
     const data: ReportData = {
       reportedId,
       type,
       etcDetail,
       time: new Date(),
     };
-    try {
-      const res: ReportResponse = await axios.post("/reports/create", data);
-      if (res.status === 200) {
-        setIsSubmitted(true);
-      } else {
-        setAlert("신고에 실패했습니다.");
-      }
-    } catch (error) {
-      setAlert("신고에 실패했습니다.");
-    }
+    axios({
+      url: "/reports/create",
+      method: "post",
+      data,
+      onSuccess: () => setIsSubmitted(true),
+      onError: () => setAlert("신고에 실패했습니다."),
+    });
   };
 
   const handleClose = () => {
