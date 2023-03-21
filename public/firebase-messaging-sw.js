@@ -19,4 +19,4 @@ const defaultConfig = {
 firebase.initializeApp(self.firebaseConfig || defaultConfig);
 
 // 백그라운드 메시지를 처리할 수 있게 FCM 인스턴스를 생성합니다.
-const messaging = firebase.messaging();
+firebase.messaging();
