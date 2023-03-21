@@ -8,10 +8,12 @@ import theme from "styles/theme";
 import ChatPaySettle from "./ChatPaySettle";
 import WalletIcon from "@mui/icons-material/Wallet";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { height } from "@mui/system";
 
 const ChatAccount = (props) => {
   const bankName = props.account.split(" ")[0];
   const accounNumber = props.account.split(" ")[1];
+  const [clicked, setClicked] = useState(false);
   const nameStyle = {
     color: theme.gray_text,
   };
@@ -26,8 +28,15 @@ const ChatAccount = (props) => {
     }
     navigator.clipboard.writeText(props.account);
   };
+  const handleAnim = () => {};
+
   return (
-    <div>
+    <div
+      style={{
+        width: "210px",
+        height: "90px",
+      }}
+    >
       <div
         style={{
           display: "flex",
@@ -38,6 +47,7 @@ const ChatAccount = (props) => {
           padding: "7px 10px 6px",
           boxSizing: "border-box",
           height: "32px",
+          backgroundColor: theme.purple,
         }}
       >
         <WalletIcon />
@@ -48,7 +58,7 @@ const ChatAccount = (props) => {
           padding: "7px 10px 6px",
           ...theme.font14,
           color: theme.black,
-          backgroundColor: theme.white,
+          backgroundColor: props.isSideChat ? theme.purple_light : theme.white,
           width: "210px",
           height: "58px",
           display: "flex",
@@ -85,8 +95,13 @@ const ChatAccount = (props) => {
             height: "30px",
             borderRadius: "6px",
             backgroundColor: theme.gray_background,
+            cursor: "pointer",
           }}
           onClick={handleCopy}
+          onMouseDown={handleAnim(true)}
+          onMouseUp={handleAnim(false)}
+          onTouchStart={handleAnim(true)}
+          onTouchEnd={handleAnim(false)}
         >
           <ContentCopyIcon
             style={{
@@ -95,11 +110,25 @@ const ChatAccount = (props) => {
           />
         </div>
       </div>
+      <div
+        style={{
+          position: "relative",
+          width: "210px",
+          height: "90px",
+          top: "-90px",
+          zIndex: "1000",
+          background:
+            "linear-gradient(to left, salmon 50%, lightblue 50%) right",
+          backgroundSize: "200%",
+          transition: ".5s ease-out",
+        }}
+      ></div>
     </div>
   );
 };
 ChatAccount.propTypes = {
   account: PropTypes.string,
+  isSideChat: PropTypes.bool,
 };
 
 const ChatImageLoading = (props) => {
@@ -188,6 +217,7 @@ ChatText.propTypes = {
 };
 
 const ChatSet = (props) => {
+  console.log(props.chats);
   const [fullImage, setFullImage] = useState("");
   const itsme = props.authorId === props.chats[0].authorId;
   const style = {
@@ -273,7 +303,7 @@ const ChatSet = (props) => {
       case "settlement":
         return <ChatPaySettle itsme={itsme} type={type} />;
       case "account":
-        return <ChatAccount account={content} />;
+        return <ChatAccount isSideChat={props.isSideChat} account={content} />;
       default:
         return <></>;
     }

@@ -13,8 +13,6 @@ const AccountSelector = (props: AccountSelectorProps) => {
   const [bankName, setBankName] = useState(bankNames[0]);
   const regexAccountNumber = new RegExp("^[A-Za-z가-힣]{2,7} [0-9]{10,14}$");
 
-  console.log(props.accountNumber);
-
   useEffect(() => {
     props.setAccountNumber(bankName + " " + bankNumber);
   }, [bankName, bankNumber]);
@@ -59,12 +57,18 @@ const AccountSelector = (props: AccountSelectorProps) => {
     boxShadow: theme.shadow_purple_input_inset,
     textAlign: "center",
   };
-
+  const styleDisabledAccount: React.CSSProperties = {
+    marginLeft: "10px",
+  };
+  const styleDisabledBank: React.CSSProperties = {
+    marginLeft: "10px",
+    color: theme.purple,
+  };
   return (
     <div style={{ ...styleTitle, marginTop: "10px" } as React.CSSProperties}>
       계좌
       {props.disabled ? (
-        <div>{bankName}</div>
+        <div style={styleDisabledBank}>{bankName}</div>
       ) : (
         <select
           style={styleBanks}
@@ -83,7 +87,7 @@ const AccountSelector = (props: AccountSelectorProps) => {
         </select>
       )}
       {props.disabled ? (
-        <div>{bankNumber}</div>
+        <div style={styleDisabledAccount}>{bankNumber}</div>
       ) : (
         <input
           style={styleNickname}

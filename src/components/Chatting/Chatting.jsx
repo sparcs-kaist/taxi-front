@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import { io } from "socket.io-client";
 import Header from "./Header/Header";
 import MessagesBody from "./MessagesBody/MessagesBody";
-import PopupAccount from "./MessageForm/PopupAccount";
+import PopupAccount from "./MessageForm/Popup/PopupAccount";
 import MessageForm from "./MessageForm/MessageForm";
 import regExpTest from "tools/regExpTest";
 import { useR2state } from "hooks/useReactiveState";
@@ -39,7 +39,6 @@ const Chatting = (props) => {
   const [, headerInfo] = useTaxiAPI.get(`/rooms/info?id=${props.roomId}`, {}, [
     headerInfToken,
   ]);
-  const [popupAccount, setPopupAccount] = useState(false);
 
   useLayoutEffect(() => {
     if (!callingInfScroll.current) return;
@@ -247,18 +246,14 @@ const Chatting = (props) => {
       }
     }
   };
-  const handleSendAccount = () => {
-    console.log("test");
-    console.log(popupAccount);
-    setPopupAccount(true);
-  };
 
-  const handleSubmitAccount = () => {
+  const handleSendAccount = (account) => {
     if (!sendingMessage.current) {
       sendingMessage.current = true;
+      console.log(userInfoDetail.account);
       socket.current.emit("chats-send", {
         roomId: props.roomId,
-        content: userInfoDetail.account,
+        content: account,
         type: "account",
       });
       return true;
@@ -291,11 +286,6 @@ const Chatting = (props) => {
         showNewMessage={showNewMessage}
         onClickNewMessage={() => scrollToBottom(true)}
         setContHeight={handleMessageFormHeight}
-      />
-      <PopupAccount
-        popup={popupAccount}
-        onClickClose={() => setPopupAccount(false)}
-        onClickOk={handleSubmitAccount}
       />
     </>
   );

@@ -1,0 +1,66 @@
+import Modal from "components/common/modal/Modal";
+import PropTypes from "prop-types";
+import Button from "components/common//Button";
+import theme from "styles/theme";
+
+const PopupContainer = (props) => {
+  return (
+    <Modal
+      display={props.popup}
+      onClickClose={props.onClickClose}
+      padding="10px"
+    >
+      <div
+        style={{
+          padding: "12px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "12px",
+        }}
+      >
+        {props.children}
+      </div>
+      <div
+        style={{
+          position: "relative",
+          display: "flex",
+          justifyContent: "space-between",
+          gap: "10px",
+        }}
+      >
+        <Button
+          type="gray"
+          width="calc(50% - 5px)"
+          padding="10px 0 9px"
+          radius={8}
+          font={theme.font14}
+          onClick={props.onClickClose}
+        >
+          돌아가기
+        </Button>
+        <Button
+          type="purple_inset"
+          width="calc(50% - 5px)"
+          padding="10px 0 9px"
+          radius={8}
+          font={theme.font14_bold}
+          onClick={props.onClickOk}
+          disabled={props.OkDisabled}
+        >
+          {props.nameOk}
+        </Button>
+      </div>
+    </Modal>
+  );
+};
+
+PopupContainer.propTypes = {
+  popup: PropTypes.bool,
+  onClickClose: PropTypes.func,
+  onClickOk: PropTypes.func,
+  children: PropTypes.node,
+  nameOk: PropTypes.string,
+  OkDisabled: PropTypes.bool,
+};
+
+export default PopupContainer;

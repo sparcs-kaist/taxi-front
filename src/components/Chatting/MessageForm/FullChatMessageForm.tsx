@@ -6,7 +6,7 @@ import theme from "styles/theme";
 import CropOriginalRoundedIcon from "@mui/icons-material/CropOriginalRounded";
 import ArrowUpwardRoundedIcon from "@mui/icons-material/ArrowUpwardRounded";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
-import PopupAccount from "./PopupAccount";
+import PopupAccount from "./Popup/PopupAccount";
 
 type BtnSendProps = {
   enable: boolean;
@@ -83,7 +83,7 @@ const BtnAccount = (props: BtnAccountProps) => {
 type FullChatMessageFormProps = {
   handleSendMessage: (message: string) => boolean;
   handleSendImage: (image: File) => void;
-  handleSendAccount: () => void;
+  handleSendAccount: (account: string) => void;
   setContHeight: (height: PixelValue) => void;
 };
 
@@ -177,6 +177,11 @@ const FullChatMessageForm = (props: FullChatMessageFormProps) => {
         borderRadius: "0 0 12px 12px",
       }}
     >
+      <PopupAccount
+        popup={popupAccount}
+        onClickClose={() => setPopupAccount(false)}
+        onClickOk={props.handleSendAccount}
+      />
       <input
         type="file"
         accept="image/jpg, image/png, image/jpeg, image/heic"
@@ -185,7 +190,7 @@ const FullChatMessageForm = (props: FullChatMessageFormProps) => {
         onChange={onChangeImage}
       />
       <BtnImage onClick={() => inputImage.current?.click()} />
-      <BtnAccount onClick={() => props.handleSendAccount()} />
+      <BtnAccount onClick={() => setPopupAccount(true)} />
       <div
         ref={textareaContRef}
         style={{
@@ -221,9 +226,9 @@ const FullChatMessageForm = (props: FullChatMessageFormProps) => {
         <PopupAccount
           popup={popupAccount}
           onClickClose={() => setPopupAccount(false)}
-          onClickOk={() => {
+          onClickOk={(account: string) => {
             setPopupAccount(false);
-            props.handleSendAccount();
+            props.handleSendAccount(account);
           }}
         />
         <BtnSend onClick={onSend} enable={isMessageValid()} />
