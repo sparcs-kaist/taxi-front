@@ -23,7 +23,7 @@ type SkeletonProps = {
   children: ReactNode;
 };
 
-const Container = (props: ContainerProps) => {
+const Container = ({ children }: ContainerProps) => {
   return (
     <div
       id="skeleton-container" // For useDisableScroll
@@ -35,12 +35,12 @@ const Container = (props: ContainerProps) => {
         paddingBottom: "env(safe-area-inset-bottom)",
       }}
     >
-      {props.children}
+      {children}
     </div>
   );
 };
 
-const Skeleton = (props: SkeletonProps) => {
+const Skeleton = ({ children }: SkeletonProps) => {
   const axios = useAxios();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -108,13 +108,13 @@ const Skeleton = (props: SkeletonProps) => {
     );
   }
   if (pathname.startsWith("/login") || pathname.startsWith("/logout")) {
-    return <Container>{props.children}</Container>;
+    return <Container>{children}</Container>;
   }
   if (pathname.startsWith("/chatting")) {
     return (
       <Container>
         <HeaderBar />
-        {props.children}
+        {children}
       </Container>
     );
   }
@@ -122,7 +122,7 @@ const Skeleton = (props: SkeletonProps) => {
     <Container>
       <Navigation />
       <HeaderBar />
-      {props.children}
+      {children}
       <Footer />
       <PopupPolicy isOpen={!loginInfoDetail?.agreeOnTermsOfService} />
     </Container>
