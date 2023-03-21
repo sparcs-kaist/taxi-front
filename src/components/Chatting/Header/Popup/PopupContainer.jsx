@@ -36,6 +36,7 @@ const PopupContainer = (props) => {
           radius={8}
           font={theme.font14_bold}
           onClick={props.onClickOk}
+          disabled={props.OkDisabled}
         >
           {props.nameOk}
         </Button>
@@ -50,6 +51,7 @@ PopupContainer.propTypes = {
   onClickOk: PropTypes.func,
   children: PropTypes.node,
   nameOk: PropTypes.string,
+  OkDisabled: PropTypes.bool,
 };
 
 export default PopupContainer;

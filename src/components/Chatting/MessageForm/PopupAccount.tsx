@@ -15,10 +15,11 @@ type SendAccoundModalProps = {
   onClickOk: () => void;
 };
 
-const SendAccountModal = (props: SendAccoundModalProps) => {
+const PopupAccount = (props: SendAccoundModalProps) => {
   const [accountNumber, setAccountNumber] = useState("");
   const [loginInfoDetail, setLoginInfoDetail] =
     useRecoilState(loginInfoDetailAtom);
+  const regexAccountNumber = new RegExp("^[A-Za-z가-힣]{2,7} [0-9]{10,14}$");
 
   useEffect(() => {
     if (loginInfoDetail?.account) {
@@ -27,7 +28,12 @@ const SendAccountModal = (props: SendAccoundModalProps) => {
   }, [loginInfoDetail]);
 
   return (
-    <PopupContainer>
+    <PopupContainer
+      onClickClose={props.onClickClose}
+      onClickOk={props.onClickOk}
+      nameOk="전송"
+      OkDisabled={!regexAccountNumber.test(accountNumber)}
+    >
       <div>계좌 보내기</div>
       {loginInfoDetail?.account ? (
         <div>본인의 계좌 정보를 채팅창에 전송할 수 있습니다.</div>
@@ -47,4 +53,4 @@ const SendAccountModal = (props: SendAccoundModalProps) => {
   );
 };
 
-export default SendAccountModal;
+export default PopupAccount;

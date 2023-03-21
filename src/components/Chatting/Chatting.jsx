@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import { io } from "socket.io-client";
 import Header from "./Header/Header";
 import MessagesBody from "./MessagesBody/MessagesBody";
+import PopupAccount from "./MessageForm/PopupAccount";
 import MessageForm from "./MessageForm/MessageForm";
 import regExpTest from "tools/regExpTest";
 import { useR2state } from "hooks/useReactiveState";
@@ -38,6 +39,7 @@ const Chatting = (props) => {
   const [, headerInfo] = useTaxiAPI.get(`/rooms/info?id=${props.roomId}`, {}, [
     headerInfToken,
   ]);
+  const [popupAccount, setPopupAccount] = useState(false);
 
   useLayoutEffect(() => {
     if (!callingInfScroll.current) return;
@@ -246,6 +248,12 @@ const Chatting = (props) => {
     }
   };
   const handleSendAccount = () => {
+    console.log("test");
+    console.log(popupAccount);
+    setPopupAccount(true);
+  };
+
+  const handleSubmitAccount = () => {
     if (!sendingMessage.current) {
       sendingMessage.current = true;
       socket.current.emit("chats-send", {
@@ -283,6 +291,11 @@ const Chatting = (props) => {
         showNewMessage={showNewMessage}
         onClickNewMessage={() => scrollToBottom(true)}
         setContHeight={handleMessageFormHeight}
+      />
+      <PopupAccount
+        popup={popupAccount}
+        onClickClose={() => setPopupAccount(false)}
+        onClickOk={handleSubmitAccount}
       />
     </>
   );
