@@ -1,7 +1,6 @@
-import { useState, useEffect, useCallback, ReactNode } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import { useLocation, Redirect } from "react-router-dom";
 import { useAxios } from "hooks/useTaxiAPI";
-// import { useCookies } from "react-cookie";
 import registerTokenOnClick from "tools/firebase";
 
 import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
@@ -9,14 +8,12 @@ import taxiLocationAtom from "recoil/taxiLocation";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import myRoomAtom from "recoil/myRoom";
 import errorAtom from "recoil/error";
-// import alertAtom from "recoil/alert";
 
 import HeaderBar from "components/common/HeaderBar";
 import Navigation from "components/Skeleton/Navigation";
 import Footer from "components/Skeleton/Footer";
 import PopupPolicy from "components/Mypage/PopupPolicy";
 import Error from "components/Error";
-// import betaNotice from "static/betaNotice";
 
 type ContainerProps = {
   children: ReactNode;
@@ -45,61 +42,40 @@ const Container = (props: ContainerProps) => {
 
 const Skeleton = (props: SkeletonProps) => {
   const axios = useAxios();
-  const [userId, setUserId] = useState(undefined);
-  const [showAgree, setShowAgree] = useState(false);
-  const [taxiLocation, setTaxiLocation] = useRecoilState(taxiLocationAtom);
+  const [isLoading, setIsLoading] = useState(true);
+
   const [loginInfoDetail, setLoginInfoDetail] =
     useRecoilState(loginInfoDetailAtom);
-  const setMyRoom = useSetRecoilState(myRoomAtom);
   const error = useRecoilValue(errorAtom);
-  // const setAlert = useSetRecoilState(alertAtom);
+  const setTaxiLocation = useSetRecoilState(taxiLocationAtom);
+  const setMyRoom = useSetRecoilState(myRoomAtom);
+  const userId = loginInfoDetail?.id;
+
   const location = useLocation();
   const { pathname, search } = location;
   const currentPath = pathname + search;
 
-  // 베타 서비스 안내창 띄우기 중지
-  // const [cookies, setCookie] = useCookies(["betaNoticed"]);
-  // useEffect(() => {
-  //   if (!cookies.betaNoticed) {
-  //     const expires = new Date();
-  //     expires.setHours(5);
-  //     expires.setMinutes(0);
-  //     if (expires.getTime() < new Date().getTime())
-  //       expires.setDate(expires.getDate() + 1);
-
-  //     setCookie("betaNoticed", true, { path: "/", expires: expires });
-  //     setAlert(betaNotice);
-  //   }
-  // }, []);
-
   useEffect(() => {
     // userId 초기화
     axios({
-      url: "/logininfo",
+      url: "/logininfo/detail",
       method: "get",
-      onSuccess: (loginInfo) => setUserId(loginInfo?.id ?? null),
+      onSuccess: (data) => {
+        setLoginInfoDetail(data);
+        setIsLoading(false);
+      },
     });
   }, []);
 
   useEffect(() => {
-    // 로그인 정보 수정될 때 요청
-    axios({
-      url: "/logininfo/detail",
-      method: "get",
-      onSuccess: (loginInfoDetail) => {
-        // console.log(loginInfoDetail); // REMOVE ME
-        setLoginInfoDetail(loginInfoDetail);
-        setShowAgree(loginInfoDetail?.agreeOnTermsOfService !== true);
-      },
-    });
-
     if (userId) {
-      // locations atom 초기화
+      // locations 초기화
       axios({
         url: "/locations",
         method: "get",
         onSuccess: ({ locations }) => setTaxiLocation(locations),
       });
+      // roomlist 초기화
       axios({
         url: "/rooms/searchByUser",
         method: "get",
@@ -119,27 +95,20 @@ const Skeleton = (props: SkeletonProps) => {
       </Container>
     );
   }
-
-  if (userId === null && !pathname.startsWith("/login")) {
-    return (
-      <Redirect to={`/login?redirect=${encodeURIComponent(currentPath)}`} />
-    );
-  }
-  if (userId === undefined) {
+  if (isLoading) {
     return (
       <Container>
         <HeaderBar />
       </Container>
     );
   }
+  if (!userId && !pathname.startsWith("/login")) {
+    return (
+      <Redirect to={`/login?redirect=${encodeURIComponent(currentPath)}`} />
+    );
+  }
   if (pathname.startsWith("/login") || pathname.startsWith("/logout")) {
     return <Container>{props.children}</Container>;
-  }
-  if (taxiLocation.length === 0 || loginInfoDetail === null) {
-    /**
-     * @todo 로딩 화면 추가
-     */
-    return <HeaderBar />;
   }
   if (pathname.startsWith("/chatting")) {
     return (
@@ -155,7 +124,7 @@ const Skeleton = (props: SkeletonProps) => {
       <HeaderBar />
       {props.children}
       <Footer />
-      <PopupPolicy isOpen={showAgree} onClose={() => setShowAgree(false)} />
+      <PopupPolicy isOpen={!loginInfoDetail?.agreeOnTermsOfService} />
     </Container>
   );
 };

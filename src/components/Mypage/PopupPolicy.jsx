@@ -167,7 +167,7 @@ const Agree = (props) => {
     });
     setLoginInfoDetail(
       await axios({
-        url: "logininfo/detail",
+        url: "/logininfo/detail",
         method: "get",
       })
     );
@@ -258,6 +258,9 @@ const PopupPolicy = (props) => {
 PopupPolicy.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
+};
+PopupPolicy.defaultProps = {
+  onClose: () => {},
 };
 
 export default PopupPolicy;
