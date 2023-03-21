@@ -3,7 +3,6 @@ import { useRecoilState } from "recoil";
 import Modal from "components/common/modal/Modal";
 import Button from "components/common/Button";
 import theme from "styles/theme";
-import PopupContainer from "components/Chatting/MessageForm/Popup/PopupAccountContainer";
 import DottedLine from "components/common/DottedLine";
 import AccountSelector from "components/common/AccountSelector";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
@@ -43,34 +42,71 @@ const PopupAccount = (props: SendAccoundModalProps) => {
   };
 
   return (
-    <PopupContainer
+    <Modal
+      display={props.popup}
       onClickClose={props.onClickClose}
-      onClickOk={handleClickOk}
-      nameOk="전송"
-      OkDisabled={!regexAccountNumber.test(accountNumber)}
-      popup={props.popup}
+      padding="10px"
     >
-      <div style={styleTitle}>
-        <WalletIcon />
-        계좌 보내기
+      <div
+        style={{
+          padding: "12px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "12px",
+        }}
+      >
+        <div style={styleTitle}>
+          <WalletIcon />
+          계좌 보내기
+        </div>
+        {loginInfoDetail?.account ? (
+          <div style={styleText}>
+            본인의 계좌 정보를 채팅창에 전송할 수 있습니다.
+          </div>
+        ) : (
+          <div style={styleText}>
+            계좌를 변경하고 싶으신 경우 <Link to="/mypage">마이 페이지</Link>의
+            “수정하기” 메뉴를 이용해주세요.
+          </div>
+        )}
+        <DottedLine />
+        <AccountSelector
+          accountNumber={accountNumber}
+          setAccountNumber={setAccountNumber}
+          disabled={loginInfoDetail?.account ? true : false}
+        />
       </div>
-      {loginInfoDetail?.account ? (
-        <div style={styleText}>
-          본인의 계좌 정보를 채팅창에 전송할 수 있습니다.
-        </div>
-      ) : (
-        <div style={styleText}>
-          계좌를 변경하고 싶으신 경우 <Link to="/mypage">마이 페이지</Link>의
-          “수정하기” 메뉴를 이용해주세요.
-        </div>
-      )}
-      <DottedLine />
-      <AccountSelector
-        accountNumber={accountNumber}
-        setAccountNumber={setAccountNumber}
-        disabled={loginInfoDetail?.account ? true : false}
-      />
-    </PopupContainer>
+      <div
+        style={{
+          position: "relative",
+          display: "flex",
+          justifyContent: "space-between",
+          gap: "10px",
+        }}
+      >
+        <Button
+          type="gray"
+          width="calc(50% - 5px)"
+          padding="10px 0 9px"
+          radius={8}
+          font={theme.font14}
+          onClick={props.onClickClose}
+        >
+          돌아가기
+        </Button>
+        <Button
+          type="purple_inset"
+          width="calc(50% - 5px)"
+          padding="10px 0 9px"
+          radius={8}
+          font={theme.font14_bold}
+          onClick={handleClickOk}
+          disabled={!regexAccountNumber.test(accountNumber)}
+        >
+          전송
+        </Button>
+      </div>
+    </Modal>
   );
 };
 

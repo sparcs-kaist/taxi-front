@@ -1,5 +1,5 @@
 import { useHistory } from "react-router-dom";
-import PopupContainer from "./PopupHeaderContainer";
+import PopupContainer from "./PopupContainer";
 import PropTypes from "prop-types";
 import axios from "tools/axios";
 import { useSetRecoilState } from "recoil";

@@ -7,7 +7,6 @@ import PropTypes from "prop-types";
 import { io } from "socket.io-client";
 import Header from "./Header/Header";
 import MessagesBody from "./MessagesBody/MessagesBody";
-import PopupAccount from "./MessageForm/Popup/PopupAccount";
 import MessageForm from "./MessageForm/MessageForm";
 import regExpTest from "tools/regExpTest";
 import { useR2state } from "hooks/useReactiveState";
