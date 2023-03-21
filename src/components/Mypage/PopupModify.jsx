@@ -11,7 +11,7 @@ import Modal from "components/common/modal/Modal";
 import DottedLine from "components/common/DottedLine";
 import theme from "styles/theme";
 import Button from "components/common/Button";
-import bankNames from "static/bankNames";
+import AccountSelector from "components/common/AccountSelector";
 
 const ProfImg = (props) => {
   const style = {
@@ -132,8 +132,6 @@ const PopupModify = (props) => {
   const [nickName, setNickName] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
   const [accountNumberReal, setAccountNumberReal] = useState("");
-  const [bankNumber, setBankNumber] = useState("");
-  const [bankName, setBankName] = useState(bankNames[0]);
   const [nickNameReal, setNickNameReal] = useState("");
   const [message, setMessage] = useState(null);
   const [loginInfoDetail, setLoginInfoDetail] =
@@ -147,20 +145,14 @@ const PopupModify = (props) => {
     if (loginInfoDetail?.account) {
       console.log(loginInfoDetail?.account);
       setAccountNumberReal(loginInfoDetail?.account);
-      if (regexAccountNumber.test(loginInfoDetail?.account)) {
-        const arr = loginInfoDetail?.account.split(" ");
-        setBankName(arr[0]);
-        setBankNumber(arr[1]);
-      }
+      setAccountNumber(loginInfoDetail?.account);
     }
   }, [loginInfoDetail]);
+
   useEffect(() => {
     const timeoutID = setTimeout(() => setMessage(null), 1500);
     return () => clearTimeout(timeoutID);
   }, [message]);
-  useEffect(() => {
-    setAccountNumber(bankName + " " + bankNumber);
-  }, [bankName, bankNumber]);
 
   const onClose = () => {
     setNickName(nickNameReal);
@@ -234,20 +226,6 @@ const PopupModify = (props) => {
     background: theme.purple_light,
     boxShadow: theme.shadow_purple_input_inset,
   };
-  const styleBanks = {
-    width: "75px",
-    ...theme.font14,
-    color: theme.purple,
-    fontWeight: "400",
-    border: "none",
-    outline: "none",
-    borderRadius: "6px",
-    padding: "6px 4px",
-    marginLeft: "10px",
-    background: theme.purple_light,
-    boxShadow: theme.shadow_purple_input_inset,
-    textAlign: "center",
-  };
   const styleButton = {
     display: "flex",
     justifyContent: "space-between",
@@ -285,29 +263,11 @@ const PopupModify = (props) => {
             onChange={(e) => setNickName(e.target.value)}
           />
         </div>
-        <div style={{ ...styleTitle, marginTop: "10px" }}>
-          계좌
-          <select
-            style={styleBanks}
-            value={bankName}
-            onChange={(e) => {
-              setBankName(e.target.value);
-            }}
-          >
-            {bankNames.map((option) => {
-              return (
-                <option value={option} key={option}>
-                  {option}
-                </option>
-              );
-            })}
-          </select>
-          <input
-            style={styleNickname}
-            value={bankNumber}
-            onChange={(e) => setBankNumber(e.target.value)}
-          />
-        </div>
+        <AccountSelector
+          accountNumber={accountNumber}
+          setAccountNumber={setAccountNumber}
+        />
+
         {message && <div style={styleMessage}>{message}</div>}
       </div>
       <div style={styleButton}>

@@ -1,28 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useRecoilState } from "recoil";
-import loginInfoDetailAtom from "recoil/loginInfoDetail";
-import PropTypes from "prop-types";
-import Modal from "components/common/modal/Modal";
-import DottedLine from "components/common/DottedLine";
 import theme from "styles/theme";
-import Button from "components/common/Button";
 import bankNames from "static/bankNames";
 
 type AccountSelectorProps = {
-  account: string;
-  setAccount: (account: string) => void;
+  accountNumber: string;
+  setAccountNumber: (account: string) => void;
+  disabled?: boolean;
 };
 
 const AccountSelector = (props: AccountSelectorProps) => {
-  const regexAccountNumber = new RegExp("^[A-Za-z가-힣]{2,7} [0-9]{10,14}$");
-  const [accountNumber, setAccountNumber] = useState("");
   const [bankNumber, setBankNumber] = useState("");
   const [bankName, setBankName] = useState(bankNames[0]);
+  const regexAccountNumber = new RegExp("^[A-Za-z가-힣]{2,7} [0-9]{10,14}$");
+
+  console.log(props.accountNumber);
 
   useEffect(() => {
-    setAccountNumber(bankName + " " + bankNumber);
+    props.setAccountNumber(bankName + " " + bankNumber);
   }, [bankName, bankNumber]);
+
+  useEffect(() => {
+    if (regexAccountNumber.test(props.accountNumber)) {
+      const account = props.accountNumber.split(" ");
+      setBankName(account[0]);
+      setBankNumber(account[1]);
+    }
+  }, [props.accountNumber]);
 
   const styleTitle: React.CSSProperties = {
     display: "flex",
@@ -60,34 +63,36 @@ const AccountSelector = (props: AccountSelectorProps) => {
   return (
     <div style={{ ...styleTitle, marginTop: "10px" } as React.CSSProperties}>
       계좌
-      <select
-        style={styleBanks}
-        value={bankName}
-        onChange={(e) => {
-          setBankName(e.target.value);
-        }}
-      >
-        {bankNames.map((option) => {
-          return (
-            <option value={option} key={option}>
-              {option}
-            </option>
-          );
-        })}
-      </select>
-      <input
-        style={styleNickname}
-        value={bankNumber}
-        onChange={(e) => setBankNumber(e.target.value)}
-      />
+      {props.disabled ? (
+        <div>{bankName}</div>
+      ) : (
+        <select
+          style={styleBanks}
+          value={bankName}
+          onChange={(e) => {
+            setBankName(e.target.value);
+          }}
+        >
+          {bankNames.map((option) => {
+            return (
+              <option value={option} key={option}>
+                {option}
+              </option>
+            );
+          })}
+        </select>
+      )}
+      {props.disabled ? (
+        <div>{bankNumber}</div>
+      ) : (
+        <input
+          style={styleNickname}
+          value={bankNumber}
+          onChange={(e) => setBankNumber(e.target.value)}
+        />
+      )}
     </div>
   );
-};
-AccountSelector.propTypes = {
-  profToken: PropTypes.any,
-  isOpen: PropTypes.bool,
-  onClose: PropTypes.func,
-  onUpdate: PropTypes.func,
 };
 
 export default AccountSelector;
