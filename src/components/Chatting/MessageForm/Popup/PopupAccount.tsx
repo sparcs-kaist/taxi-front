@@ -8,6 +8,7 @@ import AccountSelector from "components/common/AccountSelector";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import { Link } from "react-router-dom";
 import WalletIcon from "@mui/icons-material/Wallet";
+import regExpTest from "tools/regExpTest";
 
 type SendAccoundModalProps = {
   popup: boolean;
@@ -19,7 +20,6 @@ const PopupAccount = (props: SendAccoundModalProps) => {
   const [accountNumber, setAccountNumber] = useState("");
   const [loginInfoDetail, setLoginInfoDetail] =
     useRecoilState(loginInfoDetailAtom);
-  const regexAccountNumber = new RegExp("^[A-Za-z가-힣]{2,7} [0-9]{10,14}$");
 
   useEffect(() => {
     if (loginInfoDetail?.account) {
@@ -73,7 +73,7 @@ const PopupAccount = (props: SendAccoundModalProps) => {
         <AccountSelector
           accountNumber={accountNumber}
           setAccountNumber={setAccountNumber}
-          disabled={loginInfoDetail?.account ? true : false}
+          selectDisabled={loginInfoDetail?.account ? true : false}
         />
       </div>
       <div
@@ -101,7 +101,7 @@ const PopupAccount = (props: SendAccoundModalProps) => {
           radius={8}
           font={theme.font14_bold}
           onClick={handleClickOk}
-          disabled={!regexAccountNumber.test(accountNumber)}
+          disabled={!regExpTest.accountNumber(accountNumber)}
         >
           전송
         </Button>

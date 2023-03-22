@@ -12,6 +12,7 @@ import DottedLine from "components/common/DottedLine";
 import theme from "styles/theme";
 import Button from "components/common/Button";
 import AccountSelector from "components/common/AccountSelector";
+import regExpTest from "tools/regExpTest";
 
 const ProfImg = (props) => {
   const style = {
@@ -128,7 +129,6 @@ BtnProfImg.propTypes = {
 const PopupModify = (props) => {
   const { t } = useTranslation("mypage");
   const regexNickname = new RegExp("^[A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ0-9-_ ]{3,25}$");
-  const regexAccountNumber = new RegExp("^[A-Za-z가-힣]{2,7} [0-9]{10,14}$");
   const [nickName, setNickName] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
   const [accountNumberReal, setAccountNumberReal] = useState("");
@@ -281,7 +281,7 @@ const PopupModify = (props) => {
         <Button
           type="purple_inset"
           disabled={
-            !regexAccountNumber.test(accountNumber) ||
+            !regExpTest.accountNumber(accountNumber) ||
             !regexNickname.test(nickName) ||
             (nickName === nickNameReal && accountNumber === accountNumberReal)
           }

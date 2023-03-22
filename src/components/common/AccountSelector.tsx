@@ -1,38 +1,39 @@
 import { useEffect, useState } from "react";
 import theme from "styles/theme";
 import bankNames from "static/bankNames";
+import regExpTest from "tools/regExpTest";
 
 type AccountSelectorProps = {
   accountNumber: string;
   setAccountNumber: (account: string) => void;
-  disabled?: boolean;
+  selectDisabled?: boolean;
 };
 
 const AccountSelector = (props: AccountSelectorProps) => {
   const [bankNumber, setBankNumber] = useState("");
   const [bankName, setBankName] = useState(bankNames[0]);
-  const regexAccountNumber = new RegExp("^[A-Za-z가-힣]{2,7} [0-9]{10,14}$");
 
   useEffect(() => {
     props.setAccountNumber(bankName + " " + bankNumber);
   }, [bankName, bankNumber]);
 
   useEffect(() => {
-    if (regexAccountNumber.test(props.accountNumber)) {
+    if (regExpTest.accountNumber(props.accountNumber)) {
       const account = props.accountNumber.split(" ");
       setBankName(account[0]);
       setBankNumber(account[1]);
     }
   }, [props.accountNumber]);
 
-  const styleTitle: React.CSSProperties = {
+  const styleTitle: CSS = {
     display: "flex",
     alignItems: "center",
     ...theme.font14,
     color: theme.gray_text,
     whiteSpace: "nowrap",
+    marginTop: "10px",
   };
-  const styleNickname: React.CSSProperties = {
+  const styleNickname: CSS = {
     width: "100%",
     ...theme.font14,
     border: "none",
@@ -43,7 +44,7 @@ const AccountSelector = (props: AccountSelectorProps) => {
     background: theme.purple_light,
     boxShadow: theme.shadow_purple_input_inset,
   };
-  const styleBanks: React.CSSProperties = {
+  const styleBanks: CSS = {
     width: "75px",
     ...theme.font14,
     color: theme.purple,
@@ -57,17 +58,17 @@ const AccountSelector = (props: AccountSelectorProps) => {
     boxShadow: theme.shadow_purple_input_inset,
     textAlign: "center",
   };
-  const styleDisabledAccount: React.CSSProperties = {
+  const styleDisabledAccount: CSS = {
     marginLeft: "10px",
   };
-  const styleDisabledBank: React.CSSProperties = {
+  const styleDisabledBank: CSS = {
     marginLeft: "10px",
     color: theme.purple,
   };
   return (
-    <div style={{ ...styleTitle, marginTop: "10px" } as React.CSSProperties}>
+    <div style={styleTitle}>
       계좌
-      {props.disabled ? (
+      {props.selectDisabled ? (
         <div style={styleDisabledBank}>{bankName}</div>
       ) : (
         <select
@@ -77,16 +78,14 @@ const AccountSelector = (props: AccountSelectorProps) => {
             setBankName(e.target.value);
           }}
         >
-          {bankNames.map((option) => {
-            return (
-              <option value={option} key={option}>
-                {option}
-              </option>
-            );
-          })}
+          {bankNames.map((option) => (
+            <option value={option} key={option}>
+              {option}
+            </option>
+          ))}
         </select>
       )}
-      {props.disabled ? (
+      {props.selectDisabled ? (
         <div style={styleDisabledAccount}>{bankNumber}</div>
       ) : (
         <input
