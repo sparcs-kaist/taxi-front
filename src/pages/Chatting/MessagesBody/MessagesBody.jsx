@@ -4,7 +4,7 @@ import ChatSet from "./ChatSet";
 import ChatDate from "./ChatDate";
 import ChatInOut from "./ChatInOut";
 import PropTypes from "prop-types";
-import PopupReport from "pages/Reporting/PopupReport";
+import PopupReport from "./PopupReport";
 
 // Chat {
 //   roomId: ObjectId, // 방의 objectId
