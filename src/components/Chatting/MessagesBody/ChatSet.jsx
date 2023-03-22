@@ -20,7 +20,8 @@ const ChatAccount = (props) => {
 
   useEffect(() => {
     if (isCopied) {
-      setTimeout(() => setIsCopied(false), 1000);
+      const timer = setTimeout(() => setIsCopied(false), 1000);
+      return () => clearTimeout(timer);
     }
   }, [isCopied]);
 
