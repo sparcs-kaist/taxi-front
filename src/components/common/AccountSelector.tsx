@@ -68,32 +68,24 @@ const AccountSelector = (props: AccountSelectorProps) => {
   return (
     <div style={styleTitle}>
       계좌
-      {props.selectDisabled ? (
-        <div style={styleDisabledBank}>{bankName}</div>
-      ) : (
-        <select
-          style={styleBanks}
-          value={bankName}
-          onChange={(e) => {
-            setBankName(e.target.value);
-          }}
-        >
-          {bankNames.map((option) => (
-            <option value={option} key={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-      )}
-      {props.selectDisabled ? (
-        <div style={styleDisabledAccount}>{bankNumber}</div>
-      ) : (
-        <input
-          style={styleNickname}
-          value={bankNumber}
-          onChange={(e) => setBankNumber(e.target.value)}
-        />
-      )}
+      <select
+        style={styleBanks}
+        value={bankName}
+        onChange={(e) => {
+          setBankName(e.target.value);
+        }}
+      >
+        {bankNames.map((option) => (
+          <option value={option} key={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+      <input
+        style={styleNickname}
+        value={bankNumber}
+        onChange={(e) => setBankNumber(e.target.value)}
+      />
     </div>
   );
 };
