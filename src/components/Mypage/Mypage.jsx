@@ -11,7 +11,7 @@ import PopupMembers from "./PopupMembers";
 import ProfileImg from "./ProfileImg";
 import theme from "styles/theme";
 import { useRecoilValue } from "recoil";
-import loginInfoDetailAtom from "recoil/loginInfoDetail";
+import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import Menu from "./Menu";
 import { nodeEnv } from "../../serverconf.js";
 

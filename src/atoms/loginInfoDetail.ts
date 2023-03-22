@@ -1,4 +1,4 @@
-import loginInfoDetailAtom from "./atom";
+import { atom } from "recoil";
 
 export type LoginInfoDetailType = {
   agreeOnTermsOfService: boolean;
@@ -14,5 +14,10 @@ export type LoginInfoDetailType = {
   withdraw: boolean;
   account: string;
 };
+
+const loginInfoDetailAtom = atom<Nullable<LoginInfoDetailType>>({
+  key: "loginInfoDetailAtom",
+  default: null,
+});
 
 export default loginInfoDetailAtom;

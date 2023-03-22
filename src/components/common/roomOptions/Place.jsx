@@ -7,7 +7,7 @@ import MiniCircle from "components/common/MiniCircle";
 import Popup from "./Popup";
 
 import { useRecoilValue } from "recoil";
-import taxiLocationAtom from "recoil/taxiLocation";
+import taxiLocationAtom from "atoms/taxiLocation";
 
 import hoverEventSet from "tools/hoverEventSet";
 import { getLocationName } from "tools/trans";

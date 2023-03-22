@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
-import errorAtom from "recoil/error";
+import errorAtom from "atoms/error";
 
 const LoginFail = () => {
   const setError = useSetRecoilState(errorAtom);

@@ -6,7 +6,7 @@ import usePageFromSearchParams from "hooks/usePageFromSearchParams";
 import { PAGE_MAX_ITEMS } from "components/common/pagination/Pagination";
 import R1Myroom from "./R1Myroom";
 import R2Myroom from "./R2Myroom";
-import myRoomAtom from "recoil/myRoom";
+import myRoomAtom from "atoms/myRoom";
 export const MAX_PARTICIPATION = 5;
 
 const Myroom = () => {

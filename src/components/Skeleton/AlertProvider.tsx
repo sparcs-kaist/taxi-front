@@ -1,7 +1,7 @@
 import { useRef, ReactNode } from "react";
 import Modal from "components/common/modal/Modal";
 import { useRecoilState } from "recoil";
-import alertAtom from "recoil/alert";
+import alertAtom from "atoms/alert";
 import Button from "components/common/Button";
 import theme from "styles/theme";
 import DottedLine from "components/common/DottedLine";

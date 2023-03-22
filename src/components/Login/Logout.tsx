@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useQuery } from "hooks/useTaxiAPI";
 import { useSetRecoilState } from "recoil";
-import errorAtom from "recoil/error";
+import errorAtom from "atoms/error";
 
 const Logout = () => {
   const [error, response, isLoading] = useQuery.get("/auth/logout");

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 import { useSetRecoilState } from "recoil";
-import isVirtualKeyboardDetectedAtom from "recoil/isVirtualKeyboardDetectedAtom";
+import isVirtualKeyboardDetectedAtom from "atoms/isVirtualKeyboardDetected";
 
 const VirtualKeyboardDetector = () => {
   const setIsVKDetected = useSetRecoilState(isVirtualKeyboardDetectedAtom);

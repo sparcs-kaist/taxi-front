@@ -4,7 +4,7 @@ import Modal from "components/common/modal/Modal";
 import { useAxios } from "hooks/useTaxiAPI";
 import theme from "styles/theme";
 import { useSetRecoilState } from "recoil";
-import alertAtom from "recoil/alert";
+import alertAtom from "atoms/alert";
 import regExpTest from "tools/regExpTest";
 
 import Button from "components/common//Button";

@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 import { useAxios, useQuery } from "hooks/useTaxiAPI";
 import { useRecoilValue } from "recoil";
-import loginInfoDetailAtom from "recoil/loginInfoDetail";
+import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import PropTypes from "prop-types";
 import { io } from "socket.io-client";
 import Header from "./Header/Header";

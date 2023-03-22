@@ -3,7 +3,7 @@ import { useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
 import { getLocationName } from "tools/trans";
 import { date2str } from "tools/moment";
-import loginInfoDetailAtom from "recoil/loginInfoDetail";
+import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import DottedLine from "components/common/DottedLine";
 import theme from "styles/theme";
 import "./Room.css";

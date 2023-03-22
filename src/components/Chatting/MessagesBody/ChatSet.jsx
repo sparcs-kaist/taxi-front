@@ -10,7 +10,7 @@ import WalletIcon from "@mui/icons-material/Wallet";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import hoverEventSet from "tools/hoverEventSet";
 import CheckIcon from "@mui/icons-material/Check";
-import alertAtom from "recoil/alert";
+import alertAtom from "atoms/alert";
 import { useSetRecoilState } from "recoil";
 
 const ChatAccount = (props) => {

@@ -4,7 +4,7 @@ import NewMessage from "./NewMessage";
 import theme from "styles/theme";
 
 import { useRecoilValue } from "recoil";
-import isVirtualKeyboardDetectedAtom from "recoil/isVirtualKeyboardDetectedAtom";
+import isVirtualKeyboardDetectedAtom from "atoms/isVirtualKeyboardDetected";
 
 type MessageFormProps = {
   isSideChat: boolean;

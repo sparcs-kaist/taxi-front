@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useRecoilState } from "recoil";
 import { useAxios } from "hooks/useTaxiAPI";
-import loginInfoDetailAtom from "recoil/loginInfoDetail";
+import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import ProfileImg from "./ProfileImg";
 import axiosOri from "axios";
 import convertImg from "tools/convertImg";

@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { useRecoilValue } from "recoil";
-import loginInfoDetailAtom from "recoil/loginInfoDetail";
+import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import PropTypes from "prop-types";
 import { date2str } from "tools/moment";
 import PopupCancel from "./Popup/PopupCancel";

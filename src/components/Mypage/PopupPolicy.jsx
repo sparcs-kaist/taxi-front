@@ -1,11 +1,11 @@
 import { useHistory } from "react-router";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { useAxios } from "hooks/useTaxiAPI";
-import loginInfoDetailAtom from "recoil/loginInfoDetail";
+import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import PropTypes from "prop-types";
 import Modal from "components/common/modal/Modal";
 import theme from "styles/theme";
-import alertAtom from "recoil/alert";
+import alertAtom from "atoms/alert";
 
 import Button from "components/common/Button";
 import { ReactComponent as TaxiLogo } from "static/assets/TaxiLogo.svg";

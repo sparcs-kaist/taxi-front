@@ -1,5 +1,5 @@
 import { useRecoilState } from "recoil";
-import errorAtom from "recoil/error";
+import errorAtom from "atoms/error";
 
 import { Link, useHistory } from "react-router-dom";
 import Button from "components/common/Button";

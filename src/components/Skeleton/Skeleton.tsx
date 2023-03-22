@@ -4,10 +4,10 @@ import { useAxios } from "hooks/useTaxiAPI";
 import registerTokenOnClick from "tools/firebase";
 
 import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
-import taxiLocationAtom from "recoil/taxiLocation";
-import loginInfoDetailAtom from "recoil/loginInfoDetail";
-import myRoomAtom from "recoil/myRoom";
-import errorAtom from "recoil/error";
+import taxiLocationAtom from "atoms/taxiLocation";
+import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import myRoomAtom from "atoms/myRoom";
+import errorAtom from "atoms/error";
 
 import HeaderBar from "components/common/HeaderBar";
 import Navigation from "components/Skeleton/Navigation";

@@ -5,7 +5,7 @@ import Button from "components/common/Button";
 import theme from "styles/theme";
 import DottedLine from "components/common/DottedLine";
 import AccountSelector from "components/common/AccountSelector";
-import loginInfoDetailAtom from "recoil/loginInfoDetail";
+import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import { Link } from "react-router-dom";
 import WalletIcon from "@mui/icons-material/Wallet";
 import regExpTest from "tools/regExpTest";
