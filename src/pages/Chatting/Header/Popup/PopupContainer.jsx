@@ -1,4 +1,4 @@
-import Modal from "components/modal/Modal";
+import Modal from "components/Modal";
 import PropTypes from "prop-types";
 import Button from "components/Button";
 import theme from "tools/theme";

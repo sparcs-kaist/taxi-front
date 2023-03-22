@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import WhiteContainer from "components/WhiteContainer";
 import Title from "components/Title";
-import Room from "components/room/Room";
-import Pagination, { PAGE_MAX_ITEMS } from "components/pagination/Pagination";
+import Room from "components/Room";
+import Pagination, { PAGE_MAX_ITEMS } from "components/Pagination";
 import RoomSelectionModal from "./RoomSelectionModal";
 import PropTypes from "prop-types";
 import usePageFromSearchParams from "hooks/usePageFromSearchParams";

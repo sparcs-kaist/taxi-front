@@ -3,7 +3,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { useAxios } from "hooks/useTaxiAPI";
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import PropTypes from "prop-types";
-import Modal from "components/modal/Modal";
+import Modal from "components/Modal";
 import theme from "tools/theme";
 import alertAtom from "atoms/alert";
 

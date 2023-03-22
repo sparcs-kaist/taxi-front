@@ -1,8 +1,8 @@
 import { useState } from "react";
-import Room from "components/room/Room";
+import Room from "components/Room";
 import Empty from "components/Empty";
 import RoomSelectionModal from "pages/Search/RoomSelectionModal";
-import Pagination, { PAGE_MAX_ITEMS } from "components/pagination/Pagination";
+import Pagination, { PAGE_MAX_ITEMS } from "components/Pagination";
 import usePageFromSearchParams from "hooks/usePageFromSearchParams";
 
 type RoomListProps = {

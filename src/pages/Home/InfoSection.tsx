@@ -8,7 +8,7 @@ import theme from "tools/theme";
 import moment, { getToday } from "tools/moment";
 import Button from "components/Button";
 
-import Room from "components/room/Room";
+import Room from "components/Room";
 import { ReactComponent as TaxiLogoWhite } from "static/assets/TaxiLogoWhite.svg";
 import BackgroundImage from "static/assets/BackgroundImage.jpg";
 import BackgroundImageMobile from "static/assets/BackgroundImageMobile.webp";

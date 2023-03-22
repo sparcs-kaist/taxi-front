@@ -1,5 +1,5 @@
 import { useRef, ReactNode } from "react";
-import Modal from "components/modal/Modal";
+import Modal from "components/Modal";
 import { useRecoilState } from "recoil";
 import alertAtom from "atoms/alert";
 import Button from "components/Button";

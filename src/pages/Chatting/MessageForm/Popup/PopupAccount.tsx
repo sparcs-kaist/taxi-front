@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useRecoilValue } from "recoil";
-import Modal from "components/modal/Modal";
+import Modal from "components/Modal";
 import Button from "components/Button";
 import theme from "tools/theme";
 import DottedLine from "components/DottedLine";

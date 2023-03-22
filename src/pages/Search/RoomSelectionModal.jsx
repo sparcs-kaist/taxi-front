@@ -11,7 +11,7 @@ import { getLocationName } from "tools/trans";
 import theme from "tools/theme";
 import { MAX_PARTICIPATION } from "pages/Myroom";
 
-import Modal from "components/modal/Modal";
+import Modal from "components/Modal";
 import Button from "components/Button";
 import DottedLine from "components/DottedLine";
 import Tooltip from "@mui/material/Tooltip";

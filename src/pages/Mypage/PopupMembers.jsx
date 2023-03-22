@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import DottedLine from "components/DottedLine";
 import theme from "tools/theme";
-import Modal from "components/modal/Modal";
+import Modal from "components/Modal";
 import members from "static/members";
 
 import { ReactComponent as SparcsLogoBlack } from "static/assets/SparcsLogoBlack.svg";

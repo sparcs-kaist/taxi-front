@@ -3,7 +3,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { useR2state } from "hooks/useReactiveState";
 import usePageFromSearchParams from "hooks/usePageFromSearchParams";
-import { PAGE_MAX_ITEMS } from "components/pagination/Pagination";
+import { PAGE_MAX_ITEMS } from "components/Pagination";
 import R1Myroom from "./R1Myroom";
 import R2Myroom from "./R2Myroom";
 import myRoomAtom from "atoms/myRoom";

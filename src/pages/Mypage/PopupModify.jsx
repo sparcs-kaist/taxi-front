@@ -7,7 +7,7 @@ import ProfileImg from "./ProfileImg";
 import axiosOri from "axios";
 import convertImg from "tools/convertImg";
 import PropTypes from "prop-types";
-import Modal from "components/modal/Modal";
+import Modal from "components/Modal";
 import DottedLine from "components/DottedLine";
 import theme from "tools/theme";
 import Button from "components/Button";

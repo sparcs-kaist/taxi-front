@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "hooks/useTaxiAPI";
-import Modal from "components/modal/Modal";
+import Modal from "components/Modal";
 import DottedLine from "components/DottedLine";
 import ReportOption, { ReportOptionType } from "./ReportOption";
 import ReportList from "./ReportList";

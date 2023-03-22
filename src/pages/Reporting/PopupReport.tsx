@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import ProfileImg from "pages/Mypage/ProfileImg";
-import Modal from "components/modal/Modal";
+import Modal from "components/Modal";
 import { useAxios } from "hooks/useTaxiAPI";
 import theme from "tools/theme";
 import { useSetRecoilState } from "recoil";

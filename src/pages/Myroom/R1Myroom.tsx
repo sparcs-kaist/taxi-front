@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import Title from "components/Title";
-import Room from "components/room/Room";
+import Room from "components/Room";
 import RLayout from "components/RLayout";
-import Pagination, { PAGE_MAX_ITEMS } from "components/pagination/Pagination";
+import Pagination, { PAGE_MAX_ITEMS } from "components/Pagination";
 import theme from "tools/theme";
 import Empty from "components/Empty";
 

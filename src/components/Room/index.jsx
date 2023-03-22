@@ -6,7 +6,7 @@ import { date2str } from "tools/moment";
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import DottedLine from "components/DottedLine";
 import theme from "tools/theme";
-import "./Room.css";
+import "./index.css";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 
