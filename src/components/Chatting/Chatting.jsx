@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
-import { useAxios } from "hooks/useTaxiAPI";
+import { useAxios, useQuery } from "hooks/useTaxiAPI";
 import { useRecoilValue } from "recoil";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import PropTypes from "prop-types";
@@ -15,7 +15,6 @@ import { useR2state } from "hooks/useReactiveState";
 import { ioServer } from "serverconf";
 import convertImg from "tools/convertImg";
 import axiosOri from "axios";
-import useTaxiAPI from "hooks/useTaxiAPI";
 
 const Chatting = (props) => {
   const sendingMessage = useRef();
@@ -36,7 +35,7 @@ const Chatting = (props) => {
   const prevReactiveState = useRef(reactiveState);
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
   const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
-  const [, headerInfo] = useTaxiAPI.get(`/rooms/info?id=${props.roomId}`, {}, [
+  const [, headerInfo] = useQuery.get(`/rooms/info?id=${props.roomId}`, {}, [
     headerInfToken,
   ]);
 
