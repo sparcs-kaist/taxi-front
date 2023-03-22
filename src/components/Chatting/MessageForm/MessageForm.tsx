@@ -11,7 +11,7 @@ type MessageFormProps = {
   showNewMessage: boolean;
   handleSendMessage: (message: string) => boolean;
   handleSendImage: (image: File) => void;
-  handleSendAccount: (account: string) => void;
+  handleSendAccount: (account: string) => boolean;
   onClickNewMessage: () => void;
   setContHeight: (height: PixelValue) => void;
 };
