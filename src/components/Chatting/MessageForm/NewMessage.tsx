@@ -3,7 +3,12 @@ import theme from "styles/theme";
 
 import ArrowDownwardRoundedIcon from "@mui/icons-material/ArrowDownwardRounded";
 
-const NewMessage = (props) => {
+type newMessageProps = {
+  show: boolean;
+  onClick: () => void;
+};
+
+const NewMessage = (props: newMessageProps) => {
   const style = {
     marginBottom: props.show ? "12px" : "-26px",
     opacity: props.show ? "1" : "0",
@@ -29,8 +34,4 @@ const NewMessage = (props) => {
   );
 };
 
-NewMessage.propTypes = {
-  show: PropTypes.bool,
-  onClick: PropTypes.func,
-};
 export default NewMessage;

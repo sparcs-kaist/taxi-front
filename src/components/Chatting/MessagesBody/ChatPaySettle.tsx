@@ -1,4 +1,3 @@
-import React from "react";
 import theme from "styles/theme";
 import CreditCardRoundedIcon from "@mui/icons-material/CreditCardRounded";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";

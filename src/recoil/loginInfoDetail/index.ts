@@ -12,6 +12,7 @@ export type LoginInfoDetailType = {
   profileImgUrl: string;
   subinfo: { kaist: string; sparcs: string; facebook: string; twitter: string };
   withdraw: boolean;
+  account: string;
 };
 
 export default loginInfoDetailAtom;
