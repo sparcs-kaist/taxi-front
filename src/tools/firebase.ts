@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, isSupported } from "firebase/messaging";
-import axios from "tools/axios";
+import axios from "hooks/useTaxiAPI/axios";
 import { firebaseConfig } from "serverconf";
 
 const firebaseApp = firebaseConfig && initializeApp(firebaseConfig);

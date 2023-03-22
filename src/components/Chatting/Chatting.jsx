@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
+import { useAxios } from "hooks/useTaxiAPI";
 import { useRecoilValue } from "recoil";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import PropTypes from "prop-types";
@@ -13,7 +14,6 @@ import { useR2state } from "hooks/useReactiveState";
 
 import { ioServer } from "serverconf";
 import convertImg from "tools/convertImg";
-import axios from "tools/axios";
 import axiosOri from "axios";
 import useTaxiAPI from "hooks/useTaxiAPI";
 
@@ -24,6 +24,7 @@ const Chatting = (props) => {
   const roomIdCache = useRef();
   const messagesBody = useRef();
   const history = useHistory();
+  const axios = useAxios();
 
   const [chats, setChats] = useStateWithCallbackLazy([]);
   const [showNewMessage, setShowNewMessage] = useState(false);
@@ -209,39 +210,35 @@ const Chatting = (props) => {
       };
       try {
         image = await convertImg(image);
-        if (!image) {
-          onFail();
-          return;
-        }
-        axios
-          .post("chats/uploadChatImg/getPUrl", { type: image.type })
-          .then(async ({ data }) => {
-            if (data.url && data.fields) {
-              const formData = new FormData();
-              for (const key in data.fields) {
-                formData.append(key, data.fields[key]);
-              }
-              formData.append("file", image);
-              const res = await axiosOri.post(data.url, formData);
-              if (res.status === 204) {
-                const res2 = await axios.post("chats/uploadChatImg/done", {
-                  id: data.id,
-                });
-                if (!res2.data.result) onFail();
-              } else {
-                onFail();
-              }
-            } else {
-              onFail();
+        if (!image) return onFail();
+        axios({
+          url: "chats/uploadChatImg/getPUrl",
+          method: "post",
+          data: { type: image.type },
+          onSuccess: async ({ url, fields, id }) => {
+            if (!url || !fields) return onFail();
+            const formData = new FormData();
+            for (const key in fields) {
+              formData.append(key, fields[key]);
             }
-          })
-          .catch(() => {
-            onFail();
-          });
+            formData.append("file", image);
+            const { status: s3Status } = await axiosOri.post(url, formData);
+            if (s3Status !== 204) return onFail();
+            axios({
+              url: "chats/uploadChatImg/done",
+              method: "post",
+              data: { id },
+              onSuccess: ({ result }) => {
+                if (!result) onFail();
+              },
+              onError: onFail,
+            });
+          },
+          onError: onFail,
+        });
       } catch (e) {
-        // FIXME
+        console.error(e);
         onFail();
-        console.log(e);
       }
     }
   };
