@@ -10,12 +10,15 @@ import WalletIcon from "@mui/icons-material/Wallet";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import hoverEventSet from "tools/hoverEventSet";
 import CheckIcon from "@mui/icons-material/Check";
+import alertAtom from "recoil/alert";
+import { useSetRecoilState } from "recoil";
 
 const ChatAccount = (props) => {
   const bankName = props.account.split(" ")[0];
   const accounNumber = props.account.split(" ")[1];
   const [isClicked, setIsClicked] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+  const setAlert = useSetRecoilState(alertAtom);
 
   useEffect(() => {
     if (isCopied) {
@@ -33,7 +36,7 @@ const ChatAccount = (props) => {
   };
   const handleCopy = () => {
     if (!navigator.clipboard) {
-      alert("dev env에서는 복사가 작동하지 않습니다.");
+      setAlert("복사를 지원하지 않는 브라우저입니다.");
       return;
     }
     navigator.clipboard.writeText(props.account);
@@ -132,16 +135,12 @@ const ChatAccount = (props) => {
       </div>
       <div
         style={{
+          ...theme.overlay(isClicked),
           position: "relative",
           width: "210px",
           height: "90px",
           top: "-90px",
-          zIndex: "1000",
-          background:
-            "linear-gradient(to left, transparent 50%, rgba(0,0,0,0.065) 50%) right",
-          backgroundSize: "200%",
-          transition: ".25s ease-out",
-          backgroundPosition: isClicked ? "left" : "right",
+          zIndex: theme.zIndex_modal,
           pointerEvents: "none",
         }}
       ></div>

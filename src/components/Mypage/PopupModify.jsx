@@ -283,7 +283,7 @@ const PopupModify = (props) => {
           disabled={
             !regexAccountNumber.test(accountNumber) ||
             !regexNickname.test(nickName) ||
-            (nickName == nickNameReal && accountNumber == accountNumberReal)
+            (nickName === nickNameReal && accountNumber === accountNumberReal)
           }
           width="calc(50% - 5px)"
           padding="10px 0 9px"

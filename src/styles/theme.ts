@@ -106,6 +106,17 @@ const theme = {
     return { cursor: disabled ? "not-allowed" : "pointer" } as CSS;
   },
 
+  // Overlay
+
+  overlay: (activated: boolean) => ({
+    background:
+      "linear-gradient(to left, transparent 50%, rgba(0,0,0,0.065) 50%) right",
+    backgroundSize: "200%",
+    transition: ".25s ease-out",
+    pointerEvents: "none",
+    backgroundPosition: activated ? "left" : "right",
+  }),
+
   // zIndex
   zIndex_nav: 10,
   zIndex_headerBar: 40,
