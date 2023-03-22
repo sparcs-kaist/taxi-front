@@ -10,8 +10,8 @@ import myRoomAtom from "atoms/myRoom";
 import errorAtom from "atoms/error";
 
 import HeaderBar from "components/HeaderBar";
-import Navigation from "components/Skeleton/Navigation";
-import Footer from "components/Skeleton/Footer";
+import Navigation from "./Navigation";
+import Footer from "./Footer";
 import PopupPolicy from "pages/Mypage/PopupPolicy";
 import Error from "pages/Error";
 

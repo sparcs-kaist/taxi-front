@@ -8,7 +8,7 @@ import GoogleAnalyticsProvier from "components/Skeleton/GoogleAnalyticsProvier";
 import I18nextProvider from "components/Skeleton/I18nextProvider";
 import AlertProvider from "components/Skeleton/AlertProvider";
 import CSSVariablesProvider from "components/Skeleton/CSSVariablesProvider";
-import Skeleton from "components/Skeleton/Skeleton";
+import Skeleton from "components/Skeleton";
 
 import Login from "pages/Login/Login";
 import LoginFail from "pages/Login/LoginFail";
