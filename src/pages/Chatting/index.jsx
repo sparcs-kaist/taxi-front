@@ -12,7 +12,7 @@ import MessageForm from "./MessageForm/MessageForm";
 import regExpTest from "tools/regExpTest";
 import { useR2state } from "hooks/useReactiveState";
 
-import { ioServer } from "serverconf";
+import { ioServer } from "loadenv";
 import convertImg from "tools/convertImg";
 import axiosOri from "axios";
 

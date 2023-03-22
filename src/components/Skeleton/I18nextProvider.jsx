@@ -1,7 +1,7 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
-import { nodeEnv } from "serverconf";
+import { nodeEnv } from "loadenv";
 
 import nsSearchKO from "pages/Search/langs/ko.json";
 import nsAddroomKO from "pages/Addroom/langs/ko.json";

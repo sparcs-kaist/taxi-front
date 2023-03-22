@@ -1,4 +1,4 @@
-import { backServer } from "serverconf";
+import { backServer } from "loadenv";
 import Button from "components/Button";
 import theme from "tools/theme";
 import { ReactComponent as TaxiLogo } from "static/assets/TaxiLogo.svg";

@@ -13,7 +13,7 @@ import theme from "tools/theme";
 import { useRecoilValue } from "recoil";
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import Menu from "./Menu";
-import { nodeEnv } from "../../serverconf.js";
+import { nodeEnv } from "loadenv";
 
 const Mypage = () => {
   const { t, i18n } = useTranslation("mypage");

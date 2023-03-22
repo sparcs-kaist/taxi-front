@@ -1,4 +1,4 @@
-import { s3BaseUrl } from "serverconf";
+import { s3BaseUrl } from "loadenv";
 
 const getS3Url = (x) => `${s3BaseUrl}${x}`;
 
