@@ -6,6 +6,150 @@ import { getS3Url } from "tools/trans";
 import PropTypes from "prop-types";
 import theme from "styles/theme";
 import ChatPaySettle from "./ChatPaySettle";
+import WalletIcon from "@mui/icons-material/Wallet";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import hoverEventSet from "tools/hoverEventSet";
+import CheckIcon from "@mui/icons-material/Check";
+import alertAtom from "recoil/alert";
+import { useSetRecoilState } from "recoil";
+
+const ChatAccount = (props) => {
+  const bankName = props.account.split(" ")[0];
+  const accounNumber = props.account.split(" ")[1];
+  const [isClicked, setIsClicked] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
+  const setAlert = useSetRecoilState(alertAtom);
+
+  useEffect(() => {
+    if (isCopied) {
+      const timer = setTimeout(() => setIsCopied(false), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isCopied]);
+
+  const nameStyle = {
+    color: theme.gray_text,
+  };
+  const accountWrapperStyle = {
+    display: "flex",
+    gap: "6px",
+  };
+  const handleCopy = () => {
+    if (!navigator.clipboard) {
+      setAlert("복사를 지원하지 않는 브라우저입니다.");
+      return;
+    }
+    navigator.clipboard.writeText(props.account);
+    setIsCopied(true);
+  };
+
+  return (
+    <div
+      style={{
+        width: "210px",
+        height: "90px",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          gap: "6px",
+          alignItems: "center",
+          ...theme.font16,
+          color: theme.white,
+          padding: "7px 10px 6px",
+          boxSizing: "border-box",
+          height: "32px",
+          backgroundColor: theme.purple,
+        }}
+      >
+        <WalletIcon />
+        정산 계좌
+      </div>
+      <div
+        style={{
+          padding: "7px 10px 6px",
+          ...theme.font14,
+          color: theme.black,
+          backgroundColor: props.isSideChat ? theme.purple_light : theme.white,
+          width: "210px",
+          height: "58px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          boxSizing: "border-box",
+        }}
+      >
+        {isCopied ? (
+          <div style={accountWrapperStyle}>계좌가 복사되었습니다!</div>
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-around",
+              height: "100%",
+            }}
+          >
+            <div style={accountWrapperStyle}>
+              <div style={nameStyle}>은행</div>
+              {bankName}
+            </div>
+            <div style={accountWrapperStyle}>
+              <div style={nameStyle}>계좌</div>
+              {accounNumber}
+            </div>
+          </div>
+        )}
+
+        <div
+          style={{
+            boxShadow: theme.shadow_gray_button_inset,
+            color: theme.gray_text,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "30px",
+            height: "30px",
+            borderRadius: "6px",
+            backgroundColor: theme.gray_background,
+            cursor: "pointer",
+          }}
+          onClick={handleCopy}
+          {...hoverEventSet(() => {}, setIsClicked)}
+        >
+          {isCopied ? (
+            <CheckIcon
+              style={{
+                fontSize: "16px",
+              }}
+            />
+          ) : (
+            <ContentCopyIcon
+              style={{
+                fontSize: "16px",
+              }}
+            />
+          )}
+        </div>
+      </div>
+      <div
+        style={{
+          ...theme.overlay(isClicked),
+          position: "relative",
+          width: "210px",
+          height: "90px",
+          top: "-90px",
+          zIndex: theme.zIndex_modal,
+        }}
+      ></div>
+    </div>
+  );
+};
+ChatAccount.propTypes = {
+  account: PropTypes.string,
+  isSideChat: PropTypes.bool,
+};
 
 const ChatImageLoading = (props) => {
   return (
@@ -177,6 +321,8 @@ const ChatSet = (props) => {
       case "payment":
       case "settlement":
         return <ChatPaySettle itsme={itsme} type={type} />;
+      case "account":
+        return <ChatAccount isSideChat={props.isSideChat} account={content} />;
       default:
         return <></>;
     }

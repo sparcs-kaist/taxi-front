@@ -195,6 +195,7 @@ const Chatting = (props) => {
       socket.current.emit("chats-send", {
         roomId: props.roomId,
         content: text,
+        type: "text",
       });
       return true;
     }
@@ -245,6 +246,19 @@ const Chatting = (props) => {
     }
   };
 
+  const handleSendAccount = (account) => {
+    if (!sendingMessage.current) {
+      sendingMessage.current = true;
+      socket.current.emit("chats-send", {
+        roomId: props.roomId,
+        content: account,
+        type: "account",
+      });
+      return true;
+    }
+    return false;
+  };
+
   return (
     <>
       <Header
@@ -266,6 +280,7 @@ const Chatting = (props) => {
         isSideChat={props.isSideChat}
         handleSendMessage={handleSendMessage}
         handleSendImage={handleSendImage}
+        handleSendAccount={handleSendAccount}
         showNewMessage={showNewMessage}
         onClickNewMessage={() => scrollToBottom(true)}
         setContHeight={handleMessageFormHeight}

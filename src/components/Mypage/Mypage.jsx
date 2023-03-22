@@ -100,6 +100,10 @@ const Mypage = () => {
           {t("nickname")}
           <div style={infoContent}>{userInfoDetail?.nickname}</div>
         </div>
+        <div style={infoType} className="selectable">
+          {t("account")}
+          <div style={infoContent}>{userInfoDetail?.account}</div>
+        </div>
       </WhiteContainer>
       {nodeEnv === "development" && (
         <WhiteContainer marginAuto>

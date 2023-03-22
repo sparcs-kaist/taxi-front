@@ -11,6 +11,8 @@ import Modal from "components/common/modal/Modal";
 import DottedLine from "components/common/DottedLine";
 import theme from "styles/theme";
 import Button from "components/common/Button";
+import AccountSelector from "components/common/AccountSelector";
+import regExpTest from "tools/regExpTest";
 
 const ProfImg = (props) => {
   const style = {
@@ -137,6 +139,8 @@ const PopupModify = (props) => {
   const axios = useAxios();
   const regexNickname = new RegExp("^[A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ0-9-_ ]{3,25}$");
   const [nickName, setNickName] = useState("");
+  const [accountNumber, setAccountNumber] = useState("");
+  const [accountNumberReal, setAccountNumberReal] = useState("");
   const [nickNameReal, setNickNameReal] = useState("");
   const [message, setMessage] = useState(null);
   const [loginInfoDetail, setLoginInfoDetail] =
@@ -147,7 +151,12 @@ const PopupModify = (props) => {
       setNickName(loginInfoDetail?.nickname);
       setNickNameReal(loginInfoDetail?.nickname);
     }
+    if (loginInfoDetail?.account) {
+      setAccountNumberReal(loginInfoDetail?.account);
+      setAccountNumber(loginInfoDetail?.account);
+    }
   }, [loginInfoDetail]);
+
   useEffect(() => {
     const timeoutID = setTimeout(() => setMessage(null), 1500);
     return () => clearTimeout(timeoutID);
@@ -170,6 +179,27 @@ const PopupModify = (props) => {
       onError: () => setMessage(t("page_modify.nickname_failed")),
     });
   };
+  const onClickEditAccountNumber = async () => {
+    const result = await axios.post(`/users/editAccount`, {
+      account: accountNumber,
+    });
+    if (result.status !== 200) {
+      setMessage("계좌번호 변경에 실패하였습니다.");
+      return;
+    }
+    setLoginInfoDetail({ ...loginInfoDetail, account: accountNumber });
+    props.onUpdate();
+    props.onClose();
+  };
+  const handleEditProfile = () => {
+    if (nickName !== nickNameReal) {
+      onClickEditNickName();
+    }
+    if (accountNumber !== accountNumberReal) {
+      onClickEditAccountNumber();
+    }
+  };
+
   const styleName = {
     ...theme.font20,
     textAlign: "center",
@@ -240,6 +270,11 @@ const PopupModify = (props) => {
             onChange={(e) => setNickName(e.target.value)}
           />
         </div>
+        <AccountSelector
+          accountNumber={accountNumber}
+          setAccountNumber={setAccountNumber}
+        />
+
         {message && <div style={styleMessage}>{message}</div>}
       </div>
       <div style={styleButton}>
@@ -255,12 +290,16 @@ const PopupModify = (props) => {
         </Button>
         <Button
           type="purple_inset"
-          disabled={nickName == nickNameReal || !regexNickname.test(nickName)}
+          disabled={
+            !regExpTest.accountNumber(accountNumber) ||
+            !regexNickname.test(nickName) ||
+            (nickName === nickNameReal && accountNumber === accountNumberReal)
+          }
           width="calc(50% - 5px)"
           padding="10px 0 9px"
           radius={8}
           font={theme.font14_bold}
-          onClick={onClickEditNickName}
+          onClick={handleEditProfile}
         >
           {t("page_modify.modify")}
         </Button>

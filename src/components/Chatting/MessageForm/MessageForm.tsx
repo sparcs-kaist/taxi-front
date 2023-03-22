@@ -9,8 +9,9 @@ import isVirtualKeyboardDetectedAtom from "recoil/isVirtualKeyboardDetectedAtom"
 type MessageFormProps = {
   isSideChat: boolean;
   showNewMessage: boolean;
-  handleSendMessage: (message: string) => void;
+  handleSendMessage: (message: string) => boolean;
   handleSendImage: (image: File) => void;
+  handleSendAccount: (account: string) => boolean;
   onClickNewMessage: () => void;
   setContHeight: (height: PixelValue) => void;
 };
@@ -48,6 +49,7 @@ const MessageForm = (props: MessageFormProps) => {
         onClick={props.onClickNewMessage}
       />
       <FullChatMessageForm
+        handleSendAccount={props.handleSendAccount}
         handleSendMessage={props.handleSendMessage}
         handleSendImage={props.handleSendImage}
         setContHeight={setContHeight}

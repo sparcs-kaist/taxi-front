@@ -5,9 +5,16 @@ import theme from "styles/theme";
 
 import CropOriginalRoundedIcon from "@mui/icons-material/CropOriginalRounded";
 import ArrowUpwardRoundedIcon from "@mui/icons-material/ArrowUpwardRounded";
+import LocalAtmIcon from "@mui/icons-material/LocalAtm";
+import PopupAccount from "./Popup/PopupAccount";
 
-const BtnSend = (props) => {
-  const style = {
+type BtnSendProps = {
+  enable: boolean;
+  onClick: () => void;
+};
+
+const BtnSend = (props: BtnSendProps) => {
+  const style: CSS = {
     position: "absolute",
     width: "28px",
     height: "28px",
@@ -30,12 +37,13 @@ const BtnSend = (props) => {
     </div>
   );
 };
-BtnSend.propTypes = {
-  enable: PropTypes.bool,
-  onClick: PropTypes.func,
+
+type BtnLeftProps = {
+  onClick: () => void;
+  type: "image" | "account";
 };
 
-const BtnImage = (props) => {
+const BtnLeft = (props: BtnLeftProps) => {
   const style = {
     width: "22px",
     minWidth: "22px",
@@ -43,24 +51,32 @@ const BtnImage = (props) => {
     marginBottom: "5px",
     ...theme.cursor(),
   };
+  const styleIcon = { width: "100%", height: "100%", fill: theme.gray_text };
   return (
     <div style={style} onClick={props.onClick}>
-      <CropOriginalRoundedIcon
-        style={{ width: "100%", height: "100%", fill: theme.gray_text }}
-      />
+      {props.type === "image" ? (
+        <CropOriginalRoundedIcon style={styleIcon} />
+      ) : (
+        <LocalAtmIcon style={styleIcon} />
+      )}
     </div>
   );
 };
-BtnImage.propTypes = {
-  onClick: PropTypes.func,
+
+type FullChatMessageFormProps = {
+  handleSendMessage: (message: string) => boolean;
+  handleSendImage: (image: File) => void;
+  handleSendAccount: (account: string) => boolean;
+  setContHeight: (height: PixelValue) => void;
 };
 
-const FullChatMessageForm = (props) => {
-  const textareaContRef = useRef();
-  const textareaRef = useRef();
-  const inputImage = useRef();
+const FullChatMessageForm = (props: FullChatMessageFormProps) => {
+  const textareaContRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const inputImage = useRef<HTMLInputElement>(null);
   const [message, setMessage] = useState("");
   const [formHeight, setFormHeight] = useState("28px");
+  const [popupAccount, setPopupAccount] = useState(false);
 
   const enterPressed = useRef(false);
   const shiftPressed = useRef(false);
@@ -69,14 +85,14 @@ const FullChatMessageForm = (props) => {
     return regExpTest.chatMsg(message);
   };
   const onSend = () => {
-    textareaRef.current.focus();
+    textareaRef.current?.focus();
     if (isMessageValid()) {
       const result = props.handleSendMessage(message);
       if (result) setMessage("");
     }
   };
 
-  const onChangeMessage = (e) => {
+  const onChangeMessage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (enterPressed.current && !shiftPressed.current) {
       onSend();
       return;
@@ -84,28 +100,31 @@ const FullChatMessageForm = (props) => {
     const msg = e.target.value;
     setMessage(msg);
   };
-  const onChangeImage = (e) => {
+  const onChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const image = e.target?.files?.[0];
+    if (!image) return;
     props.handleSendImage(image);
   };
 
-  const onKeyDown = (e) => {
-    if (e.keyCode === 16) shiftPressed.current = true;
-    if (e.keyCode === 13) enterPressed.current = true;
+  const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.code === "ShiftLeft" || e.code === "ShiftRight")
+      shiftPressed.current = true;
+    if (e.code === "Enter") enterPressed.current = true;
   };
-  const onKeyUp = (e) => {
-    if (e.keyCode === 16) shiftPressed.current = false;
-    if (e.keyCode === 13) enterPressed.current = false;
+  const onKeyUp = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.code === "ShiftLeft" || e.code === "ShiftRight")
+      shiftPressed.current = false;
+    if (e.code === "Enter") enterPressed.current = false;
   };
 
   // resizeEvent
   const resizeEvent = () => {
     if (!textareaContRef.current) return;
     const cacheHeight = textareaContRef.current.style.height;
-    textareaContRef.current.style.height = 0;
+    textareaContRef.current.style.height = "0";
     const newHeight = `${Math.max(
       Math.min(
-        textareaRef.current.scrollHeight,
+        textareaRef.current ? textareaRef.current.scrollHeight : 0,
         document.body.clientHeight / 3
       ),
       28
@@ -124,7 +143,7 @@ const FullChatMessageForm = (props) => {
     resizeEvent();
   }, [message]);
   useEffect(() => {
-    props.setContHeight(`calc(16px + ${formHeight})`);
+    props.setContHeight(`calc(16px + ${formHeight})` as PixelValue);
   }, [formHeight]);
 
   return (
@@ -141,6 +160,11 @@ const FullChatMessageForm = (props) => {
         borderRadius: "0 0 12px 12px",
       }}
     >
+      <PopupAccount
+        popup={popupAccount}
+        onClickClose={() => setPopupAccount(false)}
+        onClickOk={props.handleSendAccount}
+      />
       <input
         type="file"
         accept="image/jpg, image/png, image/jpeg, image/heic"
@@ -148,7 +172,8 @@ const FullChatMessageForm = (props) => {
         ref={inputImage}
         onChange={onChangeImage}
       />
-      <BtnImage onClick={() => inputImage.current.click()} />
+      <BtnLeft type="image" onClick={() => inputImage.current?.click()} />
+      <BtnLeft type="account" onClick={() => setPopupAccount(true)} />
       <div
         ref={textareaContRef}
         style={{
@@ -181,16 +206,18 @@ const FullChatMessageForm = (props) => {
             boxSizing: "border-box",
           }}
         />
+        <PopupAccount
+          popup={popupAccount}
+          onClickClose={() => setPopupAccount(false)}
+          onClickOk={(account: string) => {
+            setPopupAccount(false);
+            props.handleSendAccount(account);
+          }}
+        />
         <BtnSend onClick={onSend} enable={isMessageValid()} />
       </div>
     </div>
   );
-};
-
-FullChatMessageForm.propTypes = {
-  handleSendMessage: PropTypes.func,
-  handleSendImage: PropTypes.func,
-  setContHeight: PropTypes.func,
 };
 
 export default FullChatMessageForm;
