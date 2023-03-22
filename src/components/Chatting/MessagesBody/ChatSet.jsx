@@ -8,14 +8,13 @@ import theme from "styles/theme";
 import ChatPaySettle from "./ChatPaySettle";
 import WalletIcon from "@mui/icons-material/Wallet";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import { height } from "@mui/system";
 import hoverEventSet from "tools/hoverEventSet";
 import CheckIcon from "@mui/icons-material/Check";
 
 const ChatAccount = (props) => {
   const bankName = props.account.split(" ")[0];
   const accounNumber = props.account.split(" ")[1];
-  const [clicked, setClicked] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
 
   useEffect(() => {
@@ -114,7 +113,7 @@ const ChatAccount = (props) => {
             cursor: "pointer",
           }}
           onClick={handleCopy}
-          {...hoverEventSet(() => {}, setClicked)}
+          {...hoverEventSet(() => {}, setIsClicked)}
         >
           {isCopied ? (
             <CheckIcon
@@ -142,7 +141,7 @@ const ChatAccount = (props) => {
             "linear-gradient(to left, transparent 50%, rgba(0,0,0,0.065) 50%) right",
           backgroundSize: "200%",
           transition: ".25s ease-out",
-          backgroundPosition: clicked ? "left" : "right",
+          backgroundPosition: isClicked ? "left" : "right",
           pointerEvents: "none",
         }}
       ></div>

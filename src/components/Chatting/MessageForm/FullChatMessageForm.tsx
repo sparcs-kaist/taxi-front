@@ -38,11 +38,12 @@ const BtnSend = (props: BtnSendProps) => {
   );
 };
 
-type BtnImageProps = {
+type BtnLeftProps = {
   onClick: () => void;
+  type: "image" | "account";
 };
 
-const BtnImage = (props: BtnImageProps) => {
+const BtnLeft = (props: BtnLeftProps) => {
   const style = {
     width: "22px",
     minWidth: "22px",
@@ -50,32 +51,14 @@ const BtnImage = (props: BtnImageProps) => {
     marginBottom: "5px",
     ...theme.cursor(),
   };
+  const styleIcon = { width: "100%", height: "100%", fill: theme.gray_text };
   return (
     <div style={style} onClick={props.onClick}>
-      <CropOriginalRoundedIcon
-        style={{ width: "100%", height: "100%", fill: theme.gray_text }}
-      />
-    </div>
-  );
-};
-
-type BtnAccountProps = {
-  onClick: () => void;
-};
-
-const BtnAccount = (props: BtnAccountProps) => {
-  const style = {
-    width: "22px",
-    minWidth: "22px",
-    height: "22px",
-    marginBottom: "5px",
-    ...theme.cursor(),
-  };
-  return (
-    <div style={style} onClick={props.onClick}>
-      <LocalAtmIcon
-        style={{ width: "100%", height: "100%", fill: theme.gray_text }}
-      />
+      {props.type === "image" ? (
+        <CropOriginalRoundedIcon style={styleIcon} />
+      ) : (
+        <LocalAtmIcon style={styleIcon} />
+      )}
     </div>
   );
 };
@@ -189,8 +172,8 @@ const FullChatMessageForm = (props: FullChatMessageFormProps) => {
         ref={inputImage}
         onChange={onChangeImage}
       />
-      <BtnImage onClick={() => inputImage.current?.click()} />
-      <BtnAccount onClick={() => setPopupAccount(true)} />
+      <BtnLeft type="image" onClick={() => inputImage.current?.click()} />
+      <BtnLeft type="account" onClick={() => setPopupAccount(true)} />
       <div
         ref={textareaContRef}
         style={{
