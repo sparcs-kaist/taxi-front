@@ -11,7 +11,7 @@ import taxiLocationAtom from "atoms/taxiLocation";
 
 import hoverEventSet from "tools/hoverEventSet";
 import { getLocationName } from "tools/trans";
-import theme from "styles/theme";
+import theme from "tools/theme";
 import PropTypes from "prop-types";
 
 const PopupInput = (props) => {

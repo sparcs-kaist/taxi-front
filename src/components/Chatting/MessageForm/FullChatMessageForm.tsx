@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import regExpTest from "tools/regExpTest";
 import PropTypes from "prop-types";
-import theme from "styles/theme";
+import theme from "tools/theme";
 
 import CropOriginalRoundedIcon from "@mui/icons-material/CropOriginalRounded";
 import ArrowUpwardRoundedIcon from "@mui/icons-material/ArrowUpwardRounded";

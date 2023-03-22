@@ -4,7 +4,7 @@ import ProfileImg from "components/Mypage/ProfileImg";
 import ImageFullscreen from "components/Chatting/MessagesBody/ImageFullscreen";
 import { getS3Url } from "tools/trans";
 import PropTypes from "prop-types";
-import theme from "styles/theme";
+import theme from "tools/theme";
 import ChatPaySettle from "./ChatPaySettle";
 import WalletIcon from "@mui/icons-material/Wallet";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";

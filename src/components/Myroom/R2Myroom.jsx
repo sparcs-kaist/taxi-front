@@ -15,7 +15,7 @@ import DottedLine from "components/common/DottedLine";
 import UnfoldMoreRoundedIcon from "@mui/icons-material/UnfoldMoreRounded";
 import UnfoldLessRoundedIcon from "@mui/icons-material/UnfoldLessRounded";
 import PropTypes from "prop-types";
-import theme from "styles/theme";
+import theme from "tools/theme";
 
 const ChatHeader = (props) => {
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());

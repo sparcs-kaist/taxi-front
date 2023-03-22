@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import theme from "styles/theme";
+import theme from "tools/theme";
 
 const ChatInOut = (props) => {
   const endText = props.type === "in" ? "입장하였습니다" : "퇴장하였습니다";

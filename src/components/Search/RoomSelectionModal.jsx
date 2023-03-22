@@ -8,7 +8,7 @@ import myRoomAtom from "atoms/myRoom";
 import PropTypes from "prop-types";
 import { date2str } from "tools/moment";
 import { getLocationName } from "tools/trans";
-import theme from "styles/theme";
+import theme from "tools/theme";
 import { MAX_PARTICIPATION } from "components/Myroom/Myroom";
 
 import Modal from "components/common/modal/Modal";

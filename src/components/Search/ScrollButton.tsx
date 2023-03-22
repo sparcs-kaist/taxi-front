@@ -1,4 +1,4 @@
-import theme from "styles/theme";
+import theme from "tools/theme";
 import ArrowUpwardRoundedIcon from "@mui/icons-material/ArrowUpwardRounded";
 
 const ScrollButton = () => {

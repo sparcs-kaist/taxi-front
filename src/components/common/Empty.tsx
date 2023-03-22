@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import theme from "styles/theme";
+import theme from "tools/theme";
 import NotInterestedIcon from "@material-ui/icons/NotInterested";
 
 type ScreenType = "mobile" | "pc";

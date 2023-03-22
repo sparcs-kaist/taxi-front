@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import DottedLine from "components/common/DottedLine";
-import theme from "styles/theme";
+import theme from "tools/theme";
 import Modal from "components/common/modal/Modal";
 import members from "static/members";
 

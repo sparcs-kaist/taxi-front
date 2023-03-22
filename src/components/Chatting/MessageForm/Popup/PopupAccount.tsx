@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import Modal from "components/common/modal/Modal";
 import Button from "components/common/Button";
-import theme from "styles/theme";
+import theme from "tools/theme";
 import DottedLine from "components/common/DottedLine";
 import AccountSelector from "components/common/AccountSelector";
 import loginInfoDetailAtom from "atoms/loginInfoDetail";

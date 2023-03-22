@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import theme from "styles/theme";
+import theme from "tools/theme";
 
 import ArrowDownwardRoundedIcon from "@mui/icons-material/ArrowDownwardRounded";
 

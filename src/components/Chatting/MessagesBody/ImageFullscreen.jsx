@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import theme from "styles/theme";
+import theme from "tools/theme";
 
 const ImageFullscreen = (props) => {
   const bgdStyle = {

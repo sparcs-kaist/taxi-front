@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
-import theme from "styles/theme";
+import theme from "tools/theme";
 
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import OpenInFullRoundedIcon from "@mui/icons-material/OpenInFullRounded";

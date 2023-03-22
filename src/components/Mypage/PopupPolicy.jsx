@@ -4,7 +4,7 @@ import { useAxios } from "hooks/useTaxiAPI";
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import PropTypes from "prop-types";
 import Modal from "components/common/modal/Modal";
-import theme from "styles/theme";
+import theme from "tools/theme";
 import alertAtom from "atoms/alert";
 
 import Button from "components/common/Button";

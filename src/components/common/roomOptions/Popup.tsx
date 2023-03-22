@@ -2,7 +2,7 @@ import { useState, useEffect, ReactElement } from "react";
 import { useDelayBoolean } from "hooks/useDelay";
 import useDisableScroll from "hooks/useDisableScroll";
 import useKeyboardOperation from "hooks/useKeyboardOperation";
-import theme from "styles/theme";
+import theme from "tools/theme";
 import RLayout from "components/common/RLayout";
 import Button from "components/common/Button";
 

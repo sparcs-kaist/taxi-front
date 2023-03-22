@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router";
 import HeaderBody from "./HeaderBody";
 import PropTypes from "prop-types";
-import theme from "styles/theme";
+import theme from "tools/theme";
 import DottedLine from "components/common/DottedLine";
 import { useR2state } from "hooks/useReactiveState";
 

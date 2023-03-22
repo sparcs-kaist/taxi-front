@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import FullChatMessageForm from "./FullChatMessageForm";
 import NewMessage from "./NewMessage";
-import theme from "styles/theme";
+import theme from "tools/theme";
 
 import { useRecoilValue } from "recoil";
 import isVirtualKeyboardDetectedAtom from "atoms/isVirtualKeyboardDetected";

@@ -1,4 +1,4 @@
-import theme from "styles/theme";
+import theme from "tools/theme";
 
 type MiniCircleProps = {
   type: "from" | "to" | "date";

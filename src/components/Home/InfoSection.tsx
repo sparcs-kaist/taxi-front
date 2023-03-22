@@ -4,7 +4,7 @@ import RLayout from "components/common/RLayout";
 import { useRecoilValue } from "recoil";
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import myRoomAtom from "atoms/myRoom";
-import theme from "styles/theme";
+import theme from "tools/theme";
 import moment, { getToday } from "tools/moment";
 import Button from "components/common/Button";
 

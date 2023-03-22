@@ -3,7 +3,7 @@ import RLayout from "components/common/RLayout";
 import Title from "components/common/Title";
 import WhiteContainer from "components/common/WhiteContainer";
 import Button from "components/common/Button";
-import theme from "styles/theme";
+import theme from "tools/theme";
 
 const FullParticipation = () => {
   return (

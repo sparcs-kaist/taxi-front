@@ -1,6 +1,6 @@
 import { useState, ReactNode } from "react";
 import hoverEventSet from "tools/hoverEventSet";
-import theme, { Font } from "styles/theme";
+import theme, { Font } from "tools/theme";
 
 type ButtonType = "purple" | "purple_inset" | "gray" | "white";
 

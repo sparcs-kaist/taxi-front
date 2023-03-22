@@ -4,7 +4,7 @@ import errorAtom from "atoms/error";
 import { Link, useHistory } from "react-router-dom";
 import Button from "components/common/Button";
 
-import theme from "styles/theme";
+import theme from "tools/theme";
 import { ReactComponent as TaxiLogo } from "static/assets/TaxiLogo.svg";
 
 const Error = () => {

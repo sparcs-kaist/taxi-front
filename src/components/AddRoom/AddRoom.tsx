@@ -19,7 +19,7 @@ import alertAtom from "atoms/alert";
 import myRoomAtom from "atoms/myRoom";
 
 import { date2str, getToday10, getToday } from "tools/moment";
-import theme from "styles/theme";
+import theme from "tools/theme";
 import randomRoomName from "static/randomRoomName";
 
 const AddRoom = () => {

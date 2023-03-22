@@ -7,7 +7,7 @@ import PopupCancel from "./Popup/PopupCancel";
 import PopupPay from "./Popup/PopupPay";
 import PopupSend from "./Popup/PopupSend";
 import ProfileImg from "components/Mypage/ProfileImg";
-import theme from "styles/theme";
+import theme from "tools/theme";
 
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import PaymentRoundedIcon from "@mui/icons-material/PaymentRounded";

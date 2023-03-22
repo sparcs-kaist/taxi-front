@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import RLayout from "components/common/RLayout";
-import theme from "styles/theme";
+import theme from "tools/theme";
 
 type WhiteContainerProps = {
   padding?: string;

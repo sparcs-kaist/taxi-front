@@ -5,7 +5,7 @@ import { useR2state } from "hooks/useReactiveState";
 import { useAxios } from "hooks/useTaxiAPI";
 import qs from "qs";
 import hoverEventSet from "tools/hoverEventSet";
-import theme from "styles/theme";
+import theme from "tools/theme";
 
 import RLayout from "components/common/RLayout";
 import Title from "components/common/Title";

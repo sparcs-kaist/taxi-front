@@ -1,6 +1,6 @@
 import { useState } from "react";
 import hoverEventSet from "tools/hoverEventSet";
-import theme from "styles/theme";
+import theme from "tools/theme";
 import MiniCircle from "components/common/MiniCircle";
 
 type DateProps = {

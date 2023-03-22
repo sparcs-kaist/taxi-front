@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import theme from "styles/theme";
+import theme from "tools/theme";
 import bankNames from "static/bankNames";
 import regExpTest from "tools/regExpTest";
 

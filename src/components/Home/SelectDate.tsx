@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getToday10 } from "tools/moment";
 import Date from "./Date";
-import theme from "styles/theme";
+import theme from "tools/theme";
 
 const getWeekDates = () => {
   const today = getToday10();

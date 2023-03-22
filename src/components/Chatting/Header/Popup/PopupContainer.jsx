@@ -1,7 +1,7 @@
 import Modal from "components/common/modal/Modal";
 import PropTypes from "prop-types";
 import Button from "components/common//Button";
-import theme from "styles/theme";
+import theme from "tools/theme";
 
 const PopupContainer = (props) => {
   return (

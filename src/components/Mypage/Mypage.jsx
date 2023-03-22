@@ -9,7 +9,7 @@ import PopupPolicy from "./PopupPolicy";
 import PopupPrivacyPolicy from "./PopupPrivacyPolicy";
 import PopupMembers from "./PopupMembers";
 import ProfileImg from "./ProfileImg";
-import theme from "styles/theme";
+import theme from "tools/theme";
 import { useRecoilValue } from "recoil";
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import Menu from "./Menu";

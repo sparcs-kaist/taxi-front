@@ -2,7 +2,7 @@ import { PureComponent, useState, createRef, memo } from "react";
 import { getToday10 } from "tools/moment";
 import hoverEventSet from "tools/hoverEventSet";
 import PropTypes from "prop-types";
-import theme from "styles/theme";
+import theme from "tools/theme";
 import DottedLine from "components/common/DottedLine";
 import MiniCircle from "components/common/MiniCircle";
 

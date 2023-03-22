@@ -5,7 +5,7 @@ import Modal from "components/common/modal/Modal";
 import DottedLine from "components/common/DottedLine";
 import ReportOption, { ReportOptionType } from "./ReportOption";
 import ReportList from "./ReportList";
-import theme from "styles/theme";
+import theme from "tools/theme";
 
 import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
 

@@ -1,7 +1,7 @@
 import { ReactElement, useState } from "react";
 import hoverEventSet from "tools/hoverEventSet";
 
-import theme from "styles/theme";
+import theme from "tools/theme";
 
 import LanguageRoundedIcon from "@mui/icons-material/LanguageRounded";
 import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";

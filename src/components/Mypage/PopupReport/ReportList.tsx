@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import theme from "styles/theme";
+import theme from "tools/theme";
 import { date2str } from "tools/moment";
 import { ReportOptionType } from "./ReportOption";
 import DottedLine from "components/common/DottedLine";

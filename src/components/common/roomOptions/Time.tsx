@@ -2,7 +2,7 @@ import { useState, useEffect, memo } from "react";
 import WhiteContainer from "components/common/WhiteContainer";
 import Popup from "./Popup";
 import Picker from "components/common/roomOptions/Picker";
-import theme from "styles/theme";
+import theme from "tools/theme";
 import { time2str } from "tools/moment";
 
 import ScheduleRoundedIcon from "@material-ui/icons/ScheduleRounded";

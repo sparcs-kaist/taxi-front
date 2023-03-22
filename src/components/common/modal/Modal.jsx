@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { useDelayBoolean } from "hooks/useDelay";
 import useDisableScroll from "hooks/useDisableScroll";
 import useKeyboardOperation from "hooks/useKeyboardOperation";
-import theme from "styles/theme";
+import theme from "tools/theme";
 
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
