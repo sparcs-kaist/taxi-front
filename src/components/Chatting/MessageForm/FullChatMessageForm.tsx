@@ -14,7 +14,7 @@ type BtnSendProps = {
 };
 
 const BtnSend = (props: BtnSendProps) => {
-  const style: React.CSSProperties = {
+  const style: CSS = {
     position: "absolute",
     width: "28px",
     height: "28px",
