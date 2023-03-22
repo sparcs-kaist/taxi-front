@@ -1,11 +1,13 @@
+import { useAxios } from "hooks/useTaxiAPI";
 import PopupContainer from "./PopupContainer";
 import PropTypes from "prop-types";
-import axios from "tools/axios";
 import { useSetRecoilState } from "recoil";
 import alertAtom from "recoil/alert";
 import myRoomAtom from "recoil/myRoom";
 
 const PopupPay = (props) => {
+  const axios = useAxios();
+
   const styleTextCont = {
     textAlign: "center",
   };
@@ -32,18 +34,25 @@ const PopupPay = (props) => {
 
   const setAlert = useSetRecoilState(alertAtom);
   const setMyRoom = useSetRecoilState(myRoomAtom);
-  const onClick = async () => {
-    const res = await axios.post("/rooms/commitPayment", {
-      roomId: props.roomId,
+  const onClick = () => {
+    axios({
+      url: "/rooms/commitPayment",
+      method: "post",
+      data: {
+        roomId: props.roomId,
+      },
+      onSuccess: async () => {
+        setMyRoom(
+          await axios({
+            url: "/rooms/searchByUser",
+            method: "get",
+          })
+        );
+        props.recallEvent();
+        props.onClickClose();
+      },
+      onError: () => setAlert("결제 완료를 실패하였습니다"),
     });
-    if (res.status === 200) {
-      const { data } = await axios.get("/rooms/searchByUser");
-      setMyRoom(data);
-      props.recallEvent();
-      props.onClickClose();
-    } else {
-      setAlert("결제 완료를 실패하였습니다");
-    }
   };
 
   return (
