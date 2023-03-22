@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import theme from "styles/theme";
 import bankNames from "static/bankNames";
 
