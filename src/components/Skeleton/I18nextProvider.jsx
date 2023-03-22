@@ -3,15 +3,15 @@ import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { nodeEnv } from "serverconf";
 
-import nsSearchKO from "./search/ko.json";
-import nsAddroomKO from "./addroom/ko.json";
-import nsMyroomKO from "./myroom/ko.json";
-import nsMypageKO from "./mypage/ko.json";
+import nsSearchKO from "pages/Search/langs/ko.json";
+import nsAddroomKO from "pages/Addroom/langs/ko.json";
+import nsMyroomKO from "pages/Myroom/langs/ko.json";
+import nsMypageKO from "pages/Mypage/langs/ko.json";
 
-import nsSearchEN from "./search/en.json";
-import nsAddroomEN from "./addroom/en.json";
-import nsMyroomEN from "./myroom/en.json";
-import nsMypageEN from "./mypage/en.json";
+import nsSearchEN from "pages/Search/langs/en.json";
+import nsAddroomEN from "pages/Addroom/langs/en.json";
+import nsMyroomEN from "pages/Myroom/langs/en.json";
+import nsMypageEN from "pages/Mypage/langs/en.json";
 
 /**
  * {@link https://www.i18next.com/overview/configuration-options}
