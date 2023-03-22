@@ -130,7 +130,7 @@ const Place = (props) => {
     const place = taxiLocationWithName.find(
       (location) => location._id === placeId
     );
-    return getLocationName(place, "ko");
+    return place && getLocationName(place, "ko");
   };
 
   return (

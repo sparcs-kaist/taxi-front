@@ -69,7 +69,7 @@ const AddRoom = () => {
   }, [valueDate, valueTime]);
 
   let validatedMsg = null;
-  if (!valuePlace[0] || !valuePlace[1]) {
+  if (!valuePlace.every((x: Nullable<string>) => !!x)) {
     validatedMsg = "출발지와 도착지를 선택해 주세요";
   } else if (valuePlace[0] === valuePlace[1]) {
     validatedMsg = "출발지와 도착지는 달라야 합니다";
@@ -92,7 +92,7 @@ const AddRoom = () => {
         url: "/rooms/create",
         method: "post",
         data: {
-          name: valueName ? valueName : randomRoomName,
+          name: valueName || randomRoomName,
           from: valuePlace[0],
           to: valuePlace[1],
           time: calculatedTime!.toISOString(),
