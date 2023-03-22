@@ -1,15 +1,18 @@
-import { useState, memo } from "react";
-import { useRecoilValue } from "recoil";
-import { taxiLocataionWithName } from "recoil/taxiLocation";
-import hoverEventSet from "tools/hoverEventSet";
-import preferenceAtom from "recoil/preference";
-import PropTypes from "prop-types";
+import { useState, memo, useMemo } from "react";
+
 import WhiteContainer from "components/common/WhiteContainer";
-import Popup from "./Popup";
 import Picker from "components/common/roomOptions/Picker";
-import theme from "styles/theme";
 import DottedLine from "components/common/DottedLine";
 import MiniCircle from "components/common/MiniCircle";
+import Popup from "./Popup";
+
+import { useRecoilValue } from "recoil";
+import taxiLocationAtom from "recoil/taxiLocation";
+
+import hoverEventSet from "tools/hoverEventSet";
+import { getLocationName } from "tools/trans";
+import theme from "styles/theme";
+import PropTypes from "prop-types";
 
 const PopupInput = (props) => {
   const [value, setValue] = useState({
@@ -110,12 +113,24 @@ PlaceElement.propTypes = {
 const Place = (props) => {
   const [isPopup1, setPopup1] = useState(false);
   const [isPopup2, setPopup2] = useState(false);
-  const taxiLocation = useRecoilValue(taxiLocataionWithName);
-  const preference = useRecoilValue(preferenceAtom);
+  const taxiLocation = useRecoilValue(taxiLocationAtom);
+  const taxiLocationWithName = useMemo(
+    () =>
+      taxiLocation.reduce((acc, place) => {
+        acc.push({
+          ...place,
+          name: place.koName,
+        });
+        return acc;
+      }, []),
+    [taxiLocation]
+  );
 
   const getPlaceName = (placeId) => {
-    const place = taxiLocation.find((location) => location._id === placeId);
-    return preference.lang === "ko" ? place?.koName : place?.enName;
+    const place = taxiLocationWithName.find(
+      (location) => location._id === placeId
+    );
+    return getLocationName(place, "ko");
   };
 
   return (
@@ -138,14 +153,14 @@ const Place = (props) => {
         onClose={() => setPopup1(false)}
         value={getPlaceName(props.value[0])}
         handler={(x) => props.handler([x, props.value[1]])}
-        placeOptions={taxiLocation}
+        placeOptions={taxiLocationWithName}
       />
       <PopupInput
         isOpen={isPopup2}
         onClose={() => setPopup2(false)}
         value={getPlaceName(props.value[1])}
         handler={(x) => props.handler([props.value[0], x])}
-        placeOptions={taxiLocation}
+        placeOptions={taxiLocationWithName}
       />
     </WhiteContainer>
   );

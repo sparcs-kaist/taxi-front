@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { useAxios } from "hooks/useTaxiAPI";
 import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
-import preferenceAtom from "recoil/preference";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import alertAtom from "recoil/alert";
 import myRoomAtom from "recoil/myRoom";
@@ -111,7 +110,6 @@ const RoomSelectionModal = (props) => {
   const history = useHistory();
   const [myRoom, setMyRoom] = useRecoilState(myRoomAtom);
   const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
-  const preference = useRecoilValue(preferenceAtom);
   const setAlert = useSetRecoilState(alertAtom);
   const disableJoinBtn =
     roomInfo?.part.some((user) => user._id === loginInfoDetail?.oid) ?? true;
@@ -185,13 +183,10 @@ const RoomSelectionModal = (props) => {
       <div style={stylePlace}>
         <PlaceSection
           type="from"
-          name={getLocationName(roomInfo?.from, preference.lang)}
+          name={getLocationName(roomInfo?.from, "ko")}
         />
         <ArrowRightAltRoundedIcon style={styleArrow} />
-        <PlaceSection
-          type="to"
-          name={getLocationName(roomInfo?.to, preference.lang)}
-        />
+        <PlaceSection type="to" name={getLocationName(roomInfo?.to, "ko")} />
       </div>
       <DottedLine margin="0 2px" />
       <div style={styleInfoSectionWrapper}>

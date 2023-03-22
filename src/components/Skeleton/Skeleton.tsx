@@ -65,16 +65,17 @@ const Skeleton = ({ children }: SkeletonProps) => {
         setIsLoading(false);
       },
     });
+
+    // locations 초기화
+    axios({
+      url: "/locations",
+      method: "get",
+      onSuccess: ({ locations }) => setTaxiLocation(locations),
+    });
   }, []);
 
   useEffect(() => {
     if (userId) {
-      // locations 초기화
-      axios({
-        url: "/locations",
-        method: "get",
-        onSuccess: ({ locations }) => setTaxiLocation(locations),
-      });
       // roomlist 초기화
       axios({
         url: "/rooms/searchByUser",
