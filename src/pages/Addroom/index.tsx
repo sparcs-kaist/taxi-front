@@ -7,7 +7,7 @@ import { useAxios } from "hooks/useTaxiAPI";
 import RLayout from "components/RLayout";
 import Title from "components/Title";
 import Button from "components/Button";
-import { MAX_PARTICIPATION } from "pages/Myroom/Myroom";
+import { MAX_PARTICIPATION } from "pages/Myroom";
 import FullParticipation from "./FullParticipation";
 import OptionName from "components/roomOptions/Name";
 import OptionPlace from "components/roomOptions/Place";

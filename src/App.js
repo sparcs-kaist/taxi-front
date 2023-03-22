@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { CookiesProvider } from "react-cookie";
 import { RecoilRoot } from "recoil";
+
 import ScrollRestoration from "components/Skeleton/ScrollRestoration";
 import VirtualKeyboardDetector from "components/Skeleton/VirtualKeyboardDetector";
 import ChannelTalkProvider from "components/Skeleton/ChannelTalkProvider";
@@ -10,14 +11,14 @@ import AlertProvider from "components/Skeleton/AlertProvider";
 import CSSVariablesProvider from "components/Skeleton/CSSVariablesProvider";
 import Skeleton from "components/Skeleton";
 
-import Login from "pages/Login/Login";
+import Login from "pages/Login";
 import LoginFail from "pages/Login/LoginFail";
 import Logout from "pages/Login/Logout";
 import Home from "pages/Home";
-import Search from "pages/Search/Search";
-import AddRoom from "pages/Addroom/AddRoom";
-import Myroom from "pages/Myroom/Myroom";
-import Mypage from "pages/Mypage/Mypage";
+import Search from "pages/Search";
+import Addroom from "pages/Addroom";
+import Myroom from "pages/Myroom";
+import Mypage from "pages/Mypage";
 import WrapChat from "pages/Chatting/WrapChat";
 import PageNotFound from "pages/Error/PageNotFound";
 
@@ -44,7 +45,7 @@ const App = () => {
               <Route exact path="/" component={Home} />
               <Route exact path="/home" component={Home} />
               <Route exact path="/search" component={Search} />
-              <Route exact path="/addroom" component={AddRoom} />
+              <Route exact path="/addroom" component={Addroom} />
               <Route exact path="/myroom" component={Myroom} />
               <Route exact path="/myroom/:roomId" component={Myroom} />
               <Route exact path="/mypage" component={Mypage} />

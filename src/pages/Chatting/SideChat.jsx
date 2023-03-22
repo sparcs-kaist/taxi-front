@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import Chatting from "pages/Chatting/Chatting";
+import Chatting from "pages/Chatting";
 import theme from "tools/theme";
 
 const SideChat = ({ roomId }) => {

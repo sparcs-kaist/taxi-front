@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 import { date2str } from "tools/moment";
 import { getLocationName } from "tools/trans";
 import theme from "tools/theme";
-import { MAX_PARTICIPATION } from "pages/Myroom/Myroom";
+import { MAX_PARTICIPATION } from "pages/Myroom";
 
 import Modal from "components/modal/Modal";
 import Button from "components/Button";

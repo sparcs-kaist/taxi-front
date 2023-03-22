@@ -1,4 +1,4 @@
-import Chatting from "pages/Chatting/Chatting";
+import Chatting from "pages/Chatting";
 import { useParams } from "react-router-dom";
 
 const WrapChat = () => {
