@@ -16,11 +16,13 @@ import Button from "components/Button";
 import Tooltip from "components/Tooltip";
 import ScrollButton from "./ScrollButton";
 
-import OptionName from "components/roomOptions/Name";
-import OptionPlace from "components/roomOptions/Place";
-import OptionDate from "components/roomOptions/Date";
-import OptionTime from "components/roomOptions/Time";
-import OptionMaxPeople from "components/roomOptions/MaxPeople";
+import {
+  OptionName,
+  OptionPlace,
+  OptionDate,
+  OptionTime,
+  OptionMaxPeople,
+} from "components/RoomOptions";
 
 const searchQueryOption = { skipNulls: true };
 const defaultOptions = { place: true, date: true, time: true };

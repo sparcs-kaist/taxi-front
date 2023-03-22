@@ -1,9 +1,9 @@
 import { useState, memo, useMemo } from "react";
 
 import WhiteContainer from "components/WhiteContainer";
-import Picker from "components/roomOptions/Picker";
 import DottedLine from "components/DottedLine";
 import MiniCircle from "components/MiniCircle";
+import Picker from "./Picker";
 import Popup from "./Popup";
 
 import { useRecoilValue } from "recoil";

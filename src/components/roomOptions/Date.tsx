@@ -1,6 +1,6 @@
 import { memo } from "react";
 import WhiteContainer from "components/WhiteContainer";
-import DatePicker from "components/roomOptions/DatePicker";
+import DatePicker from "./DatePicker";
 
 type DateProps = {
   value: Array<Nullable<number>>;

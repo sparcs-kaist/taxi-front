@@ -1,7 +1,7 @@
 import { useState, useEffect, memo } from "react";
 import WhiteContainer from "components/WhiteContainer";
 import Popup from "./Popup";
-import Picker from "components/roomOptions/Picker";
+import Picker from "./Picker";
 import theme from "tools/theme";
 import { time2str } from "tools/moment";
 

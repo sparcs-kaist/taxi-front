@@ -9,11 +9,13 @@ import Title from "components/Title";
 import Button from "components/Button";
 import { MAX_PARTICIPATION } from "pages/Myroom";
 import FullParticipation from "./FullParticipation";
-import OptionName from "components/roomOptions/Name";
-import OptionPlace from "components/roomOptions/Place";
-import OptionDate from "components/roomOptions/Date";
-import OptionTime from "components/roomOptions/Time";
-import OptionMaxPeople from "components/roomOptions/MaxPeople";
+import {
+  OptionName,
+  OptionPlace,
+  OptionDate,
+  OptionTime,
+  OptionMaxPeople,
+} from "components/RoomOptions";
 
 import alertAtom from "atoms/alert";
 import myRoomAtom from "atoms/myRoom";
