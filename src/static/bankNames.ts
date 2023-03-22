@@ -1,4 +1,4 @@
-const bankNames = [
+const bankNames: string[] = [
   "NH농협",
   "KB국민",
   "카카오뱅크",
