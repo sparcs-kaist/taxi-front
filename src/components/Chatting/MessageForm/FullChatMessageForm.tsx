@@ -83,7 +83,7 @@ const BtnAccount = (props: BtnAccountProps) => {
 type FullChatMessageFormProps = {
   handleSendMessage: (message: string) => boolean;
   handleSendImage: (image: File) => void;
-  handleSendAccount: (account: string) => void;
+  handleSendAccount: (account: string) => boolean;
   setContHeight: (height: PixelValue) => void;
 };
 
