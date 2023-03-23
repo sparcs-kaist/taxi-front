@@ -1,6 +1,6 @@
 import { useState, useEffect, ReactElement } from "react";
 import { useDelayBoolean } from "hooks/useDelay";
-import useDisableScroll from "hooks/useDisableScroll";
+import useDisableScrollEffect from "hooks/useDisableScrollEffect";
 import useKeyboardOperationEffect from "hooks/useKeyboardOperationEffect";
 import theme from "tools/theme";
 import RLayout from "components/RLayout";
@@ -17,7 +17,7 @@ const Popup = (props: PopupProps) => {
   const [display, setDisplay] = useState(false);
   const shouldMount = useDelayBoolean(props.isOpen, theme.duration_num);
 
-  useDisableScroll(props.isOpen);
+  useDisableScrollEffect(props.isOpen);
   useKeyboardOperationEffect({
     onEnter: props.isOpen ? props?.onClick : undefined,
     onEscape: props.isOpen ? props.onClose : undefined,

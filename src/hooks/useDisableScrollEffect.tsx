@@ -3,7 +3,7 @@ import { useEffect } from "react";
 // if fix this name, change App.css
 const SCOLL_LOCK_CLASSNAME = "lock-scroll";
 
-const useDisableScroll = (open: boolean) => {
+const useDisableScrollEffect = (open: boolean) => {
   useEffect(() => {
     if (
       open &&
@@ -18,4 +18,4 @@ const useDisableScroll = (open: boolean) => {
   }, [open]);
 };
 
-export default useDisableScroll;
+export default useDisableScrollEffect;

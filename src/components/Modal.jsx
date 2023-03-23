@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import RLayout from "components/RLayout";
 import PropTypes from "prop-types";
 import { useDelayBoolean } from "hooks/useDelay";
-import useDisableScroll from "hooks/useDisableScroll";
+import useDisableScrollEffect from "hooks/useDisableScrollEffect";
 import useKeyboardOperationEffect from "hooks/useKeyboardOperationEffect";
 import theme from "tools/theme";
 
@@ -14,7 +14,7 @@ const Modal = (props) => {
   const modalRef = useRef(null);
   const clickRef = useRef(false);
 
-  useDisableScroll(props.display);
+  useDisableScrollEffect(props.display);
   useKeyboardOperationEffect({
     onEnter: props.display ? props?.onEnter : undefined,
     onEscape: props.display ? props.onClickClose : undefined,
