@@ -1,9 +1,12 @@
-import { useAxios } from "hooks/useTaxiAPI";
-import PopupContainer from "./PopupContainer";
 import PropTypes from "prop-types";
-import { useSetRecoilState } from "recoil";
+
+import { useAxios } from "hooks/useTaxiAPI";
+
 import alertAtom from "atoms/alert";
 import myRoomAtom from "atoms/myRoom";
+import { useSetRecoilState } from "recoil";
+
+import PopupContainer from "./PopupContainer";
 
 const PopupPay = (props) => {
   const axios = useAxios();

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import { scrollTo, getScrollPage, isBothStartsWith } from "./utils";
+
+import { getScrollPage, isBothStartsWith, scrollTo } from "./utils";
 
 const defaultKey = "init-enter";
 

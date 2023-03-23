@@ -1,10 +1,13 @@
-import { useState, useEffect, ReactElement } from "react";
+import { ReactElement, useEffect, useState } from "react";
+
 import { useDelayBoolean } from "hooks/useDelay";
 import useDisableScrollEffect from "hooks/useDisableScrollEffect";
 import useKeyboardOperationEffect from "hooks/useKeyboardOperationEffect";
-import theme from "tools/theme";
-import RLayout from "components/RLayout";
+
 import Button from "components/Button";
+import RLayout from "components/RLayout";
+
+import theme from "tools/theme";
 
 type PopupProps = {
   isOpen: boolean;

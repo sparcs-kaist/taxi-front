@@ -1,12 +1,17 @@
 import { useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { useR2state } from "hooks/useReactiveState";
+
 import usePageFromSearchParams from "hooks/usePageFromSearchParams";
+import { useR2state } from "hooks/useReactiveState";
+
 import { PAGE_MAX_ITEMS } from "components/Pagination";
+
+import myRoomAtom from "atoms/myRoom";
+import { useRecoilValue } from "recoil";
+
 import R1Myroom from "./R1Myroom";
 import R2Myroom from "./R2Myroom";
-import myRoomAtom from "atoms/myRoom";
+
 export const MAX_PARTICIPATION = 5;
 
 const Myroom = () => {

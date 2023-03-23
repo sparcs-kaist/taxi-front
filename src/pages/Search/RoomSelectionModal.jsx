@@ -1,23 +1,26 @@
-import { useEffect, useState, useRef } from "react";
-import { useHistory } from "react-router-dom";
-import { useAxios } from "hooks/useTaxiAPI";
-import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
-import alertAtom from "atoms/alert";
-import myRoomAtom from "atoms/myRoom";
 import PropTypes from "prop-types";
-import { date2str } from "tools/moment";
-import { getLocationName } from "tools/trans";
-import theme from "tools/theme";
-import { MAX_PARTICIPATION } from "pages/Myroom";
+import { useEffect, useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 
-import Modal from "components/Modal";
+import { useAxios } from "hooks/useTaxiAPI";
+
 import Button from "components/Button";
 import DottedLine from "components/DottedLine";
-import Tooltip from "@mui/material/Tooltip";
 import MiniCircle from "components/MiniCircle";
+import Modal from "components/Modal";
+import { MAX_PARTICIPATION } from "pages/Myroom";
+
+import alertAtom from "atoms/alert";
+import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import myRoomAtom from "atoms/myRoom";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+
+import { date2str } from "tools/moment";
+import theme from "tools/theme";
+import { getLocationName } from "tools/trans";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
+import Tooltip from "@mui/material/Tooltip";
 
 const PlaceSection = (props) => {
   const style = {

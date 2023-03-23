@@ -1,12 +1,13 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
 import regExpTest from "tools/regExpTest";
-import PropTypes from "prop-types";
 import theme from "tools/theme";
 
-import CropOriginalRoundedIcon from "@mui/icons-material/CropOriginalRounded";
-import ArrowUpwardRoundedIcon from "@mui/icons-material/ArrowUpwardRounded";
-import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 import PopupAccount from "./Popup/PopupAccount";
+
+import ArrowUpwardRoundedIcon from "@mui/icons-material/ArrowUpwardRounded";
+import CropOriginalRoundedIcon from "@mui/icons-material/CropOriginalRounded";
+import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 
 type BtnSendProps = {
   enable: boolean;

@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
-import theme from "tools/theme";
+
 import DottedLine from "components/DottedLine";
+
+import theme from "tools/theme";
 
 const ChatDate = (props) => {
   const year = props.date.year();

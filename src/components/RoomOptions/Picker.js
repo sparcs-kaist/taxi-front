@@ -1,5 +1,6 @@
-import { Component, createRef } from "react";
 import PropTypes from "prop-types";
+import { Component, createRef } from "react";
+
 import "./Picker.css";
 
 class PickerColumn extends Component {

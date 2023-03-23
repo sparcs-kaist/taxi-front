@@ -1,11 +1,15 @@
-import { useMemo } from "react";
-import { useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
-import { getLocationName } from "tools/trans";
-import { date2str } from "tools/moment";
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import { useMemo } from "react";
+
 import DottedLine from "components/DottedLine";
+
+import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import { useRecoilValue } from "recoil";
+
+import { date2str } from "tools/moment";
 import theme from "tools/theme";
+import { getLocationName } from "tools/trans";
+
 import "./index.css";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";

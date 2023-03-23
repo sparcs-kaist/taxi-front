@@ -1,5 +1,5 @@
-import heic2any from "heic2any";
 import imageCompression from "browser-image-compression";
+import heic2any from "heic2any";
 
 const convertImg = async (image) => {
   try {

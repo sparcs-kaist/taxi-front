@@ -1,17 +1,22 @@
-import { useEffect, useState } from "react";
-import moment from "tools/moment";
-import ProfileImg from "pages/Mypage/ProfileImg";
-import ImageFullscreen from "pages/Chatting/MessagesBody/ImageFullscreen";
-import { getS3Url } from "tools/trans";
 import PropTypes from "prop-types";
-import theme from "tools/theme";
-import ChatPaySettle from "./ChatPaySettle";
-import WalletIcon from "@mui/icons-material/Wallet";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import hoverEventSet from "tools/hoverEventSet";
-import CheckIcon from "@mui/icons-material/Check";
+import { useEffect, useState } from "react";
+
+import ImageFullscreen from "pages/Chatting/MessagesBody/ImageFullscreen";
+import ProfileImg from "pages/Mypage/ProfileImg";
+
 import alertAtom from "atoms/alert";
 import { useSetRecoilState } from "recoil";
+
+import hoverEventSet from "tools/hoverEventSet";
+import moment from "tools/moment";
+import theme from "tools/theme";
+import { getS3Url } from "tools/trans";
+
+import ChatPaySettle from "./ChatPaySettle";
+
+import CheckIcon from "@mui/icons-material/Check";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import WalletIcon from "@mui/icons-material/Wallet";
 
 const ChatAccount = (props) => {
   const bankName = props.account.split(" ")[0];

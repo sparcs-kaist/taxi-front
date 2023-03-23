@@ -1,10 +1,12 @@
 import { memo } from "react";
+
 import WhiteContainer from "components/WhiteContainer";
+
 import theme from "tools/theme";
 
+import AddRoundedIcon from "@material-ui/icons/AddRounded";
 import PeopleRoundedIcon from "@material-ui/icons/PeopleRounded";
 import RemoveRoundedIcon from "@material-ui/icons/RemoveRounded";
-import AddRoundedIcon from "@material-ui/icons/AddRounded";
 
 type CounterProps = {
   min: number;

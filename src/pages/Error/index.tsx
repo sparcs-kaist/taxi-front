@@ -1,10 +1,12 @@
-import { useRecoilState } from "recoil";
-import errorAtom from "atoms/error";
+import { useHistory } from "react-router-dom";
 
-import { Link, useHistory } from "react-router-dom";
 import Button from "components/Button";
 
+import errorAtom from "atoms/error";
+import { useRecoilState } from "recoil";
+
 import theme from "tools/theme";
+
 import { ReactComponent as TaxiLogo } from "static/assets/TaxiLogo.svg";
 
 const Error = () => {

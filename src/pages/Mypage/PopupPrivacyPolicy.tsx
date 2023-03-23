@@ -1,5 +1,7 @@
 import { useTranslation } from "react-i18next";
+
 import Modal from "components/Modal";
+
 import theme from "tools/theme";
 
 import { ReactComponent as TaxiLogo } from "static/assets/TaxiLogo.svg";

@@ -1,6 +1,6 @@
-import { useEffect, useCallback, useState } from "react";
-import { useLocation } from "react-router-dom";
 import qs from "qs";
+import { useCallback, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const usePageFromSearchParams = (totalPages: Number) => {
   const location = useLocation();

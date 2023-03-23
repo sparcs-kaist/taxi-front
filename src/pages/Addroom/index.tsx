@@ -1,27 +1,30 @@
-import { useState, useRef, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
+import { useHistory } from "react-router-dom";
+
 import { useAxios } from "hooks/useTaxiAPI";
 
-import RLayout from "components/RLayout";
-import Title from "components/Title";
 import Button from "components/Button";
-import { MAX_PARTICIPATION } from "pages/Myroom";
-import FullParticipation from "./FullParticipation";
+import RLayout from "components/RLayout";
 import {
+  OptionDate,
+  OptionMaxPeople,
   OptionName,
   OptionPlace,
-  OptionDate,
   OptionTime,
-  OptionMaxPeople,
 } from "components/RoomOptions";
+import Title from "components/Title";
+import { MAX_PARTICIPATION } from "pages/Myroom";
 
 import alertAtom from "atoms/alert";
 import myRoomAtom from "atoms/myRoom";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
-import { date2str, getToday10, getToday } from "tools/moment";
+import { date2str, getToday, getToday10 } from "tools/moment";
 import theme from "tools/theme";
+
+import FullParticipation from "./FullParticipation";
+
 import randomRoomName from "static/randomRoomName";
 
 const AddRoom = () => {

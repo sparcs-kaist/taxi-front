@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
-import Title from "components/Title";
-import Room from "components/Room";
-import RLayout from "components/RLayout";
-import Pagination, { PAGE_MAX_ITEMS } from "components/Pagination";
-import theme from "tools/theme";
+
 import Empty from "components/Empty";
+import Pagination, { PAGE_MAX_ITEMS } from "components/Pagination";
+import RLayout from "components/RLayout";
+import Room from "components/Room";
+import Title from "components/Title";
 
 /**
  * @todo

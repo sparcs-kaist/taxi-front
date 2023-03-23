@@ -1,6 +1,7 @@
+import PropTypes from "prop-types";
+
 import FullChatHeader from "./FullChatHeader";
 import SideChatHeader from "./SideChatHeader";
-import PropTypes from "prop-types";
 
 const Header = (props) => {
   return props.isSideChat ? (
