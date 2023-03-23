@@ -3,7 +3,7 @@ import RLayout from "components/RLayout";
 import PropTypes from "prop-types";
 import { useDelayBoolean } from "hooks/useDelay";
 import useDisableScroll from "hooks/useDisableScroll";
-import useKeyboardOperation from "hooks/useKeyboardOperation";
+import useKeyboardOperationEffect from "hooks/useKeyboardOperationEffect";
 import theme from "tools/theme";
 
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
@@ -15,10 +15,9 @@ const Modal = (props) => {
   const clickRef = useRef(false);
 
   useDisableScroll(props.display);
-  useKeyboardOperation({
-    display: props.display,
-    onEnter: props?.onEnter,
-    onEscape: props.onClickClose,
+  useKeyboardOperationEffect({
+    onEnter: props.display ? props?.onEnter : undefined,
+    onEscape: props.display ? props.onClickClose : undefined,
   });
   useEffect(
     () => setDisplay(shouldMount && props.display),
