@@ -3,10 +3,10 @@ import { useTranslation } from "react-i18next";
 import DottedLine from "components/DottedLine";
 import Empty from "components/Empty";
 
+import { ReportOptionType } from "./ReportOption";
+
 import { date2str } from "tools/moment";
 import theme from "tools/theme";
-
-import { ReportOptionType } from "./ReportOption";
 
 type ReportListProps = {
   option: ReportOptionType;

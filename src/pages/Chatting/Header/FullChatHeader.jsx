@@ -6,9 +6,9 @@ import { useR2state } from "hooks/useReactiveState";
 
 import DottedLine from "components/DottedLine";
 
-import theme from "tools/theme";
-
 import HeaderBody from "./HeaderBody";
+
+import theme from "tools/theme";
 
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import CloseFullscreenRoundedIcon from "@mui/icons-material/CloseFullscreenRounded";

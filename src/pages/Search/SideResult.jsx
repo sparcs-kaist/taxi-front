@@ -10,9 +10,9 @@ import Room from "components/Room";
 import Title from "components/Title";
 import WhiteContainer from "components/WhiteContainer";
 
-import theme from "tools/theme";
-
 import RoomSelectionModal from "./RoomSelectionModal";
+
+import theme from "tools/theme";
 
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import CheckIcon from "@mui/icons-material/Check";

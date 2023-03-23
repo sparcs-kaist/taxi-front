@@ -19,12 +19,12 @@ import {
 import Title from "components/Title";
 import Tooltip from "components/Tooltip";
 
+import ScrollButton from "./ScrollButton";
+import SideResult from "./SideResult";
+
 import hoverEventSet from "tools/hoverEventSet";
 import moment, { getToday, getToday10 } from "tools/moment";
 import theme from "tools/theme";
-
-import ScrollButton from "./ScrollButton";
-import SideResult from "./SideResult";
 
 const searchQueryOption = { skipNulls: true };
 const defaultOptions = { place: true, date: true, time: true };

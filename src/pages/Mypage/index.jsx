@@ -5,11 +5,6 @@ import { useHistory } from "react-router";
 import Title from "components/Title";
 import WhiteContainer from "components/WhiteContainer";
 
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
-import { useRecoilValue } from "recoil";
-
-import theme from "tools/theme";
-
 import Menu from "./Menu";
 import PopupMembers from "./PopupMembers";
 import PopupModify from "./PopupModify";
@@ -17,6 +12,11 @@ import PopupPolicy from "./PopupPolicy";
 import PopupPrivacyPolicy from "./PopupPrivacyPolicy";
 import PopupReport from "./PopupReport";
 import ProfileImg from "./ProfileImg";
+
+import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import { useRecoilValue } from "recoil";
+
+import theme from "tools/theme";
 
 import { nodeEnv } from "loadenv";
 

@@ -1,10 +1,10 @@
 import { useCallback } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 
+import axios from "./axios";
+
 import errorAtom from "atoms/error";
 import { useSetRecoilState } from "recoil";
-
-import axios from "./axios";
 
 type AxiosOption = {
   url: string;

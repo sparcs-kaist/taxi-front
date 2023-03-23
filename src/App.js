@@ -21,10 +21,10 @@ import Mypage from "pages/Mypage";
 import Myroom from "pages/Myroom";
 import Search from "pages/Search";
 
-import { RecoilRoot } from "recoil";
-
 import "./App.css";
 import "./Font.css";
+
+import { RecoilRoot } from "recoil";
 
 const App = () => {
   return (

@@ -16,9 +16,9 @@
     "<THIRD_PARTY_MODULES>",
     "^hooks/",
     "^components/|^pages/",
+    "^[./]",
     "^atoms/|^recoil$",
     "^tools/",
-    "^[./]",
     "^static/|^loadenv$|^@mui|^@material-ui"
   ],
   "importOrderSeparation": true,

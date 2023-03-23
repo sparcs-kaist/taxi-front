@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
-
 import "cypress-react-selector";
+
 import login from "../utils/login";
 
 const TAXI_PURPLE = "rgb(110, 54, 120)";

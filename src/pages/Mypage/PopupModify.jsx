@@ -10,14 +10,14 @@ import Button from "components/Button";
 import DottedLine from "components/DottedLine";
 import Modal from "components/Modal";
 
+import ProfileImg from "./ProfileImg";
+
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import { useRecoilState } from "recoil";
 
 import convertImg from "tools/convertImg";
 import regExpTest from "tools/regExpTest";
 import theme from "tools/theme";
-
-import ProfileImg from "./ProfileImg";
 
 const ProfImg = (props) => {
   const style = {

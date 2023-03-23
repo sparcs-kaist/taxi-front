@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 
+import FullChatMessageForm from "./FullChatMessageForm";
+import NewMessage from "./NewMessage";
+
 import isVirtualKeyboardDetectedAtom from "atoms/isVirtualKeyboardDetected";
 import { useRecoilValue } from "recoil";
 
 import theme from "tools/theme";
-
-import FullChatMessageForm from "./FullChatMessageForm";
-import NewMessage from "./NewMessage";
 
 type MessageFormProps = {
   isSideChat: boolean;

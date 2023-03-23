@@ -3,14 +3,14 @@ import { useMemo } from "react";
 
 import DottedLine from "components/DottedLine";
 
+import "./index.css";
+
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import { useRecoilValue } from "recoil";
 
 import { date2str } from "tools/moment";
 import theme from "tools/theme";
 import { getLocationName } from "tools/trans";
-
-import "./index.css";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 

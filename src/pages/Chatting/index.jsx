@@ -8,15 +8,15 @@ import { useStateWithCallbackLazy } from "use-state-with-callback";
 import { useR2state } from "hooks/useReactiveState";
 import { useAxios, useQuery } from "hooks/useTaxiAPI";
 
+import Header from "./Header/Header";
+import MessageForm from "./MessageForm/MessageForm";
+import MessagesBody from "./MessagesBody/MessagesBody";
+
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import { useRecoilValue } from "recoil";
 
 import convertImg from "tools/convertImg";
 import regExpTest from "tools/regExpTest";
-
-import Header from "./Header/Header";
-import MessageForm from "./MessageForm/MessageForm";
-import MessagesBody from "./MessagesBody/MessagesBody";
 
 import { ioServer } from "loadenv";
 

@@ -1,5 +1,4 @@
 /// <reference types="cypress" />
-
 import "cypress-react-selector";
 
 const urls = ["/search", "/addroom", "/myroom", "mypage"];

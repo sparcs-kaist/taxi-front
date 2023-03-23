@@ -7,14 +7,14 @@ import HeaderBar from "components/HeaderBar";
 import Error from "pages/Error";
 import PopupPolicy from "pages/Mypage/PopupPolicy";
 
+import Footer from "./Footer";
+import Navigation from "./Navigation";
+
 import errorAtom from "atoms/error";
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import myRoomAtom from "atoms/myRoom";
 import taxiLocationAtom from "atoms/taxiLocation";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-
-import Footer from "./Footer";
-import Navigation from "./Navigation";
 
 type ContainerProps = {
   children: ReactNode;

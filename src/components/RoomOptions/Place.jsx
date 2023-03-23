@@ -5,15 +5,15 @@ import DottedLine from "components/DottedLine";
 import MiniCircle from "components/MiniCircle";
 import WhiteContainer from "components/WhiteContainer";
 
+import Picker from "./Picker";
+import Popup from "./Popup";
+
 import taxiLocationAtom from "atoms/taxiLocation";
 import { useRecoilValue } from "recoil";
 
 import hoverEventSet from "tools/hoverEventSet";
 import theme from "tools/theme";
 import { getLocationName } from "tools/trans";
-
-import Picker from "./Picker";
-import Popup from "./Popup";
 
 const PopupInput = (props) => {
   const [value, setValue] = useState({

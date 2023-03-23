@@ -3,15 +3,15 @@ import { useMemo, useState } from "react";
 
 import ProfileImg from "pages/Mypage/ProfileImg";
 
+import PopupCancel from "./Popup/PopupCancel";
+import PopupPay from "./Popup/PopupPay";
+import PopupSend from "./Popup/PopupSend";
+
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import { useRecoilValue } from "recoil";
 
 import { date2str } from "tools/moment";
 import theme from "tools/theme";
-
-import PopupCancel from "./Popup/PopupCancel";
-import PopupPay from "./Popup/PopupPay";
-import PopupSend from "./Popup/PopupSend";
 
 import SendRoundedIcon from "@material-ui/icons/SendRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";

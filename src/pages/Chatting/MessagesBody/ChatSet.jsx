@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import ImageFullscreen from "pages/Chatting/MessagesBody/ImageFullscreen";
 import ProfileImg from "pages/Mypage/ProfileImg";
 
+import ChatPaySettle from "./ChatPaySettle";
+
 import alertAtom from "atoms/alert";
 import { useSetRecoilState } from "recoil";
 
@@ -11,8 +13,6 @@ import hoverEventSet from "tools/hoverEventSet";
 import moment from "tools/moment";
 import theme from "tools/theme";
 import { getS3Url } from "tools/trans";
-
-import ChatPaySettle from "./ChatPaySettle";
 
 import CheckIcon from "@mui/icons-material/Check";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";

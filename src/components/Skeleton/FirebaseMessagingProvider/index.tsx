@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 
+import { registerTokenOnClick } from "./firebase";
+
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import { useRecoilValue } from "recoil";
-
-import { registerTokenOnClick } from "./firebase";
 
 const FirebaseMessagingProvider = () => {
   const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);

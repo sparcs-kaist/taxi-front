@@ -6,11 +6,11 @@ import { useR2state } from "hooks/useReactiveState";
 
 import { PAGE_MAX_ITEMS } from "components/Pagination";
 
-import myRoomAtom from "atoms/myRoom";
-import { useRecoilValue } from "recoil";
-
 import R1Myroom from "./R1Myroom";
 import R2Myroom from "./R2Myroom";
+
+import myRoomAtom from "atoms/myRoom";
+import { useRecoilValue } from "recoil";
 
 export const MAX_PARTICIPATION = 5;
 

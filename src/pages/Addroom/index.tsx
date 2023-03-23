@@ -16,14 +16,14 @@ import {
 import Title from "components/Title";
 import { MAX_PARTICIPATION } from "pages/Myroom";
 
+import FullParticipation from "./FullParticipation";
+
 import alertAtom from "atoms/alert";
 import myRoomAtom from "atoms/myRoom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 
 import { date2str, getToday, getToday10 } from "tools/moment";
 import theme from "tools/theme";
-
-import FullParticipation from "./FullParticipation";
 
 import randomRoomName from "static/randomRoomName";
 
