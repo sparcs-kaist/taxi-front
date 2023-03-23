@@ -125,10 +125,6 @@ const RoomSelectionModal = (props) => {
     if (props.isOpen) setRoomInfo(props.roomInfo);
   }, [props.isOpen]);
 
-  useEffect(() => {
-    if (onCall.current) history.push(`/myroom/${roomInfo._id}`);
-  }, [myRoom?.ongoing.length]);
-
   const styleTitle = {
     ...theme.font18,
     padding: "10px 26px 18px 14px",
@@ -164,7 +160,7 @@ const RoomSelectionModal = (props) => {
         data: {
           roomId: roomInfo._id,
         },
-        onSuccess: async () =>
+        onSuccess: async () => {
           setMyRoom(
             await axios({
               url: "/rooms/searchByUser",
@@ -172,8 +168,10 @@ const RoomSelectionModal = (props) => {
               onError: () =>
                 setAlert("예상치 못한 오류가 발생했습니다. 새로고침 해주세요."),
             })
-          ),
-        onError: () => setAlert("방 개설에 실패하였습니다."),
+          );
+          history.push(`/myroom/${roomInfo._id}`);
+        },
+        onError: () => setAlert("방 참여에 실패하였습니다."),
       });
       onCall.current = false;
     }
