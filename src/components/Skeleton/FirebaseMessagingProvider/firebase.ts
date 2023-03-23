@@ -48,4 +48,4 @@ const registerTokenOnClick = () => {
   }
 };
 
-export default registerTokenOnClick;
+export { registerTokenOnClick };

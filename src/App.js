@@ -6,6 +6,7 @@ import ScrollRestoration from "components/Skeleton/ScrollRestoration";
 import VirtualKeyboardDetector from "components/Skeleton/VirtualKeyboardDetector";
 import ChannelTalkProvider from "components/Skeleton/ChannelTalkProvider";
 import GoogleAnalyticsProvier from "components/Skeleton/GoogleAnalyticsProvier";
+import FirebaseMessagingProvider from "components/Skeleton/FirebaseMessagingProvider";
 import I18nextProvider from "components/Skeleton/I18nextProvider";
 import AlertProvider from "components/Skeleton/AlertProvider";
 import CSSVariablesProvider from "components/Skeleton/CSSVariablesProvider";
@@ -34,6 +35,7 @@ const App = () => {
           <VirtualKeyboardDetector />
           <ChannelTalkProvider />
           <GoogleAnalyticsProvier />
+          <FirebaseMessagingProvider />
           <I18nextProvider />
           <AlertProvider />
           <CSSVariablesProvider />

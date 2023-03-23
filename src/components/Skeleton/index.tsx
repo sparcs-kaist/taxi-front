@@ -1,7 +1,6 @@
 import { useState, useEffect, ReactNode } from "react";
 import { useLocation, Redirect } from "react-router-dom";
 import { useAxios } from "hooks/useTaxiAPI";
-import registerTokenOnClick from "tools/firebase";
 
 import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 import taxiLocationAtom from "atoms/taxiLocation";
@@ -82,9 +81,6 @@ const Skeleton = ({ children }: SkeletonProps) => {
         method: "get",
         onSuccess: (data) => setMyRoom(data),
       });
-
-      // FCM 디바이스 토큰 등록
-      registerTokenOnClick();
     }
   }, [userId]);
 
