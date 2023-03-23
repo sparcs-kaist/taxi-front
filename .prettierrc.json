@@ -14,7 +14,7 @@
   "singleQuote": false,
   "importOrder": [
     "<THIRD_PARTY_MODULES>",
-    "^hooks",
+    "^hooks/",
     "^components/|^pages/",
     "^atoms/|^recoil$",
     "^tools/",
