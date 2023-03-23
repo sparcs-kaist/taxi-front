@@ -1,12 +1,14 @@
 import { useHistory } from "react-router-dom";
+import { useAxios } from "hooks/useTaxiAPI";
 import PopupContainer from "./PopupContainer";
 import PropTypes from "prop-types";
-import axios from "tools/axios";
 import { useSetRecoilState } from "recoil";
 import alertAtom from "recoil/alert";
 import myRoomAtom from "recoil/myRoom";
 
 const PopupCancel = (props) => {
+  const axios = useAxios();
+
   const styleTextCont = {
     textAlign: "center",
   };
@@ -34,18 +36,24 @@ const PopupCancel = (props) => {
   const history = useHistory();
   const setAlert = useSetRecoilState(alertAtom);
   const setMyRoom = useSetRecoilState(myRoomAtom);
-  const onClick = async () => {
-    const res = await axios.post("/rooms/abort", {
-      roomId: props.roomId,
+  const onClick = () =>
+    axios({
+      url: "/rooms/abort",
+      method: "post",
+      data: {
+        roomId: props.roomId,
+      },
+      onSuccess: async () => {
+        setMyRoom(
+          await axios({
+            url: "/rooms/searchByUser",
+            method: "get",
+          })
+        );
+        history.replace("/myroom");
+      },
+      onError: () => setAlert("탑승 취소에 실패하였습니다"),
     });
-    if (res.status === 200) {
-      const { data } = await axios.get("/rooms/searchByUser");
-      setMyRoom(data);
-      history.replace("/myroom");
-    } else {
-      setAlert("탑승 취소에 실패하였습니다");
-    }
-  };
 
   return (
     <PopupContainer

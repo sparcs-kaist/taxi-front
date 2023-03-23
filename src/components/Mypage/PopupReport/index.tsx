@@ -1,11 +1,11 @@
 import { useState } from "react";
-import useTaxiAPI from "hooks/useTaxiAPI";
 import { useTranslation } from "react-i18next";
-import theme from "styles/theme";
+import { useQuery } from "hooks/useTaxiAPI";
 import Modal from "components/common/modal/Modal";
 import DottedLine from "components/common/DottedLine";
 import ReportOption, { ReportOptionType } from "./ReportOption";
 import ReportList from "./ReportList";
+import theme from "styles/theme";
 
 import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
 
@@ -21,7 +21,7 @@ type RecordProps = {
 const PopupReport = (props: RecordProps) => {
   const { t } = useTranslation("mypage");
   const [option, setOption] = useState<ReportOptionType>("Reporting");
-  const [, reportHistory] = useTaxiAPI.get("/reports/searchByUser");
+  const [, reportHistory] = useQuery.get("/reports/searchByUser");
 
   const styleTitle = {
     ...theme.font18,

@@ -1,9 +1,9 @@
 import { useHistory } from "react-router";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useAxios } from "hooks/useTaxiAPI";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import PropTypes from "prop-types";
 import Modal from "components/common/modal/Modal";
-import axios from "tools/axios";
 import theme from "styles/theme";
 import alertAtom from "recoil/alert";
 
@@ -155,15 +155,22 @@ const Policy = () => {
 };
 
 const Agree = (props) => {
+  const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
+  const setLoginInfoDetail = useSetRecoilState(loginInfoDetailAtom);
+
   const onAgree = async () => {
-    const response = await axios.post("/users/agreeOnTermsOfService");
-    if (response.status !== 200) {
-      setAlert("약관 동의에 실패하였습니다.");
-      return;
-    }
-    const detail = await axios.get("/logininfo/detail");
-    props.setLoginInfoDetail(detail?.data);
+    await axios({
+      url: "/users/agreeOnTermsOfService",
+      method: "post",
+      onError: () => setAlert("약관 동의에 실패하였습니다."),
+    });
+    setLoginInfoDetail(
+      await axios({
+        url: "/logininfo/detail",
+        method: "get",
+      })
+    );
     props.onAgree();
   };
   const styleBottom = {
@@ -206,14 +213,11 @@ Agree.propTypes = {
   didAgree: PropTypes.any,
   onClose: PropTypes.func,
   onAgree: PropTypes.func,
-  setLoginInfoDetail: PropTypes.func,
 };
 
 const PopupPolicy = (props) => {
   const history = useHistory();
-  const setAlert = useSetRecoilState(alertAtom);
-  const [loginInfoDetail, setLoginInfoDetail] =
-    useRecoilState(loginInfoDetailAtom);
+  const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const didAgree = loginInfoDetail?.agreeOnTermsOfService ?? false;
 
   const onClose = async () => {
@@ -222,12 +226,7 @@ const PopupPolicy = (props) => {
       props.onClose();
       return;
     }
-    const response = await axios.get("/auth/logout");
-    if (response.status === 200) {
-      history.push("/login");
-    } else {
-      setAlert("로그아웃에 실패했습니다.");
-    }
+    history.push("/logout");
   };
 
   const styleTop = {
@@ -251,12 +250,7 @@ const PopupPolicy = (props) => {
       </div>
       <Policy />
       <div data-cy="agreement-bottom">
-        <Agree
-          didAgree={didAgree}
-          onClose={onClose}
-          onAgree={() => props.onClose()}
-          setLoginInfoDetail={setLoginInfoDetail}
-        />
+        <Agree didAgree={didAgree} onClose={onClose} onAgree={props.onClose} />
       </div>
     </Modal>
   );
@@ -264,6 +258,9 @@ const PopupPolicy = (props) => {
 PopupPolicy.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
+};
+PopupPolicy.defaultProps = {
+  onClose: () => {},
 };
 
 export default PopupPolicy;

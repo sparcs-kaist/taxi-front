@@ -18,5 +18,27 @@ declare global {
     etcDetail: string;
     time: Date;
   };
+  type Location = {
+    _id: string;
+    enName: string;
+    koName: string;
+  };
+  type Room = {
+    name: string;
+    from: Location;
+    to: Location;
+    time: string;
+    madeat: string;
+    settlementTotal?: number;
+    maxPartLength: number;
+    part: [
+      {
+        _id: string;
+        name: string;
+        nickname: string;
+        profileImageUrl: string;
+      }
+    ];
+  };
   type ReportResponse = { status: number };
 }

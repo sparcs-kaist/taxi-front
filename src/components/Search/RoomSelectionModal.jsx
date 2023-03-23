@@ -1,14 +1,13 @@
 import { useEffect, useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
+import { useAxios } from "hooks/useTaxiAPI";
 import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
-import preferenceAtom from "recoil/preference";
 import loginInfoDetailAtom from "recoil/loginInfoDetail";
 import alertAtom from "recoil/alert";
 import myRoomAtom from "recoil/myRoom";
 import PropTypes from "prop-types";
 import { date2str } from "tools/moment";
 import { getLocationName } from "tools/trans";
-import axios from "tools/axios";
 import theme from "styles/theme";
 import { MAX_PARTICIPATION } from "components/Myroom/Myroom";
 
@@ -105,12 +104,12 @@ InfoSection.defaultProps = {
 };
 
 const RoomSelectionModal = (props) => {
+  const axios = useAxios();
   const onCall = useRef(false);
   const [roomInfo, setRoomInfo] = useState(null);
   const history = useHistory();
   const [myRoom, setMyRoom] = useRecoilState(myRoomAtom);
   const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
-  const preference = useRecoilValue(preferenceAtom);
   const setAlert = useSetRecoilState(alertAtom);
   const disableJoinBtn =
     roomInfo?.part.some((user) => user._id === loginInfoDetail?.oid) ?? true;
@@ -155,19 +154,25 @@ const RoomSelectionModal = (props) => {
   const requestJoin = async () => {
     if (!onCall.current) {
       onCall.current = true;
-      const result = await axios.post("/rooms/join", {
-        roomId: roomInfo._id,
+      // FIXME: "/rooms/join" API가 myRoom을 반환하도록 수정
+      await axios({
+        url: "/rooms/join",
+        method: "post",
+        data: {
+          roomId: roomInfo._id,
+        },
+        onSuccess: async () =>
+          setMyRoom(
+            await axios({
+              url: "/rooms/searchByUser",
+              method: "get",
+              onError: () =>
+                setAlert("예상치 못한 오류가 발생했습니다. 새로고침 해주세요."),
+            })
+          ),
+        onError: () => setAlert("방 개설에 실패하였습니다."),
       });
-      if (result.status === 200) {
-        try {
-          const { data } = await axios.get("/rooms/searchByUser");
-          setMyRoom(data);
-        } catch (error) {
-          setAlert("예상치 못한 오류가 발생했습니다. 새로고침 해주세요.");
-        }
-      } else {
-        setAlert("방 개설에 실패하였습니다.");
-      }
+      onCall.current = false;
     }
   };
 
@@ -178,13 +183,10 @@ const RoomSelectionModal = (props) => {
       <div style={stylePlace}>
         <PlaceSection
           type="from"
-          name={getLocationName(roomInfo?.from, preference.lang)}
+          name={getLocationName(roomInfo?.from, "ko")}
         />
         <ArrowRightAltRoundedIcon style={styleArrow} />
-        <PlaceSection
-          type="to"
-          name={getLocationName(roomInfo?.to, preference.lang)}
-        />
+        <PlaceSection type="to" name={getLocationName(roomInfo?.to, "ko")} />
       </div>
       <DottedLine margin="0 2px" />
       <div style={styleInfoSectionWrapper}>

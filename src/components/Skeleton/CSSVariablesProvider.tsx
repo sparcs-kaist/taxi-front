@@ -1,19 +1,17 @@
 import { useEffect } from "react";
 
-const useWindowInnerHeight = () => {
+const CSSVariablesProvider = () => {
   useEffect(() => {
-    function syncHeight() {
+    const syncHeight = () =>
       document.documentElement.style.setProperty(
         "--window-inner-height",
         `${window.innerHeight}px`
       );
-    }
 
     window.addEventListener("resize", syncHeight);
-    return () => {
-      window.removeEventListener("resize", syncHeight);
-    };
+    return () => window.removeEventListener("resize", syncHeight);
   }, []);
+  return null;
 };
 
-export default useWindowInnerHeight;
+export default CSSVariablesProvider;

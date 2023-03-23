@@ -6,7 +6,6 @@ import regExpTest from "tools/regExpTest";
 type AccountSelectorProps = {
   accountNumber: string;
   setAccountNumber: (account: string) => void;
-  selectDisabled?: boolean;
 };
 
 const AccountSelector = (props: AccountSelectorProps) => {

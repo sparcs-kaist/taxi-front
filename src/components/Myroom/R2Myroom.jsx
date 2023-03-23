@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
+import { useQuery } from "hooks/useTaxiAPI";
 import Title from "components/common/Title";
 import WhiteContainer from "components/common/WhiteContainer";
 import ChatHeaderBody from "components/Chatting/Header/HeaderBody";
@@ -9,18 +10,16 @@ import Pagination, {
   PAGE_MAX_ITEMS,
 } from "components/common/pagination/Pagination";
 import RLayout from "components/common/RLayout";
-import useTaxiAPI from "hooks/useTaxiAPI";
-import PropTypes from "prop-types";
-import theme from "styles/theme";
-
 import Empty from "components/common/Empty";
 import DottedLine from "components/common/DottedLine";
 import UnfoldMoreRoundedIcon from "@mui/icons-material/UnfoldMoreRounded";
 import UnfoldLessRoundedIcon from "@mui/icons-material/UnfoldLessRounded";
+import PropTypes from "prop-types";
+import theme from "styles/theme";
 
 const ChatHeader = (props) => {
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
-  const [, headerInfo] = useTaxiAPI.get(`/rooms/info?id=${props.roomId}`, {}, [
+  const [, headerInfo] = useQuery.get(`/rooms/info?id=${props.roomId}`, {}, [
     headerInfToken,
   ]);
 

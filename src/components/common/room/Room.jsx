@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import { useRecoilValue } from "recoil";
-import preferenceAtom from "recoil/preference";
 import PropTypes from "prop-types";
 import { getLocationName } from "tools/trans";
 import { date2str } from "tools/moment";
@@ -71,7 +70,6 @@ const Tag = (props) => {
 
 const Room = (props) => {
   const users = props.data?.part || [];
-  const preference = useRecoilValue(preferenceAtom);
   const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const isSettlementForMe = useMemo(
     () => users.find((user) => user._id === loginInfoDetail.oid)?.isSettlement,
@@ -135,13 +133,9 @@ const Room = (props) => {
       </div>
       <DottedLine direction="row" margin="0 12px" />
       <div style={stylePlaceGrid}>
-        <div style={stylePlace}>
-          {getLocationName(props.data?.from, preference.lang)}
-        </div>
+        <div style={stylePlace}>{getLocationName(props.data?.from, "ko")}</div>
         <ArrowRightAltRoundedIcon style={styleArrow} />
-        <div style={stylePlace}>
-          {getLocationName(props.data?.to, preference.lang)}
-        </div>
+        <div style={stylePlace}>{getLocationName(props.data?.to, "ko")}</div>
       </div>
       <div style={styleDate}>{date2str(props.data?.time)}</div>
     </div>

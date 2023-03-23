@@ -1,11 +1,13 @@
+import { useAxios } from "hooks/useTaxiAPI";
+import { useSetRecoilState } from "recoil";
 import PopupContainer from "./PopupContainer";
 import PropTypes from "prop-types";
-import axios from "tools/axios";
-import { useSetRecoilState } from "recoil";
 import alertAtom from "recoil/alert";
 import myRoomAtom from "recoil/myRoom";
 
 const PopupSend = (props) => {
+  const axios = useAxios();
+
   const styleTextCont = {
     textAlign: "center",
   };
@@ -32,18 +34,25 @@ const PopupSend = (props) => {
 
   const setAlert = useSetRecoilState(alertAtom);
   const setMyRoom = useSetRecoilState(myRoomAtom);
-  const onClick = async () => {
-    const res = await axios.post("/rooms/commitSettlement", {
-      roomId: props.roomId,
+  const onClick = () => {
+    axios({
+      url: "/rooms/commitSettlement",
+      method: "post",
+      data: {
+        roomId: props.roomId,
+      },
+      onSuccess: async () => {
+        setMyRoom(
+          await axios({
+            url: "/rooms/searchByUser",
+            method: "get",
+          })
+        );
+        props.recallEvent();
+        props.onClickClose();
+      },
+      onError: () => setAlert("정산 완료를 실패하였습니다"),
     });
-    if (res.status === 200) {
-      const { data } = await axios.get("/rooms/searchByUser");
-      setMyRoom(data);
-      props.recallEvent();
-      props.onClickClose();
-    } else {
-      setAlert("정산 완료를 실패하였습니다");
-    }
   };
 
   return (

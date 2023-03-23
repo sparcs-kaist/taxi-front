@@ -4,8 +4,10 @@ import { RecoilRoot } from "recoil";
 import ScrollRestoration from "components/Skeleton/ScrollRestoration";
 import VirtualKeyboardDetector from "components/Skeleton/VirtualKeyboardDetector";
 import ChannelTalkProvider from "components/Skeleton/ChannelTalkProvider";
+import GoogleAnalyticsProvier from "components/Skeleton/GoogleAnalyticsProvier";
 import I18nextProvider from "lang/I18nextProvider";
 import AlertProvider from "components/Skeleton/AlertProvider";
+import CSSVariablesProvider from "components/Skeleton/CSSVariablesProvider";
 import Skeleton from "components/Skeleton/Skeleton";
 
 import Login from "components/Login/Login";
@@ -30,8 +32,10 @@ const App = () => {
           <ScrollRestoration />
           <VirtualKeyboardDetector />
           <ChannelTalkProvider />
+          <GoogleAnalyticsProvier />
           <I18nextProvider />
           <AlertProvider />
+          <CSSVariablesProvider />
           <Skeleton>
             <Switch>
               <Route exact path="/login" component={Login} />
