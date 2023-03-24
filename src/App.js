@@ -1,30 +1,30 @@
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { CookiesProvider } from "react-cookie";
-import { RecoilRoot } from "recoil";
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 
-import ScrollRestoration from "components/Skeleton/ScrollRestoration";
-import VirtualKeyboardDetector from "components/Skeleton/VirtualKeyboardDetector";
-import ChannelTalkProvider from "components/Skeleton/ChannelTalkProvider";
-import GoogleAnalyticsProvier from "components/Skeleton/GoogleAnalyticsProvier";
-import FirebaseMessagingProvider from "components/Skeleton/FirebaseMessagingProvider";
-import I18nextProvider from "components/Skeleton/I18nextProvider";
+import Skeleton from "components/Skeleton";
 import AlertProvider from "components/Skeleton/AlertProvider";
 import CSSVariablesProvider from "components/Skeleton/CSSVariablesProvider";
-import Skeleton from "components/Skeleton";
-
+import ChannelTalkProvider from "components/Skeleton/ChannelTalkProvider";
+import FirebaseMessagingProvider from "components/Skeleton/FirebaseMessagingProvider";
+import GoogleAnalyticsProvier from "components/Skeleton/GoogleAnalyticsProvier";
+import I18nextProvider from "components/Skeleton/I18nextProvider";
+import ScrollRestoration from "components/Skeleton/ScrollRestoration";
+import VirtualKeyboardDetector from "components/Skeleton/VirtualKeyboardDetector";
+import Addroom from "pages/Addroom";
+import WrapChat from "pages/Chatting/WrapChat";
+import PageNotFound from "pages/Error/PageNotFound";
+import Home from "pages/Home";
 import Login from "pages/Login";
 import LoginFail from "pages/Login/LoginFail";
 import Logout from "pages/Login/Logout";
-import Home from "pages/Home";
-import Search from "pages/Search";
-import Addroom from "pages/Addroom";
-import Myroom from "pages/Myroom";
 import Mypage from "pages/Mypage";
-import WrapChat from "pages/Chatting/WrapChat";
-import PageNotFound from "pages/Error/PageNotFound";
+import Myroom from "pages/Myroom";
+import Search from "pages/Search";
 
-import "App.css";
-import "Font.css";
+import "./App.css";
+import "./Font.css";
+
+import { RecoilRoot } from "recoil";
 
 const App = () => {
   return (

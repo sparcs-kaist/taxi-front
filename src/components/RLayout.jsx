@@ -1,5 +1,6 @@
-import { useR1state, useR2state, usePopupstate } from "hooks/useReactiveState";
 import PropTypes from "prop-types";
+
+import { usePopupstate, useR1state, useR2state } from "hooks/useReactiveState";
 
 const R1 = (props) => {
   const state = useR1state();

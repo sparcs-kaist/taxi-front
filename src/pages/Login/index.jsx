@@ -1,8 +1,10 @@
-import { backServer } from "loadenv";
 import Button from "components/Button";
-import theme from "tools/theme";
-import { ReactComponent as TaxiLogo } from "static/assets/TaxiLogo.svg";
 import HeaderBar from "components/HeaderBar";
+
+import theme from "tools/theme";
+
+import { backServer } from "loadenv";
+import { ReactComponent as TaxiLogo } from "static/assets/TaxiLogo.svg";
 
 const Login = () => {
   return (

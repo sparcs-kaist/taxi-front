@@ -1,17 +1,17 @@
 import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
-import { nodeEnv } from "loadenv";
+import { initReactI18next } from "react-i18next";
 
-import nsSearchKO from "pages/Search/langs/ko.json";
-import nsAddroomKO from "pages/Addroom/langs/ko.json";
-import nsMyroomKO from "pages/Myroom/langs/ko.json";
-import nsMypageKO from "pages/Mypage/langs/ko.json";
-
-import nsSearchEN from "pages/Search/langs/en.json";
 import nsAddroomEN from "pages/Addroom/langs/en.json";
-import nsMyroomEN from "pages/Myroom/langs/en.json";
+import nsAddroomKO from "pages/Addroom/langs/ko.json";
 import nsMypageEN from "pages/Mypage/langs/en.json";
+import nsMypageKO from "pages/Mypage/langs/ko.json";
+import nsMyroomEN from "pages/Myroom/langs/en.json";
+import nsMyroomKO from "pages/Myroom/langs/ko.json";
+import nsSearchEN from "pages/Search/langs/en.json";
+import nsSearchKO from "pages/Search/langs/ko.json";
+
+import { nodeEnv } from "loadenv";
 
 /**
  * {@link https://www.i18next.com/overview/configuration-options}

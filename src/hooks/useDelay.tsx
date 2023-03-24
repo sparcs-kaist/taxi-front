@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const useDelay = <T,>(value: T, isValid: boolean, delayTime: number): T => {
   const valueRef = useRef(value);

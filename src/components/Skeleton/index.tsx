@@ -1,18 +1,20 @@
-import { useState, useEffect, ReactNode } from "react";
-import { useLocation, Redirect } from "react-router-dom";
+import { ReactNode, useEffect, useState } from "react";
+import { Redirect, useLocation } from "react-router-dom";
+
 import { useAxios } from "hooks/useTaxiAPI";
 
-import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
-import taxiLocationAtom from "atoms/taxiLocation";
+import HeaderBar from "components/HeaderBar";
+import Error from "pages/Error";
+import PopupPolicy from "pages/Mypage/PopupPolicy";
+
+import Footer from "./Footer";
+import Navigation from "./Navigation";
+
+import errorAtom from "atoms/error";
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import myRoomAtom from "atoms/myRoom";
-import errorAtom from "atoms/error";
-
-import HeaderBar from "components/HeaderBar";
-import Navigation from "./Navigation";
-import Footer from "./Footer";
-import PopupPolicy from "pages/Mypage/PopupPolicy";
-import Error from "pages/Error";
+import taxiLocationAtom from "atoms/taxiLocation";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 type ContainerProps = {
   children: ReactNode;

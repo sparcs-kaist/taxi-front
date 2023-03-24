@@ -1,8 +1,10 @@
-import { useRef, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import { useEffect, useRef } from "react";
 import reactGA from "react-ga4";
+import { useLocation } from "react-router-dom";
+
+import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import { useRecoilValue } from "recoil";
+
 import { gaTrackingId, nodeEnv } from "loadenv";
 
 const GoogleAnalyticsProvier = () => {

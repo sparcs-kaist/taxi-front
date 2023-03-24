@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+
 import { useQuery } from "hooks/useTaxiAPI";
-import Modal from "components/Modal";
+
 import DottedLine from "components/DottedLine";
-import ReportOption, { ReportOptionType } from "./ReportOption";
+import Modal from "components/Modal";
+
 import ReportList from "./ReportList";
+import ReportOption, { ReportOptionType } from "./ReportOption";
+
 import theme from "tools/theme";
 
 import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";

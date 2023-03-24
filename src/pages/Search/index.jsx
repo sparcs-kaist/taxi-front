@@ -1,28 +1,30 @@
-import { useState, useRef, useEffect, memo } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
+import qs from "qs";
+import { memo, useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
+import { useHistory, useLocation } from "react-router-dom";
+
 import { useR2state } from "hooks/useReactiveState";
 import { useAxios } from "hooks/useTaxiAPI";
-import qs from "qs";
-import hoverEventSet from "tools/hoverEventSet";
-import theme from "tools/theme";
 
-import RLayout from "components/RLayout";
-import Title from "components/Title";
-import SideResult from "./SideResult";
-import moment, { getToday10, getToday } from "tools/moment";
-import PropTypes from "prop-types";
 import Button from "components/Button";
-import Tooltip from "components/Tooltip";
-import ScrollButton from "./ScrollButton";
-
+import RLayout from "components/RLayout";
 import {
+  OptionDate,
+  OptionMaxPeople,
   OptionName,
   OptionPlace,
-  OptionDate,
   OptionTime,
-  OptionMaxPeople,
 } from "components/RoomOptions";
+import Title from "components/Title";
+import Tooltip from "components/Tooltip";
+
+import ScrollButton from "./ScrollButton";
+import SideResult from "./SideResult";
+
+import hoverEventSet from "tools/hoverEventSet";
+import moment, { getToday, getToday10 } from "tools/moment";
+import theme from "tools/theme";
 
 const searchQueryOption = { skipNulls: true };
 const defaultOptions = { place: true, date: true, time: true };

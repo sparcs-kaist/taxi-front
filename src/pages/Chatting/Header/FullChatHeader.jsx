@@ -1,15 +1,19 @@
+import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router";
-import HeaderBody from "./HeaderBody";
-import PropTypes from "prop-types";
-import theme from "tools/theme";
-import DottedLine from "components/DottedLine";
+
 import { useR2state } from "hooks/useReactiveState";
+
+import DottedLine from "components/DottedLine";
+
+import HeaderBody from "./HeaderBody";
+
+import theme from "tools/theme";
 
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import CloseFullscreenRoundedIcon from "@mui/icons-material/CloseFullscreenRounded";
-import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 
 const Header = (props) => {
   const bodyRef = useRef();

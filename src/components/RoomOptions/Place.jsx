@@ -1,18 +1,19 @@
-import { useState, memo, useMemo } from "react";
+import PropTypes from "prop-types";
+import { memo, useMemo, useState } from "react";
 
-import WhiteContainer from "components/WhiteContainer";
 import DottedLine from "components/DottedLine";
 import MiniCircle from "components/MiniCircle";
+import WhiteContainer from "components/WhiteContainer";
+
 import Picker from "./Picker";
 import Popup from "./Popup";
 
-import { useRecoilValue } from "recoil";
 import taxiLocationAtom from "atoms/taxiLocation";
+import { useRecoilValue } from "recoil";
 
 import hoverEventSet from "tools/hoverEventSet";
-import { getLocationName } from "tools/trans";
 import theme from "tools/theme";
-import PropTypes from "prop-types";
+import { getLocationName } from "tools/trans";
 
 const PopupInput = (props) => {
   const [value, setValue] = useState({

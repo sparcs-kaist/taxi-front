@@ -1,10 +1,13 @@
-import { useHistory } from "react-router-dom";
-import { useAxios } from "hooks/useTaxiAPI";
-import PopupContainer from "./PopupContainer";
 import PropTypes from "prop-types";
-import { useSetRecoilState } from "recoil";
+import { useHistory } from "react-router-dom";
+
+import { useAxios } from "hooks/useTaxiAPI";
+
+import PopupContainer from "./PopupContainer";
+
 import alertAtom from "atoms/alert";
 import myRoomAtom from "atoms/myRoom";
+import { useSetRecoilState } from "recoil";
 
 const PopupCancel = (props) => {
   const axios = useAxios();

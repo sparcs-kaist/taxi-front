@@ -1,9 +1,12 @@
-import { useRef, useState, useEffect } from "react";
-import RLayout from "components/RLayout";
 import PropTypes from "prop-types";
+import { useEffect, useRef, useState } from "react";
+
 import { useDelayBoolean } from "hooks/useDelay";
 import useDisableScrollEffect from "hooks/useDisableScrollEffect";
 import useKeyboardOperationEffect from "hooks/useKeyboardOperationEffect";
+
+import RLayout from "components/RLayout";
+
 import theme from "tools/theme";
 
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";

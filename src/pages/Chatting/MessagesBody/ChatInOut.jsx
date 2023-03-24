@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+
 import theme from "tools/theme";
 
 const ChatInOut = (props) => {

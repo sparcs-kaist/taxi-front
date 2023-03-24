@@ -1,19 +1,23 @@
+import PropTypes from "prop-types";
 import { useState } from "react";
-import { useHistory, Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+
 import { useQuery } from "hooks/useTaxiAPI";
+
+import DottedLine from "components/DottedLine";
+import Empty from "components/Empty";
+import Pagination, { PAGE_MAX_ITEMS } from "components/Pagination";
+import RLayout from "components/RLayout";
+import Room from "components/Room";
 import Title from "components/Title";
 import WhiteContainer from "components/WhiteContainer";
 import ChatHeaderBody from "pages/Chatting/Header/HeaderBody";
 import SideChat from "pages/Chatting/SideChat";
-import Room from "components/Room";
-import Pagination, { PAGE_MAX_ITEMS } from "components/Pagination";
-import RLayout from "components/RLayout";
-import Empty from "components/Empty";
-import DottedLine from "components/DottedLine";
-import UnfoldMoreRoundedIcon from "@mui/icons-material/UnfoldMoreRounded";
-import UnfoldLessRoundedIcon from "@mui/icons-material/UnfoldLessRounded";
-import PropTypes from "prop-types";
+
 import theme from "tools/theme";
+
+import UnfoldLessRoundedIcon from "@mui/icons-material/UnfoldLessRounded";
+import UnfoldMoreRoundedIcon from "@mui/icons-material/UnfoldMoreRounded";
 
 const ChatHeader = (props) => {
   const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());

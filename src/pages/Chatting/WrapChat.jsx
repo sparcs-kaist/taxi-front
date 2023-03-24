@@ -1,5 +1,6 @@
-import Chatting from "pages/Chatting";
 import { useParams } from "react-router-dom";
+
+import Chatting from "pages/Chatting";
 
 const WrapChat = () => {
   const { roomId } = useParams();

@@ -1,20 +1,24 @@
-import { useState, useEffect, useRef, useLayoutEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { useStateWithCallbackLazy } from "use-state-with-callback";
-import { useAxios, useQuery } from "hooks/useTaxiAPI";
-import { useRecoilValue } from "recoil";
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import axiosOri from "axios";
 import PropTypes from "prop-types";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { io } from "socket.io-client";
-import Header from "./Header/Header";
-import MessagesBody from "./MessagesBody/MessagesBody";
-import MessageForm from "./MessageForm/MessageForm";
-import regExpTest from "tools/regExpTest";
+import { useStateWithCallbackLazy } from "use-state-with-callback";
+
 import { useR2state } from "hooks/useReactiveState";
+import { useAxios, useQuery } from "hooks/useTaxiAPI";
+
+import Header from "./Header/Header";
+import MessageForm from "./MessageForm/MessageForm";
+import MessagesBody from "./MessagesBody/MessagesBody";
+
+import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import { useRecoilValue } from "recoil";
+
+import convertImg from "tools/convertImg";
+import regExpTest from "tools/regExpTest";
 
 import { ioServer } from "loadenv";
-import convertImg from "tools/convertImg";
-import axiosOri from "axios";
 
 const Chatting = (props) => {
   const sendingMessage = useRef();

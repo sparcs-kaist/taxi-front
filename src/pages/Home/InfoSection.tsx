@@ -1,18 +1,21 @@
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
+
+import Button from "components/Button";
 import RLayout from "components/RLayout";
-import { useRecoilValue } from "recoil";
+import Room from "components/Room";
+
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import myRoomAtom from "atoms/myRoom";
-import theme from "tools/theme";
-import moment, { getToday } from "tools/moment";
-import Button from "components/Button";
+import { useRecoilValue } from "recoil";
 
-import Room from "components/Room";
-import { ReactComponent as TaxiLogoWhite } from "static/assets/TaxiLogoWhite.svg";
+import moment, { getToday } from "tools/moment";
+import theme from "tools/theme";
+
 import BackgroundImage from "static/assets/BackgroundImage.jpg";
-import BackgroundImageMobile from "static/assets/BackgroundImageMobile.webp";
 import BackgroundImageDesktop from "static/assets/BackgroundImageDesktop.webp";
+import BackgroundImageMobile from "static/assets/BackgroundImageMobile.webp";
+import { ReactComponent as TaxiLogoWhite } from "static/assets/TaxiLogoWhite.svg";
 
 const InfoSection = () => {
   const styleContainer: CSS = {

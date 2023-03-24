@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
+
+import Button from "components/Button";
 import RLayout from "components/RLayout";
 import Title from "components/Title";
 import WhiteContainer from "components/WhiteContainer";
-import Button from "components/Button";
+
 import theme from "tools/theme";
 
 const FullParticipation = () => {

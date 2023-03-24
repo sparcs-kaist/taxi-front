@@ -1,13 +1,17 @@
-import { useHistory } from "react-router";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { useAxios } from "hooks/useTaxiAPI";
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import PropTypes from "prop-types";
-import Modal from "components/Modal";
-import theme from "tools/theme";
-import alertAtom from "atoms/alert";
+import { useHistory } from "react-router";
+
+import { useAxios } from "hooks/useTaxiAPI";
 
 import Button from "components/Button";
+import Modal from "components/Modal";
+
+import alertAtom from "atoms/alert";
+import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+
+import theme from "tools/theme";
+
 import { ReactComponent as TaxiLogo } from "static/assets/TaxiLogo.svg";
 
 const Policy = () => {

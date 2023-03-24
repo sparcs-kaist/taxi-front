@@ -1,10 +1,12 @@
+import PropTypes from "prop-types";
 import { useMemo, useState } from "react";
-import moment from "tools/moment";
-import ChatSet from "./ChatSet";
+
 import ChatDate from "./ChatDate";
 import ChatInOut from "./ChatInOut";
-import PropTypes from "prop-types";
+import ChatSet from "./ChatSet";
 import PopupReport from "./PopupReport";
+
+import moment from "tools/moment";
 
 // Chat {
 //   roomId: ObjectId, // 방의 objectId

@@ -1,11 +1,13 @@
 import PropTypes from "prop-types";
+
 import DottedLine from "components/DottedLine";
-import theme from "tools/theme";
 import Modal from "components/Modal";
-import members from "static/members";
+
+import theme from "tools/theme";
 
 import { ReactComponent as SparcsLogoBlack } from "static/assets/SparcsLogoBlack.svg";
 import { ReactComponent as SparcsLogoYellow } from "static/assets/SparcsLogoYellow.svg";
+import members from "static/members";
 
 const Member = (props) => {
   const styleBox = {
