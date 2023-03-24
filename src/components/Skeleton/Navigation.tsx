@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import hoverEventSet from "tools/hoverEventSet";
-import theme from "styles/theme";
+import theme from "tools/theme";
 
 import { useRecoilValue } from "recoil";
-import isVirtualKeyboardDetectedAtom from "recoil/isVirtualKeyboardDetectedAtom";
+import isVirtualKeyboardDetectedAtom from "atoms/isVirtualKeyboardDetected";
 
 import RoofingRoundedIcon from "@mui/icons-material/RoofingRounded";
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";

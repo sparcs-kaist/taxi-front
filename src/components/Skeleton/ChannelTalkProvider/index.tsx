@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useRecoilValue } from "recoil";
-import loginInfoDetailAtom from "recoil/loginInfoDetail";
+import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import ChannelService from "./channelService";
-import { channelTalkPluginKey } from "serverconf";
+import { channelTalkPluginKey } from "loadenv";
 import { useLocation } from "react-router-dom";
 
 const ChannelTalkProvider = () => {

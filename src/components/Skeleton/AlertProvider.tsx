@@ -1,10 +1,10 @@
 import { useRef, ReactNode } from "react";
-import Modal from "components/common/modal/Modal";
+import Modal from "components/Modal";
 import { useRecoilState } from "recoil";
-import alertAtom from "recoil/alert";
-import Button from "components/common/Button";
-import theme from "styles/theme";
-import DottedLine from "components/common/DottedLine";
+import alertAtom from "atoms/alert";
+import Button from "components/Button";
+import theme from "tools/theme";
+import DottedLine from "components/DottedLine";
 
 import WbIncandescentRoundedIcon from "@material-ui/icons/WbIncandescentRounded";
 
