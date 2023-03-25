@@ -19,7 +19,7 @@ const AccountSelector = (props: AccountSelectorProps) => {
   }, [bankName, bankNumber]);
 
   useEffect(() => {
-    if (regExpTest.accountNumber(props.accountNumber)) {
+    if (regExpTest.account(props.accountNumber)) {
       const account = props.accountNumber.split(" ");
       setBankName(account[0]);
       setBankNumber(account[1]);
@@ -58,13 +58,6 @@ const AccountSelector = (props: AccountSelectorProps) => {
     background: theme.purple_light,
     boxShadow: theme.shadow_purple_input_inset,
     textAlign: "center",
-  };
-  const styleDisabledAccount: CSS = {
-    marginLeft: "10px",
-  };
-  const styleDisabledBank: CSS = {
-    marginLeft: "10px",
-    color: theme.purple,
   };
   return (
     <div style={styleTitle}>

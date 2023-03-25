@@ -21,7 +21,8 @@
     "profile_image_success": "프로필 사진이 변경되었습니다",
     "profile_image_failed": "프로필 사진 변경에 실패했습니다",
     "profile_image_loading": "변경 중입니다...",
-    "nickname_failed": "닉네임 변경에 실패했습니다"
+    "nickname_failed": "닉네임 변경에 실패했습니다",
+    "account_failed": "계좌번호 변경에 실패했습니다"
   },
   "page_report": {
     "inquiry": "아래 신고 내역에 대해 문의하고 싶으신 경우 “채널톡 문의하기” 메뉴를 이용해주세요.",
