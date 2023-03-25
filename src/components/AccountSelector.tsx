@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import regExpTest from "tools/regExpTest";
 import theme from "tools/theme";
@@ -11,6 +12,7 @@ type AccountSelectorProps = {
 };
 
 const AccountSelector = (props: AccountSelectorProps) => {
+  const { t } = useTranslation("mypage");
   const [bankNumber, setBankNumber] = useState("");
   const [bankName, setBankName] = useState(bankNames[0]);
 
@@ -61,7 +63,7 @@ const AccountSelector = (props: AccountSelectorProps) => {
   };
   return (
     <div style={styleTitle}>
-      계좌
+      {t("account")}
       <select
         style={styleBanks}
         value={bankName}
