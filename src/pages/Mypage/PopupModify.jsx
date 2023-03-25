@@ -208,12 +208,6 @@ const PopupModify = (props) => {
     ...theme.font14,
     marginLeft: "12px",
   };
-  const styleMessage = {
-    color: theme.red_button,
-    ...theme.font10,
-    margin: "4px 0 -16px 0",
-    textAlign: "right",
-  };
   const styleNickname = {
     width: "100%",
     ...theme.font14,
