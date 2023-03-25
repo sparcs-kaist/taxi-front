@@ -42,6 +42,7 @@ const App = () => {
           <Skeleton>
             <Switch>
               <Route exact path="/login" component={Login} />
+              <Route exact path="/login/privacyPolicy" component={Login} />
               <Route exact path="/login/fail" component={LoginFail} />
               <Route exact path="/logout" component={Logout} />
               <Route exact path="/" component={Home} />

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 import Button from "components/Button";
 import HeaderBar from "components/HeaderBar";
@@ -11,7 +12,10 @@ import { ReactComponent as SparcsLogo } from "static/assets/SparcsLogoWithText.s
 import { ReactComponent as TaxiLogo } from "static/assets/TaxiLogo.svg";
 
 const Login = () => {
-  const [isOpenPrivacyPolicy, setOpenPrivacyPolicy] = useState(false);
+  const { pathname } = useLocation();
+  const [isOpenPrivacyPolicy, setOpenPrivacyPolicy] = useState(
+    pathname.includes("privacyPolicy")
+  );
 
   return (
     <div
