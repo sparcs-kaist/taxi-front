@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router";
 
@@ -24,49 +24,95 @@ const Mypage = () => {
   const { t, i18n } = useTranslation("mypage");
   const [profToken, setProfToken] = useState(Date.now().toString());
   const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
-  const [isOpenModify, setOpenModify] = useState(false);
-  const [isOpenReport, setOpenReport] = useState(false);
-  const [isOpenPolicy, setOpenPolicy] = useState(false);
-  const [isOpenPrivacyPolicy, setOpenPrivacyPolicy] = useState(false);
-  const [isOpenMembers, setOpenMembers] = useState(false);
+
+  const [isOpenProfileModify, setIsOpenProfileModify] = useState(false);
+  const [isOpenNotification, setIsOpenNotification] = useState(false);
+  const [isOpenReport, setIsOpenReport] = useState(false);
+  const [isOpenPolicy, setIsOpenPolicy] = useState(false);
+  const [isOpenPrivacyPolicy, setIsOpenPrivacyPolicy] = useState(false);
+  const [isOpenMembers, setOpenIsMembers] = useState(false);
   const history = useHistory();
 
-  const handleLogout = () => history.push("/logout");
+  const onClickProfileModify = useCallback(
+    () => setIsOpenProfileModify(true),
+    [setIsOpenProfileModify]
+  );
+  const onClickTranslation = useCallback(
+    () => i18n.changeLanguage(i18n.language === "ko" ? "en" : "ko"),
+    [i18n.changeLanguage, i18n.language]
+  );
+  const onClickNotification = useCallback(
+    () => setIsOpenNotification(true),
+    [setIsOpenNotification]
+  );
+  const onClickReport = useCallback(
+    () => setIsOpenReport(true),
+    [setIsOpenReport]
+  );
+  const onClickPolicy = useCallback(
+    () => setIsOpenPolicy(true),
+    [setIsOpenPolicy]
+  );
+  const onClickPrivacyPolicy = useCallback(
+    () => setIsOpenPrivacyPolicy(true),
+    [setIsOpenPrivacyPolicy]
+  );
+  const onClickMembers = useCallback(
+    () => setOpenIsMembers(true),
+    [setOpenIsMembers]
+  );
+  const onClickLogout = useCallback(() => history.push("/logout"), [history]);
   const handleUpdate = () => setProfToken(Date.now().toString());
-  const handleTranslation = () =>
-    i18n.changeLanguage(i18n.language === "ko" ? "en" : "ko");
 
-  const styleProfile = {
-    display: "flex",
-    alignItems: "center",
-  };
-  const styleProfImg = {
-    width: "50px",
-    height: "50px",
-    borderRadius: "50%",
-    overflow: "hidden",
-    marginRight: "12px",
-  };
-  const infoTitle = {
-    display: "flex",
-    justifyContent: "space-between",
-    marginTop: "15px",
-  };
-  const infoModify = {
-    ...theme.font14,
-    color: theme.purple,
-    cursor: "pointer",
-  };
-  const infoType = {
-    display: "flex",
-    ...theme.font14,
-    color: theme.gray_text,
-    marginTop: "16px",
-  };
-  const infoContent = {
-    ...theme.font14,
-    marginLeft: "12px",
-  };
+  const styleProfile = useMemo(
+    () => ({
+      display: "flex",
+      alignItems: "center",
+    }),
+    []
+  );
+  const styleProfImg = useMemo(
+    () => ({
+      width: "50px",
+      height: "50px",
+      borderRadius: "50%",
+      overflow: "hidden",
+      marginRight: "12px",
+    }),
+    []
+  );
+  const infoTitle = useMemo(
+    () => ({
+      display: "flex",
+      justifyContent: "space-between",
+      marginTop: "15px",
+    }),
+    []
+  );
+  const infoModify = useMemo(
+    () => ({
+      ...theme.font14,
+      color: theme.purple,
+      cursor: "pointer",
+    }),
+    []
+  );
+  const infoType = useMemo(
+    () => ({
+      display: "flex",
+      ...theme.font14,
+      color: theme.gray_text,
+      marginTop: "16px",
+    }),
+    []
+  );
+  const infoContent = useMemo(
+    () => ({
+      ...theme.font14,
+      marginLeft: "12px",
+    }),
+    []
+  );
 
   return (
     <>
@@ -76,12 +122,12 @@ const Mypage = () => {
       <WhiteContainer marginAuto padding="16px 24px 24px">
         <div style={styleProfile}>
           <div style={styleProfImg}>
-            {userInfoDetail?.profileImgUrl && profToken ? (
+            {userInfoDetail?.profileImgUrl && (
               <ProfileImg
                 path={userInfoDetail.profileImgUrl}
                 token={profToken}
               />
-            ) : null}
+            )}
           </div>
           <div style={theme.font16_bold} className="selectable">
             {userInfoDetail?.name}
@@ -89,7 +135,7 @@ const Mypage = () => {
         </div>
         <div style={infoTitle}>
           <div style={theme.font14_bold}>{t("my_information")}</div>
-          <div style={infoModify} onClick={() => setOpenModify(true)}>
+          <div style={infoModify} onClick={onClickProfileModify}>
             {t("revise")}
           </div>
         </div>
@@ -110,52 +156,62 @@ const Mypage = () => {
           <div style={infoContent}>{userInfoDetail?.account}</div>
         </div>
       </WhiteContainer>
-      {nodeEnv === "development" && (
-        <WhiteContainer marginAuto>
-          <Menu icon="lang" onClick={handleTranslation}>
-            {t("translation")}
-          </Menu>
-        </WhiteContainer>
-      )}
       <WhiteContainer marginAuto>
         <div style={{ display: "grid", rowGap: "16px" }}>
-          <Menu icon="report" onClick={() => setOpenReport(true)}>
+          {nodeEnv === "development" && (
+            <Menu icon="lang" onClick={onClickTranslation}>
+              {t("translation")}
+            </Menu>
+          )}
+          <Menu icon="notification-on" onClick={onClickNotification}>
+            {t("notification")}
+          </Menu>
+        </div>
+      </WhiteContainer>
+      <WhiteContainer marginAuto>
+        <div style={{ display: "grid", rowGap: "16px" }}>
+          <Menu icon="report" onClick={onClickReport}>
             {t("report_record")}
           </Menu>
           <a className="popup-channeltalk">
-            <Menu icon="ask" onClick={() => {}}>
-              {t("contact")}
-            </Menu>
+            <Menu icon="ask">{t("contact")}</Menu>
           </a>
-          <Menu icon="policy" onClick={() => setOpenPolicy(true)}>
+          <Menu icon="policy" onClick={onClickPolicy}>
             {t("terms")}
           </Menu>
-          <Menu icon="policy" onClick={() => setOpenPrivacyPolicy(true)}>
+          <Menu icon="policy" onClick={onClickPrivacyPolicy}>
             {t("privacy_policy")}
           </Menu>
-          <Menu icon="credit" onClick={() => setOpenMembers(true)}>
+          <Menu icon="credit" onClick={onClickMembers}>
             {t("credit")}
           </Menu>
-          <Menu icon="logout" onClick={handleLogout}>
+          <Menu icon="logout" onClick={onClickLogout}>
             {t("logout")}
           </Menu>
         </div>
       </WhiteContainer>
-      <PopupReport isOpen={isOpenReport} onClose={() => setOpenReport(false)} />
       <PopupModify
-        isOpen={isOpenModify}
-        onClose={() => setOpenModify(false)}
+        isOpen={isOpenProfileModify}
+        onClose={() => setIsOpenProfileModify(false)}
         onUpdate={() => handleUpdate()}
         profToken={profToken}
       />
-      <PopupPolicy isOpen={isOpenPolicy} onClose={() => setOpenPolicy(false)} />
+      {/* Notification Modal */}
+      <PopupReport
+        isOpen={isOpenReport}
+        onClose={() => setIsOpenReport(false)}
+      />
+      <PopupPolicy
+        isOpen={isOpenPolicy}
+        onClose={() => setIsOpenPolicy(false)}
+      />
       <PopupPrivacyPolicy
         isOpen={isOpenPrivacyPolicy}
-        onClose={() => setOpenPrivacyPolicy(false)}
+        onClose={() => setIsOpenPrivacyPolicy(false)}
       />
       <PopupMembers
         isOpen={isOpenMembers}
-        onClose={() => setOpenMembers(false)}
+        onClose={() => setOpenIsMembers(false)}
       />
     </>
   );
