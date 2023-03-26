@@ -6,6 +6,7 @@ import Title from "components/Title";
 import WhiteContainer from "components/WhiteContainer";
 
 import Menu from "./Menu";
+import ModalNotification from "./ModalNotification";
 import PopupMembers from "./PopupMembers";
 import PopupModify from "./PopupModify";
 import PopupPolicy from "./PopupPolicy";
@@ -196,7 +197,10 @@ const Mypage = () => {
         onUpdate={() => handleUpdate()}
         profToken={profToken}
       />
-      {/* Notification Modal */}
+      <ModalNotification
+        isOpen={isOpenNotification}
+        onChangeIsOpen={setIsOpenNotification}
+      />
       <PopupReport
         isOpen={isOpenReport}
         onClose={() => setIsOpenReport(false)}
