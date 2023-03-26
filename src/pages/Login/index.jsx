@@ -22,12 +22,11 @@ const Login = () => {
     pathname.includes("privacyPolicy")
   );
 
-  const searchParams = new URLSearchParams(location.search);
-  const redirectPath = searchParams.get("redirect");
-
   useEffect(() => {
+    const searchParams = new URLSearchParams(search);
+    const redirectPath = searchParams.get("redirect");
     if (userId) history.replace(redirectPath || "/");
-  }, [userId]);
+  }, [userId, search]);
 
   return (
     <div
