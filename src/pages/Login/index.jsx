@@ -1,9 +1,12 @@
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 
 import Button from "components/Button";
 import HeaderBar from "components/HeaderBar";
 import PopupPrivacyPolicy from "pages/Mypage/PopupPrivacyPolicy";
+
+import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import { useRecoilValue } from "recoil";
 
 import theme from "tools/theme";
 
@@ -12,10 +15,19 @@ import { ReactComponent as SparcsLogo } from "static/assets/SparcsLogoWithText.s
 import { ReactComponent as TaxiLogo } from "static/assets/TaxiLogo.svg";
 
 const Login = () => {
-  const { pathname } = useLocation();
+  const history = useHistory();
+  const { pathname, search } = useLocation();
+  const { id: userId } = useRecoilValue(loginInfoDetailAtom);
   const [isOpenPrivacyPolicy, setOpenPrivacyPolicy] = useState(
     pathname.includes("privacyPolicy")
   );
+
+  const searchParams = new URLSearchParams(location.search);
+  const redirectPath = searchParams.get("redirect");
+
+  useEffect(() => {
+    if (userId) history.replace(redirectPath || "/");
+  }, [userId]);
 
   return (
     <div
