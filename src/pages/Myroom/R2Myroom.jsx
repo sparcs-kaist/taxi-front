@@ -21,13 +21,13 @@ import UnfoldLessRoundedIcon from "@mui/icons-material/UnfoldLessRounded";
 import UnfoldMoreRoundedIcon from "@mui/icons-material/UnfoldMoreRounded";
 
 const ChatHeader = (props) => {
-  const [headerInfoToken, refreshHeaderInfoToken] = useDateToken();
+  const [headerInfoToken, fetchHeaderInfoToken] = useDateToken();
   const [, headerInfo] = useQuery.get(`/rooms/info?id=${props.roomId}`, {}, [
     headerInfoToken,
   ]);
 
   return (
-    <ChatHeaderBody info={headerInfo} recallEvent={refreshHeaderInfoToken} />
+    <ChatHeaderBody info={headerInfo} recallEvent={fetchHeaderInfoToken} />
   );
 };
 

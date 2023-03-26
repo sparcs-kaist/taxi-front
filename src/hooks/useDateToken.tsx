@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-const useDateToken = () => {
+const useDateToken = (): [string, () => void] => {
   const [token, setToken] = useState(Date.now().toString());
   const refreshToken = useCallback(
     () => setToken(Date.now().toString()),

@@ -38,7 +38,7 @@ const Chatting = (props) => {
   const socket = useRef(undefined);
   const reactiveState = useR2state();
   const prevReactiveState = useRef(reactiveState);
-  const [headerInfoToken, refreshHeaderInfoToken] = useDateToken();
+  const [headerInfoToken, fetchHeaderInfoToken] = useDateToken();
   const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const [, headerInfo] = useQuery.get(`/rooms/info?id=${props.roomId}`, {}, [
     headerInfoToken,
@@ -265,7 +265,7 @@ const Chatting = (props) => {
       <Header
         isSideChat={props.isSideChat}
         info={headerInfo}
-        recallEvent={refreshHeaderInfoToken}
+        recallEvent={fetchHeaderInfoToken}
       />
       <MessagesBody
         isSideChat={props.isSideChat}
