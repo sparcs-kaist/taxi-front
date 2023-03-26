@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import { useCallback } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 
@@ -34,8 +35,14 @@ const useAxios = () => {
           if (onSuccess) onSuccess(res.data);
           return res.data;
         }
-      } catch (e) {
-        if (onError) {
+      } catch (e: AxiosError | any) {
+        if (
+          e?.response &&
+          e?.response?.status === 403 &&
+          e?.response?.data?.error === "not logged in"
+        ) {
+          history.replace(`/login?redirect=${encodeURIComponent(currentPath)}`);
+        } else if (onError) {
           onError(e);
         } else {
           console.error(e);
