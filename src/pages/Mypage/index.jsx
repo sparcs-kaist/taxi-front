@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router";
 
+import useDateToken from "hooks/useDateToken";
+
 import Title from "components/Title";
 import WhiteContainer from "components/WhiteContainer";
 
@@ -22,7 +24,7 @@ import { nodeEnv } from "loadenv";
 
 const Mypage = () => {
   const { t, i18n } = useTranslation("mypage");
-  const [profToken, setProfToken] = useState(Date.now().toString());
+  const [profToken, refreshProfToken] = useDateToken();
   const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const [isOpenModify, setOpenModify] = useState(false);
   const [isOpenReport, setOpenReport] = useState(false);
@@ -32,7 +34,7 @@ const Mypage = () => {
   const history = useHistory();
 
   const handleLogout = () => history.push("/logout");
-  const handleUpdate = () => setProfToken(Date.now().toString());
+  const handleUpdate = () => refreshProfToken();
   const handleTranslation = () =>
     i18n.changeLanguage(i18n.language === "ko" ? "en" : "ko");
 

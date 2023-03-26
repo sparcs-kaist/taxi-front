@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
+import useDateToken from "hooks/useDateToken";
 import { useQuery } from "hooks/useTaxiAPI";
 
 import DottedLine from "components/DottedLine";
@@ -20,16 +21,13 @@ import UnfoldLessRoundedIcon from "@mui/icons-material/UnfoldLessRounded";
 import UnfoldMoreRoundedIcon from "@mui/icons-material/UnfoldMoreRounded";
 
 const ChatHeader = (props) => {
-  const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
+  const [headerInfoToken, refreshHeaderInfoToken] = useDateToken();
   const [, headerInfo] = useQuery.get(`/rooms/info?id=${props.roomId}`, {}, [
-    headerInfToken,
+    headerInfoToken,
   ]);
 
   return (
-    <ChatHeaderBody
-      info={headerInfo}
-      recallEvent={() => setHeaderInfToken(Date.now().toString())}
-    />
+    <ChatHeaderBody info={headerInfo} recallEvent={refreshHeaderInfoToken} />
   );
 };
 
