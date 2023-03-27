@@ -39,13 +39,13 @@ const VirtualKeyboardDetector = () => {
       return () => visualViewport?.removeEventListener("resize", resizeEvent);
     }
     if (isIOS) {
-      let isVKDetected = false;
-      const onFocus = () => {
-        isVKDetected = true;
+      let focusedElement: Nullable<EventTarget> = null;
+      const onFocus = (e: FocusEvent) => {
+        focusedElement = e.target;
         setIsVKDetected(true);
       };
-      const onBlur = () => {
-        isVKDetected = false;
+      const onBlur = (e: FocusEvent) => {
+        focusedElement = null;
         setIsVKDetected(false);
       };
       const root = document.getElementById("root");
@@ -53,6 +53,8 @@ const VirtualKeyboardDetector = () => {
         const addedList = mutations.filter(
           (mutation) => mutation.addedNodes.length > 0
         );
+
+        // 돔변화로 인해 input, textarea가 추가된 경우
         if (addedList.length > 0) {
           const inputs = document.getElementsByTagName("input");
           const textareas = document.getElementsByTagName("textarea");
@@ -62,6 +64,12 @@ const VirtualKeyboardDetector = () => {
           };
           Array.prototype.forEach.call(inputs, callback);
           Array.prototype.forEach.call(textareas, callback);
+        }
+
+        // 뒤로가가나 앞으로가기 이벤트 등으로 focusedElement unmount 감지
+        if (focusedElement && focusedElement !== document?.activeElement) {
+          focusedElement = null;
+          setIsVKDetected(false);
         }
       });
       if (root) observer.observe(root, { childList: true, subtree: true });
@@ -73,7 +81,7 @@ const VirtualKeyboardDetector = () => {
         if (
           prevVVHeight - 30 > currentVVHeight &&
           prevVVHeight - 100 < currentVVHeight &&
-          isVKDetected
+          focusedElement
         ) {
           const scrollHeight = window?.document?.scrollingElement?.scrollHeight;
           if (!scrollHeight) return;
@@ -91,6 +99,7 @@ const VirtualKeyboardDetector = () => {
       };
     }
   }, []);
+
   return null;
 };
 
