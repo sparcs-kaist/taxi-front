@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { io } from "socket.io-client";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 
+import useDisableScrollEffect from "hooks/useDisableScrollEffect";
 import { useR2state } from "hooks/useReactiveState";
 import { useAxios, useQuery } from "hooks/useTaxiAPI";
 
@@ -42,6 +43,9 @@ const Chatting = (props) => {
   const [, headerInfo] = useQuery.get(`/rooms/info?id=${props.roomId}`, {}, [
     headerInfToken,
   ]);
+
+  // 전체화면 챗에서는 body의 스크롤을 막습니다.
+  useDisableScrollEffect(!props.isSideChat);
 
   useLayoutEffect(() => {
     if (!callingInfScroll.current) return;
@@ -260,30 +264,32 @@ const Chatting = (props) => {
   };
 
   return (
-    <div
-      style={{
-        width: "100%",
-        height: `calc(100% - ${messageFormHeight})`,
-        overflow: "hidden",
-        position: "absolute",
-        top: "0px",
-        left: "0px",
-      }}
-    >
-      <Header
-        isSideChat={props.isSideChat}
-        info={headerInfo}
-        recallEvent={() => setHeaderInfToken(Date.now().toString())}
-      />
-      <MessagesBody
-        isSideChat={props.isSideChat}
-        chats={chats}
-        user={userInfoDetail}
-        forwardedRef={messagesBody}
-        handleScroll={handleScroll}
-        isBottomOnScroll={isBottomOnScroll}
-        scrollToBottom={() => scrollToBottom(false)}
-      />
+    <>
+      <div
+        style={{
+          width: "100%",
+          height: `calc(100% - ${messageFormHeight})`,
+          overflow: "hidden",
+          position: "absolute",
+          top: "0px",
+          left: "0px",
+        }}
+      >
+        <Header
+          isSideChat={props.isSideChat}
+          info={headerInfo}
+          recallEvent={() => setHeaderInfToken(Date.now().toString())}
+        />
+        <MessagesBody
+          isSideChat={props.isSideChat}
+          chats={chats}
+          user={userInfoDetail}
+          forwardedRef={messagesBody}
+          handleScroll={handleScroll}
+          isBottomOnScroll={isBottomOnScroll}
+          scrollToBottom={() => scrollToBottom(false)}
+        />
+      </div>
       <MessageForm
         isSideChat={props.isSideChat}
         handleSendMessage={handleSendMessage}
@@ -293,7 +299,7 @@ const Chatting = (props) => {
         onClickNewMessage={() => scrollToBottom(true)}
         setContHeight={handleMessageFormHeight}
       />
-    </div>
+    </>
   );
 };
 

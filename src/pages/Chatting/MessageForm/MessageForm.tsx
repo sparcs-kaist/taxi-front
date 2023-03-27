@@ -38,6 +38,8 @@ const MessageForm = (props: MessageFormProps) => {
         width: "100%",
         height: contHeight,
         position: props.isSideChat ? "absolute" : "fixed",
+        // transform: "translateZ(0)", // 사파리의 렌더링 엔진 Webkit의 버그로 overflow: hidden이 적용되지 않는 버그 해결
+        // overflow: "hidden",
         zIndex: theme.zIndex_header,
         left: "0px",
         bottom: "0px",
