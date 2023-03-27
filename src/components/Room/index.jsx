@@ -89,7 +89,6 @@ const Room = (props) => {
       theme.shadow +
       (props.selected ? `, inset 0 0 0 0.5px ${theme.purple}` : ""),
     ...theme.cursor(),
-    zIndex: 0,
   };
   const styleTop = {
     display: "flex",

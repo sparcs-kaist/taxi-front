@@ -145,7 +145,6 @@ const ChatAccount = (props) => {
           width: "210px",
           height: "90px",
           top: "-90px",
-          zIndex: theme.zIndex_modal,
         }}
       ></div>
     </div>

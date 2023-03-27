@@ -149,7 +149,7 @@ const R2Myroom = (props) => {
               "calc(var(--window-inner-height) - 20px - 56px - 15px - env(safe-area-inset-bottom))",
             display: "flex",
             flexDirection: "column",
-            zIndex: theme.zIndex_nav - 1,
+            zIndex: theme.zIndex_nav, // 내부에서 PopupReport 을 사용하므로 zIndex 값을 주어야 함
           }}
         >
           <WhiteContainer padding="16px" style={{ flex: "0 0 auto" }}>
@@ -181,7 +181,7 @@ const R2Myroom = (props) => {
             )}
           </WhiteContainer>
           <div style={{ height: "100%", minHeight: 0 }}>
-            <WhiteContainer padding="0px" style={{ height: "100%", zIndex: 0 }}>
+            <WhiteContainer padding="0px" style={{ height: "100%" }}>
               <SideChat roomId={props.roomId} />
             </WhiteContainer>
           </div>
