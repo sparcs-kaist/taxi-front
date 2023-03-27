@@ -141,10 +141,11 @@ const R2Myroom = (props) => {
             width: "min(390px, calc(50% - 27.5px))",
             top: 20,
             left: "calc(50% + 7.5px)",
-            height: "calc(100vh - 20px - 56px - 15px)",
+            height:
+              "calc(var(--window-inner-height) - 20px - 56px - 15px - env(safe-area-inset-bottom))",
             display: "flex",
             flexDirection: "column",
-            zIndex: 10,
+            zIndex: theme.zIndex_nav - 1,
           }}
         >
           <WhiteContainer padding="16px" style={{ flex: "0 0 auto" }}>
