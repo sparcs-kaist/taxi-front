@@ -7,11 +7,13 @@ const VirtualKeyboardDetector = () => {
   const setIsVKDetected = useSetRecoilState(isVirtualKeyboardDetectedAtom);
 
   const userAgent = navigator.userAgent.toLowerCase();
+  const maxTouchPoints = navigator.maxTouchPoints || 0;
   const isAndroid = userAgent.includes("android");
   const isIOS =
     userAgent.includes("iphone") ||
     userAgent.includes("ipad") ||
-    userAgent.includes("ipod");
+    userAgent.includes("ipod") ||
+    (userAgent.includes("macintosh") && maxTouchPoints > 1);
 
   useEffect(() => {
     /*
