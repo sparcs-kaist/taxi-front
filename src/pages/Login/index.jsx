@@ -25,6 +25,8 @@ const Login = () => {
   useEffect(() => {
     const searchParams = new URLSearchParams(search);
     const redirectPath = searchParams.get("redirect");
+
+    // 이미 로그인 되어 있는 경우, 홈페이지로 이동합니다.
     if (userId) history.replace(redirectPath || "/");
   }, [userId, search]);
 
