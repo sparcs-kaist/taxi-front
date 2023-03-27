@@ -4,10 +4,14 @@ import FullChatHeader from "./FullChatHeader";
 import SideChatHeader from "./SideChatHeader";
 
 const Header = (props) => {
-  return props.isSideChat ? (
-    <SideChatHeader info={props.info} />
-  ) : (
-    <FullChatHeader info={props.info} recallEvent={props.recallEvent} />
+  return (
+    <div style={{ position: "relative", height: "69px" }}>
+      {props.isSideChat ? (
+        <SideChatHeader info={props.info} />
+      ) : (
+        <FullChatHeader info={props.info} recallEvent={props.recallEvent} />
+      )}
+    </div>
   );
 };
 

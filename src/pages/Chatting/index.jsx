@@ -260,7 +260,16 @@ const Chatting = (props) => {
   };
 
   return (
-    <>
+    <div
+      style={{
+        width: "100%",
+        height: `calc(100% - ${messageFormHeight})`,
+        overflow: "hidden",
+        position: "absolute",
+        top: "0px",
+        left: "0px",
+      }}
+    >
       <Header
         isSideChat={props.isSideChat}
         info={headerInfo}
@@ -274,7 +283,6 @@ const Chatting = (props) => {
         handleScroll={handleScroll}
         isBottomOnScroll={isBottomOnScroll}
         scrollToBottom={() => scrollToBottom(false)}
-        marginBottom={messageFormHeight}
       />
       <MessageForm
         isSideChat={props.isSideChat}
@@ -285,7 +293,7 @@ const Chatting = (props) => {
         onClickNewMessage={() => scrollToBottom(true)}
         setContHeight={handleMessageFormHeight}
       />
-    </>
+    </div>
   );
 };
 

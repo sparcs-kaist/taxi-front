@@ -140,16 +140,18 @@ const MessagesBody = (props) => {
   };
 
   return (
-    <div style={{ height: "100%", overflow: "auto" }}>
+    <div
+      style={{
+        position: "relative",
+        height: `calc(100% - 69px)`,
+        overflow: "hidden", // 아이폰 사파리에서 입력창이 스크롤되는 버그 해결 위해 필요
+      }}
+    >
       <div
         className="chatting-body"
         style={{
-          marginTop: props.isSideChat ? undefined : "69px",
-          marginBottom: props.marginBottom,
           paddingBottom: "12px",
-          height: `calc(100% - ${props.marginBottom} - ${
-            props.isSideChat ? "0px" : "69px"
-          })`,
+          height: "100%",
           width: "100%",
           overflow: "auto",
           boxSizing: "border-box",
@@ -178,7 +180,6 @@ MessagesBody.propTypes = {
   handleScroll: PropTypes.func,
   isBottomOnScroll: PropTypes.func,
   scrollToBottom: PropTypes.func,
-  marginBottom: PropTypes.string,
   setIsOpen: PropTypes.func,
 };
 

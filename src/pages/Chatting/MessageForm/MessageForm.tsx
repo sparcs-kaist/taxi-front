@@ -15,16 +15,22 @@ type MessageFormProps = {
   handleSendImage: (image: File) => void;
   handleSendAccount: (account: string) => boolean;
   onClickNewMessage: () => void;
-  setContHeight: (height: PixelValue) => void;
+  setContHeight: (height: string) => void;
 };
 
 const MessageForm = (props: MessageFormProps) => {
   const isVKDetected = useRecoilValue(isVirtualKeyboardDetectedAtom);
   const [contHeight, setContHeight] = useState<PixelValue>("48px");
+  const [paddingBottom, setPaddingBottom] = useState<string>("0px");
 
   useEffect(() => {
-    props.setContHeight(contHeight);
-  }, [contHeight]);
+    setPaddingBottom(
+      props.isSideChat || isVKDetected ? "0px" : "env(safe-area-inset-bottom)"
+    );
+  }, [props.isSideChat || isVKDetected]);
+  useEffect(() => {
+    props.setContHeight(`calc(${contHeight} + ${paddingBottom})`);
+  }, [contHeight, paddingBottom]);
 
   return (
     <div
@@ -39,12 +45,9 @@ const MessageForm = (props: MessageFormProps) => {
         flexDirection: "column",
         justifyContent: "flex-end",
         alignItems: "center",
+        paddingBottom,
         boxShadow: theme.shadow_clicked,
         backgroundColor: theme.white,
-        paddingBottom:
-          props.isSideChat || isVKDetected
-            ? "0px"
-            : "env(safe-area-inset-bottom)",
       }}
     >
       <NewMessage

@@ -2,15 +2,27 @@ import { useEffect } from "react";
 
 const CSSVariablesProvider = () => {
   useEffect(() => {
-    const syncHeight = () =>
+    const syncHeight = () => {
+      const innerHeight = window.innerHeight || 0;
+      const visualHeight = visualViewport?.height || innerHeight;
+
       document.documentElement.style.setProperty(
         "--window-inner-height",
-        `${window.innerHeight}px`
+        `${innerHeight}px`
       );
+      document.documentElement.style.setProperty(
+        "--window-visual-height",
+        `${visualHeight}px`
+      );
+    };
 
     syncHeight();
     window.addEventListener("resize", syncHeight);
-    return () => window.removeEventListener("resize", syncHeight);
+    visualViewport?.addEventListener("resize", syncHeight);
+    return () => {
+      window.removeEventListener("resize", syncHeight);
+      visualViewport?.removeEventListener("resize", syncHeight);
+    };
   }, []);
   return null;
 };

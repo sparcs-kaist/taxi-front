@@ -29,6 +29,7 @@ const WhiteContainer = ({
         overflow: "hidden",
         position: "relative",
         borderRadius: "12px",
+        transform: "translateZ(0)", // 사파리의 렌더링 엔진 Webkit의 버그로 overflow: hidden이 적용되지 않는 버그 해결
         ...style,
       }}
     >
