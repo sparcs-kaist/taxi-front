@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { io } from "socket.io-client";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 
+import useDateToken from "hooks/useDateToken";
 import { useR2state } from "hooks/useReactiveState";
 import { useAxios, useQuery } from "hooks/useTaxiAPI";
 
@@ -37,10 +38,10 @@ const Chatting = (props) => {
   const socket = useRef(undefined);
   const reactiveState = useR2state();
   const prevReactiveState = useRef(reactiveState);
-  const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
+  const [headerInfoToken, fetchHeaderInfo] = useDateToken();
   const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const [, headerInfo] = useQuery.get(`/rooms/info?id=${props.roomId}`, {}, [
-    headerInfToken,
+    headerInfoToken,
   ]);
 
   useLayoutEffect(() => {
@@ -264,7 +265,7 @@ const Chatting = (props) => {
       <Header
         isSideChat={props.isSideChat}
         info={headerInfo}
-        recallEvent={() => setHeaderInfToken(Date.now().toString())}
+        recallEvent={fetchHeaderInfo}
       />
       <MessagesBody
         isSideChat={props.isSideChat}
