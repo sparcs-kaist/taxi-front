@@ -18,9 +18,8 @@ type AxiosOption = {
 
 const useAxios = () => {
   const history = useHistory();
-  const location = useLocation();
   const setError = useSetRecoilState(errorAtom);
-  const { pathname, search } = location;
+  const { pathname, search } = useLocation();
   const currentPath = pathname + search;
 
   return useCallback(
@@ -28,7 +27,9 @@ const useAxios = () => {
       try {
         const res = await axios({ url, method, data, params });
         if (res?.status === 403 && res.data?.error === "not logged in") {
-          history.replace(`/login?redirect=${encodeURIComponent(currentPath)}`);
+          history.replace(
+            `/logout?redirect=${encodeURIComponent(currentPath)}`
+          );
         } else if (res.status !== 200) {
           throw new Error("Status is not 200!");
         } else {
@@ -41,7 +42,9 @@ const useAxios = () => {
           e?.response?.status === 403 &&
           e?.response?.data?.error === "not logged in"
         ) {
-          history.replace(`/login?redirect=${encodeURIComponent(currentPath)}`);
+          history.replace(
+            `/logout?redirect=${encodeURIComponent(currentPath)}`
+          );
         } else if (onError) {
           onError(e);
         } else {

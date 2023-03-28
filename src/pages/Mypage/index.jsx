@@ -2,6 +2,8 @@ import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router";
 
+import useDateToken from "hooks/useDateToken";
+
 import Title from "components/Title";
 import WhiteContainer from "components/WhiteContainer";
 
@@ -23,7 +25,7 @@ import { nodeEnv } from "loadenv";
 
 const Mypage = () => {
   const { t, i18n } = useTranslation("mypage");
-  const [profToken, setProfToken] = useState(Date.now().toString());
+  const [profToken, refreshProfToken] = useDateToken();
   const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
 
   const [isOpenProfileModify, setIsOpenProfileModify] = useState(false);
@@ -63,7 +65,7 @@ const Mypage = () => {
     [setOpenIsMembers]
   );
   const onClickLogout = useCallback(() => history.push("/logout"), [history]);
-  const handleUpdate = () => setProfToken(Date.now().toString());
+  const handleUpdate = useCallback(() => refreshProfToken(), [refreshProfToken]);
 
   const styleProfile = useMemo(
     () => ({

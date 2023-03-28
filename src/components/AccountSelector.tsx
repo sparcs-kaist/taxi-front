@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import regExpTest from "tools/regExpTest";
 import theme from "tools/theme";
@@ -11,6 +12,7 @@ type AccountSelectorProps = {
 };
 
 const AccountSelector = (props: AccountSelectorProps) => {
+  const { t } = useTranslation("mypage");
   const [bankNumber, setBankNumber] = useState("");
   const [bankName, setBankName] = useState(bankNames[0]);
 
@@ -19,7 +21,7 @@ const AccountSelector = (props: AccountSelectorProps) => {
   }, [bankName, bankNumber]);
 
   useEffect(() => {
-    if (regExpTest.accountNumber(props.accountNumber)) {
+    if (regExpTest.account(props.accountNumber)) {
       const account = props.accountNumber.split(" ");
       setBankName(account[0]);
       setBankNumber(account[1]);
@@ -59,16 +61,9 @@ const AccountSelector = (props: AccountSelectorProps) => {
     boxShadow: theme.shadow_purple_input_inset,
     textAlign: "center",
   };
-  const styleDisabledAccount: CSS = {
-    marginLeft: "10px",
-  };
-  const styleDisabledBank: CSS = {
-    marginLeft: "10px",
-    color: theme.purple,
-  };
   return (
     <div style={styleTitle}>
-      계좌
+      {t("account")}
       <select
         style={styleBanks}
         value={bankName}

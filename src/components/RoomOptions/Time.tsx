@@ -1,9 +1,10 @@
 import { memo, useEffect, useState } from "react";
 
+import Button from "components/Button";
+import Modal from "components/Modal";
 import WhiteContainer from "components/WhiteContainer";
 
 import Picker from "./Picker";
-import Popup from "./Popup";
 
 import { time2str } from "tools/moment";
 import theme from "tools/theme";
@@ -50,6 +51,9 @@ const PopupInput = (props: PopupInputProps) => {
     if (key === "min") setMin(value);
   };
 
+  const style = {
+    height: "266px",
+  };
   const styleContainer = {
     ...theme.font14,
     display: "flex",
@@ -65,30 +69,65 @@ const PopupInput = (props: PopupInputProps) => {
     borderRadius: "6px",
     marginLeft: "8px",
   };
+  const styleBtnContainer = {
+    display: "flex",
+    justifyContent: "space-between",
+    margin: "0px 10px",
+  };
 
   return (
-    <Popup isOpen={props.isOpen} onClose={props.onClose} onClick={onClick}>
-      <div style={styleContainer}>
-        <ScheduleRoundedIcon style={{ fontSize: "16px" }} />
-        <div style={{ marginLeft: "6px" }}>시간 :</div>
-        <div style={stylePicker}>
-          <Picker
-            optionGroups={{ hour: optionsHour }}
-            valueGroups={{ hour: hour }}
-            onChange={handler}
-          />
+    <Modal
+      display={props.isOpen}
+      onClickClose={props.onClose}
+      onEnter={onClick}
+      width={335}
+      closeBtn={false}
+    >
+      <div style={style}>
+        <div style={styleContainer}>
+          <ScheduleRoundedIcon style={{ fontSize: "16px" }} />
+          <div style={{ marginLeft: "6px" }}>시간 :</div>
+          <div style={stylePicker}>
+            <Picker
+              optionGroups={{ hour: optionsHour }}
+              valueGroups={{ hour: hour }}
+              onChange={handler}
+            />
+          </div>
+          <div style={styleText}>시</div>
+          <div style={stylePicker}>
+            <Picker
+              optionGroups={{ min: optionsMin }}
+              valueGroups={{ min: min }}
+              onChange={handler}
+            />
+          </div>
+          <div style={styleText}>분</div>
         </div>
-        <div style={styleText}>시</div>
-        <div style={stylePicker}>
-          <Picker
-            optionGroups={{ min: optionsMin }}
-            valueGroups={{ min: min }}
-            onChange={handler}
-          />
+        <div style={styleBtnContainer}>
+          <Button
+            type="gray"
+            width="calc(40% - 10px)"
+            padding="10px 0 9px"
+            radius={8}
+            font={theme.font14}
+            onClick={props.onClose}
+          >
+            취소
+          </Button>
+          <Button
+            type="purple"
+            width="60%"
+            padding="10px 0 9px"
+            radius={8}
+            font={theme.font14_bold}
+            onClick={onClick}
+          >
+            선택하기
+          </Button>
         </div>
-        <div style={styleText}>분</div>
       </div>
-    </Popup>
+    </Modal>
   );
 };
 

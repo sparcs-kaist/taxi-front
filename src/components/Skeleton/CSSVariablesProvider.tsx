@@ -8,6 +8,7 @@ const CSSVariablesProvider = () => {
         `${window.innerHeight}px`
       );
 
+    syncHeight();
     window.addEventListener("resize", syncHeight);
     return () => window.removeEventListener("resize", syncHeight);
   }, []);
