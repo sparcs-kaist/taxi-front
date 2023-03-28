@@ -1,12 +1,13 @@
 import PropTypes from "prop-types";
 import { memo, useMemo, useState } from "react";
 
+import Button from "components/Button";
 import DottedLine from "components/DottedLine";
 import MiniCircle from "components/MiniCircle";
+import Modal from "components/Modal";
 import WhiteContainer from "components/WhiteContainer";
 
 import Picker from "./Picker";
-import Popup from "./Popup";
 
 import taxiLocationAtom from "atoms/taxiLocation";
 import { useRecoilValue } from "recoil";
@@ -32,21 +33,57 @@ const PopupInput = (props) => {
     );
     props.onClose();
   };
-
   const handler = (_, changedValue) => {
     if (changedValue && value.place !== changedValue)
       setValue({ place: changedValue });
   };
+
   return (
-    <Popup isOpen={props.isOpen} onClose={props.onClose} onClick={onClick}>
-      <div style={{ width: "calc(100% - 20px)", marginLeft: "10px" }}>
-        <Picker
-          optionGroups={optionGroup}
-          valueGroups={value}
-          onChange={handler}
-        />
+    <Modal
+      display={props.isOpen}
+      onClickClose={props.onClose}
+      onEnter={onClick}
+      width={335}
+      closeBtn={false}
+    >
+      <div style={{ height: "266px" }}>
+        <div style={{ width: "calc(100% - 20px)", marginLeft: "10px" }}>
+          <Picker
+            optionGroups={optionGroup}
+            valueGroups={value}
+            onChange={handler}
+          />
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            margin: "0px 10px",
+          }}
+        >
+          <Button
+            type="gray"
+            width="calc(40% - 10px)"
+            padding="10px 0 9px"
+            radius={8}
+            font={theme.font14}
+            onClick={props.onClose}
+          >
+            취소
+          </Button>
+          <Button
+            type="purple"
+            width="60%"
+            padding="10px 0 9px"
+            radius={8}
+            font={theme.font14_bold}
+            onClick={onClick}
+          >
+            선택하기
+          </Button>
+        </div>
       </div>
-    </Popup>
+    </Modal>
   );
 };
 PopupInput.propTypes = {

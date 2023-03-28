@@ -99,7 +99,7 @@ const PopupAccount = (props: SendAccoundModalProps) => {
           radius={8}
           font={theme.font14_bold}
           onClick={handleClickOk}
-          disabled={!regExpTest.accountNumber(accountNumber)}
+          disabled={!regExpTest.account(accountNumber)}
         >
           전송
         </Button>
