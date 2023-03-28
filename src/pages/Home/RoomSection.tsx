@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import useDateToken from "hooks/useDateToken";
 import { useQuery } from "hooks/useTaxiAPI";
 
 import RLayout from "components/RLayout";
@@ -12,13 +13,20 @@ import moment, { getToday } from "tools/moment";
 
 const RoomSection = () => {
   const today = getToday().subtract(1, "day");
-  const [, allRooms] = useQuery.get("/rooms/search");
+  const [allRoomsToken, fetchAllRooms] = useDateToken();
+  const [, allRooms] = useQuery.get("/rooms/search", {}, [allRoomsToken]);
   const [rooms, setRooms] = useState<Nullable<Array<any>>>(null);
   const [selectedDate, setSelectedDate] = useState<[number, number, number]>([
     today.year(),
     today.month(),
     today.date(),
   ]);
+
+  useEffect(() => {
+    // 5분 간격으로 allRoms(요일 별 출발하는 방)을 갱신합니다.
+    const interval = setInterval(fetchAllRooms, 1000 * 60 * 5);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     if (allRooms) {

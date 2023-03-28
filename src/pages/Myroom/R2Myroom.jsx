@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
+import useDateToken from "hooks/useDateToken";
 import { useQuery } from "hooks/useTaxiAPI";
 
 import DottedLine from "components/DottedLine";
@@ -20,17 +21,12 @@ import UnfoldLessRoundedIcon from "@mui/icons-material/UnfoldLessRounded";
 import UnfoldMoreRoundedIcon from "@mui/icons-material/UnfoldMoreRounded";
 
 const ChatHeader = (props) => {
-  const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
+  const [headerInfoToken, fetchHeaderInfo] = useDateToken();
   const [, headerInfo] = useQuery.get(`/rooms/info?id=${props.roomId}`, {}, [
-    headerInfToken,
+    headerInfoToken,
   ]);
 
-  return (
-    <ChatHeaderBody
-      info={headerInfo}
-      recallEvent={() => setHeaderInfToken(Date.now().toString())}
-    />
-  );
+  return <ChatHeaderBody info={headerInfo} recallEvent={fetchHeaderInfo} />;
 };
 
 ChatHeader.propTypes = {
@@ -145,10 +141,11 @@ const R2Myroom = (props) => {
             width: "min(390px, calc(50% - 27.5px))",
             top: 20,
             left: "calc(50% + 7.5px)",
-            height: "calc(100vh - 20px - 56px - 15px)",
+            height:
+              "calc(var(--window-inner-height) - 20px - 56px - 15px - env(safe-area-inset-bottom))",
             display: "flex",
             flexDirection: "column",
-            zIndex: 10,
+            zIndex: theme.zIndex_nav - 1,
           }}
         >
           <WhiteContainer padding="16px" style={{ flex: "0 0 auto" }}>
