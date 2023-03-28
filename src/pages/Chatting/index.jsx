@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { io } from "socket.io-client";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 
+import useDateToken from "hooks/useDateToken";
 import useDisableScrollEffect from "hooks/useDisableScrollEffect";
 import { useR2state } from "hooks/useReactiveState";
 import { useAxios, useQuery } from "hooks/useTaxiAPI";
@@ -38,10 +39,10 @@ const Chatting = (props) => {
   const socket = useRef(undefined);
   const reactiveState = useR2state();
   const prevReactiveState = useRef(reactiveState);
-  const [headerInfToken, setHeaderInfToken] = useState(Date.now().toString());
+  const [headerInfoToken, fetchHeaderInfo] = useDateToken();
   const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const [, headerInfo] = useQuery.get(`/rooms/info?id=${props.roomId}`, {}, [
-    headerInfToken,
+    headerInfoToken,
   ]);
 
   // 전체화면 챗에서는 body의 스크롤을 막습니다.

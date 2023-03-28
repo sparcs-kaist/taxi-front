@@ -6,7 +6,7 @@ type Method = "get" | "post";
 
 const wrapUseQuery =
   (method: Method) =>
-  (url: string, data?: any, dep = []): [any, any, boolean] => {
+  (url: string, data?: any, dep?: [any]): [any, any, boolean] => {
     const axios = useAxios();
     const [res, setRes] = useState<any>({});
     const [loading, setLoading] = useState<any>(true);
