@@ -22,10 +22,9 @@ const Modal = (props) => {
     onEnter: props.display ? props?.onEnter : undefined,
     onEscape: props.display ? props.onClickClose : undefined,
   });
-  useEffect(
-    () => setDisplay(shouldMount && props.display),
-    [shouldMount, props.display]
-  );
+  useEffect(() => {
+    setDisplay(shouldMount && props.display);
+  }, [shouldMount, props.display]);
 
   const styleBgd = {
     position: "fixed",
@@ -80,9 +79,9 @@ const Modal = (props) => {
           }}
         >
           {props.children}
-          {props.closeBtn ? (
+          {props.closeBtn && (
             <CloseRoundedIcon style={styleBtn} onClick={props.onClickClose} />
-          ) : null}
+          )}
         </div>
       </RLayout.Popup>
     </div>
@@ -91,12 +90,12 @@ const Modal = (props) => {
 
 Modal.propTypes = {
   display: PropTypes.bool,
-  onClickClose: PropTypes.func,
+  closeBtn: PropTypes.bool,
   width: PropTypes.number,
   padding: PropTypes.string,
-  children: PropTypes.any,
-  closeBtn: PropTypes.bool,
   alert: PropTypes.bool,
+  children: PropTypes.any,
+  onClickClose: PropTypes.func,
   onEnter: PropTypes.func,
 };
 Modal.defaultProps = {

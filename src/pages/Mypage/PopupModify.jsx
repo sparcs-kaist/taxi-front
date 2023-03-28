@@ -12,8 +12,9 @@ import Modal from "components/Modal";
 
 import ProfileImg from "./ProfileImg";
 
+import alertAtom from "atoms/alert";
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 import convertImg from "tools/convertImg";
 import regExpTest from "tools/regExpTest";
@@ -41,7 +42,9 @@ ProfImg.propTypes = {
 };
 
 const BtnProfImg = (props) => {
+  const { t } = useTranslation("mypage");
   const axios = useAxios();
+
   const inputImage = useRef(null);
   const [profileAlert, setProfileAlert] = useState(null);
   const [loginInfoDetail, setLoginInfoDetail] =
@@ -124,85 +127,69 @@ const BtnProfImg = (props) => {
         ref={inputImage}
       />
       {profileAlert === "SUCCESS"
-        ? props.t("page_modify.profile_image_success")
+        ? t("page_modify.profile_image_success")
         : profileAlert === "FAIL"
-        ? props.t("page_modify.profile_image_failed")
+        ? t("page_modify.profile_image_failed")
         : profileAlert === "LOADING"
-        ? props.t("page_modify.profile_image_loading")
-        : props.t("page_modify.profile_image_change")}
+        ? t("page_modify.profile_image_loading")
+        : t("page_modify.profile_image_change")}
     </div>
   );
 };
 BtnProfImg.propTypes = {
   onUpdate: PropTypes.func,
   onClose: PropTypes.func,
-  t: PropTypes.any,
 };
 
 const PopupModify = (props) => {
   const { t } = useTranslation("mypage");
   const axios = useAxios();
-  const regexNickname = new RegExp("^[A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ0-9-_ ]{3,25}$");
-  const [nickName, setNickName] = useState("");
-  const [accountNumber, setAccountNumber] = useState("");
-  const [accountNumberReal, setAccountNumberReal] = useState("");
-  const [nickNameReal, setNickNameReal] = useState("");
-  const [message, setMessage] = useState(null);
+
+  const [nickname, setNickname] = useState("");
+  const [account, setAccount] = useState("");
+
   const [loginInfoDetail, setLoginInfoDetail] =
     useRecoilState(loginInfoDetailAtom);
+  const setAlert = useSetRecoilState(alertAtom);
 
   useEffect(() => {
-    if (loginInfoDetail?.nickname) {
-      setNickName(loginInfoDetail?.nickname);
-      setNickNameReal(loginInfoDetail?.nickname);
-    }
-    if (loginInfoDetail?.account) {
-      setAccountNumberReal(loginInfoDetail?.account);
-      setAccountNumber(loginInfoDetail?.account);
-    }
-  }, [loginInfoDetail]);
+    setNickname(loginInfoDetail?.nickname || "");
+    setAccount(loginInfoDetail?.account || "");
+  }, [loginInfoDetail, props.isOpen]);
 
-  useEffect(() => {
-    const timeoutID = setTimeout(() => setMessage(null), 1500);
-    return () => clearTimeout(timeoutID);
-  }, [message]);
+  const isEditable =
+    regExpTest.account(account) && regExpTest.nickname(nickname);
+  const handleEditProfile = async () => {
+    let isNeedToUpdateLoginInfo = false;
+    if (!isEditable) return;
 
-  const onClose = () => {
-    setNickName(nickNameReal);
+    if (nickname !== loginInfoDetail?.nickname) {
+      isNeedToUpdateLoginInfo = true;
+      await axios({
+        url: "/users/editNickname",
+        method: "post",
+        data: { nickname },
+        onError: () => setAlert(t("page_modify.nickname_failed")),
+      });
+    }
+    if (account !== loginInfoDetail?.account) {
+      isNeedToUpdateLoginInfo = true;
+      await axios({
+        url: "/users/editAccount",
+        method: "post",
+        data: { account },
+        onError: () => setAlert(t("page_modify.account_failed")),
+      });
+    }
+    if (isNeedToUpdateLoginInfo) {
+      setLoginInfoDetail(
+        await axios({
+          url: "/logininfo/detail",
+          method: "get",
+        })
+      );
+    }
     props.onClose();
-  };
-  const onClickEditNickName = () => {
-    axios({
-      url: "/users/editNickname",
-      method: "post",
-      data: { nickname: nickName },
-      onSuccess: () => {
-        setLoginInfoDetail({ ...loginInfoDetail, nickname: nickName });
-        props.onUpdate();
-        props.onClose();
-      },
-      onError: () => setMessage(t("page_modify.nickname_failed")),
-    });
-  };
-  const onClickEditAccountNumber = async () => {
-    const result = await axios.post(`/users/editAccount`, {
-      account: accountNumber,
-    });
-    if (result.status !== 200) {
-      setMessage("계좌번호 변경에 실패하였습니다.");
-      return;
-    }
-    setLoginInfoDetail({ ...loginInfoDetail, account: accountNumber });
-    props.onUpdate();
-    props.onClose();
-  };
-  const handleEditProfile = () => {
-    if (nickName !== nickNameReal) {
-      onClickEditNickName();
-    }
-    if (accountNumber !== accountNumberReal) {
-      onClickEditAccountNumber();
-    }
   };
 
   const styleName = {
@@ -220,12 +207,6 @@ const PopupModify = (props) => {
   const styleContent = {
     ...theme.font14,
     marginLeft: "12px",
-  };
-  const styleMessage = {
-    color: theme.red_button,
-    ...theme.font10,
-    margin: "4px 0 -16px 0",
-    textAlign: "right",
   };
   const styleNickname = {
     width: "100%",
@@ -247,16 +228,16 @@ const PopupModify = (props) => {
   return (
     <Modal
       display={props.isOpen}
-      onClickClose={onClose}
+      onClickClose={props.onClose}
       padding="32px 10px 10px"
-      onEnter={onClickEditNickName}
+      onEnter={handleEditProfile}
     >
       <div style={styleName}>{loginInfoDetail?.name}</div>
       <ProfImg
         profileImgUrl={loginInfoDetail?.profileImgUrl}
         token={props.profToken}
       />
-      <BtnProfImg onClose={props.onClose} onUpdate={props.onUpdate} t={t} />
+      <BtnProfImg onClose={props.onClose} onUpdate={props.onUpdate} />
       <DottedLine direction="row" margin="0 2px" />
       <div style={{ rowGap: "10px", padding: "0px 20px" }}>
         <div style={{ ...styleTitle, marginTop: "24px" }}>
@@ -271,16 +252,14 @@ const PopupModify = (props) => {
           {t("nickname")}
           <input
             style={styleNickname}
-            value={nickName}
-            onChange={(e) => setNickName(e.target.value)}
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
           />
         </div>
         <AccountSelector
-          accountNumber={accountNumber}
-          setAccountNumber={setAccountNumber}
+          accountNumber={account}
+          setAccountNumber={setAccount}
         />
-
-        {message && <div style={styleMessage}>{message}</div>}
       </div>
       <div style={styleButton}>
         <Button
@@ -289,16 +268,16 @@ const PopupModify = (props) => {
           padding="10px 0 9px"
           radius={8}
           font={theme.font14}
-          onClick={onClose}
+          onClick={props.onClose}
         >
           {t("page_modify.cancel")}
         </Button>
         <Button
           type="purple_inset"
           disabled={
-            !regExpTest.accountNumber(accountNumber) ||
-            !regexNickname.test(nickName) ||
-            (nickName === nickNameReal && accountNumber === accountNumberReal)
+            !isEditable ||
+            (nickname === loginInfoDetail?.nickname &&
+              account === loginInfoDetail?.account)
           }
           width="calc(50% - 5px)"
           padding="10px 0 9px"
