@@ -71,7 +71,7 @@ const Login = () => {
           bottom: "max(16px, env(safe-area-inset-bottom))",
         }}
       >
-        <a href="https://sparcs.netlify.app/" target="_blank" rel="noreferrer">
+        <a href="https://sparcs.org/" target="_blank" rel="noreferrer">
           <SparcsLogo style={{ height: "27px" }} />
         </a>
         <div
