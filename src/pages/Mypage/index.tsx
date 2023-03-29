@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router";
 
@@ -65,57 +65,35 @@ const Mypage = () => {
     [setOpenIsMembers]
   );
   const onClickLogout = useCallback(() => history.push("/logout"), [history]);
-  const handleUpdate = useCallback(() => refreshProfToken(), [refreshProfToken]);
+  const handleUpdate = refreshProfToken;
 
-  const styleProfile = useMemo(
-    () => ({
-      display: "flex",
-      alignItems: "center",
-    }),
-    []
-  );
-  const styleProfImg = useMemo(
-    () => ({
-      width: "50px",
-      height: "50px",
-      borderRadius: "50%",
-      overflow: "hidden",
-      marginRight: "12px",
-    }),
-    []
-  );
-  const infoTitle = useMemo(
-    () => ({
-      display: "flex",
-      justifyContent: "space-between",
-      marginTop: "15px",
-    }),
-    []
-  );
-  const infoModify = useMemo(
-    () => ({
-      ...theme.font14,
-      color: theme.purple,
-      cursor: "pointer",
-    }),
-    []
-  );
-  const infoType = useMemo(
-    () => ({
-      display: "flex",
-      ...theme.font14,
-      color: theme.gray_text,
-      marginTop: "16px",
-    }),
-    []
-  );
-  const infoContent = useMemo(
-    () => ({
-      ...theme.font14,
-      marginLeft: "12px",
-    }),
-    []
-  );
+  const styleProfImg = {
+    width: "50px",
+    height: "50px",
+    borderRadius: "50%",
+    overflow: "hidden",
+    marginRight: "12px",
+  };
+  const infoTitle = {
+    display: "flex",
+    justifyContent: "space-between",
+    marginTop: "15px",
+  };
+  const infoModify = {
+    ...theme.font14,
+    color: theme.purple,
+    cursor: "pointer",
+  };
+  const infoType = {
+    display: "flex",
+    ...theme.font14,
+    color: theme.gray_text,
+    marginTop: "16px",
+  };
+  const infoContent = {
+    ...theme.font14,
+    marginLeft: "12px",
+  };
 
   return (
     <>
@@ -123,8 +101,8 @@ const Mypage = () => {
         {t("my_page")}
       </Title>
       <WhiteContainer marginAuto padding="16px 24px 24px">
-        <div style={styleProfile}>
-          <div style={styleProfImg}>
+        <div css={{ display: "flex", alignItems: "center" }}>
+          <div css={styleProfImg}>
             {userInfoDetail?.profileImgUrl && (
               <ProfileImg
                 path={userInfoDetail.profileImgUrl}
@@ -132,35 +110,35 @@ const Mypage = () => {
               />
             )}
           </div>
-          <div style={theme.font16_bold} className="selectable">
+          <div css={theme.font16_bold} className="selectable">
             {userInfoDetail?.name}
           </div>
         </div>
-        <div style={infoTitle}>
-          <div style={theme.font14_bold}>{t("my_information")}</div>
-          <div style={infoModify} onClick={onClickProfileModify}>
+        <div css={infoTitle}>
+          <div css={theme.font14_bold}>{t("my_information")}</div>
+          <div css={infoModify} onClick={onClickProfileModify}>
             {t("revise")}
           </div>
         </div>
-        <div style={infoType} className="selectable">
+        <div css={infoType} className="selectable">
           {t("student_id")}
-          <div style={infoContent}>{userInfoDetail?.subinfo.kaist}</div>
+          <div css={infoContent}>{userInfoDetail?.subinfo.kaist}</div>
         </div>
-        <div style={infoType} className="selectable">
+        <div css={infoType} className="selectable">
           {t("email")}
-          <div style={infoContent}>{userInfoDetail?.email}</div>
+          <div css={infoContent}>{userInfoDetail?.email}</div>
         </div>
-        <div style={infoType} className="selectable">
+        <div css={infoType} className="selectable">
           {t("nickname")}
-          <div style={infoContent}>{userInfoDetail?.nickname}</div>
+          <div css={infoContent}>{userInfoDetail?.nickname}</div>
         </div>
-        <div style={infoType} className="selectable">
+        <div css={infoType} className="selectable">
           {t("account")}
-          <div style={infoContent}>{userInfoDetail?.account}</div>
+          <div css={infoContent}>{userInfoDetail?.account}</div>
         </div>
       </WhiteContainer>
       <WhiteContainer marginAuto>
-        <div style={{ display: "grid", rowGap: "16px" }}>
+        <div css={{ display: "grid", rowGap: "16px" }}>
           {nodeEnv === "development" && (
             <Menu icon="lang" onClick={onClickTranslation}>
               {t("translation")}
@@ -172,7 +150,7 @@ const Mypage = () => {
         </div>
       </WhiteContainer>
       <WhiteContainer marginAuto>
-        <div style={{ display: "grid", rowGap: "16px" }}>
+        <div css={{ display: "grid", rowGap: "16px" }}>
           <Menu icon="report" onClick={onClickReport}>
             {t("report_record")}
           </Menu>
