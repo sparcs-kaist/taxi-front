@@ -25,7 +25,7 @@ import { nodeEnv } from "loadenv";
 
 const Mypage = () => {
   const { t, i18n } = useTranslation("mypage");
-  const [profImgToken, refreshProfImg] = useDateToken();
+  const [profImgToken, refreshProfImgToken] = useDateToken();
   const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
 
   const [isOpenProfileModify, setIsOpenProfileModify] = useState(false);
@@ -65,7 +65,6 @@ const Mypage = () => {
     [setOpenIsMembers]
   );
   const onClickLogout = useCallback(() => history.push("/logout"), [history]);
-  const handleUpdate = refreshProfToken;
 
   const styleProfImg = {
     width: "50px",
@@ -174,7 +173,7 @@ const Mypage = () => {
       <PopupModify
         isOpen={isOpenProfileModify}
         onClose={() => setIsOpenProfileModify(false)}
-        onUpdate={refreshProfImg}
+        onUpdate={refreshProfImgToken}
         profToken={profImgToken}
       />
       <ModalNotification

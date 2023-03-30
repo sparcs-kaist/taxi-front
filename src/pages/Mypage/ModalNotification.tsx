@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import DottedLine from "components/DottedLine";
@@ -25,29 +25,18 @@ const SelectNotification = ({
   text,
   value,
   onChangeValue,
-}: SelectNotificationProps) => {
-  const style: CSS = useMemo(
-    () => ({
+}: SelectNotificationProps) => (
+  <div
+    css={{
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
-    }),
-    []
-  );
-  const styleText: CSS = useMemo(
-    () => ({
-      ...theme.font14,
-    }),
-    []
-  );
-
-  return (
-    <div style={style}>
-      <div style={styleText}>{text}</div>
-      <Toggle value={value} onChangeValue={onChangeValue} />
-    </div>
-  );
-};
+    }}
+  >
+    <div css={theme.font14}>{text}</div>
+    <Toggle value={value} onChangeValue={onChangeValue} />
+  </div>
+);
 
 const ModalNotification = ({
   isOpen,
@@ -55,23 +44,23 @@ const ModalNotification = ({
 }: ModalNotificationProps) => {
   const { t } = useTranslation("mypage");
 
-  const styleTitle: CSS = {
+  const styleTitle = {
     ...theme.font18,
     display: "flex",
     alignItems: "center",
     marginBottom: "12px",
   };
-  const styleLogo: CSS = {
+  const styleLogo = {
     fontSize: "21px",
     margin: "0 4px 0 0px",
   };
-  const styleGuide: CSS = {
+  const styleGuide = {
     ...theme.font12,
     color: theme.gray_text,
     marginBottom: "12px",
-    wordBreak: "keep-all",
+    wordBreak: "keep-all" as any,
   };
-  const styleBody: CSS = { display: "grid", rowGap: "12px" };
+  const styleBody = { display: "grid", rowGap: "12px" };
 
   // for test
   const [toggleValue, setToggleValue] = useState(true);
@@ -82,12 +71,12 @@ const ModalNotification = ({
       onClickClose={onChangeIsOpen ? () => onChangeIsOpen(false) : undefined}
       padding="16px 20px 20px"
     >
-      <div style={styleTitle}>
+      <div css={styleTitle}>
         <AlarmOnRoundedIcon style={styleLogo} />
         {t("notification")}
       </div>
-      <div style={styleGuide}>알림기능 테스트</div>
-      <div style={styleBody}>
+      <div css={styleGuide}>알림기능 테스트</div>
+      <div css={styleBody}>
         <SelectNotification
           text="알림"
           value={toggleValue}

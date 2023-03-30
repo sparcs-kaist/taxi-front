@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 
 import hoverEventSet from "tools/hoverEventSet";
 import theme from "tools/theme";
@@ -16,52 +16,43 @@ const Toggle = ({ value, width = "48px", onChangeValue }: ToggleProps) => {
     setIsHover(false);
   }, [value, onChangeValue]);
 
-  const style: CSS = useMemo(
-    () => ({
-      width,
-      height: "24px",
-      background: value ? theme.purple : theme.purple_hover,
-      boxShadow: value
-        ? theme.shadow_purple_button_inset
-        : theme.shadow_purple_input_inset,
-      overflow: "hidden",
-      borderRadius: "12px",
-      display: "flex",
-      position: "relative",
-      transition: `all ${theme.duration} ease-in-out`,
-      cursor: "pointer",
-    }),
-    [width, value]
-  );
-  const styleEmpty: CSS = useMemo(
-    () => ({
-      width: value
-        ? isHover
-          ? "calc(100% - 26px)"
-          : "calc(100% - 24px)"
-        : isHover
-        ? "4px"
-        : "0px",
-      transition: `all ${theme.duration} ease-in-out`,
-    }),
-    [value, isHover]
-  );
-  const styleBtn: CSS = useMemo(
-    () => ({
-      width: "20px",
-      height: "20px",
-      background: theme.white,
-      boxShadow: theme.shadow,
-      borderRadius: "10px",
-      margin: "2px",
-    }),
-    []
-  );
+  const style = {
+    width,
+    height: "24px",
+    background: value ? theme.purple : theme.purple_hover,
+    boxShadow: value
+      ? theme.shadow_purple_button_inset
+      : theme.shadow_purple_input_inset,
+    overflow: "hidden",
+    borderRadius: "12px",
+    display: "flex",
+    position: "relative" as any,
+    transition: `all ${theme.duration} ease-in-out`,
+    cursor: "pointer",
+  };
+  const styleEmpty = {
+    width: value
+      ? isHover
+        ? "calc(100% - 26px)"
+        : "calc(100% - 24px)"
+      : isHover
+      ? "4px"
+      : "0px",
+    transition: `all ${theme.duration} ease-in-out`,
+  };
+  const styleBtn = {
+    width: "20px",
+    height: "20px",
+    background: theme.white,
+    boxShadow: theme.shadow,
+    borderRadius: "10px",
+    margin: "2px",
+  };
 
   return (
-    <div style={style} onClick={onClick} {...hoverEventSet(setIsHover)}>
-      <div style={styleEmpty} />
-      <div style={styleBtn} />
+    <div css={style} onClick={onClick} {...hoverEventSet(setIsHover)}>
+      <div css={styleEmpty} />
+      <div css={styleBtn} />
     </div>
   );
 };
