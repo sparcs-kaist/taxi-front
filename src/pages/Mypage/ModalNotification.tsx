@@ -7,7 +7,7 @@ import Toggle from "components/Toggle";
 
 import theme from "tools/theme";
 
-// import AlarmOffRoundedIcon from "@mui/icons-material/AlarmOffRounded";
+import AlarmOffRoundedIcon from "@mui/icons-material/AlarmOffRounded";
 import AlarmOnRoundedIcon from "@mui/icons-material/AlarmOnRounded";
 
 type SelectNotificationProps = {
@@ -44,6 +44,9 @@ const ModalNotification = ({
 }: ModalNotificationProps) => {
   const { t } = useTranslation("mypage");
 
+  // for test
+  const [toggleValue, setToggleValue] = useState(true);
+
   const styleTitle = {
     ...theme.font18,
     display: "flex",
@@ -62,9 +65,6 @@ const ModalNotification = ({
   };
   const styleBody = { display: "grid", rowGap: "12px" };
 
-  // for test
-  const [toggleValue, setToggleValue] = useState(true);
-
   return (
     <Modal
       display={isOpen}
@@ -72,7 +72,11 @@ const ModalNotification = ({
       padding="16px 20px 20px"
     >
       <div css={styleTitle}>
-        <AlarmOnRoundedIcon style={styleLogo} />
+        {toggleValue ? (
+          <AlarmOnRoundedIcon style={styleLogo} />
+        ) : (
+          <AlarmOffRoundedIcon style={styleLogo} />
+        )}
         {t("notification")}
       </div>
       <div css={styleGuide}>알림기능 테스트</div>

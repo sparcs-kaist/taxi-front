@@ -1,6 +1,7 @@
 import i18n from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
-import { initReactI18next } from "react-i18next";
+import { useEffect } from "react";
+import { initReactI18next, useTranslation } from "react-i18next";
 
 import nsAddroomEN from "pages/Addroom/langs/en.json";
 import nsAddroomKO from "pages/Addroom/langs/ko.json";
@@ -41,6 +42,16 @@ i18n
     defaultNS: "mypage", // default namespace
   });
 
-const I18nextProvider = () => null;
+const I18nextProvider = () => {
+  const { i18n: i18nt } = useTranslation();
+
+  useEffect(() => {
+    if (!["ko", "en"].includes(i18nt.language)) {
+      i18nt.changeLanguage("ko");
+    }
+  }, []);
+
+  return null;
+};
 
 export default I18nextProvider;
