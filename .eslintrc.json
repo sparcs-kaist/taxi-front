@@ -24,7 +24,10 @@
   "rules": {
     "no-unused-vars": 1,
     "react/react-in-jsx-scope": "off",
-    "react/no-unknown-property": ["error", { "ignore": ["chatcheckout"] }]
+    "react/no-unknown-property": [
+      "error",
+      { "ignore": ["chatcheckout", "css"] }
+    ]
   },
   "overrides": [
     {

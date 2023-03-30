@@ -1,4 +1,4 @@
-import { ReactElement, useState } from "react";
+import { ReactNode, useState } from "react";
 
 import hoverEventSet from "tools/hoverEventSet";
 import theme from "tools/theme";
@@ -17,7 +17,7 @@ import StarRoundedIcon from "@mui/icons-material/StarRounded";
 type MenuProps = {
   icon: string;
   onClick?: () => void;
-  children: ReactElement;
+  children: ReactNode;
 };
 
 const getIcon = (icon: string) => {

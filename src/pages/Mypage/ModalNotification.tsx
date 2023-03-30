@@ -7,7 +7,7 @@ import Toggle from "components/Toggle";
 
 import theme from "tools/theme";
 
-import AlarmOffRoundedIcon from "@mui/icons-material/AlarmOffRounded";
+// import AlarmOffRoundedIcon from "@mui/icons-material/AlarmOffRounded";
 import AlarmOnRoundedIcon from "@mui/icons-material/AlarmOnRounded";
 
 type SelectNotificationProps = {
