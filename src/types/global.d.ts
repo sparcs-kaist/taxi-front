@@ -1,5 +1,4 @@
 import { CSSProperties } from "react";
-import { FunctionComponent, SVGProps } from "react";
 
 export {};
 
@@ -43,11 +42,3 @@ declare global {
   };
   type ReportResponse = { status: number };
 }
-
-// declare module "*.svg" {
-//   export const ReactComponent: FunctionComponent<
-//     SVGProps<SVGSVGElement> & { title?: string }
-//   >;
-//   const src: string;
-//   export default src;
-// }
