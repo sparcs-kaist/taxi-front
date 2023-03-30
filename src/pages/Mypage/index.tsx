@@ -65,6 +65,7 @@ const Mypage = () => {
     [setOpenIsMembers]
   );
   const onClickLogout = useCallback(() => history.push("/logout"), [history]);
+  const handleUpdate = refreshProfToken;
 
   const styleProfImg = {
     width: "50px",
