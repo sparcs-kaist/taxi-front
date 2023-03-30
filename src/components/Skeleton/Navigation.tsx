@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
@@ -78,6 +79,13 @@ const NavigationMenu = (props: NavigationMenuProps) => {
 };
 
 const Navigation = () => {
+  const { t } = useTranslation([
+    "home",
+    "search",
+    "addroom",
+    "myroom",
+    "mypage",
+  ]);
   const location = useLocation();
   const isVKDetected = useRecoilValue(isVirtualKeyboardDetectedAtom);
   const { pathname } = location;
@@ -105,11 +113,31 @@ const Navigation = () => {
           height: "56px",
         }}
       >
-        <NavigationMenu text="홈" page="home" path={pathname} />
-        <NavigationMenu text="검색" page="search" path={pathname} />
-        <NavigationMenu text="개설" page="addroom" path={pathname} />
-        <NavigationMenu text="내 방" page="myroom" path={pathname} />
-        <NavigationMenu text="마이" page="mypage" path={pathname} />
+        <NavigationMenu
+          text={t("home_for_nav", { ns: "home" })}
+          page="home"
+          path={pathname}
+        />
+        <NavigationMenu
+          text={t("search_room_for_nav", { ns: "search" })}
+          page="search"
+          path={pathname}
+        />
+        <NavigationMenu
+          text={t("add_room_for_nav", { ns: "addroom" })}
+          page="addroom"
+          path={pathname}
+        />
+        <NavigationMenu
+          text={t("my_room_for_nav", { ns: "myroom" })}
+          page="myroom"
+          path={pathname}
+        />
+        <NavigationMenu
+          text={t("my_page_for_nav", { ns: "mypage" })}
+          page="mypage"
+          path={pathname}
+        />
       </div>
     </div>
   );

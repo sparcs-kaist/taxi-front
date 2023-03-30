@@ -5,6 +5,8 @@ import { initReactI18next, useTranslation } from "react-i18next";
 
 import nsAddroomEN from "pages/Addroom/langs/en.json";
 import nsAddroomKO from "pages/Addroom/langs/ko.json";
+import nsHomeEN from "pages/Home/langs/en.json";
+import nsHomeKO from "pages/Home/langs/ko.json";
 import nsMypageEN from "pages/Mypage/langs/en.json";
 import nsMypageKO from "pages/Mypage/langs/ko.json";
 import nsMyroomEN from "pages/Myroom/langs/en.json";
@@ -24,12 +26,14 @@ i18n
   .init({
     resources: {
       ko: {
+        home: nsHomeKO,
         search: nsSearchKO,
         addroom: nsAddroomKO,
         myroom: nsMyroomKO,
         mypage: nsMypageKO,
       },
       en: {
+        home: nsHomeEN,
         search: nsSearchEN,
         addroom: nsAddroomEN,
         myroom: nsMyroomEN,
