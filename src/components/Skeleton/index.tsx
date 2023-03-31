@@ -10,9 +10,11 @@ import PopupPolicy from "pages/Mypage/PopupPolicy";
 import Footer from "./Footer";
 import Navigation from "./Navigation";
 
+import deviceTokenAtom from "atoms/deviceToken";
 import errorAtom from "atoms/error";
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import myRoomAtom from "atoms/myRoom";
+import notificationOptionsAtom from "atoms/notificationOptions";
 import taxiLocationAtom from "atoms/taxiLocation";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
@@ -47,10 +49,13 @@ const Skeleton = ({ children }: SkeletonProps) => {
 
   const [loginInfoDetail, setLoginInfoDetail] =
     useRecoilState(loginInfoDetailAtom);
+  const deviceToken = useRecoilValue(deviceTokenAtom);
   const error = useRecoilValue(errorAtom);
+  const { id: userId } = loginInfoDetail || {};
+
   const setTaxiLocation = useSetRecoilState(taxiLocationAtom);
   const setMyRoom = useSetRecoilState(myRoomAtom);
-  const userId = loginInfoDetail?.id;
+  const setNotificationOptions = useSetRecoilState(notificationOptionsAtom);
 
   const location = useLocation();
   const { pathname, search } = location;
@@ -85,6 +90,18 @@ const Skeleton = ({ children }: SkeletonProps) => {
       });
     }
   }, [userId]);
+
+  useEffect(() => {
+    if (deviceToken) {
+      // notificationOptions 업데이트
+      axios({
+        url: "/notifications/options",
+        method: "get",
+        params: { deviceToken },
+        onSuccess: (data) => setNotificationOptions(data),
+      });
+    }
+  }, [deviceToken]);
 
   if (error) {
     return (
