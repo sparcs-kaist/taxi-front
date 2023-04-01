@@ -66,7 +66,11 @@ const FirebaseMessagingProvider = () => {
   useEffect(() => {
     // FCM 디바이스 토큰 등록
     if (userId && firebaseApp && !deviceToken) {
-      registerEvent();
+      // @link: https://developer.mozilla.org/en-US/docs/Web/API/Notification/requestPermission
+      // Browsers will explicitly disallow notifications not triggered in response to a user gesture.
+      // Firefox is already doing this from version 72, for example.
+
+      // registerEvent();
       document.addEventListener("click", registerEvent, { once: true });
       document.addEventListener("touchend", registerEvent, { once: true });
     }
