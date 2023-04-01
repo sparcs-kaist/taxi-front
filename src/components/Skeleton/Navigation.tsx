@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -28,12 +28,12 @@ const NavigationMenu = (props: NavigationMenuProps) => {
     props.path.startsWith("/" + props.page) ||
     (props.page.startsWith("home") && props.path === "/");
 
-  const styleBox: CSS = {
+  const styleBox = {
     width: "25%",
     height: "100%",
     display: "flex",
     alignItems: "center",
-    flexDirection: "column",
+    flexDirection: "column" as any,
     textDecoration: "unset",
   };
   const styleColor = isHover
@@ -41,12 +41,6 @@ const NavigationMenu = (props: NavigationMenuProps) => {
     : selected
     ? theme.purple
     : theme.gray_text;
-  const styleIcon = {
-    fontSize: "20px",
-    marginTop: "10px",
-    transition: `fill ${theme.duration}`,
-    fill: styleColor,
-  };
   const styleText = {
     marginTop: "4px",
     width: "fit-content",
@@ -54,6 +48,15 @@ const NavigationMenu = (props: NavigationMenuProps) => {
     transitionDuration: theme.duration,
     color: styleColor,
   };
+  const styleIcon = useMemo(
+    () => ({
+      fontSize: "20px",
+      marginTop: "10px",
+      transition: `fill ${theme.duration}`,
+      fill: styleColor,
+    }),
+    [isHover, selected]
+  );
 
   const getIcon = (type: PageType) => {
     switch (type) {
@@ -71,9 +74,9 @@ const NavigationMenu = (props: NavigationMenuProps) => {
   };
 
   return (
-    <Link to={"/" + props.page} style={styleBox} {...hoverEventSet(setHover)}>
+    <Link to={"/" + props.page} css={styleBox} {...hoverEventSet(setHover)}>
       {getIcon(props.page)}
-      <div style={styleText}>{props.text}</div>
+      <div css={styleText}>{props.text}</div>
     </Link>
   );
 };
@@ -93,7 +96,7 @@ const Navigation = () => {
   return (
     <div
       id="navigation-body"
-      style={{
+      css={{
         position: "fixed",
         left: "0px",
         bottom: "0px",
@@ -106,7 +109,7 @@ const Navigation = () => {
       }}
     >
       <div
-        style={{
+        css={{
           width: "min(430px, 100%)",
           margin: "auto",
           display: "flex",
