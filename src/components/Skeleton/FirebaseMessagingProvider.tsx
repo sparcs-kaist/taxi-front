@@ -44,10 +44,11 @@ const FirebaseMessagingProvider = () => {
 
       // 백엔드 서버에 새 deviceToken을 등록합니다.
       await axios({
-        url: "/auth/registerDeviceToken",
+        url: "/notifications/registerDeviceToken",
         method: "post",
         data: { deviceToken: newDeviceToken },
         onSuccess: () => setDeviceToken(newDeviceToken),
+        onError: () => {},
       });
     } catch (error) {
       console.error("FCM ERROR: ", error);

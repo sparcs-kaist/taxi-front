@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
+
+import { useAxios } from "hooks/useTaxiAPI";
 
 import DottedLine from "components/DottedLine";
 import Modal from "components/Modal";
 import Toggle from "components/Toggle";
+
+import deviceTokenAtom from "atoms/deviceToken";
+import notificationOptionsAtom from "atoms/notificationOptions";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 import theme from "tools/theme";
 
@@ -43,9 +49,18 @@ const ModalNotification = ({
   onChangeIsOpen,
 }: ModalNotificationProps) => {
   const { t } = useTranslation("mypage");
-
-  // for test
-  const [toggleValue, setToggleValue] = useState(true);
+  const axios = useAxios();
+  const deviceToken = useRecoilValue(deviceTokenAtom);
+  const [notificationOptions, setNotificationOptions] = useRecoilState(
+    notificationOptionsAtom
+  );
+  const isOnNotification =
+    // notificationOptions?.advertisement ||
+    notificationOptions?.beforeDepart ||
+    notificationOptions?.chatting ||
+    notificationOptions?.notice;
+  // notificationOptions?.keywords?.length;
+  const isAxiosCalled = useRef(false);
 
   const styleTitle = {
     ...theme.font18,
@@ -65,6 +80,71 @@ const ModalNotification = ({
   };
   const styleBody = { display: "grid", rowGap: "12px" };
 
+  const onChangeNotificationOption = useCallback(
+    (optionName: string) => async (value: boolean) => {
+      if (isAxiosCalled.current) return;
+      isAxiosCalled.current = true;
+      await axios({
+        url: "/notifications/editOptions",
+        method: "post",
+        data: {
+          deviceToken,
+          options: {
+            [optionName]: value,
+          },
+        },
+      });
+      setNotificationOptions(
+        await axios({
+          url: "/notifications/options",
+          method: "get",
+          params: { deviceToken },
+        })
+      );
+      isAxiosCalled.current = false;
+    },
+    [deviceToken]
+  );
+  const onChangeNotificationAll = useCallback(
+    async (value: boolean) => {
+      if (isAxiosCalled.current) return;
+      isAxiosCalled.current = true;
+      await axios({
+        url: "/notifications/editOptions",
+        method: "post",
+        data: {
+          deviceToken,
+          options: {
+            beforeDepart: value,
+            chatting: value,
+            notice: value,
+          },
+        },
+      });
+      setNotificationOptions(
+        await axios({
+          url: "/notifications/options",
+          method: "get",
+          params: { deviceToken },
+        })
+      );
+      isAxiosCalled.current = false;
+    },
+    [deviceToken]
+  );
+  const onChangeNotificationChatting = useCallback(
+    onChangeNotificationOption("chatting"),
+    [onChangeNotificationOption]
+  );
+  const onChangeNotificationBeforeDepart = useCallback(
+    onChangeNotificationOption("beforeDepart"),
+    [onChangeNotificationOption]
+  );
+  const onChangeNotificationNotice = useCallback(
+    onChangeNotificationOption("notice"),
+    [onChangeNotificationOption]
+  );
+
   return (
     <Modal
       display={isOpen}
@@ -72,7 +152,7 @@ const ModalNotification = ({
       padding="16px 20px 20px"
     >
       <div css={styleTitle}>
-        {toggleValue ? (
+        {isOnNotification ? (
           <AlarmOnRoundedIcon style={styleLogo} />
         ) : (
           <AlarmOffRoundedIcon style={styleLogo} />
@@ -83,24 +163,24 @@ const ModalNotification = ({
       <div css={styleBody}>
         <SelectNotification
           text="알림"
-          value={toggleValue}
-          onChangeValue={setToggleValue}
+          value={!!isOnNotification}
+          onChangeValue={onChangeNotificationAll}
         />
         <DottedLine direction="row" />
         <SelectNotification
           text="채팅 알림"
-          value={toggleValue}
-          onChangeValue={setToggleValue}
+          value={!!notificationOptions?.chatting}
+          onChangeValue={onChangeNotificationChatting}
         />
         <SelectNotification
           text="출발 10분 전 알림"
-          value={toggleValue}
-          onChangeValue={setToggleValue}
+          value={!!notificationOptions?.beforeDepart}
+          onChangeValue={onChangeNotificationBeforeDepart}
         />
         <SelectNotification
           text="서비스 공지 알림"
-          value={toggleValue}
-          onChangeValue={setToggleValue}
+          value={!!notificationOptions?.notice}
+          onChangeValue={onChangeNotificationNotice}
         />
       </div>
     </Modal>

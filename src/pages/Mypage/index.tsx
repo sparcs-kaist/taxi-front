@@ -17,6 +17,7 @@ import PopupReport from "./PopupReport";
 import ProfileImg from "./ProfileImg";
 
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import notificationOptionsAtom from "atoms/notificationOptions";
 import { useRecoilValue } from "recoil";
 
 import theme from "tools/theme";
@@ -27,6 +28,13 @@ const Mypage = () => {
   const { t, i18n } = useTranslation("mypage");
   const [profImgToken, refreshProfImgToken] = useDateToken();
   const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
+  const notificationOptions = useRecoilValue(notificationOptionsAtom);
+  const isOnNotification =
+    // notificationOptions?.advertisement ||
+    notificationOptions?.beforeDepart ||
+    notificationOptions?.chatting ||
+    notificationOptions?.notice;
+  // notificationOptions?.keywords?.length;
 
   const [isOpenProfileModify, setIsOpenProfileModify] = useState(false);
   const [isOpenNotification, setIsOpenNotification] = useState(false);
@@ -143,7 +151,10 @@ const Mypage = () => {
               {t("translation")}
             </Menu>
           )}
-          <Menu icon="notification-on" onClick={onClickNotification}>
+          <Menu
+            icon={`notification-${isOnNotification ? "on" : "off"}`}
+            onClick={onClickNotification}
+          >
             {t("notification")}
           </Menu>
         </div>

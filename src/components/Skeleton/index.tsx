@@ -93,7 +93,7 @@ const Skeleton = ({ children }: SkeletonProps) => {
 
   useEffect(() => {
     if (deviceToken) {
-      // notificationOptions 업데이트
+      // notificationOptions 초기화
       axios({
         url: "/notifications/options",
         method: "get",
