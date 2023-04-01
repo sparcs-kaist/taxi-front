@@ -164,7 +164,10 @@ const FullChatMessageForm = (props: FullChatMessageFormProps) => {
       <PopupAccount
         popup={popupAccount}
         onClickClose={() => setPopupAccount(false)}
-        onClickOk={props.handleSendAccount}
+        onClickOk={(account: string) => {
+          setPopupAccount(false);
+          props.handleSendAccount(account);
+        }}
       />
       <input
         type="file"
@@ -205,14 +208,6 @@ const FullChatMessageForm = (props: FullChatMessageFormProps) => {
             ...theme.font14,
             padding: "8px 46px 8px 12px",
             boxSizing: "border-box",
-          }}
-        />
-        <PopupAccount
-          popup={popupAccount}
-          onClickClose={() => setPopupAccount(false)}
-          onClickOk={(account: string) => {
-            setPopupAccount(false);
-            props.handleSendAccount(account);
           }}
         />
         <BtnSend onClick={onSend} enable={isMessageValid()} />
