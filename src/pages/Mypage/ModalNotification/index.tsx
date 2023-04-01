@@ -7,6 +7,8 @@ import DottedLine from "components/DottedLine";
 import Modal from "components/Modal";
 import Toggle from "components/Toggle";
 
+import Guide from "./Guide";
+
 import deviceTokenAtom from "atoms/deviceToken";
 import notificationOptionsAtom from "atoms/notificationOptions";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -56,9 +58,8 @@ const ModalNotification = ({
   );
   const isOnNotification =
     // notificationOptions?.advertisement ||
-    notificationOptions?.beforeDepart ||
-    notificationOptions?.chatting ||
-    notificationOptions?.notice;
+    // notificationOptions?.beforeDepart ||
+    notificationOptions?.chatting || notificationOptions?.notice;
   // notificationOptions?.keywords?.length;
   const isAxiosCalled = useRef(false);
 
@@ -136,10 +137,10 @@ const ModalNotification = ({
     onChangeNotificationOption("chatting"),
     [onChangeNotificationOption]
   );
-  const onChangeNotificationBeforeDepart = useCallback(
-    onChangeNotificationOption("beforeDepart"),
-    [onChangeNotificationOption]
-  );
+  // const onChangeNotificationBeforeDepart = useCallback(
+  //   onChangeNotificationOption("beforeDepart"),
+  //   [onChangeNotificationOption]
+  // );
   const onChangeNotificationNotice = useCallback(
     onChangeNotificationOption("notice"),
     [onChangeNotificationOption]
@@ -159,30 +160,38 @@ const ModalNotification = ({
         )}
         {t("notification")}
       </div>
-      <div css={styleGuide}>알림기능 테스트</div>
-      <div css={styleBody}>
-        <SelectNotification
-          text="알림"
-          value={!!isOnNotification}
-          onChangeValue={onChangeNotificationAll}
-        />
-        <DottedLine direction="row" />
-        <SelectNotification
-          text="채팅 알림"
-          value={!!notificationOptions?.chatting}
-          onChangeValue={onChangeNotificationChatting}
-        />
-        <SelectNotification
-          text="출발 10분 전 알림"
-          value={!!notificationOptions?.beforeDepart}
-          onChangeValue={onChangeNotificationBeforeDepart}
-        />
-        <SelectNotification
-          text="서비스 공지 알림"
-          value={!!notificationOptions?.notice}
-          onChangeValue={onChangeNotificationNotice}
-        />
-      </div>
+      {deviceToken ? (
+        <>
+          <div css={styleGuide}>
+            브라우저를 닫아도 푸시 알림을 받을 수 있습니다.
+          </div>
+          <div css={styleBody}>
+            <SelectNotification
+              text="알림"
+              value={!!isOnNotification}
+              onChangeValue={onChangeNotificationAll}
+            />
+            <DottedLine direction="row" />
+            <SelectNotification
+              text="채팅 알림"
+              value={!!notificationOptions?.chatting}
+              onChangeValue={onChangeNotificationChatting}
+            />
+            {/* <SelectNotification
+              text="출발 10분 전 알림"
+              value={!!notificationOptions?.beforeDepart}
+              onChangeValue={onChangeNotificationBeforeDepart}
+            /> */}
+            <SelectNotification
+              text="서비스 공지 알림"
+              value={!!notificationOptions?.notice}
+              onChangeValue={onChangeNotificationNotice}
+            />
+          </div>
+        </>
+      ) : (
+        <Guide />
+      )}
     </Modal>
   );
 };

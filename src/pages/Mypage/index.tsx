@@ -31,9 +31,8 @@ const Mypage = () => {
   const notificationOptions = useRecoilValue(notificationOptionsAtom);
   const isOnNotification =
     // notificationOptions?.advertisement ||
-    notificationOptions?.beforeDepart ||
-    notificationOptions?.chatting ||
-    notificationOptions?.notice;
+    // notificationOptions?.beforeDepart ||
+    notificationOptions?.chatting || notificationOptions?.notice;
   // notificationOptions?.keywords?.length;
 
   const [isOpenProfileModify, setIsOpenProfileModify] = useState(false);
