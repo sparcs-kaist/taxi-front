@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useMemo, useState } from "react";
 
 import hoverEventSet from "tools/hoverEventSet";
 import theme from "tools/theme";
@@ -21,10 +21,13 @@ type MenuProps = {
 };
 
 const getIcon = (icon: string) => {
-  const styleIcon = {
-    fontSize: "16px",
-    marginRight: "8px",
-  };
+  const styleIcon = useMemo(
+    () => ({
+      fontSize: "16px",
+      marginRight: "8px",
+    }),
+    []
+  );
   switch (icon) {
     case "lang":
       return <LanguageRoundedIcon style={styleIcon} />;
@@ -49,6 +52,7 @@ const getIcon = (icon: string) => {
 
 const Menu = ({ icon, onClick, children }: MenuProps) => {
   const [isHover, setHover] = useState(false);
+
   const style = {
     display: "flex",
     alignItems: "flex-start",
@@ -60,11 +64,18 @@ const Menu = ({ icon, onClick, children }: MenuProps) => {
     ...theme.font14,
     color: "inherit",
   };
+  const styleIcon = useMemo(
+    () => ({
+      fontSize: "16px",
+    }),
+    []
+  );
+
   return (
-    <div style={style} onClick={onClick} {...hoverEventSet(setHover)}>
+    <div css={style} onClick={onClick} {...hoverEventSet(setHover)}>
       {getIcon(icon)}
-      <div style={styleText}>{children}</div>
-      {isHover && <KeyboardArrowLeftRoundedIcon style={{ fontSize: "16px" }} />}
+      <div css={styleText}>{children}</div>
+      {isHover && <KeyboardArrowLeftRoundedIcon style={styleIcon} />}
     </div>
   );
 };
