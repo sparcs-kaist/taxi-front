@@ -2,24 +2,27 @@
   "extends": "./tsconfig.paths.json",
   "compilerOptions": {
     "target": "es5",
-    "baseUrl": "./src",
+    "module": "esnext",
     "lib": [
       "es5",
       "dom"
     ],
+    "baseUrl": "./src",
+    "removeComments": true,
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
+    "noUnusedLocals": true,
+    "noEmit": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "jsxImportSource": "@emotion/react"
   },
   "exclude": [
     "node_modules"

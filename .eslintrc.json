@@ -3,7 +3,8 @@
   "env": {
     "browser": true,
     "es2021": true,
-    "cypress/globals": true
+    "cypress/globals": true,
+    "node": true
   },
   "extends": [
     "plugin:cypress/recommended",
@@ -23,11 +24,14 @@
   "rules": {
     "no-unused-vars": 1,
     "react/react-in-jsx-scope": "off",
-    "react/no-unknown-property": ["error", { "ignore": ["chatcheckout"] }]
+    "react/no-unknown-property": [
+      "error",
+      { "ignore": ["chatcheckout", "css"] }
+    ]
   },
   "overrides": [
     {
-      "files": ["*.ts", "*.tsx"],
+      "files": ["*.ts", "*.tsx", "public/firebase-messaging-sw.js"],
       "rules": {
         "no-undef": "off",
         "no-unused-vars": "off"

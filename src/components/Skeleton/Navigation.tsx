@@ -1,17 +1,19 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import hoverEventSet from "tools/hoverEventSet";
-import theme from "styles/theme";
 
+import isVirtualKeyboardDetectedAtom from "atoms/isVirtualKeyboardDetected";
 import { useRecoilValue } from "recoil";
-import isVirtualKeyboardDetectedAtom from "recoil/isVirtualKeyboardDetectedAtom";
 
-import RoofingRoundedIcon from "@mui/icons-material/RoofingRounded";
+import hoverEventSet from "tools/hoverEventSet";
+import theme from "tools/theme";
+
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
-import SubjectRoundedIcon from "@mui/icons-material/SubjectRounded";
 import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
+import RoofingRoundedIcon from "@mui/icons-material/RoofingRounded";
+import SubjectRoundedIcon from "@mui/icons-material/SubjectRounded";
 
 type PageType = "home" | "search" | "addroom" | "myroom" | "mypage";
 type NavigationMenuProps = {
@@ -26,12 +28,12 @@ const NavigationMenu = (props: NavigationMenuProps) => {
     props.path.startsWith("/" + props.page) ||
     (props.page.startsWith("home") && props.path === "/");
 
-  const styleBox: CSS = {
+  const styleBox = {
     width: "25%",
     height: "100%",
     display: "flex",
     alignItems: "center",
-    flexDirection: "column",
+    flexDirection: "column" as any,
     textDecoration: "unset",
   };
   const styleColor = isHover
@@ -39,12 +41,6 @@ const NavigationMenu = (props: NavigationMenuProps) => {
     : selected
     ? theme.purple
     : theme.gray_text;
-  const styleIcon = {
-    fontSize: "20px",
-    marginTop: "10px",
-    transition: `fill ${theme.duration}`,
-    fill: styleColor,
-  };
   const styleText = {
     marginTop: "4px",
     width: "fit-content",
@@ -52,6 +48,15 @@ const NavigationMenu = (props: NavigationMenuProps) => {
     transitionDuration: theme.duration,
     color: styleColor,
   };
+  const styleIcon = useMemo(
+    () => ({
+      fontSize: "20px",
+      marginTop: "10px",
+      transition: `fill ${theme.duration}`,
+      fill: styleColor,
+    }),
+    [isHover, selected]
+  );
 
   const getIcon = (type: PageType) => {
     switch (type) {
@@ -69,14 +74,21 @@ const NavigationMenu = (props: NavigationMenuProps) => {
   };
 
   return (
-    <Link to={"/" + props.page} style={styleBox} {...hoverEventSet(setHover)}>
+    <Link to={"/" + props.page} css={styleBox} {...hoverEventSet(setHover)}>
       {getIcon(props.page)}
-      <div style={styleText}>{props.text}</div>
+      <div css={styleText}>{props.text}</div>
     </Link>
   );
 };
 
 const Navigation = () => {
+  const { t } = useTranslation([
+    "home",
+    "search",
+    "addroom",
+    "myroom",
+    "mypage",
+  ]);
   const location = useLocation();
   const isVKDetected = useRecoilValue(isVirtualKeyboardDetectedAtom);
   const { pathname } = location;
@@ -84,7 +96,7 @@ const Navigation = () => {
   return (
     <div
       id="navigation-body"
-      style={{
+      css={{
         position: "fixed",
         left: "0px",
         bottom: "0px",
@@ -97,18 +109,38 @@ const Navigation = () => {
       }}
     >
       <div
-        style={{
+        css={{
           width: "min(430px, 100%)",
           margin: "auto",
           display: "flex",
           height: "56px",
         }}
       >
-        <NavigationMenu text="홈" page="home" path={pathname} />
-        <NavigationMenu text="검색" page="search" path={pathname} />
-        <NavigationMenu text="개설" page="addroom" path={pathname} />
-        <NavigationMenu text="내 방" page="myroom" path={pathname} />
-        <NavigationMenu text="마이" page="mypage" path={pathname} />
+        <NavigationMenu
+          text={t("home_for_nav", { ns: "home" })}
+          page="home"
+          path={pathname}
+        />
+        <NavigationMenu
+          text={t("search_room_for_nav", { ns: "search" })}
+          page="search"
+          path={pathname}
+        />
+        <NavigationMenu
+          text={t("add_room_for_nav", { ns: "addroom" })}
+          page="addroom"
+          path={pathname}
+        />
+        <NavigationMenu
+          text={t("my_room_for_nav", { ns: "myroom" })}
+          page="myroom"
+          path={pathname}
+        />
+        <NavigationMenu
+          text={t("my_page_for_nav", { ns: "mypage" })}
+          page="mypage"
+          path={pathname}
+        />
       </div>
     </div>
   );

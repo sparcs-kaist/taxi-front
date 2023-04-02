@@ -1,0 +1,41 @@
+{
+  "my_page": "My Page",
+  "my_page_for_nav": "My",
+  "my_information": "My Information",
+  "revise": "Modify",
+  "student_id": "Student ID",
+  "email": "E-mail",
+  "nickname": "Nickname",
+  "beta_service_guide": "Beta service guide",
+  "translation": "English → 한국어",
+  "notification": "Notification",
+  "account": "Account",
+  "report_record": "Report Details",
+  "contact": "Contact Us",
+  "terms": "Terms",
+  "privacy_policy": "Privacy Policy",
+  "credit": "Credit",
+  "logout": "Logout",
+  "page_modify": {
+    "cancel": "Cancel",
+    "modify": "Modify",
+    "profile_image_change": "Change profile image",
+    "profile_image_success": "Changed successfully",
+    "profile_image_failed": "Failed to change",
+    "profile_image_loading": "Chaning...",
+    "nickname_failed": "Failed to change nickname",
+    "account_failed": "Failed to change account"
+  },
+  "page_report": {
+    "inquiry": "If you have inquiries about the report details, please use the 'Contact us' menu.",
+    "reported": "Reported",
+    "received": "Received",
+    "reason": "Reason",
+    "date": "Date",
+    "no_settlement": "Not settled",
+    "no_show": "No show",
+    "etc_reason": "Other reasons",
+    "empty_reported": "There's no report history",
+    "empty_received": "There's no report received"
+  }
+}

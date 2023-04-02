@@ -1,5 +1,5 @@
 const hoverEventSet = (
-  setHover: (bool: boolean) => void,
+  setHover: (bool: boolean) => void = () => {},
   setClicked: (bool: boolean) => void = () => {}
 ) => ({
   onMouseEnter: () => setHover(true),

@@ -1,26 +1,30 @@
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { CookiesProvider } from "react-cookie";
-import { RecoilRoot } from "recoil";
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
+
+import Skeleton from "components/Skeleton";
+import AlertProvider from "components/Skeleton/AlertProvider";
+import CSSVariablesProvider from "components/Skeleton/CSSVariablesProvider";
+import ChannelTalkProvider from "components/Skeleton/ChannelTalkProvider";
+import FirebaseMessagingProvider from "components/Skeleton/FirebaseMessagingProvider";
+import GoogleAnalyticsProvier from "components/Skeleton/GoogleAnalyticsProvier";
+import I18nextProvider from "components/Skeleton/I18nextProvider";
 import ScrollRestoration from "components/Skeleton/ScrollRestoration";
 import VirtualKeyboardDetector from "components/Skeleton/VirtualKeyboardDetector";
-import ChannelTalkProvider from "components/Skeleton/ChannelTalkProvider";
-import I18nextProvider from "lang/I18nextProvider";
-import AlertProvider from "components/Skeleton/AlertProvider";
-import Skeleton from "components/Skeleton/Skeleton";
+import Addroom from "pages/Addroom";
+import WrapChat from "pages/Chatting/WrapChat";
+import PageNotFound from "pages/Error/PageNotFound";
+import Home from "pages/Home";
+import Login from "pages/Login";
+import LoginFail from "pages/Login/LoginFail";
+import Logout from "pages/Login/Logout";
+import Mypage from "pages/Mypage";
+import Myroom from "pages/Myroom";
+import Search from "pages/Search";
 
-import Login from "components/Login/Login";
-import LoginFail from "components/Login/LoginFail";
-import Logout from "components/Login/Logout";
-import Home from "components/Home";
-import Search from "components/Search/Search";
-import AddRoom from "components/AddRoom/AddRoom";
-import Myroom from "components/Myroom/Myroom";
-import Mypage from "components/Mypage/Mypage";
-import WrapChat from "components/Chatting/WrapChat";
-import PageNotFound from "components/Error/PageNotFound";
+import "./App.css";
+import "./Font.css";
 
-import "App.css";
-import "Font.css";
+import { RecoilRoot } from "recoil";
 
 const App = () => {
   return (
@@ -30,17 +34,21 @@ const App = () => {
           <ScrollRestoration />
           <VirtualKeyboardDetector />
           <ChannelTalkProvider />
+          <GoogleAnalyticsProvier />
+          <FirebaseMessagingProvider />
           <I18nextProvider />
           <AlertProvider />
+          <CSSVariablesProvider />
           <Skeleton>
             <Switch>
               <Route exact path="/login" component={Login} />
+              <Route exact path="/login/privacyPolicy" component={Login} />
               <Route exact path="/login/fail" component={LoginFail} />
               <Route exact path="/logout" component={Logout} />
               <Route exact path="/" component={Home} />
               <Route exact path="/home" component={Home} />
               <Route exact path="/search" component={Search} />
-              <Route exact path="/addroom" component={AddRoom} />
+              <Route exact path="/addroom" component={Addroom} />
               <Route exact path="/myroom" component={Myroom} />
               <Route exact path="/myroom/:roomId" component={Myroom} />
               <Route exact path="/mypage" component={Mypage} />

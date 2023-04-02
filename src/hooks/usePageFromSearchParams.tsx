@@ -1,12 +1,13 @@
-import { useEffect, useCallback, useState } from "react";
-import { useLocation } from "react-router-dom";
 import qs from "qs";
+import { useCallback, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const usePageFromSearchParams = (totalPages: Number) => {
   const location = useLocation();
+  const { search } = location;
 
   const getPage = useCallback(() => {
-    const q = qs.parse(location.search.slice(1));
+    const q = qs.parse(search.slice(1));
     const currentPage = Number(q.page);
     if (
       Number.isNaN(currentPage) ||
@@ -15,13 +16,13 @@ const usePageFromSearchParams = (totalPages: Number) => {
     )
       return 1;
     else return currentPage;
-  }, [location.search, totalPages]);
+  }, [search, totalPages]);
 
   const [page, setPage] = useState(getPage());
 
   useEffect(() => {
     setPage(getPage());
-  }, [location.search, totalPages]);
+  }, [search, totalPages]);
 
   return page;
 };
