@@ -16,18 +16,12 @@ const AlertProvider = () => {
   const [message, setMessage] = useRecoilState(alertAtom);
 
   const closeHandler = useCallback(() => setMessage(null), [setMessage]);
-  const onChangeIsOpen = useCallback(
-    (v: boolean) => {
-      if (!v) closeHandler();
-    },
-    [closeHandler]
-  );
   if (message) messageCache.current = message;
 
   return (
     <ModalElem
       isOpen={!!message}
-      onChangeIsOpen={onChangeIsOpen}
+      onChangeIsOpen={closeHandler}
       width={theme.modal_width_alert}
       padding="10px"
       displayCloseBtn={false}
