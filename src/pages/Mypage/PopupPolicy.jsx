@@ -245,10 +245,10 @@ const PopupPolicy = (props) => {
 
   return (
     <Modal
-      display={props.isOpen}
-      onClickClose={onClose}
+      isOpen={props.isOpen}
+      onChangeIsOpen={() => onClose()}
+      width={theme.modal_width_large}
       padding="16px"
-      width={755}
     >
       <div style={styleTop}>
         <TaxiLogo alt="taxi-logo" style={{ height: "27px" }} />

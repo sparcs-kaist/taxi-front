@@ -77,11 +77,10 @@ const PopupInput = (props: PopupInputProps) => {
 
   return (
     <Modal
-      display={props.isOpen}
-      onClickClose={props.onClose}
+      isOpen={props.isOpen}
+      onChangeIsOpen={() => props.onClose()}
       onEnter={onClick}
-      width={335}
-      closeBtn={false}
+      displayCloseBtn={false}
     >
       <div style={style}>
         <div style={styleContainer}>

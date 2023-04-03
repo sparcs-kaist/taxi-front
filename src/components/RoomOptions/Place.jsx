@@ -40,11 +40,10 @@ const PopupInput = (props) => {
 
   return (
     <Modal
-      display={props.isOpen}
-      onClickClose={props.onClose}
+      isOpen={props.isOpen}
+      onChangeIsOpen={() => props.onClose()}
       onEnter={onClick}
-      width={335}
-      closeBtn={false}
+      displayCloseBtn={false}
     >
       <div style={{ height: "266px" }}>
         <div style={{ width: "calc(100% - 20px)", marginLeft: "10px" }}>

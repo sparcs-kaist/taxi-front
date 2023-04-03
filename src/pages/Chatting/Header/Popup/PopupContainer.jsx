@@ -8,8 +8,8 @@ import theme from "tools/theme";
 const PopupContainer = (props) => {
   return (
     <Modal
-      display={props.popup}
-      onClickClose={props.onClickClose}
+      isOpen={props.popup}
+      onChangeIsOpen={() => props.onClickClose()}
       padding="10px"
     >
       <div style={{ margin: "26px 0 24px" }}>{props.children}</div>
