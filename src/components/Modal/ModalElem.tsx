@@ -78,7 +78,7 @@ const ModalElem = ({
     top: "0px",
     left: "0px",
     width: "100%",
-    height: "100%",
+    height: "calc(100% + 1px)", // useDisableScrollEffect 로 감소된 1px을 보정
     zIndex: isAlert ? theme.zIndex_alert : theme.zIndex_modal,
     background: isAlert ? theme.black_40 : theme.black_60,
     opacity: display ? 1 : 0,
