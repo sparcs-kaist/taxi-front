@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router";
 
 import { useAxios } from "hooks/useTaxiAPI";
@@ -220,6 +221,7 @@ Agree.propTypes = {
 };
 
 const PopupPolicy = (props) => {
+  const { t } = useTranslation("mypage");
   const history = useHistory();
   const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const didAgree = loginInfoDetail?.agreeOnTermsOfService ?? false;
@@ -250,7 +252,7 @@ const PopupPolicy = (props) => {
     >
       <div style={styleTop}>
         <TaxiLogo alt="taxi-logo" style={{ height: "27px" }} />
-        이용 약관
+        {t("terms")}
       </div>
       <Policy />
       <div data-cy="agreement-bottom">
