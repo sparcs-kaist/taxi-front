@@ -20,7 +20,7 @@ const Modal = (props: ModalElemProps) => {
     setModals((prev) =>
       prev.map((modal) => (modal.id === id ? { id, props } : modal))
     );
-  }, [props]);
+  }, Object.values(props));
 
   return null;
 };

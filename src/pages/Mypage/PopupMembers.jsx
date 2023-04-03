@@ -95,7 +95,7 @@ const PopupMembers = (props) => {
   return (
     <Modal
       isOpen={props.isOpen}
-      onChangeIsOpen={() => props.onClose()}
+      onChangeIsOpen={props.onClose}
       width={theme.modal_width_large}
       padding="16px 12px 12px"
     >

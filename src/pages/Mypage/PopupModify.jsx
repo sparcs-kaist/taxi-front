@@ -228,7 +228,7 @@ const PopupModify = (props) => {
   return (
     <Modal
       isOpen={props.isOpen}
-      onChangeIsOpen={() => props.onClose()}
+      onChangeIsOpen={props.onClose}
       padding="32px 10px 10px"
       onEnter={handleEditProfile}
     >

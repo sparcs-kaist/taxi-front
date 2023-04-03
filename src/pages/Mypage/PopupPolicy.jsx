@@ -246,7 +246,7 @@ const PopupPolicy = (props) => {
   return (
     <Modal
       isOpen={props.isOpen}
-      onChangeIsOpen={() => onClose()}
+      onChangeIsOpen={onClose}
       width={theme.modal_width_large}
       padding="16px"
     >

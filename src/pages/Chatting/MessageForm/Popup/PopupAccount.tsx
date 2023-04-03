@@ -51,7 +51,7 @@ const PopupAccount = (props: SendAccoundModalProps) => {
   return (
     <Modal
       isOpen={props.popup}
-      onChangeIsOpen={() => props.onClickClose()}
+      onChangeIsOpen={props.onClickClose}
       onEnter={handleClickOk}
       padding="10px"
     >

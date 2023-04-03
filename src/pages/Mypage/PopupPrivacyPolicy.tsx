@@ -255,7 +255,7 @@ const PopupPrivacyPolicy = ({ isOpen, onClose }: PopupPrivacyPolicyProps) => {
   return (
     <Modal
       isOpen={isOpen}
-      onChangeIsOpen={() => onClose()}
+      onChangeIsOpen={onClose}
       width={theme.modal_width_large}
       padding="16px"
     >

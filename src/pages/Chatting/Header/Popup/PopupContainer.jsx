@@ -9,7 +9,7 @@ const PopupContainer = (props) => {
   return (
     <Modal
       isOpen={props.popup}
-      onChangeIsOpen={() => props.onClickClose()}
+      onChangeIsOpen={props.onClickClose}
       padding="10px"
     >
       <div style={{ margin: "26px 0 24px" }}>{props.children}</div>

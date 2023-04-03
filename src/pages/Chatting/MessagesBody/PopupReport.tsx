@@ -175,7 +175,7 @@ const PopupReport = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onChangeIsOpen={() => handleClose()} padding="10px">
+    <Modal isOpen={isOpen} onChangeIsOpen={handleClose} padding="10px">
       <div style={styleTop}>
         <div style={styleProfImg}>
           <ProfileImg path={path} />

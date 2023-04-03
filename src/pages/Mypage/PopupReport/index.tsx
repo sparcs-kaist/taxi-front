@@ -55,7 +55,7 @@ const PopupReport = (props: RecordProps) => {
   return (
     <Modal
       isOpen={props.isOpen}
-      onChangeIsOpen={() => props.onClose()}
+      onChangeIsOpen={props.onClose}
       padding="16px 12px"
     >
       <div style={styleTitle}>

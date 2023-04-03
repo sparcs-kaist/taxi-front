@@ -180,11 +180,7 @@ const RoomSelectionModal = (props) => {
   };
 
   return (
-    <Modal
-      isOpen={props.isOpen}
-      onChangeIsOpen={() => props.onClose()}
-      padding="10px"
-    >
+    <Modal isOpen={props.isOpen} onChangeIsOpen={props.onClose} padding="10px">
       <div style={styleTitle}>{roomInfo?.name ?? ""}</div>
       <DottedLine margin="0 2px" />
       <div style={stylePlace}>
