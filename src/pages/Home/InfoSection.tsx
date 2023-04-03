@@ -97,7 +97,11 @@ const InfoSection = () => {
       <RLayout.R1>
         <div style={{ padding: "25px 0 32px" }}>
           <TaxiLogoWhite />
-          <div style={styleName}>안녕하세요, {loginInfo?.nickname}님!</div>
+          <div style={styleName}>
+            {loginInfo?.nickname
+              ? `안녕하세요, ${loginInfo?.nickname}님!`
+              : "안녕하세요!"}
+          </div>
           <div style={{ ...theme.font14, color: theme.white }}>{message}</div>
           {room ? (
             <Link to={`/myroom/${room._id}`} style={{ textDecoration: "none" }}>

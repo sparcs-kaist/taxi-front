@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useState } from "react";
-import { Redirect, useLocation } from "react-router-dom";
+import { useLocation, Redirect } from "react-router-dom";
 
 import { useAxios } from "hooks/useTaxiAPI";
 
@@ -17,7 +17,6 @@ import myRoomAtom from "atoms/myRoom";
 import notificationOptionsAtom from "atoms/notificationOptions";
 import taxiLocationAtom from "atoms/taxiLocation";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-
 type ContainerProps = {
   children: ReactNode;
 };
@@ -118,7 +117,15 @@ const Skeleton = ({ children }: SkeletonProps) => {
       </Container>
     );
   }
-  if (!userId && !pathname.startsWith("/login")) {
+  // when pathname is /, /home, /search, dont redirect
+  if (
+    !userId &&
+    !pathname.startsWith("/login") &&
+    pathname !== "/" &&
+    !pathname.startsWith("/search") &&
+    !pathname.startsWith("/home") &&
+    !pathname.startsWith("/logout")
+  ) {
     return (
       <Redirect to={`/login?redirect=${encodeURIComponent(currentPath)}`} />
     );
@@ -140,7 +147,9 @@ const Skeleton = ({ children }: SkeletonProps) => {
       <HeaderBar />
       {children}
       <Footer />
-      <PopupPolicy isOpen={!loginInfoDetail?.agreeOnTermsOfService} />
+      <PopupPolicy
+        isOpen={!loginInfoDetail?.agreeOnTermsOfService && !!userId}
+      />
     </Container>
   );
 };
