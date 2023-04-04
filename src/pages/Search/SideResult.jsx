@@ -168,7 +168,7 @@ const SideResult = (props) => {
           onClose={() => {
             setSelectedRoomInfo(null);
           }}
-          roomInfo={selectedRoomInfo}
+          roomId={selectedRoomInfo}
         />
         <WhiteContainer padding="20px 20px 22px">
           <Title icon="search_result">검색 결과</Title>
@@ -215,7 +215,7 @@ const SideResult = (props) => {
           onClose={() => {
             setSelectedRoomInfo(null);
           }}
-          roomInfo={selectedRoomInfo}
+          roomId={selectedRoomInfo}
         />
         <SearchOptions
           isIncludeFullRoom={isIncludeFullRoom}

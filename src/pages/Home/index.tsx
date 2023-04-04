@@ -4,11 +4,11 @@ import RoomSection from "./RoomSection";
 
 const Home = () => {
   const { roomId } = useParams<{ roomId: string }>();
-  console.log(roomId);
+
   return (
     <>
       <InfoSection />
-      <RoomSection roomId={roomId || null} />
+      <RoomSection roomId={roomId} />
     </>
   );
 };

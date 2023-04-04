@@ -7,8 +7,6 @@ type LoginButtonProps = ButtonProps & { isLogin?: boolean; redirect: string };
 const LoginButton = (props: LoginButtonProps) => {
   const { isLogin, redirect, ...buttonProps } = props;
 
-  console.log(redirect);
-
   return isLogin ? (
     <Button {...buttonProps}>{props.children}</Button>
   ) : (

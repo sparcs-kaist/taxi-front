@@ -14,7 +14,6 @@ import Addroom from "pages/Addroom";
 import WrapChat from "pages/Chatting/WrapChat";
 import PageNotFound from "pages/Error/PageNotFound";
 import Home from "pages/Home";
-// import Login from "pages/Login";
 import LoginFail from "pages/Login/LoginFail";
 import Logout from "pages/Login/Logout";
 import Mypage from "pages/Mypage";
@@ -41,8 +40,6 @@ const App = () => {
           <CSSVariablesProvider />
           <Skeleton>
             <Switch>
-              {/* <Route exact path="/login" component={Login} /> */}
-              {/* <Route exact path="/login/privacyPolicy" component={Login} /> */}
               <Route exact path="/login/fail" component={LoginFail} />
               <Route exact path="/logout" component={Logout} />
               <Route exact path="/" component={Home} />

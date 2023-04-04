@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import useDateToken from "hooks/useDateToken";
 import { useQuery } from "hooks/useTaxiAPI";
-
+import { useHistory } from "react-router-dom";
 import RLayout from "components/RLayout";
 import Title from "components/Title";
 
@@ -10,13 +10,14 @@ import RoomList from "./RoomList";
 import SelectDate from "./SelectDate";
 
 import moment, { getToday } from "tools/moment";
+import RoomSelectionModal from "pages/Search/RoomSelectionModal";
 
 type RoomSectionProps = {
-  roomId: Nullable<any>;
+  roomId: Nullable<string>;
 };
 
-const RoomSection = (props: RoomSectionProps) => {
-  console.log(props.roomId);
+const RoomSection = ({ roomId }: RoomSectionProps) => {
+  const history = useHistory();
   const today = getToday().subtract(1, "day");
   const [allRoomsToken, fetchAllRooms] = useDateToken();
   const [, allRooms] = useQuery.get("/rooms/search", {}, [allRoomsToken]);
@@ -26,6 +27,10 @@ const RoomSection = (props: RoomSectionProps) => {
     today.month(),
     today.date(),
   ]);
+  const roomInfo = useMemo(
+    () => allRooms?.find((room: any) => room._id == roomId),
+    [allRooms, roomId]
+  );
 
   useEffect(() => {
     // 5분 간격으로 allRoms(요일 별 출발하는 방)을 갱신합니다.
@@ -50,6 +55,11 @@ const RoomSection = (props: RoomSectionProps) => {
 
   return (
     <RLayout.R1>
+      <RoomSelectionModal
+        isOpen={!!roomInfo}
+        onClose={() => history.replace("/home")}
+        roomInfo={roomInfo}
+      />
       <div style={{ margin: "20px 0" }}>
         <Title icon="taxi">요일별 출발하는 방</Title>
       </div>
@@ -57,7 +67,7 @@ const RoomSection = (props: RoomSectionProps) => {
         selectedDate={selectedDate}
         onClick={([year, month, date]) => setSelectedDate([year, month, date])}
       />
-      <RoomList {...props} rooms={rooms} />
+      <RoomList rooms={rooms} />
     </RLayout.R1>
   );
 };

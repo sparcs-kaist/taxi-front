@@ -122,6 +122,7 @@ const RoomSelectionModal = (props) => {
     ? roomInfo.maxPartLength - roomInfo.part.length === 0
     : false;
   const fullParticipation = myRoom?.ongoing.length >= MAX_PARTICIPATION;
+  const isLogin = !!useRecoilValue(loginInfoDetailAtom)?.id;
 
   useEffect(() => {
     if (props.isOpen) setRoomInfo(props.roomInfo);
@@ -256,10 +257,10 @@ const RoomSelectionModal = (props) => {
             radius={8}
             font={theme.font14_bold}
             onClick={requestJoin}
-            isLogin={props.isLogin}
+            isLogin={!!isLogin}
             redirect={`/home/${roomInfo?._id}`}
           >
-            {!props.isLogin
+            {!isLogin
               ? "로그인해서 참여하기"
               : disableJoinBtn
               ? "이미 참여 중입니다"
@@ -278,7 +279,6 @@ RoomSelectionModal.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
   roomInfo: PropTypes.object,
-  isLogin: PropTypes.bool,
 };
 
 export default RoomSelectionModal;
