@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
 import DottedLine from "components/DottedLine";
 
@@ -73,6 +74,8 @@ const Tag = (props) => {
 };
 
 const Room = (props) => {
+  const { i18n } = useTranslation();
+
   const users = props.data?.part || [];
   const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const isSettlementForMe = useMemo(
@@ -137,9 +140,13 @@ const Room = (props) => {
       </div>
       <DottedLine direction="row" margin="0 12px" />
       <div style={stylePlaceGrid}>
-        <div style={stylePlace}>{getLocationName(props.data?.from, "ko")}</div>
+        <div style={stylePlace}>
+          {getLocationName(props.data?.from, i18n.language)}
+        </div>
         <ArrowRightAltRoundedIcon style={styleArrow} />
-        <div style={stylePlace}>{getLocationName(props.data?.to, "ko")}</div>
+        <div style={stylePlace}>
+          {getLocationName(props.data?.to, i18n.language)}
+        </div>
       </div>
       <div style={styleDate}>{date2str(props.data?.time)}</div>
     </div>

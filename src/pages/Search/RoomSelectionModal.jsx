@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 
 import { useAxios } from "hooks/useTaxiAPI";
@@ -107,6 +108,7 @@ InfoSection.defaultProps = {
 };
 
 const RoomSelectionModal = (props) => {
+  const { i18n } = useTranslation();
   const axios = useAxios();
   const onCall = useRef(false);
   const [roomInfo, setRoomInfo] = useState(null);
@@ -184,10 +186,13 @@ const RoomSelectionModal = (props) => {
       <div style={stylePlace}>
         <PlaceSection
           type="from"
-          name={getLocationName(roomInfo?.from, "ko")}
+          name={getLocationName(roomInfo?.from, i18n.language)}
         />
         <ArrowRightAltRoundedIcon style={styleArrow} />
-        <PlaceSection type="to" name={getLocationName(roomInfo?.to, "ko")} />
+        <PlaceSection
+          type="to"
+          name={getLocationName(roomInfo?.to, i18n.language)}
+        />
       </div>
       <DottedLine margin="0 2px" />
       <div style={styleInfoSectionWrapper}>

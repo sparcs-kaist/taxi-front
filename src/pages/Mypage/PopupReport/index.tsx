@@ -13,10 +13,10 @@ import theme from "tools/theme";
 
 import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
 
-type ReportHistoryType = {
-  reported: Array<any>; // FIXME: 신고 내역 타입 정의
-  reporting: Array<any>;
-};
+// type ReportHistoryType = {
+//   reported: Array<any>; // FIXME: 신고 내역 타입 정의
+//   reporting: Array<any>;
+// };
 type RecordProps = {
   isOpen: boolean;
   onClose: () => void;

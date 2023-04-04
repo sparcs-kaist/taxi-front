@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 
 import DottedLine from "components/DottedLine";
 import Modal from "components/Modal";
@@ -60,6 +61,8 @@ Member.propTypes = {
 };
 
 const PopupMembers = (props) => {
+  const { t } = useTranslation("mypage");
+
   const styleTitle = {
     ...theme.font18,
     display: "flex",
@@ -98,7 +101,7 @@ const PopupMembers = (props) => {
     >
       <div style={styleTitle}>
         <SparcsLogoBlack style={styleLogo} />
-        만든 사람들
+        {t("credit")}
       </div>
       <DottedLine direction="row" />
       <div style={styleContainer}>
