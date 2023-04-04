@@ -18,6 +18,7 @@ import myRoomAtom from "atoms/myRoom";
 import notificationOptionsAtom from "atoms/notificationOptions";
 import taxiLocationAtom from "atoms/taxiLocation";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+
 type ContainerProps = {
   children: ReactNode;
 };
@@ -51,16 +52,15 @@ const Skeleton = ({ children }: SkeletonProps) => {
     useRecoilState(loginInfoDetailAtom);
   const deviceToken = useRecoilValue(deviceTokenAtom);
   const error = useRecoilValue(errorAtom);
-  const { id: userId } = loginInfoDetail || {};
+  const { id: userId, agreeOnTermsOfService: isAgreeOnTermsOfService } =
+    loginInfoDetail || {};
 
   const setTaxiLocation = useSetRecoilState(taxiLocationAtom);
   const setMyRoom = useSetRecoilState(myRoomAtom);
   const setNotificationOptions = useSetRecoilState(notificationOptionsAtom);
 
   const location = useLocation();
-  // const { pathname, search } = location;
   const { pathname } = location;
-  // const currentPath = pathname + search;
 
   useEffect(() => {
     // userId 초기화
@@ -119,22 +119,6 @@ const Skeleton = ({ children }: SkeletonProps) => {
       </Container>
     );
   }
-  // when pathname is /, /home, /search, dont redirect
-  // if (
-  //   !userId &&
-  //   !pathname.startsWith("/login") &&
-  //   pathname !== "/" &&
-  //   !pathname.startsWith("/search") &&
-  //   !pathname.startsWith("/home") &&
-  //   !pathname.startsWith("/logout")
-  // ) {
-  //   return (
-  //     <Redirect to={`/login?redirect=${encodeURIComponent(currentPath)}`} />
-  //   );
-  // }
-  if (pathname.startsWith("/login") || pathname.startsWith("/logout")) {
-    return <Container>{children}</Container>;
-  }
   if (pathname.startsWith("/chatting")) {
     return (
       <Container>
@@ -149,9 +133,7 @@ const Skeleton = ({ children }: SkeletonProps) => {
       <HeaderBar />
       {children}
       <Footer />
-      <PopupPolicy
-        isOpen={!loginInfoDetail?.agreeOnTermsOfService && !!userId}
-      />
+      <PopupPolicy isOpen={!!userId && !isAgreeOnTermsOfService} />
     </Container>
   );
 };
