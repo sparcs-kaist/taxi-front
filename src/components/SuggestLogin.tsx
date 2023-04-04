@@ -2,9 +2,7 @@ import LoginButton from "./LoginButton";
 import theme from "tools/theme";
 import { useLocation } from "react-router-dom";
 
-type LoginProps = {};
-
-const SuggestLogin = ({}: LoginProps) => {
+const SuggestLogin = () => {
   const { pathname, search } = useLocation();
   const currentPath = pathname + search;
 

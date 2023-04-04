@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import { useAxios } from "hooks/useTaxiAPI";
 
