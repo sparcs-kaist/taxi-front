@@ -2,12 +2,16 @@ import axiosOri from "axios";
 import PropTypes from "prop-types";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { io } from "socket.io-client";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 
 import useDateToken from "hooks/useDateToken";
 import { useR2state } from "hooks/useReactiveState";
 import { useAxios, useQuery } from "hooks/useTaxiAPI";
+
+import {
+  registerSocketEventListener,
+  resetSocketEventListener,
+} from "components/Skeleton/SocketToastProvider";
 
 import Header from "./Header/Header";
 import MessageForm from "./MessageForm/MessageForm";
@@ -19,13 +23,10 @@ import { useRecoilValue } from "recoil";
 import convertImg from "tools/convertImg";
 import regExpTest from "tools/regExpTest";
 
-import { ioServer } from "loadenv";
-
 const Chatting = (props) => {
   const sendingMessage = useRef();
   const callingInfScroll = useRef();
   const isBottomOnScrollCache = useRef(true);
-  const roomIdCache = useRef();
   const messagesBody = useRef();
   const history = useHistory();
   const axios = useAxios();
@@ -130,56 +131,41 @@ const Chatting = (props) => {
     });
   };
 
-  // socket setting
+  // socket event
   useEffect(() => {
-    if (headerInfo && userInfoDetail && roomIdCache.current !== props.roomId) {
-      roomIdCache.current = props.roomId;
+    registerSocketEventListener({
+      initListener: (_roomId, chats) => {
+        console.log(_roomId, chats);
+        // setChats(data.chats, () => {
+        //   scrollToBottom();
+        //   callingInfScroll.current = false;
+        // });
+      },
+      pushBackListener: (_roomId, chats) => {
+        console.log(_roomId, chats);
+        // if (data.chat.authorId === userInfoDetail.oid) {
+        //   sendingMessage.current = null;
+        // }
+        // const callback =
+        //   data.chat.authorId === userInfoDetail.oid || isBottomOnScroll()
+        //     ? () => scrollToBottom(true)
+        //     : () => setShowNewMessage(true);
 
-      socket.current?.disconnect();
-      socket.current = io(ioServer, {
-        withCredentials: true,
-      });
+        // setChats((prevChats) => [...prevChats, data.chat], callback);
+      },
+      pushFrontListener: (_roomId, chats) => {
+        console.log(_roomId, chats);
+        // if (data.chats.length === 0) {
+        //   callingInfScroll.current = null;
+        //   return;
+        // }
 
-      // when join chatting
-      socket.current.on("chats-join", (data) => {
-        setChats(data.chats, () => {
-          scrollToBottom();
-          callingInfScroll.current = false;
-        });
-      });
-
-      // when receive chat
-      socket.current.on("chats-receive", (data) => {
-        if (data.chat.authorId === userInfoDetail.oid) {
-          sendingMessage.current = null;
-        }
-        const callback =
-          data.chat.authorId === userInfoDetail.oid || isBottomOnScroll()
-            ? () => scrollToBottom(true)
-            : () => setShowNewMessage(true);
-
-        setChats((prevChats) => [...prevChats, data.chat], callback);
-      });
-
-      // load more chats upon receiving chats-load event (infinite scroll)
-      socket.current.on("chats-load", (data) => {
-        if (data.chats.length === 0) {
-          callingInfScroll.current = null;
-          return;
-        }
-
-        const checkoutChat = { type: "inf-checkout" };
-        setChats((prevChats) => [...data.chats, checkoutChat, ...prevChats]);
-      });
-
-      socket.current.emit("chats-join", props.roomId);
-    }
-    // FIXME : when error
-
-    return () => {
-      if (socket.current) socket.current.disconnect();
-    };
-  }, [headerInfo, userInfoDetail]);
+        // const checkoutChat = { type: "inf-checkout" };
+        // setChats((prevChats) => [...data.chats, checkoutChat, ...prevChats]);
+      },
+    });
+    return resetSocketEventListener;
+  }, [props.roomId]);
 
   // resize event
   const resizeEvent = () => {

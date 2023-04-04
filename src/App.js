@@ -10,6 +10,7 @@ import FirebaseMessagingProvider from "components/Skeleton/FirebaseMessagingProv
 import GoogleAnalyticsProvier from "components/Skeleton/GoogleAnalyticsProvier";
 import I18nextProvider from "components/Skeleton/I18nextProvider";
 import ScrollRestoration from "components/Skeleton/ScrollRestoration";
+import SocketToastProvider from "components/Skeleton/SocketToastProvider";
 import VirtualKeyboardDetector from "components/Skeleton/VirtualKeyboardDetector";
 import Addroom from "pages/Addroom";
 import WrapChat from "pages/Chatting/WrapChat";
@@ -39,6 +40,7 @@ const App = () => {
           <FirebaseMessagingProvider />
           <I18nextProvider />
           <AlertProvider />
+          <SocketToastProvider />
           <ModalProvider />
           <CSSVariablesProvider />
           <Skeleton>
