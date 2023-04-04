@@ -6,7 +6,7 @@ import { useRecoilValue } from "recoil";
 
 import { ioServer } from "loadenv";
 
-export type SocketEventListner = (roomId: string, chats: any) => void;
+export type SocketEventListner = (roomId: string, chats: Array<Chat>) => void;
 
 let socket: Nullable<Socket> = null;
 
@@ -27,13 +27,13 @@ const SocketToastProvider = () => {
     });
 
     socket.on("chats-init", (data) => {
-      if (initEventListener) initEventListener("tmp", ["tmp"]);
+      if (initEventListener) initEventListener("tmp", []);
     });
     socket.on("chats-push-back", (data) => {
-      if (pushBackEventListener) pushBackEventListener("tmp", ["tmp"]);
+      if (pushBackEventListener) pushBackEventListener("tmp", []);
     });
     socket.on("chats-push-front", (data) => {
-      if (pushFrontEventListener) pushFrontEventListener("tmp", ["tmp"]);
+      if (pushFrontEventListener) pushFrontEventListener("tmp", []);
     });
     socket.on("disconnect", () => {
       console.log("socket disconnected, connect socket again"); // FIX ME

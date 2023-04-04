@@ -8,11 +8,6 @@ import useDateToken from "hooks/useDateToken";
 import { useR2state } from "hooks/useReactiveState";
 import { useAxios, useQuery } from "hooks/useTaxiAPI";
 
-import {
-  registerSocketEventListener,
-  resetSocketEventListener,
-} from "components/Skeleton/SocketToastProvider";
-
 import Header from "./Header/Header";
 import MessageForm from "./MessageForm/MessageForm";
 import MessagesBody from "./MessagesBody/MessagesBody";
@@ -22,6 +17,10 @@ import { useRecoilValue } from "recoil";
 
 import convertImg from "tools/convertImg";
 import regExpTest from "tools/regExpTest";
+import {
+  registerSocketEventListener,
+  resetSocketEventListener,
+} from "tools/socket";
 
 const Chatting = (props) => {
   const sendingMessage = useRef();

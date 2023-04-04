@@ -14,7 +14,7 @@ declare global {
   type Padding = Margin;
   type ReportData = {
     reportedId: string;
-    type: string;
+    type: "no-settlement" | "no-show" | "etc-reason";
     etcDetail: string;
     time: Date;
   };
@@ -40,5 +40,21 @@ declare global {
       }
     ];
   };
-  type ReportResponse = { status: number };
+  type Chat = {
+    roomId: string;
+    type:
+      | "text"
+      | "in"
+      | "out"
+      | "s3img"
+      | "payment"
+      | "settlement"
+      | "account";
+    authorId: string;
+    authorName: string;
+    authorProfileUrl: string;
+    content: string;
+    time: Date;
+    isValid: boolean;
+  };
 }
