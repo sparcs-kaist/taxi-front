@@ -27,7 +27,7 @@ import theme from "tools/theme";
 
 import randomRoomName from "static/randomRoomName";
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
-import Login from "components/Login";
+import SuggestLogin from "components/SuggestLogin";
 
 const AddRoom = () => {
   const axios = useAxios();
@@ -53,7 +53,6 @@ const AddRoom = () => {
   const setAlert = useSetRecoilState(alertAtom);
   const [myRoom, setMyRoom] = useRecoilState(myRoomAtom);
   const isLogin = !!useRecoilValue(loginInfoDetailAtom)?.id;
-  const location = useLocation();
 
   useEffect(() => {
     const expirationDate = new Date();
@@ -122,52 +121,51 @@ const AddRoom = () => {
       onCall.current = false;
     }
   };
-  console.log(isLogin);
 
   return (myRoom?.ongoing.length ?? 0) < MAX_PARTICIPATION ? (
     <div>
       <Title icon="add" header marginAuto>
         방 개설하기
       </Title>
-      {isLogin ? (
-        <RLayout.R1>
-          <OptionPlace value={valuePlace} handler={setPlace} />
-          <OptionDate value={valueDate} handler={setDate} />
-          <OptionName
-            value={valueName}
-            handler={setName}
-            placeholder={randomRoomName}
-          />
-          <OptionTime value={valueTime} handler={setTime} page="add" />
-          <OptionMaxPeople value={valueMaxPeople} handler={setMaxPeople} />
-          <Button
-            type="purple"
-            disabled={validatedMsg ? true : false}
-            padding="14px 0 13px"
-            radius={12}
-            font={theme.font16_bold}
-            onClick={onClickAdd}
-            className="scroll-to-button"
-          >
-            {validatedMsg
-              ? validatedMsg
-              : `${date2str(
-                  new Date(
-                    valueDate[0]!,
-                    valueDate[1]! - 1,
-                    valueDate[2]!,
-                    valueTime[0],
-                    valueTime[1]
-                  ),
-                  "MMM Do [(]dd[)] a h[시] m[분]"
-                )} 방 개설하기`}
-          </Button>
-        </RLayout.R1>
-      ) : (
-        <RLayout.R1>
-          <Login redirect={location.pathname} />
-        </RLayout.R1>
-      )}
+      <RLayout.R1>
+        {isLogin ? (
+          <>
+            <OptionPlace value={valuePlace} handler={setPlace} />
+            <OptionDate value={valueDate} handler={setDate} />
+            <OptionName
+              value={valueName}
+              handler={setName}
+              placeholder={randomRoomName}
+            />
+            <OptionTime value={valueTime} handler={setTime} page="add" />
+            <OptionMaxPeople value={valueMaxPeople} handler={setMaxPeople} />
+            <Button
+              type="purple"
+              disabled={validatedMsg ? true : false}
+              padding="14px 0 13px"
+              radius={12}
+              font={theme.font16_bold}
+              onClick={onClickAdd}
+              className="scroll-to-button"
+            >
+              {validatedMsg
+                ? validatedMsg
+                : `${date2str(
+                    new Date(
+                      valueDate[0]!,
+                      valueDate[1]! - 1,
+                      valueDate[2]!,
+                      valueTime[0],
+                      valueTime[1]
+                    ),
+                    "MMM Do [(]dd[)] a h[시] m[분]"
+                  )} 방 개설하기`}
+            </Button>
+          </>
+        ) : (
+          <SuggestLogin />
+        )}
+      </RLayout.R1>
     </div>
   ) : (
     <FullParticipation />

@@ -13,7 +13,7 @@ import myRoomAtom from "atoms/myRoom";
 import { useRecoilValue } from "recoil";
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import RLayout from "components/RLayout";
-import Login from "components/Login";
+import SuggestLogin from "components/SuggestLogin";
 import Title from "components/Title";
 
 export const MAX_PARTICIPATION = 5;
@@ -39,7 +39,7 @@ const Myroom = () => {
         참여 중인 방
       </Title>
       <RLayout.R1>
-        <Login redirect={location.pathname} />
+        <SuggestLogin />
       </RLayout.R1>
     </div>
   ) : reactiveState === 3 ? (

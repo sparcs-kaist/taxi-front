@@ -1,10 +1,13 @@
 import LoginButton from "./LoginButton";
 import theme from "tools/theme";
-type LoginProps = {
-  redirect: string;
-};
+import { useLocation } from "react-router-dom";
 
-const Login = (props: LoginProps) => {
+type LoginProps = {};
+
+const SuggestLogin = ({}: LoginProps) => {
+  const { pathname, search } = useLocation();
+  const currentPath = pathname + search;
+
   return (
     <div>
       <div
@@ -22,7 +25,7 @@ const Login = (props: LoginProps) => {
         radius={12}
         font={theme.font16_bold}
         isLogin={false}
-        redirect={props.redirect}
+        redirect={currentPath}
       >
         로그인
       </LoginButton>
@@ -30,4 +33,4 @@ const Login = (props: LoginProps) => {
   );
 };
 
-export default Login;
+export default SuggestLogin;
