@@ -27,7 +27,6 @@ import theme from "tools/theme";
 
 import randomRoomName from "static/randomRoomName";
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
-import LoginButton from "components/LoginButton";
 import Login from "components/Login";
 
 const AddRoom = () => {

@@ -5,7 +5,6 @@ import { useHistory } from "react-router-dom";
 
 import { useAxios } from "hooks/useTaxiAPI";
 
-import Button from "components/Button";
 import DottedLine from "components/DottedLine";
 import MiniCircle from "components/MiniCircle";
 import Modal from "components/Modal";
