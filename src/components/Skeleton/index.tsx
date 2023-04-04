@@ -1,5 +1,6 @@
 import { ReactNode, useEffect, useState } from "react";
-import { useLocation, Redirect } from "react-router-dom";
+// import { useLocation, Redirect } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import { useAxios } from "hooks/useTaxiAPI";
 
@@ -57,8 +58,9 @@ const Skeleton = ({ children }: SkeletonProps) => {
   const setNotificationOptions = useSetRecoilState(notificationOptionsAtom);
 
   const location = useLocation();
-  const { pathname, search } = location;
-  const currentPath = pathname + search;
+  // const { pathname, search } = location;
+  const { pathname } = location;
+  // const currentPath = pathname + search;
 
   useEffect(() => {
     // userId 초기화
@@ -118,18 +120,18 @@ const Skeleton = ({ children }: SkeletonProps) => {
     );
   }
   // when pathname is /, /home, /search, dont redirect
-  if (
-    !userId &&
-    !pathname.startsWith("/login") &&
-    pathname !== "/" &&
-    !pathname.startsWith("/search") &&
-    !pathname.startsWith("/home") &&
-    !pathname.startsWith("/logout")
-  ) {
-    return (
-      <Redirect to={`/login?redirect=${encodeURIComponent(currentPath)}`} />
-    );
-  }
+  // if (
+  //   !userId &&
+  //   !pathname.startsWith("/login") &&
+  //   pathname !== "/" &&
+  //   !pathname.startsWith("/search") &&
+  //   !pathname.startsWith("/home") &&
+  //   !pathname.startsWith("/logout")
+  // ) {
+  //   return (
+  //     <Redirect to={`/login?redirect=${encodeURIComponent(currentPath)}`} />
+  //   );
+  // }
   if (pathname.startsWith("/login") || pathname.startsWith("/logout")) {
     return <Container>{children}</Container>;
   }

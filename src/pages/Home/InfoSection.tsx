@@ -16,6 +16,7 @@ import BackgroundImage from "static/assets/BackgroundImage.jpg";
 import BackgroundImageDesktop from "static/assets/BackgroundImageDesktop.webp";
 import BackgroundImageMobile from "static/assets/BackgroundImageMobile.webp";
 import { ReactComponent as TaxiLogoWhite } from "static/assets/TaxiLogoWhite.svg";
+import LoginButton from "components/LoginButton";
 
 const InfoSection = () => {
   const styleContainer: CSS = {
@@ -43,6 +44,7 @@ const InfoSection = () => {
   };
 
   const loginInfo = useRecoilValue(loginInfoDetailAtom);
+  const isLogin = !!loginInfo?.id;
   const myRoom = useRecoilValue(myRoomAtom);
 
   const { message, room } = useMemo(() => {
@@ -112,14 +114,16 @@ const InfoSection = () => {
               style={{ marginTop: "32px", display: "flex", columnGap: "10px" }}
             >
               <Link to="/addroom" style={{ textDecoration: "none" }}>
-                <Button
+                <LoginButton
                   type="purple"
                   padding="12px 20px 11px"
                   radius={8}
                   font={theme.font16_bold}
+                  isLogin={isLogin}
+                  redirect="/"
                 >
-                  방 개설하기
-                </Button>
+                  {isLogin ? "방 개설하기" : "로그인하기"}
+                </LoginButton>
               </Link>
               <Link to="/search" style={{ textDecoration: "none" }}>
                 <Button

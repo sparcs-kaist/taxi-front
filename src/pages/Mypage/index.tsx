@@ -128,7 +128,7 @@ const Mypage = () => {
         </div>
         <div css={infoType} className="selectable">
           {t("student_id")}
-          <div css={infoContent}>{userInfoDetail?.subinfo.kaist}</div>
+          <div css={infoContent}>{userInfoDetail?.subinfo?.kaist}</div>
         </div>
         <div css={infoType} className="selectable">
           {t("email")}

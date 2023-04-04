@@ -11,6 +11,10 @@ import R2Myroom from "./R2Myroom";
 
 import myRoomAtom from "atoms/myRoom";
 import { useRecoilValue } from "recoil";
+import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import RLayout from "components/RLayout";
+import Login from "components/Login";
+import Title from "components/Title";
 
 export const MAX_PARTICIPATION = 5;
 
@@ -21,6 +25,7 @@ const Myroom = () => {
   const myRoom = useRecoilValue(myRoomAtom);
   const totalPages = Math.ceil((myRoom?.done?.length ?? 0) / PAGE_MAX_ITEMS);
   const currentPage = usePageFromSearchParams(totalPages);
+  const isLogin = !!useRecoilValue(loginInfoDetailAtom)?.id;
 
   useEffect(() => {
     if (reactiveState == 3 && roomId) {
@@ -28,7 +33,16 @@ const Myroom = () => {
     }
   }, [reactiveState, roomId, history]);
 
-  return reactiveState === 3 ? (
+  return !isLogin ? (
+    <div>
+      <Title icon="add" header marginAuto>
+        참여 중인 방
+      </Title>
+      <RLayout.R1>
+        <Login redirect={location.pathname} />
+      </RLayout.R1>
+    </div>
+  ) : reactiveState === 3 ? (
     <R1Myroom
       roomId={roomId}
       ongoing={myRoom?.ongoing}

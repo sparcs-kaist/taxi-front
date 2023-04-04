@@ -22,6 +22,7 @@ import { getLocationName } from "tools/trans";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 import Tooltip from "@mui/material/Tooltip";
+import LoginButton from "components/LoginButton";
 
 const PlaceSection = (props) => {
   const style = {
@@ -249,22 +250,26 @@ const RoomSelectionModal = (props) => {
         leaveTouchDelay={2000}
       >
         <div>
-          <Button
+          <LoginButton
             type="purple"
             disabled={isRoomFull || disableJoinBtn || fullParticipation}
             padding="10px 0 9px"
             radius={8}
             font={theme.font14_bold}
             onClick={requestJoin}
+            isLogin={props.isLogin}
+            redirect={`/home/${roomInfo?._id}`}
           >
-            {disableJoinBtn
+            {!props.isLogin
+              ? "로그인해서 참여하기"
+              : disableJoinBtn
               ? "이미 참여 중입니다"
               : isRoomFull
               ? "인원이 0명인 방은 참여할 수 없습니다"
               : fullParticipation
               ? "현재 5개의 방에 참여 중입니다"
               : "참여 신청"}
-          </Button>
+          </LoginButton>
         </div>
       </Tooltip>
     </Modal>
@@ -274,6 +279,7 @@ RoomSelectionModal.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
   roomInfo: PropTypes.object,
+  isLogin: PropTypes.bool,
 };
 
 export default RoomSelectionModal;

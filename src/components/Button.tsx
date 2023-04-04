@@ -5,7 +5,7 @@ import theme, { Font } from "tools/theme";
 
 type ButtonType = "purple" | "purple_inset" | "gray" | "white";
 
-type ButtonProps = {
+export type ButtonProps = {
   type?: ButtonType;
   disabled?: boolean;
   width?: string;

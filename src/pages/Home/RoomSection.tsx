@@ -11,7 +11,12 @@ import SelectDate from "./SelectDate";
 
 import moment, { getToday } from "tools/moment";
 
-const RoomSection = () => {
+type RoomSectionProps = {
+  roomId: Nullable<any>;
+};
+
+const RoomSection = (props: RoomSectionProps) => {
+  console.log(props.roomId);
   const today = getToday().subtract(1, "day");
   const [allRoomsToken, fetchAllRooms] = useDateToken();
   const [, allRooms] = useQuery.get("/rooms/search", {}, [allRoomsToken]);
@@ -52,7 +57,7 @@ const RoomSection = () => {
         selectedDate={selectedDate}
         onClick={([year, month, date]) => setSelectedDate([year, month, date])}
       />
-      <RoomList rooms={rooms} />
+      <RoomList {...props} rooms={rooms} />
     </RLayout.R1>
   );
 };
