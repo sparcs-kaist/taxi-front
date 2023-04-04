@@ -23,17 +23,19 @@ import { useRecoilValue } from "recoil";
 import theme from "tools/theme";
 
 import { nodeEnv } from "loadenv";
+import SuggestLogin from "components/SuggestLogin";
 
 const Mypage = () => {
   const { t, i18n } = useTranslation("mypage");
   const [profImgToken, refreshProfImgToken] = useDateToken();
-  const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
+  const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const notificationOptions = useRecoilValue(notificationOptionsAtom);
   const isOnNotification =
     // notificationOptions?.advertisement ||
     // notificationOptions?.beforeDepart ||
     notificationOptions?.chatting || notificationOptions?.notice;
   // notificationOptions?.keywords?.length;
+  const { id: userId } = loginInfoDetail || {};
 
   const [isOpenProfileModify, setIsOpenProfileModify] = useState(false);
   const [isOpenNotification, setIsOpenNotification] = useState(false);
@@ -106,63 +108,77 @@ const Mypage = () => {
       <Title icon="mypage" header marginAuto>
         {t("my_page")}
       </Title>
-      <WhiteContainer marginAuto padding="16px 24px 24px">
-        <div css={{ display: "flex", alignItems: "center" }}>
-          <div css={styleProfImg}>
-            {userInfoDetail?.profileImgUrl && (
-              <ProfileImg
-                path={userInfoDetail.profileImgUrl}
-                token={profImgToken}
-              />
-            )}
-          </div>
-          <div css={theme.font16_bold} className="selectable">
-            {userInfoDetail?.name}
-          </div>
-        </div>
-        <div css={infoTitle}>
-          <div css={theme.font14_bold}>{t("my_information")}</div>
-          <div css={infoModify} onClick={onClickProfileModify}>
-            {t("revise")}
-          </div>
-        </div>
-        <div css={infoType} className="selectable">
-          {t("student_id")}
-          <div css={infoContent}>{userInfoDetail?.subinfo?.kaist}</div>
-        </div>
-        <div css={infoType} className="selectable">
-          {t("email")}
-          <div css={infoContent}>{userInfoDetail?.email}</div>
-        </div>
-        <div css={infoType} className="selectable">
-          {t("nickname")}
-          <div css={infoContent}>{userInfoDetail?.nickname}</div>
-        </div>
-        <div css={infoType} className="selectable">
-          {t("account")}
-          <div css={infoContent}>{userInfoDetail?.account}</div>
-        </div>
-      </WhiteContainer>
+      {userId ? (
+        <>
+          <WhiteContainer marginAuto padding="16px 24px 24px">
+            <div css={{ display: "flex", alignItems: "center" }}>
+              <div css={styleProfImg}>
+                {loginInfoDetail?.profileImgUrl && (
+                  <ProfileImg
+                    path={loginInfoDetail.profileImgUrl}
+                    token={profImgToken}
+                  />
+                )}
+              </div>
+              <div css={theme.font16_bold} className="selectable">
+                {loginInfoDetail?.name}
+              </div>
+            </div>
+            <div css={infoTitle}>
+              <div css={theme.font14_bold}>{t("my_information")}</div>
+              <div css={infoModify} onClick={onClickProfileModify}>
+                {t("revise")}
+              </div>
+            </div>
+            <div css={infoType} className="selectable">
+              {t("student_id")}
+              <div css={infoContent}>{loginInfoDetail?.subinfo?.kaist}</div>
+            </div>
+            <div css={infoType} className="selectable">
+              {t("email")}
+              <div css={infoContent}>{loginInfoDetail?.email}</div>
+            </div>
+            <div css={infoType} className="selectable">
+              {t("nickname")}
+              <div css={infoContent}>{loginInfoDetail?.nickname}</div>
+            </div>
+            <div css={infoType} className="selectable">
+              {t("account")}
+              <div css={infoContent}>{loginInfoDetail?.account}</div>
+            </div>
+          </WhiteContainer>
+          <WhiteContainer marginAuto>
+            <div css={{ display: "grid", rowGap: "16px" }}>
+              {nodeEnv === "development" && (
+                <Menu icon="lang" onClick={onClickTranslation}>
+                  {t("translation")}
+                </Menu>
+              )}
+              <Menu
+                icon={`notification-${isOnNotification ? "on" : "off"}`}
+                onClick={onClickNotification}
+              >
+                {t("notification")}
+              </Menu>
+            </div>
+          </WhiteContainer>
+          <PopupReport
+            isOpen={isOpenReport}
+            onClose={() => setIsOpenReport(false)}
+          />
+        </>
+      ) : (
+        <WhiteContainer marginAuto>
+          <SuggestLogin />
+        </WhiteContainer>
+      )}
       <WhiteContainer marginAuto>
         <div css={{ display: "grid", rowGap: "16px" }}>
-          {nodeEnv === "development" && (
-            <Menu icon="lang" onClick={onClickTranslation}>
-              {t("translation")}
+          {userId && (
+            <Menu icon="report" onClick={onClickReport}>
+              {t("report_record")}
             </Menu>
           )}
-          <Menu
-            icon={`notification-${isOnNotification ? "on" : "off"}`}
-            onClick={onClickNotification}
-          >
-            {t("notification")}
-          </Menu>
-        </div>
-      </WhiteContainer>
-      <WhiteContainer marginAuto>
-        <div css={{ display: "grid", rowGap: "16px" }}>
-          <Menu icon="report" onClick={onClickReport}>
-            {t("report_record")}
-          </Menu>
           <a className="popup-channeltalk">
             <Menu icon="ask">{t("contact")}</Menu>
           </a>
@@ -175,9 +191,11 @@ const Mypage = () => {
           <Menu icon="credit" onClick={onClickMembers}>
             {t("credit")}
           </Menu>
-          <Menu icon="logout" onClick={onClickLogout}>
-            {t("logout")}
-          </Menu>
+          {userId && (
+            <Menu icon="logout" onClick={onClickLogout}>
+              {t("logout")}
+            </Menu>
+          )}
         </div>
       </WhiteContainer>
       <PopupModify
@@ -189,10 +207,6 @@ const Mypage = () => {
       <ModalNotification
         isOpen={isOpenNotification}
         onChangeIsOpen={setIsOpenNotification}
-      />
-      <PopupReport
-        isOpen={isOpenReport}
-        onClose={() => setIsOpenReport(false)}
       />
       <PopupPolicy
         isOpen={isOpenPolicy}

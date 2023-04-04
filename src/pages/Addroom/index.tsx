@@ -28,6 +28,7 @@ import theme from "tools/theme";
 import randomRoomName from "static/randomRoomName";
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import SuggestLogin from "components/SuggestLogin";
+import WhiteContainer from "components/WhiteContainer";
 
 const AddRoom = () => {
   const axios = useAxios();
@@ -163,7 +164,9 @@ const AddRoom = () => {
             </Button>
           </>
         ) : (
-          <SuggestLogin />
+          <WhiteContainer>
+            <SuggestLogin />
+          </WhiteContainer>
         )}
       </RLayout.R1>
     </div>

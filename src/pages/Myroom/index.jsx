@@ -15,6 +15,7 @@ import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import RLayout from "components/RLayout";
 import SuggestLogin from "components/SuggestLogin";
 import Title from "components/Title";
+import WhiteContainer from "components/WhiteContainer";
 
 export const MAX_PARTICIPATION = 5;
 
@@ -34,14 +35,14 @@ const Myroom = () => {
   }, [reactiveState, roomId, history]);
 
   return !isLogin ? (
-    <div>
+    <>
       <Title icon="add" header marginAuto>
         참여 중인 방
       </Title>
-      <RLayout.R1>
+      <WhiteContainer marginAuto>
         <SuggestLogin />
-      </RLayout.R1>
-    </div>
+      </WhiteContainer>
+    </>
   ) : reactiveState === 3 ? (
     <R1Myroom
       roomId={roomId}
