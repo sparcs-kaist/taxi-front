@@ -57,7 +57,7 @@ const SelectDate = (props: SelectDateProps) => {
     <>
       <div
         className="select-week"
-        style={{ display: "flex", columnGap: "6px", height: weekHeight }}
+        css={{ display: "flex", columnGap: "6px", alignItems: "end" }}
       >
         {week.map((day, index) => (
           <Date
@@ -65,6 +65,7 @@ const SelectDate = (props: SelectDateProps) => {
             index={day.index}
             date={[day.year, day.month, day.date]}
             type={day.type}
+            width={weekHeight as PixelValue}
             selected={day.date === props.selectedDate[2]}
             onClick={props.onClick}
           />
