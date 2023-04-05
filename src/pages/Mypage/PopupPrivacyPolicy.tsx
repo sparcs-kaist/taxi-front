@@ -253,7 +253,12 @@ const PopupPrivacyPolicy = ({ isOpen, onClose }: PopupPrivacyPolicyProps) => {
   };
 
   return (
-    <Modal display={isOpen} onClickClose={onClose} padding="16px" width={755}>
+    <Modal
+      isOpen={isOpen}
+      onChangeIsOpen={onClose}
+      width={theme.modal_width_large}
+      padding="16px"
+    >
       <div style={styleTop}>
         <TaxiLogo style={{ height: "27px" }} />
         {t("privacy_policy")}

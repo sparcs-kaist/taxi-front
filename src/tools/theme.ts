@@ -98,8 +98,10 @@ const theme = {
   duration: "150ms",
   duration_num: 150,
 
-  // White Container Width
-  container_max_width: 325,
+  // Modal width
+  modal_width_alert: "315px" as PixelValue,
+  modal_width: "335px" as PixelValue,
+  modal_width_large: "755px" as PixelValue,
 
   // Cursor
   cursor: (disabled?: boolean) => {
@@ -107,7 +109,6 @@ const theme = {
   },
 
   // Overlay
-
   overlay: (activated: boolean) => ({
     background:
       "linear-gradient(to left, transparent 50%, rgba(0,0,0,0.065) 50%) right",
