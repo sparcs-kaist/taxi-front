@@ -48,7 +48,7 @@ const Date = (props: DateProps) => {
       : theme.white,
     boxShadow: theme.shadow,
     ...theme.cursor(),
-    transitionDuration: theme.duration,
+    transition: `background ${theme.duration}`,
   };
   const styleDate = {
     ...theme.font12,

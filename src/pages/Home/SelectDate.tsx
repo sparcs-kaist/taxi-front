@@ -38,6 +38,8 @@ type SelectDateProps = {
 
 const SelectDate = (props: SelectDateProps) => {
   const [weekHeight, setWeekHeight] = useState("30px");
+  const week = getWeekDates();
+
   const resizeEvent = () => {
     const week = document.querySelector<HTMLElement>(".select-week");
     if (!week) return;
@@ -51,7 +53,6 @@ const SelectDate = (props: SelectDateProps) => {
       window.removeEventListener("resize", resizeEvent);
     };
   }, []);
-  const week = getWeekDates();
 
   return (
     <>
