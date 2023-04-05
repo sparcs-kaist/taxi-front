@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 
 import Button from "components/Button";
+import LoginButton from "components/LoginButton";
 import RLayout from "components/RLayout";
 import Room from "components/Room";
 
@@ -16,7 +17,6 @@ import BackgroundImage from "static/assets/BackgroundImage.jpg";
 import BackgroundImageDesktop from "static/assets/BackgroundImageDesktop.webp";
 import BackgroundImageMobile from "static/assets/BackgroundImageMobile.webp";
 import { ReactComponent as TaxiLogoWhite } from "static/assets/TaxiLogoWhite.svg";
-import LoginButton from "components/LoginButton";
 
 const InfoSection = () => {
   const styleContainer: CSS = {
@@ -37,11 +37,12 @@ const InfoSection = () => {
     inset: "0px",
     objectFit: "cover",
   };
-  const styleName: CSS = {
+  const styleTitle = {
     ...theme.font28,
     color: theme.white,
-    margin: "32px 0 12px",
+    margin: "0 0 12px",
   };
+  const styleSubTitle = { ...theme.font14, color: theme.white };
 
   const loginInfo = useRecoilValue(loginInfoDetailAtom);
   const isLogin = !!loginInfo?.id;
@@ -99,12 +100,17 @@ const InfoSection = () => {
       <RLayout.R1>
         <div style={{ padding: "25px 0 32px" }}>
           <TaxiLogoWhite />
-          <div style={styleName}>
-            {loginInfo?.nickname
+          <div css={{ height: "32px" }} />
+          <div css={styleTitle}>
+            {isLogin
               ? `안녕하세요, ${loginInfo?.nickname}님!`
-              : "안녕하세요!"}
+              : "카이스트 구성원 간 택시 동승자 모집 서비스, Taxi 입니다!"}
           </div>
-          <div style={{ ...theme.font14, color: theme.white }}>{message}</div>
+          <div css={styleSubTitle}>
+            {isLogin
+              ? message
+              : "택시 동승으로 돈을 절약하고, 친구들과 더욱 가까워지세요."}
+          </div>
           {room ? (
             <Link to={`/myroom/${room._id}`} style={{ textDecoration: "none" }}>
               <Room data={room} marginTop="24px" />
