@@ -1,17 +1,16 @@
 import { useEffect, useMemo, useState } from "react";
-import { useHistory } from "react-router-dom";
 
 import useDateToken from "hooks/useDateToken";
 import { useQuery } from "hooks/useTaxiAPI";
-
+import { useHistory } from "react-router-dom";
 import RLayout from "components/RLayout";
 import Title from "components/Title";
-import RoomSelectionModal from "pages/Search/RoomSelectionModal";
 
 import RoomList from "./RoomList";
 import SelectDate from "./SelectDate";
 
 import moment, { getToday } from "tools/moment";
+import RoomSelectionModal from "pages/Search/RoomSelectionModal";
 
 type RoomSectionProps = {
   roomId: Nullable<string>;

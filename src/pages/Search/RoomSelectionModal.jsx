@@ -6,7 +6,6 @@ import { useHistory } from "react-router-dom";
 import { useAxios } from "hooks/useTaxiAPI";
 
 import DottedLine from "components/DottedLine";
-import LoginButton from "components/LoginButton";
 import MiniCircle from "components/MiniCircle";
 import Modal from "components/Modal";
 import { MAX_PARTICIPATION } from "pages/Myroom";
@@ -22,6 +21,7 @@ import { getLocationName } from "tools/trans";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 import Tooltip from "@mui/material/Tooltip";
+import LoginButton from "components/LoginButton";
 
 const PlaceSection = (props) => {
   const style = {

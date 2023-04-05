@@ -28,9 +28,7 @@ const useAxios = () => {
         const res = await axios({ url, method, data, params });
         if (res?.status === 403 && res.data?.error === "not logged in") {
           history.replace(
-            `/logout?redirect=${encodeURIComponent(
-              `/login?redirect=${encodeURIComponent(currentPath)}`
-            )}`
+            `/logout?redirect=${encodeURIComponent(currentPath)}`
           );
         } else if (res.status !== 200) {
           throw new Error("Status is not 200!");
@@ -45,9 +43,7 @@ const useAxios = () => {
           e?.response?.data?.error === "not logged in"
         ) {
           history.replace(
-            `/logout?redirect=${encodeURIComponent(
-              `/login?redirect=${encodeURIComponent(currentPath)}`
-            )}`
+            `/logout?redirect=${encodeURIComponent(currentPath)}`
           );
         } else if (onError) {
           onError(e);
