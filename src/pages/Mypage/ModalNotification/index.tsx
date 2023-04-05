@@ -148,8 +148,8 @@ const ModalNotification = ({
 
   return (
     <Modal
-      display={isOpen}
-      onClickClose={onChangeIsOpen ? () => onChangeIsOpen(false) : undefined}
+      isOpen={isOpen}
+      onChangeIsOpen={onChangeIsOpen}
       padding="16px 20px 20px"
     >
       <div css={styleTitle}>

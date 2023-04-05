@@ -199,14 +199,14 @@ const FullChatMessageForm = (props: FullChatMessageFormProps) => {
           onKeyDown={onKeyDown}
           onKeyUp={onKeyUp}
           style={{
-            width: "100%",
+            width: "calc(100% - 30px)",
             height: "100%",
             background: "none",
             border: "none",
             resize: "none",
             outline: "none",
             ...theme.font14,
-            padding: "8px 46px 8px 12px",
+            padding: "8px 12px",
             boxSizing: "border-box",
           }}
         />

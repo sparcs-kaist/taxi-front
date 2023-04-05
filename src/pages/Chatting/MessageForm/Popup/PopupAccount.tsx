@@ -37,7 +37,9 @@ const PopupAccount = (props: SendAccoundModalProps) => {
   };
 
   const handleClickOk = () => {
-    props.onClickOk(accountNumber);
+    if (regExpTest.account(accountNumber)) {
+      props.onClickOk(accountNumber);
+    }
   };
 
   useEffect(() => {
@@ -48,8 +50,9 @@ const PopupAccount = (props: SendAccoundModalProps) => {
 
   return (
     <Modal
-      display={props.popup}
-      onClickClose={props.onClickClose}
+      isOpen={props.popup}
+      onChangeIsOpen={props.onClickClose}
+      onEnter={handleClickOk}
       padding="10px"
     >
       <div
