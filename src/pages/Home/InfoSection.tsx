@@ -11,6 +11,7 @@ import myRoomAtom from "atoms/myRoom";
 import { useRecoilValue } from "recoil";
 
 import moment, { getToday } from "tools/moment";
+import { randomTaxiSloganGenerator } from "tools/random";
 import theme from "tools/theme";
 
 import BackgroundImage from "static/assets/BackgroundImage.jpg";
@@ -19,6 +20,11 @@ import BackgroundImageMobile from "static/assets/BackgroundImageMobile.webp";
 import { ReactComponent as TaxiLogoWhite } from "static/assets/TaxiLogoWhite.svg";
 
 const InfoSection = () => {
+  const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
+  const isLogin = !!loginInfoDetail?.id;
+  const myRoom = useRecoilValue(myRoomAtom);
+  const randomTaxiSlogan = useMemo(randomTaxiSloganGenerator, []);
+
   const styleContainer: CSS = {
     position: "relative",
     height: "fit-content",
@@ -43,10 +49,6 @@ const InfoSection = () => {
     margin: "0 0 12px",
   };
   const styleSubTitle = { ...theme.font14, color: theme.white };
-
-  const loginInfo = useRecoilValue(loginInfoDetailAtom);
-  const isLogin = !!loginInfo?.id;
-  const myRoom = useRecoilValue(myRoomAtom);
 
   const { message, room } = useMemo(() => {
     const sortedMyRoom =
@@ -103,14 +105,10 @@ const InfoSection = () => {
           <div css={{ height: "32px" }} />
           <div css={styleTitle}>
             {isLogin
-              ? `안녕하세요, ${loginInfo?.nickname}님!`
+              ? `안녕하세요, ${loginInfoDetail?.nickname}님!`
               : "카이스트 구성원 간 택시 동승자 모집 서비스, Taxi 입니다!"}
           </div>
-          <div css={styleSubTitle}>
-            {isLogin
-              ? message
-              : "택시 동승으로 돈을 절약하고, 친구들과 더욱 가까워지세요."}
-          </div>
+          <div css={styleSubTitle}>{isLogin ? message : randomTaxiSlogan}</div>
           {room ? (
             <Link to={`/myroom/${room._id}`} style={{ textDecoration: "none" }}>
               <Room data={room} marginTop="24px" />

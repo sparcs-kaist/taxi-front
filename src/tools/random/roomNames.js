@@ -101,6 +101,6 @@ const roomNames = [
   "함께 타는 택시의 여유",
   "택시 동승, 새로운 경험",
 ];
-const randomRoomName = roomNames[Math.floor(Math.random() * roomNames.length)];
+// const randomRoomName = roomNames[Math.floor(Math.random() * roomNames.length)];
 
-export default randomRoomName;
+export default roomNames;
