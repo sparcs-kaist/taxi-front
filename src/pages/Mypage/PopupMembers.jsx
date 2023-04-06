@@ -94,10 +94,10 @@ const PopupMembers = (props) => {
   };
   return (
     <Modal
-      display={props.isOpen}
-      onClickClose={props.onClose}
+      isOpen={props.isOpen}
+      onChangeIsOpen={props.onClose}
+      width={theme.modal_width_large}
       padding="16px 12px 12px"
-      width={755}
     >
       <div style={styleTitle}>
         <SparcsLogoBlack style={styleLogo} />
