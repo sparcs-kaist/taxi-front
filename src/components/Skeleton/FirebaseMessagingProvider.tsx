@@ -4,9 +4,8 @@ import { useCallback, useEffect } from "react";
 
 import { useAxios } from "hooks/useTaxiAPI";
 
-import deviceTokenAtom from "atoms/deviceToken";
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import { firebaseConfig } from "loadenv";
 
@@ -14,8 +13,8 @@ const firebaseApp = firebaseConfig && initializeApp(firebaseConfig);
 
 const FirebaseMessagingProvider = () => {
   const axios = useAxios();
-  const { id: userId } = useRecoilValue(loginInfoDetailAtom) || {};
-  const [deviceToken, setDeviceToken] = useRecoilState(deviceTokenAtom);
+  const { id: userId, deviceToken } = useRecoilValue(loginInfoDetailAtom) || {};
+  const setLoginInfoDetail = useSetRecoilState(loginInfoDetailAtom);
 
   const registerToken = useCallback(async (trial: number) => {
     // 토큰 등록 실패 시 10초 간격으로 최대 3회 시도
@@ -47,7 +46,12 @@ const FirebaseMessagingProvider = () => {
         url: "/notifications/registerDeviceToken",
         method: "post",
         data: { deviceToken: newDeviceToken },
-        onSuccess: () => setDeviceToken(newDeviceToken),
+        onSuccess: () =>
+          axios({
+            url: "/logininfo",
+            method: "get",
+            onSuccess: (data) => setLoginInfoDetail(data),
+          }),
         onError: () => {},
       });
     } catch (error) {
@@ -57,11 +61,6 @@ const FirebaseMessagingProvider = () => {
   }, []);
 
   const registerEvent = useCallback(() => registerToken(1), []);
-
-  useEffect(() => {
-    // userId가 바뀐 경우, deviceToken을 초기화
-    setDeviceToken(null);
-  }, [userId]);
 
   useEffect(() => {
     // FCM 디바이스 토큰 등록

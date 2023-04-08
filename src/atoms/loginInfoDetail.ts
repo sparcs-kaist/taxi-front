@@ -13,6 +13,8 @@ export type LoginInfoDetailType = {
   subinfo: { kaist: string; sparcs: string; facebook: string; twitter: string };
   withdraw: boolean;
   account: string;
+  deviceToken: Nullable<string>;
+  deviceType: "web" | "app";
 };
 
 const loginInfoDetailAtom = atom<Nullable<LoginInfoDetailType>>({
