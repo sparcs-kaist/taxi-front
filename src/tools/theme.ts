@@ -126,6 +126,7 @@ const theme = {
   zIndex_header: 20,
   zIndex_fullimage: 20,
   zIndex_alert: 60,
+  zIndex_icon: 5,
 };
 
 export default theme;

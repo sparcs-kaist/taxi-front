@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+
 import regExpTest from "tools/regExpTest";
 import theme from "tools/theme";
 
@@ -49,34 +51,61 @@ const AccountSelector = (props: AccountSelectorProps) => {
   };
   const styleBanks: CSS = {
     width: "75px",
-    ...theme.font14,
-    color: theme.purple,
-    fontWeight: "400",
-    border: "none",
-    outline: "none",
     borderRadius: "6px",
-    padding: "6px 4px",
     marginLeft: "10px",
     background: theme.purple_light,
     boxShadow: theme.shadow_purple_input_inset,
     textAlign: "center",
+    boxSizing: "border-box",
+    display: "flex",
+    alignItems: "center",
+    // justifyContent: "space-between",
+  };
+
+  const styleSelector: CSS = {
+    ...theme.font14,
+    color: theme.purple,
+    width: "75px",
+    background: "transparent",
+    padding: "6px 0 6px 4px",
+    boxSizing: "border-box",
+    fontWeight: "400",
+    border: "none",
+    outline: "none",
+    textAlign: "center",
+    WebkitAppearance: "none",
+    MozAppearance: "none",
+    appearance: "none",
+  };
+
+  const dropdownStyle: CSS = {
+    width: "20px",
+    height: "20px",
+    color: theme.purple,
+    position: "relative",
+    left: "-10px",
+    pointerEvents: "none",
   };
   return (
     <div style={styleTitle}>
       {t("account")}
-      <select
-        style={styleBanks}
-        value={bankName}
-        onChange={(e) => {
-          setBankName(e.target.value);
-        }}
-      >
-        {bankNames.map((option) => (
-          <option value={option} key={option}>
-            {option}
-          </option>
-        ))}
-      </select>
+      <div style={styleBanks}>
+        <select
+          style={styleSelector}
+          value={bankName}
+          onChange={(e) => {
+            setBankName(e.target.value);
+          }}
+        >
+          {bankNames.map((option) => (
+            <option value={option} key={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+        <ArrowDropDownIcon style={dropdownStyle} />
+      </div>
+
       <input
         style={styleNickname}
         value={bankNumber}
