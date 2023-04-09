@@ -45,6 +45,7 @@ const InfoSection = () => {
   };
   const styleTitle = {
     ...theme.font28,
+    wordBreak: "break-all" as any,
     color: theme.white,
     margin: "0 0 12px",
   };
