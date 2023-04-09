@@ -57,4 +57,11 @@ declare global {
     time: Date;
     isValid: boolean;
   };
+  type ReportResponse = { status: number };
+
+  interface Window {
+    flutter_inappwebview: {
+      callHandler: (name: string, ...args: any[]) => Promise<any>;
+    };
+  }
 }

@@ -172,7 +172,7 @@ const Agree = (props) => {
     });
     setLoginInfoDetail(
       await axios({
-        url: "/logininfo/detail",
+        url: "/logininfo",
         method: "get",
       })
     );
