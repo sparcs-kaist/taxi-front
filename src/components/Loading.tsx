@@ -21,9 +21,6 @@ const Loading = ({
       animation: loading 1.5s linear infinite;
     }
     @keyframes loading {
-      0% {
-        content: "Loading 🚕";
-      }
       25% {
         content: "Loading. 🚕";
       }
@@ -32,9 +29,6 @@ const Loading = ({
       }
       75% {
         content: "Loading... 🚕";
-      }
-      100% {
-        content: "Loading 🚕";
       }
     }
   `;
