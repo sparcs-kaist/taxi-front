@@ -3,6 +3,7 @@ import { CookiesProvider } from "react-cookie";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import routes from "routes";
 
+import Loading from "components/Loading";
 import ModalProvider from "components/Modal/ModalProvider";
 import Skeleton from "components/Skeleton";
 import AlertProvider from "components/Skeleton/AlertProvider";
@@ -34,7 +35,7 @@ const App = () => {
           <ModalProvider />
           <CSSVariablesProvider />
           <Skeleton>
-            <Suspense fallback={"...loading"}>
+            <Suspense fallback={<Loading />}>
               <Switch>
                 {routes.map((route) => (
                   <Route key={route.path} {...route} />
