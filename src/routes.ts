@@ -33,12 +33,7 @@ const routes = [
     exact: true,
   },
   {
-    path: "/myroom",
-    component: lazy(() => import("pages/Myroom")),
-    exact: true,
-  },
-  {
-    path: "/myroom/:roomId",
+    path: ["/myroom", "/myroom/:roomId"],
     component: lazy(() => import("pages/Myroom")),
     exact: true,
   },
