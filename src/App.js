@@ -37,7 +37,7 @@ const App = () => {
           <ModalProvider />
           <CSSVariablesProvider />
           <Skeleton>
-            <Suspense fallback={<Loading />}>
+            <Suspense fallback={<Loading center />}>
               <Switch>
                 {routes.map((route) => (
                   <Route key={route.path} {...route} />

@@ -2,16 +2,12 @@ import { css } from "@emotion/react";
 
 import theme from "tools/theme";
 
-const Loading = () => {
-  const style = css`
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+const Loading = ({ center }: { center: boolean }) => {
+  const text = css`
     :after {
       ${theme.font16}
       color: ${theme.purple};
-      content: "";
+      content: "Loading 🚕";
       animation: loading 1.5s linear infinite;
     }
     @keyframes loading {
@@ -32,7 +28,13 @@ const Loading = () => {
       }
     }
   `;
-  return <div css={style} />;
+  const positionCenter = css`
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  `;
+  return <div css={[text, center && positionCenter]} />;
 };
 
 export default Loading;
