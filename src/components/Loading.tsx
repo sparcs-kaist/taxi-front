@@ -1,12 +1,22 @@
 import { css } from "@emotion/react";
 
-import theme from "tools/theme";
+import theme, { Font } from "tools/theme";
 
-const Loading = ({ center }: { center: boolean }) => {
+type LoadingProps = {
+  center?: boolean;
+  font?: Font;
+  color?: string;
+};
+
+const Loading = ({
+  center,
+  font = theme.font16,
+  color = theme.purple,
+}: LoadingProps) => {
   const text = css`
     :after {
-      ${theme.font16}
-      color: ${theme.purple};
+      ${font}
+      color: ${color};
       content: "Loading 🚕";
       animation: loading 1.5s linear infinite;
     }
