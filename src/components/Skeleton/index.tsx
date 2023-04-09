@@ -10,7 +10,6 @@ import PopupPolicy from "pages/Mypage/PopupPolicy";
 import Footer from "./Footer";
 import Navigation from "./Navigation";
 
-import deviceTokenAtom from "atoms/deviceToken";
 import errorAtom from "atoms/error";
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import myRoomAtom from "atoms/myRoom";
@@ -49,9 +48,8 @@ const Skeleton = ({ children }: SkeletonProps) => {
 
   const [loginInfoDetail, setLoginInfoDetail] =
     useRecoilState(loginInfoDetailAtom);
-  const deviceToken = useRecoilValue(deviceTokenAtom);
   const error = useRecoilValue(errorAtom);
-  const { id: userId } = loginInfoDetail || {};
+  const { id: userId, deviceToken } = loginInfoDetail || {};
 
   const setTaxiLocation = useSetRecoilState(taxiLocationAtom);
   const setMyRoom = useSetRecoilState(myRoomAtom);
@@ -64,7 +62,7 @@ const Skeleton = ({ children }: SkeletonProps) => {
   useEffect(() => {
     // userId 초기화
     axios({
-      url: "/logininfo/detail",
+      url: "/logininfo",
       method: "get",
       onSuccess: (data) => {
         setLoginInfoDetail(data);

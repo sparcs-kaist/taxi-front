@@ -10,6 +10,7 @@ import AlertProvider from "components/Skeleton/AlertProvider";
 import CSSVariablesProvider from "components/Skeleton/CSSVariablesProvider";
 import ChannelTalkProvider from "components/Skeleton/ChannelTalkProvider";
 import FirebaseMessagingProvider from "components/Skeleton/FirebaseMessagingProvider";
+import FlutterEventCommunicationProvider from "components/Skeleton/FlutterEventCommunicationProvider";
 import GoogleAnalyticsProvier from "components/Skeleton/GoogleAnalyticsProvier";
 import I18nextProvider from "components/Skeleton/I18nextProvider";
 import ScrollRestoration from "components/Skeleton/ScrollRestoration";
@@ -32,6 +33,7 @@ const App = () => {
           <FirebaseMessagingProvider />
           <I18nextProvider />
           <AlertProvider />
+          <FlutterEventCommunicationProvider />
           <ModalProvider />
           <CSSVariablesProvider />
           <Skeleton>
