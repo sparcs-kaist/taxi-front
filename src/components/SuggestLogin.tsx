@@ -11,8 +11,7 @@ const SuggestLogin = () => {
   return (
     <div>
       <div
-        style={{
-          color: theme.black,
+        css={{
           ...theme.font14,
           marginBottom: 12,
         }}
