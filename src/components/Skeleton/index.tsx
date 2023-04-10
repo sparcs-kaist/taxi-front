@@ -4,6 +4,7 @@ import { Redirect, useLocation } from "react-router-dom";
 import { useAxios } from "hooks/useTaxiAPI";
 
 import HeaderBar from "components/HeaderBar";
+import Loading from "components/Loading";
 import Error from "pages/Error";
 import PopupPolicy from "pages/Mypage/PopupPolicy";
 
@@ -113,6 +114,7 @@ const Skeleton = ({ children }: SkeletonProps) => {
     return (
       <Container>
         <HeaderBar />
+        <Loading center />
       </Container>
     );
   }
