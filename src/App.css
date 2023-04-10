@@ -24,16 +24,7 @@ body {
   background: #faf8fb;
   -ms-overflow-style: none;
   touch-action: pan-y;
-  /**
-  * disable text selection
-  * See the below page for later compatibility.
-  * https://caniuse.com/?search=user-select%3A%20none
-  */
-  -webkit-touch-callout: none; /* IOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* IE/Edge */
-  user-select: none; /* Chrome, Edge, Opera, and Firefox */
+  user-select: none;
 }
 
 body::-webkit-scrollbar,
@@ -50,11 +41,7 @@ b {
 }
 
 .selectable {
-  -webkit-touch-callout: default; /* IOS Safari */
-  -moz-user-select: auto; /* Old versions of Firefox */
-  -webkit-user-select: auto; /* Safari */
-  -ms-user-select: auto; /* IE/Edge */
-  user-select: auto; /* Chrome, Edge, Opera, and Firefox */
+  user-select: text;
 }
 
 #root {
