@@ -28,7 +28,7 @@ const Header = (props) => {
     width: "100%",
     height: "100%",
     background: theme.black_40,
-    zIndex: theme.zIndex_background,
+    zIndex: theme.zIndex_nav - 1,
     pointerEvents: isOpen ? "auto" : "none",
     opacity: isOpen ? 1 : 0,
     transition: "opacity 0.3s",

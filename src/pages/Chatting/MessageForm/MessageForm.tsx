@@ -32,6 +32,7 @@ const MessageForm = (props: MessageFormProps) => {
         width: "100%",
         height: contHeight,
         position: props.isSideChat ? "absolute" : "fixed",
+        zIndex: theme.zIndex_nav - 2,
         left: "0px",
         bottom: "0px",
         display: "flex",
