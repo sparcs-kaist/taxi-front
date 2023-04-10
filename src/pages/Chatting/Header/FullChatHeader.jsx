@@ -40,7 +40,7 @@ const Header = (props) => {
     overflow: "hidden",
     background: theme.white,
     boxShadow: theme.shadow_3,
-    zIndex: theme.zIndex_header,
+    zIndex: theme.zIndex_nav,
     height: `${64 + (isOpen ? bodyHeight : 0)}px`,
     paddingTop: "calc(env(safe-area-inset-top) - 5px)",
     transition: "height 0.3s",

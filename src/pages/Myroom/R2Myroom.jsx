@@ -177,7 +177,7 @@ const R2Myroom = (props) => {
             )}
           </WhiteContainer>
           <div style={{ height: "100%", minHeight: 0 }}>
-            <WhiteContainer padding="0px" style={{ height: "100%", zIndex: 0 }}>
+            <WhiteContainer padding="0px" style={{ height: "100%" }}>
               <SideChat roomId={props.roomId} />
             </WhiteContainer>
           </div>
