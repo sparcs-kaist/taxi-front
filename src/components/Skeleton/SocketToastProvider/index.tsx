@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { Socket, io } from "socket.io-client";
 
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
@@ -15,43 +15,47 @@ let initEventListener: Nullable<SocketEventListner> = null;
 let pushBackEventListener: Nullable<SocketEventListner> = null;
 let pushFrontEventListener: Nullable<SocketEventListner> = null;
 
+// disconnect socket
+const disconnectSocket = () => {
+  if (socket) socket?.disconnect();
+  socket = null;
+};
+
+// connect socket with event listeners
+const connectSocket = () => {
+  if (!userId) return;
+
+  disconnectSocket();
+  socket = io(ioServer, { withCredentials: true });
+
+  socket.on("connect", () => {
+    console.log("socket connected"); // FIXME
+  });
+  socket.on("chats-init", (data) => {
+    if (initEventListener) initEventListener("tmp", []);
+  });
+  socket.on("chats-push-back", (data) => {
+    if (pushBackEventListener) pushBackEventListener("tmp", []);
+    // TODO: roomId 다르면 Toast 메시지 띄우기 가능 (라이브러리 조사: React-toastify)
+  });
+  socket.on("chats-push-front", (data) => {
+    if (pushFrontEventListener) pushFrontEventListener("tmp", []);
+  });
+  socket.on("disconnect", () => {
+    console.log("socket disconnected, connect socket again"); // FIXME
+    // connectSocket();
+  });
+};
+
 const SocketToastProvider = () => {
   const { id: _userId } = useRecoilValue(loginInfoDetailAtom) || {};
 
-  const connectSocket = useCallback(() => {
-    if (!userId) return;
-
-    socket?.disconnect();
-    socket = io(ioServer, {
-      withCredentials: true,
-    });
-
-    socket.on("chats-init", (data) => {
-      if (initEventListener) initEventListener("tmp", []);
-    });
-    socket.on("chats-push-back", (data) => {
-      if (pushBackEventListener) pushBackEventListener("tmp", []);
-    });
-    socket.on("chats-push-front", (data) => {
-      if (pushFrontEventListener) pushFrontEventListener("tmp", []);
-    });
-    socket.on("disconnect", () => {
-      console.log("socket disconnected, connect socket again"); // FIX ME
-      // connectSocket();
-    });
-  }, []);
-
   useEffect(() => {
     userId = _userId;
-
     connectSocket();
-    setInterval(() => {
-      console.log(userId, initEventListener);
-    }, 1000);
-    return () => {
-      socket?.disconnect();
-    };
+    return disconnectSocket;
   }, [_userId]);
+
   return null;
 };
 

@@ -2,7 +2,7 @@ import theme from "tools/theme";
 
 const HeaderBar = () => (
   <div
-    style={{
+    css={{
       background: theme.purple,
       width: "100%",
       height: "max(5px, env(safe-area-inset-top))",
