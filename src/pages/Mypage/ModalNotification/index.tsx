@@ -9,7 +9,7 @@ import Toggle from "components/Toggle";
 
 import Guide from "./Guide";
 
-import deviceTokenAtom from "atoms/deviceToken";
+import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import notificationOptionsAtom from "atoms/notificationOptions";
 import { useRecoilState, useRecoilValue } from "recoil";
 
@@ -52,7 +52,7 @@ const ModalNotification = ({
 }: ModalNotificationProps) => {
   const { t } = useTranslation("mypage");
   const axios = useAxios();
-  const deviceToken = useRecoilValue(deviceTokenAtom);
+  const { deviceToken } = useRecoilValue(loginInfoDetailAtom) || {};
   const [notificationOptions, setNotificationOptions] = useRecoilState(
     notificationOptionsAtom
   );
