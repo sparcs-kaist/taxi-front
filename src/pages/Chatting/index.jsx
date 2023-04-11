@@ -9,9 +9,10 @@ import useDateToken from "hooks/useDateToken";
 import { useR2state } from "hooks/useReactiveState";
 import { useAxios, useQuery } from "hooks/useTaxiAPI";
 
-import Header from "./Header/Header";
-import MessageForm from "./MessageForm/MessageForm";
-import MessagesBody from "./MessagesBody/MessagesBody";
+import Container from "./Container";
+import Header from "./Header";
+import MessageForm from "./MessageForm";
+import MessagesBody from "./MessagesBody";
 
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import { useRecoilValue } from "recoil";
@@ -32,8 +33,7 @@ const Chatting = (props) => {
 
   const [chats, setChats] = useStateWithCallbackLazy([]);
   const [showNewMessage, setShowNewMessage] = useState(false);
-  const [messageFormHeight, setMessageFormHeight] =
-    useStateWithCallbackLazy("48px");
+  const [, setMessageFormHeight] = useStateWithCallbackLazy("48px");
 
   const socket = useRef(undefined);
   const reactiveState = useR2state();
@@ -260,22 +260,23 @@ const Chatting = (props) => {
     return false;
   };
 
+  const layoutType = props.isSideChat ? "sidechat" : "fullchat";
+
   return (
-    <>
+    <Container>
       <Header
-        isSideChat={props.isSideChat}
+        layoutType={layoutType}
         info={headerInfo}
         recallEvent={fetchHeaderInfo}
       />
       <MessagesBody
-        isSideChat={props.isSideChat}
+        layoutType={layoutType} // fixme : is required?
         chats={chats}
         user={userInfoDetail}
         forwardedRef={messagesBody}
         handleScroll={handleScroll}
         isBottomOnScroll={isBottomOnScroll}
         scrollToBottom={() => scrollToBottom(false)}
-        marginBottom={messageFormHeight}
       />
       <MessageForm
         isSideChat={props.isSideChat}
@@ -286,7 +287,7 @@ const Chatting = (props) => {
         onClickNewMessage={() => scrollToBottom(true)}
         setContHeight={handleMessageFormHeight}
       />
-    </>
+    </Container>
   );
 };
 

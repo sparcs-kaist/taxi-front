@@ -22,6 +22,9 @@ const Header = (props) => {
   const history = useHistory();
   const reactiveState = useR2state();
 
+  const style = {
+    height: "calc(64px + max(5px, env(safe-area-inset-top)))",
+  };
   const styleBgd = {
     position: "fixed",
     top: "5px",
@@ -34,15 +37,14 @@ const Header = (props) => {
     transition: "opacity 0.3s",
   };
   const styleHeader = {
-    position: "fixed",
-    top: "5px",
+    position: "absolute",
     width: "100%",
     overflow: "hidden",
     background: theme.white,
     boxShadow: theme.shadow_3,
     zIndex: theme.zIndex_nav,
     height: `${64 + (isOpen ? bodyHeight : 0)}px`,
-    paddingTop: "calc(env(safe-area-inset-top) - 5px)",
+    paddingTop: "max(5px, env(safe-area-inset-top))",
     transition: "height 0.3s",
   };
   const styleHeaderTop = {
@@ -80,10 +82,10 @@ const Header = (props) => {
   }, [props.info]);
 
   return (
-    <>
-      <div style={styleBgd} onClick={() => setOpen(false)} />
-      <div style={styleHeader}>
-        <div style={styleHeaderTop}>
+    <div css={style}>
+      <div css={styleBgd} onClick={() => setOpen(false)} />
+      <div css={styleHeader}>
+        <div css={styleHeaderTop}>
           <ArrowBackRoundedIcon
             style={styleIcon}
             onClick={
@@ -92,12 +94,12 @@ const Header = (props) => {
                 : () => history.goBack()
             }
           />
-          <div style={styleInfo}>
-            <div style={{ ...theme.font18, color: theme.purple, ...styleText }}>
+          <div css={styleInfo}>
+            <div css={{ ...theme.font18, color: theme.purple, ...styleText }}>
               {props.info?.name}
             </div>
             <div
-              style={{ ...theme.font12, color: theme.gray_text, ...styleText }}
+              css={{ ...theme.font12, color: theme.gray_text, ...styleText }}
             >
               {props?.info?.from?.koName}&nbsp; → &nbsp;
               {props?.info?.to?.koName}
@@ -121,14 +123,14 @@ const Header = (props) => {
             />
           )}
         </div>
-        <div style={{ opacity: isOpen ? 1 : 0, transition: "opacity 0.3s" }}>
+        <div css={{ opacity: isOpen ? 1 : 0, transition: "opacity 0.3s" }}>
           <DottedLine direction="row" margin="0 16px" />
         </div>
-        <div ref={bodyRef} style={{ padding: "16px" }}>
+        <div ref={bodyRef} css={{ padding: "16px" }}>
           <HeaderBody info={props.info} recallEvent={props.recallEvent} />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 Header.propTypes = {

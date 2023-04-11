@@ -133,6 +133,17 @@ const FullChatMessageForm = (props: FullChatMessageFormProps) => {
     textareaContRef.current.style.height = cacheHeight;
     setFormHeight(newHeight);
   };
+
+  // // REMOVE ME
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     const innerHeight = window.innerHeight || 0;
+  //     const visualHeight = visualViewport?.height || innerHeight;
+  //     setMessage(`${innerHeight} ${visualHeight}`);
+  //   }, 100);
+  //   return () => clearInterval(interval);
+  // }, []);
+
   useEffect(() => {
     resizeEvent();
     window.addEventListener("resize", resizeEvent);

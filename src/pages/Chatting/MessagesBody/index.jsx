@@ -39,7 +39,7 @@ const MessagesBody = (props) => {
       setPath,
       setName,
       setReportedId,
-      isSideChat: props.isSideChat,
+      isSideChat: props.layoutType === "sidechat",
     };
 
     props.chats.forEach((item) => {
@@ -140,32 +140,27 @@ const MessagesBody = (props) => {
   };
 
   return (
-    <div style={{ height: "100%", overflow: "auto" }}>
-      <div
-        className="chatting-body"
-        style={{
-          marginTop: props.isSideChat ? undefined : "69px",
-          marginBottom: props.marginBottom,
-          paddingBottom: "12px",
-          height: `calc(100% - ${props.marginBottom} - ${
-            props.isSideChat ? "0px" : "69px"
-          })`,
-          width: "100%",
-          overflow: "auto",
-          boxSizing: "border-box",
-        }}
-        ref={props.forwardedRef}
-        onScroll={props.handleScroll}
-      >
-        {chats}
-        <PopupReport
-          isOpen={isOpen}
-          onClose={onClose}
-          path={path}
-          name={name}
-          reportedId={reportedId}
-        />
-      </div>
+    <div
+      className="chatting-body"
+      css={{
+        flexBasis: "1px",
+        flexGrow: 1,
+        position: "relative",
+        overflow: "auto",
+        boxSizing: "border-box",
+        paddingBottom: "12px",
+      }}
+      ref={props.forwardedRef}
+      onScroll={props.handleScroll}
+    >
+      {chats}
+      <PopupReport
+        isOpen={isOpen}
+        onClose={onClose}
+        path={path}
+        name={name}
+        reportedId={reportedId}
+      />
     </div>
   );
 };
@@ -173,12 +168,11 @@ const MessagesBody = (props) => {
 MessagesBody.propTypes = {
   chats: PropTypes.array,
   user: PropTypes.object,
-  isSideChat: PropTypes.bool,
+  layoutType: PropTypes.string,
   forwardedRef: PropTypes.any,
   handleScroll: PropTypes.func,
   isBottomOnScroll: PropTypes.func,
   scrollToBottom: PropTypes.func,
-  marginBottom: PropTypes.string,
   setIsOpen: PropTypes.func,
 };
 
