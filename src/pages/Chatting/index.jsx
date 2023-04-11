@@ -188,8 +188,10 @@ const Chatting = (props) => {
   useEffect(() => {
     resizeEvent();
     window.addEventListener("resize", resizeEvent);
+    visualViewport?.addEventListener("resize", resizeEvent);
     return () => {
       window.removeEventListener("resize", resizeEvent);
+      visualViewport?.removeEventListener("resize", resizeEvent);
     };
   }, []);
 
@@ -260,7 +262,7 @@ const Chatting = (props) => {
   };
 
   return (
-    <Container>
+    <Container layoutType={props.layoutType}>
       <Header
         layoutType={props.layoutType}
         info={headerInfo}
