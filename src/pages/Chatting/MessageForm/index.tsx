@@ -9,7 +9,7 @@ import { useRecoilValue } from "recoil";
 import theme from "tools/theme";
 
 type MessageFormProps = {
-  isSideChat: boolean;
+  layoutType: "sidechat" | "fullchat";
   showNewMessage: boolean;
   handleSendMessage: (message: string) => boolean;
   handleSendImage: (image: File) => void;
@@ -38,7 +38,7 @@ const MessageForm = (props: MessageFormProps) => {
         boxShadow: theme.shadow_clicked,
         backgroundColor: theme.white,
         paddingBottom:
-          props.isSideChat || isVKDetected
+          props.layoutType === "sidechat" || isVKDetected
             ? "0px"
             : "env(safe-area-inset-bottom)",
       }}

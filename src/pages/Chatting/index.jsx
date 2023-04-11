@@ -246,7 +246,6 @@ const Chatting = (props) => {
       }
     }
   };
-
   const handleSendAccount = (account) => {
     if (!sendingMessage.current) {
       sendingMessage.current = true;
@@ -260,17 +259,15 @@ const Chatting = (props) => {
     return false;
   };
 
-  const layoutType = props.isSideChat ? "sidechat" : "fullchat";
-
   return (
     <Container>
       <Header
-        layoutType={layoutType}
+        layoutType={props.layoutType}
         info={headerInfo}
         recallEvent={fetchHeaderInfo}
       />
       <MessagesBody
-        layoutType={layoutType} // fixme : is required?
+        layoutType={props.layoutType} // fixme : is required?
         chats={chats}
         user={userInfoDetail}
         forwardedRef={messagesBody}
@@ -279,7 +276,7 @@ const Chatting = (props) => {
         scrollToBottom={() => scrollToBottom(false)}
       />
       <MessageForm
-        isSideChat={props.isSideChat}
+        layoutType={props.layoutType}
         handleSendMessage={handleSendMessage}
         handleSendImage={handleSendImage}
         handleSendAccount={handleSendAccount}
@@ -292,7 +289,7 @@ const Chatting = (props) => {
 };
 
 Chatting.propTypes = {
-  isSideChat: PropTypes.bool,
+  layoutType: PropTypes.oneOf(["sidechat", "fullchat"]),
   roomId: PropTypes.string,
 };
 

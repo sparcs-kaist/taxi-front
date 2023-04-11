@@ -44,7 +44,7 @@ const routes = [
   },
   {
     path: "/chatting/:roomId",
-    component: lazy(() => import("pages/Chatting/WrapChat")),
+    component: lazy(() => import("pages/Chatting/FullChat")),
     exact: true,
   },
   {
