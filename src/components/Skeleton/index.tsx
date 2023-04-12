@@ -96,7 +96,6 @@ const Skeleton = ({ children }: SkeletonProps) => {
       axios({
         url: "/notifications/options",
         method: "get",
-        params: { deviceToken },
         onSuccess: (data) => setNotificationOptions(data),
       });
     }

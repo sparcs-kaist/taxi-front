@@ -89,7 +89,6 @@ const ModalNotification = ({
         url: "/notifications/editOptions",
         method: "post",
         data: {
-          deviceToken,
           options: {
             [optionName]: value,
           },
@@ -99,7 +98,6 @@ const ModalNotification = ({
         await axios({
           url: "/notifications/options",
           method: "get",
-          params: { deviceToken },
         })
       );
       isAxiosCalled.current = false;
@@ -114,7 +112,6 @@ const ModalNotification = ({
         url: "/notifications/editOptions",
         method: "post",
         data: {
-          deviceToken,
           options: {
             beforeDepart: value,
             chatting: value,
@@ -126,7 +123,6 @@ const ModalNotification = ({
         await axios({
           url: "/notifications/options",
           method: "get",
-          params: { deviceToken },
         })
       );
       isAxiosCalled.current = false;
