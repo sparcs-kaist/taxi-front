@@ -3,17 +3,11 @@ import { useEffect } from "react";
 import isVirtualKeyboardDetectedAtom from "atoms/isVirtualKeyboardDetected";
 import { useSetRecoilState } from "recoil";
 
+import isMobile from "tools/isMobile";
+
 const VirtualKeyboardDetector = () => {
   const setIsVKDetected = useSetRecoilState(isVirtualKeyboardDetectedAtom);
-
-  const userAgent = navigator.userAgent.toLowerCase();
-  const maxTouchPoints = navigator.maxTouchPoints || 0;
-  const isAndroid = userAgent.includes("android");
-  const isIOS =
-    userAgent.includes("iphone") ||
-    userAgent.includes("ipad") ||
-    userAgent.includes("ipod") ||
-    (userAgent.includes("macintosh") && maxTouchPoints > 1);
+  const [isAndroid, isIOS] = isMobile();
 
   useEffect(() => {
     /*
