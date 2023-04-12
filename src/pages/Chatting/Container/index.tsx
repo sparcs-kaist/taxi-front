@@ -1,3 +1,5 @@
+import HeaderBar from "components/HeaderBar";
+
 import isMobile from "tools/isMobile";
 
 type ContainerProps = {
@@ -19,7 +21,7 @@ const Container = ({ layoutType, children }: ContainerProps) => {
         width: "100%",
         height: isIOSCrossBrowsing
           ? "var(--window-visual-height)"
-          : "calc(100% - env(safe-area-inset-bottom))",
+          : "calc(100% - env(safe-area-inset-top) - env(safe-area-inset-bottom))",
         position: isIOSCrossBrowsing ? "fixed" : "absolute",
         overflow: "hidden",
         display: "flex",
@@ -28,6 +30,7 @@ const Container = ({ layoutType, children }: ContainerProps) => {
         left: "0px",
       }}
     >
+      {isIOSCrossBrowsing && <HeaderBar position="absolute" />}
       {children}
     </div>
   );

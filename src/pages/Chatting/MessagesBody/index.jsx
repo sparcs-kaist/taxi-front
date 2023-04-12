@@ -170,13 +170,12 @@ const MessagesBody = (props) => {
 };
 
 MessagesBody.propTypes = {
-  chats: PropTypes.array,
   layoutType: PropTypes.string,
+  chats: PropTypes.array,
   forwardedRef: PropTypes.any,
   handleScroll: PropTypes.func,
   isBottomOnScroll: PropTypes.func,
   scrollToBottom: PropTypes.func,
-  setIsOpen: PropTypes.func,
 };
 
 MessagesBody.defaultProps = {
