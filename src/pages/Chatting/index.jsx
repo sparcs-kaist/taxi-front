@@ -38,8 +38,8 @@ const Chatting = (props) => {
   const socket = useRef(undefined);
   const reactiveState = useR2state();
   const prevReactiveState = useRef(reactiveState);
+  const { oid: userOid } = useRecoilValue(loginInfoDetailAtom) || {};
   const [headerInfoToken, fetchHeaderInfo] = useDateToken();
-  const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const [, headerInfo] = useQuery.get(`/rooms/info?id=${props.roomId}`, {}, [
     headerInfoToken,
   ]);
@@ -132,7 +132,7 @@ const Chatting = (props) => {
 
   // socket setting
   useEffect(() => {
-    if (headerInfo && userInfoDetail && roomIdCache.current !== props.roomId) {
+    if (headerInfo && userOid && roomIdCache.current !== props.roomId) {
       roomIdCache.current = props.roomId;
 
       socket.current?.disconnect();
@@ -150,11 +150,11 @@ const Chatting = (props) => {
 
       // when receive chat
       socket.current.on("chats-receive", (data) => {
-        if (data.chat.authorId === userInfoDetail.oid) {
+        if (data.chat.authorId === userOid) {
           sendingMessage.current = null;
         }
         const callback =
-          data.chat.authorId === userInfoDetail.oid || isBottomOnScroll()
+          data.chat.authorId === userOid || isBottomOnScroll()
             ? () => scrollToBottom(true)
             : () => setShowNewMessage(true);
 
@@ -179,7 +179,7 @@ const Chatting = (props) => {
     return () => {
       if (socket.current) socket.current.disconnect();
     };
-  }, [headerInfo, userInfoDetail]);
+  }, [headerInfo, userOid]);
 
   // resize event
   const resizeEvent = () => {
@@ -271,7 +271,6 @@ const Chatting = (props) => {
       <MessagesBody
         layoutType={props.layoutType} // fixme : is required?
         chats={chats}
-        user={userInfoDetail}
         forwardedRef={messagesBody}
         handleScroll={handleScroll}
         isBottomOnScroll={isBottomOnScroll}

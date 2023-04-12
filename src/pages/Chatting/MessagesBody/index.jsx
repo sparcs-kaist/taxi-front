@@ -6,6 +6,9 @@ import ChatInOut from "./ChatInOut";
 import ChatSet from "./ChatSet";
 import PopupReport from "./PopupReport";
 
+import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import { useRecoilValue } from "recoil";
+
 import moment from "tools/moment";
 
 // Chat {
@@ -19,6 +22,7 @@ import moment from "tools/moment";
 // }
 
 const MessagesBody = (props) => {
+  const { oid: userOid } = useRecoilValue(loginInfoDetailAtom) || {};
   const [isOpen, setIsOpen] = useState(false);
   const [path, setPath] = useState("");
   const [name, setName] = useState("");
@@ -32,7 +36,7 @@ const MessagesBody = (props) => {
     const minFormat = "YYYY.MM.DD HH:mm";
 
     const chatSetCommonProps = {
-      authorId: props.user.oid,
+      authorId: userOid,
       isBottomOnScroll: props.isBottomOnScroll,
       scrollToBottom: props.scrollToBottom,
       setIsOpen,
@@ -133,7 +137,7 @@ const MessagesBody = (props) => {
       );
     }
     return list;
-  }, [props.chats, props.user]);
+  }, [props.chats, userOid]);
 
   const onClose = () => {
     setIsOpen(false);
@@ -167,7 +171,6 @@ const MessagesBody = (props) => {
 
 MessagesBody.propTypes = {
   chats: PropTypes.array,
-  user: PropTypes.object,
   layoutType: PropTypes.string,
   forwardedRef: PropTypes.any,
   handleScroll: PropTypes.func,
