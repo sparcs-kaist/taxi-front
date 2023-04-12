@@ -6,6 +6,9 @@ import ChatInOut from "./ChatInOut";
 import ChatSet from "./ChatSet";
 import PopupReport from "./PopupReport";
 
+import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import { useRecoilValue } from "recoil";
+
 import moment from "tools/moment";
 
 // Chat {
@@ -19,6 +22,7 @@ import moment from "tools/moment";
 // }
 
 const MessagesBody = (props) => {
+  const { oid: userOid } = useRecoilValue(loginInfoDetailAtom) || {};
   const [isOpen, setIsOpen] = useState(false);
   const [path, setPath] = useState("");
   const [name, setName] = useState("");
@@ -32,14 +36,14 @@ const MessagesBody = (props) => {
     const minFormat = "YYYY.MM.DD HH:mm";
 
     const chatSetCommonProps = {
-      authorId: props.user.oid,
+      authorId: userOid,
       isBottomOnScroll: props.isBottomOnScroll,
       scrollToBottom: props.scrollToBottom,
       setIsOpen,
       setPath,
       setName,
       setReportedId,
-      isSideChat: props.isSideChat,
+      isSideChat: props.layoutType === "sidechat",
     };
 
     props.chats.forEach((item) => {
@@ -133,53 +137,45 @@ const MessagesBody = (props) => {
       );
     }
     return list;
-  }, [props.chats, props.user]);
+  }, [props.chats, userOid]);
 
   const onClose = () => {
     setIsOpen(false);
   };
 
   return (
-    <div style={{ height: "100%", overflow: "auto" }}>
-      <div
-        className="chatting-body"
-        style={{
-          marginTop: props.isSideChat ? undefined : "69px",
-          marginBottom: props.marginBottom,
-          paddingBottom: "12px",
-          height: `calc(100% - ${props.marginBottom} - ${
-            props.isSideChat ? "0px" : "69px"
-          })`,
-          width: "100%",
-          overflow: "auto",
-          boxSizing: "border-box",
-        }}
-        ref={props.forwardedRef}
-        onScroll={props.handleScroll}
-      >
-        {chats}
-        <PopupReport
-          isOpen={isOpen}
-          onClose={onClose}
-          path={path}
-          name={name}
-          reportedId={reportedId}
-        />
-      </div>
+    <div
+      className="chatting-body"
+      css={{
+        flexBasis: "1px",
+        flexGrow: 1,
+        position: "relative",
+        overflow: "auto",
+        boxSizing: "border-box",
+        paddingBottom: "12px",
+      }}
+      ref={props.forwardedRef}
+      onScroll={props.handleScroll}
+    >
+      {chats}
+      <PopupReport
+        isOpen={isOpen}
+        onClose={onClose}
+        path={path}
+        name={name}
+        reportedId={reportedId}
+      />
     </div>
   );
 };
 
 MessagesBody.propTypes = {
+  layoutType: PropTypes.string,
   chats: PropTypes.array,
-  user: PropTypes.object,
-  isSideChat: PropTypes.bool,
   forwardedRef: PropTypes.any,
   handleScroll: PropTypes.func,
   isBottomOnScroll: PropTypes.func,
   scrollToBottom: PropTypes.func,
-  marginBottom: PropTypes.string,
-  setIsOpen: PropTypes.func,
 };
 
 MessagesBody.defaultProps = {

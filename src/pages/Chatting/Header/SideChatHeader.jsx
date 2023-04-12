@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import theme from "tools/theme";
 
@@ -16,7 +16,6 @@ const SideChatHeader = (props) => {
     alignItems: "center",
     justifyContent: "space-between",
     padding: "12px 20px",
-    zIndex: 1,
   };
   const styleIcon = { color: theme.white, ...theme.cursor() };
   const styleInfoWrap = {
@@ -35,21 +34,20 @@ const SideChatHeader = (props) => {
   };
 
   return (
-    <div style={styleBox}>
+    <div css={styleBox}>
       <ArrowBackRoundedIcon
         style={styleIcon}
         onClick={() => history.goBack()}
       />
-      <div style={styleInfoWrap}>
-        <div style={{ ...theme.font18, ...styleInfo }}>{props.info?.name}</div>
-        <div style={{ ...theme.font12, ...styleInfo }}>
+      <div css={styleInfoWrap}>
+        <div css={{ ...theme.font18, ...styleInfo }}>{props.info?.name}</div>
+        <div css={{ ...theme.font12, ...styleInfo }}>
           {props?.info?.from?.koName}&nbsp; → &nbsp;{props?.info?.to?.koName}
         </div>
       </div>
-      <OpenInFullRoundedIcon
-        style={{ ...styleIcon, fontSize: "22px" }}
-        onClick={() => history.replace(`/chatting/${props.info?._id}`)}
-      />
+      <Link to={`/chatting/${props.info?._id}`} replace>
+        <OpenInFullRoundedIcon style={{ ...styleIcon, fontSize: "22px" }} />
+      </Link>
     </div>
   );
 };

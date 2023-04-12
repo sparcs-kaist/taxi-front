@@ -133,6 +133,7 @@ const FullChatMessageForm = (props: FullChatMessageFormProps) => {
     textareaContRef.current.style.height = cacheHeight;
     setFormHeight(newHeight);
   };
+
   useEffect(() => {
     resizeEvent();
     window.addEventListener("resize", resizeEvent);
