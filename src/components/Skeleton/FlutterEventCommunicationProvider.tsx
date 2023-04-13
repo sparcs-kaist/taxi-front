@@ -44,14 +44,17 @@ const FlutterEventCommunicationProvider = () => {
     // Flutter에서 에러를 전달할 때, 호출됩니다.
     eventListeners.push({
       name: "createError",
-      listner: ({ title, message }: { title: string; message: string }) =>
-        setError({ title, message, record: null }),
+      listner: ({
+        detail: { title, message },
+      }: {
+        detail: { title: string; message: string };
+      }) => setError({ title, message, record: null }),
     });
 
     // Flutter에서 Alert 모달을 띄울 때, 호출됩니다.
     eventListeners.push({
       name: "createAlert",
-      listner: (text: string) => setAlert(text),
+      listner: ({ detail }: { detail: string }) => setAlert(detail),
     });
 
     eventListeners.forEach(({ name, listner }) =>
