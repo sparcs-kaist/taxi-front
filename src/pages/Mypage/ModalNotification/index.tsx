@@ -9,10 +9,12 @@ import Toggle from "components/Toggle";
 
 import Guide from "./Guide";
 
+import alertAtom from "atoms/alert";
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import notificationOptionsAtom from "atoms/notificationOptions";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
+import { sendTryNotificationEventToFlutter } from "tools/sendEventToFlutter";
 import theme from "tools/theme";
 
 import AlarmOffRoundedIcon from "@mui/icons-material/AlarmOffRounded";
@@ -56,6 +58,7 @@ const ModalNotification = ({
   const [notificationOptions, setNotificationOptions] = useRecoilState(
     notificationOptionsAtom
   );
+  const setAlert = useSetRecoilState(alertAtom);
   const isOnNotification =
     // notificationOptions?.advertisement ||
     // notificationOptions?.beforeDepart ||
@@ -85,6 +88,14 @@ const ModalNotification = ({
     (optionName: string) => async (value: boolean) => {
       if (isAxiosCalled.current) return;
       isAxiosCalled.current = true;
+
+      const isAllowedFromFlutter = await sendTryNotificationEventToFlutter();
+      if (!isAllowedFromFlutter) {
+        setAlert("디바이스 설정에서 Taxi앱 알림을 허용해주세요.");
+        isAxiosCalled.current = false;
+        return;
+      }
+
       await axios({
         url: "/notifications/editOptions",
         method: "post",
@@ -110,6 +121,14 @@ const ModalNotification = ({
     async (value: boolean) => {
       if (isAxiosCalled.current) return;
       isAxiosCalled.current = true;
+
+      const isAllowedFromFlutter = await sendTryNotificationEventToFlutter();
+      if (!isAllowedFromFlutter) {
+        setAlert("디바이스 설정에서 Taxi앱 알림을 허용해주세요.");
+        isAxiosCalled.current = false;
+        return;
+      }
+
       await axios({
         url: "/notifications/editOptions",
         method: "post",

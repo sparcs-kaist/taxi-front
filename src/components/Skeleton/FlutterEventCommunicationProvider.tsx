@@ -4,7 +4,9 @@ import { useAxios } from "hooks/useTaxiAPI";
 
 import alertAtom from "atoms/alert";
 import errorAtom from "atoms/error";
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import loginInfoDetailAtom, {
+  LoginInfoDetailType,
+} from "atoms/loginInfoDetail";
 import { useSetRecoilState } from "recoil";
 
 // global flag variable to check if the webview is in Flutter
@@ -73,22 +75,26 @@ export default FlutterEventCommunicationProvider;
 
 export const getIsWebViewInFlutter = () => isWebViewInFlutter;
 
-// 로그인 시 Flutter에 이벤트를 전달합니다
-export const sendAuthLoginEventToFlutter = () => {
+// 로그인 정보 변동 시 Flutter에 이벤트를 전달합니다
+export const sendAuthUpdateEventToFlutter = async (
+  loginInfo: LoginInfoDetailType
+) => {
   if (!isWebViewInFlutter) return;
-  window.flutter_inappwebview.callHandler("auth_login");
+  try {
+    await window.flutter_inappwebview.callHandler("auth_update", loginInfo);
+  } catch (e) {
+    console.error(e);
+  }
 };
 
 // 버튼 클릭으로 인한 로그아웃 시 Flutter에 이벤트 전달합니다
-export const sendAuthLogoutEventToFlutter = () => {
+export const sendAuthLogoutEventToFlutter = async () => {
   if (!isWebViewInFlutter) return;
-  window.flutter_inappwebview.callHandler("auth_logout");
-};
-
-// 세션에 의한 자동 로그아웃 시 Flutter에 이벤트를 전달합니다.
-export const sendAuthResetEventToFlutter = () => {
-  if (!isWebViewInFlutter) return;
-  window.flutter_inappwebview.callHandler("auth_reset");
+  try {
+    await window.flutter_inappwebview.callHandler("auth_logout");
+  } catch (e) {
+    console.error(e);
+  }
 };
 
 // 알림을 "on"으로 설정 시 Flutter에게 이벤트를 전달하고 앱의 알림 설정 여부를 반환받습니다.
@@ -97,6 +103,7 @@ export const sendTryNotificationEventToFlutter = async () => {
   try {
     return await window.flutter_inappwebview.callHandler("try_notification");
   } catch (e) {
+    console.error(e);
     return false;
   }
 };

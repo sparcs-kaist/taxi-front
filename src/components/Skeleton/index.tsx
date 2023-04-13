@@ -18,6 +18,8 @@ import notificationOptionsAtom from "atoms/notificationOptions";
 import taxiLocationAtom from "atoms/taxiLocation";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
+import { sendAuthUpdateEventToFlutter } from "tools/sendEventToFlutter";
+
 type ContainerProps = {
   children: ReactNode;
 };
@@ -88,6 +90,9 @@ const Skeleton = ({ children }: SkeletonProps) => {
         onSuccess: (data) => setMyRoom(data),
       });
     }
+
+    // Flutter에 변동된 loginInfo 전달
+    sendAuthUpdateEventToFlutter(loginInfoDetail);
   }, [userId]);
 
   useEffect(() => {
