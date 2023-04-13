@@ -1,11 +1,15 @@
 import {
   getIsWebViewInFlutter,
-  sendLoginEventToFlutter,
-  sendLogoutEventToFlutter,
+  sendAuthLoginEventToFlutter,
+  sendAuthLogoutEventToFlutter,
+  sendAuthResetEventToFlutter,
+  sendTryNotificationEventToFlutter,
 } from "components/Skeleton/FlutterEventCommunicationProvider";
 
 export {
   getIsWebViewInFlutter as isWebViewInFlutter,
-  sendLoginEventToFlutter,
-  sendLogoutEventToFlutter,
+  sendAuthLoginEventToFlutter,
+  sendAuthLogoutEventToFlutter,
+  sendAuthResetEventToFlutter,
+  sendTryNotificationEventToFlutter,
 };

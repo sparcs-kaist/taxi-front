@@ -2,6 +2,8 @@ import { useEffect } from "react";
 
 import { useAxios } from "hooks/useTaxiAPI";
 
+import alertAtom from "atoms/alert";
+import errorAtom from "atoms/error";
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import { useSetRecoilState } from "recoil";
 
@@ -11,6 +13,8 @@ let isWebViewInFlutter: boolean = false;
 const FlutterEventCommunicationProvider = () => {
   const axios = useAxios();
   const setLoginInfoDetail = useSetRecoilState(loginInfoDetailAtom);
+  const setAlert = useSetRecoilState(alertAtom);
+  const setError = useSetRecoilState(errorAtom);
 
   useEffect(() => {
     const eventListeners: Array<{
@@ -37,6 +41,19 @@ const FlutterEventCommunicationProvider = () => {
         }),
     });
 
+    // Flutter에서 에러를 전달할 때, 호출됩니다.
+    eventListeners.push({
+      name: "createError",
+      listner: ({ title, message }: { title: string; message: string }) =>
+        setError({ title, message, record: null }),
+    });
+
+    // Flutter에서 Alert 모달을 띄울 때, 호출됩니다.
+    eventListeners.push({
+      name: "createAlert",
+      listner: (text: string) => setAlert(text),
+    });
+
     eventListeners.forEach(({ name, listner }) =>
       window.addEventListener(name, listner)
     );
@@ -53,14 +70,30 @@ export default FlutterEventCommunicationProvider;
 
 export const getIsWebViewInFlutter = () => isWebViewInFlutter;
 
-// 로그인 시 Flutter에 로그인 이벤트 전달합니다
-export const sendLoginEventToFlutter = () => {
+// 로그인 시 Flutter에 이벤트를 전달합니다
+export const sendAuthLoginEventToFlutter = () => {
   if (!isWebViewInFlutter) return;
-  window.flutter_inappwebview.callHandler("login");
+  window.flutter_inappwebview.callHandler("auth_login");
 };
 
-// 로그아웃 시 Flutter에 로그아웃 이벤트 전달합니다
-export const sendLogoutEventToFlutter = () => {
+// 버튼 클릭으로 인한 로그아웃 시 Flutter에 이벤트 전달합니다
+export const sendAuthLogoutEventToFlutter = () => {
   if (!isWebViewInFlutter) return;
-  window.flutter_inappwebview.callHandler("logout");
+  window.flutter_inappwebview.callHandler("auth_logout");
+};
+
+// 세션에 의한 자동 로그아웃 시 Flutter에 이벤트를 전달합니다.
+export const sendAuthResetEventToFlutter = () => {
+  if (!isWebViewInFlutter) return;
+  window.flutter_inappwebview.callHandler("auth_reset");
+};
+
+// 알림을 "on"으로 설정 시 Flutter에게 이벤트를 전달하고 앱의 알림 설정 여부를 반환받습니다.
+export const sendTryNotificationEventToFlutter = async () => {
+  if (!isWebViewInFlutter) return true;
+  try {
+    return await window.flutter_inappwebview.callHandler("try_notification");
+  } catch (e) {
+    return false;
+  }
 };
