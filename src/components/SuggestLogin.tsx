@@ -4,7 +4,7 @@ import LinkLogin from "./Link/LinkLogin";
 import theme from "tools/theme";
 
 const SuggestLogin = () => (
-  <div>
+  <>
     <div
       css={{
         ...theme.font14,
@@ -23,7 +23,7 @@ const SuggestLogin = () => (
         로그인
       </Button>
     </LinkLogin>
-  </div>
+  </>
 );
 
 export default SuggestLogin;
