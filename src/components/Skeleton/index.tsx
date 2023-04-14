@@ -5,8 +5,8 @@ import { useAxios } from "hooks/useTaxiAPI";
 
 import HeaderBar from "components/HeaderBar";
 import Loading from "components/Loading";
+import { ModalTerms } from "components/ModalPopup";
 import Error from "pages/Error";
-import PopupPolicy from "pages/Mypage/PopupPolicy";
 
 import Footer from "./Footer";
 import Navigation from "./Navigation";
@@ -138,7 +138,7 @@ const Skeleton = ({ children }: SkeletonProps) => {
       <HeaderBar />
       {children}
       <Footer />
-      <PopupPolicy isOpen={!!userId && !isAgreeOnTermsOfService} />
+      <ModalTerms isOpen={!!userId && !isAgreeOnTermsOfService} />
     </Container>
   );
 };

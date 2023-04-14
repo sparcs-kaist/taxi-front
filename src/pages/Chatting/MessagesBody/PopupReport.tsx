@@ -4,7 +4,7 @@ import { useAxios } from "hooks/useTaxiAPI";
 
 import Button from "components/Button";
 import Modal from "components/Modal";
-import ProfileImg from "pages/Mypage/ProfileImg";
+import ProfileImg from "components/ProfileImg";
 
 import alertAtom from "atoms/alert";
 import { useSetRecoilState } from "recoil";

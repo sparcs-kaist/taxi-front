@@ -5,9 +5,8 @@ import { useAxios } from "hooks/useTaxiAPI";
 
 import DottedLine from "components/DottedLine";
 import Modal from "components/Modal";
+import NotificationGuide from "components/ModalPopup/NotificationGuide";
 import Toggle from "components/Toggle";
-
-import Guide from "./Guide";
 
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import notificationOptionsAtom from "atoms/notificationOptions";
@@ -186,7 +185,7 @@ const ModalNotification = ({
           </div>
         </>
       ) : (
-        <Guide />
+        <NotificationGuide />
       )}
     </Modal>
   );

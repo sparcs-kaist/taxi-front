@@ -9,8 +9,7 @@ import AccountSelector from "components/AccountSelector";
 import Button from "components/Button";
 import DottedLine from "components/DottedLine";
 import Modal from "components/Modal";
-
-import ProfileImg from "./ProfileImg";
+import ProfileImg from "components/ProfileImg";
 
 import alertAtom from "atoms/alert";
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
@@ -141,7 +140,7 @@ BtnProfImg.propTypes = {
   onClose: PropTypes.func,
 };
 
-const PopupModify = (props) => {
+const ModalModify = (props) => {
   const { t } = useTranslation("mypage");
   const axios = useAxios();
 
@@ -189,7 +188,7 @@ const PopupModify = (props) => {
         })
       );
     }
-    props.onClose();
+    props.onChangeIsOpen(false);
   };
 
   const styleName = {
@@ -228,7 +227,7 @@ const PopupModify = (props) => {
   return (
     <Modal
       isOpen={props.isOpen}
-      onChangeIsOpen={props.onClose}
+      onChangeIsOpen={props.onChangeIsOpen}
       padding="32px 10px 10px"
       onEnter={handleEditProfile}
     >
@@ -237,7 +236,10 @@ const PopupModify = (props) => {
         profileImgUrl={loginInfoDetail?.profileImgUrl}
         token={props.profToken}
       />
-      <BtnProfImg onClose={props.onClose} onUpdate={props.onUpdate} />
+      <BtnProfImg
+        onClose={() => props.onChangeIsOpen(false)}
+        onUpdate={props.onUpdate}
+      />
       <DottedLine direction="row" margin="0 2px" />
       <div style={{ rowGap: "10px", padding: "0px 20px" }}>
         <div style={{ ...styleTitle, marginTop: "24px" }}>
@@ -268,7 +270,7 @@ const PopupModify = (props) => {
           padding="10px 0 9px"
           radius={8}
           font={theme.font14}
-          onClick={props.onClose}
+          onClick={() => props.onChangeIsOpen(false)}
         >
           {t("page_modify.cancel")}
         </Button>
@@ -291,11 +293,11 @@ const PopupModify = (props) => {
     </Modal>
   );
 };
-PopupModify.propTypes = {
+ModalModify.propTypes = {
   profToken: PropTypes.any,
   isOpen: PropTypes.bool,
-  onClose: PropTypes.func,
+  onChangeIsOpen: PropTypes.func,
   onUpdate: PropTypes.func,
 };
 
-export default PopupModify;
+export default ModalModify;

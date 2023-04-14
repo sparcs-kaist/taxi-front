@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useHistory, useParams } from "react-router-dom";
 
-import PopupPrivacyPolicy from "pages/Mypage/PopupPrivacyPolicy";
+import { ModalPrivacyPolicy } from "components/ModalPopup";
 
 import InfoSection from "./InfoSection";
 import RoomSection from "./RoomSection";
@@ -14,9 +14,9 @@ const Home = () => {
 
   return (
     <>
-      <PopupPrivacyPolicy
+      <ModalPrivacyPolicy
         isOpen={roomId === "privacyPolicy"}
-        onClose={onCloseModal}
+        onChangeIsOpen={onCloseModal}
       />
       <InfoSection />
       <RoomSection roomId={roomId} />

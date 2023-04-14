@@ -77,7 +77,7 @@ Agree.propTypes = {
   onAgree: PropTypes.func,
 };
 
-const PopupPolicy = (props) => {
+const ModalTerms = (props) => {
   const { t } = useTranslation("mypage");
   const history = useHistory();
   const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
@@ -86,10 +86,10 @@ const PopupPolicy = (props) => {
   const onClose = async () => {
     if (didAgree === null) return;
     if (didAgree === true) {
-      props.onClose();
+      props.onChangeIsOpen(false);
       return;
     }
-    history.push("/logout");
+    history.push("/logout"); // fixme : 로그아웃 로직 통합시켜야 함
   };
 
   const styleTop = {
@@ -113,17 +113,21 @@ const PopupPolicy = (props) => {
       </div>
       <Terms />
       <div data-cy="agreement-bottom">
-        <Agree didAgree={didAgree} onClose={onClose} onAgree={props.onClose} />
+        <Agree
+          didAgree={didAgree}
+          onClose={onClose}
+          onAgree={() => props.onChangeIsOpen(false)}
+        />
       </div>
     </Modal>
   );
 };
-PopupPolicy.propTypes = {
+ModalTerms.propTypes = {
   isOpen: PropTypes.bool,
-  onClose: PropTypes.func,
+  onChangeIsOpen: PropTypes.func,
 };
-PopupPolicy.defaultProps = {
-  onClose: () => {},
+ModalTerms.defaultProps = {
+  onChangeIsOpen: () => {},
 };
 
-export default PopupPolicy;
+export default ModalTerms;

@@ -4,18 +4,20 @@ import { useTranslation } from "react-i18next";
 import useDateToken from "hooks/useDateToken";
 
 import LinkLogout from "components/Link/LinkLogout";
+import {
+  ModalCredit,
+  ModalModify,
+  ModalNotification,
+  ModalPrivacyPolicy,
+  ModalReport,
+  ModalTerms,
+} from "components/ModalPopup";
+import ProfileImg from "components/ProfileImg";
 import SuggestLogin from "components/SuggestLogin";
 import Title from "components/Title";
 import WhiteContainer from "components/WhiteContainer";
 
 import Menu from "./Menu";
-import ModalNotification from "./ModalNotification";
-import PopupMembers from "./PopupMembers";
-import PopupModify from "./PopupModify";
-import PopupPolicy from "./PopupPolicy";
-import PopupPrivacyPolicy from "./PopupPrivacyPolicy";
-import PopupReport from "./PopupReport";
-import ProfileImg from "./ProfileImg";
 
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import notificationOptionsAtom from "atoms/notificationOptions";
@@ -160,24 +162,18 @@ const Mypage = () => {
               </Menu>
             </div>
           </WhiteContainer>
-          <PopupModify
+          <ModalModify
             isOpen={isOpenProfileModify}
-            onClose={() => setIsOpenProfileModify(false)}
+            onChangeIsOpen={setIsOpenProfileModify}
             onUpdate={refreshProfImgToken}
             profToken={profImgToken}
           />
-          <PopupReport
-            isOpen={isOpenReport}
-            onClose={() => setIsOpenReport(false)}
-          />
+          <ModalReport isOpen={isOpenReport} onChangeIsOpen={setIsOpenReport} />
           <ModalNotification
             isOpen={isOpenNotification}
             onChangeIsOpen={setIsOpenNotification}
           />
-          <PopupPolicy
-            isOpen={isOpenPolicy}
-            onClose={() => setIsOpenPolicy(false)}
-          />
+          <ModalTerms isOpen={isOpenPolicy} onChangeIsOpen={setIsOpenPolicy} />
         </>
       ) : (
         <WhiteContainer marginAuto>
@@ -212,14 +208,11 @@ const Mypage = () => {
           )}
         </div>
       </WhiteContainer>
-      <PopupPrivacyPolicy
+      <ModalPrivacyPolicy
         isOpen={isOpenPrivacyPolicy}
-        onClose={() => setIsOpenPrivacyPolicy(false)}
+        onChangeIsOpen={setIsOpenPrivacyPolicy}
       />
-      <PopupMembers
-        isOpen={isOpenMembers}
-        onClose={() => setOpenIsMembers(false)}
-      />
+      <ModalCredit isOpen={isOpenMembers} onChangeIsOpen={setOpenIsMembers} />
     </>
   );
 };

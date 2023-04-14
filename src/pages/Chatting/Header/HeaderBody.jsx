@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useMemo, useState } from "react";
 
-import ProfileImg from "pages/Mypage/ProfileImg";
+import ProfileImg from "components/ProfileImg";
 
 import PopupCancel from "./Popup/PopupCancel";
 import PopupPay from "./Popup/PopupPay";
