@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 
@@ -12,20 +12,22 @@ import {
   OptionPlace,
   OptionTime,
 } from "components/ModalRoomOptions";
+import SuggestLogin from "components/SuggestLogin";
 import RLayout from "components/RLayout";
 import Title from "components/Title";
+import WhiteContainer from "components/WhiteContainer";
 import { MAX_PARTICIPATION } from "pages/Myroom";
 
 import FullParticipation from "./FullParticipation";
 
 import alertAtom from "atoms/alert";
+import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import myRoomAtom from "atoms/myRoom";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 import { date2str, getToday, getToday10 } from "tools/moment";
+import { randomRoomNameGenerator } from "tools/random";
 import theme from "tools/theme";
-
-import randomRoomName from "static/randomRoomName";
 
 const AddRoom = () => {
   const axios = useAxios();
@@ -48,8 +50,10 @@ const AddRoom = () => {
   const [valueMaxPeople, setMaxPeople] = useState(4);
   const [valueTime, setTime] = useState([today10.hour(), today10.minute()]);
   const [calculatedTime, setCalculatedTime] = useState<Date | null>(null);
+  const randomRoomName = useMemo(randomRoomNameGenerator, []);
   const setAlert = useSetRecoilState(alertAtom);
   const [myRoom, setMyRoom] = useRecoilState(myRoomAtom);
+  const isLogin = !!useRecoilValue(loginInfoDetailAtom)?.id;
 
   useEffect(() => {
     const expirationDate = new Date();
@@ -125,37 +129,45 @@ const AddRoom = () => {
         방 개설하기
       </Title>
       <RLayout.R1>
-        <OptionPlace value={valuePlace} handler={setPlace} />
-        <OptionDate value={valueDate} handler={setDate} />
-        <OptionName
-          value={valueName}
-          handler={setName}
-          placeholder={randomRoomName}
-        />
-        <OptionTime value={valueTime} handler={setTime} page="add" />
-        <OptionMaxPeople value={valueMaxPeople} handler={setMaxPeople} />
-        <Button
-          type="purple"
-          disabled={validatedMsg ? true : false}
-          padding="14px 0 13px"
-          radius={12}
-          font={theme.font16_bold}
-          onClick={onClickAdd}
-          className="scroll-to-button"
-        >
-          {validatedMsg
-            ? validatedMsg
-            : `${date2str(
-                new Date(
-                  valueDate[0]!,
-                  valueDate[1]! - 1,
-                  valueDate[2]!,
-                  valueTime[0],
-                  valueTime[1]
-                ),
-                "MMM Do [(]dd[)] a h[시] m[분]"
-              )} 방 개설하기`}
-        </Button>
+        {isLogin ? (
+          <>
+            <OptionPlace value={valuePlace} handler={setPlace} />
+            <OptionDate value={valueDate} handler={setDate} />
+            <OptionName
+              value={valueName}
+              handler={setName}
+              placeholder={randomRoomName}
+            />
+            <OptionTime value={valueTime} handler={setTime} page="add" />
+            <OptionMaxPeople value={valueMaxPeople} handler={setMaxPeople} />
+            <Button
+              type="purple"
+              disabled={validatedMsg ? true : false}
+              padding="14px 0 13px"
+              radius={12}
+              font={theme.font16_bold}
+              onClick={onClickAdd}
+              className="scroll-to-button"
+            >
+              {validatedMsg
+                ? validatedMsg
+                : `${date2str(
+                    new Date(
+                      valueDate[0]!,
+                      valueDate[1]! - 1,
+                      valueDate[2]!,
+                      valueTime[0],
+                      valueTime[1]
+                    ),
+                    "MMM Do [(]dd[)] a h[시] m[분]"
+                  )} 방 개설하기`}
+            </Button>
+          </>
+        ) : (
+          <WhiteContainer>
+            <SuggestLogin />
+          </WhiteContainer>
+        )}
       </RLayout.R1>
     </div>
   ) : (

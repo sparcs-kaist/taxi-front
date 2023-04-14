@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 
 import Button from "components/Button";
+import LinkLogin from "components/Link/LinkLogin";
 import RLayout from "components/RLayout";
 import Room from "components/Room";
 
@@ -10,6 +11,7 @@ import myRoomAtom from "atoms/myRoom";
 import { useRecoilValue } from "recoil";
 
 import moment, { getToday } from "tools/moment";
+import { randomTaxiSloganGenerator } from "tools/random";
 import theme from "tools/theme";
 
 import BackgroundImage from "static/assets/BackgroundImage.jpg";
@@ -18,6 +20,11 @@ import BackgroundImageMobile from "static/assets/BackgroundImageMobile.webp";
 import { ReactComponent as TaxiLogoWhite } from "static/assets/TaxiLogoWhite.svg";
 
 const InfoSection = () => {
+  const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
+  const isLogin = !!loginInfoDetail?.id;
+  const myRoom = useRecoilValue(myRoomAtom);
+  const randomTaxiSlogan = useMemo(randomTaxiSloganGenerator, []);
+
   const styleContainer: CSS = {
     position: "relative",
     height: "fit-content",
@@ -36,14 +43,13 @@ const InfoSection = () => {
     inset: "0px",
     objectFit: "cover",
   };
-  const styleName: CSS = {
+  const styleTitle = {
     ...theme.font28,
+    wordBreak: "break-all" as any,
     color: theme.white,
-    margin: "32px 0 12px",
+    margin: "0 0 12px",
   };
-
-  const loginInfo = useRecoilValue(loginInfoDetailAtom);
-  const myRoom = useRecoilValue(myRoomAtom);
+  const styleSubTitle = { ...theme.font14, color: theme.white };
 
   const { message, room } = useMemo(() => {
     const sortedMyRoom =
@@ -97,8 +103,13 @@ const InfoSection = () => {
       <RLayout.R1>
         <div style={{ padding: "25px 0 32px" }}>
           <TaxiLogoWhite />
-          <div style={styleName}>안녕하세요, {loginInfo?.nickname}님!</div>
-          <div style={{ ...theme.font14, color: theme.white }}>{message}</div>
+          <div css={{ height: "32px" }} />
+          <div css={styleTitle}>
+            {isLogin
+              ? `안녕하세요, ${loginInfoDetail?.nickname}님!`
+              : "카이스트 구성원 간 택시 동승자 모집 서비스, Taxi 입니다!"}
+          </div>
+          <div css={styleSubTitle}>{isLogin ? message : randomTaxiSlogan}</div>
           {room ? (
             <Link to={`/myroom/${room._id}`} style={{ textDecoration: "none" }}>
               <Room data={room} marginTop="24px" />
@@ -107,16 +118,29 @@ const InfoSection = () => {
             <div
               style={{ marginTop: "32px", display: "flex", columnGap: "10px" }}
             >
-              <Link to="/addroom" style={{ textDecoration: "none" }}>
-                <Button
-                  type="purple"
-                  padding="12px 20px 11px"
-                  radius={8}
-                  font={theme.font16_bold}
-                >
-                  방 개설하기
-                </Button>
-              </Link>
+              {isLogin ? (
+                <Link to="/addroom" style={{ textDecoration: "none" }}>
+                  <Button
+                    type="purple"
+                    padding="12px 20px 11px"
+                    radius={8}
+                    font={theme.font16_bold}
+                  >
+                    방 개설하기
+                  </Button>
+                </Link>
+              ) : (
+                <LinkLogin>
+                  <Button
+                    type="purple"
+                    padding="12px 20px 11px"
+                    radius={8}
+                    font={theme.font16_bold}
+                  >
+                    로그인
+                  </Button>
+                </LinkLogin>
+              )}
               <Link to="/search" style={{ textDecoration: "none" }}>
                 <Button
                   type="white"

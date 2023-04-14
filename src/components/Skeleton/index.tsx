@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useState } from "react";
-import { Redirect, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import { useAxios } from "hooks/useTaxiAPI";
 
@@ -50,15 +50,18 @@ const Skeleton = ({ children }: SkeletonProps) => {
   const [loginInfoDetail, setLoginInfoDetail] =
     useRecoilState(loginInfoDetailAtom);
   const error = useRecoilValue(errorAtom);
-  const { id: userId, deviceToken } = loginInfoDetail || {};
+  const {
+    id: userId,
+    agreeOnTermsOfService: isAgreeOnTermsOfService,
+    deviceToken,
+  } = loginInfoDetail || {};
 
   const setTaxiLocation = useSetRecoilState(taxiLocationAtom);
   const setMyRoom = useSetRecoilState(myRoomAtom);
   const setNotificationOptions = useSetRecoilState(notificationOptionsAtom);
 
   const location = useLocation();
-  const { pathname, search } = location;
-  const currentPath = pathname + search;
+  const { pathname } = location;
 
   useEffect(() => {
     // userId 초기화
@@ -117,15 +120,11 @@ const Skeleton = ({ children }: SkeletonProps) => {
       </Container>
     );
   }
-  if (!userId && !pathname.startsWith("/login")) {
-    return (
-      <Redirect to={`/login?redirect=${encodeURIComponent(currentPath)}`} />
-    );
-  }
-  if (pathname.startsWith("/login") || pathname.startsWith("/logout")) {
-    return <Container>{children}</Container>;
-  }
-  if (pathname.startsWith("/chatting")) {
+  if (
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/logout") ||
+    pathname.startsWith("/chatting")
+  ) {
     return (
       <Container>
         <HeaderBar />
@@ -139,7 +138,7 @@ const Skeleton = ({ children }: SkeletonProps) => {
       <HeaderBar />
       {children}
       <Footer />
-      <PopupPolicy isOpen={!loginInfoDetail?.agreeOnTermsOfService} />
+      <PopupPolicy isOpen={!!userId && !isAgreeOnTermsOfService} />
     </Container>
   );
 };
