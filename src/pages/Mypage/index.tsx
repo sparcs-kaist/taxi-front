@@ -1,9 +1,10 @@
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useHistory } from "react-router";
 
 import useDateToken from "hooks/useDateToken";
 
+import LinkLogout from "components/Link/LinkLogout";
+import SuggestLogin from "components/SuggestLogin";
 import Title from "components/Title";
 import WhiteContainer from "components/WhiteContainer";
 
@@ -23,7 +24,6 @@ import { useRecoilValue } from "recoil";
 import theme from "tools/theme";
 
 import { nodeEnv } from "loadenv";
-import SuggestLogin from "components/SuggestLogin";
 
 const Mypage = () => {
   const { t, i18n } = useTranslation("mypage");
@@ -43,7 +43,6 @@ const Mypage = () => {
   const [isOpenPolicy, setIsOpenPolicy] = useState(false);
   const [isOpenPrivacyPolicy, setIsOpenPrivacyPolicy] = useState(false);
   const [isOpenMembers, setOpenIsMembers] = useState(false);
-  const history = useHistory();
 
   const onClickProfileModify = useCallback(
     () => setIsOpenProfileModify(true),
@@ -73,7 +72,6 @@ const Mypage = () => {
     () => setOpenIsMembers(true),
     [setOpenIsMembers]
   );
-  const onClickLogout = useCallback(() => history.push("/logout"), [history]);
 
   const styleProfImg = {
     width: "50px",
@@ -192,9 +190,9 @@ const Mypage = () => {
             {t("credit")}
           </Menu>
           {userId && (
-            <Menu icon="logout" onClick={onClickLogout}>
-              {t("logout")}
-            </Menu>
+            <LinkLogout>
+              <Menu icon="logout">{t("logout")}</Menu>
+            </LinkLogout>
           )}
         </div>
       </WhiteContainer>

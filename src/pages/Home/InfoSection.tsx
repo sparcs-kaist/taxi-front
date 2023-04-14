@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 
 import Button from "components/Button";
-import LoginButton from "components/LoginButton";
+import LinkLogin from "components/Link/LinkLogin";
 import RLayout from "components/RLayout";
 import Room from "components/Room";
 
@@ -118,18 +118,29 @@ const InfoSection = () => {
             <div
               style={{ marginTop: "32px", display: "flex", columnGap: "10px" }}
             >
-              <Link to="/addroom" style={{ textDecoration: "none" }}>
-                <LoginButton
-                  type="purple"
-                  padding="12px 20px 11px"
-                  radius={8}
-                  font={theme.font16_bold}
-                  isLogin={isLogin}
-                  redirect="/"
-                >
-                  {isLogin ? "방 개설하기" : "로그인하기"}
-                </LoginButton>
-              </Link>
+              {isLogin ? (
+                <Link to="/addroom" style={{ textDecoration: "none" }}>
+                  <Button
+                    type="purple"
+                    padding="12px 20px 11px"
+                    radius={8}
+                    font={theme.font16_bold}
+                  >
+                    방 개설하기
+                  </Button>
+                </Link>
+              ) : (
+                <LinkLogin>
+                  <Button
+                    type="purple"
+                    padding="12px 20px 11px"
+                    radius={8}
+                    font={theme.font16_bold}
+                  >
+                    로그인
+                  </Button>
+                </LinkLogin>
+              )}
               <Link to="/search" style={{ textDecoration: "none" }}>
                 <Button
                   type="white"

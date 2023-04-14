@@ -5,8 +5,9 @@ import { useHistory } from "react-router-dom";
 
 import { useAxios } from "hooks/useTaxiAPI";
 
+import Button from "components/Button";
 import DottedLine from "components/DottedLine";
-import LoginButton from "components/LoginButton";
+import LinkLogin from "components/Link/LinkLogin";
 import MiniCircle from "components/MiniCircle";
 import Modal from "components/Modal";
 import { MAX_PARTICIPATION } from "pages/Myroom";
@@ -249,28 +250,36 @@ const RoomSelectionModal = (props) => {
         enterTouchDelay={0}
         leaveTouchDelay={2000}
       >
-        <div>
-          <LoginButton
+        {isLogin ? (
+          <Button
             type="purple"
             disabled={isRoomFull || disableJoinBtn || fullParticipation}
             padding="10px 0 9px"
             radius={8}
             font={theme.font14_bold}
             onClick={requestJoin}
-            isLogin={!!isLogin}
-            redirect={`/home/${roomInfo?._id}`}
           >
-            {!isLogin
-              ? "로그인해서 참여하기"
-              : disableJoinBtn
+            {disableJoinBtn
               ? "이미 참여 중입니다"
               : isRoomFull
               ? "인원이 0명인 방은 참여할 수 없습니다"
               : fullParticipation
               ? "현재 5개의 방에 참여 중입니다"
               : "참여 신청"}
-          </LoginButton>
-        </div>
+          </Button>
+        ) : (
+          /* redirect fixme */
+          <LinkLogin redirect={`/home/${roomInfo?._id}`}>
+            <Button
+              type="purple"
+              padding="10px 0 9px"
+              radius={8}
+              font={theme.font14_bold}
+            >
+              로그인 후 참여 신청
+            </Button>
+          </LinkLogin>
+        )}
       </Tooltip>
     </Modal>
   );
