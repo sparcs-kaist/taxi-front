@@ -268,7 +268,6 @@ const RoomSelectionModal = (props) => {
               : "참여 신청"}
           </Button>
         ) : (
-          /* redirect fixme */
           <LinkLogin redirect={`/home/${roomInfo?._id}`}>
             <Button
               type="purple"
