@@ -21,7 +21,9 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
   const history = useHistory();
   const today = getToday().subtract(1, "day");
   const [allRoomsToken, fetchAllRooms] = useDateToken();
-  const [, allRooms] = useQuery.get("/rooms/search", {}, [allRoomsToken]);
+  const [, allRooms] = useQuery.get("/rooms/search?isHome=true", {}, [
+    allRoomsToken,
+  ]);
   const [rooms, setRooms] = useState<Nullable<Array<any>>>(null);
   const [selectedDate, setSelectedDate] = useState<[number, number, number]>([
     today.year(),

@@ -35,8 +35,8 @@ const Myroom = () => {
 
   return !isLogin ? (
     <>
-      <Title icon="add" header marginAuto>
-        참여 중인 방
+      <Title icon="myroom" header marginAuto>
+        내 방 보기
       </Title>
       <WhiteContainer marginAuto>
         <SuggestLogin />

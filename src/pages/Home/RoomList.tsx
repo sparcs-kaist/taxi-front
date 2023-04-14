@@ -1,9 +1,10 @@
+import { Link } from "react-router-dom";
+
 import usePageFromSearchParams from "hooks/usePageFromSearchParams";
 
 import Empty from "components/Empty";
 import Pagination, { PAGE_MAX_ITEMS } from "components/Pagination";
 import Room from "components/Room";
-import { useHistory } from "react-router-dom";
 
 type RoomListProps = {
   rooms: Nullable<Array<any>>;
@@ -12,7 +13,6 @@ type RoomListProps = {
 const RoomList = (props: RoomListProps) => {
   const totalPages = Math.ceil((props.rooms ?? []).length / PAGE_MAX_ITEMS);
   const currentPage = usePageFromSearchParams(totalPages);
-  const history = useHistory();
 
   return (
     <>
@@ -24,12 +24,14 @@ const RoomList = (props: RoomListProps) => {
               PAGE_MAX_ITEMS * currentPage
             )
             .map((room) => (
-              <Room
+              <Link
                 key={room._id}
-                data={room}
-                marginBottom="15px"
-                onClick={() => history.replace(`/home/${room._id}`)}
-              />
+                to={`/home/${room._id}`}
+                replace
+                style={{ textDecoration: "none" }}
+              >
+                <Room data={room} marginBottom="15px" />
+              </Link>
             ))}
           {props.rooms.length > PAGE_MAX_ITEMS && (
             <Pagination

@@ -160,9 +160,23 @@ const Mypage = () => {
               </Menu>
             </div>
           </WhiteContainer>
+          <PopupModify
+            isOpen={isOpenProfileModify}
+            onClose={() => setIsOpenProfileModify(false)}
+            onUpdate={refreshProfImgToken}
+            profToken={profImgToken}
+          />
           <PopupReport
             isOpen={isOpenReport}
             onClose={() => setIsOpenReport(false)}
+          />
+          <ModalNotification
+            isOpen={isOpenNotification}
+            onChangeIsOpen={setIsOpenNotification}
+          />
+          <PopupPolicy
+            isOpen={isOpenPolicy}
+            onClose={() => setIsOpenPolicy(false)}
           />
         </>
       ) : (
@@ -180,9 +194,11 @@ const Mypage = () => {
           <a className="popup-channeltalk">
             <Menu icon="ask">{t("contact")}</Menu>
           </a>
-          <Menu icon="policy" onClick={onClickPolicy}>
-            {t("terms")}
-          </Menu>
+          {userId && (
+            <Menu icon="policy" onClick={onClickPolicy}>
+              {t("terms")}
+            </Menu>
+          )}
           <Menu icon="policy" onClick={onClickPrivacyPolicy}>
             {t("privacy_policy")}
           </Menu>
@@ -196,20 +212,6 @@ const Mypage = () => {
           )}
         </div>
       </WhiteContainer>
-      <PopupModify
-        isOpen={isOpenProfileModify}
-        onClose={() => setIsOpenProfileModify(false)}
-        onUpdate={refreshProfImgToken}
-        profToken={profImgToken}
-      />
-      <ModalNotification
-        isOpen={isOpenNotification}
-        onChangeIsOpen={setIsOpenNotification}
-      />
-      <PopupPolicy
-        isOpen={isOpenPolicy}
-        onClose={() => setIsOpenPolicy(false)}
-      />
       <PopupPrivacyPolicy
         isOpen={isOpenPrivacyPolicy}
         onClose={() => setIsOpenPrivacyPolicy(false)}
