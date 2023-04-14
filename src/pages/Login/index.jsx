@@ -2,7 +2,6 @@ import { useCallback, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 
 import Button from "components/Button";
-import HeaderBar from "components/HeaderBar";
 
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import { useRecoilValue } from "recoil";

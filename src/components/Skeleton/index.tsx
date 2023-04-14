@@ -51,8 +51,11 @@ const Skeleton = ({ children }: SkeletonProps) => {
   const [loginInfoDetail, setLoginInfoDetail] =
     useRecoilState(loginInfoDetailAtom);
   const error = useRecoilValue(errorAtom);
-  const { id: userId, agreeOnTermsOfService: isAgreeOnTermsOfService, deviceToken } =
-    loginInfoDetail || {};
+  const {
+    id: userId,
+    agreeOnTermsOfService: isAgreeOnTermsOfService,
+    deviceToken,
+  } = loginInfoDetail || {};
 
   const setTaxiLocation = useSetRecoilState(taxiLocationAtom);
   const setMyRoom = useSetRecoilState(myRoomAtom);
