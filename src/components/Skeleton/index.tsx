@@ -119,7 +119,11 @@ const Skeleton = ({ children }: SkeletonProps) => {
       </Container>
     );
   }
-  if (pathname.startsWith("/chatting")) {
+  if (
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/logout") ||
+    pathname.startsWith("/chatting")
+  ) {
     return (
       <Container>
         <HeaderBar />

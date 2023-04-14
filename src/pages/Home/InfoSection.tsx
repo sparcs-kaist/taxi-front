@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 
 import Button from "components/Button";
+import LoginButton from "components/LoginButton";
 import RLayout from "components/RLayout";
 import Room from "components/Room";
 
@@ -10,15 +11,20 @@ import myRoomAtom from "atoms/myRoom";
 import { useRecoilValue } from "recoil";
 
 import moment, { getToday } from "tools/moment";
+import { randomTaxiSloganGenerator } from "tools/random";
 import theme from "tools/theme";
 
 import BackgroundImage from "static/assets/BackgroundImage.jpg";
 import BackgroundImageDesktop from "static/assets/BackgroundImageDesktop.webp";
 import BackgroundImageMobile from "static/assets/BackgroundImageMobile.webp";
 import { ReactComponent as TaxiLogoWhite } from "static/assets/TaxiLogoWhite.svg";
-import LoginButton from "components/LoginButton";
 
 const InfoSection = () => {
+  const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
+  const isLogin = !!loginInfoDetail?.id;
+  const myRoom = useRecoilValue(myRoomAtom);
+  const randomTaxiSlogan = useMemo(randomTaxiSloganGenerator, []);
+
   const styleContainer: CSS = {
     position: "relative",
     height: "fit-content",
@@ -37,15 +43,13 @@ const InfoSection = () => {
     inset: "0px",
     objectFit: "cover",
   };
-  const styleName: CSS = {
+  const styleTitle = {
     ...theme.font28,
+    wordBreak: "break-all" as any,
     color: theme.white,
-    margin: "32px 0 12px",
+    margin: "0 0 12px",
   };
-
-  const loginInfo = useRecoilValue(loginInfoDetailAtom);
-  const isLogin = !!loginInfo?.id;
-  const myRoom = useRecoilValue(myRoomAtom);
+  const styleSubTitle = { ...theme.font14, color: theme.white };
 
   const { message, room } = useMemo(() => {
     const sortedMyRoom =
@@ -99,12 +103,13 @@ const InfoSection = () => {
       <RLayout.R1>
         <div style={{ padding: "25px 0 32px" }}>
           <TaxiLogoWhite />
-          <div style={styleName}>
-            {loginInfo?.nickname
-              ? `안녕하세요, ${loginInfo?.nickname}님!`
-              : "안녕하세요!"}
+          <div css={{ height: "32px" }} />
+          <div css={styleTitle}>
+            {isLogin
+              ? `안녕하세요, ${loginInfoDetail?.nickname}님!`
+              : "카이스트 구성원 간 택시 동승자 모집 서비스, Taxi 입니다!"}
           </div>
-          <div style={{ ...theme.font14, color: theme.white }}>{message}</div>
+          <div css={styleSubTitle}>{isLogin ? message : randomTaxiSlogan}</div>
           {room ? (
             <Link to={`/myroom/${room._id}`} style={{ textDecoration: "none" }}>
               <Room data={room} marginTop="24px" />

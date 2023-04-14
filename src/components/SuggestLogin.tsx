@@ -1,6 +1,8 @@
-import LoginButton from "./LoginButton";
-import theme from "tools/theme";
 import { useLocation } from "react-router-dom";
+
+import LoginButton from "./LoginButton";
+
+import theme from "tools/theme";
 
 const SuggestLogin = () => {
   const { pathname, search } = useLocation();
@@ -9,8 +11,7 @@ const SuggestLogin = () => {
   return (
     <div>
       <div
-        style={{
-          color: theme.purple,
+        css={{
           ...theme.font14,
           marginBottom: 12,
         }}

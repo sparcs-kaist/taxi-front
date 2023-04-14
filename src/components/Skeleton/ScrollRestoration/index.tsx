@@ -30,6 +30,16 @@ const ScrollRestoration = () => {
           location.pathname,
           prevLocation.current.pathname,
           "/search"
+        ) &&
+        !isBothStartsWith(
+          location.pathname,
+          prevLocation.current.pathname,
+          "/home"
+        ) &&
+        !isBothStartsWith(
+          location.pathname,
+          prevLocation.current.pathname,
+          "/addroom"
         )
       ) {
         if (history.action === "POP") {

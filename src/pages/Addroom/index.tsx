@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 
@@ -13,22 +13,21 @@ import {
   OptionPlace,
   OptionTime,
 } from "components/RoomOptions";
+import SuggestLogin from "components/SuggestLogin";
 import Title from "components/Title";
+import WhiteContainer from "components/WhiteContainer";
 import { MAX_PARTICIPATION } from "pages/Myroom";
 
 import FullParticipation from "./FullParticipation";
 
 import alertAtom from "atoms/alert";
+import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import myRoomAtom from "atoms/myRoom";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 import { date2str, getToday, getToday10 } from "tools/moment";
+import { randomRoomNameGenerator } from "tools/random";
 import theme from "tools/theme";
-
-import randomRoomName from "static/randomRoomName";
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
-import SuggestLogin from "components/SuggestLogin";
-import WhiteContainer from "components/WhiteContainer";
 
 const AddRoom = () => {
   const axios = useAxios();
@@ -51,6 +50,7 @@ const AddRoom = () => {
   const [valueMaxPeople, setMaxPeople] = useState(4);
   const [valueTime, setTime] = useState([today10.hour(), today10.minute()]);
   const [calculatedTime, setCalculatedTime] = useState<Date | null>(null);
+  const randomRoomName = useMemo(randomRoomNameGenerator, []);
   const setAlert = useSetRecoilState(alertAtom);
   const [myRoom, setMyRoom] = useRecoilState(myRoomAtom);
   const isLogin = !!useRecoilValue(loginInfoDetailAtom)?.id;
