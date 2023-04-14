@@ -8,14 +8,14 @@ import { useR2state } from "hooks/useReactiveState";
 import { useAxios } from "hooks/useTaxiAPI";
 
 import Button from "components/Button";
-import RLayout from "components/RLayout";
 import {
   OptionDate,
   OptionMaxPeople,
   OptionName,
   OptionPlace,
   OptionTime,
-} from "components/RoomOptions";
+} from "components/ModalRoomOptions";
+import RLayout from "components/RLayout";
 import Title from "components/Title";
 import Tooltip from "components/Tooltip";
 

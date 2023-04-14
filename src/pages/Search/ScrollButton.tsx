@@ -9,7 +9,7 @@ const ScrollButton = () => {
         position: "fixed",
         bottom: 72,
         right: 16,
-        zIndex: theme.zIndex_modal,
+        zIndex: theme.zIndex_nav,
         height: 48,
         width: 48,
         borderRadius: "50%",

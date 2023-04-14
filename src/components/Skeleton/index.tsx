@@ -5,13 +5,13 @@ import { useLocation } from "react-router-dom";
 import { useAxios } from "hooks/useTaxiAPI";
 
 import HeaderBar from "components/HeaderBar";
+import Loading from "components/Loading";
 import Error from "pages/Error";
 import PopupPolicy from "pages/Mypage/PopupPolicy";
 
 import Footer from "./Footer";
 import Navigation from "./Navigation";
 
-import deviceTokenAtom from "atoms/deviceToken";
 import errorAtom from "atoms/error";
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import myRoomAtom from "atoms/myRoom";
@@ -50,9 +50,8 @@ const Skeleton = ({ children }: SkeletonProps) => {
 
   const [loginInfoDetail, setLoginInfoDetail] =
     useRecoilState(loginInfoDetailAtom);
-  const deviceToken = useRecoilValue(deviceTokenAtom);
   const error = useRecoilValue(errorAtom);
-  const { id: userId, agreeOnTermsOfService: isAgreeOnTermsOfService } =
+  const { id: userId, agreeOnTermsOfService: isAgreeOnTermsOfService, deviceToken } =
     loginInfoDetail || {};
 
   const setTaxiLocation = useSetRecoilState(taxiLocationAtom);
@@ -65,7 +64,7 @@ const Skeleton = ({ children }: SkeletonProps) => {
   useEffect(() => {
     // userId 초기화
     axios({
-      url: "/logininfo/detail",
+      url: "/logininfo",
       method: "get",
       onSuccess: (data) => {
         setLoginInfoDetail(data);
@@ -98,7 +97,6 @@ const Skeleton = ({ children }: SkeletonProps) => {
       axios({
         url: "/notifications/options",
         method: "get",
-        params: { deviceToken },
         onSuccess: (data) => setNotificationOptions(data),
       });
     }
@@ -116,6 +114,7 @@ const Skeleton = ({ children }: SkeletonProps) => {
     return (
       <Container>
         <HeaderBar />
+        <Loading center />
       </Container>
     );
   }

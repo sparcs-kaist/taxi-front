@@ -12,7 +12,7 @@ const ImageFullscreen = (props) => {
     width: "100vw",
     height: "100vh",
     backgroundColor: theme.black_40,
-    zIndex: theme.zIndex_fullimage,
+    zIndex: theme.zIndex_background,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

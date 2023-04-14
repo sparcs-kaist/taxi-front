@@ -9,9 +9,10 @@ import useDateToken from "hooks/useDateToken";
 import { useR2state } from "hooks/useReactiveState";
 import { useAxios, useQuery } from "hooks/useTaxiAPI";
 
-import Header from "./Header/Header";
-import MessageForm from "./MessageForm/MessageForm";
-import MessagesBody from "./MessagesBody/MessagesBody";
+import Container from "./Container";
+import Header from "./Header";
+import MessageForm from "./MessageForm";
+import MessagesBody from "./MessagesBody";
 
 import loginInfoDetailAtom from "atoms/loginInfoDetail";
 import { useRecoilValue } from "recoil";
@@ -32,14 +33,13 @@ const Chatting = (props) => {
 
   const [chats, setChats] = useStateWithCallbackLazy([]);
   const [showNewMessage, setShowNewMessage] = useState(false);
-  const [messageFormHeight, setMessageFormHeight] =
-    useStateWithCallbackLazy("48px");
+  const [, setMessageFormHeight] = useStateWithCallbackLazy("48px");
 
   const socket = useRef(undefined);
   const reactiveState = useR2state();
   const prevReactiveState = useRef(reactiveState);
+  const { oid: userOid } = useRecoilValue(loginInfoDetailAtom) || {};
   const [headerInfoToken, fetchHeaderInfo] = useDateToken();
-  const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
   const [, headerInfo] = useQuery.get(`/rooms/info?id=${props.roomId}`, {}, [
     headerInfoToken,
   ]);
@@ -132,7 +132,7 @@ const Chatting = (props) => {
 
   // socket setting
   useEffect(() => {
-    if (headerInfo && userInfoDetail && roomIdCache.current !== props.roomId) {
+    if (headerInfo && userOid && roomIdCache.current !== props.roomId) {
       roomIdCache.current = props.roomId;
 
       socket.current?.disconnect();
@@ -150,11 +150,11 @@ const Chatting = (props) => {
 
       // when receive chat
       socket.current.on("chats-receive", (data) => {
-        if (data.chat.authorId === userInfoDetail.oid) {
+        if (data.chat.authorId === userOid) {
           sendingMessage.current = null;
         }
         const callback =
-          data.chat.authorId === userInfoDetail.oid || isBottomOnScroll()
+          data.chat.authorId === userOid || isBottomOnScroll()
             ? () => scrollToBottom(true)
             : () => setShowNewMessage(true);
 
@@ -179,7 +179,7 @@ const Chatting = (props) => {
     return () => {
       if (socket.current) socket.current.disconnect();
     };
-  }, [headerInfo, userInfoDetail]);
+  }, [headerInfo, userOid]);
 
   // resize event
   const resizeEvent = () => {
@@ -188,8 +188,10 @@ const Chatting = (props) => {
   useEffect(() => {
     resizeEvent();
     window.addEventListener("resize", resizeEvent);
+    visualViewport?.addEventListener("resize", resizeEvent);
     return () => {
       window.removeEventListener("resize", resizeEvent);
+      visualViewport?.removeEventListener("resize", resizeEvent);
     };
   }, []);
 
@@ -246,7 +248,6 @@ const Chatting = (props) => {
       }
     }
   };
-
   const handleSendAccount = (account) => {
     if (!sendingMessage.current) {
       sendingMessage.current = true;
@@ -261,24 +262,22 @@ const Chatting = (props) => {
   };
 
   return (
-    <>
+    <Container layoutType={props.layoutType}>
       <Header
-        isSideChat={props.isSideChat}
+        layoutType={props.layoutType}
         info={headerInfo}
         recallEvent={fetchHeaderInfo}
       />
       <MessagesBody
-        isSideChat={props.isSideChat}
+        layoutType={props.layoutType} // fixme : is required?
         chats={chats}
-        user={userInfoDetail}
         forwardedRef={messagesBody}
         handleScroll={handleScroll}
         isBottomOnScroll={isBottomOnScroll}
         scrollToBottom={() => scrollToBottom(false)}
-        marginBottom={messageFormHeight}
       />
       <MessageForm
-        isSideChat={props.isSideChat}
+        layoutType={props.layoutType}
         handleSendMessage={handleSendMessage}
         handleSendImage={handleSendImage}
         handleSendAccount={handleSendAccount}
@@ -286,12 +285,12 @@ const Chatting = (props) => {
         onClickNewMessage={() => scrollToBottom(true)}
         setContHeight={handleMessageFormHeight}
       />
-    </>
+    </Container>
   );
 };
 
 Chatting.propTypes = {
-  isSideChat: PropTypes.bool,
+  layoutType: PropTypes.oneOf(["sidechat", "fullchat"]),
   roomId: PropTypes.string,
 };
 

@@ -5,15 +5,15 @@ import { useHistory } from "react-router-dom";
 import { useAxios } from "hooks/useTaxiAPI";
 
 import Button from "components/Button";
-import RLayout from "components/RLayout";
 import {
   OptionDate,
   OptionMaxPeople,
   OptionName,
   OptionPlace,
   OptionTime,
-} from "components/RoomOptions";
+} from "components/ModalRoomOptions";
 import SuggestLogin from "components/SuggestLogin";
+import RLayout from "components/RLayout";
 import Title from "components/Title";
 import WhiteContainer from "components/WhiteContainer";
 import { MAX_PARTICIPATION } from "pages/Myroom";
