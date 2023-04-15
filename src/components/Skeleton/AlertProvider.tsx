@@ -22,6 +22,7 @@ const AlertProvider = () => {
     <ModalElem
       isOpen={!!message}
       onChangeIsOpen={closeHandler}
+      onEnter={closeHandler}
       width={theme.modal_width_alert}
       padding="10px"
       displayCloseBtn={false}
