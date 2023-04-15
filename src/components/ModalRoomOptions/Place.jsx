@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
 import { memo, useMemo, useState } from "react";
 
+import { useValueRecoilState } from "hooks/useFetchRecoilState";
+
 import Button from "components/Button";
 import DottedLine from "components/DottedLine";
 import MiniCircle from "components/MiniCircle";
@@ -8,9 +10,6 @@ import Modal from "components/Modal";
 import WhiteContainer from "components/WhiteContainer";
 
 import Picker from "./Picker";
-
-import taxiLocationAtom from "atoms/taxiLocation";
-import { useRecoilValue } from "recoil";
 
 import hoverEventSet from "tools/hoverEventSet";
 import theme from "tools/theme";
@@ -150,21 +149,21 @@ PlaceElement.propTypes = {
 const Place = (props) => {
   const [isPopup1, setPopup1] = useState(false);
   const [isPopup2, setPopup2] = useState(false);
-  const taxiLocation = useRecoilValue(taxiLocationAtom);
-  const taxiLocationWithName = useMemo(
+  const taxiLocations = useValueRecoilState("taxiLocations");
+  const taxiLocationsWithName = useMemo(
     () =>
-      taxiLocation.reduce((acc, place) => {
+      taxiLocations.reduce((acc, place) => {
         acc.push({
           ...place,
           name: place.koName,
         });
         return acc;
       }, []),
-    [taxiLocation]
+    [taxiLocations]
   );
 
   const getPlaceName = (placeId) => {
-    const place = taxiLocationWithName.find(
+    const place = taxiLocationsWithName.find(
       (location) => location._id === placeId
     );
     return place && getLocationName(place, "ko");
@@ -190,14 +189,14 @@ const Place = (props) => {
         onClose={() => setPopup1(false)}
         value={getPlaceName(props.value[0])}
         handler={(x) => props.handler([x, props.value[1]])}
-        placeOptions={taxiLocationWithName}
+        placeOptions={taxiLocationsWithName}
       />
       <PopupInput
         isOpen={isPopup2}
         onClose={() => setPopup2(false)}
         value={getPlaceName(props.value[1])}
         handler={(x) => props.handler([props.value[0], x])}
-        placeOptions={taxiLocationWithName}
+        placeOptions={taxiLocationsWithName}
       />
     </WhiteContainer>
   );

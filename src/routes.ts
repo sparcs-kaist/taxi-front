@@ -3,11 +3,6 @@ import { lazy } from "react";
 const routes = [
   { path: "/login", component: lazy(() => import("pages/Login")), exact: true },
   {
-    path: "/login/privacyPolicy",
-    component: lazy(() => import("pages/Login")),
-    exact: true,
-  },
-  {
     path: "/login/fail",
     component: lazy(() => import("pages/Login/LoginFail")),
     exact: true,
@@ -18,7 +13,7 @@ const routes = [
     exact: true,
   },
   {
-    path: ["/", "/home"],
+    path: ["/", "/home", "/home/:roomId"],
     component: lazy(() => import("pages/Home")),
     exact: true,
   },
@@ -44,7 +39,7 @@ const routes = [
   },
   {
     path: "/chatting/:roomId",
-    component: lazy(() => import("pages/Chatting/WrapChat")),
+    component: lazy(() => import("pages/Chatting/FullChat")),
     exact: true,
   },
   {

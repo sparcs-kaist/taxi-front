@@ -20,7 +20,7 @@ const reportMsg = (x) => {
 };
 
 const account = (x) => {
-  return RegExp("^[A-Za-z가-힣]{2,7} [0-9]{10,14}$").test(x);
+  return RegExp("^[A-Za-z가-힣]{2,7} ([0-9]{10,14}|)$").test(x);
 };
 
 export default { chatMsg, nickname, name, fromTo, reportMsg, account };
