@@ -12,8 +12,8 @@ import WhiteContainer from "components/WhiteContainer";
 import R1Myroom from "./R1Myroom";
 import R2Myroom from "./R2Myroom";
 
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
-import myRoomAtom from "atoms/myRoom";
+import loginInfoAtom from "atoms/loginInfo";
+import myRoomsAtom from "atoms/myRooms";
 import { useRecoilValue } from "recoil";
 
 export const MAX_PARTICIPATION = 5;
@@ -22,10 +22,10 @@ const Myroom = () => {
   const history = useHistory();
   const { roomId } = useParams();
   const reactiveState = useR2state();
-  const myRoom = useRecoilValue(myRoomAtom);
-  const totalPages = Math.ceil((myRoom?.done?.length ?? 0) / PAGE_MAX_ITEMS);
+  const myRooms = useRecoilValue(myRoomsAtom);
+  const totalPages = Math.ceil((myRooms?.done?.length ?? 0) / PAGE_MAX_ITEMS);
   const currentPage = usePageFromSearchParams(totalPages);
-  const isLogin = !!useRecoilValue(loginInfoDetailAtom)?.id;
+  const isLogin = !!useRecoilValue(loginInfoAtom)?.id;
 
   useEffect(() => {
     if (reactiveState == 3 && roomId) {
@@ -45,15 +45,15 @@ const Myroom = () => {
   ) : reactiveState === 3 ? (
     <R1Myroom
       roomId={roomId}
-      ongoing={myRoom?.ongoing}
-      done={myRoom?.done}
+      ongoing={myRooms?.ongoing}
+      done={myRooms?.done}
       donePageInfo={{ totalPages, currentPage }}
     />
   ) : (
     <R2Myroom
       roomId={roomId}
-      ongoing={myRoom?.ongoing}
-      done={myRoom?.done}
+      ongoing={myRooms?.ongoing}
+      done={myRooms?.done}
       donePageInfo={{ totalPages, currentPage }}
     />
   );

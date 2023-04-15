@@ -2,24 +2,23 @@ import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import useDateToken from "hooks/useDateToken";
+import { useValueRecoilState } from "hooks/useFetchRecoilState";
 
 import LinkLogout from "components/Link/LinkLogout";
+import {
+  ModalCredit,
+  ModalModify,
+  ModalNotification,
+  ModalPrivacyPolicy,
+  ModalReport,
+  ModalTerms,
+} from "components/ModalPopup";
+import ProfileImg from "components/ProfileImg";
 import SuggestLogin from "components/SuggestLogin";
 import Title from "components/Title";
 import WhiteContainer from "components/WhiteContainer";
 
 import Menu from "./Menu";
-import ModalNotification from "./ModalNotification";
-import PopupMembers from "./PopupMembers";
-import PopupModify from "./PopupModify";
-import PopupPolicy from "./PopupPolicy";
-import PopupPrivacyPolicy from "./PopupPrivacyPolicy";
-import PopupReport from "./PopupReport";
-import ProfileImg from "./ProfileImg";
-
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
-import notificationOptionsAtom from "atoms/notificationOptions";
-import { useRecoilValue } from "recoil";
 
 import theme from "tools/theme";
 
@@ -28,14 +27,15 @@ import { nodeEnv } from "loadenv";
 const Mypage = () => {
   const { t, i18n } = useTranslation("mypage");
   const [profImgToken, refreshProfImgToken] = useDateToken();
-  const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
-  const notificationOptions = useRecoilValue(notificationOptionsAtom);
+  const loginInfo = useValueRecoilState("loginInfo");
+  const notificationOptions = useValueRecoilState("notificationOptions");
+
+  const { id: userId } = loginInfo || {};
   const isOnNotification =
     // notificationOptions?.advertisement ||
     // notificationOptions?.beforeDepart ||
     notificationOptions?.chatting || notificationOptions?.notice;
   // notificationOptions?.keywords?.length;
-  const { id: userId } = loginInfoDetail || {};
 
   const [isOpenProfileModify, setIsOpenProfileModify] = useState(false);
   const [isOpenNotification, setIsOpenNotification] = useState(false);
@@ -111,15 +111,15 @@ const Mypage = () => {
           <WhiteContainer marginAuto padding="16px 24px 24px">
             <div css={{ display: "flex", alignItems: "center" }}>
               <div css={styleProfImg}>
-                {loginInfoDetail?.profileImgUrl && (
+                {loginInfo?.profileImgUrl && (
                   <ProfileImg
-                    path={loginInfoDetail.profileImgUrl}
+                    path={loginInfo.profileImgUrl}
                     token={profImgToken}
                   />
                 )}
               </div>
               <div css={theme.font16_bold} className="selectable">
-                {loginInfoDetail?.name}
+                {loginInfo?.name}
               </div>
             </div>
             <div css={infoTitle}>
@@ -130,19 +130,19 @@ const Mypage = () => {
             </div>
             <div css={infoType} className="selectable">
               {t("student_id")}
-              <div css={infoContent}>{loginInfoDetail?.subinfo?.kaist}</div>
+              <div css={infoContent}>{loginInfo?.subinfo?.kaist}</div>
             </div>
             <div css={infoType} className="selectable">
               {t("email")}
-              <div css={infoContent}>{loginInfoDetail?.email}</div>
+              <div css={infoContent}>{loginInfo?.email}</div>
             </div>
             <div css={infoType} className="selectable">
               {t("nickname")}
-              <div css={infoContent}>{loginInfoDetail?.nickname}</div>
+              <div css={infoContent}>{loginInfo?.nickname}</div>
             </div>
             <div css={infoType} className="selectable">
               {t("account")}
-              <div css={infoContent}>{loginInfoDetail?.account}</div>
+              <div css={infoContent}>{loginInfo?.account}</div>
             </div>
           </WhiteContainer>
           <WhiteContainer marginAuto>
@@ -160,24 +160,18 @@ const Mypage = () => {
               </Menu>
             </div>
           </WhiteContainer>
-          <PopupModify
+          <ModalModify
             isOpen={isOpenProfileModify}
-            onClose={() => setIsOpenProfileModify(false)}
+            onChangeIsOpen={setIsOpenProfileModify}
             onUpdate={refreshProfImgToken}
             profToken={profImgToken}
           />
-          <PopupReport
-            isOpen={isOpenReport}
-            onClose={() => setIsOpenReport(false)}
-          />
+          <ModalReport isOpen={isOpenReport} onChangeIsOpen={setIsOpenReport} />
           <ModalNotification
             isOpen={isOpenNotification}
             onChangeIsOpen={setIsOpenNotification}
           />
-          <PopupPolicy
-            isOpen={isOpenPolicy}
-            onClose={() => setIsOpenPolicy(false)}
-          />
+          <ModalTerms isOpen={isOpenPolicy} onChangeIsOpen={setIsOpenPolicy} />
         </>
       ) : (
         <WhiteContainer marginAuto>
@@ -212,14 +206,11 @@ const Mypage = () => {
           )}
         </div>
       </WhiteContainer>
-      <PopupPrivacyPolicy
+      <ModalPrivacyPolicy
         isOpen={isOpenPrivacyPolicy}
-        onClose={() => setIsOpenPrivacyPolicy(false)}
+        onChangeIsOpen={setIsOpenPrivacyPolicy}
       />
-      <PopupMembers
-        isOpen={isOpenMembers}
-        onClose={() => setOpenIsMembers(false)}
-      />
+      <ModalCredit isOpen={isOpenMembers} onChangeIsOpen={setOpenIsMembers} />
     </>
   );
 };

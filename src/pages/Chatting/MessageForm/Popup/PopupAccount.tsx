@@ -6,7 +6,7 @@ import Button from "components/Button";
 import DottedLine from "components/DottedLine";
 import Modal from "components/Modal";
 
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import loginInfoAtom from "atoms/loginInfo";
 import { useRecoilValue } from "recoil";
 
 import regExpTest from "tools/regExpTest";
@@ -21,10 +21,8 @@ type SendAccoundModalProps = {
 };
 
 const PopupAccount = (props: SendAccoundModalProps) => {
-  const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
-  const [accountNumber, setAccountNumber] = useState(
-    loginInfoDetail?.account || ""
-  );
+  const loginInfo = useRecoilValue(loginInfoAtom);
+  const [accountNumber, setAccountNumber] = useState(loginInfo?.account || "");
 
   const styleTitle = {
     display: "flex",
@@ -44,9 +42,9 @@ const PopupAccount = (props: SendAccoundModalProps) => {
 
   useEffect(() => {
     if (!props.popup) {
-      setAccountNumber(loginInfoDetail?.account || "");
+      setAccountNumber(loginInfo?.account || "");
     }
-  }, [props.popup]);
+  }, [props.popup, loginInfo?.account]);
 
   return (
     <Modal

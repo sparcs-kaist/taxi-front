@@ -9,10 +9,13 @@ import { ReactComponent as TaxiLogo } from "static/assets/TaxiLogo.svg";
 
 type PopupPrivacyPolicyProps = {
   isOpen: boolean;
-  onClose: () => void;
+  onChangeIsOpen: (isOpen: boolean) => void;
 };
 
-const PopupPrivacyPolicy = ({ isOpen, onClose }: PopupPrivacyPolicyProps) => {
+const ModalPrivacyPolicy = ({
+  isOpen,
+  onChangeIsOpen,
+}: PopupPrivacyPolicyProps) => {
   const { t } = useTranslation("mypage");
 
   const styleTop: CSS = {
@@ -26,7 +29,7 @@ const PopupPrivacyPolicy = ({ isOpen, onClose }: PopupPrivacyPolicyProps) => {
   return (
     <Modal
       isOpen={isOpen}
-      onChangeIsOpen={onClose}
+      onChangeIsOpen={onChangeIsOpen}
       width={theme.modal_width_large}
       padding="16px"
     >
@@ -39,4 +42,4 @@ const PopupPrivacyPolicy = ({ isOpen, onClose }: PopupPrivacyPolicyProps) => {
   );
 };
 
-export default PopupPrivacyPolicy;
+export default ModalPrivacyPolicy;

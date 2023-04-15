@@ -1,14 +1,14 @@
 import { atom } from "recoil";
 
-export type notificationOptionsType = {
+export type notificationOptionsType = Nullable<{
   advertisement: boolean;
   beforeDepart: boolean;
   chatting: boolean;
   notice: boolean;
   keywords: [string];
-};
+}>;
 
-const notificationOptionsAtom = atom<Nullable<notificationOptionsType>>({
+const notificationOptionsAtom = atom<notificationOptionsType>({
   key: "notificationOptionsAtom",
   default: null,
 });

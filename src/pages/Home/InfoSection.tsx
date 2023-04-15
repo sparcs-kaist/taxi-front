@@ -6,8 +6,8 @@ import LinkLogin from "components/Link/LinkLogin";
 import RLayout from "components/RLayout";
 import Room from "components/Room";
 
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
-import myRoomAtom from "atoms/myRoom";
+import loginInfoAtom from "atoms/loginInfo";
+import myRoomsAtom from "atoms/myRooms";
 import { useRecoilValue } from "recoil";
 
 import moment, { getToday } from "tools/moment";
@@ -20,9 +20,9 @@ import BackgroundImageMobile from "static/assets/BackgroundImageMobile.webp";
 import { ReactComponent as TaxiLogoWhite } from "static/assets/TaxiLogoWhite.svg";
 
 const InfoSection = () => {
-  const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
-  const isLogin = !!loginInfoDetail?.id;
-  const myRoom = useRecoilValue(myRoomAtom);
+  const loginInfo = useRecoilValue(loginInfoAtom);
+  const isLogin = !!loginInfo?.id;
+  const myRooms = useRecoilValue(myRoomsAtom);
   const randomTaxiSlogan = useMemo(randomTaxiSloganGenerator, []);
 
   const styleContainer: CSS = {
@@ -53,7 +53,7 @@ const InfoSection = () => {
 
   const { message, room } = useMemo(() => {
     const sortedMyRoom =
-      myRoom?.ongoing.slice().sort((a, b) => (a.time > b.time ? 1 : -1)) ?? [];
+      myRooms?.ongoing.slice().sort((a, b) => (a.time > b.time ? 1 : -1)) ?? [];
     const notDeparted = sortedMyRoom.find((room) => !room.isDeparted);
     const notOver = sortedMyRoom.find(
       (room) => !room.isOver && room.isDeparted
@@ -87,7 +87,7 @@ const InfoSection = () => {
       };
     }
     return { message: "", room: null };
-  }, [JSON.stringify(myRoom)]);
+  }, [JSON.stringify(myRooms)]);
 
   return (
     <div className="info-section" style={styleContainer}>
@@ -106,7 +106,7 @@ const InfoSection = () => {
           <div css={{ height: "32px" }} />
           <div css={styleTitle}>
             {isLogin
-              ? `안녕하세요, ${loginInfoDetail?.nickname}님!`
+              ? `안녕하세요, ${loginInfo?.nickname}님!`
               : "카이스트 구성원 간 택시 동승자 모집 서비스, Taxi 입니다!"}
           </div>
           <div css={styleSubTitle}>{isLogin ? message : randomTaxiSlogan}</div>

@@ -19,10 +19,10 @@ import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
 // };
 type RecordProps = {
   isOpen: boolean;
-  onClose: () => void;
+  onChangeIsOpen: (isOpen: boolean) => void;
 };
 
-const PopupReport = (props: RecordProps) => {
+const ModalReport = (props: RecordProps) => {
   const { t } = useTranslation("mypage");
   const [option, setOption] = useState<ReportOptionType>("Reporting");
   const [, reportHistory] = useQuery.get("/reports/searchByUser");
@@ -55,7 +55,7 @@ const PopupReport = (props: RecordProps) => {
   return (
     <Modal
       isOpen={props.isOpen}
-      onChangeIsOpen={props.onClose}
+      onChangeIsOpen={props.onChangeIsOpen}
       padding="16px 12px"
     >
       <div style={styleTitle}>
@@ -82,4 +82,4 @@ const PopupReport = (props: RecordProps) => {
   );
 };
 
-export default PopupReport;
+export default ModalReport;

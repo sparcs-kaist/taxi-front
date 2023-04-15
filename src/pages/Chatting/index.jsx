@@ -14,7 +14,7 @@ import Header from "./Header";
 import MessageForm from "./MessageForm";
 import MessagesBody from "./MessagesBody";
 
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import loginInfoAtom from "atoms/loginInfo";
 import { useRecoilValue } from "recoil";
 
 import convertImg from "tools/convertImg";
@@ -38,7 +38,7 @@ const Chatting = (props) => {
   const socket = useRef(undefined);
   const reactiveState = useR2state();
   const prevReactiveState = useRef(reactiveState);
-  const { oid: userOid } = useRecoilValue(loginInfoDetailAtom) || {};
+  const { oid: userOid } = useRecoilValue(loginInfoAtom) || {};
   const [headerInfoToken, fetchHeaderInfo] = useDateToken();
   const [, headerInfo] = useQuery.get(`/rooms/info?id=${props.roomId}`, {}, [
     headerInfoToken,

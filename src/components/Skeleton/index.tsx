@@ -1,22 +1,21 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 
-import { useAxios } from "hooks/useTaxiAPI";
+import {
+  useSyncRecoilStateEffect,
+  useValueRecoilState,
+} from "hooks/useFetchRecoilState";
 
 import HeaderBar from "components/HeaderBar";
 import Loading from "components/Loading";
+import { ModalTerms } from "components/ModalPopup";
 import Error from "pages/Error";
-import PopupPolicy from "pages/Mypage/PopupPolicy";
 
 import Footer from "./Footer";
 import Navigation from "./Navigation";
 
 import errorAtom from "atoms/error";
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
-import myRoomAtom from "atoms/myRoom";
-import notificationOptionsAtom from "atoms/notificationOptions";
-import taxiLocationAtom from "atoms/taxiLocation";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 
 type ContainerProps = {
   children: ReactNode;
@@ -44,65 +43,17 @@ const Container = ({ children }: ContainerProps) => {
 };
 
 const Skeleton = ({ children }: SkeletonProps) => {
-  const axios = useAxios();
-  const [isLoading, setIsLoading] = useState(true);
-
-  const [loginInfoDetail, setLoginInfoDetail] =
-    useRecoilState(loginInfoDetailAtom);
+  const loginInfo = useValueRecoilState("loginInfo");
   const error = useRecoilValue(errorAtom);
-  const {
-    id: userId,
-    agreeOnTermsOfService: isAgreeOnTermsOfService,
-    deviceToken,
-  } = loginInfoDetail || {};
-
-  const setTaxiLocation = useSetRecoilState(taxiLocationAtom);
-  const setMyRoom = useSetRecoilState(myRoomAtom);
-  const setNotificationOptions = useSetRecoilState(notificationOptionsAtom);
+  const { id: userId, agreeOnTermsOfService: isAgreeOnTermsOfService } =
+    loginInfo || {};
+  const isLoading = userId === null;
 
   const location = useLocation();
   const { pathname } = location;
 
-  useEffect(() => {
-    // userId 초기화
-    axios({
-      url: "/logininfo",
-      method: "get",
-      onSuccess: (data) => {
-        setLoginInfoDetail(data);
-        setIsLoading(false);
-      },
-    });
-
-    // locations 초기화
-    axios({
-      url: "/locations",
-      method: "get",
-      onSuccess: ({ locations }) => setTaxiLocation(locations),
-    });
-  }, []);
-
-  useEffect(() => {
-    if (userId) {
-      // roomlist 초기화
-      axios({
-        url: "/rooms/searchByUser",
-        method: "get",
-        onSuccess: (data) => setMyRoom(data),
-      });
-    }
-  }, [userId]);
-
-  useEffect(() => {
-    if (deviceToken) {
-      // notificationOptions 초기화
-      axios({
-        url: "/notifications/options",
-        method: "get",
-        onSuccess: (data) => setNotificationOptions(data),
-      });
-    }
-  }, [deviceToken]);
+  // loginIngo, taxiLocations, myRooms, notificationOptions 초기화 및 동기화
+  useSyncRecoilStateEffect();
 
   if (error) {
     return (
@@ -138,7 +89,7 @@ const Skeleton = ({ children }: SkeletonProps) => {
       <HeaderBar />
       {children}
       <Footer />
-      <PopupPolicy isOpen={!!userId && !isAgreeOnTermsOfService} />
+      <ModalTerms isOpen={!!userId && !isAgreeOnTermsOfService} />
     </Container>
   );
 };

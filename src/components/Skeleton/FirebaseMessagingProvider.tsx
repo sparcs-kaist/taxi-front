@@ -2,10 +2,11 @@ import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, isSupported } from "firebase/messaging";
 import { useCallback, useEffect } from "react";
 
+import {
+  useFetchRecoilState,
+  useValueRecoilState,
+} from "hooks/useFetchRecoilState";
 import { useAxios } from "hooks/useTaxiAPI";
-
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
-import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import { firebaseConfig } from "loadenv";
 
@@ -13,8 +14,8 @@ const firebaseApp = firebaseConfig && initializeApp(firebaseConfig);
 
 const FirebaseMessagingProvider = () => {
   const axios = useAxios();
-  const { id: userId, deviceToken } = useRecoilValue(loginInfoDetailAtom) || {};
-  const setLoginInfoDetail = useSetRecoilState(loginInfoDetailAtom);
+  const { id: userId, deviceToken } = useValueRecoilState("loginInfo") || {};
+  const fetchLoginInfo = useFetchRecoilState("loginInfo");
 
   const registerToken = useCallback(async (trial: number) => {
     // 토큰 등록 실패 시 10초 간격으로 최대 3회 시도
@@ -46,12 +47,7 @@ const FirebaseMessagingProvider = () => {
         url: "/notifications/registerDeviceToken",
         method: "post",
         data: { deviceToken: newDeviceToken },
-        onSuccess: () =>
-          axios({
-            url: "/logininfo",
-            method: "get",
-            onSuccess: (data) => setLoginInfoDetail(data),
-          }),
+        onSuccess: fetchLoginInfo,
         onError: () => {},
       });
     } catch (error) {

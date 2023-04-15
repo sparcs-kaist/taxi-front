@@ -2,6 +2,10 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 
+import {
+  useFetchRecoilState,
+  useValueRecoilState,
+} from "hooks/useFetchRecoilState";
 import { useAxios } from "hooks/useTaxiAPI";
 
 import Button from "components/Button";
@@ -12,8 +16,8 @@ import {
   OptionPlace,
   OptionTime,
 } from "components/ModalRoomOptions";
-import SuggestLogin from "components/SuggestLogin";
 import RLayout from "components/RLayout";
+import SuggestLogin from "components/SuggestLogin";
 import Title from "components/Title";
 import WhiteContainer from "components/WhiteContainer";
 import { MAX_PARTICIPATION } from "pages/Myroom";
@@ -21,9 +25,7 @@ import { MAX_PARTICIPATION } from "pages/Myroom";
 import FullParticipation from "./FullParticipation";
 
 import alertAtom from "atoms/alert";
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
-import myRoomAtom from "atoms/myRoom";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 
 import { date2str, getToday, getToday10 } from "tools/moment";
 import { randomRoomNameGenerator } from "tools/random";
@@ -52,8 +54,10 @@ const AddRoom = () => {
   const [calculatedTime, setCalculatedTime] = useState<Date | null>(null);
   const randomRoomName = useMemo(randomRoomNameGenerator, []);
   const setAlert = useSetRecoilState(alertAtom);
-  const [myRoom, setMyRoom] = useRecoilState(myRoomAtom);
-  const isLogin = !!useRecoilValue(loginInfoDetailAtom)?.id;
+
+  const isLogin = !!useValueRecoilState("loginInfo")?.id;
+  const myRooms = useValueRecoilState("myRooms");
+  const fetchMyRooms = useFetchRecoilState("myRooms");
 
   useEffect(() => {
     const expirationDate = new Date();
@@ -107,23 +111,17 @@ const AddRoom = () => {
           time: calculatedTime!.toISOString(),
           maxPartLength: valueMaxPeople,
         },
-        onSuccess: async () =>
-          setMyRoom(
-            await axios({
-              url: "/rooms/searchByUser",
-              method: "get",
-              onSuccess: () => history.push("/myroom"),
-              onError: () =>
-                setAlert("예상치 못한 오류가 발생했습니다. 새로고침 해주세요."),
-            })
-          ),
+        onSuccess: () => {
+          fetchMyRooms();
+          history.push("/myroom");
+        },
         onError: () => setAlert("방 개설에 실패하였습니다."),
       });
       onCall.current = false;
     }
   };
 
-  return (myRoom?.ongoing.length ?? 0) < MAX_PARTICIPATION ? (
+  return (myRooms?.ongoing.length ?? 0) < MAX_PARTICIPATION ? (
     <div>
       <Title icon="add" header marginAuto>
         방 개설하기

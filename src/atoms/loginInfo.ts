@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 
-export type LoginInfoDetailType = {
+export type LoginInfoType = Nullable<{
   agreeOnTermsOfService: boolean;
   ban: boolean;
   email: string;
@@ -15,11 +15,11 @@ export type LoginInfoDetailType = {
   account: string;
   deviceToken: Nullable<string>;
   deviceType: "web" | "app";
-};
+}>;
 
-const loginInfoDetailAtom = atom<Nullable<LoginInfoDetailType>>({
-  key: "loginInfoDetailAtom",
+const loginInfoAtom = atom<LoginInfoType>({
+  key: "loginInfoAtom",
   default: null,
 });
 
-export default loginInfoDetailAtom;
+export default loginInfoAtom;

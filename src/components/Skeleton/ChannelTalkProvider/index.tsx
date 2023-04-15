@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import ChannelService from "./channelService";
 
 import errorAtom from "atoms/error";
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import loginInfoAtom from "atoms/loginInfo";
 import { useRecoilValue } from "recoil";
 
 import { channelTalkPluginKey } from "loadenv";
@@ -12,19 +12,19 @@ import { channelTalkPluginKey } from "loadenv";
 const ChannelTalkProvider = () => {
   const location = useLocation();
   const pathname = location.pathname;
-  const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
+  const loginInfo = useRecoilValue(loginInfoAtom);
   const error = useRecoilValue(errorAtom);
 
   useEffect(() => {
-    if (loginInfoDetail) {
+    if (loginInfo) {
       ChannelService.updateUser({
         profile: {
-          name: loginInfoDetail?.name,
-          email: loginInfoDetail?.email,
+          name: loginInfo?.name,
+          email: loginInfo?.email,
         },
       });
     }
-  }, [loginInfoDetail]);
+  }, [loginInfo]);
 
   useEffect(() => {
     ChannelService.boot({

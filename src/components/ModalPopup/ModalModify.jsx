@@ -3,18 +3,20 @@ import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import {
+  useFetchRecoilState,
+  useValueRecoilState,
+} from "hooks/useFetchRecoilState";
 import { useAxios } from "hooks/useTaxiAPI";
 
 import AccountSelector from "components/AccountSelector";
 import Button from "components/Button";
 import DottedLine from "components/DottedLine";
 import Modal from "components/Modal";
-
-import ProfileImg from "./ProfileImg";
+import ProfileImg from "components/ProfileImg";
 
 import alertAtom from "atoms/alert";
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 
 import convertImg from "tools/convertImg";
 import regExpTest from "tools/regExpTest";
@@ -47,8 +49,7 @@ const BtnProfImg = (props) => {
 
   const inputImage = useRef(null);
   const [profileAlert, setProfileAlert] = useState(null);
-  const [loginInfoDetail, setLoginInfoDetail] =
-    useRecoilState(loginInfoDetailAtom);
+  const fetchLoginInfo = useFetchRecoilState("loginInfo");
 
   useEffect(() => {
     if (profileAlert === "LOADING") return;
@@ -81,10 +82,7 @@ const BtnProfImg = (props) => {
             method: "get",
           });
           if (data2?.result) {
-            setLoginInfoDetail({
-              ...loginInfoDetail,
-              profileImgUrl: data2.profileImageUrl,
-            });
+            fetchLoginInfo();
             props.onUpdate();
             setProfileAlert("SUCCESS");
             return;
@@ -141,21 +139,23 @@ BtnProfImg.propTypes = {
   onClose: PropTypes.func,
 };
 
-const PopupModify = (props) => {
+const ModalModify = (props) => {
   const { t } = useTranslation("mypage");
   const axios = useAxios();
 
   const [nickname, setNickname] = useState("");
   const [account, setAccount] = useState("");
 
-  const [loginInfoDetail, setLoginInfoDetail] =
-    useRecoilState(loginInfoDetailAtom);
+  const loginInfo = useValueRecoilState("loginInfo");
+  const fetchLoginInfo = useFetchRecoilState("loginInfo");
   const setAlert = useSetRecoilState(alertAtom);
 
   useEffect(() => {
-    setNickname(loginInfoDetail?.nickname || "");
-    setAccount(loginInfoDetail?.account || "");
-  }, [loginInfoDetail, props.isOpen]);
+    if (props.isOpen) {
+      setNickname(loginInfo?.nickname || "");
+      setAccount(loginInfo?.account || "");
+    }
+  }, [loginInfo, props.isOpen]);
 
   const isEditable =
     regExpTest.account(account) && regExpTest.nickname(nickname);
@@ -163,7 +163,7 @@ const PopupModify = (props) => {
     let isNeedToUpdateLoginInfo = false;
     if (!isEditable) return;
 
-    if (nickname !== loginInfoDetail?.nickname) {
+    if (nickname !== loginInfo?.nickname) {
       isNeedToUpdateLoginInfo = true;
       await axios({
         url: "/users/editNickname",
@@ -172,7 +172,7 @@ const PopupModify = (props) => {
         onError: () => setAlert(t("page_modify.nickname_failed")),
       });
     }
-    if (account !== loginInfoDetail?.account) {
+    if (account !== loginInfo?.account) {
       isNeedToUpdateLoginInfo = true;
       await axios({
         url: "/users/editAccount",
@@ -182,14 +182,9 @@ const PopupModify = (props) => {
       });
     }
     if (isNeedToUpdateLoginInfo) {
-      setLoginInfoDetail(
-        await axios({
-          url: "/logininfo",
-          method: "get",
-        })
-      );
+      fetchLoginInfo();
     }
-    props.onClose();
+    props.onChangeIsOpen(false);
   };
 
   const styleName = {
@@ -228,25 +223,28 @@ const PopupModify = (props) => {
   return (
     <Modal
       isOpen={props.isOpen}
-      onChangeIsOpen={props.onClose}
+      onChangeIsOpen={props.onChangeIsOpen}
       padding="32px 10px 10px"
       onEnter={handleEditProfile}
     >
-      <div style={styleName}>{loginInfoDetail?.name}</div>
+      <div style={styleName}>{loginInfo?.name}</div>
       <ProfImg
-        profileImgUrl={loginInfoDetail?.profileImgUrl}
+        profileImgUrl={loginInfo?.profileImgUrl}
         token={props.profToken}
       />
-      <BtnProfImg onClose={props.onClose} onUpdate={props.onUpdate} />
+      <BtnProfImg
+        onClose={() => props.onChangeIsOpen(false)}
+        onUpdate={props.onUpdate}
+      />
       <DottedLine direction="row" margin="0 2px" />
       <div style={{ rowGap: "10px", padding: "0px 20px" }}>
         <div style={{ ...styleTitle, marginTop: "24px" }}>
           {t("student_id")}
-          <div style={styleContent}>{loginInfoDetail?.subinfo?.kaist}</div>
+          <div style={styleContent}>{loginInfo?.subinfo?.kaist}</div>
         </div>
         <div style={{ ...styleTitle, marginTop: "16px" }}>
           {t("email")}
-          <div style={styleContent}>{loginInfoDetail?.email}</div>
+          <div style={styleContent}>{loginInfo?.email}</div>
         </div>
         <div style={{ ...styleTitle, marginTop: "10px" }}>
           {t("nickname")}
@@ -268,7 +266,7 @@ const PopupModify = (props) => {
           padding="10px 0 9px"
           radius={8}
           font={theme.font14}
-          onClick={props.onClose}
+          onClick={() => props.onChangeIsOpen(false)}
         >
           {t("page_modify.cancel")}
         </Button>
@@ -276,8 +274,7 @@ const PopupModify = (props) => {
           type="purple_inset"
           disabled={
             !isEditable ||
-            (nickname === loginInfoDetail?.nickname &&
-              account === loginInfoDetail?.account)
+            (nickname === loginInfo?.nickname && account === loginInfo?.account)
           }
           width="calc(50% - 5px)"
           padding="10px 0 9px"
@@ -291,11 +288,11 @@ const PopupModify = (props) => {
     </Modal>
   );
 };
-PopupModify.propTypes = {
+ModalModify.propTypes = {
   profToken: PropTypes.any,
   isOpen: PropTypes.bool,
-  onClose: PropTypes.func,
+  onChangeIsOpen: PropTypes.func,
   onUpdate: PropTypes.func,
 };
 
-export default PopupModify;
+export default ModalModify;
