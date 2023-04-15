@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 import { useAxios } from "hooks/useTaxiAPI";
 
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import loginInfoAtom from "atoms/loginInfo";
 import { useSetRecoilState } from "recoil";
 
 // global flag variable to check if the webview is in Flutter
@@ -10,7 +10,7 @@ let isWebViewInFlutter: boolean = false;
 
 const FlutterEventCommunicationProvider = () => {
   const axios = useAxios();
-  const setLoginInfoDetail = useSetRecoilState(loginInfoDetailAtom);
+  const setLoginInfoDetail = useSetRecoilState(loginInfoAtom);
 
   useEffect(() => {
     const eventListeners: Array<{

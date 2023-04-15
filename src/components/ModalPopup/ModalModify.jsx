@@ -12,7 +12,7 @@ import Modal from "components/Modal";
 import ProfileImg from "components/ProfileImg";
 
 import alertAtom from "atoms/alert";
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import loginInfoAtom from "atoms/loginInfo";
 import { useRecoilState, useSetRecoilState } from "recoil";
 
 import convertImg from "tools/convertImg";
@@ -46,8 +46,7 @@ const BtnProfImg = (props) => {
 
   const inputImage = useRef(null);
   const [profileAlert, setProfileAlert] = useState(null);
-  const [loginInfoDetail, setLoginInfoDetail] =
-    useRecoilState(loginInfoDetailAtom);
+  const [loginInfo, setLoginInfo] = useRecoilState(loginInfoAtom);
 
   useEffect(() => {
     if (profileAlert === "LOADING") return;
@@ -80,8 +79,8 @@ const BtnProfImg = (props) => {
             method: "get",
           });
           if (data2?.result) {
-            setLoginInfoDetail({
-              ...loginInfoDetail,
+            setLoginInfo({
+              ...loginInfo,
               profileImgUrl: data2.profileImageUrl,
             });
             props.onUpdate();
@@ -147,14 +146,13 @@ const ModalModify = (props) => {
   const [nickname, setNickname] = useState("");
   const [account, setAccount] = useState("");
 
-  const [loginInfoDetail, setLoginInfoDetail] =
-    useRecoilState(loginInfoDetailAtom);
+  const [loginInfo, setLoginInfo] = useRecoilState(loginInfoAtom);
   const setAlert = useSetRecoilState(alertAtom);
 
   useEffect(() => {
-    setNickname(loginInfoDetail?.nickname || "");
-    setAccount(loginInfoDetail?.account || "");
-  }, [loginInfoDetail, props.isOpen]);
+    setNickname(loginInfo?.nickname || "");
+    setAccount(loginInfo?.account || "");
+  }, [loginInfo, props.isOpen]);
 
   const isEditable =
     regExpTest.account(account) && regExpTest.nickname(nickname);
@@ -162,7 +160,7 @@ const ModalModify = (props) => {
     let isNeedToUpdateLoginInfo = false;
     if (!isEditable) return;
 
-    if (nickname !== loginInfoDetail?.nickname) {
+    if (nickname !== loginInfo?.nickname) {
       isNeedToUpdateLoginInfo = true;
       await axios({
         url: "/users/editNickname",
@@ -171,7 +169,7 @@ const ModalModify = (props) => {
         onError: () => setAlert(t("page_modify.nickname_failed")),
       });
     }
-    if (account !== loginInfoDetail?.account) {
+    if (account !== loginInfo?.account) {
       isNeedToUpdateLoginInfo = true;
       await axios({
         url: "/users/editAccount",
@@ -181,7 +179,7 @@ const ModalModify = (props) => {
       });
     }
     if (isNeedToUpdateLoginInfo) {
-      setLoginInfoDetail(
+      setLoginInfo(
         await axios({
           url: "/logininfo",
           method: "get",
@@ -231,9 +229,9 @@ const ModalModify = (props) => {
       padding="32px 10px 10px"
       onEnter={handleEditProfile}
     >
-      <div style={styleName}>{loginInfoDetail?.name}</div>
+      <div style={styleName}>{loginInfo?.name}</div>
       <ProfImg
-        profileImgUrl={loginInfoDetail?.profileImgUrl}
+        profileImgUrl={loginInfo?.profileImgUrl}
         token={props.profToken}
       />
       <BtnProfImg
@@ -244,11 +242,11 @@ const ModalModify = (props) => {
       <div style={{ rowGap: "10px", padding: "0px 20px" }}>
         <div style={{ ...styleTitle, marginTop: "24px" }}>
           {t("student_id")}
-          <div style={styleContent}>{loginInfoDetail?.subinfo?.kaist}</div>
+          <div style={styleContent}>{loginInfo?.subinfo?.kaist}</div>
         </div>
         <div style={{ ...styleTitle, marginTop: "16px" }}>
           {t("email")}
-          <div style={styleContent}>{loginInfoDetail?.email}</div>
+          <div style={styleContent}>{loginInfo?.email}</div>
         </div>
         <div style={{ ...styleTitle, marginTop: "10px" }}>
           {t("nickname")}
@@ -278,8 +276,7 @@ const ModalModify = (props) => {
           type="purple_inset"
           disabled={
             !isEditable ||
-            (nickname === loginInfoDetail?.nickname &&
-              account === loginInfoDetail?.account)
+            (nickname === loginInfo?.nickname && account === loginInfo?.account)
           }
           width="calc(50% - 5px)"
           padding="10px 0 9px"

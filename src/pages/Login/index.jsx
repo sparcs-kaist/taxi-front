@@ -3,7 +3,7 @@ import { useHistory, useLocation } from "react-router-dom";
 
 import Button from "components/Button";
 
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import loginInfoAtom from "atoms/loginInfo";
 import { useRecoilValue } from "recoil";
 
 import theme from "tools/theme";
@@ -14,7 +14,7 @@ import { ReactComponent as TaxiLogo } from "static/assets/TaxiLogo.svg";
 const Login = () => {
   const history = useHistory();
   const { search } = useLocation();
-  const { id: userId } = useRecoilValue(loginInfoDetailAtom);
+  const { id: userId } = useRecoilValue(loginInfoAtom);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(search);

@@ -6,19 +6,22 @@ type LinkLogoutProps = {
   redirect?: string;
 };
 
-const LinkLogout = ({ children, redirect }: LinkLogoutProps) => {
+export const useOnClickLogout = (redirect?: string) => {
   const history = useHistory();
   const { pathname, search } = useLocation();
   const redirectPath = redirect || pathname + search;
   const isClicked = useRef(false);
 
-  const onClickLogout = useCallback(async () => {
+  return useCallback(async () => {
     if (isClicked.current) return;
     isClicked.current = true;
     history.replace(`/logout?redirect=${encodeURIComponent(redirectPath)}`);
     isClicked.current = false;
   }, [history, redirectPath]);
+};
 
+const LinkLogout = ({ children, redirect }: LinkLogoutProps) => {
+  const onClickLogout = useOnClickLogout(redirect);
   return <div onClick={onClickLogout}>{children}</div>;
 };
 

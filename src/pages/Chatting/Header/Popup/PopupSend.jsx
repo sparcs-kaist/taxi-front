@@ -5,7 +5,7 @@ import { useAxios } from "hooks/useTaxiAPI";
 import PopupContainer from "./PopupContainer";
 
 import alertAtom from "atoms/alert";
-import myRoomAtom from "atoms/myRoom";
+import myRoomsAtom from "atoms/myRooms";
 import { useSetRecoilState } from "recoil";
 
 const PopupSend = (props) => {
@@ -36,7 +36,7 @@ const PopupSend = (props) => {
   };
 
   const setAlert = useSetRecoilState(alertAtom);
-  const setMyRoom = useSetRecoilState(myRoomAtom);
+  const setMyRooms = useSetRecoilState(myRoomsAtom);
   const onClick = () => {
     axios({
       url: "/rooms/commitSettlement",
@@ -45,7 +45,7 @@ const PopupSend = (props) => {
         roomId: props.roomId,
       },
       onSuccess: async () => {
-        setMyRoom(
+        setMyRooms(
           await axios({
             url: "/rooms/searchByUser",
             method: "get",

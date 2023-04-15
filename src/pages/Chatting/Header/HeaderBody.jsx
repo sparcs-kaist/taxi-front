@@ -7,7 +7,7 @@ import PopupCancel from "./Popup/PopupCancel";
 import PopupPay from "./Popup/PopupPay";
 import PopupSend from "./Popup/PopupSend";
 
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import loginInfoAtom from "atoms/loginInfo";
 import { useRecoilValue } from "recoil";
 
 import { date2str } from "tools/moment";
@@ -183,13 +183,11 @@ Button.propTypes = {
 };
 
 const HeaderBody = (props) => {
-  const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
+  const userInfo = useRecoilValue(loginInfoAtom);
   const users = props.info?.part ?? [];
   const isSettlementForMe = useMemo(
-    () =>
-      users.filter((user) => user._id === userInfoDetail?.oid)?.[0]
-        ?.isSettlement,
-    [userInfoDetail?.oid, JSON.stringify(users)]
+    () => users.filter((user) => user._id === userInfo?.oid)?.[0]?.isSettlement,
+    [userInfo?.oid, JSON.stringify(users)]
   );
 
   return (

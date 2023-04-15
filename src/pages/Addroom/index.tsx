@@ -12,8 +12,8 @@ import {
   OptionPlace,
   OptionTime,
 } from "components/ModalRoomOptions";
-import SuggestLogin from "components/SuggestLogin";
 import RLayout from "components/RLayout";
+import SuggestLogin from "components/SuggestLogin";
 import Title from "components/Title";
 import WhiteContainer from "components/WhiteContainer";
 import { MAX_PARTICIPATION } from "pages/Myroom";
@@ -21,8 +21,8 @@ import { MAX_PARTICIPATION } from "pages/Myroom";
 import FullParticipation from "./FullParticipation";
 
 import alertAtom from "atoms/alert";
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
-import myRoomAtom from "atoms/myRoom";
+import loginInfoAtom from "atoms/loginInfo";
+import myRoomsAtom from "atoms/myRooms";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 import { date2str, getToday, getToday10 } from "tools/moment";
@@ -52,8 +52,8 @@ const AddRoom = () => {
   const [calculatedTime, setCalculatedTime] = useState<Date | null>(null);
   const randomRoomName = useMemo(randomRoomNameGenerator, []);
   const setAlert = useSetRecoilState(alertAtom);
-  const [myRoom, setMyRoom] = useRecoilState(myRoomAtom);
-  const isLogin = !!useRecoilValue(loginInfoDetailAtom)?.id;
+  const [myRooms, setMyRooms] = useRecoilState(myRoomsAtom);
+  const isLogin = !!useRecoilValue(loginInfoAtom)?.id;
 
   useEffect(() => {
     const expirationDate = new Date();
@@ -108,7 +108,7 @@ const AddRoom = () => {
           maxPartLength: valueMaxPeople,
         },
         onSuccess: async () =>
-          setMyRoom(
+          setMyRooms(
             await axios({
               url: "/rooms/searchByUser",
               method: "get",
@@ -123,7 +123,7 @@ const AddRoom = () => {
     }
   };
 
-  return (myRoom?.ongoing.length ?? 0) < MAX_PARTICIPATION ? (
+  return (myRooms?.ongoing.length ?? 0) < MAX_PARTICIPATION ? (
     <div>
       <Title icon="add" header marginAuto>
         방 개설하기

@@ -5,10 +5,11 @@ import { useAxios } from "hooks/useTaxiAPI";
 
 import DottedLine from "components/DottedLine";
 import Modal from "components/Modal";
-import NotificationGuide from "components/ModalPopup/NotificationGuide";
 import Toggle from "components/Toggle";
 
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import NotificationGuide from "./NotificationGuide";
+
+import loginInfoAtom from "atoms/loginInfo";
 import notificationOptionsAtom from "atoms/notificationOptions";
 import { useRecoilState, useRecoilValue } from "recoil";
 
@@ -51,7 +52,7 @@ const ModalNotification = ({
 }: ModalNotificationProps) => {
   const { t } = useTranslation("mypage");
   const axios = useAxios();
-  const { deviceToken } = useRecoilValue(loginInfoDetailAtom) || {};
+  const { deviceToken } = useRecoilValue(loginInfoAtom) || {};
   const [notificationOptions, setNotificationOptions] = useRecoilState(
     notificationOptionsAtom
   );

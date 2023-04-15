@@ -9,7 +9,7 @@ import WhiteContainer from "components/WhiteContainer";
 
 import Picker from "./Picker";
 
-import taxiLocationAtom from "atoms/taxiLocation";
+import taxiLocationsAtom from "atoms/taxiLocations";
 import { useRecoilValue } from "recoil";
 
 import hoverEventSet from "tools/hoverEventSet";
@@ -150,17 +150,17 @@ PlaceElement.propTypes = {
 const Place = (props) => {
   const [isPopup1, setPopup1] = useState(false);
   const [isPopup2, setPopup2] = useState(false);
-  const taxiLocation = useRecoilValue(taxiLocationAtom);
+  const taxiLocations = useRecoilValue(taxiLocationsAtom);
   const taxiLocationWithName = useMemo(
     () =>
-      taxiLocation.reduce((acc, place) => {
+      taxiLocations.reduce((acc, place) => {
         acc.push({
           ...place,
           name: place.koName,
         });
         return acc;
       }, []),
-    [taxiLocation]
+    [taxiLocations]
   );
 
   const getPlaceName = (placeId) => {

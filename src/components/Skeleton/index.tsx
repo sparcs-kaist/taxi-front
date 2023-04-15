@@ -12,10 +12,10 @@ import Footer from "./Footer";
 import Navigation from "./Navigation";
 
 import errorAtom from "atoms/error";
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
-import myRoomAtom from "atoms/myRoom";
+import loginInfoAtom from "atoms/loginInfo";
+import myRoomsAtom from "atoms/myRooms";
 import notificationOptionsAtom from "atoms/notificationOptions";
-import taxiLocationAtom from "atoms/taxiLocation";
+import taxiLocationsAtom from "atoms/taxiLocations";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 type ContainerProps = {
@@ -47,17 +47,16 @@ const Skeleton = ({ children }: SkeletonProps) => {
   const axios = useAxios();
   const [isLoading, setIsLoading] = useState(true);
 
-  const [loginInfoDetail, setLoginInfoDetail] =
-    useRecoilState(loginInfoDetailAtom);
+  const [loginInfo, setLoginInfo] = useRecoilState(loginInfoAtom);
   const error = useRecoilValue(errorAtom);
   const {
     id: userId,
     agreeOnTermsOfService: isAgreeOnTermsOfService,
     deviceToken,
-  } = loginInfoDetail || {};
+  } = loginInfo || {};
 
-  const setTaxiLocation = useSetRecoilState(taxiLocationAtom);
-  const setMyRoom = useSetRecoilState(myRoomAtom);
+  const setTaxiLocations = useSetRecoilState(taxiLocationsAtom);
+  const setMyRooms = useSetRecoilState(myRoomsAtom);
   const setNotificationOptions = useSetRecoilState(notificationOptionsAtom);
 
   const location = useLocation();
@@ -69,7 +68,7 @@ const Skeleton = ({ children }: SkeletonProps) => {
       url: "/logininfo",
       method: "get",
       onSuccess: (data) => {
-        setLoginInfoDetail(data);
+        setLoginInfo(data);
         setIsLoading(false);
       },
     });
@@ -78,7 +77,7 @@ const Skeleton = ({ children }: SkeletonProps) => {
     axios({
       url: "/locations",
       method: "get",
-      onSuccess: ({ locations }) => setTaxiLocation(locations),
+      onSuccess: ({ locations }) => setTaxiLocations(locations),
     });
   }, []);
 
@@ -88,7 +87,7 @@ const Skeleton = ({ children }: SkeletonProps) => {
       axios({
         url: "/rooms/searchByUser",
         method: "get",
-        onSuccess: (data) => setMyRoom(data),
+        onSuccess: (data) => setMyRooms(data),
       });
     }
   }, [userId]);

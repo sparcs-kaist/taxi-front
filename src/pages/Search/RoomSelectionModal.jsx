@@ -13,8 +13,8 @@ import Modal from "components/Modal";
 import { MAX_PARTICIPATION } from "pages/Myroom";
 
 import alertAtom from "atoms/alert";
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
-import myRoomAtom from "atoms/myRoom";
+import loginInfoAtom from "atoms/loginInfo";
+import myRoomsAtom from "atoms/myRooms";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 import { date2str } from "tools/moment";
@@ -114,16 +114,16 @@ const RoomSelectionModal = (props) => {
   const onCall = useRef(false);
   const [roomInfo, setRoomInfo] = useState(null);
   const history = useHistory();
-  const [myRoom, setMyRoom] = useRecoilState(myRoomAtom);
-  const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
+  const [myRooms, setMyRooms] = useRecoilState(myRoomsAtom);
+  const loginInfo = useRecoilValue(loginInfoAtom);
   const setAlert = useSetRecoilState(alertAtom);
   const disableJoinBtn =
-    roomInfo?.part.some((user) => user._id === loginInfoDetail?.oid) ?? true;
+    roomInfo?.part.some((user) => user._id === loginInfo?.oid) ?? true;
   const isRoomFull = roomInfo
     ? roomInfo.maxPartLength - roomInfo.part.length === 0
     : false;
-  const fullParticipation = myRoom?.ongoing.length >= MAX_PARTICIPATION;
-  const isLogin = !!useRecoilValue(loginInfoDetailAtom)?.id;
+  const fullParticipation = myRooms?.ongoing.length >= MAX_PARTICIPATION;
+  const isLogin = !!loginInfo?.id;
 
   useEffect(() => {
     if (props.isOpen) setRoomInfo(props.roomInfo);
@@ -165,7 +165,7 @@ const RoomSelectionModal = (props) => {
           roomId: roomInfo._id,
         },
         onSuccess: async () => {
-          setMyRoom(
+          setMyRooms(
             await axios({
               url: "/rooms/searchByUser",
               method: "get",

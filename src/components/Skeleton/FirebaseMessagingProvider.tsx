@@ -4,7 +4,7 @@ import { useCallback, useEffect } from "react";
 
 import { useAxios } from "hooks/useTaxiAPI";
 
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import loginInfoAtom from "atoms/loginInfo";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import { firebaseConfig } from "loadenv";
@@ -13,8 +13,8 @@ const firebaseApp = firebaseConfig && initializeApp(firebaseConfig);
 
 const FirebaseMessagingProvider = () => {
   const axios = useAxios();
-  const { id: userId, deviceToken } = useRecoilValue(loginInfoDetailAtom) || {};
-  const setLoginInfoDetail = useSetRecoilState(loginInfoDetailAtom);
+  const { id: userId, deviceToken } = useRecoilValue(loginInfoAtom) || {};
+  const setLoginInfo = useSetRecoilState(loginInfoAtom);
 
   const registerToken = useCallback(async (trial: number) => {
     // 토큰 등록 실패 시 10초 간격으로 최대 3회 시도
@@ -50,7 +50,7 @@ const FirebaseMessagingProvider = () => {
           axios({
             url: "/logininfo",
             method: "get",
-            onSuccess: (data) => setLoginInfoDetail(data),
+            onSuccess: (data) => setLoginInfo(data),
           }),
         onError: () => {},
       });

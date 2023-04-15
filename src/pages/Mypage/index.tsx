@@ -19,7 +19,7 @@ import WhiteContainer from "components/WhiteContainer";
 
 import Menu from "./Menu";
 
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import loginInfoAtom from "atoms/loginInfo";
 import notificationOptionsAtom from "atoms/notificationOptions";
 import { useRecoilValue } from "recoil";
 
@@ -30,14 +30,14 @@ import { nodeEnv } from "loadenv";
 const Mypage = () => {
   const { t, i18n } = useTranslation("mypage");
   const [profImgToken, refreshProfImgToken] = useDateToken();
-  const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
+  const loginInfo = useRecoilValue(loginInfoAtom);
   const notificationOptions = useRecoilValue(notificationOptionsAtom);
   const isOnNotification =
     // notificationOptions?.advertisement ||
     // notificationOptions?.beforeDepart ||
     notificationOptions?.chatting || notificationOptions?.notice;
   // notificationOptions?.keywords?.length;
-  const { id: userId } = loginInfoDetail || {};
+  const { id: userId } = loginInfo || {};
 
   const [isOpenProfileModify, setIsOpenProfileModify] = useState(false);
   const [isOpenNotification, setIsOpenNotification] = useState(false);
@@ -113,15 +113,15 @@ const Mypage = () => {
           <WhiteContainer marginAuto padding="16px 24px 24px">
             <div css={{ display: "flex", alignItems: "center" }}>
               <div css={styleProfImg}>
-                {loginInfoDetail?.profileImgUrl && (
+                {loginInfo?.profileImgUrl && (
                   <ProfileImg
-                    path={loginInfoDetail.profileImgUrl}
+                    path={loginInfo.profileImgUrl}
                     token={profImgToken}
                   />
                 )}
               </div>
               <div css={theme.font16_bold} className="selectable">
-                {loginInfoDetail?.name}
+                {loginInfo?.name}
               </div>
             </div>
             <div css={infoTitle}>
@@ -132,19 +132,19 @@ const Mypage = () => {
             </div>
             <div css={infoType} className="selectable">
               {t("student_id")}
-              <div css={infoContent}>{loginInfoDetail?.subinfo?.kaist}</div>
+              <div css={infoContent}>{loginInfo?.subinfo?.kaist}</div>
             </div>
             <div css={infoType} className="selectable">
               {t("email")}
-              <div css={infoContent}>{loginInfoDetail?.email}</div>
+              <div css={infoContent}>{loginInfo?.email}</div>
             </div>
             <div css={infoType} className="selectable">
               {t("nickname")}
-              <div css={infoContent}>{loginInfoDetail?.nickname}</div>
+              <div css={infoContent}>{loginInfo?.nickname}</div>
             </div>
             <div css={infoType} className="selectable">
               {t("account")}
-              <div css={infoContent}>{loginInfoDetail?.account}</div>
+              <div css={infoContent}>{loginInfo?.account}</div>
             </div>
           </WhiteContainer>
           <WhiteContainer marginAuto>
