@@ -183,11 +183,12 @@ Button.propTypes = {
 };
 
 const HeaderBody = (props) => {
-  const userInfo = useRecoilValue(loginInfoAtom);
+  const loginInfo = useRecoilValue(loginInfoAtom);
   const users = props.info?.part ?? [];
   const isSettlementForMe = useMemo(
-    () => users.filter((user) => user._id === userInfo?.oid)?.[0]?.isSettlement,
-    [userInfo?.oid, JSON.stringify(users)]
+    () =>
+      users.filter((user) => user._id === loginInfo?.oid)?.[0]?.isSettlement,
+    [loginInfo?.oid, JSON.stringify(users)]
   );
 
   return (

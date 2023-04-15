@@ -7,7 +7,7 @@ import axios from "./axios";
 import errorAtom from "atoms/error";
 import { useSetRecoilState } from "recoil";
 
-type AxiosOption = {
+export type AxiosOption = {
   url: string;
   method: "get" | "post";
   data?: any;

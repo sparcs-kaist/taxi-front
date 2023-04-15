@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import useDateToken from "hooks/useDateToken";
+import { useValueRecoilState } from "hooks/useFetchRecoilState";
 
 import LinkLogout from "components/Link/LinkLogout";
 import {
@@ -19,10 +20,6 @@ import WhiteContainer from "components/WhiteContainer";
 
 import Menu from "./Menu";
 
-import loginInfoAtom from "atoms/loginInfo";
-import notificationOptionsAtom from "atoms/notificationOptions";
-import { useRecoilValue } from "recoil";
-
 import theme from "tools/theme";
 
 import { nodeEnv } from "loadenv";
@@ -30,14 +27,15 @@ import { nodeEnv } from "loadenv";
 const Mypage = () => {
   const { t, i18n } = useTranslation("mypage");
   const [profImgToken, refreshProfImgToken] = useDateToken();
-  const loginInfo = useRecoilValue(loginInfoAtom);
-  const notificationOptions = useRecoilValue(notificationOptionsAtom);
+  const loginInfo = useValueRecoilState("loginInfo");
+  const notificationOptions = useValueRecoilState("notificationOptions");
+
+  const { id: userId } = loginInfo || {};
   const isOnNotification =
     // notificationOptions?.advertisement ||
     // notificationOptions?.beforeDepart ||
     notificationOptions?.chatting || notificationOptions?.notice;
   // notificationOptions?.keywords?.length;
-  const { id: userId } = loginInfo || {};
 
   const [isOpenProfileModify, setIsOpenProfileModify] = useState(false);
   const [isOpenNotification, setIsOpenNotification] = useState(false);

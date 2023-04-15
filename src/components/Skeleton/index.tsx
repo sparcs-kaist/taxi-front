@@ -1,7 +1,10 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 
-import { useAxios } from "hooks/useTaxiAPI";
+import {
+  useSyncRecoilStateEffect,
+  useValueRecoilState,
+} from "hooks/useFetchRecoilState";
 
 import HeaderBar from "components/HeaderBar";
 import Loading from "components/Loading";
@@ -12,11 +15,7 @@ import Footer from "./Footer";
 import Navigation from "./Navigation";
 
 import errorAtom from "atoms/error";
-import loginInfoAtom from "atoms/loginInfo";
-import myRoomsAtom from "atoms/myRooms";
-import notificationOptionsAtom from "atoms/notificationOptions";
-import taxiLocationsAtom from "atoms/taxiLocations";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 
 type ContainerProps = {
   children: ReactNode;
@@ -44,64 +43,17 @@ const Container = ({ children }: ContainerProps) => {
 };
 
 const Skeleton = ({ children }: SkeletonProps) => {
-  const axios = useAxios();
-  const [isLoading, setIsLoading] = useState(true);
-
-  const [loginInfo, setLoginInfo] = useRecoilState(loginInfoAtom);
+  const loginInfo = useValueRecoilState("loginInfo");
   const error = useRecoilValue(errorAtom);
-  const {
-    id: userId,
-    agreeOnTermsOfService: isAgreeOnTermsOfService,
-    deviceToken,
-  } = loginInfo || {};
-
-  const setTaxiLocations = useSetRecoilState(taxiLocationsAtom);
-  const setMyRooms = useSetRecoilState(myRoomsAtom);
-  const setNotificationOptions = useSetRecoilState(notificationOptionsAtom);
+  const { id: userId, agreeOnTermsOfService: isAgreeOnTermsOfService } =
+    loginInfo || {};
+  const isLoading = userId === null;
 
   const location = useLocation();
   const { pathname } = location;
 
-  useEffect(() => {
-    // userId 초기화
-    axios({
-      url: "/logininfo",
-      method: "get",
-      onSuccess: (data) => {
-        setLoginInfo(data);
-        setIsLoading(false);
-      },
-    });
-
-    // locations 초기화
-    axios({
-      url: "/locations",
-      method: "get",
-      onSuccess: ({ locations }) => setTaxiLocations(locations),
-    });
-  }, []);
-
-  useEffect(() => {
-    if (userId) {
-      // roomlist 초기화
-      axios({
-        url: "/rooms/searchByUser",
-        method: "get",
-        onSuccess: (data) => setMyRooms(data),
-      });
-    }
-  }, [userId]);
-
-  useEffect(() => {
-    if (deviceToken) {
-      // notificationOptions 초기화
-      axios({
-        url: "/notifications/options",
-        method: "get",
-        onSuccess: (data) => setNotificationOptions(data),
-      });
-    }
-  }, [deviceToken]);
+  // loginIngo, taxiLocations, myRooms, notificationOptions 초기화 및 동기화
+  useSyncRecoilStateEffect();
 
   if (error) {
     return (

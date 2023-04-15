@@ -1,6 +1,8 @@
 import { atom } from "recoil";
 
-const taxiLocationsAtom = atom({
+export type TaxiLocationsType = Array<any>;
+
+const taxiLocationsAtom = atom<TaxiLocationsType>({
   key: "taxiLocationsAtom",
   default: [],
 });

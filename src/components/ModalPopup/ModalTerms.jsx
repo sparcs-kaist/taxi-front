@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 
+import { useFetchRecoilState } from "hooks/useFetchRecoilState";
 import { useAxios } from "hooks/useTaxiAPI";
 
 import Button from "components/Button";
@@ -19,7 +20,7 @@ import { ReactComponent as TaxiLogo } from "static/assets/TaxiLogo.svg";
 const Agree = (props) => {
   const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
-  const setLoginInfo = useSetRecoilState(loginInfoAtom);
+  const fetchLoginInfo = useFetchRecoilState("loginInfo");
 
   const onAgree = async () => {
     await axios({
@@ -27,12 +28,7 @@ const Agree = (props) => {
       method: "post",
       onError: () => setAlert("약관 동의에 실패하였습니다."),
     });
-    setLoginInfo(
-      await axios({
-        url: "/logininfo",
-        method: "get",
-      })
-    );
+    fetchLoginInfo();
     props.onAgree();
   };
   const styleBottom = {

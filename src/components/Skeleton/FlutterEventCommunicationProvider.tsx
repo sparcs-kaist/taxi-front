@@ -10,7 +10,7 @@ let isWebViewInFlutter: boolean = false;
 
 const FlutterEventCommunicationProvider = () => {
   const axios = useAxios();
-  const setLoginInfoDetail = useSetRecoilState(loginInfoAtom);
+  const setLoginInfoDetail = useSetRecoilState(loginInfoAtom); // fixme
 
   useEffect(() => {
     const eventListeners: Array<{

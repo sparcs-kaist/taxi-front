@@ -1,6 +1,10 @@
 import { useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
+import {
+  useFetchRecoilState,
+  useValueRecoilState,
+} from "hooks/useFetchRecoilState";
 import { useAxios } from "hooks/useTaxiAPI";
 
 import DottedLine from "components/DottedLine";
@@ -8,10 +12,6 @@ import Modal from "components/Modal";
 import Toggle from "components/Toggle";
 
 import NotificationGuide from "./NotificationGuide";
-
-import loginInfoAtom from "atoms/loginInfo";
-import notificationOptionsAtom from "atoms/notificationOptions";
-import { useRecoilState, useRecoilValue } from "recoil";
 
 import theme from "tools/theme";
 
@@ -52,10 +52,11 @@ const ModalNotification = ({
 }: ModalNotificationProps) => {
   const { t } = useTranslation("mypage");
   const axios = useAxios();
-  const { deviceToken } = useRecoilValue(loginInfoAtom) || {};
-  const [notificationOptions, setNotificationOptions] = useRecoilState(
-    notificationOptionsAtom
-  );
+
+  const { deviceToken } = useValueRecoilState("loginInfo") || {};
+  const notificationOptions = useValueRecoilState("notificationOptions");
+  const fetchNotificationOptions = useFetchRecoilState("notificationOptions");
+
   const isOnNotification =
     // notificationOptions?.advertisement ||
     // notificationOptions?.beforeDepart ||
@@ -94,12 +95,7 @@ const ModalNotification = ({
           },
         },
       });
-      setNotificationOptions(
-        await axios({
-          url: "/notifications/options",
-          method: "get",
-        })
-      );
+      fetchNotificationOptions();
       isAxiosCalled.current = false;
     },
     [deviceToken]
@@ -119,12 +115,7 @@ const ModalNotification = ({
           },
         },
       });
-      setNotificationOptions(
-        await axios({
-          url: "/notifications/options",
-          method: "get",
-        })
-      );
+      fetchNotificationOptions();
       isAxiosCalled.current = false;
     },
     [deviceToken]

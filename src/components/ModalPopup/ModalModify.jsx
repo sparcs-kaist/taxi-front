@@ -3,6 +3,10 @@ import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import {
+  useFetchRecoilState,
+  useValueRecoilState,
+} from "hooks/useFetchRecoilState";
 import { useAxios } from "hooks/useTaxiAPI";
 
 import AccountSelector from "components/AccountSelector";
@@ -46,7 +50,8 @@ const BtnProfImg = (props) => {
 
   const inputImage = useRef(null);
   const [profileAlert, setProfileAlert] = useState(null);
-  const [loginInfo, setLoginInfo] = useRecoilState(loginInfoAtom);
+  const loginInfo = useValueRecoilState("loginInfo");
+  const fetchLoginInfo = useFetchRecoilState("loginInfo");
 
   useEffect(() => {
     if (profileAlert === "LOADING") return;
@@ -79,10 +84,7 @@ const BtnProfImg = (props) => {
             method: "get",
           });
           if (data2?.result) {
-            setLoginInfo({
-              ...loginInfo,
-              profileImgUrl: data2.profileImageUrl,
-            });
+            fetchLoginInfo();
             props.onUpdate();
             setProfileAlert("SUCCESS");
             return;
@@ -146,12 +148,15 @@ const ModalModify = (props) => {
   const [nickname, setNickname] = useState("");
   const [account, setAccount] = useState("");
 
-  const [loginInfo, setLoginInfo] = useRecoilState(loginInfoAtom);
+  const loginInfo = useValueRecoilState("loginInfo");
+  const fetchLoginInfo = useFetchRecoilState("loginInfo");
   const setAlert = useSetRecoilState(alertAtom);
 
   useEffect(() => {
-    setNickname(loginInfo?.nickname || "");
-    setAccount(loginInfo?.account || "");
+    if (props.isOpen) {
+      setNickname(loginInfo?.nickname || "");
+      setAccount(loginInfo?.account || "");
+    }
   }, [loginInfo, props.isOpen]);
 
   const isEditable =
@@ -179,12 +184,7 @@ const ModalModify = (props) => {
       });
     }
     if (isNeedToUpdateLoginInfo) {
-      setLoginInfo(
-        await axios({
-          url: "/logininfo",
-          method: "get",
-        })
-      );
+      fetchLoginInfo();
     }
     props.onChangeIsOpen(false);
   };
