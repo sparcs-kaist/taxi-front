@@ -12,21 +12,22 @@ export const useValueNotificationOptions = () =>
   useRecoilValue(notificationOptionsAtom);
 export const useSetNotificationOptions = () =>
   useSetRecoilState(notificationOptionsAtom);
-export const useFetchNotificationOptions = (
-  onError?: AxiosOption["onError"]
-) => {
+export const useFetchNotificationOptions = () => {
   const setNotificationOptions = useSetNotificationOptions();
   const axios = useAxios();
   const { deviceToken } = useValueRecoilState("loginInfo") || {};
 
-  return useCallback(() => {
-    if (deviceToken) {
-      axios({
-        url: "/notifications/options",
-        method: "get",
-        onSuccess: (data) => setNotificationOptions(data),
-        onError: onError,
-      });
-    } else setNotificationOptions(null);
-  }, [deviceToken, setNotificationOptions, axios]);
+  return useCallback(
+    (onError?: AxiosOption["onError"]) => {
+      if (deviceToken) {
+        axios({
+          url: "/notifications/options",
+          method: "get",
+          onSuccess: (data) => setNotificationOptions(data),
+          onError: onError,
+        });
+      } else setNotificationOptions(null);
+    },
+    [deviceToken, setNotificationOptions, axios]
+  );
 };

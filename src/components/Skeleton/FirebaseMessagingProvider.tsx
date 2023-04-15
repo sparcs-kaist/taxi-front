@@ -47,12 +47,7 @@ const FirebaseMessagingProvider = () => {
         url: "/notifications/registerDeviceToken",
         method: "post",
         data: { deviceToken: newDeviceToken },
-        onSuccess: () =>
-          axios({
-            url: "/logininfo",
-            method: "get",
-            onSuccess: fetchLoginInfo,
-          }),
+        onSuccess: fetchLoginInfo,
         onError: () => {},
       });
     } catch (error) {

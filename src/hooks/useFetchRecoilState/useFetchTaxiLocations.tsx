@@ -8,16 +8,19 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 
 export const useValueTaxiLocations = () => useRecoilValue(taxiLocationsAtom);
 export const useSetTaxiLocations = () => useSetRecoilState(taxiLocationsAtom);
-export const useFetchTaxiLocations = (onError?: AxiosOption["onError"]) => {
+export const useFetchTaxiLocations = () => {
   const setTaxiLocations = useSetTaxiLocations();
   const axios = useAxios();
 
-  return useCallback(() => {
-    axios({
-      url: "/locations",
-      method: "get",
-      onSuccess: ({ locations }) => setTaxiLocations(locations),
-      onError: onError,
-    });
-  }, [setTaxiLocations, axios]);
+  return useCallback(
+    (onError?: AxiosOption["onError"]) => {
+      axios({
+        url: "/locations",
+        method: "get",
+        onSuccess: ({ locations }) => setTaxiLocations(locations),
+        onError: onError,
+      });
+    },
+    [setTaxiLocations, axios]
+  );
 };

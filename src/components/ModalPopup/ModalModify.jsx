@@ -16,8 +16,7 @@ import Modal from "components/Modal";
 import ProfileImg from "components/ProfileImg";
 
 import alertAtom from "atoms/alert";
-import loginInfoAtom from "atoms/loginInfo";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 
 import convertImg from "tools/convertImg";
 import regExpTest from "tools/regExpTest";
@@ -50,7 +49,6 @@ const BtnProfImg = (props) => {
 
   const inputImage = useRef(null);
   const [profileAlert, setProfileAlert] = useState(null);
-  const loginInfo = useValueRecoilState("loginInfo");
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
 
   useEffect(() => {

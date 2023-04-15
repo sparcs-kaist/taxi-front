@@ -1,12 +1,12 @@
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 
+import { useFetchRecoilState } from "hooks/useFetchRecoilState";
 import { useAxios } from "hooks/useTaxiAPI";
 
 import PopupContainer from "./PopupContainer";
 
 import alertAtom from "atoms/alert";
-import myRoomsAtom from "atoms/myRooms";
 import { useSetRecoilState } from "recoil";
 
 const PopupCancel = (props) => {
@@ -38,7 +38,8 @@ const PopupCancel = (props) => {
 
   const history = useHistory();
   const setAlert = useSetRecoilState(alertAtom);
-  const setMyRooms = useSetRecoilState(myRoomsAtom);
+  const fetchMyrooms = useFetchRecoilState("myRooms");
+
   const onClick = () =>
     axios({
       url: "/rooms/abort",
@@ -46,13 +47,8 @@ const PopupCancel = (props) => {
       data: {
         roomId: props.roomId,
       },
-      onSuccess: async () => {
-        setMyRooms(
-          await axios({
-            url: "/rooms/searchByUser",
-            method: "get",
-          })
-        );
+      onSuccess: () => {
+        fetchMyrooms();
         history.replace("/myroom");
       },
       onError: () => setAlert("탑승 취소에 실패하였습니다"),

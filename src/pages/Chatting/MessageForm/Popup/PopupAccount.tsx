@@ -44,7 +44,7 @@ const PopupAccount = (props: SendAccoundModalProps) => {
     if (!props.popup) {
       setAccountNumber(loginInfo?.account || "");
     }
-  }, [props.popup]);
+  }, [props.popup, loginInfo?.account]);
 
   return (
     <Modal

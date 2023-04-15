@@ -10,19 +10,27 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 
 export const useValueMyRooms = () => useRecoilValue(myRoomsAtom);
 export const useSetMyRooms = () => useSetRecoilState(myRoomsAtom);
-export const useFetchMyRooms = (onError?: AxiosOption["onError"]) => {
+export const useFetchMyRooms = () => {
   const setMyrooms = useSetMyRooms();
   const axios = useAxios();
   const { id: userId } = useValueRecoilState("loginInfo") || {};
 
-  return useCallback(() => {
-    if (userId) {
-      axios({
-        url: "/rooms/searchByUser",
-        method: "get",
-        onSuccess: (data) => setMyrooms(data),
-        onError: onError,
-      });
-    } else setMyrooms(null);
-  }, [userId, setMyrooms, axios]);
+  return useCallback(
+    (onError?: AxiosOption["onError"]) => {
+      if (userId) {
+        axios({
+          url: "/rooms/searchByUser",
+          method: "get",
+          onSuccess: (data) => setMyrooms(data),
+          onError: onError,
+        });
+      } else {
+        setMyrooms({
+          ongoing: [],
+          done: [],
+        });
+      }
+    },
+    [userId, setMyrooms, axios]
+  );
 };
