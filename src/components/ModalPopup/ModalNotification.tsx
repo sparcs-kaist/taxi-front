@@ -18,6 +18,7 @@ import { useSetRecoilState } from "recoil";
 
 import { sendTryNotificationEventToFlutter } from "tools/sendEventToFlutter";
 import theme from "tools/theme";
+import { isNotificationOn } from "tools/trans";
 
 import AlarmOffRoundedIcon from "@mui/icons-material/AlarmOffRounded";
 import AlarmOnRoundedIcon from "@mui/icons-material/AlarmOnRounded";
@@ -61,12 +62,6 @@ const ModalNotification = ({
   const { deviceToken } = useValueRecoilState("loginInfo") || {};
   const notificationOptions = useValueRecoilState("notificationOptions");
   const fetchNotificationOptions = useFetchRecoilState("notificationOptions");
-
-  const isOnNotification =
-    // notificationOptions?.advertisement ||
-    // notificationOptions?.beforeDepart ||
-    notificationOptions?.chatting || notificationOptions?.notice;
-  // notificationOptions?.keywords?.length;
   const isAxiosCalled = useRef(false);
 
   const styleTitle = {
@@ -92,11 +87,13 @@ const ModalNotification = ({
       if (isAxiosCalled.current) return;
       isAxiosCalled.current = true;
 
-      const isAllowedFromFlutter = await sendTryNotificationEventToFlutter();
-      if (!isAllowedFromFlutter) {
-        setAlert("디바이스 설정에서 Taxi앱 알림을 허용해주세요.");
-        isAxiosCalled.current = false;
-        return;
+      if (value) {
+        const isAllowedInFlutter = await sendTryNotificationEventToFlutter();
+        if (!isAllowedInFlutter) {
+          setAlert("디바이스 설정에서 Taxi앱 알림을 허용해주세요.");
+          isAxiosCalled.current = false;
+          return;
+        }
       }
 
       await axios({
@@ -118,11 +115,13 @@ const ModalNotification = ({
       if (isAxiosCalled.current) return;
       isAxiosCalled.current = true;
 
-      const isAllowedFromFlutter = await sendTryNotificationEventToFlutter();
-      if (!isAllowedFromFlutter) {
-        setAlert("디바이스 설정에서 Taxi앱 알림을 허용해주세요.");
-        isAxiosCalled.current = false;
-        return;
+      if (value) {
+        const isAllowedInFlutter = await sendTryNotificationEventToFlutter();
+        if (!isAllowedInFlutter) {
+          setAlert("디바이스 설정에서 Taxi앱 알림을 허용해주세요.");
+          isAxiosCalled.current = false;
+          return;
+        }
       }
 
       await axios({
@@ -161,7 +160,7 @@ const ModalNotification = ({
       padding="16px 20px 20px"
     >
       <div css={styleTitle}>
-        {isOnNotification ? (
+        {isNotificationOn(notificationOptions) ? (
           <AlarmOnRoundedIcon style={styleLogo} />
         ) : (
           <AlarmOffRoundedIcon style={styleLogo} />
@@ -176,7 +175,7 @@ const ModalNotification = ({
           <div css={styleBody}>
             <SelectNotification
               text="알림"
-              value={!!isOnNotification}
+              value={isNotificationOn(notificationOptions)}
               onChangeValue={onChangeNotificationAll}
             />
             <DottedLine direction="row" />

@@ -6,8 +6,6 @@ import { useQuery } from "hooks/useTaxiAPI";
 import errorAtom from "atoms/error";
 import { useSetRecoilState } from "recoil";
 
-import { sendAuthLogoutEventToFlutter } from "tools/sendEventToFlutter";
-
 const Logout = () => {
   const { search } = useLocation();
   const redirectPath =
@@ -22,11 +20,6 @@ const Logout = () => {
   const setError = useSetRecoilState(errorAtom);
 
   useEffect(() => {
-    const replaceUrl = async () => {
-      await sendAuthLogoutEventToFlutter();
-      window.location.href = response?.ssoLogoutUrl || "/login";
-    };
-
     if (error) {
       setError({
         title: "일시적인 서버 오류",
@@ -36,7 +29,7 @@ const Logout = () => {
     } else if (!isLoading && response?.ssoLogoutUrl) {
       // response?.ssoLogoutUrl = SSO로그아웃과 함께 다시 taxi-front로 redirect해주는 URL
       // "/auth/logout" API 명세서 참고
-      replaceUrl();
+      window.location.href = response?.ssoLogoutUrl || "/login";
     }
   }, [error, response, isLoading]);
 

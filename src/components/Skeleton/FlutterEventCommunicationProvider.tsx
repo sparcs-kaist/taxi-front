@@ -80,6 +80,7 @@ export const sendAuthUpdateEventToFlutter = async (
 };
 
 // 버튼 클릭으로 인한 로그아웃 시 Flutter에 이벤트 전달합니다
+// 이용약관 미동의로 인한 로그아웃 시에도 이벤트를 전달합니다
 export const sendAuthLogoutEventToFlutter = async () => {
   if (!isWebViewInFlutter) return;
   try {
