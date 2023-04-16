@@ -60,7 +60,7 @@ Member.propTypes = {
   period: PropTypes.string,
 };
 
-const PopupMembers = (props) => {
+const ModalCredit = (props) => {
   const { t } = useTranslation("mypage");
 
   const styleTitle = {
@@ -95,7 +95,7 @@ const PopupMembers = (props) => {
   return (
     <Modal
       isOpen={props.isOpen}
-      onChangeIsOpen={props.onClose}
+      onChangeIsOpen={props.onChangeIsOpen}
       width={theme.modal_width_large}
       padding="16px 12px 12px"
     >
@@ -127,9 +127,9 @@ const PopupMembers = (props) => {
     </Modal>
   );
 };
-PopupMembers.propTypes = {
+ModalCredit.propTypes = {
   isOpen: PropTypes.bool,
-  onClose: PropTypes.func,
+  onChangeIsOpen: PropTypes.func,
 };
 
-export default PopupMembers;
+export default ModalCredit;

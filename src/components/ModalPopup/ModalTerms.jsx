@@ -1,15 +1,16 @@
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
-import { useHistory } from "react-router";
 
+import { useFetchRecoilState } from "hooks/useFetchRecoilState";
 import { useAxios } from "hooks/useTaxiAPI";
 
 import Button from "components/Button";
+import { useOnClickLogout } from "components/Link/LinkLogout";
 import Modal from "components/Modal";
 import Terms from "components/ModalPopup/Terms";
 
 import alertAtom from "atoms/alert";
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import loginInfoAtom from "atoms/loginInfo";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import theme from "tools/theme";
@@ -19,7 +20,7 @@ import { ReactComponent as TaxiLogo } from "static/assets/TaxiLogo.svg";
 const Agree = (props) => {
   const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
-  const setLoginInfoDetail = useSetRecoilState(loginInfoDetailAtom);
+  const fetchLoginInfo = useFetchRecoilState("loginInfo");
 
   const onAgree = async () => {
     await axios({
@@ -27,12 +28,7 @@ const Agree = (props) => {
       method: "post",
       onError: () => setAlert("약관 동의에 실패하였습니다."),
     });
-    setLoginInfoDetail(
-      await axios({
-        url: "/logininfo",
-        method: "get",
-      })
-    );
+    fetchLoginInfo();
     props.onAgree();
   };
   const styleBottom = {
@@ -77,19 +73,19 @@ Agree.propTypes = {
   onAgree: PropTypes.func,
 };
 
-const PopupPolicy = (props) => {
+const ModalTerms = (props) => {
   const { t } = useTranslation("mypage");
-  const history = useHistory();
-  const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
-  const didAgree = loginInfoDetail?.agreeOnTermsOfService ?? false;
+  const onClickLogout = useOnClickLogout();
+  const loginInfo = useRecoilValue(loginInfoAtom);
+  const didAgree = loginInfo?.agreeOnTermsOfService ?? false;
 
   const onClose = async () => {
     if (didAgree === null) return;
     if (didAgree === true) {
-      props.onClose();
+      props.onChangeIsOpen(false);
       return;
     }
-    history.push("/logout");
+    onClickLogout();
   };
 
   const styleTop = {
@@ -113,17 +109,21 @@ const PopupPolicy = (props) => {
       </div>
       <Terms />
       <div data-cy="agreement-bottom">
-        <Agree didAgree={didAgree} onClose={onClose} onAgree={props.onClose} />
+        <Agree
+          didAgree={didAgree}
+          onClose={onClose}
+          onAgree={() => props.onChangeIsOpen(false)}
+        />
       </div>
     </Modal>
   );
 };
-PopupPolicy.propTypes = {
+ModalTerms.propTypes = {
   isOpen: PropTypes.bool,
-  onClose: PropTypes.func,
+  onChangeIsOpen: PropTypes.func,
 };
-PopupPolicy.defaultProps = {
-  onClose: () => {},
+ModalTerms.defaultProps = {
+  onChangeIsOpen: () => {},
 };
 
-export default PopupPolicy;
+export default ModalTerms;

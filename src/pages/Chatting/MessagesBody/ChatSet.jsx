@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 
+import ProfileImg from "components/ProfileImg";
 import ImageFullscreen from "pages/Chatting/MessagesBody/ImageFullscreen";
-import ProfileImg from "pages/Mypage/ProfileImg";
 
 import ChatPaySettle from "./ChatPaySettle";
 

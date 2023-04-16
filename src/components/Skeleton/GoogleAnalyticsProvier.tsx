@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import reactGA from "react-ga4";
 import { useLocation } from "react-router-dom";
 
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import loginInfoAtom from "atoms/loginInfo";
 import { useRecoilValue } from "recoil";
 
 import { gaTrackingId, nodeEnv } from "loadenv";
@@ -14,8 +14,8 @@ const GoogleAnalyticsProvier = () => {
   const { pathname, search } = location;
   const currentPath = pathname + search;
 
-  const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
-  const userId = loginInfoDetail?.id;
+  const loginInfo = useRecoilValue(loginInfoAtom);
+  const userId = loginInfo?.id;
 
   useEffect(() => {
     if (gaTrackingId) {
