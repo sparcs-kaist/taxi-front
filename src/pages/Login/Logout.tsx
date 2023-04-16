@@ -10,14 +10,15 @@ import { sendAuthLogoutEventToFlutter } from "tools/sendEventToFlutter";
 
 const Logout = () => {
   const { search } = useLocation();
-  const redirectPath = useMemo(() => {
-    const searchParams = new URLSearchParams(search);
-    return searchParams.get("redirect");
-  }, [search]);
+  const redirectPath =
+    useMemo(() => {
+      const searchParams = new URLSearchParams(search);
+      return searchParams.get("redirect");
+    }, [search]) || "/";
 
-  const [error, response, isLoading] = useQuery.get("/auth/logout", {
-    redirect: redirectPath,
-  });
+  const [error, response, isLoading] = useQuery.get(
+    `/auth/logout?redirect=${redirectPath}`
+  );
   const setError = useSetRecoilState(errorAtom);
 
   useEffect(() => {

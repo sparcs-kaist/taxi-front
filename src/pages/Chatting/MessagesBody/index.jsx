@@ -6,7 +6,7 @@ import ChatInOut from "./ChatInOut";
 import ChatSet from "./ChatSet";
 import PopupReport from "./PopupReport";
 
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import loginInfoAtom from "atoms/loginInfo";
 import { useRecoilValue } from "recoil";
 
 import moment from "tools/moment";
@@ -22,7 +22,7 @@ import moment from "tools/moment";
 // }
 
 const MessagesBody = (props) => {
-  const { oid: userOid } = useRecoilValue(loginInfoDetailAtom) || {};
+  const { oid: userOid } = useRecoilValue(loginInfoAtom) || {};
   const [isOpen, setIsOpen] = useState(false);
   const [path, setPath] = useState("");
   const [name, setName] = useState("");

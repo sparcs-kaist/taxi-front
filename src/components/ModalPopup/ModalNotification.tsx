@@ -1,18 +1,20 @@
 import { useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
+import {
+  useFetchRecoilState,
+  useValueRecoilState,
+} from "hooks/useFetchRecoilState";
 import { useAxios } from "hooks/useTaxiAPI";
 
 import DottedLine from "components/DottedLine";
 import Modal from "components/Modal";
 import Toggle from "components/Toggle";
 
-import Guide from "./Guide";
+import NotificationGuide from "./NotificationGuide";
 
 import alertAtom from "atoms/alert";
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
-import notificationOptionsAtom from "atoms/notificationOptions";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 
 import { sendTryNotificationEventToFlutter } from "tools/sendEventToFlutter";
 import theme from "tools/theme";
@@ -54,11 +56,12 @@ const ModalNotification = ({
 }: ModalNotificationProps) => {
   const { t } = useTranslation("mypage");
   const axios = useAxios();
-  const { deviceToken } = useRecoilValue(loginInfoDetailAtom) || {};
-  const [notificationOptions, setNotificationOptions] = useRecoilState(
-    notificationOptionsAtom
-  );
+
   const setAlert = useSetRecoilState(alertAtom);
+  const { deviceToken } = useValueRecoilState("loginInfo") || {};
+  const notificationOptions = useValueRecoilState("notificationOptions");
+  const fetchNotificationOptions = useFetchRecoilState("notificationOptions");
+
   const isOnNotification =
     // notificationOptions?.advertisement ||
     // notificationOptions?.beforeDepart ||
@@ -100,19 +103,12 @@ const ModalNotification = ({
         url: "/notifications/editOptions",
         method: "post",
         data: {
-          deviceToken,
           options: {
             [optionName]: value,
           },
         },
       });
-      setNotificationOptions(
-        await axios({
-          url: "/notifications/options",
-          method: "get",
-          params: { deviceToken },
-        })
-      );
+      fetchNotificationOptions();
       isAxiosCalled.current = false;
     },
     [deviceToken]
@@ -133,7 +129,6 @@ const ModalNotification = ({
         url: "/notifications/editOptions",
         method: "post",
         data: {
-          deviceToken,
           options: {
             beforeDepart: value,
             chatting: value,
@@ -141,13 +136,7 @@ const ModalNotification = ({
           },
         },
       });
-      setNotificationOptions(
-        await axios({
-          url: "/notifications/options",
-          method: "get",
-          params: { deviceToken },
-        })
-      );
+      fetchNotificationOptions();
       isAxiosCalled.current = false;
     },
     [deviceToken]
@@ -209,7 +198,7 @@ const ModalNotification = ({
           </div>
         </>
       ) : (
-        <Guide />
+        <NotificationGuide />
       )}
     </Modal>
   );

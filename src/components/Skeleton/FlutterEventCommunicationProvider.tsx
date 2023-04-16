@@ -1,22 +1,19 @@
 import { useEffect } from "react";
 
-import { useAxios } from "hooks/useTaxiAPI";
+import { useFetchRecoilState } from "hooks/useFetchRecoilState";
 
 import alertAtom from "atoms/alert";
 import errorAtom from "atoms/error";
-import loginInfoDetailAtom, {
-  LoginInfoDetailType,
-} from "atoms/loginInfoDetail";
+import { LoginInfoType } from "atoms/loginInfo";
 import { useSetRecoilState } from "recoil";
 
 // global flag variable to check if the webview is in Flutter
 let isWebViewInFlutter: boolean = false;
 
 const FlutterEventCommunicationProvider = () => {
-  const axios = useAxios();
-  const setLoginInfoDetail = useSetRecoilState(loginInfoDetailAtom);
   const setAlert = useSetRecoilState(alertAtom);
   const setError = useSetRecoilState(errorAtom);
+  const fetchLoginInfo = useFetchRecoilState("loginInfo");
 
   useEffect(() => {
     const eventListeners: Array<{
@@ -35,12 +32,7 @@ const FlutterEventCommunicationProvider = () => {
     // Flutter에서 logininfo 업데이트를 요청할 때, 호출됩니다.
     eventListeners.push({
       name: "updateLoginInfo",
-      listner: () =>
-        axios({
-          url: "/logininfo",
-          method: "get",
-          onSuccess: (data) => setLoginInfoDetail(data),
-        }),
+      listner: () => fetchLoginInfo(),
     });
 
     // Flutter에서 에러를 전달할 때, 호출됩니다.
@@ -77,7 +69,7 @@ export const getIsWebViewInFlutter = () => isWebViewInFlutter;
 
 // 로그인 정보 변동 시 Flutter에 이벤트를 전달합니다
 export const sendAuthUpdateEventToFlutter = async (
-  loginInfo: LoginInfoDetailType
+  loginInfo: LoginInfoType
 ) => {
   if (!isWebViewInFlutter) return;
   try {
