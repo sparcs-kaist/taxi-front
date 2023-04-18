@@ -18,7 +18,7 @@ const routes = [
     exact: true,
   },
   {
-    path: "/event/2023spring",
+    path: "/event/:eventName",
     component: lazy(() => import("pages/Event")),
     exact: true,
   },

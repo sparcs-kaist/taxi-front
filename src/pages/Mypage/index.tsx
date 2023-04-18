@@ -207,7 +207,7 @@ const Mypage = () => {
           )}
         </div>
       </WhiteContainer>
-      <Footer />
+      <Footer type="only-logo" />
       <ModalPrivacyPolicy
         isOpen={isOpenPrivacyPolicy}
         onChangeIsOpen={setIsOpenPrivacyPolicy}
