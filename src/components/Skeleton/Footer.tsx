@@ -1,5 +1,3 @@
-const Footer = () => (
-  <div style={{ height: "calc(88px + env(safe-area-inset-bottom))" }} />
-);
+const Footer = () => <div css={{ height: "88px" }} />;
 
 export default Footer;

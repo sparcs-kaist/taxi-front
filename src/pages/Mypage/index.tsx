@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import useDateToken from "hooks/useDateToken";
 import { useValueRecoilState } from "hooks/useFetchRecoilState";
 
+import Footer from "components/Footer";
 import LinkLogout from "components/Link/LinkLogout";
 import {
   ModalCredit,
@@ -206,6 +207,7 @@ const Mypage = () => {
           )}
         </div>
       </WhiteContainer>
+      <Footer />
       <ModalPrivacyPolicy
         isOpen={isOpenPrivacyPolicy}
         onChangeIsOpen={setIsOpenPrivacyPolicy}

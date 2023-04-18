@@ -18,6 +18,11 @@ const routes = [
     exact: true,
   },
   {
+    path: "/event/2023spring",
+    component: lazy(() => import("pages/Event")),
+    exact: true,
+  },
+  {
     path: "/search",
     component: lazy(() => import("pages/Search")),
     exact: true,
