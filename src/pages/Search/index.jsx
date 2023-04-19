@@ -31,19 +31,22 @@ import theme from "tools/theme";
 
 const Search = () => {
   const axios = useAxios();
-  const [cookies, setCookie] = useCookies(["defaultFromTo"]);
+  const [cookies, setCookie] = useCookies([
+    "defaultSearchOptions",
+    "defaultFromTo",
+  ]);
   const history = useHistory();
   const { search } = useLocation();
   const reactiveState = useR2state();
   const today10 = getToday10();
   const setError = useSetRecoilState(errorAtom);
 
-  const defaultOptions = {
-    place: true,
-    date: true,
-    time: true,
-    maxPeople: false,
-    name: false,
+  const defaultSearchOptions = {
+    place: !!cookies?.defaultSearchOptions?.place,
+    date: !!cookies?.defaultSearchOptions?.date,
+    time: !!cookies?.defaultSearchOptions?.time,
+    maxPeople: !!cookies?.defaultSearchOptions?.maxPeople,
+    name: !!cookies?.defaultSearchOptions?.name,
   };
   const defaultPlace = [
     cookies?.defaultFromTo?.[0] ?? null,
@@ -54,18 +57,27 @@ const Search = () => {
   const defaultMaxPeople = 4;
   const defaultName = "";
 
-  const [searchOptions, setSearchOptions] = useState(defaultOptions);
+  const [searchOptions, setSearchOptions] = useState(defaultSearchOptions);
   const [valuePlace, setPlace] = useState(defaultPlace);
   const [valueDate, setDate] = useState(defaultDate);
   const [valueTime, setTime] = useState(defaultTime);
   const [valueMaxPeople, setMaxPeople] = useState(defaultMaxPeople);
   const [valueName, setName] = useState(defaultName);
-
   const [searchResult, setSearchResult] = useState(null);
 
   const scrollRef = useRef(null);
   const [showScrollButton, setShowScrollButton] = useState(false);
 
+  // 방 검색 옵션 쿠키에 저장
+  useEffect(() => {
+    const expirationDate = new Date();
+    expirationDate.setFullYear(expirationDate.getFullYear() + 10);
+    setCookie("defaultSearchOptions", searchOptions, {
+      expires: expirationDate,
+    });
+  }, [searchOptions]);
+
+  // 장소 옵션 쿠키에 저장
   useEffect(() => {
     if (valuePlace[0] && valuePlace[1]) {
       const expirationDate = new Date();
@@ -211,17 +223,17 @@ const Search = () => {
   }, []);
 
   // 검색 버튼 클릭 시
-  const onClickSearch = () => {
-    const query = qs.stringify({
-      place: searchOptions.place ? valuePlace : undefined,
-      date: searchOptions.date ? valueDate : undefined,
-      time: searchOptions.time ? valueTime : undefined,
-      maxPeople: searchOptions.maxPeople ? valueMaxPeople : undefined,
-      name: searchOptions.name ? valueName : undefined,
-      page: 1,
-    });
-    history.push(`/search?${query}`);
-  };
+  const onClickSearch = () =>
+    history.push(
+      `/search?${qs.stringify({
+        place: searchOptions.place ? valuePlace : undefined,
+        date: searchOptions.date ? valueDate : undefined,
+        time: searchOptions.time ? valueTime : undefined,
+        maxPeople: searchOptions.maxPeople ? valueMaxPeople : undefined,
+        name: searchOptions.name ? valueName : undefined,
+        page: 1,
+      })}`
+    );
 
   const leftLay = (
     <>
