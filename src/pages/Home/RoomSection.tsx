@@ -4,9 +4,9 @@ import { useHistory } from "react-router-dom";
 import useDateToken from "hooks/useDateToken";
 import { useQuery } from "hooks/useTaxiAPI";
 
+import ModalRoomSelection from "components/ModalPopup/ModalRoomSelect";
 import RLayout from "components/RLayout";
 import Title from "components/Title";
-import RoomSelectionModal from "pages/Search/RoomSelectionModal";
 
 import RoomList from "./RoomList";
 import SelectDate from "./SelectDate";
@@ -58,7 +58,7 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
 
   return (
     <RLayout.R1>
-      <RoomSelectionModal
+      <ModalRoomSelection
         isOpen={!!roomInfo}
         onClose={() => history.replace("/home")}
         roomInfo={roomInfo}
