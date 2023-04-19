@@ -108,7 +108,7 @@ InfoSection.defaultProps = {
   isAlignLeft: true,
 };
 
-const RoomSelectionModal = (props) => {
+const ModalRoomSelection = (props) => {
   const { i18n } = useTranslation();
   const axios = useAxios();
   const onCall = useRef(false);
@@ -283,10 +283,10 @@ const RoomSelectionModal = (props) => {
     </Modal>
   );
 };
-RoomSelectionModal.propTypes = {
+ModalRoomSelection.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
   roomInfo: PropTypes.object,
 };
 
-export default RoomSelectionModal;
+export default ModalRoomSelection;

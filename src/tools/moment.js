@@ -7,6 +7,7 @@ const getToday = () => moment();
 
 const getToday10 = () => {
   const today = getToday();
+  today.add(1, "minutes");
   while (today.minute() % 10 > 0) {
     today.add(1, "minutes");
   }
