@@ -59,7 +59,7 @@ const InfoSection = () => {
       (room) => !room.isOver && room.isDeparted
     );
     if (!sortedMyRoom.length)
-      return { message: "현재 참여중인 방이 없습니다.", room: null };
+      return { message: "현재 참여 중인 방이 없습니다.", room: null };
     if (notDeparted) {
       const departure = moment(notDeparted.time);
       const diffDays = departure.diff(getToday(), "days");

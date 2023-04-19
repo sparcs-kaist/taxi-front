@@ -63,9 +63,9 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
         onClose={() => history.replace("/home")}
         roomInfo={roomInfo}
       />
-      <div style={{ margin: "20px 0" }}>
-        <Title icon="taxi">요일별 출발하는 방</Title>
-      </div>
+      <Title icon="taxi" header>
+        요일별 출발하는 방
+      </Title>
       <SelectDate
         selectedDate={selectedDate}
         onClick={([year, month, date]) => setSelectedDate([year, month, date])}

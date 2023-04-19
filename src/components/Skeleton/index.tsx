@@ -11,7 +11,6 @@ import Loading from "components/Loading";
 import { ModalTerms } from "components/ModalPopup";
 import Error from "pages/Error";
 
-import Footer from "./Footer";
 import Navigation from "./Navigation";
 
 import errorAtom from "atoms/error";
@@ -25,28 +24,24 @@ type SkeletonProps = {
   children: ReactNode;
 };
 
-const Container = ({ children }: ContainerProps) => {
-  return (
-    <div
-      id="skeleton-container" // For useDisableScroll
-      style={{
-        width: "100%",
-        height: "calc(100% - env(safe-area-inset-bottom))",
-        position: "relative",
-        paddingTop: "env(safe-area-inset-top)",
-        paddingBottom: "env(safe-area-inset-bottom)",
-      }}
-    >
-      {children}
-    </div>
-  );
-};
+const Container = ({ children }: ContainerProps) => (
+  <div
+    css={{
+      width: "100%",
+      height: "calc(100% - env(safe-area-inset-bottom))",
+      position: "relative",
+      paddingTop: "env(safe-area-inset-top)",
+      paddingBottom: "env(safe-area-inset-bottom)",
+    }}
+  >
+    {children}
+  </div>
+);
 
 const Skeleton = ({ children }: SkeletonProps) => {
-  const loginInfo = useValueRecoilState("loginInfo");
-  const error = useRecoilValue(errorAtom);
   const { id: userId, agreeOnTermsOfService: isAgreeOnTermsOfService } =
-    loginInfo || {};
+    useValueRecoilState("loginInfo") || {};
+  const error = useRecoilValue(errorAtom);
   const isLoading = userId === null;
 
   const location = useLocation();
@@ -88,8 +83,8 @@ const Skeleton = ({ children }: SkeletonProps) => {
       <Navigation />
       <HeaderBar />
       {children}
-      <Footer />
       <ModalTerms isOpen={!!userId && !isAgreeOnTermsOfService} />
+      <div css={{ height: "88px" }} />
     </Container>
   );
 };
