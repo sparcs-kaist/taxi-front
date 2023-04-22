@@ -46,5 +46,6 @@ declare global {
     flutter_inappwebview: {
       callHandler: (name: string, ...args: any[]) => Promise<any>;
     };
+    Kakao: any;
   }
 }
