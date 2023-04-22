@@ -59,7 +59,7 @@ const LinkKakaotalkShare = ({
         imageHeight: 500,
         link: { webUrl, mobileWebUrl: webUrl }, // TODO : androidExecutionParams, iosExecutionParams 설정
       },
-      social: partNum && { subscriberCount: partNum },
+      social: { subscriberCount: partNum ?? 0 },
       buttons: [
         {
           title: buttonText,
@@ -70,7 +70,7 @@ const LinkKakaotalkShare = ({
         },
       ],
     });
-  }, [title, description, buttonTo]);
+  }, [title, description, buttonText, buttonTo, partNum]);
   return <div onClick={onClick}>{children}</div>;
 };
 

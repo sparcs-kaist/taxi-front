@@ -25,10 +25,14 @@ const PopupAccount = (props: SendAccoundModalProps) => {
   const [accountNumber, setAccountNumber] = useState(loginInfo?.account || "");
 
   const styleTitle = {
+    ...theme.font18,
     display: "flex",
     alignItems: "center",
   };
-
+  const styleIcon = {
+    fontSize: "21px",
+    margin: "0 4px 0 0",
+  };
   const styleText = {
     ...theme.font14,
     color: theme.gray_text,
@@ -62,7 +66,7 @@ const PopupAccount = (props: SendAccoundModalProps) => {
         }}
       >
         <div style={styleTitle}>
-          <WalletIcon />
+          <WalletIcon style={styleIcon} />
           계좌 보내기
         </div>
         <div style={styleText}>
