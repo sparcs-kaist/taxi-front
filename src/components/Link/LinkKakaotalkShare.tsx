@@ -9,6 +9,7 @@ type LinkKakaotalkShareProps = {
   description?: string;
   buttonText?: string;
   buttonTo?: string;
+  partNum?: number;
 };
 
 const LinkKakaotalkShare = ({
@@ -17,6 +18,7 @@ const LinkKakaotalkShare = ({
   description = "KAIST 구성원들의 택시 동승 인원 모집을 위한 서비스",
   buttonText = "사이트로 이동",
   buttonTo: _buttonTo,
+  partNum,
 }: LinkKakaotalkShareProps) => {
   const { pathname, search } = useLocation();
   const buttonTo = _buttonTo ?? pathname + search;
@@ -35,7 +37,7 @@ const LinkKakaotalkShare = ({
   }, []);
   const onClick = useCallback(() => {
     const kakao = window.Kakao;
-    const webUrl = "https://taxi.sparcs.org";
+    const webUrl = "https://taxi.dev.sparcs.org";
     if (!kakao) {
       console.error("Kakao SDK is not loaded.");
       return;
@@ -53,8 +55,11 @@ const LinkKakaotalkShare = ({
         title,
         description,
         imageUrl: `${webUrl}/graph.png`,
-        link: { webUrl, mobileWebUrl: webUrl },
+        imageWidth: 1024,
+        imageHeight: 500,
+        link: { webUrl, mobileWebUrl: webUrl }, // TODO : androidExecutionParams, iosExecutionParams 설정
       },
+      social: partNum && { subscriberCount: partNum },
       buttons: [
         {
           title: buttonText,
