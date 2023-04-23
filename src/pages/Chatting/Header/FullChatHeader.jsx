@@ -5,6 +5,7 @@ import { useHistory } from "react-router";
 import { useR2state } from "hooks/useReactiveState";
 
 import DottedLine from "components/DottedLine";
+import ModalRoomShare from "components/ModalPopup/ModalRoomShare";
 
 import HeaderBody from "./HeaderBody";
 
@@ -12,12 +13,14 @@ import theme from "tools/theme";
 
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import CloseFullscreenRoundedIcon from "@mui/icons-material/CloseFullscreenRounded";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import ShareIcon from "@mui/icons-material/Share";
+import UnfoldLessRoundedIcon from "@mui/icons-material/UnfoldLessRounded";
+import UnfoldMoreRoundedIcon from "@mui/icons-material/UnfoldMoreRounded";
 
 const Header = (props) => {
   const bodyRef = useRef();
   const [isOpen, setOpen] = useState(false);
+  const [isOpenShare, setIsOpenShare] = useState(false);
   const [bodyHeight, setBodyHeight] = useState(0);
   const history = useHistory();
   const reactiveState = useR2state();
@@ -105,6 +108,10 @@ const Header = (props) => {
               {props?.info?.to?.koName}
             </div>
           </div>
+          <ShareIcon
+            style={{ ...styleIcon, marginRight: "18px", fontSize: "20px" }}
+            onClick={() => setIsOpenShare(true)}
+          />
           {reactiveState !== 3 && (
             <CloseFullscreenRoundedIcon
               style={{ ...styleIcon, marginRight: "12px", fontSize: "20px" }}
@@ -112,12 +119,12 @@ const Header = (props) => {
             />
           )}
           {isOpen ? (
-            <CloseRoundedIcon
+            <UnfoldLessRoundedIcon
               style={styleIcon}
               onClick={() => setOpen(!isOpen)}
             />
           ) : (
-            <MenuRoundedIcon
+            <UnfoldMoreRoundedIcon
               style={styleIcon}
               onClick={() => setOpen(!isOpen)}
             />
@@ -130,6 +137,11 @@ const Header = (props) => {
           <HeaderBody info={props.info} recallEvent={props.recallEvent} />
         </div>
       </div>
+      <ModalRoomShare
+        isOpen={isOpenShare}
+        onChangeIsOpen={setIsOpenShare}
+        roomInfo={props.info}
+      />
     </div>
   );
 };

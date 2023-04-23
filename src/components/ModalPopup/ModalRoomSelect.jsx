@@ -22,7 +22,6 @@ import theme from "tools/theme";
 import { getLocationName } from "tools/trans";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
-import Tooltip from "@mui/material/Tooltip";
 
 const PlaceSection = (props) => {
   const style = {
@@ -69,51 +68,44 @@ PlaceSection.propTypes = {
   name: PropTypes.string.isRequired,
 };
 
-const InfoSection = (props) => {
-  const style = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: props.isAlignLeft ? "flex-start" : "flex-end",
-    rowGap: "5px",
-    maxWidth: "fit-content",
-    flex: props.isBold || props.isColored ? "1 0" : "1 1",
-  };
-  const styleTitle = {
-    ...theme.font12,
-    color: theme.gray_text,
-  };
-  const styleText = {
-    ...theme.font14,
-    color: props.isColored ? theme.purple : undefined,
-    fontWeight: props.isBold || props.isColored ? 500 : undefined,
-  };
-
-  return (
-    <div style={style}>
-      <p style={styleTitle}>{props.title}</p>
-      <p style={styleText}>{props.text}</p>
-    </div>
-  );
-};
+const InfoSection = (props) => (
+  <div
+    css={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: props.isAlignLeft ? "flex-start" : "flex-end",
+      rowGap: "5px",
+      maxWidth: "fit-content",
+    }}
+  >
+    <p
+      css={{
+        ...theme.font12,
+        color: theme.gray_text,
+      }}
+    >
+      {props.title}
+    </p>
+    {props.children}
+  </div>
+);
 InfoSection.propTypes = {
   title: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
-  isBold: PropTypes.bool,
-  isColored: PropTypes.bool,
   isAlignLeft: PropTypes.bool,
+  children: PropTypes.node,
 };
 InfoSection.defaultProps = {
-  isBold: false,
-  isColored: false,
   isAlignLeft: true,
 };
 
 const ModalRoomSelection = (props) => {
   const { i18n } = useTranslation();
   const axios = useAxios();
-  const onCall = useRef(false);
-  const [roomInfo, setRoomInfo] = useState(null);
   const history = useHistory();
+
+  const [roomInfo, setRoomInfo] = useState(null);
+  const onCall = useRef(false);
+
   const [myRooms, setMyRooms] = useRecoilState(myRoomsAtom);
   const loginInfo = useRecoilValue(loginInfoAtom);
   const setAlert = useSetRecoilState(alertAtom);
@@ -198,88 +190,61 @@ const ModalRoomSelection = (props) => {
       </div>
       <DottedLine margin="0 2px" />
       <div style={styleInfoSectionWrapper}>
-        <InfoSection
-          title="출발 시각 & 날짜"
-          text={date2str(roomInfo?.time) ?? ""}
-          isBold
-        />
+        <InfoSection title="출발 시각 & 날짜" isBold>
+          <p style={theme.font14_bold}>{date2str(roomInfo?.time) ?? ""}</p>
+        </InfoSection>
         <div style={styleMultipleInfo}>
-          <InfoSection
-            title="탑승자"
-            text={
-              roomInfo?.part
+          <InfoSection title="탑승자">
+            <p style={theme.font14}>
+              {roomInfo?.part
                 .reduce((acc, user) => {
                   acc.push(user.nickname);
                   return acc;
                 }, [])
-                .join(", ") ?? ""
-            }
-          />
-          <InfoSection
-            title="남은 인원"
-            text={
-              roomInfo
-                ? `${roomInfo.maxPartLength - roomInfo.part.length}명`
-                : ""
-            }
-            isAlignLeft={false}
-            isColored
-          />
+                .join(", ") ?? ""}
+            </p>
+          </InfoSection>
+          <InfoSection title="탑승 / 최대 인원" isAlignLeft={false}>
+            <div style={{ display: "flex" }}>
+              <p
+                style={{ ...theme.font14_bold, color: theme.purple }}
+              >{`${roomInfo?.part?.length}명`}</p>
+              <p style={theme.font14}>
+                &nbsp;{`/ ${roomInfo?.maxPartLength}명`}
+              </p>
+            </div>
+          </InfoSection>
         </div>
       </div>
-      <Tooltip
-        title={"참여할 수 있는 방 개수는 최대 5개입니다."}
-        componentsProps={{
-          tooltip: {
-            sx: {
-              display: fullParticipation ? undefined : "none",
-              ...theme.font12,
-              color: theme.black,
-              padding: "8px 10px 7px",
-              marginTop: "20px !important",
-              width: "148px",
-              boxShadow: theme.shadow,
-              backgroundColor: theme.white,
-              textAlign: "center",
-              whiteSpace: "normal",
-              borderRadius: "8px",
-              cursor: "default",
-            },
-          },
-        }}
-        enterTouchDelay={0}
-        leaveTouchDelay={2000}
-      >
-        {isLogin ? (
+      {isLogin ? (
+        <Button
+          type="purple"
+          disabled={isRoomFull || disableJoinBtn || fullParticipation}
+          padding="10px 0 9px"
+          radius={8}
+          font={theme.font14_bold}
+          onClick={requestJoin}
+        >
+          {disableJoinBtn
+            ? "이미 참여 중입니다"
+            : isRoomFull
+            ? "인원이 0명인 방은 참여할 수 없습니다"
+            : fullParticipation
+            ? "현재 5개의 방에 참여 중입니다"
+            : "참여 신청"}
+        </Button>
+      ) : (
+        <LinkLogin redirect={`/home/${roomInfo?._id}`}>
           <Button
             type="purple"
-            disabled={isRoomFull || disableJoinBtn || fullParticipation}
             padding="10px 0 9px"
             radius={8}
             font={theme.font14_bold}
-            onClick={requestJoin}
           >
-            {disableJoinBtn
-              ? "이미 참여 중입니다"
-              : isRoomFull
-              ? "인원이 0명인 방은 참여할 수 없습니다"
-              : fullParticipation
-              ? "현재 5개의 방에 참여 중입니다"
-              : "참여 신청"}
+            로그인 후 참여 신청
           </Button>
-        ) : (
-          <LinkLogin redirect={`/home/${roomInfo?._id}`}>
-            <Button
-              type="purple"
-              padding="10px 0 9px"
-              radius={8}
-              font={theme.font14_bold}
-            >
-              로그인 후 참여 신청
-            </Button>
-          </LinkLogin>
-        )}
-      </Tooltip>
+        </LinkLogin>
+      )}
     </Modal>
   );
 };

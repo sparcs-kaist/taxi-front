@@ -1,13 +1,11 @@
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
+import LinkCopy from "components/Link/LinkCopy";
 import ProfileImg from "components/ProfileImg";
 import ImageFullscreen from "pages/Chatting/MessagesBody/ImageFullscreen";
 
 import ChatPaySettle from "./ChatPaySettle";
-
-import alertAtom from "atoms/alert";
-import { useSetRecoilState } from "recoil";
 
 import hoverEventSet from "tools/hoverEventSet";
 import moment from "tools/moment";
@@ -21,10 +19,10 @@ import WalletIcon from "@mui/icons-material/Wallet";
 const ChatAccount = (props) => {
   const bankName = props.account.split(" ")[0];
   const accounNumber = props.account.split(" ")[1];
+
   const [isClicked, setIsClicked] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
-  const setAlert = useSetRecoilState(alertAtom);
-
+  const onCopy = useCallback(() => setIsCopied(true), [setIsCopied]);
   useEffect(() => {
     if (isCopied) {
       const timer = setTimeout(() => setIsCopied(false), 1000);
@@ -38,14 +36,6 @@ const ChatAccount = (props) => {
   const accountWrapperStyle = {
     display: "flex",
     gap: "6px",
-  };
-  const handleCopy = () => {
-    if (!navigator.clipboard) {
-      setAlert("복사를 지원하지 않는 브라우저입니다.");
-      return;
-    }
-    navigator.clipboard.writeText(props.account);
-    setIsCopied(true);
   };
 
   return (
@@ -106,28 +96,29 @@ const ChatAccount = (props) => {
             </div>
           </div>
         )}
-        <div
-          style={{
-            boxShadow: theme.shadow_gray_button_inset,
-            color: theme.gray_text,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "30px",
-            height: "30px",
-            borderRadius: "6px",
-            backgroundColor: theme.gray_background,
-            cursor: "pointer",
-          }}
-          onClick={handleCopy}
-          {...hoverEventSet(() => {}, setIsClicked)}
-        >
-          {isCopied ? (
-            <CheckIcon style={{ fontSize: "16px" }} />
-          ) : (
-            <ContentCopyIcon style={{ fontSize: "16px" }} />
-          )}
-        </div>
+        <LinkCopy value={props.account} onCopy={onCopy}>
+          <div
+            style={{
+              boxShadow: theme.shadow_gray_button_inset,
+              color: theme.gray_text,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "30px",
+              height: "30px",
+              borderRadius: "6px",
+              backgroundColor: theme.gray_background,
+              cursor: "pointer",
+            }}
+            {...hoverEventSet(() => {}, setIsClicked)}
+          >
+            {isCopied ? (
+              <CheckIcon style={{ fontSize: "16px" }} />
+            ) : (
+              <ContentCopyIcon style={{ fontSize: "16px" }} />
+            )}
+          </div>
+        </LinkCopy>
       </div>
       <div
         style={{

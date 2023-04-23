@@ -26,7 +26,7 @@ const LinkKakaotalkShare = ({
   useEffect(() => {
     // kakaotalk SDK script 추가
     const script = document.createElement("script");
-    script.src = "https://developers.kakao.com/sdk/js/kakao.js";
+    script.src = "https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js";
     script.async = true;
     document.body.appendChild(script);
 
@@ -37,7 +37,7 @@ const LinkKakaotalkShare = ({
   }, []);
   const onClick = useCallback(() => {
     const kakao = window.Kakao;
-    const webUrl = "https://taxi.dev.sparcs.org";
+    const webUrl = "https://taxi.sparcs.org";
     if (!kakao) {
       console.error("Kakao SDK is not loaded.");
       return;
@@ -57,7 +57,7 @@ const LinkKakaotalkShare = ({
         imageUrl: `${webUrl}/graph.png`,
         imageWidth: 1024,
         imageHeight: 500,
-        link: { webUrl, mobileWebUrl: webUrl }, // TODO : androidExecutionParams, iosExecutionParams 설정
+        link: { webUrl, mobileWebUrl: webUrl },
       },
       social: { subscriberCount: partNum ?? 0 },
       buttons: [
@@ -71,7 +71,7 @@ const LinkKakaotalkShare = ({
       ],
     });
   }, [title, description, buttonText, buttonTo, partNum]);
-  return <div onClick={onClick}>{children}</div>;
+  return <a onClick={onClick}>{children}</a>;
 };
 
 export default LinkKakaotalkShare;
