@@ -7,7 +7,7 @@ import { useQuery } from "hooks/useTaxiAPI";
 
 import DottedLine from "components/DottedLine";
 import Empty from "components/Empty";
-import ModalRoomShare from "components/ModalPopup/ModalRoomShare";
+import { ModalRoomShare } from "components/ModalPopup";
 import Pagination, { PAGE_MAX_ITEMS } from "components/Pagination";
 import RLayout from "components/RLayout";
 import Room from "components/Room";
@@ -23,6 +23,7 @@ import UnfoldLessRoundedIcon from "@mui/icons-material/UnfoldLessRounded";
 import UnfoldMoreRoundedIcon from "@mui/icons-material/UnfoldMoreRounded";
 
 const ChatHeader = (props) => {
+  const [isOpen, setIsOpen] = useState(false);
   const [isOpenShare, setIsOpenShare] = useState(false);
   const [headerInfoToken, fetchHeaderInfo] = useDateToken();
   const [, headerInfo] = useQuery.get(`/rooms/info?id=${props.roomId}`, {}, [
@@ -50,19 +51,19 @@ const ChatHeader = (props) => {
           }}
           onClick={() => setIsOpenShare(true)}
         />
-        {props.isOpen ? (
+        {isOpen ? (
           <UnfoldLessRoundedIcon
             style={{ color: theme.purple, ...theme.cursor() }}
-            onClick={() => props.onChangeIsOpen(false)}
+            onClick={() => setIsOpen(false)}
           />
         ) : (
           <UnfoldMoreRoundedIcon
             style={{ color: theme.purple, ...theme.cursor() }}
-            onClick={() => props.onChangeIsOpen(true)}
+            onClick={() => setIsOpen(true)}
           />
         )}
       </div>
-      {props.isOpen && (
+      {isOpen && (
         <>
           <DottedLine direction="row" margin="16px 0" />
           <ChatHeaderBody info={headerInfo} recallEvent={fetchHeaderInfo} />
@@ -80,8 +81,6 @@ const ChatHeader = (props) => {
 };
 
 ChatHeader.propTypes = {
-  isOpen: PropTypes.bool,
-  onChangeIsOpen: PropTypes.func,
   roomId: PropTypes.string,
 };
 
@@ -108,8 +107,6 @@ LinkRoom.propTypes = {
 };
 
 const R2Myroom = (props) => {
-  const [isOpenHeader, setIsOpenHeader] = useState(true);
-
   return (
     <RLayout.R2
       left={
@@ -198,11 +195,7 @@ const R2Myroom = (props) => {
               zIndex: theme.zIndex_nav - 1,
             }}
           >
-            <ChatHeader
-              isOpen={isOpenHeader}
-              onChangeIsOpen={setIsOpenHeader}
-              roomId={props.roomId}
-            />
+            <ChatHeader roomId={props.roomId} />
             <div style={{ height: "100%", minHeight: 0 }}>
               <WhiteContainer padding="0px" style={{ height: "100%" }}>
                 <SideChat roomId={props.roomId} />

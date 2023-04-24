@@ -5,7 +5,7 @@ import { useHistory } from "react-router";
 import { useR2state } from "hooks/useReactiveState";
 
 import DottedLine from "components/DottedLine";
-import ModalRoomShare from "components/ModalPopup/ModalRoomShare";
+import { ModalRoomShare } from "components/ModalPopup";
 
 import HeaderBody from "./HeaderBody";
 

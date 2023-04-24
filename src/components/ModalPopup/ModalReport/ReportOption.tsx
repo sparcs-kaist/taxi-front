@@ -19,9 +19,9 @@ const ReportOption = (props: ReportOptionProps) => {
   const styleButton = (isSelected: boolean) => {
     return {
       display: "flex",
-      ...theme.font10,
-      borderRadius: "4px",
-      padding: "3px 6px 3px",
+      ...theme.font12,
+      borderRadius: "6px",
+      padding: "5px 8px",
       ...theme.cursor(),
       color: isSelected ? theme.white : theme.gray_text,
       backgroundColor: isSelected ? theme.purple : theme.gray_background,
