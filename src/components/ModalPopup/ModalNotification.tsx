@@ -11,7 +11,7 @@ import DottedLine from "components/DottedLine";
 import Modal from "components/Modal";
 import Toggle from "components/Toggle";
 
-import NotificationGuide from "./NotificationGuide";
+import BodyNotificationGuide from "./Body/BodyNotificationGuide";
 
 import theme from "tools/theme";
 
@@ -177,7 +177,7 @@ const ModalNotification = ({
           </div>
         </>
       ) : (
-        <NotificationGuide />
+        <BodyNotificationGuide />
       )}
     </Modal>
   );

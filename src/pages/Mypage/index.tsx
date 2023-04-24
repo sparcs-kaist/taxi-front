@@ -14,9 +14,9 @@ import {
   ModalReport,
   ModalTerms,
 } from "components/ModalPopup";
-import ProfileImg from "components/ProfileImg";
 import SuggestLogin from "components/SuggestLogin";
 import Title from "components/Title";
+import ProfileImg from "components/User/ProfileImg";
 import WhiteContainer from "components/WhiteContainer";
 
 import Menu from "./Menu";
