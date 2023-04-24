@@ -84,7 +84,9 @@ const AddRoom = () => {
     validatedMsg = "현재 시각 이후를 선택해주세요";
   } else if (
     valueName !== "" &&
-    !RegExp("^[A-Za-z0-9가-힣ㄱ-ㅎㅏ-ㅣ,.?! _-]{1,50}$").test(valueName)
+    !RegExp("^[A-Za-z0-9가-힣ㄱ-ㅎㅏ-ㅣ,.?! _-~/@#^()+*<>{}[]]{1,50}$").test(
+      valueName
+    )
   ) {
     validatedMsg = "방 이름으로 사용될 수 없습니다";
   }
