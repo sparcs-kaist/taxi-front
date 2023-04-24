@@ -32,7 +32,6 @@ const HeightFixWrapper = ({
     const observer = new ResizeObserver(() => {
       if (!body.current) return;
       if (onChangeHeight) onChangeHeight(body.current.offsetHeight);
-      console.log(body.current.offsetHeight);
     });
     observer.observe(body.current);
     return () => observer.disconnect();

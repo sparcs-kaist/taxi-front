@@ -63,7 +63,7 @@ const ButtonShare = ({ text, icon, background, onClick }: ButtonShareProps) => (
 
 const BodyRoomShare = ({ roomInfo, height }: BodyRoomShareProps) => {
   const { i18n } = useTranslation();
-  const { host } = window.location;
+  const { origin: host } = window.location;
   const pathForShare = `/invite/${roomInfo?._id}`;
 
   const [isCopied, setIsCopied] = useState(false);

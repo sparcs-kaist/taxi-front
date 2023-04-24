@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { useCallback, useEffect, useState } from "react";
 
 import LinkCopy from "components/Link/LinkCopy";
-import ProfileImg from "components/ProfileImg";
+import ProfileImg from "components/User/ProfileImg";
 import ImageFullscreen from "pages/Chatting/MessagesBody/ImageFullscreen";
 
 import ChatPaySettle from "./ChatPaySettle";

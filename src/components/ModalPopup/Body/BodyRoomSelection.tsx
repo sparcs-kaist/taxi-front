@@ -12,6 +12,7 @@ import Button from "components/Button";
 import DottedLine from "components/DottedLine";
 import LinkLogin from "components/Link/LinkLogin";
 import MiniCircle from "components/MiniCircle";
+import Users from "components/User/Users";
 import { MAX_PARTICIPATION } from "pages/Myroom";
 
 import alertAtom from "atoms/alert";
@@ -81,17 +82,17 @@ const PlaceSection = ({ type, name }: PlaceSectionProps) => (
 );
 
 const InfoSection = ({ title, alignDirection, children }: InfoSectionProps) => (
-  <div
-    css={{
-      display: "flex",
-      flexDirection: "column",
-      alignItems: alignDirection === "left" ? "flex-start" : "flex-end",
-      rowGap: "5px",
-      maxWidth: "fit-content",
-      flexShrink: alignDirection === "left" ? 1 : 0,
-    }}
-  >
-    <p css={{ ...theme.font12, color: theme.gray_text }}>{title}</p>
+  <div>
+    <p
+      css={{
+        ...theme.font12,
+        color: theme.gray_text,
+        marginBottom: "5px",
+        textAlign: alignDirection,
+      }}
+    >
+      {title}
+    </p>
     {children}
   </div>
 );
@@ -154,8 +155,9 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
   };
   const styleMultipleInfo = {
     display: "flex",
-    justifyContent: "space-between",
+    overflow: "hidden",
     columnGap: "12px",
+    justifyContent: "space-between",
   };
 
   return (
@@ -178,27 +180,23 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
           <p css={theme.font14_bold}>{date2str(roomInfo.time) ?? ""}</p>
         </InfoSection>
         <div css={styleMultipleInfo}>
-          <InfoSection title="탑승자" alignDirection="left">
-            <p css={theme.font14}>
-              {roomInfo.part
-                .reduce(
-                  (acc: Array<string>, { nickname }: { nickname: string }) => [
-                    ...acc,
-                    nickname,
-                  ],
-                  []
-                )
-                .join(", ") ?? ""}
-            </p>
-          </InfoSection>
-          <InfoSection title="참여 / 최대 인원" alignDirection="right">
-            <div css={{ display: "flex" }}>
-              <p
-                css={{ ...theme.font14_bold, color: theme.purple }}
-              >{`${roomInfo?.part?.length}명`}</p>
-              <p css={theme.font14}>&nbsp;{`/ ${roomInfo?.maxPartLength}명`}</p>
-            </div>
-          </InfoSection>
+          <div css={{ minWidth: 0 }}>
+            <InfoSection title="탑승자" alignDirection="left">
+              <Users values={roomInfo.part} />
+            </InfoSection>
+          </div>
+          <div css={{ minWidth: "fit-content" }}>
+            <InfoSection title="참여 / 최대 인원" alignDirection="right">
+              <div css={{ display: "flex", justifyContent: "end" }}>
+                <p
+                  css={{ ...theme.font14_bold, color: theme.purple }}
+                >{`${roomInfo?.part?.length}명`}</p>
+                <p css={theme.font14}>
+                  &nbsp;{`/ ${roomInfo?.maxPartLength}명`}
+                </p>
+              </div>
+            </InfoSection>
+          </div>
         </div>
       </div>
       {isLogin ? (
