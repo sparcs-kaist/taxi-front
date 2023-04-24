@@ -69,13 +69,11 @@ const ChatHeader = (props) => {
           <ChatHeaderBody info={headerInfo} recallEvent={fetchHeaderInfo} />
         </>
       )}
-      {headerInfo && (
-        <ModalRoomShare
-          isOpen={isOpenShare}
-          onChangeIsOpen={setIsOpenShare}
-          roomInfo={headerInfo}
-        />
-      )}
+      <ModalRoomShare
+        isOpen={isOpenShare}
+        onChangeIsOpen={setIsOpenShare}
+        roomInfo={headerInfo}
+      />
     </WhiteContainer>
   );
 };

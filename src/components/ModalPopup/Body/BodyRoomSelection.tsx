@@ -50,7 +50,7 @@ const PlaceSection = ({ type, name }: PlaceSectionProps) => (
   >
     <MiniCircle type={type} />
     <p
-      style={{
+      css={{
         ...theme.font12,
         color: theme.gray_text,
         margin: "5px 0 1px",
@@ -122,20 +122,19 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
     isLogin && myRooms && myRooms.ongoing.length >= MAX_PARTICIPATION; // 최대 참여 가능한 방 개수를 초과했는지 여부
 
   const requestJoin = useCallback(async () => {
-    if (!onCall.current) {
-      onCall.current = true;
-      await axios({
-        url: "/rooms/join",
-        method: "post",
-        data: { roomId: roomInfo._id },
-        onSuccess: async () => {
-          fetchMyRooms();
-          history.push(`/myroom/${roomInfo._id}`);
-        },
-        onError: () => setAlert("방 참여에 실패하였습니다."),
-      });
-      onCall.current = false;
-    }
+    if (onCall.current) return;
+    onCall.current = true;
+    await axios({
+      url: "/rooms/join",
+      method: "post",
+      data: { roomId: roomInfo._id },
+      onSuccess: () => {
+        fetchMyRooms();
+        history.push(`/myroom/${roomInfo._id}`);
+      },
+      onError: () => setAlert("방 참여에 실패하였습니다."),
+    });
+    onCall.current = false;
   }, [roomInfo?._id, history]);
 
   const stylePlace = {

@@ -30,7 +30,6 @@ const ModalRoomShare = ({
 
   return (
     <Modal
-      width={theme.modal_width}
       isOpen={isOpen}
       onChangeIsOpen={onChangeIsOpen}
       padding="16px 12px 12px"
