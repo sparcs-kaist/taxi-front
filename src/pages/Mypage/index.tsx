@@ -1,24 +1,25 @@
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useHistory } from "react-router";
 
 import useDateToken from "hooks/useDateToken";
+import { useValueRecoilState } from "hooks/useFetchRecoilState";
 
+import Footer from "components/Footer";
+import LinkLogout from "components/Link/LinkLogout";
+import {
+  ModalCredit,
+  ModalModify,
+  ModalNotification,
+  ModalPrivacyPolicy,
+  ModalReport,
+  ModalTerms,
+} from "components/ModalPopup";
+import ProfileImg from "components/ProfileImg";
+import SuggestLogin from "components/SuggestLogin";
 import Title from "components/Title";
 import WhiteContainer from "components/WhiteContainer";
 
 import Menu from "./Menu";
-import ModalNotification from "./ModalNotification";
-import PopupMembers from "./PopupMembers";
-import PopupModify from "./PopupModify";
-import PopupPolicy from "./PopupPolicy";
-import PopupPrivacyPolicy from "./PopupPrivacyPolicy";
-import PopupReport from "./PopupReport";
-import ProfileImg from "./ProfileImg";
-
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
-import notificationOptionsAtom from "atoms/notificationOptions";
-import { useRecoilValue } from "recoil";
 
 import theme from "tools/theme";
 
@@ -27,8 +28,10 @@ import { nodeEnv } from "loadenv";
 const Mypage = () => {
   const { t, i18n } = useTranslation("mypage");
   const [profImgToken, refreshProfImgToken] = useDateToken();
-  const userInfoDetail = useRecoilValue(loginInfoDetailAtom);
-  const notificationOptions = useRecoilValue(notificationOptionsAtom);
+  const loginInfo = useValueRecoilState("loginInfo");
+  const notificationOptions = useValueRecoilState("notificationOptions");
+
+  const { id: userId } = loginInfo || {};
   const isOnNotification =
     // notificationOptions?.advertisement ||
     // notificationOptions?.beforeDepart ||
@@ -41,7 +44,6 @@ const Mypage = () => {
   const [isOpenPolicy, setIsOpenPolicy] = useState(false);
   const [isOpenPrivacyPolicy, setIsOpenPrivacyPolicy] = useState(false);
   const [isOpenMembers, setOpenIsMembers] = useState(false);
-  const history = useHistory();
 
   const onClickProfileModify = useCallback(
     () => setIsOpenProfileModify(true),
@@ -71,7 +73,6 @@ const Mypage = () => {
     () => setOpenIsMembers(true),
     [setOpenIsMembers]
   );
-  const onClickLogout = useCallback(() => history.push("/logout"), [history]);
 
   const styleProfImg = {
     width: "50px",
@@ -106,106 +107,112 @@ const Mypage = () => {
       <Title icon="mypage" header marginAuto>
         {t("my_page")}
       </Title>
-      <WhiteContainer marginAuto padding="16px 24px 24px">
-        <div css={{ display: "flex", alignItems: "center" }}>
-          <div css={styleProfImg}>
-            {userInfoDetail?.profileImgUrl && (
-              <ProfileImg
-                path={userInfoDetail.profileImgUrl}
-                token={profImgToken}
-              />
-            )}
-          </div>
-          <div css={theme.font16_bold} className="selectable">
-            {userInfoDetail?.name}
-          </div>
-        </div>
-        <div css={infoTitle}>
-          <div css={theme.font14_bold}>{t("my_information")}</div>
-          <div css={infoModify} onClick={onClickProfileModify}>
-            {t("revise")}
-          </div>
-        </div>
-        <div css={infoType} className="selectable">
-          {t("student_id")}
-          <div css={infoContent}>{userInfoDetail?.subinfo.kaist}</div>
-        </div>
-        <div css={infoType} className="selectable">
-          {t("email")}
-          <div css={infoContent}>{userInfoDetail?.email}</div>
-        </div>
-        <div css={infoType} className="selectable">
-          {t("nickname")}
-          <div css={infoContent}>{userInfoDetail?.nickname}</div>
-        </div>
-        <div css={infoType} className="selectable">
-          {t("account")}
-          <div css={infoContent}>{userInfoDetail?.account}</div>
-        </div>
-      </WhiteContainer>
+      {userId ? (
+        <>
+          <WhiteContainer marginAuto padding="16px 24px 24px">
+            <div css={{ display: "flex", alignItems: "center" }}>
+              <div css={styleProfImg}>
+                {loginInfo?.profileImgUrl && (
+                  <ProfileImg
+                    path={loginInfo.profileImgUrl}
+                    token={profImgToken}
+                  />
+                )}
+              </div>
+              <div css={theme.font16_bold} className="selectable">
+                {loginInfo?.name}
+              </div>
+            </div>
+            <div css={infoTitle}>
+              <div css={theme.font14_bold}>{t("my_information")}</div>
+              <div css={infoModify} onClick={onClickProfileModify}>
+                {t("revise")}
+              </div>
+            </div>
+            <div css={infoType} className="selectable">
+              {t("student_id")}
+              <div css={infoContent}>{loginInfo?.subinfo?.kaist}</div>
+            </div>
+            <div css={infoType} className="selectable">
+              {t("email")}
+              <div css={infoContent}>{loginInfo?.email}</div>
+            </div>
+            <div css={infoType} className="selectable">
+              {t("nickname")}
+              <div css={infoContent}>{loginInfo?.nickname}</div>
+            </div>
+            <div css={infoType} className="selectable">
+              {t("account")}
+              <div css={infoContent}>{loginInfo?.account}</div>
+            </div>
+          </WhiteContainer>
+          <WhiteContainer marginAuto>
+            <div css={{ display: "grid", rowGap: "16px" }}>
+              {nodeEnv === "development" && (
+                <Menu icon="lang" onClick={onClickTranslation}>
+                  {t("translation")}
+                </Menu>
+              )}
+              <Menu
+                icon={`notification-${isOnNotification ? "on" : "off"}`}
+                onClick={onClickNotification}
+              >
+                {t("notification")}
+              </Menu>
+            </div>
+          </WhiteContainer>
+          <ModalModify
+            isOpen={isOpenProfileModify}
+            onChangeIsOpen={setIsOpenProfileModify}
+            onUpdate={refreshProfImgToken}
+            profToken={profImgToken}
+          />
+          <ModalReport isOpen={isOpenReport} onChangeIsOpen={setIsOpenReport} />
+          <ModalNotification
+            isOpen={isOpenNotification}
+            onChangeIsOpen={setIsOpenNotification}
+          />
+          <ModalTerms isOpen={isOpenPolicy} onChangeIsOpen={setIsOpenPolicy} />
+        </>
+      ) : (
+        <WhiteContainer marginAuto>
+          <SuggestLogin />
+        </WhiteContainer>
+      )}
       <WhiteContainer marginAuto>
         <div css={{ display: "grid", rowGap: "16px" }}>
-          {nodeEnv === "development" && (
-            <Menu icon="lang" onClick={onClickTranslation}>
-              {t("translation")}
+          {userId && (
+            <Menu icon="report" onClick={onClickReport}>
+              {t("report_record")}
             </Menu>
           )}
-          <Menu
-            icon={`notification-${isOnNotification ? "on" : "off"}`}
-            onClick={onClickNotification}
-          >
-            {t("notification")}
-          </Menu>
-        </div>
-      </WhiteContainer>
-      <WhiteContainer marginAuto>
-        <div css={{ display: "grid", rowGap: "16px" }}>
-          <Menu icon="report" onClick={onClickReport}>
-            {t("report_record")}
-          </Menu>
           <a className="popup-channeltalk">
             <Menu icon="ask">{t("contact")}</Menu>
           </a>
-          <Menu icon="policy" onClick={onClickPolicy}>
-            {t("terms")}
-          </Menu>
+          {userId && (
+            <Menu icon="policy" onClick={onClickPolicy}>
+              {t("terms")}
+            </Menu>
+          )}
           <Menu icon="policy" onClick={onClickPrivacyPolicy}>
             {t("privacy_policy")}
           </Menu>
           <Menu icon="credit" onClick={onClickMembers}>
             {t("credit")}
           </Menu>
-          <Menu icon="logout" onClick={onClickLogout}>
-            {t("logout")}
-          </Menu>
+          {userId && (
+            <LinkLogout>
+              <Menu icon="logout">{t("logout")}</Menu>
+            </LinkLogout>
+          )}
         </div>
       </WhiteContainer>
-      <PopupModify
-        isOpen={isOpenProfileModify}
-        onClose={() => setIsOpenProfileModify(false)}
-        onUpdate={refreshProfImgToken}
-        profToken={profImgToken}
-      />
-      <ModalNotification
-        isOpen={isOpenNotification}
-        onChangeIsOpen={setIsOpenNotification}
-      />
-      <PopupReport
-        isOpen={isOpenReport}
-        onClose={() => setIsOpenReport(false)}
-      />
-      <PopupPolicy
-        isOpen={isOpenPolicy}
-        onClose={() => setIsOpenPolicy(false)}
-      />
-      <PopupPrivacyPolicy
+      <Footer type="only-logo" />
+      <ModalPrivacyPolicy
         isOpen={isOpenPrivacyPolicy}
-        onClose={() => setIsOpenPrivacyPolicy(false)}
+        onChangeIsOpen={setIsOpenPrivacyPolicy}
       />
-      <PopupMembers
-        isOpen={isOpenMembers}
-        onClose={() => setOpenIsMembers(false)}
-      />
+      <ModalCredit isOpen={isOpenMembers} onChangeIsOpen={setOpenIsMembers} />
     </>
   );
 };

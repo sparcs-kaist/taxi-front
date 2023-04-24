@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 
+import ProfileImg from "components/ProfileImg";
 import ImageFullscreen from "pages/Chatting/MessagesBody/ImageFullscreen";
-import ProfileImg from "pages/Mypage/ProfileImg";
 
 import ChatPaySettle from "./ChatPaySettle";
 
@@ -106,7 +106,6 @@ const ChatAccount = (props) => {
             </div>
           </div>
         )}
-
         <div
           style={{
             boxShadow: theme.shadow_gray_button_inset,
@@ -124,17 +123,9 @@ const ChatAccount = (props) => {
           {...hoverEventSet(() => {}, setIsClicked)}
         >
           {isCopied ? (
-            <CheckIcon
-              style={{
-                fontSize: "16px",
-              }}
-            />
+            <CheckIcon style={{ fontSize: "16px" }} />
           ) : (
-            <ContentCopyIcon
-              style={{
-                fontSize: "16px",
-              }}
-            />
+            <ContentCopyIcon style={{ fontSize: "16px" }} />
           )}
         </div>
       </div>
@@ -143,11 +134,10 @@ const ChatAccount = (props) => {
           ...theme.overlay(isClicked),
           position: "relative",
           width: "210px",
-          height: "90px",
-          top: "-90px",
-          zIndex: theme.zIndex_modal,
+          height: "58px",
+          top: "-58px",
         }}
-      ></div>
+      />
     </div>
   );
 };

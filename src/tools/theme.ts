@@ -2,6 +2,7 @@ export type Font = {
   fontSize: number;
   letterSpacing?: number;
   fontWeight?: number;
+  lineHeight?: string;
 };
 
 const theme = {
@@ -98,8 +99,10 @@ const theme = {
   duration: "150ms",
   duration_num: 150,
 
-  // White Container Width
-  container_max_width: 325,
+  // Modal width
+  modal_width_alert: "315px" as PixelValue,
+  modal_width: "335px" as PixelValue,
+  modal_width_large: "755px" as PixelValue,
 
   // Cursor
   cursor: (disabled?: boolean) => {
@@ -107,7 +110,6 @@ const theme = {
   },
 
   // Overlay
-
   overlay: (activated: boolean) => ({
     background:
       "linear-gradient(to left, transparent 50%, rgba(0,0,0,0.065) 50%) right",
@@ -119,11 +121,9 @@ const theme = {
 
   // zIndex
   zIndex_nav: 10,
+  zIndex_background: 20,
   zIndex_headerBar: 40,
   zIndex_modal: 50,
-  zIndex_background: 10,
-  zIndex_header: 20,
-  zIndex_fullimage: 20,
   zIndex_alert: 60,
 };
 

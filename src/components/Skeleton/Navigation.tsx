@@ -19,14 +19,14 @@ type PageType = "home" | "search" | "addroom" | "myroom" | "mypage";
 type NavigationMenuProps = {
   text: string;
   page: PageType;
-  path: string;
 };
 
-const NavigationMenu = (props: NavigationMenuProps) => {
+const NavigationMenu = ({ text, page }: NavigationMenuProps) => {
   const [isHover, setHover] = useState(false);
-  const selected =
-    props.path.startsWith("/" + props.page) ||
-    (props.page.startsWith("home") && props.path === "/");
+  const { pathname } = useLocation();
+  const isSelected =
+    pathname.startsWith("/" + page) ||
+    (page.startsWith("home") && pathname === "/");
 
   const styleBox = {
     width: "25%",
@@ -38,7 +38,7 @@ const NavigationMenu = (props: NavigationMenuProps) => {
   };
   const styleColor = isHover
     ? theme.purple_dark
-    : selected
+    : isSelected
     ? theme.purple
     : theme.gray_text;
   const styleText = {
@@ -55,7 +55,7 @@ const NavigationMenu = (props: NavigationMenuProps) => {
       transition: `fill ${theme.duration}`,
       fill: styleColor,
     }),
-    [isHover, selected]
+    [isHover, isSelected]
   );
 
   const getIcon = (type: PageType) => {
@@ -74,9 +74,9 @@ const NavigationMenu = (props: NavigationMenuProps) => {
   };
 
   return (
-    <Link to={"/" + props.page} css={styleBox} {...hoverEventSet(setHover)}>
-      {getIcon(props.page)}
-      <div css={styleText}>{props.text}</div>
+    <Link to={"/" + page} css={styleBox} {...hoverEventSet(setHover)}>
+      {getIcon(page)}
+      <div css={styleText}>{text}</div>
     </Link>
   );
 };
@@ -89,9 +89,7 @@ const Navigation = () => {
     "myroom",
     "mypage",
   ]);
-  const location = useLocation();
   const isVKDetected = useRecoilValue(isVirtualKeyboardDetectedAtom);
-  const { pathname } = location;
 
   return (
     <div
@@ -116,30 +114,22 @@ const Navigation = () => {
           height: "56px",
         }}
       >
-        <NavigationMenu
-          text={t("home_for_nav", { ns: "home" })}
-          page="home"
-          path={pathname}
-        />
+        <NavigationMenu text={t("home_for_nav", { ns: "home" })} page="home" />
         <NavigationMenu
           text={t("search_room_for_nav", { ns: "search" })}
           page="search"
-          path={pathname}
         />
         <NavigationMenu
           text={t("add_room_for_nav", { ns: "addroom" })}
           page="addroom"
-          path={pathname}
         />
         <NavigationMenu
           text={t("my_room_for_nav", { ns: "myroom" })}
           page="myroom"
-          path={pathname}
         />
         <NavigationMenu
           text={t("my_page_for_nav", { ns: "mypage" })}
           page="mypage"
-          path={pathname}
         />
       </div>
     </div>

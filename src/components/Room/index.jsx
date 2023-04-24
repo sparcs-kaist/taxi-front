@@ -6,7 +6,7 @@ import DottedLine from "components/DottedLine";
 
 import "./index.css";
 
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import loginInfoAtom from "atoms/loginInfo";
 import { useRecoilValue } from "recoil";
 
 import { date2str } from "tools/moment";
@@ -77,10 +77,10 @@ const Room = (props) => {
   const { i18n } = useTranslation();
 
   const users = props.data?.part || [];
-  const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
+  const loginInfo = useRecoilValue(loginInfoAtom);
   const isSettlementForMe = useMemo(
-    () => users.find((user) => user._id === loginInfoDetail.oid)?.isSettlement,
-    [loginInfoDetail?.oid, JSON.stringify(users)]
+    () => users.find((user) => user._id === loginInfo.oid)?.isSettlement,
+    [loginInfo?.oid, JSON.stringify(users)]
   );
   const styleBox = {
     position: "relative",
@@ -92,7 +92,6 @@ const Room = (props) => {
       theme.shadow +
       (props.selected ? `, inset 0 0 0 0.5px ${theme.purple}` : ""),
     ...theme.cursor(),
-    zIndex: 0,
   };
   const styleTop = {
     display: "flex",
