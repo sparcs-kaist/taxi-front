@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 import theme from "tools/theme";
 
-const Terms = () => {
+const BodyTerms = () => {
   const styleBox = {
     padding: "0 24px 0 16px",
     borderRadius: "10px",
@@ -170,4 +170,4 @@ const Terms = () => {
   );
 };
 
-export default Terms;
+export default BodyTerms;

@@ -1,6 +1,6 @@
 import theme from "tools/theme";
 
-const NotificationGuide = () => {
+const BodyNotificationGuide = () => {
   const styleGuide = {
     ...theme.font12,
     color: theme.gray_text,
@@ -42,4 +42,4 @@ const NotificationGuide = () => {
   );
 };
 
-export default NotificationGuide;
+export default BodyNotificationGuide;
