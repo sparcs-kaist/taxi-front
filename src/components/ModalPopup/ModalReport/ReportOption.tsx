@@ -9,6 +9,7 @@ type ReportOptionProps = {
   onClick: (option: ReportOptionType) => void;
 };
 
+// FIXME : components/Navigation 과 통합 가능해보임
 const ReportOption = (props: ReportOptionProps) => {
   const { t } = useTranslation("mypage");
   const styleContainer = {

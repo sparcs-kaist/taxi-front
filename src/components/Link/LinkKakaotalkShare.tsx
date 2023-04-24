@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { useLocation } from "react-router-dom";
 
 import { kakaoSDKKey } from "loadenv";
@@ -23,21 +23,9 @@ const LinkKakaotalkShare = ({
   const { pathname, search } = useLocation();
   const buttonTo = _buttonTo ?? pathname + search;
 
-  useEffect(() => {
-    // kakaotalk SDK script 추가
-    const script = document.createElement("script");
-    script.src = "https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js";
-    script.async = true;
-    document.body.appendChild(script);
-
-    return () => {
-      // kakaotalk SDK script 제거
-      document.body.removeChild(script);
-    };
-  }, []);
   const onClick = useCallback(() => {
     const kakao = window.Kakao;
-    const webUrl = "https://taxi.sparcs.org";
+    const { origin: webUrl } = window.location;
     if (!kakao) {
       console.error("Kakao SDK is not loaded.");
       return;
