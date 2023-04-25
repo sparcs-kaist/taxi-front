@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import useDateToken from "hooks/useDateToken";
 import { useQuery } from "hooks/useTaxiAPI";
 
-import ModalRoomSelection from "components/ModalPopup/ModalRoomSelect";
+import { ModalRoomSelection } from "components/ModalPopup";
 import RLayout from "components/RLayout";
 import Title from "components/Title";
 
@@ -60,7 +60,7 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
     <RLayout.R1>
       <ModalRoomSelection
         isOpen={!!roomInfo}
-        onClose={() => history.replace("/home")}
+        onChangeIsOpen={() => history.replace("/home")}
         roomInfo={roomInfo}
       />
       <Title icon="taxi" header>
