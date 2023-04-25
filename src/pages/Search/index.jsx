@@ -27,6 +27,7 @@ import errorAtom from "atoms/error";
 import { useSetRecoilState } from "recoil";
 
 import moment, { getToday, getToday10 } from "tools/moment";
+import regExpTest from "tools/regExpTest";
 import theme from "tools/theme";
 
 const Search = () => {
@@ -193,6 +194,8 @@ const Search = () => {
       ).isBefore(getToday(), "minute")
     ) {
       return ["과거 시점은 검색할 수 없습니다", true];
+    } else if (valueName !== "" && !regExpTest.name(valueName)) {
+      return ["적절한 방 이름이 아닙니다", true];
     }
     return ["방 검색하기", false];
   }, [searchOptions, valueName, valuePlace, valueDate, valueTime]);
