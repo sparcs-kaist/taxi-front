@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useMemo, useState } from "react";
 
-import ProfileImg from "components/ProfileImg";
+import ProfileImg from "components/User/ProfileImg";
 
 import PopupCancel from "./Popup/PopupCancel";
 import PopupPay from "./Popup/PopupPay";
@@ -17,25 +17,26 @@ import SendRoundedIcon from "@material-ui/icons/SendRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import PaymentRoundedIcon from "@mui/icons-material/PaymentRounded";
 
-const Info = (props) => {
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        rowGap: "4px",
-        width: "fit-content",
-      }}
-    >
-      <div style={{ ...theme.font10_bold, color: theme.gray_text }}>
-        {props.title}
-      </div>
-      <div style={{ ...theme.font12 }}>{props.children}</div>
+const Info = (props) => (
+  <div
+    css={{
+      display: "flex",
+      flexDirection: "column",
+      rowGap: "4px",
+      width: "fit-content",
+    }}
+  >
+    <div css={{ ...theme.font10_bold, color: theme.gray_text }}>
+      {props.title}
     </div>
-  );
-};
+    <div css={{ ...theme.font12, textAlign: props.alignDirection }}>
+      {props.children}
+    </div>
+  </div>
+);
 Info.propTypes = {
   title: PropTypes.string,
+  alignDirection: PropTypes.oneOf(["left", "right"]),
   children: PropTypes.node,
 };
 
@@ -194,8 +195,10 @@ const HeaderBody = (props) => {
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <Info title="출발 시각 & 날짜">{date2str(props.info?.time)}</Info>
-        <Info title="탑승 및 최대 인원">
+        <Info title="출발 시각 & 날짜" alignDirection="left">
+          {date2str(props.info?.time)}
+        </Info>
+        <Info title="참여 / 최대 인원" alignDirection="right">
           <b>{props.info?.part.length}명</b> / {props.info?.maxPartLength}명
         </Info>
       </div>

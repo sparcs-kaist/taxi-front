@@ -13,7 +13,7 @@ import AccountSelector from "components/AccountSelector";
 import Button from "components/Button";
 import DottedLine from "components/DottedLine";
 import Modal from "components/Modal";
-import ProfileImg from "components/ProfileImg";
+import ProfileImg from "components/User/ProfileImg";
 
 import alertAtom from "atoms/alert";
 import { useSetRecoilState } from "recoil";
