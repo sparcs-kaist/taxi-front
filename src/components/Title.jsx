@@ -7,6 +7,8 @@ import theme from "tools/theme";
 
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import ErrorOutlineRounded from "@mui/icons-material/ErrorOutlineRounded";
+import FavoriteRoundedIocn from "@mui/icons-material/FavoriteRounded";
+import FeedRounedIcon from "@mui/icons-material/FeedRounded";
 import HailRoundedIcon from "@mui/icons-material/HailRounded";
 import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
 import LocalTaxiRoundedIcon from "@mui/icons-material/LocalTaxiRounded";
@@ -44,6 +46,10 @@ const getIcon = (icon) => {
       return <PersonOutlineRoundedIcon style={iconStyle} />;
     case "error":
       return <ErrorOutlineRounded style={iconStyle} />;
+    case "feed":
+      return <FeedRounedIcon style={iconStyle} />;
+    case "favorite":
+      return <FavoriteRoundedIocn style={iconStyle} />;
     default:
       return <></>;
   }

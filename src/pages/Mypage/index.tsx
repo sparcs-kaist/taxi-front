@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import useDateToken from "hooks/useDateToken";
 import { useValueRecoilState } from "hooks/useFetchRecoilState";
 
+import Footer from "components/Footer";
 import LinkLogout from "components/Link/LinkLogout";
 import {
   ModalCredit,
@@ -13,9 +14,9 @@ import {
   ModalReport,
   ModalTerms,
 } from "components/ModalPopup";
-import ProfileImg from "components/ProfileImg";
 import SuggestLogin from "components/SuggestLogin";
 import Title from "components/Title";
+import ProfileImg from "components/User/ProfileImg";
 import WhiteContainer from "components/WhiteContainer";
 
 import Menu from "./Menu";
@@ -206,6 +207,7 @@ const Mypage = () => {
           )}
         </div>
       </WhiteContainer>
+      <Footer type="only-logo" />
       <ModalPrivacyPolicy
         isOpen={isOpenPrivacyPolicy}
         onChangeIsOpen={setIsOpenPrivacyPolicy}

@@ -13,8 +13,13 @@ const routes = [
     exact: true,
   },
   {
-    path: ["/", "/home", "/home/:roomId"],
+    path: ["/", "/home", "/home/:roomId", "/invite/:roomId"],
     component: lazy(() => import("pages/Home")),
+    exact: true,
+  },
+  {
+    path: "/event/:eventName",
+    component: lazy(() => import("pages/Event")),
     exact: true,
   },
   {

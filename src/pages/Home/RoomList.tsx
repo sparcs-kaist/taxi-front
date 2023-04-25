@@ -42,7 +42,9 @@ const RoomList = (props: RoomListProps) => {
           )}
         </>
       ) : (
-        <Empty screen="mobile">해당 요일에 개설된 방이 없습니다</Empty>
+        <Empty screen="mobile" marginBottom="15px">
+          해당 요일에 개설된 방이 없습니다
+        </Empty>
       )}
     </>
   );

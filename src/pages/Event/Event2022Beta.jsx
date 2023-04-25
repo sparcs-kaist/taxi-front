@@ -1,6 +1,9 @@
+import RLayout from "components/RLayout";
+import Title from "components/Title";
+
 import theme from "tools/theme";
 
-export default (
+const content = (
   <div
     style={{
       margin: "-8px 0px",
@@ -45,3 +48,14 @@ export default (
     </ol>
   </div>
 );
+
+const Event2022Beta = () => (
+  <RLayout.R1>
+    <Title icon="taxi" header>
+      Taxi 베타 서비스
+    </Title>
+    {content}
+  </RLayout.R1>
+);
+
+export default Event2022Beta;

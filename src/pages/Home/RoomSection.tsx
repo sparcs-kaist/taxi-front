@@ -4,9 +4,9 @@ import { useHistory } from "react-router-dom";
 import useDateToken from "hooks/useDateToken";
 import { useQuery } from "hooks/useTaxiAPI";
 
+import { ModalRoomSelection } from "components/ModalPopup";
 import RLayout from "components/RLayout";
 import Title from "components/Title";
-import RoomSelectionModal from "pages/Search/RoomSelectionModal";
 
 import RoomList from "./RoomList";
 import SelectDate from "./SelectDate";
@@ -58,14 +58,14 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
 
   return (
     <RLayout.R1>
-      <RoomSelectionModal
+      <ModalRoomSelection
         isOpen={!!roomInfo}
-        onClose={() => history.replace("/home")}
+        onChangeIsOpen={() => history.replace("/home")}
         roomInfo={roomInfo}
       />
-      <div style={{ margin: "20px 0" }}>
-        <Title icon="taxi">요일별 출발하는 방</Title>
-      </div>
+      <Title icon="taxi" header>
+        요일별 출발하는 방
+      </Title>
       <SelectDate
         selectedDate={selectedDate}
         onClick={([year, month, date]) => setSelectedDate([year, month, date])}

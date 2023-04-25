@@ -33,11 +33,12 @@ import theme from "tools/theme";
 
 const AddRoom = () => {
   const axios = useAxios();
-  const onCall = useRef(false);
   const history = useHistory();
+  const [cookies, setCookies] = useCookies(["defaultFromTo"]);
+
+  const onCall = useRef(false);
   const today = getToday();
   const today10 = getToday10();
-  const [cookies, setCookies] = useCookies(["defaultFromTo"]);
   const [valueName, setName] = useState("");
   const [valuePlace, setPlace] = useState(
     cookies?.defaultFromTo?.[0] && cookies?.defaultFromTo?.[1]
@@ -53,8 +54,8 @@ const AddRoom = () => {
   const [valueTime, setTime] = useState([today10.hour(), today10.minute()]);
   const [calculatedTime, setCalculatedTime] = useState<Date | null>(null);
   const randomRoomName = useMemo(randomRoomNameGenerator, []);
-  const setAlert = useSetRecoilState(alertAtom);
 
+  const setAlert = useSetRecoilState(alertAtom);
   const isLogin = !!useValueRecoilState("loginInfo")?.id;
   const myRooms = useValueRecoilState("myRooms");
   const fetchMyRooms = useFetchRecoilState("myRooms");
