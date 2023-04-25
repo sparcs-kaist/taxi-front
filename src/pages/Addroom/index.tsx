@@ -29,6 +29,7 @@ import { useSetRecoilState } from "recoil";
 
 import { date2str, getToday, getToday10 } from "tools/moment";
 import { randomRoomNameGenerator } from "tools/random";
+import regExpTest from "tools/regExpTest";
 import theme from "tools/theme";
 
 const AddRoom = () => {
@@ -91,12 +92,7 @@ const AddRoom = () => {
     validatedMsg = "날짜를 선택해 주세요";
   } else if (today.isSameOrAfter(calculatedTime)) {
     validatedMsg = "현재 시각 이후를 선택해주세요";
-  } else if (
-    valueName !== "" &&
-    !RegExp("^[A-Za-z0-9가-힣ㄱ-ㅎㅏ-ㅣ,.?! _-~/@#^()+*<>{}]{1,50}$").test(
-      valueName
-    )
-  ) {
+  } else if (valueName !== "" && regExpTest.name(valueName)) {
     validatedMsg = "방 이름으로 사용될 수 없습니다";
   }
 
