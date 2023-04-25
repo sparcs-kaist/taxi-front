@@ -92,7 +92,7 @@ const AddRoom = () => {
     validatedMsg = "날짜를 선택해 주세요";
   } else if (today.isSameOrAfter(calculatedTime)) {
     validatedMsg = "현재 시각 이후를 선택해주세요";
-  } else if (valueName !== "" && regExpTest.name(valueName)) {
+  } else if (valueName !== "" && !regExpTest.name(valueName)) {
     validatedMsg = "방 이름으로 사용될 수 없습니다";
   }
 
