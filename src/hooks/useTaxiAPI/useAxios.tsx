@@ -7,6 +7,8 @@ import axios from "./axios";
 import errorAtom from "atoms/error";
 import { useSetRecoilState } from "recoil";
 
+import dayjs, { dayNowClient, syncDayWithServer } from "tools/day";
+
 export type AxiosOption = {
   url: string;
   method: "get" | "post";
@@ -25,7 +27,15 @@ const useAxios = () => {
   return useCallback(
     async ({ url, method, data, params, onError, onSuccess }: AxiosOption) => {
       try {
-        const res = await axios({ url, method, data, params });
+        const timeClient = dayNowClient(); // client 의 요청 시각
+        const res = await axios({ url, method, data, params }); // server의 API 호출 결과
+
+        const dateServer = res?.headers?.date;
+        const timeServer = dayjs(dateServer); // server의 응답 시각
+
+        if (dateServer && timeServer.isValid()) {
+          syncDayWithServer(timeServer.diff(timeClient));
+        }
         if (res?.status === 403 && res.data?.error === "not logged in") {
           history.replace(
             `/logout?redirect=${encodeURIComponent(

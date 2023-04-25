@@ -15,6 +15,7 @@
     "browser-image-compression": "^2.0.0",
     "craco-alias": "^3.0.1",
     "cross-env": "^7.0.3",
+    "dayjs": "^1.11.7",
     "dotenv": "^16.0.0",
     "firebase": "^9.15.0",
     "heic2any": "^0.0.3",
