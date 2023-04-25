@@ -129,9 +129,22 @@ const BodyRoomShare = ({ roomInfo, height }: BodyRoomShareProps) => {
             background="#FFE812"
           />
         </LinkKakaotalkShare>
-        <LinkCopy value={host + pathForShare} onCopy={onCopy}>
+        <LinkCopy
+          value={`🚕 ${date2str(
+            roomInfo.time,
+            "LLLL",
+            false
+          )} ${getLocationName(
+            roomInfo.from,
+            i18n.language
+          )} → ${getLocationName(
+            roomInfo.to,
+            i18n.language
+          )} 택시팟 구합니다!\n🚕 참여 링크: ${host + pathForShare}`}
+          onCopy={onCopy}
+        >
           <ButtonShare
-            text="링크복사"
+            text="초대 복사"
             icon={
               isCopied ? (
                 <CheckIcon style={{ fontSize: "16px" }} />
