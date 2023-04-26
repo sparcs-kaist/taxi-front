@@ -93,7 +93,7 @@ const AddRoom = () => {
   } else if (today.isSameOrAfter(calculatedTime)) {
     validatedMsg = "현재 시각 이후를 선택해주세요";
   } else if (valueName !== "" && !regExpTest.roomName(valueName)) {
-    validatedMsg = "방 이름으로 사용될 수 없습니다";
+    validatedMsg = "사용할 수 없는 방 이름입니다";
   }
 
   const onClickAdd = async () => {
