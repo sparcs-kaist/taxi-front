@@ -194,7 +194,7 @@ const Search = () => {
       ).isBefore(getToday(), "minute")
     ) {
       return ["과거 시점은 검색할 수 없습니다", true];
-    } else if (valueName !== "" && !regExpTest.name(valueName)) {
+    } else if (valueName !== "" && !regExpTest.roomName(valueName)) {
       return ["적절한 방 이름이 아닙니다", true];
     }
     return ["방 검색하기", false];
