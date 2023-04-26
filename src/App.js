@@ -27,17 +27,17 @@ const App = () => {
     <CookiesProvider>
       <RecoilRoot>
         <Router>
+          <I18nextProvider />
           <ScrollRestoration />
+          <CSSVariablesProvider />
           <VirtualKeyboardDetector />
           <ChannelTalkProvider />
           <GoogleAnalyticsProvier />
           <FirebaseMessagingProvider />
-          <I18nextProvider />
-          <AlertProvider />
-          <SocketToastProvider />
           <FlutterEventCommunicationProvider />
+          <SocketToastProvider />
+          <AlertProvider />
           <ModalProvider />
-          <CSSVariablesProvider />
           <Skeleton>
             <Suspense fallback={<Loading center />}>
               <Switch>

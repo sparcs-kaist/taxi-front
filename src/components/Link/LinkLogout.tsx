@@ -1,6 +1,8 @@
 import { useCallback, useRef } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 
+import { sendAuthLogoutEventToFlutter } from "tools/sendEventToFlutter";
+
 type LinkLogoutProps = {
   children: React.ReactNode;
   redirect?: string;
@@ -15,6 +17,7 @@ export const useOnClickLogout = (redirect?: string) => {
   return useCallback(async () => {
     if (isClicked.current) return;
     isClicked.current = true;
+    await sendAuthLogoutEventToFlutter();
     history.replace(`/logout?redirect=${encodeURIComponent(redirectPath)}`);
     isClicked.current = false;
   }, [history, redirectPath]);

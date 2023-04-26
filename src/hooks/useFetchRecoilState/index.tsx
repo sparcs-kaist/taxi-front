@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 
+import { useAxios } from "hooks/useTaxiAPI";
+
 import {
   useFetchLoginInfo,
   useSetLoginInfo,
@@ -25,6 +27,12 @@ import { LoginInfoType } from "atoms/loginInfo";
 import { MyRoomsType } from "atoms/myRooms";
 import { notificationOptionsType } from "atoms/notificationOptions";
 import { TaxiLocationsType } from "atoms/taxiLocations";
+
+import {
+  sendAuthUpdateEventToFlutter,
+  sendTryNotificationEventToFlutter,
+} from "tools/sendEventToFlutter";
+import { isNotificationOn } from "tools/trans";
 
 export type AtomName =
   | "loginInfo"
@@ -80,7 +88,10 @@ export const useFetchRecoilState = (atomName: AtomName) => {
 };
 
 export const useSyncRecoilStateEffect = () => {
-  const { id: userId, deviceToken } = useValueRecoilState("loginInfo") || {};
+  const axios = useAxios();
+  const loginInfo = useValueRecoilState("loginInfo");
+  const notificationOptions = useValueRecoilState("notificationOptions");
+  const { id: userId, deviceToken } = loginInfo || {};
 
   // userId 초기화 및 동기화
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
@@ -97,4 +108,32 @@ export const useSyncRecoilStateEffect = () => {
   // notificationOptions 초기화 및 동기화
   const fetchNotificationOptions = useFetchRecoilState("notificationOptions");
   useEffect(fetchNotificationOptions, [deviceToken]);
+
+  // Flutter에 변동된 로그인 정보 전달
+  useEffect(() => {
+    const isLoading = loginInfo === null;
+    if (!isLoading) sendAuthUpdateEventToFlutter(loginInfo);
+  }, [userId]);
+
+  // Flutter에 초기 알림 설정 전달
+  useEffect(() => {
+    const tryNotification = async () => {
+      const isAllowedFInFlutter = await sendTryNotificationEventToFlutter();
+      if (!isAllowedFInFlutter) {
+        await axios({
+          url: "/notifications/editOptions",
+          method: "post",
+          data: {
+            options: {
+              beforeDepart: false,
+              chatting: false,
+              notice: false,
+            },
+          },
+          onError: () => {},
+        });
+      }
+    };
+    if (userId && isNotificationOn(notificationOptions)) tryNotification();
+  }, [userId, notificationOptions]);
 };
