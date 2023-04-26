@@ -23,6 +23,12 @@ declare global {
     enName: string;
     koName: string;
   };
+  type User = {
+    _id: string;
+    name: string;
+    nickname: string;
+    profileImageUrl: string;
+  };
   type Room = {
     name: string;
     from: Location;

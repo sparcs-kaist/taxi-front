@@ -3,30 +3,38 @@ import { useTranslation } from "react-i18next";
 import DottedLine from "components/DottedLine";
 import Empty from "components/Empty";
 
-import { ReportOptionType } from "./ReportOption";
-
 import { date2str } from "tools/moment";
 import theme from "tools/theme";
 
-type ReportListProps = {
-  option: ReportOptionType;
+type BodyReportProps = {
+  option: "Reporting" | "Reported";
   selectedReportHistory: Array<any>;
 };
 
-const ReportList = (props: ReportListProps) => {
+const ReportList = (props: BodyReportProps) => {
   const { t } = useTranslation("mypage");
-  const styleBox: CSS = {
+
+  const styleContainer = {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "column" as any,
+    overflow: "auto",
+    borderRadius: "12px",
+    minHeight: "240px",
+    height: "calc(100vh - 480px)",
+    rowGap: "8px",
+  };
+  const styleBox = {
+    display: "flex",
+    flexDirection: "column" as any,
     padding: "10px 12px",
     borderRadius: "12px",
     rowGap: "6px",
     boxShadow: theme.shadow_gray_button_inset,
     backgroundColor: theme.gray_background,
   };
-  const styleRow: CSS = {
+  const styleRow = {
     display: "flex",
-    flexWrap: "nowrap",
+    flexWrap: "nowrap" as any,
     columnGap: "8px",
   };
   const styleProperty = {
@@ -34,7 +42,7 @@ const ReportList = (props: ReportListProps) => {
     color: theme.gray_text,
     minWidth: "58px",
   };
-  const styleInfo: CSS = {
+  const styleInfo = {
     ...theme.font12,
   };
   const getTypeText = (type: string) => {
@@ -54,11 +62,11 @@ const ReportList = (props: ReportListProps) => {
     );
   }
   return (
-    <>
+    <div css={styleContainer}>
       {props.selectedReportHistory.map((report) => {
         return (
-          <div key={report._id} style={styleBox}>
-            <div style={styleRow}>
+          <div key={report._id} css={styleBox}>
+            <div css={styleRow}>
               <div style={styleProperty}>{t("page_report.reason")}</div>
               <div style={{ ...styleInfo, color: theme.purple }}>
                 {getTypeText(report.type)}
@@ -66,17 +74,17 @@ const ReportList = (props: ReportListProps) => {
             </div>
             <DottedLine direction="row" margin="2px 0" />
             {props.option === "Reporting" && (
-              <div style={styleRow}>
+              <div css={styleRow}>
                 <div style={styleProperty}>{t("nickname")}</div>
                 <div style={styleInfo}>{report.reportedId.nickname}</div>
               </div>
             )}
-            <div style={styleRow}>
+            <div css={styleRow}>
               <div style={styleProperty}>{t("page_report.date")}</div>
               <div style={styleInfo}>{date2str(report.time)}</div>
             </div>
             {report.type === "etc-reason" && (
-              <div style={styleRow}>
+              <div css={styleRow}>
                 <div style={styleProperty}>{t("page_report.etc_reason")}</div>
                 <div style={styleInfo}>{report.etcDetail}</div>
               </div>
@@ -84,7 +92,7 @@ const ReportList = (props: ReportListProps) => {
           </div>
         );
       })}
-    </>
+    </div>
   );
 };
 

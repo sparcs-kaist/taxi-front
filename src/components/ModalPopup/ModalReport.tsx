@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useQuery } from "hooks/useTaxiAPI";
 
 import DottedLine from "components/DottedLine";
 import Modal from "components/Modal";
+import Navigation from "components/Navigation";
 
-import ReportList from "./ReportList";
-import ReportOption, { ReportOptionType } from "./ReportOption";
+import BodyReport from "./Body/BodyReport";
 
 import theme from "tools/theme";
 
@@ -24,7 +24,6 @@ type RecordProps = {
 
 const ModalReport = (props: RecordProps) => {
   const { t } = useTranslation("mypage");
-  const [option, setOption] = useState<ReportOptionType>("Reporting");
   const [, reportHistory] = useQuery.get("/reports/searchByUser");
 
   const styleTitle = {
@@ -33,51 +32,57 @@ const ModalReport = (props: RecordProps) => {
     alignItems: "center",
     marginBottom: "12px",
   };
-  const styleGuide: CSS = {
+  const styleGuide = {
     ...theme.font12,
     color: theme.gray_text,
-    wordBreak: "keep-all",
+    wordBreak: "keep-all" as any,
     padding: "0 8px 12px",
   };
   const styleLogo = {
     fontSize: "21px",
     margin: "0 4px 0 8px",
   };
-  const styleContainer: CSS = {
-    display: "flex",
-    flexDirection: "column",
-    overflow: "auto",
-    borderRadius: "12px",
-    minHeight: "240px",
-    height: "calc(100vh - 480px)",
-    rowGap: "8px",
-  };
+
+  const pages = useMemo(
+    () => [
+      {
+        key: "Reporting",
+        name: t("page_report.reported"),
+        body: (
+          <BodyReport
+            option="Reporting"
+            selectedReportHistory={reportHistory?.reporting}
+          />
+        ),
+      },
+      {
+        key: "Reported",
+        name: t("page_report.received"),
+        body: (
+          <BodyReport
+            option="Reported"
+            selectedReportHistory={reportHistory?.reported}
+          />
+        ),
+      },
+    ],
+    [reportHistory]
+  );
+
   return (
     <Modal
       isOpen={props.isOpen}
       onChangeIsOpen={props.onChangeIsOpen}
       padding="16px 12px"
     >
-      <div style={styleTitle}>
+      <div css={styleTitle}>
         <ErrorOutlineRoundedIcon style={styleLogo} />
         {t("report_record")}
       </div>
-      <div style={styleGuide}>{t("page_report.inquiry")}</div>
-      <DottedLine direction="row" />
-      <ReportOption
-        option={option}
-        onClick={(option: ReportOptionType) => setOption(option)}
-      />
-      <div style={styleContainer}>
-        <ReportList
-          option={option}
-          selectedReportHistory={
-            option === "Reporting"
-              ? reportHistory?.reporting
-              : reportHistory?.reported
-          }
-        />
-      </div>
+      <div css={styleGuide}>{t("page_report.inquiry")}</div>
+      <DottedLine />
+      <div css={{ height: "12px" }} />
+      <Navigation pages={pages} />
     </Modal>
   );
 };

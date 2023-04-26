@@ -1,6 +1,6 @@
 import theme from "tools/theme";
 
-const PrivacyPolicy = () => {
+const BodyPrivacyPolicy = () => {
   const styleBox = {
     padding: "0 24px 0 16px",
     borderRadius: "10px",
@@ -230,4 +230,4 @@ const PrivacyPolicy = () => {
   );
 };
 
-export default PrivacyPolicy;
+export default BodyPrivacyPolicy;

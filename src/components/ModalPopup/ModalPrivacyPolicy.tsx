@@ -1,7 +1,8 @@
 import { useTranslation } from "react-i18next";
 
 import Modal from "components/Modal";
-import PrivacyPolicy from "components/ModalPopup/PrivacyPolicy";
+
+import BodyPrivacyPolicy from "./Body/BodyPrivacyPolicy";
 
 import theme from "tools/theme";
 
@@ -37,7 +38,7 @@ const ModalPrivacyPolicy = ({
         <TaxiLogo style={{ height: "27px" }} />
         {t("privacy_policy")}
       </div>
-      <PrivacyPolicy />
+      <BodyPrivacyPolicy />
     </Modal>
   );
 };

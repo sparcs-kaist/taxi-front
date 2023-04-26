@@ -7,7 +7,8 @@ import { useAxios } from "hooks/useTaxiAPI";
 import Button from "components/Button";
 import { useOnClickLogout } from "components/Link/LinkLogout";
 import Modal from "components/Modal";
-import Terms from "components/ModalPopup/Terms";
+
+import BodyTerms from "./Body/BodyTerms";
 
 import alertAtom from "atoms/alert";
 import loginInfoAtom from "atoms/loginInfo";
@@ -107,7 +108,7 @@ const ModalTerms = (props) => {
         <TaxiLogo alt="taxi-logo" style={{ height: "27px" }} />
         {t("terms")}
       </div>
-      <Terms />
+      <BodyTerms />
       <div data-cy="agreement-bottom">
         <Agree
           didAgree={didAgree}
