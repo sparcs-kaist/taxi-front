@@ -1,5 +1,4 @@
-import { memo, useState } from "react";
-import { Link } from "react-router-dom";
+import { memo, useCallback, useState } from "react";
 
 import { ModalPrivacyPolicy } from "./ModalPopup";
 
@@ -9,27 +8,37 @@ import { ReactComponent as SparcsLogo } from "static/assets/SparcsLogoWithText.s
 
 type BtnFooterProps = {
   text: string;
+  onClick?: () => void;
 };
 
 type FooterProps = {
   type?: "only-logo" | "full";
 };
 
-const BtnFooter = ({ text }: BtnFooterProps) => {
+const BtnFooter = ({ text, onClick }: BtnFooterProps) => {
   return (
     <div css={{ ...theme.font12, padding: "6px" }}>
-      <Link
-        to="/home/privacyPolicy"
-        style={{ textDecoration: "none", color: theme.gray_text }}
+      <a
+        onClick={onClick}
+        style={{
+          textDecoration: "none",
+          color: theme.gray_text,
+          ...theme.cursor(),
+        }}
       >
         {text}
-      </Link>
+      </a>
     </div>
   );
 };
 
 const Footer = ({ type = "full" }: FooterProps) => {
   const [isOpenPrivacyPolicy, setIsOpenPrivacyPolicy] = useState(false);
+
+  const onClickPrivacyPolicy = useCallback(
+    () => setIsOpenPrivacyPolicy(true),
+    []
+  );
 
   return (
     <div
@@ -46,7 +55,7 @@ const Footer = ({ type = "full" }: FooterProps) => {
             isOpen={isOpenPrivacyPolicy}
             onChangeIsOpen={setIsOpenPrivacyPolicy}
           />
-          <BtnFooter text="개인정보 처리방침" />
+          <BtnFooter text="개인정보 처리방침" onClick={onClickPrivacyPolicy} />
         </>
       )}
       <div css={{ padding: "6px" }}>

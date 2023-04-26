@@ -18,6 +18,7 @@ import { MAX_PARTICIPATION } from "pages/Myroom";
 import alertAtom from "atoms/alert";
 import { useSetRecoilState } from "recoil";
 
+import { dayNowClient, dayServerToClient } from "tools/day";
 import { date2str } from "tools/moment";
 import theme from "tools/theme";
 import { getLocationName } from "tools/trans";
@@ -120,6 +121,8 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
       true); // 이미 참여 중인지 여부
   const isMaxPart =
     isLogin && myRooms && myRooms.ongoing.length >= MAX_PARTICIPATION; // 최대 참여 가능한 방 개수를 초과했는지 여부
+  const isDepart =
+    roomInfo && dayServerToClient(roomInfo.time) <= dayNowClient(); // 방 출발 여부
 
   const requestJoin = useCallback(async () => {
     if (onCall.current) return;
@@ -198,10 +201,10 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
           </div>
         </div>
       </div>
-      {isLogin ? (
+      {isLogin || isRoomFull || isDepart ? (
         <Button
           type="purple"
-          disabled={isRoomFull || isAlreadyPart || isMaxPart}
+          disabled={isRoomFull || isDepart || isAlreadyPart || isMaxPart}
           padding="10px 0 9px"
           radius={8}
           font={theme.font14_bold}
@@ -209,6 +212,8 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
         >
           {isAlreadyPart
             ? "이미 참여 중입니다"
+            : isDepart
+            ? "출발 시각이 현재 이후인 방은 참여할 수 없습니다"
             : isRoomFull
             ? "남은 인원이 0명인 방은 참여할 수 없습니다"
             : isMaxPart

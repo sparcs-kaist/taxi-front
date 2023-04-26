@@ -1,16 +1,19 @@
 import { useEffect } from "react";
 
-import { useAxios } from "hooks/useTaxiAPI";
+import { useFetchRecoilState } from "hooks/useFetchRecoilState";
 
-import loginInfoAtom from "atoms/loginInfo";
+import alertAtom from "atoms/alert";
+import errorAtom from "atoms/error";
+import { LoginInfoType } from "atoms/loginInfo";
 import { useSetRecoilState } from "recoil";
 
 // global flag variable to check if the webview is in Flutter
 let isWebViewInFlutter: boolean = false;
 
 const FlutterEventCommunicationProvider = () => {
-  const axios = useAxios();
-  const setLoginInfoDetail = useSetRecoilState(loginInfoAtom); // fixme
+  const setAlert = useSetRecoilState(alertAtom);
+  const setError = useSetRecoilState(errorAtom);
+  const fetchLoginInfo = useFetchRecoilState("loginInfo");
 
   useEffect(() => {
     const eventListeners: Array<{
@@ -29,12 +32,23 @@ const FlutterEventCommunicationProvider = () => {
     // Flutter에서 logininfo 업데이트를 요청할 때, 호출됩니다.
     eventListeners.push({
       name: "updateLoginInfo",
-      listner: () =>
-        axios({
-          url: "/logininfo",
-          method: "get",
-          onSuccess: (data) => setLoginInfoDetail(data),
-        }),
+      listner: () => fetchLoginInfo(),
+    });
+
+    // Flutter에서 에러를 전달할 때, 호출됩니다.
+    eventListeners.push({
+      name: "createError",
+      listner: ({
+        detail: { title, message },
+      }: {
+        detail: { title: string; message: string };
+      }) => setError({ title, message, record: null }),
+    });
+
+    // Flutter에서 Alert 모달을 띄울 때, 호출됩니다.
+    eventListeners.push({
+      name: "createAlert",
+      listner: ({ detail }: { detail: string }) => setAlert(detail),
     });
 
     eventListeners.forEach(({ name, listner }) =>
@@ -53,14 +67,36 @@ export default FlutterEventCommunicationProvider;
 
 export const getIsWebViewInFlutter = () => isWebViewInFlutter;
 
-// 로그인 시 Flutter에 로그인 이벤트 전달합니다
-export const sendLoginEventToFlutter = () => {
+// 로그인 정보 변동 시 Flutter에 이벤트를 전달합니다
+export const sendAuthUpdateEventToFlutter = async (
+  loginInfo: LoginInfoType
+) => {
   if (!isWebViewInFlutter) return;
-  window.flutter_inappwebview.callHandler("login");
+  try {
+    await window.flutter_inappwebview.callHandler("auth_update", loginInfo);
+  } catch (e) {
+    console.error(e);
+  }
 };
 
-// 로그아웃 시 Flutter에 로그아웃 이벤트 전달합니다
-export const sendLogoutEventToFlutter = () => {
+// 버튼 클릭으로 인한 로그아웃 시 Flutter에 이벤트 전달합니다
+// 이용약관 미동의로 인한 로그아웃 시에도 이벤트를 전달합니다
+export const sendAuthLogoutEventToFlutter = async () => {
   if (!isWebViewInFlutter) return;
-  window.flutter_inappwebview.callHandler("logout");
+  try {
+    await window.flutter_inappwebview.callHandler("auth_logout");
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// 알림을 "on"으로 설정 시 Flutter에게 이벤트를 전달하고 앱의 알림 설정 여부를 반환받습니다.
+export const sendTryNotificationEventToFlutter = async () => {
+  if (!isWebViewInFlutter) return true;
+  try {
+    return await window.flutter_inappwebview.callHandler("try_notification");
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
 };
