@@ -1,6 +1,7 @@
 import {
   registerSocketEventListener,
   resetSocketEventListener,
+  socketReady,
 } from "components/Skeleton/SocketToastProvider";
 
-export { registerSocketEventListener, resetSocketEventListener };
+export { registerSocketEventListener, resetSocketEventListener, socketReady };

@@ -22,6 +22,7 @@ import regExpTest from "tools/regExpTest";
 import {
   registerSocketEventListener,
   resetSocketEventListener,
+  socketReady,
 } from "tools/socket";
 
 const Chatting = ({ roomId, layoutType }) => {
@@ -36,11 +37,10 @@ const Chatting = ({ roomId, layoutType }) => {
   const [showNewMessage, setShowNewMessage] = useState(false);
   const [, setMessageFormHeight] = useStateWithCallbackLazy("48px");
 
-  const socket = useRef(undefined);
   const reactiveState = useR2state();
   const prevReactiveState = useRef(reactiveState);
   const setAlert = useSetRecoilState(alertAtom);
-  const { oid: userOid } = useValueRecoilState("loginInfoAtom") || {};
+  const { oid: userOid } = useValueRecoilState("loginInfo") || {};
   const [headerInfoToken, fetchHeaderInfo] = useDateToken();
   const [, headerInfo] = useQuery.get(`/rooms/info?id=${roomId}`, {}, [
     headerInfoToken,
@@ -103,7 +103,13 @@ const Chatting = ({ roomId, layoutType }) => {
       callingInfScroll.current == false
     ) {
       callingInfScroll.current = true;
-      socket.current.emit("chats-load", chats[0].time, 30);
+      socketReady(() => {
+        axios({
+          url: "/chats/load/after",
+          method: "post",
+          data: { roomId, lastMsgDate: chats[0].time },
+        });
+      });
     }
   };
 
@@ -132,47 +138,64 @@ const Chatting = ({ roomId, layoutType }) => {
     });
   };
 
+  const sortChats = (chats) => {
+    return chats;
+  };
+
   // socket event
   useEffect(() => {
+    let isExpired = false;
     sendingMessage.current = true;
+
     registerSocketEventListener({
       initListener: (chats) => {
-        console.log(chats);
-        // setChats(data.chats, () => {
-        //   scrollToBottom();
-        //   callingInfScroll.current = false;
-        // });
+        if (isExpired) return;
+        sendingMessage.current = null;
+
+        setChats(sortChats(chats), () => {
+          scrollToBottom();
+          callingInfScroll.current = false;
+        });
       },
       pushBackListener: (chats) => {
-        console.log(chats);
-        // if (data.chat.authorId === useOid) {
-        //   sendingMessage.current = null;
-        // }
-        // const callback =
-        //   data.chat.authorId === userOid || isBottomOnScroll()
-        //     ? () => scrollToBottom(true)
-        //     : () => setShowNewMessage(true);
-        // setChats((prevChats) => [...prevChats, data.chat], callback);
+        if (isExpired) return;
+
+        const isMyMsg = chats.some((chat) => chat.authorId === userOid);
+        if (isMyMsg) sendingMessage.current = null;
+
+        setChats(
+          (prevChats) => sortChats([...prevChats, ...chats]),
+          isMyMsg || isBottomOnScroll()
+            ? () => scrollToBottom(true)
+            : () => setShowNewMessage(true)
+        );
       },
       pushFrontListener: (chats) => {
-        console.log(chats);
-        // if (data.chats.length === 0) {
-        //   callingInfScroll.current = null;
-        //   return;
-        // }
-        // const checkoutChat = { type: "inf-checkout" };
-        // setChats((prevChats) => [...data.chats, checkoutChat, ...prevChats]);
+        if (isExpired) return;
+
+        if (chats.length === 0) {
+          callingInfScroll.current = null;
+          return;
+        }
+
+        const checkoutChat = { type: "inf-checkout" };
+        setChats((prevChats) =>
+          sortChats([...chats, checkoutChat, ...prevChats])
+        );
       },
     });
-    axios({
-      url: "/chats",
-      method: "post",
-      data: { roomId },
-      onSuccess: () => {
-        sendingMessage.current = null;
-      },
+    socketReady(() => {
+      if (isExpired) return;
+      axios({
+        url: "/chats",
+        method: "post",
+        data: { roomId },
+      });
     });
-    return resetSocketEventListener;
+    return () => {
+      isExpired = true;
+      resetSocketEventListener();
+    };
   }, [roomId]);
 
   // resize event
@@ -190,18 +213,25 @@ const Chatting = ({ roomId, layoutType }) => {
   }, []);
 
   // message function
-  const sendMessage = (type, content) => {};
-  const handleSendMessage = (text) => {
-    if (!regExpTest.chatMsg(text)) return false;
+  const sendMessage = (type, content) => {
     if (sendingMessage.current) return false;
+    if (type === "text" && !regExpTest.chatMsg(content)) return false;
+    if (type === "account" && !regExpTest.account(content)) return false;
+
     sendingMessage.current = true;
-    socket.current.emit("chats-send", {
-      roomId,
-      content: text,
-      type: "text",
+    axios({
+      url: "/chats/send",
+      method: "post",
+      data: { roomId, type, content },
+      onError: () => {
+        sendingMessage.current = null;
+        setAlert("메시지 전송에 실패하였습니다.");
+      },
     });
     return true;
   };
+  const handleSendMessage = (text) => sendMessage("text", text);
+  const handleSendAccount = (account) => sendMessage("account", account);
   const handleSendImage = async (image) => {
     if (sendingMessage.current) return;
     sendingMessage.current = true;
@@ -241,16 +271,6 @@ const Chatting = ({ roomId, layoutType }) => {
       console.error(e);
       onFail();
     }
-  };
-  const handleSendAccount = (account) => {
-    if (sendingMessage.current) return false;
-    sendingMessage.current = true;
-    socket.current.emit("chats-send", {
-      roomId,
-      content: account,
-      type: "account",
-    });
-    return true;
   };
 
   return (
