@@ -30,6 +30,7 @@ const connectSocket = () => {
   if (!userId) return;
 
   disconnectSocket();
+  console.log("try connect with socket"); // FIXME : REMOVE ME
   socket = io(ioServer, { withCredentials: true });
 
   socket.on("connect", () => {
@@ -37,6 +38,7 @@ const connectSocket = () => {
     console.log("connect with socket"); // FIXME : REMOVE ME
 
     socket.on("chat_init", ({ chats }) => {
+      console.log("chat_init"); // FIXME : REMOVE ME
       if (initEventListener) initEventListener(chats);
     });
     socket.on("chat_push_back", ({ chats }) => {
@@ -64,8 +66,10 @@ const SocketToastProvider = () => {
 
   useEffect(() => {
     userId = _userId;
-    connectSocket();
-    return disconnectSocket;
+    if (userId) {
+      connectSocket();
+      return disconnectSocket;
+    }
   }, [_userId]);
 
   return null;

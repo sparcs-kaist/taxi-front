@@ -103,9 +103,10 @@ const Chatting = ({ roomId, layoutType }) => {
       callingInfScroll.current == false
     ) {
       callingInfScroll.current = true;
+      console.log(chats[0].time);
       socketReady(() => {
         axios({
-          url: "/chats/load/after",
+          url: "/chats/load/before",
           method: "post",
           data: { roomId, lastMsgDate: chats[0].time },
         });
@@ -147,45 +148,49 @@ const Chatting = ({ roomId, layoutType }) => {
     let isExpired = false;
     sendingMessage.current = true;
 
-    registerSocketEventListener({
-      initListener: (chats) => {
-        if (isExpired) return;
-        sendingMessage.current = null;
-
-        setChats(sortChats(chats), () => {
-          scrollToBottom();
-          callingInfScroll.current = false;
-        });
-      },
-      pushBackListener: (chats) => {
-        if (isExpired) return;
-
-        const isMyMsg = chats.some((chat) => chat.authorId === userOid);
-        if (isMyMsg) sendingMessage.current = null;
-
-        setChats(
-          (prevChats) => sortChats([...prevChats, ...chats]),
-          isMyMsg || isBottomOnScroll()
-            ? () => scrollToBottom(true)
-            : () => setShowNewMessage(true)
-        );
-      },
-      pushFrontListener: (chats) => {
-        if (isExpired) return;
-
-        if (chats.length === 0) {
-          callingInfScroll.current = null;
-          return;
-        }
-
-        const checkoutChat = { type: "inf-checkout" };
-        setChats((prevChats) =>
-          sortChats([...chats, checkoutChat, ...prevChats])
-        );
-      },
-    });
     socketReady(() => {
       if (isExpired) return;
+
+      // socket event listener 등록
+      registerSocketEventListener({
+        initListener: (chats) => {
+          if (isExpired) return;
+          sendingMessage.current = null;
+
+          setChats(sortChats(chats), () => {
+            scrollToBottom();
+            callingInfScroll.current = false;
+          });
+        },
+        pushBackListener: (chats) => {
+          if (isExpired) return;
+
+          const isMyMsg = chats.some((chat) => chat.authorId === userOid);
+          if (isMyMsg) sendingMessage.current = null;
+
+          setChats(
+            (prevChats) => sortChats([...prevChats, ...chats]),
+            isMyMsg || isBottomOnScroll()
+              ? () => scrollToBottom(true)
+              : () => setShowNewMessage(true)
+          );
+        },
+        pushFrontListener: (chats) => {
+          if (isExpired) return;
+
+          if (chats.length === 0) {
+            callingInfScroll.current = null;
+            return;
+          }
+
+          const checkoutChat = { type: "inf-checkout" };
+          setChats((prevChats) =>
+            sortChats([...chats, checkoutChat, ...prevChats])
+          );
+        },
+      });
+
+      // 채팅 로드 API 호출
       axios({
         url: "/chats",
         method: "post",
