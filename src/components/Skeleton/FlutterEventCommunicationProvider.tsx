@@ -4,6 +4,7 @@ import { useFetchRecoilState } from "hooks/useFetchRecoilState";
 
 import alertAtom from "atoms/alert";
 import errorAtom from "atoms/error";
+import isAppAtom from "atoms/isApp";
 import { LoginInfoType } from "atoms/loginInfo";
 import { useSetRecoilState } from "recoil";
 
@@ -13,6 +14,7 @@ let isWebViewInFlutter: boolean = false;
 const FlutterEventCommunicationProvider = () => {
   const setAlert = useSetRecoilState(alertAtom);
   const setError = useSetRecoilState(errorAtom);
+  const setIsApp = useSetRecoilState(isAppAtom);
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
 
   useEffect(() => {
@@ -26,6 +28,7 @@ const FlutterEventCommunicationProvider = () => {
       name: "flutterInAppWebViewPlatformReady",
       listner: () => {
         isWebViewInFlutter = true;
+        setIsApp(true);
       },
     });
 
@@ -64,8 +67,6 @@ const FlutterEventCommunicationProvider = () => {
 };
 
 export default FlutterEventCommunicationProvider;
-
-export const getIsWebViewInFlutter = () => isWebViewInFlutter;
 
 // 로그인 정보 변동 시 Flutter에 이벤트를 전달합니다
 export const sendAuthUpdateEventToFlutter = async (

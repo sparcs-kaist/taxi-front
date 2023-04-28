@@ -2,13 +2,13 @@ import { useCallback, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 
 import Button from "components/Button";
+import LinkLogin from "components/Link/LinkLogin";
 
 import loginInfoAtom from "atoms/loginInfo";
 import { useRecoilValue } from "recoil";
 
 import theme from "tools/theme";
 
-import { backServer } from "loadenv";
 import { ReactComponent as TaxiLogo } from "static/assets/TaxiLogo.svg";
 
 const Login = () => {
@@ -63,11 +63,8 @@ const Login = () => {
         >
           이전 페이지
         </Button>
-        <a
-          href={`${backServer}/auth/sparcssso?redirect=${encodeURIComponent(
-            new URLSearchParams(search).get("redirect") || "/"
-          )}`}
-          style={{ textDecoration: "none" }}
+        <LinkLogin
+          redirect={new URLSearchParams(search).get("redirect") || "/"}
         >
           <Button
             type="purple"
@@ -77,7 +74,7 @@ const Login = () => {
           >
             로그인
           </Button>
-        </a>
+        </LinkLogin>
       </div>
     </div>
   );
