@@ -2,10 +2,10 @@ import axiosOri from "axios";
 import PropTypes from "prop-types";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { io } from "socket.io-client";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 
 import useDateToken from "hooks/useDateToken";
+import { useValueRecoilState } from "hooks/useFetchRecoilState";
 import { useR2state } from "hooks/useReactiveState";
 import { useAxios, useQuery } from "hooks/useTaxiAPI";
 
@@ -14,19 +14,21 @@ import Header from "./Header";
 import MessageForm from "./MessageForm";
 import MessagesBody from "./MessagesBody";
 
-import loginInfoAtom from "atoms/loginInfo";
-import { useRecoilValue } from "recoil";
+import alertAtom from "atoms/alert";
+import { useSetRecoilState } from "recoil";
 
 import convertImg from "tools/convertImg";
 import regExpTest from "tools/regExpTest";
+import {
+  registerSocketEventListener,
+  resetSocketEventListener,
+  socketReady,
+} from "tools/socket";
 
-import { ioServer } from "loadenv";
-
-const Chatting = (props) => {
+const Chatting = ({ roomId, layoutType }) => {
   const sendingMessage = useRef();
   const callingInfScroll = useRef();
   const isBottomOnScrollCache = useRef(true);
-  const roomIdCache = useRef();
   const messagesBody = useRef();
   const history = useHistory();
   const axios = useAxios();
@@ -35,12 +37,12 @@ const Chatting = (props) => {
   const [showNewMessage, setShowNewMessage] = useState(false);
   const [, setMessageFormHeight] = useStateWithCallbackLazy("48px");
 
-  const socket = useRef(undefined);
   const reactiveState = useR2state();
   const prevReactiveState = useRef(reactiveState);
-  const { oid: userOid } = useRecoilValue(loginInfoAtom) || {};
+  const setAlert = useSetRecoilState(alertAtom);
+  const { oid: userOid } = useValueRecoilState("loginInfo") || {};
   const [headerInfoToken, fetchHeaderInfo] = useDateToken();
-  const [, headerInfo] = useQuery.get(`/rooms/info?id=${props.roomId}`, {}, [
+  const [, headerInfo] = useQuery.get(`/rooms/info?id=${roomId}`, {}, [
     headerInfoToken,
   ]);
 
@@ -59,7 +61,7 @@ const Chatting = (props) => {
 
   useEffect(() => {
     if (reactiveState !== 3 && prevReactiveState.current === 3) {
-      history.replace(`/myroom/${props.roomId}`);
+      history.replace(`/myroom/${roomId}`);
     }
     if (reactiveState === 3 && prevReactiveState.current !== 3)
       prevReactiveState.current = reactiveState;
@@ -101,7 +103,13 @@ const Chatting = (props) => {
       callingInfScroll.current == false
     ) {
       callingInfScroll.current = true;
-      socket.current.emit("chats-load", chats[0].time, 30);
+      socketReady(() => {
+        axios({
+          url: "/chats/load/before",
+          method: "post",
+          data: { roomId, lastMsgDate: chats[0].time },
+        });
+      });
     }
   };
 
@@ -122,7 +130,7 @@ const Chatting = (props) => {
     }
   };
 
-  // messageFrom Height function
+  // messageForm Height function
   const handleMessageFormHeight = (height) => {
     let isBottom = isBottomOnScroll();
     setMessageFormHeight(height, () => {
@@ -130,56 +138,69 @@ const Chatting = (props) => {
     });
   };
 
-  // socket setting
+  const sortChats = (chats) => {
+    return chats;
+  };
+
+  // socket event
   useEffect(() => {
-    if (headerInfo && userOid && roomIdCache.current !== props.roomId) {
-      roomIdCache.current = props.roomId;
+    let isExpired = false;
+    sendingMessage.current = true;
 
-      socket.current?.disconnect();
-      socket.current = io(ioServer, {
-        withCredentials: true,
-      });
+    socketReady(() => {
+      if (isExpired) return;
 
-      // when join chatting
-      socket.current.on("chats-join", (data) => {
-        setChats(data.chats, () => {
-          scrollToBottom();
-          callingInfScroll.current = false;
-        });
-      });
-
-      // when receive chat
-      socket.current.on("chats-receive", (data) => {
-        if (data.chat.authorId === userOid) {
+      // socket event listener 등록
+      registerSocketEventListener({
+        initListener: (chats) => {
+          if (isExpired) return;
           sendingMessage.current = null;
-        }
-        const callback =
-          data.chat.authorId === userOid || isBottomOnScroll()
-            ? () => scrollToBottom(true)
-            : () => setShowNewMessage(true);
 
-        setChats((prevChats) => [...prevChats, data.chat], callback);
+          setChats(sortChats(chats), () => {
+            scrollToBottom();
+            callingInfScroll.current = false;
+          });
+        },
+        pushBackListener: (chats) => {
+          if (isExpired) return;
+
+          const isMyMsg = chats.some((chat) => chat.authorId === userOid);
+          if (isMyMsg) sendingMessage.current = null;
+
+          setChats(
+            (prevChats) => sortChats([...prevChats, ...chats]),
+            isMyMsg || isBottomOnScroll()
+              ? () => scrollToBottom(true)
+              : () => setShowNewMessage(true)
+          );
+        },
+        pushFrontListener: (chats) => {
+          if (isExpired) return;
+
+          if (chats.length === 0) {
+            callingInfScroll.current = null;
+            return;
+          }
+
+          const checkoutChat = { type: "inf-checkout" };
+          setChats((prevChats) =>
+            sortChats([...chats, checkoutChat, ...prevChats])
+          );
+        },
       });
 
-      // load more chats upon receiving chats-load event (infinite scroll)
-      socket.current.on("chats-load", (data) => {
-        if (data.chats.length === 0) {
-          callingInfScroll.current = null;
-          return;
-        }
-
-        const checkoutChat = { type: "inf-checkout" };
-        setChats((prevChats) => [...data.chats, checkoutChat, ...prevChats]);
+      // 채팅 로드 API 호출
+      axios({
+        url: "/chats",
+        method: "post",
+        data: { roomId },
       });
-
-      socket.current.emit("chats-join", props.roomId);
-    }
-    // FIXME : when error
-
+    });
     return () => {
-      if (socket.current) socket.current.disconnect();
+      isExpired = true;
+      resetSocketEventListener();
     };
-  }, [headerInfo, userOid]);
+  }, [roomId]);
 
   // resize event
   const resizeEvent = () => {
@@ -196,80 +217,75 @@ const Chatting = (props) => {
   }, []);
 
   // message function
-  const handleSendMessage = (text) => {
-    if (regExpTest.chatMsg(text) && !sendingMessage.current) {
-      sendingMessage.current = true;
-      socket.current.emit("chats-send", {
-        roomId: props.roomId,
-        content: text,
-        type: "text",
-      });
-      return true;
-    }
-    return false;
-  };
-  const handleSendImage = async (image) => {
-    if (!sendingMessage.current) {
-      sendingMessage.current = true;
-      const onFail = () => {
+  const sendMessage = (type, content) => {
+    if (sendingMessage.current) return false;
+    if (type === "text" && !regExpTest.chatMsg(content)) return false;
+    if (type === "account" && !regExpTest.account(content)) return false;
+
+    sendingMessage.current = true;
+    axios({
+      url: "/chats/send",
+      method: "post",
+      data: { roomId, type, content },
+      onError: () => {
         sendingMessage.current = null;
-      };
-      try {
-        image = await convertImg(image);
-        if (!image) return onFail();
-        axios({
-          url: "chats/uploadChatImg/getPUrl",
-          method: "post",
-          data: { type: image.type },
-          onSuccess: async ({ url, fields, id }) => {
-            if (!url || !fields) return onFail();
-            const formData = new FormData();
-            for (const key in fields) {
-              formData.append(key, fields[key]);
-            }
-            formData.append("file", image);
-            const { status: s3Status } = await axiosOri.post(url, formData);
-            if (s3Status !== 204) return onFail();
-            axios({
-              url: "chats/uploadChatImg/done",
-              method: "post",
-              data: { id },
-              onSuccess: ({ result }) => {
-                if (!result) onFail();
-              },
-              onError: onFail,
-            });
-          },
-          onError: onFail,
-        });
-      } catch (e) {
-        console.error(e);
-        onFail();
-      }
-    }
+        setAlert("메시지 전송에 실패하였습니다.");
+      },
+    });
+    return true;
   };
-  const handleSendAccount = (account) => {
-    if (!sendingMessage.current) {
-      sendingMessage.current = true;
-      socket.current.emit("chats-send", {
-        roomId: props.roomId,
-        content: account,
-        type: "account",
+  const handleSendMessage = (text) => sendMessage("text", text);
+  const handleSendAccount = (account) => sendMessage("account", account);
+  const handleSendImage = async (image) => {
+    if (sendingMessage.current) return;
+    sendingMessage.current = true;
+    const onFail = () => {
+      sendingMessage.current = null;
+      setAlert("이미지 전송에 실패하였습니다.");
+    };
+    try {
+      image = await convertImg(image);
+      if (!image) return onFail();
+      axios({
+        url: "chats/uploadChatImg/getPUrl",
+        method: "post",
+        data: { roomId, type: image.type },
+        onSuccess: async ({ url, fields, id }) => {
+          if (!url || !fields) return onFail();
+          const formData = new FormData();
+          for (const key in fields) {
+            formData.append(key, fields[key]);
+          }
+          formData.append("file", image);
+          const { status: s3Status } = await axiosOri.post(url, formData);
+          if (s3Status !== 204) return onFail();
+          axios({
+            url: "chats/uploadChatImg/done",
+            method: "post",
+            data: { id },
+            onSuccess: ({ result }) => {
+              if (!result) onFail();
+            },
+            onError: onFail,
+          });
+        },
+        onError: onFail,
       });
-      return true;
+    } catch (e) {
+      console.error(e);
+      onFail();
     }
-    return false;
   };
 
   return (
-    <Container layoutType={props.layoutType}>
+    <Container layoutType={layoutType}>
       <Header
-        layoutType={props.layoutType}
+        layoutType={layoutType}
         info={headerInfo}
         recallEvent={fetchHeaderInfo}
       />
       <MessagesBody
-        layoutType={props.layoutType} // fixme : is required?
+        layoutType={layoutType} // fixme : is required?
         chats={chats}
         forwardedRef={messagesBody}
         handleScroll={handleScroll}
@@ -277,7 +293,7 @@ const Chatting = (props) => {
         scrollToBottom={() => scrollToBottom(false)}
       />
       <MessageForm
-        layoutType={props.layoutType}
+        layoutType={layoutType}
         handleSendMessage={handleSendMessage}
         handleSendImage={handleSendImage}
         handleSendAccount={handleSendAccount}

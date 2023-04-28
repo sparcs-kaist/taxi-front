@@ -14,6 +14,7 @@ import FlutterEventCommunicationProvider from "components/Skeleton/FlutterEventC
 import GoogleAnalyticsProvier from "components/Skeleton/GoogleAnalyticsProvier";
 import I18nextProvider from "components/Skeleton/I18nextProvider";
 import ScrollRestoration from "components/Skeleton/ScrollRestoration";
+import SocketToastProvider from "components/Skeleton/SocketToastProvider";
 import VirtualKeyboardDetector from "components/Skeleton/VirtualKeyboardDetector";
 
 import "./App.css";
@@ -34,6 +35,7 @@ const App = () => {
           <GoogleAnalyticsProvier />
           <FirebaseMessagingProvider />
           <FlutterEventCommunicationProvider />
+          <SocketToastProvider />
           <AlertProvider />
           <ModalProvider />
           <Skeleton>
