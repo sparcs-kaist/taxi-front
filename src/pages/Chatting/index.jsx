@@ -103,7 +103,6 @@ const Chatting = ({ roomId, layoutType }) => {
       callingInfScroll.current == false
     ) {
       callingInfScroll.current = true;
-      console.log(chats[0].time);
       socketReady(() => {
         axios({
           url: "/chats/load/before",
@@ -131,7 +130,7 @@ const Chatting = ({ roomId, layoutType }) => {
     }
   };
 
-  // messageFrom Height function
+  // messageForm Height function
   const handleMessageFormHeight = (height) => {
     let isBottom = isBottomOnScroll();
     setMessageFormHeight(height, () => {
@@ -250,7 +249,7 @@ const Chatting = ({ roomId, layoutType }) => {
       axios({
         url: "chats/uploadChatImg/getPUrl",
         method: "post",
-        data: { type: image.type },
+        data: { roomId, type: image.type },
         onSuccess: async ({ url, fields, id }) => {
           if (!url || !fields) return onFail();
           const formData = new FormData();

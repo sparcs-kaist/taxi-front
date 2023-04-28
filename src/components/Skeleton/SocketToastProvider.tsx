@@ -30,15 +30,12 @@ const connectSocket = () => {
   if (!userId) return;
 
   disconnectSocket();
-  console.log("try connect with socket"); // FIXME : REMOVE ME
   socket = io(ioServer, { withCredentials: true });
 
   socket.on("connect", () => {
     if (!socket) return;
-    console.log("connect with socket"); // FIXME : REMOVE ME
 
     socket.on("chat_init", ({ chats }) => {
-      console.log("chat_init"); // FIXME : REMOVE ME
       if (initEventListener) initEventListener(chats);
     });
     socket.on("chat_push_back", ({ chats }) => {
@@ -48,16 +45,24 @@ const connectSocket = () => {
     socket.on("chat_push_front", ({ chats }) => {
       if (pushFrontEventListener) pushFrontEventListener(chats);
     });
+    socket.on("health", (isHealth: boolean) => {
+      if (!socket) return null;
+      if (isHealth) {
+        isSocketReady = true;
+        socketReadyQueue.forEach((event) => event());
+        socketReadyQueue = [];
+      } else {
+        console.error("re-try connect with socket");
+        socket.emit("health");
+      }
+    });
     socket.on("disconnect", () => {
-      console.log("socket disconnected"); // FIXME : REMOVE ME
       socket = null;
       isSocketReady = false;
       connectSocket();
     });
 
-    isSocketReady = true;
-    socketReadyQueue.forEach((event) => event());
-    socketReadyQueue = [];
+    socket.emit("health");
   });
 };
 
