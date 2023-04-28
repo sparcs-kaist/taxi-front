@@ -53,7 +53,9 @@ const connectSocket = () => {
         socketReadyQueue = [];
       } else {
         console.error("re-try connect with socket");
-        socket.emit("health");
+        setTimeout(() => {
+          socket?.emit("health");
+        }, 500);
       }
     });
     socket.on("disconnect", () => {
