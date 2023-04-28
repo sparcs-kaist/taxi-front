@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 
-import { isWebViewInFlutter } from "tools/sendEventToFlutter";
+import isAppAtom from "atoms/isApp";
+import { useRecoilValue } from "recoil";
 
 import { backServer } from "loadenv";
 
@@ -11,8 +12,8 @@ type LinkLoginProps = {
 
 const LinkLogin = ({ children, redirect }: LinkLoginProps) => {
   const { pathname, search } = useLocation();
+  const isApp = useRecoilValue(isAppAtom);
   const redirectPath = redirect || pathname + search;
-  const isApp = isWebViewInFlutter();
 
   return (
     <a

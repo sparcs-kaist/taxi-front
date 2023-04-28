@@ -9,7 +9,6 @@ import { useRecoilValue } from "recoil";
 
 import theme from "tools/theme";
 
-import { backServer } from "loadenv";
 import { ReactComponent as TaxiLogo } from "static/assets/TaxiLogo.svg";
 
 const Login = () => {
