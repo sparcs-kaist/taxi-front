@@ -8,4 +8,13 @@ const getLocationName = (location, langPreference) => {
   return location.koName;
 };
 
-export { getS3Url, getLocationName };
+const isNotificationOn = (notificationOptions) => {
+  const isOn =
+    // notificationOptions?.advertisement ||
+    // notificationOptions?.beforeDepart ||
+    notificationOptions?.chatting || notificationOptions?.notice;
+  // notificationOptions?.keywords?.length;
+  return !!isOn;
+};
+
+export { getS3Url, getLocationName, isNotificationOn };

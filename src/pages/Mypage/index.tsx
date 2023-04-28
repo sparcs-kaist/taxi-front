@@ -22,6 +22,7 @@ import WhiteContainer from "components/WhiteContainer";
 import Menu from "./Menu";
 
 import theme from "tools/theme";
+import { isNotificationOn } from "tools/trans";
 
 import { nodeEnv } from "loadenv";
 
@@ -30,13 +31,7 @@ const Mypage = () => {
   const [profImgToken, refreshProfImgToken] = useDateToken();
   const loginInfo = useValueRecoilState("loginInfo");
   const notificationOptions = useValueRecoilState("notificationOptions");
-
   const { id: userId } = loginInfo || {};
-  const isOnNotification =
-    // notificationOptions?.advertisement ||
-    // notificationOptions?.beforeDepart ||
-    notificationOptions?.chatting || notificationOptions?.notice;
-  // notificationOptions?.keywords?.length;
 
   const [isOpenProfileModify, setIsOpenProfileModify] = useState(false);
   const [isOpenNotification, setIsOpenNotification] = useState(false);
@@ -154,7 +149,9 @@ const Mypage = () => {
                 </Menu>
               )}
               <Menu
-                icon={`notification-${isOnNotification ? "on" : "off"}`}
+                icon={`notification-${
+                  isNotificationOn(notificationOptions) ? "on" : "off"
+                }`}
                 onClick={onClickNotification}
               >
                 {t("notification")}
