@@ -161,6 +161,14 @@ const Chatting = ({ roomId, layoutType }) => {
             callingInfScroll.current = false;
           });
         },
+        reconnectEventListener: () => {
+          if (isExpired) return;
+          // axios({
+          //   url: "/chats/load/after",
+          //   method: "post",
+          //   data: { roomId },
+          // });
+        },
         pushBackListener: (chats) => {
           if (isExpired) return;
 

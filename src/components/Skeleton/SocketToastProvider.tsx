@@ -6,15 +6,16 @@ import { useValueRecoilState } from "hooks/useFetchRecoilState";
 import { ioServer } from "loadenv";
 
 export type SocketChatEventListner = (chats: Array<Chat>) => void;
-export type SocketReadyEventListner = () => void;
+export type SocketVoidEventListner = () => void;
 
 let socket: Nullable<Socket> = null;
 
 let isSocketReady: boolean = false;
-let socketReadyQueue: Array<SocketReadyEventListner> = [];
+let socketReadyQueue: Array<SocketVoidEventListner> = [];
 
 let userId: Nullable<string> = null;
 let initEventListener: Nullable<SocketChatEventListner> = null;
+let reconnectEventListener: Nullable<SocketVoidEventListner> = null;
 let pushBackEventListener: Nullable<SocketChatEventListner> = null;
 let pushFrontEventListener: Nullable<SocketChatEventListner> = null;
 
@@ -61,6 +62,7 @@ const connectSocket = () => {
     socket.on("disconnect", () => {
       socket = null;
       isSocketReady = false;
+      if (reconnectEventListener) socketReady(reconnectEventListener);
       connectSocket();
     });
 
@@ -85,14 +87,17 @@ const SocketToastProvider = () => {
 // socket event listener 등록
 const registerSocketEventListener = ({
   initListener,
+  reconnectListener,
   pushBackListener,
   pushFrontListener,
 }: {
   initListener?: SocketChatEventListner;
+  reconnectListener?: SocketVoidEventListner;
   pushBackListener?: SocketChatEventListner;
   pushFrontListener?: SocketChatEventListner;
 }) => {
   initEventListener = initListener;
+  reconnectEventListener = reconnectListener;
   pushBackEventListener = pushBackListener;
   pushFrontEventListener = pushFrontListener;
 };
@@ -100,12 +105,13 @@ const registerSocketEventListener = ({
 // socket event listener 해제
 const resetSocketEventListener = () => {
   initEventListener = null;
+  reconnectEventListener = null;
   pushBackEventListener = null;
   pushFrontEventListener = null;
 };
 
 // socket이 연결된 이후 event 함수를 실행합니다.
-const socketReady = (event: SocketReadyEventListner) => {
+const socketReady = (event: SocketVoidEventListner) => {
   if (isSocketReady) event();
   else socketReadyQueue.push(event);
 };
