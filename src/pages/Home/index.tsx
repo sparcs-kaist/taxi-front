@@ -1,13 +1,18 @@
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 import Footer from "components/Footer";
+import { ModalPrivacyPolicy } from "components/ModalPopup";
 
 // import EventSection from "./EventSection";
 import InfoSection from "./InfoSection";
 import RoomSection from "./RoomSection";
 
 const Home = () => {
-  const { roomId } = useParams<{ roomId: string }>();
+  const history = useHistory();
+  const { roomId: _roomId } = useParams<{ roomId: string }>();
+  const roomId = _roomId === "privacyPolicy" ? null : _roomId;
+
+  const onChangeIsOpenPrivacyPolicy = () => history.replace("/home");
 
   return (
     <>
@@ -16,6 +21,10 @@ const Home = () => {
       {/* <EventSection /> */}
       <RoomSection roomId={roomId} />
       <Footer />
+      <ModalPrivacyPolicy
+        isOpen={_roomId === "privacyPolicy"}
+        onChangeIsOpen={onChangeIsOpenPrivacyPolicy}
+      />
     </>
   );
 };
