@@ -14,6 +14,7 @@ let isSocketReady: boolean = false;
 let socketReadyQueue: Array<SocketReadyEventListner> = [];
 
 let userId: Nullable<string> = null;
+let reconnetTryCount: number = 0;
 let initEventListener: Nullable<SocketChatEventListner> = null;
 let pushBackEventListener: Nullable<SocketChatEventListner> = null;
 let pushFrontEventListener: Nullable<SocketChatEventListner> = null;
@@ -53,9 +54,12 @@ const connectSocket = () => {
         socketReadyQueue = [];
       } else {
         console.error("re-try connect with socket");
-        setTimeout(() => {
-          socket?.emit("health");
-        }, 500);
+        if (reconnetTryCount <= 10) {
+          reconnetTryCount += 1;
+          setTimeout(() => {
+            socket?.emit("health");
+          }, 500);
+        }
       }
     });
     socket.on("disconnect", () => {
