@@ -17,9 +17,8 @@ import {
   OptionTime,
 } from "components/ModalRoomOptions";
 import RLayout from "components/RLayout";
-import SuggestLogin from "components/SuggestLogin";
 import Title from "components/Title";
-import WhiteContainer from "components/WhiteContainer";
+import WhiteContainerSuggestLogin from "components/WhiteContainer/WhiteContainerSuggestLogin";
 import { MAX_PARTICIPATION } from "pages/Myroom";
 
 import FullParticipation from "./FullParticipation";
@@ -161,9 +160,7 @@ const AddRoom = () => {
             </Button>
           </>
         ) : (
-          <WhiteContainer>
-            <SuggestLogin />
-          </WhiteContainer>
+          <WhiteContainerSuggestLogin />
         )}
       </RLayout.R1>
     </div>

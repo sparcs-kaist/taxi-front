@@ -18,7 +18,7 @@ import SideChat from "pages/Chatting/SideChat";
 
 import theme from "tools/theme";
 
-import ShareIcon from "@mui/icons-material/Share";
+import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
 import UnfoldLessRoundedIcon from "@mui/icons-material/UnfoldLessRounded";
 import UnfoldMoreRoundedIcon from "@mui/icons-material/UnfoldMoreRounded";
 
@@ -41,7 +41,7 @@ const ChatHeader = (props) => {
         }}
       >
         <Title icon="chat">채팅 창</Title>
-        <ShareIcon
+        <ShareRoundedIcon
           style={{
             color: theme.purple,
             marginLeft: "auto",
