@@ -1,10 +1,12 @@
-import Button from "./Button";
-import LinkLogin from "./Link/LinkLogin";
+import Button from "components/Button";
+import LinkLogin from "components/Link/LinkLogin";
+
+import WhiteContainer from ".";
 
 import theme from "tools/theme";
 
-const SuggestLogin = () => (
-  <>
+const WhiteContainerSuggestLogin = () => (
+  <WhiteContainer>
     <div
       css={{
         ...theme.font14,
@@ -23,7 +25,7 @@ const SuggestLogin = () => (
         로그인
       </Button>
     </LinkLogin>
-  </>
+  </WhiteContainer>
 );
 
-export default SuggestLogin;
+export default WhiteContainerSuggestLogin;

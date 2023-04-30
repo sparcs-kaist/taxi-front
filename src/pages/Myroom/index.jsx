@@ -5,9 +5,9 @@ import usePageFromSearchParams from "hooks/usePageFromSearchParams";
 import { useR2state } from "hooks/useReactiveState";
 
 import { PAGE_MAX_ITEMS } from "components/Pagination";
-import SuggestLogin from "components/SuggestLogin";
+import RLayout from "components/RLayout";
 import Title from "components/Title";
-import WhiteContainer from "components/WhiteContainer";
+import WhiteContainerSuggestLogin from "components/WhiteContainer/WhiteContainerSuggestLogin";
 
 import R1Myroom from "./R1Myroom";
 import R2Myroom from "./R2Myroom";
@@ -34,14 +34,12 @@ const Myroom = () => {
   }, [reactiveState, roomId, history]);
 
   return !isLogin ? (
-    <>
-      <Title icon="myroom" header marginAuto>
+    <RLayout.R1>
+      <Title icon="myroom" header>
         내 방 보기
       </Title>
-      <WhiteContainer marginAuto>
-        <SuggestLogin />
-      </WhiteContainer>
-    </>
+      <WhiteContainerSuggestLogin />
+    </RLayout.R1>
   ) : reactiveState === 3 ? (
     <R1Myroom
       roomId={roomId}
