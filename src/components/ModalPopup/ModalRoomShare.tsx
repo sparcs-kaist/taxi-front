@@ -4,7 +4,7 @@ import BodyRoomShare, { BodyRoomShareProps } from "./Body/BodyRoomShare";
 
 import theme from "tools/theme";
 
-import ShareIcon from "@mui/icons-material/Share";
+import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
 
 type ModalRoomShareProps = {
   isOpen: boolean;
@@ -35,7 +35,7 @@ const ModalRoomShare = ({
       padding="16px 12px 12px"
     >
       <div css={styleTitle}>
-        <ShareIcon style={styleIcon} />방 공유하기
+        <ShareRoundedIcon style={styleIcon} />방 공유하기
       </div>
       <BodyRoomShare roomInfo={roomInfo} />
     </Modal>
