@@ -5,7 +5,7 @@ import usePageFromSearchParams from "hooks/usePageFromSearchParams";
 import { useR2state } from "hooks/useReactiveState";
 
 import { PAGE_MAX_ITEMS } from "components/Pagination";
-import SuggestLogin from "components/SuggestLogin";
+import SuggestLogin from "components/Suggest/SuggestLogin";
 import Title from "components/Title";
 import WhiteContainer from "components/WhiteContainer";
 

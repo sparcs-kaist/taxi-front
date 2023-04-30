@@ -1,4 +1,5 @@
-import { useHistory, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 
 import Footer from "components/Footer";
 import { ModalPrivacyPolicy } from "components/ModalPopup";
@@ -7,10 +8,21 @@ import { ModalPrivacyPolicy } from "components/ModalPopup";
 import InfoSection from "./InfoSection";
 import RoomSection from "./RoomSection";
 
+// import SuggestAppSection from "./SuggestAppSection";
+import { getDynamicLink } from "tools/trans";
+
 const Home = () => {
   const history = useHistory();
+  const { pathname } = useLocation();
   const { roomId: _roomId } = useParams<{ roomId: string }>();
   const roomId = _roomId === "privacyPolicy" ? null : _roomId;
+
+  useEffect(() => {
+    if (pathname.startsWith("/invite") && roomId) {
+      // dynamic link로 웹에서 앱으로 이동가능할 시 이동합니다.
+      window.location.href = getDynamicLink(`/home/${roomId}`);
+    }
+  }, [roomId, pathname]);
 
   const onChangeIsOpenPrivacyPolicy = () => history.replace("/home");
 
@@ -18,6 +30,7 @@ const Home = () => {
     <>
       <InfoSection />
       <div css={{ marginTop: "-10px" }} />
+      {/* <SuggestAppSection /> */}
       {/* <EventSection /> */}
       <RoomSection roomId={roomId} />
       <Footer />
