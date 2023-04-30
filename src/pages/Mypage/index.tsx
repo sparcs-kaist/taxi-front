@@ -14,10 +14,11 @@ import {
   ModalReport,
   ModalTerms,
 } from "components/ModalPopup";
-import SuggestLogin from "components/Suggest/SuggestLogin";
+import RLayout from "components/RLayout";
 import Title from "components/Title";
 import ProfileImg from "components/User/ProfileImg";
 import WhiteContainer from "components/WhiteContainer";
+import WhiteContainerSuggestLogin from "components/WhiteContainer/WhiteContainerSuggestLogin";
 
 import Menu from "./Menu";
 
@@ -172,9 +173,9 @@ const Mypage = () => {
           <ModalTerms isOpen={isOpenPolicy} onChangeIsOpen={setIsOpenPolicy} />
         </>
       ) : (
-        <WhiteContainer marginAuto>
-          <SuggestLogin />
-        </WhiteContainer>
+        <RLayout.R1>
+          <WhiteContainerSuggestLogin />
+        </RLayout.R1>
       )}
       <WhiteContainer marginAuto>
         <div css={{ display: "grid", rowGap: "16px" }}>
