@@ -17,7 +17,7 @@ import {
   OptionTime,
 } from "components/ModalRoomOptions";
 import RLayout from "components/RLayout";
-import SuggestLogin from "components/SuggestLogin";
+import SuggestLogin from "components/Suggest/SuggestLogin";
 import Title from "components/Title";
 import WhiteContainer from "components/WhiteContainer";
 import { MAX_PARTICIPATION } from "pages/Myroom";

@@ -1,5 +1,5 @@
-import Button from "./Button";
-import LinkLogin from "./Link/LinkLogin";
+import Button from "../Button";
+import LinkLogin from "../Link/LinkLogin";
 
 import theme from "tools/theme";
 
