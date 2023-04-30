@@ -71,9 +71,7 @@ const Skeleton = ({ children }: SkeletonProps) => {
     if (isApp && !isOpposeSuggestApp) {
       const expirationDate = new Date();
       expirationDate.setFullYear(expirationDate.getFullYear() + 10);
-      setCookies("isOpposeSuggestApp", true, {
-        expires: expirationDate,
-      });
+      setCookies("isOpposeSuggestApp", true, { expires: expirationDate });
       setIsTryCloseSuggestApp(true);
     }
   }, [isApp, isOpposeSuggestApp]);
