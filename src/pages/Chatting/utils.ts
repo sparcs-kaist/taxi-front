@@ -8,5 +8,16 @@ export const getChatUnquewKey = (chat: Chat): string => {
 export const getCleanupChats = (
   chats: Array<Chat | CheckoutChat>
 ): Array<Chat | CheckoutChat> => {
-  return [];
+  const newChats: Array<Chat | CheckoutChat> = [];
+  const keySet = new Set<string>();
+
+  chats.forEach((chat) => {
+    if (chat.type !== "inf-checkout") {
+      const key = getChatUnquewKey(chat as Chat);
+      if (keySet.has(key)) return;
+      keySet.add(key);
+    }
+    newChats.push(chat);
+  });
+  return newChats;
 };
