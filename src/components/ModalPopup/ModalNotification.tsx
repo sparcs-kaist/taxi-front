@@ -59,7 +59,7 @@ const ModalNotification = ({
   const axios = useAxios();
 
   const setAlert = useSetRecoilState(alertAtom);
-  const { deviceToken } = useValueRecoilState("loginInfo") || {};
+  const { deviceToken, deviceType } = useValueRecoilState("loginInfo") || {};
   const notificationOptions = useValueRecoilState("notificationOptions");
   const fetchNotificationOptions = useFetchRecoilState("notificationOptions");
   const isAxiosCalled = useRef(false);
@@ -170,7 +170,9 @@ const ModalNotification = ({
       {deviceToken ? (
         <>
           <div css={styleGuide}>
-            브라우저를 닫아도 푸시 알림을 받을 수 있습니다.
+            {deviceType === "web"
+              ? "브라우저를 닫아도 웹 푸시 알림을 받을 수 있습니다."
+              : "앱을 닫아도 푸시 알림을 받을 수 있습니다."}
           </div>
           <div css={styleBody}>
             <SelectNotification

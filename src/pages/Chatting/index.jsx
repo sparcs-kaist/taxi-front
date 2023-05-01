@@ -13,6 +13,7 @@ import Container from "./Container";
 import Header from "./Header";
 import MessageForm from "./MessageForm";
 import MessagesBody from "./MessagesBody";
+import { checkoutChat, getCleanupChats } from "./utils";
 
 import alertAtom from "atoms/alert";
 import { useSetRecoilState } from "recoil";
@@ -138,10 +139,6 @@ const Chatting = ({ roomId, layoutType }) => {
     });
   };
 
-  const sortChats = (chats) => {
-    return chats;
-  };
-
   // socket event
   useEffect(() => {
     let isExpired = false;
@@ -156,9 +153,23 @@ const Chatting = ({ roomId, layoutType }) => {
           if (isExpired) return;
           sendingMessage.current = null;
 
-          setChats(sortChats(chats), () => {
+          setChats(getCleanupChats(chats), () => {
             scrollToBottom();
             callingInfScroll.current = false;
+          });
+        },
+        reconnectListener: () => {
+          if (isExpired) return;
+          setChats((prevChats) => {
+            axios({
+              url: "/chats/load/after",
+              method: "post",
+              data: {
+                roomId,
+                lastMsgDate: prevChats[prevChats.length - 1].time,
+              },
+            });
+            return prevChats;
           });
         },
         pushBackListener: (chats) => {
@@ -167,8 +178,18 @@ const Chatting = ({ roomId, layoutType }) => {
           const isMyMsg = chats.some((chat) => chat.authorId === userOid);
           if (isMyMsg) sendingMessage.current = null;
 
+          if (chats.length > 10) {
+            axios({
+              url: "/chats/load/after",
+              method: "post",
+              data: {
+                roomId,
+                lastMsgDate: chats[chats.length - 1].time,
+              },
+            });
+          }
           setChats(
-            (prevChats) => sortChats([...prevChats, ...chats]),
+            (prevChats) => getCleanupChats([...prevChats, ...chats]),
             isMyMsg || isBottomOnScroll()
               ? () => scrollToBottom(true)
               : () => setShowNewMessage(true)
@@ -181,10 +202,8 @@ const Chatting = ({ roomId, layoutType }) => {
             callingInfScroll.current = null;
             return;
           }
-
-          const checkoutChat = { type: "inf-checkout" };
           setChats((prevChats) =>
-            sortChats([...chats, checkoutChat, ...prevChats])
+            getCleanupChats([...chats, checkoutChat, ...prevChats])
           );
         },
       });
@@ -285,7 +304,7 @@ const Chatting = ({ roomId, layoutType }) => {
         recallEvent={fetchHeaderInfo}
       />
       <MessagesBody
-        layoutType={layoutType} // fixme : is required?
+        layoutType={layoutType}
         chats={chats}
         forwardedRef={messagesBody}
         handleScroll={handleScroll}
