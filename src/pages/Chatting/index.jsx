@@ -13,6 +13,7 @@ import Container from "./Container";
 import Header from "./Header";
 import MessageForm from "./MessageForm";
 import MessagesBody from "./MessagesBody";
+import { checkoutChat } from "./utils";
 
 import alertAtom from "atoms/alert";
 import { useSetRecoilState } from "recoil";
@@ -189,8 +190,6 @@ const Chatting = ({ roomId, layoutType }) => {
             callingInfScroll.current = null;
             return;
           }
-
-          const checkoutChat = { type: "inf-checkout" };
           setChats((prevChats) =>
             sortChats([...chats, checkoutChat, ...prevChats])
           );

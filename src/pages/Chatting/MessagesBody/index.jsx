@@ -1,32 +1,18 @@
 import PropTypes from "prop-types";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 
+import { getChatUnquewKey } from "../utils";
 import ChatDate from "./ChatDate";
 import ChatInOut from "./ChatInOut";
 import ChatSet from "./ChatSet";
-import PopupReport from "./PopupReport";
 
 import loginInfoAtom from "atoms/loginInfo";
 import { useRecoilValue } from "recoil";
 
 import moment from "tools/moment";
 
-// Chat {
-//   roomId: ObjectId, // 방의 objectId
-//   authorId: ObjectId, // 작성자 objectId
-//   authorName: String, // 작성자 닉네임 (사용자 입,퇴장 알림 등 전체 메시지일 때: null)
-//   content: String, // 채팅 content
-//   time: Date, // UTC 시각
-//   type: String // 메시지 종류 (text|in|out|s3img)
-//   authorProfileUrl: String
-// }
-
 const MessagesBody = (props) => {
   const { oid: userOid } = useRecoilValue(loginInfoAtom) || {};
-  const [isOpen, setIsOpen] = useState(false);
-  const [path, setPath] = useState("");
-  const [name, setName] = useState("");
-  const [reportedId, setReportedId] = useState("");
 
   const chats = useMemo(() => {
     const list = [];
@@ -39,10 +25,6 @@ const MessagesBody = (props) => {
       authorId: userOid,
       isBottomOnScroll: props.isBottomOnScroll,
       scrollToBottom: props.scrollToBottom,
-      setIsOpen,
-      setPath,
-      setName,
-      setReportedId,
       isSideChat: props.layoutType === "sidechat",
     };
 
@@ -51,7 +33,7 @@ const MessagesBody = (props) => {
         if (chatsCache) {
           list.push(
             <ChatSet
-              key={"chat" + chatsCache[0].time}
+              key={"chat" + getChatUnquewKey(chatsCache[0])}
               chats={chatsCache}
               {...chatSetCommonProps}
             />
@@ -72,7 +54,7 @@ const MessagesBody = (props) => {
         if (chatsCache) {
           list.push(
             <ChatSet
-              key={"chat" + chatsCache[0].time}
+              key={"chat" + getChatUnquewKey(chatsCache[0])}
               chats={chatsCache}
               {...chatSetCommonProps}
             />
@@ -88,7 +70,7 @@ const MessagesBody = (props) => {
         if (chatsCache) {
           list.push(
             <ChatSet
-              key={"chat" + chatsCache[0].time}
+              key={"chat" + getChatUnquewKey(chatsCache[0])}
               chats={chatsCache}
               {...chatSetCommonProps}
             />
@@ -97,7 +79,7 @@ const MessagesBody = (props) => {
         }
         list.push(
           <ChatInOut
-            key={"inout" + currentMoment}
+            key={"inout" + getChatUnquewKey(item)}
             type={item.type}
             users={item.inOutNames}
           />
@@ -115,7 +97,7 @@ const MessagesBody = (props) => {
         ) {
           list.push(
             <ChatSet
-              key={"chat" + chatsCache[0].time}
+              key={"chat" + getChatUnquewKey(chatsCache[0])}
               chats={chatsCache}
               {...chatSetCommonProps}
             />
@@ -130,7 +112,7 @@ const MessagesBody = (props) => {
     if (chatsCache) {
       list.push(
         <ChatSet
-          key={"chatLast" + chatsCache[0].time}
+          key={"chatLast" + getChatUnquewKey(chatsCache[0])}
           chats={chatsCache}
           {...chatSetCommonProps}
         />
@@ -138,10 +120,6 @@ const MessagesBody = (props) => {
     }
     return list;
   }, [props.chats, userOid]);
-
-  const onClose = () => {
-    setIsOpen(false);
-  };
 
   return (
     <div
@@ -158,13 +136,6 @@ const MessagesBody = (props) => {
       onScroll={props.handleScroll}
     >
       {chats}
-      <PopupReport
-        isOpen={isOpen}
-        onClose={onClose}
-        path={path}
-        name={name}
-        reportedId={reportedId}
-      />
     </div>
   );
 };

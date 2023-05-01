@@ -15,29 +15,23 @@ import theme from "tools/theme";
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
-type PopupReportProps = {
+type ModalReportInChattingProps = {
   isOpen: boolean;
-  onClose: () => void;
+  onChangeIsOpen: (isOpen: boolean) => void;
   path: string;
   name: string;
   reportedId: string;
 };
 
-enum ReportTypes {
-  NoSettlement = "no-settlement",
-  NoShow = "no-show",
-  ETCReason = "etc-reason",
-}
-
-const PopupReport = ({
+const ModalReportInChatting = ({
   isOpen,
-  onClose,
+  onChangeIsOpen,
   path,
   name,
   reportedId,
-}: PopupReportProps) => {
+}: ModalReportInChattingProps) => {
   const axios = useAxios();
-  const [type, setType] = useState<ReportTypes>(ReportTypes.NoSettlement);
+  const [type, setType] = useState<Report["type"]>("no-settlement");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [etcDetail, setEtcDetail] = useState("");
   const setAlert = useSetRecoilState(alertAtom);
@@ -142,11 +136,11 @@ const PopupReport = ({
   };
 
   const handleType = (event: ChangeEvent<HTMLSelectElement>) => {
-    setType(event.target.value as ReportTypes);
+    setType(event.target.value as Report["type"]);
   };
 
   const handleSubmit = () => {
-    const data: ReportData = {
+    const data: Report = {
       reportedId,
       type,
       etcDetail,
@@ -162,9 +156,9 @@ const PopupReport = ({
   };
 
   const handleClose = () => {
-    onClose();
+    onChangeIsOpen(false);
     setIsSubmitted(false);
-    setType(ReportTypes.NoSettlement);
+    setType("no-settlement");
   };
 
   const handleEtcDetail = (event: FormEvent<HTMLSpanElement>) => {
@@ -192,13 +186,13 @@ const PopupReport = ({
             onChange={handleType}
             disabled={isSubmitted}
           >
-            <option value={ReportTypes.NoSettlement}>정산을 하지 않음</option>
-            <option value={ReportTypes.NoShow}>택시에 동승하지 않음</option>
-            <option value={ReportTypes.ETCReason}>기타 사유</option>
+            <option value="no-settlement">정산을 하지 않음</option>
+            <option value="no-show">택시에 동승하지 않음</option>
+            <option value="etc-reason">기타 사유</option>
           </select>
         </div>
       </div>
-      {type === ReportTypes.ETCReason ? (
+      {type === "etc-reason" ? (
         <div style={styleETC}>
           <EditRoundedIcon style={styleIcon} />
           <span
@@ -259,4 +253,4 @@ const PopupReport = ({
   );
 };
 
-export default PopupReport;
+export default ModalReportInChatting;
