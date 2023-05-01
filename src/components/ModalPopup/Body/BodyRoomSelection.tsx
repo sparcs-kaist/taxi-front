@@ -213,7 +213,7 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
           {isAlreadyPart
             ? "이미 참여 중입니다"
             : isDepart
-            ? "출발 시각이 현재 이후인 방은 참여할 수 없습니다"
+            ? "출발 시각이 현재 이전인 방은 참여할 수 없습니다"
             : isRoomFull
             ? "남은 인원이 0명인 방은 참여할 수 없습니다"
             : isMaxPart

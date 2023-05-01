@@ -1,6 +1,6 @@
 import { memo, useCallback, useState } from "react";
 
-import { ModalPrivacyPolicy } from "./ModalPopup";
+import { ModalCredit, ModalPrivacyPolicy } from "./ModalPopup";
 
 import theme from "tools/theme";
 
@@ -34,10 +34,15 @@ const BtnFooter = ({ text, onClick }: BtnFooterProps) => {
 
 const Footer = ({ type = "full" }: FooterProps) => {
   const [isOpenPrivacyPolicy, setIsOpenPrivacyPolicy] = useState(false);
+  const [isOpenCredit, setIsOpenCredit] = useState(false);
 
   const onClickPrivacyPolicy = useCallback(
     () => setIsOpenPrivacyPolicy(true),
-    []
+    [setIsOpenPrivacyPolicy]
+  );
+  const onClickCredit = useCallback(
+    () => setIsOpenCredit(true),
+    [setIsOpenCredit]
   );
 
   return (
@@ -49,13 +54,16 @@ const Footer = ({ type = "full" }: FooterProps) => {
     >
       {type === "full" && (
         <>
-          {/* <BtnFooter text="채널톡 문의하기" /> */}
-          {/* <BtnFooter text="만든 사람들" /> */}
           <ModalPrivacyPolicy
             isOpen={isOpenPrivacyPolicy}
             onChangeIsOpen={setIsOpenPrivacyPolicy}
           />
+          <ModalCredit isOpen={isOpenCredit} onChangeIsOpen={setIsOpenCredit} />
+          <a className="popup-channeltalk">
+            <BtnFooter text="채널톡 문의하기" />
+          </a>
           <BtnFooter text="개인정보 처리방침" onClick={onClickPrivacyPolicy} />
+          <BtnFooter text="만든 사람들" onClick={onClickCredit} />
         </>
       )}
       <div css={{ padding: "6px" }}>

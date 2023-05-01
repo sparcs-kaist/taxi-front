@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { useCallback, useEffect, useState } from "react";
 
 import LinkCopy from "components/Link/LinkCopy";
+import ModalReportInChatting from "components/ModalPopup/ModalReportInChatting";
 import ProfileImg from "components/User/ProfileImg";
 import ImageFullscreen from "pages/Chatting/MessagesBody/ImageFullscreen";
 
@@ -279,13 +280,6 @@ const ChatSet = (props) => {
     minWidth: "fit-content",
   };
 
-  const handleOpen = () => {
-    props.setIsOpen(true);
-    props.setPath(props.chats[0].authorProfileUrl);
-    props.setName(props.chats[0].authorName);
-    props.setReportedId(props.chats[0].authorId);
-  };
-
   const onClose = () => {
     setFullImage("");
   };
@@ -314,8 +308,21 @@ const ChatSet = (props) => {
     }
   };
 
+  const [isOpenReportInChatting, setIsOpenReportInChatting] = useState(false);
+  const handleOpenReportInChatting = useCallback(
+    () => setIsOpenReportInChatting(true),
+    [setIsOpenReportInChatting]
+  );
+
   return (
     <div style={style}>
+      <ModalReportInChatting
+        isOpen={isOpenReportInChatting}
+        onChangeIsOpen={setIsOpenReportInChatting}
+        path={props.chats[0].authorProfileUrl}
+        name={props.chats[0].authorName}
+        reportedId={props.chats[0].authorId}
+      />
       {fullImage ? (
         <ImageFullscreen path={fullImage} onClose={onClose} />
       ) : null}
@@ -324,7 +331,7 @@ const ChatSet = (props) => {
           width: "53px",
         }}
       >
-        <div style={styleProfCont} onClick={handleOpen}>
+        <div style={styleProfCont} onClick={handleOpenReportInChatting}>
           <ProfileImg path={props.chats[0].authorProfileUrl} />
         </div>
       </div>
@@ -365,10 +372,6 @@ ChatSet.propTypes = {
   authorId: PropTypes.string,
   isBottomOnScroll: PropTypes.func,
   scrollToBottom: PropTypes.func,
-  setIsOpen: PropTypes.func,
-  setPath: PropTypes.func,
-  setName: PropTypes.func,
-  setReportedId: PropTypes.func,
   isSideChat: PropTypes.bool,
 };
 

@@ -44,8 +44,11 @@ const Container = ({ children }: ContainerProps) => (
 );
 
 const Skeleton = ({ children }: SkeletonProps) => {
-  const { id: userId, agreeOnTermsOfService: isAgreeOnTermsOfService } =
-    useValueRecoilState("loginInfo") || {};
+  const {
+    id: userId,
+    agreeOnTermsOfService: isAgreeOnTermsOfService,
+    deviceType,
+  } = useValueRecoilState("loginInfo") || {};
   const error = useRecoilValue(errorAtom);
   const isLoading = userId === null;
 
@@ -54,7 +57,7 @@ const Skeleton = ({ children }: SkeletonProps) => {
 
   const [cookies, setCookies] = useCookies(["isOpposeSuggestApp"]);
   const isOpposeSuggestApp = !!cookies?.isOpposeSuggestApp;
-  const isApp = useRecoilValue(isAppAtom);
+  const isApp = useRecoilValue(isAppAtom) || deviceType === "app";
   const [isAndroid, isIOS] = isMobile();
   const [isTryCloseSuggestApp, setIsTryCloseSuggestApp] = useState(false);
   const isSuggestApp = useMemo(
