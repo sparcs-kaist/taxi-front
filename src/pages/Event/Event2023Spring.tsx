@@ -1,3 +1,5 @@
+import { Carousel } from "antd";
+
 import Button from "components/Button";
 import Footer from "components/Footer";
 import RLayout from "components/RLayout";
@@ -6,22 +8,43 @@ import WhiteContainer from "components/WhiteContainer";
 
 import theme from "tools/theme";
 
+import Card1 from "static/events/1.png";
+import Card2 from "static/events/2.png";
+import Card3 from "static/events/3.png";
+import Card4 from "static/events/4.png";
+import Card5 from "static/events/5.png";
+
 type EventLinkProps = {
   href: string;
   text?: string;
 };
-const EventLink = ({ href, text }: EventLinkProps) => {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noreferrer"
-      css={{ color: theme.purple, textDecoration: "none" }}
-    >
-      {text || href}
-    </a>
-  );
+type WhiteContainerCardProps = {
+  src: string;
 };
+
+const EventLink = ({ href, text }: EventLinkProps) => (
+  <a
+    href={href}
+    target="_blank"
+    rel="noreferrer"
+    css={{ color: theme.purple, textDecoration: "none" }}
+  >
+    {text || href}
+  </a>
+);
+
+const WhiteContainerCard = ({ src }: WhiteContainerCardProps) => (
+  <div>
+    <img
+      src={src}
+      css={{
+        margin: 0,
+        width: "100%",
+      }}
+      alt="card1"
+    />
+  </div>
+);
 
 const Event2023Spring = () => {
   const styleText = {
@@ -30,8 +53,21 @@ const Event2023Spring = () => {
     color: theme.black,
     margin: "0px 4px 15px",
   };
+
   return (
     <RLayout.R1>
+      <Title icon="notice" header>
+        이벤트 요약
+      </Title>
+      <WhiteContainer padding="0px">
+        <Carousel autoplay autoplaySpeed={2000}>
+          <WhiteContainerCard src={Card1} />
+          <WhiteContainerCard src={Card2} />
+          <WhiteContainerCard src={Card3} />
+          <WhiteContainerCard src={Card4} />
+          <WhiteContainerCard src={Card5} />
+        </Carousel>
+      </WhiteContainer>
       <Title icon="taxi" header>
         택시 탑승 인증 이벤트
       </Title>
