@@ -6,9 +6,33 @@ import WhiteContainer from "components/WhiteContainer";
 
 import theme from "tools/theme";
 
+import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
+import DateRangeIcon from "@mui/icons-material/DateRange";
+import InsertLinkIcon from "@mui/icons-material/InsertLink";
+import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
+import StarIcon from "@mui/icons-material/Star";
+
+type EventLinkProps = {
+  href: string;
+  text?: string;
+};
+const EventLink = ({ href, text }: EventLinkProps) => {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      css={{ color: theme.purple, textDecoration: "none" }}
+    >
+      {text || href}
+    </a>
+  );
+};
+
 const Event2023Spring = () => {
   const styleText = {
     ...theme.font14,
+    lineHeight: "1.5rem",
     color: theme.black,
     margin: "0px 4px 15px",
   };
@@ -19,54 +43,39 @@ const Event2023Spring = () => {
       </Title>
       <WhiteContainer>
         <div css={styleText}>
-          이벤트 설명 어쩌구 저쩌구
+          <InsertLinkIcon css={{ transform: "translateY(7px)" }} />{" "}
+          <EventLink href="https://bit.ly/taxi-event" />
           <br />
+          <CardGiftcardIcon css={{ transform: "translateY(7px)" }} />{" "}
+          <b>경품 : </b>
+          에어팟 3세대 (1명), 갤럭시 워치5 (1명), 택시비 5000원 지원 (40명)
           <br />
-          🎁 경품 : 스타벅스 아이스 카페 아메리카노 T (15명)
+          <DateRangeIcon css={{ transform: "translateY(7px)" }} />{" "}
+          <b>이벤트 기간 : </b>
+          5월 3일(수) ~ 5월 15일(월)
           <br />
-          📌 이벤트 기간 : 11월 28일 ~ 12월 12일
-        </div>
-        <a href="/" target="_blank">
-          <Button
-            type="purple"
-            padding="14px 0 13px"
-            radius={12}
-            font={theme.font16_bold}
-          >
-            탑승 인증하기
-          </Button>
-        </a>
-      </WhiteContainer>
-
-      <Title icon="favorite" header>
-        인스타 공유 이벤트
-      </Title>
-      <WhiteContainer>
-        <div css={styleText}>
-          <a
+          <StarIcon css={{ transform: "translateY(7px)" }} /> <b>인증방법</b>
+          <br />둘 중 한가지 방법을 선택해{" "}
+          <EventLink href="https://bit.ly/taxi-event" /> 에 올려주시면 참여
+          완료!
+          <br />
+          1. Taxi 서비스의 채팅 페이지 스크린샷과 카드 결제 메시지
+          <br />
+          2. Taxi 서비스의 채팅 페이지 스크린샷과 택시를 탑승한 후 미터기 사진
+          <br />
+          <KeyboardDoubleArrowUpIcon
+            css={{ transform: "translateY(7px)" }}
+          />{" "}
+          <b>당첨 확률 UP</b>
+          <br />
+          인스타 스토리에{" "}
+          <EventLink
             href="https://www.instagram.com/sparcs.kaist"
-            target="_blank"
-            rel="noreferrer"
-            css={{ color: theme.purple, textDecoration: "none" }}
-          >
-            @sparcs.kaist
-          </a>{" "}
-          팔로우 후 본 게시물을 인스타그램 스토리에 공유해주세요. 그리고
-          <a
-            href="https://www.instagram.com/sparcs.kaist"
-            target="_blank"
-            rel="noreferrer"
-            css={{ color: theme.purple, textDecoration: "none" }}
-          >
-            @sparcs.kaist
-          </a>{" "}
-          를 태그 후 {'"'}공유이벤트 참여{'"'}라는 문구를 남겨주세요. 추첨을
-          통해 15명에게 경품을 드립니다.
-          <br />
-          <br />
-          🎁 경품 : 스타벅스 아이스 카페 아메리카노 T (15명)
-          <br />
-          📌 이벤트 기간 : 11월 28일 ~ 12월 12일
+            text="@sparcs.kaist"
+          />
+          를 태그 후 스크린샷으로 인증해{" "}
+          <EventLink href="https://bit.ly/taxi-event" /> 추가로 업로드 하면
+          당첨확률이 2배!
         </div>
         <a href="/" target="_blank" rel="noreferrer">
           <Button
@@ -80,18 +89,37 @@ const Event2023Spring = () => {
         </a>
       </WhiteContainer>
 
-      <Title icon="feed" header>
-        설문조사 참여 이벤트
+      <Title icon="favorite" header>
+        인스타 공유 이벤트
       </Title>
       <WhiteContainer>
         <div css={styleText}>
-          서비스 개선을 위한 설문조사에 참여해 주세요. 설문조사는 약 2분의
-          시간이 소요됩니다. 추첨을 통해 5명에게 경품을 드립니다.
+          <InsertLinkIcon css={{ transform: "translateY(7px)" }} />{" "}
+          <EventLink href="https://www.instagram.com/sparcs.kaist" />
           <br />
+          <CardGiftcardIcon css={{ transform: "translateY(5px)" }} />{" "}
+          <b>경품 : </b>
+          스타벅스 아이스 카페 아메리카노 T (30명)
           <br />
-          🎁 경품 : 배달의 민족 2만원 상품권 (5명)
+          <DateRangeIcon css={{ transform: "translateY(5px)" }} />{" "}
+          <b>이벤트 기간 : </b>
+          5월 3일 ~ 5월 15일
           <br />
-          📌 이벤트 기간 : 11월 28일 ~ 12월 12일
+          <StarIcon css={{ transform: "translateY(5px)" }} /> <b>인증방법</b>
+          <br />
+          1.{" "}
+          <EventLink
+            href="https://www.instagram.com/sparcs.kaist"
+            text="@sparcs.kaist"
+          />{" "}
+          팔로우 후 본 게시물을 인스타그램 스토리에 공유해주세요.
+          <br />
+          2.{" "}
+          <EventLink
+            href="https://www.instagram.com/sparcs.kaist"
+            text="@sparcs.kaist"
+          />{" "}
+          를 태그 후 {'"'}공유이벤트 참여{'"'}라는 문구를 남겨주세요.
         </div>
         <a href="/" target="_blank">
           <Button
@@ -100,11 +128,10 @@ const Event2023Spring = () => {
             radius={12}
             font={theme.font16_bold}
           >
-            설문조사 참여하기
+            탑승 인증하기
           </Button>
         </a>
       </WhiteContainer>
-
       <Footer />
     </RLayout.R1>
   );

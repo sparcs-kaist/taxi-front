@@ -7,6 +7,8 @@ import WhiteContainer from "components/WhiteContainer";
 
 import theme from "tools/theme";
 
+import CelebrationIcon from "@mui/icons-material/Celebration";
+
 const EventSection = () => {
   return (
     <RLayout.R1>
@@ -21,7 +23,27 @@ const EventSection = () => {
             margin: "0px 4px 15px",
           }}
         >
-          이벤트 설명 어쩌구 저쩌구
+          <div
+            css={{
+              ...theme.font16_bold,
+              marginBottom: "10px",
+            }}
+          >
+            2023 택시 이벤트
+          </div>
+          <div
+            css={{
+              ...theme.font14,
+              display: "flex",
+              gap: "10px",
+              alignItems: "center",
+              lineHeight: "1.2rem",
+            }}
+          >
+            <CelebrationIcon />
+            택시 이벤트에 참여하고 에어팟 3세대, 갤럭시 워치5 등 수많은 상품을
+            받아가세요!
+          </div>
         </div>
         <Link to="/event/2023spring" style={{ textDecoration: "none" }}>
           <Button
