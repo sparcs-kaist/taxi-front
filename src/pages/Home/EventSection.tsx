@@ -10,8 +10,8 @@ import theme from "tools/theme";
 const EventSection = () => {
   return (
     <RLayout.R1>
-      <Title icon="event" header>
-        이벤트
+      <Title icon="notice" header>
+        공지
       </Title>
       <WhiteContainer>
         <div
@@ -23,23 +23,26 @@ const EventSection = () => {
         >
           <div
             css={{
-              ...theme.font16_bold,
+              ...theme.font14,
               marginBottom: "10px",
             }}
           >
-            2023 택시 이벤트
+            <b css={{ color: theme.purple }}>택시 탑승 인증 이벤트</b> 및{" "}
+            <b css={{ color: theme.purple }}>인스타그램 공유 이벤트</b> 절찬리
+            진행 중!
           </div>
           <div
             css={{
               ...theme.font14,
-              display: "flex",
               gap: "10px",
               alignItems: "center",
               lineHeight: "1.2rem",
             }}
           >
-            택시 이벤트에 참여하고 에어팟 3세대, 갤럭시 워치5 등 수많은 상품을
-            받아가세요!
+            <b>📌 이벤트 기간 : </b>5/3(수) ~ 5/15(월) <br />
+            <b>🎁 경품 : </b>에어팟 3세대 (1명), 갤럭시 워치5 (1명), 스타벅스
+            아이스 카페 아메리카노 T (30명), 택시비 카카오페이 상품권 5000원
+            (40명)
           </div>
         </div>
         <Link to="/event/2023spring" style={{ textDecoration: "none" }}>
