@@ -13,6 +13,7 @@ import HailRoundedIcon from "@mui/icons-material/HailRounded";
 import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
 import LocalTaxiRoundedIcon from "@mui/icons-material/LocalTaxiRounded";
 import ManageSearchRoundedIcon from "@mui/icons-material/ManageSearchRounded";
+import NotificationsActiveRoundedIcon from "@mui/icons-material/NotificationsActiveRounded";
 import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 import QuestionAnswerRoundedIcon from "@mui/icons-material/QuestionAnswerRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
@@ -50,6 +51,8 @@ const getIcon = (icon) => {
       return <FeedRounedIcon style={iconStyle} />;
     case "favorite":
       return <FavoriteRoundedIocn style={iconStyle} />;
+    case "notice":
+      return <NotificationsActiveRoundedIcon style={iconStyle} />;
     default:
       return <></>;
   }
