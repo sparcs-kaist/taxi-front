@@ -59,7 +59,7 @@ const Event2023Spring = () => {
           />
           를 태그 후 스크린샷으로 인증해 추가로 업로드 하면 당첨확률이 2배!
         </div>
-        <a href="/" target="_blank" rel="noreferrer">
+        <a href="https://bit.ly/2023taxi" target="_blank" rel="noreferrer">
           <Button
             type="purple"
             padding="14px 0 13px"
@@ -98,7 +98,7 @@ const Event2023Spring = () => {
           />{" "}
           를 태그 후 {'"'}공유이벤트 참여{'"'}라는 문구를 남겨주세요.
         </div>
-        <a href="/" target="_blank">
+        <a href="https://www.instagram.com/sparcs.kaist" target="_blank">
           <Button
             type="purple"
             padding="14px 0 13px"
