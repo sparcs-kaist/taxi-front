@@ -13,7 +13,7 @@ import theme from "tools/theme";
 
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import CloseFullscreenRoundedIcon from "@mui/icons-material/CloseFullscreenRounded";
-import ShareIcon from "@mui/icons-material/Share";
+import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
 import UnfoldLessRoundedIcon from "@mui/icons-material/UnfoldLessRounded";
 import UnfoldMoreRoundedIcon from "@mui/icons-material/UnfoldMoreRounded";
 
@@ -108,7 +108,7 @@ const Header = (props) => {
               {props?.info?.to?.koName}
             </div>
           </div>
-          <ShareIcon
+          <ShareRoundedIcon
             style={{ ...styleIcon, marginRight: "18px", fontSize: "20px" }}
             onClick={() => setIsOpenShare(true)}
           />

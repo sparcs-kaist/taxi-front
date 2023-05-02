@@ -1,5 +1,8 @@
 import { useLocation } from "react-router-dom";
 
+import isAppAtom from "atoms/isApp";
+import { useRecoilValue } from "recoil";
+
 import { backServer } from "loadenv";
 
 type LinkLoginProps = {
@@ -9,12 +12,14 @@ type LinkLoginProps = {
 
 const LinkLogin = ({ children, redirect }: LinkLoginProps) => {
   const { pathname, search } = useLocation();
+  const isApp = useRecoilValue(isAppAtom);
   const redirectPath = redirect || pathname + search;
+
   return (
     <a
       href={`${backServer}/auth/sparcssso?redirect=${encodeURIComponent(
         redirectPath
-      )}`}
+      )}${isApp ? "&isApp=true" : ""}`}
       css={{ textDecoration: "none" }}
     >
       {children}

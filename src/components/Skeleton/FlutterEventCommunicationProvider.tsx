@@ -4,6 +4,7 @@ import { useFetchRecoilState } from "hooks/useFetchRecoilState";
 
 import alertAtom from "atoms/alert";
 import errorAtom from "atoms/error";
+import isAppAtom from "atoms/isApp";
 import { LoginInfoType } from "atoms/loginInfo";
 import { useSetRecoilState } from "recoil";
 
@@ -13,6 +14,7 @@ let isWebViewInFlutter: boolean = false;
 const FlutterEventCommunicationProvider = () => {
   const setAlert = useSetRecoilState(alertAtom);
   const setError = useSetRecoilState(errorAtom);
+  const setIsApp = useSetRecoilState(isAppAtom);
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
 
   useEffect(() => {
@@ -26,6 +28,7 @@ const FlutterEventCommunicationProvider = () => {
       name: "flutterInAppWebViewPlatformReady",
       listner: () => {
         isWebViewInFlutter = true;
+        setIsApp(true);
       },
     });
 
@@ -65,8 +68,6 @@ const FlutterEventCommunicationProvider = () => {
 
 export default FlutterEventCommunicationProvider;
 
-export const getIsWebViewInFlutter = () => isWebViewInFlutter;
-
 // 로그인 정보 변동 시 Flutter에 이벤트를 전달합니다
 export const sendAuthUpdateEventToFlutter = async (
   loginInfo: LoginInfoType
@@ -98,5 +99,15 @@ export const sendTryNotificationEventToFlutter = async () => {
   } catch (e) {
     console.error(e);
     return false;
+  }
+};
+
+// 알림을 "on"으로 설정 시 Flutter에게 이벤트를 전달하고 앱의 알림 설정 여부를 반환받습니다.
+export const sendClipboardCopyEventToFlutter = async (value: string) => {
+  if (!isWebViewInFlutter) return true;
+  try {
+    await window.flutter_inappwebview.callHandler("clipboard_copy", value);
+  } catch (e) {
+    console.error(e);
   }
 };
