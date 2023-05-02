@@ -8,9 +8,9 @@ const nickname = (x) => {
 };
 
 const roomName = (x) => {
-  return RegExp("^[A-Za-z0-9가-힣ㄱ-ㅎㅏ-ㅣ,.?! _-~/@#^()+*<>{}]{1,50}$").test(
-    x
-  );
+  return RegExp(
+    "^[A-Za-z0-9가-힣ㄱ-ㅎㅏ-ㅣ,.?! _~/#'\\\\@=\"\\-\\^()+*<>{}[\\]]{1,50}$" // ,.?/#'\@="-^()+*<>{}[]
+  ).test(x);
 };
 
 const fromTo = (x) => {
