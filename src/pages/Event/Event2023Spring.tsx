@@ -98,7 +98,11 @@ const Event2023Spring = () => {
           />{" "}
           를 태그 후 {'"'}공유이벤트 참여{'"'}라는 문구를 남겨주세요.
         </div>
-        <a href="https://www.instagram.com/sparcs.kaist" target="_blank">
+        <a
+          href="https://www.instagram.com/sparcs.kaist"
+          target="_blank"
+          rel="noreferrer"
+        >
           <Button
             type="purple"
             padding="14px 0 13px"
