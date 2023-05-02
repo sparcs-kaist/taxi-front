@@ -44,7 +44,7 @@ const Event2023Spring = () => {
       <WhiteContainer>
         <div css={styleText}>
           <InsertLinkIcon css={{ transform: "translateY(7px)" }} />{" "}
-          <EventLink href="https://bit.ly/taxi-event" />
+          <EventLink href="https://bit.ly/2023taxi" />
           <br />
           <CardGiftcardIcon css={{ transform: "translateY(7px)" }} />{" "}
           <b>경품 : </b>
@@ -56,8 +56,7 @@ const Event2023Spring = () => {
           <br />
           <StarIcon css={{ transform: "translateY(7px)" }} /> <b>인증방법</b>
           <br />둘 중 한가지 방법을 선택해{" "}
-          <EventLink href="https://bit.ly/taxi-event" /> 에 올려주시면 참여
-          완료!
+          <EventLink href="https://bit.ly/2023taxi" /> 에 올려주시면 참여 완료!
           <br />
           1. Taxi 서비스의 채팅 페이지 스크린샷과 카드 결제 메시지
           <br />
@@ -74,7 +73,7 @@ const Event2023Spring = () => {
             text="@sparcs.kaist"
           />
           를 태그 후 스크린샷으로 인증해{" "}
-          <EventLink href="https://bit.ly/taxi-event" /> 추가로 업로드 하면
+          <EventLink href="https://bit.ly/2023taxi" /> 추가로 업로드 하면
           당첨확률이 2배!
         </div>
         <a href="/" target="_blank" rel="noreferrer">
