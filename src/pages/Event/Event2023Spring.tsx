@@ -8,11 +8,16 @@ import WhiteContainer from "components/WhiteContainer";
 
 import theme from "tools/theme";
 
-import Card1 from "static/events/1.png";
-import Card2 from "static/events/2.png";
-import Card3 from "static/events/3.png";
-import Card4 from "static/events/4.png";
-import Card5 from "static/events/5.png";
+import Card01 from "static/events/2023springCard01.png";
+import Card02 from "static/events/2023springCard02.png";
+import Card03 from "static/events/2023springCard03.png";
+import Card04 from "static/events/2023springCard04.png";
+import Card05 from "static/events/2023springCard05.png";
+import Card06 from "static/events/2023springCard06.png";
+import Card07 from "static/events/2023springCard07.png";
+import Card08 from "static/events/2023springCard08.png";
+import Card09 from "static/events/2023springCard09.png";
+import Card10 from "static/events/2023springCard10.png";
 
 type EventLinkProps = {
   href: string;
@@ -61,11 +66,20 @@ const Event2023Spring = () => {
       </Title>
       <WhiteContainer padding="0px">
         <Carousel autoplay autoplaySpeed={2000}>
-          <WhiteContainerCard src={Card1} />
-          <WhiteContainerCard src={Card2} />
-          <WhiteContainerCard src={Card3} />
-          <WhiteContainerCard src={Card4} />
-          <WhiteContainerCard src={Card5} />
+          {[
+            Card01,
+            Card02,
+            Card03,
+            Card04,
+            Card05,
+            Card06,
+            Card07,
+            Card08,
+            Card09,
+            Card10,
+          ].map((item, index) => (
+            <WhiteContainerCard src={item} key={index} />
+          ))}
         </Carousel>
       </WhiteContainer>
       <Title icon="taxi" header>
