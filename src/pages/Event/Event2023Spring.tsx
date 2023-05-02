@@ -33,12 +33,13 @@ const Event2023Spring = () => {
   return (
     <RLayout.R1>
       <Title icon="taxi" header>
-        탑승 인증 이벤트
+        택시 탑승 인증 이벤트
       </Title>
       <WhiteContainer>
         <div css={styleText}>
           <b>🎁 경품 : </b>
-          에어팟 3세대 (1명), 갤럭시 워치5 (1명), 택시비 5000원 지원 (40명)
+          에어팟 3세대 (1명), 갤럭시 워치5 (1명), 택시비 카카오페이 상품권
+          5000원 (40명)
           <br />
           <b>📌 이벤트 기간 : </b>
           5월 3일(수) ~ 5월 15일(월)
@@ -52,7 +53,8 @@ const Event2023Spring = () => {
           <br />
           <b>🎈 당첨 확률 UP</b>
           <br />
-          인스타 스토리에{" "}
+          1. 참여 횟수 비례 당첨확률 UP!
+          <br /> 2. 인스타 스토리에{" "}
           <EventLink
             href="https://www.instagram.com/sparcs.kaist"
             text="@sparcs.kaist"
@@ -72,7 +74,7 @@ const Event2023Spring = () => {
       </WhiteContainer>
 
       <Title icon="favorite" header>
-        인스타 공유 이벤트
+        인스타 스토리 공유 이벤트
       </Title>
       <WhiteContainer>
         <div css={styleText}>
@@ -80,7 +82,7 @@ const Event2023Spring = () => {
           스타벅스 아이스 카페 아메리카노 T (30명)
           <br />
           <b>📌 이벤트 기간 : </b>
-          5월 3일 ~ 5월 15일
+          5월 3일(수) ~ 5월 15일(월)
           <br />
           <b>🌟 인증방법</b>
           <br />
@@ -89,14 +91,14 @@ const Event2023Spring = () => {
             href="https://www.instagram.com/sparcs.kaist"
             text="@sparcs.kaist"
           />{" "}
-          팔로우 후 본 게시물을 인스타그램 스토리에 공유해주세요.
+          팔로우 후 본 게시물을 인스타그램 스토리에 공유하기
           <br />
           2.{" "}
           <EventLink
             href="https://www.instagram.com/sparcs.kaist"
             text="@sparcs.kaist"
           />{" "}
-          를 태그 후 {'"'}공유이벤트 참여{'"'}라는 문구를 남겨주세요.
+          를 태그 후 {'"'}공유이벤트 참여{'"'}라는 문구를 남겨주시면 참여 완료!
         </div>
         <a
           href="https://www.instagram.com/sparcs.kaist"
@@ -109,7 +111,7 @@ const Event2023Spring = () => {
             radius={12}
             font={theme.font16_bold}
           >
-            인스타그램에서 확인하기
+            게시물 확인하기
           </Button>
         </a>
       </WhiteContainer>
