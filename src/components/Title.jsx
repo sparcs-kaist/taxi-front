@@ -6,6 +6,7 @@ import RLayout from "components/RLayout";
 import theme from "tools/theme";
 
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import CelebrationRoundedIcon from "@mui/icons-material/CelebrationRounded";
 import ErrorOutlineRounded from "@mui/icons-material/ErrorOutlineRounded";
 import FavoriteRoundedIocn from "@mui/icons-material/FavoriteRounded";
 import FeedRounedIcon from "@mui/icons-material/FeedRounded";
@@ -50,6 +51,8 @@ const getIcon = (icon) => {
       return <FeedRounedIcon style={iconStyle} />;
     case "favorite":
       return <FavoriteRoundedIocn style={iconStyle} />;
+    case "event":
+      return <CelebrationRoundedIcon style={iconStyle} />;
     default:
       return <></>;
   }

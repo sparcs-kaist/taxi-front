@@ -7,12 +7,10 @@ import WhiteContainer from "components/WhiteContainer";
 
 import theme from "tools/theme";
 
-import CelebrationIcon from "@mui/icons-material/Celebration";
-
 const EventSection = () => {
   return (
     <RLayout.R1>
-      <Title icon="taxi" header>
+      <Title icon="event" header>
         이벤트
       </Title>
       <WhiteContainer>
@@ -40,7 +38,6 @@ const EventSection = () => {
               lineHeight: "1.2rem",
             }}
           >
-            <CelebrationIcon />
             택시 이벤트에 참여하고 에어팟 3세대, 갤럭시 워치5 등 수많은 상품을
             받아가세요!
           </div>

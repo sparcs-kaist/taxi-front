@@ -6,12 +6,6 @@ import WhiteContainer from "components/WhiteContainer";
 
 import theme from "tools/theme";
 
-import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
-import DateRangeIcon from "@mui/icons-material/DateRange";
-import InsertLinkIcon from "@mui/icons-material/InsertLink";
-import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
-import StarIcon from "@mui/icons-material/Star";
-
 type EventLinkProps = {
   href: string;
   text?: string;
@@ -43,38 +37,27 @@ const Event2023Spring = () => {
       </Title>
       <WhiteContainer>
         <div css={styleText}>
-          <InsertLinkIcon css={{ transform: "translateY(7px)" }} />{" "}
-          <EventLink href="https://bit.ly/2023taxi" />
-          <br />
-          <CardGiftcardIcon css={{ transform: "translateY(7px)" }} />{" "}
-          <b>경품 : </b>
+          <b>🎁 경품 : </b>
           에어팟 3세대 (1명), 갤럭시 워치5 (1명), 택시비 5000원 지원 (40명)
           <br />
-          <DateRangeIcon css={{ transform: "translateY(7px)" }} />{" "}
-          <b>이벤트 기간 : </b>
+          <b>📌 이벤트 기간 : </b>
           5월 3일(수) ~ 5월 15일(월)
           <br />
-          <StarIcon css={{ transform: "translateY(7px)" }} /> <b>인증방법</b>
-          <br />둘 중 한가지 방법을 선택해{" "}
-          <EventLink href="https://bit.ly/2023taxi" /> 에 올려주시면 참여 완료!
+          <b>🌟 인증방법</b>
+          <br />둘 중 한가지 방법을 선택해 버튼을 눌러 올려주시면 참여 완료!
           <br />
           1. Taxi 서비스의 채팅 페이지 스크린샷과 카드 결제 메시지
           <br />
           2. Taxi 서비스의 채팅 페이지 스크린샷과 택시를 탑승한 후 미터기 사진
           <br />
-          <KeyboardDoubleArrowUpIcon
-            css={{ transform: "translateY(7px)" }}
-          />{" "}
-          <b>당첨 확률 UP</b>
+          <b>🎈 당첨 확률 UP</b>
           <br />
           인스타 스토리에{" "}
           <EventLink
             href="https://www.instagram.com/sparcs.kaist"
             text="@sparcs.kaist"
           />
-          를 태그 후 스크린샷으로 인증해{" "}
-          <EventLink href="https://bit.ly/2023taxi" /> 추가로 업로드 하면
-          당첨확률이 2배!
+          를 태그 후 스크린샷으로 인증해 추가로 업로드 하면 당첨확률이 2배!
         </div>
         <a href="/" target="_blank" rel="noreferrer">
           <Button
@@ -83,7 +66,7 @@ const Event2023Spring = () => {
             radius={12}
             font={theme.font16_bold}
           >
-            인스타그램에서 확인하기
+            탑승 인증하기
           </Button>
         </a>
       </WhiteContainer>
@@ -93,18 +76,13 @@ const Event2023Spring = () => {
       </Title>
       <WhiteContainer>
         <div css={styleText}>
-          <InsertLinkIcon css={{ transform: "translateY(7px)" }} />{" "}
-          <EventLink href="https://www.instagram.com/sparcs.kaist" />
-          <br />
-          <CardGiftcardIcon css={{ transform: "translateY(5px)" }} />{" "}
-          <b>경품 : </b>
+          <b>🎁 경품 : </b>
           스타벅스 아이스 카페 아메리카노 T (30명)
           <br />
-          <DateRangeIcon css={{ transform: "translateY(5px)" }} />{" "}
-          <b>이벤트 기간 : </b>
+          <b>📌 이벤트 기간 : </b>
           5월 3일 ~ 5월 15일
           <br />
-          <StarIcon css={{ transform: "translateY(5px)" }} /> <b>인증방법</b>
+          <b>🌟 인증방법</b>
           <br />
           1.{" "}
           <EventLink
@@ -127,7 +105,7 @@ const Event2023Spring = () => {
             radius={12}
             font={theme.font16_bold}
           >
-            탑승 인증하기
+            인스타그램에서 확인하기
           </Button>
         </a>
       </WhiteContainer>
