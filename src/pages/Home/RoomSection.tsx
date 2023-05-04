@@ -74,7 +74,9 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
     <RLayout.R1>
       <ModalRoomSelection
         isOpen={!!roomInfo}
-        onChangeIsOpen={() => history.replace("/home")}
+        onChangeIsOpen={() =>
+          history.replace("/home" + history.location.search)
+        }
         roomInfo={roomInfo}
       />
       <Title icon="taxi" header>
