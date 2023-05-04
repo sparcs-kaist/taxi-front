@@ -61,22 +61,20 @@ const InfoSection = () => {
     if (!sortedMyRoom.length)
       return { message: "현재 참여 중인 방이 없습니다.", room: null };
     if (notDeparted) {
-      const departure = moment(notDeparted.time);
-      const diffDays = departure.diff(getToday(), "days");
+      const departure = moment(moment(notDeparted.time).format("YYYY-MM-DD"));
+      const diffDays = departure.diff(getToday().format("YYYY-MM-DD"), "days");
       if (diffDays === 0) {
         return { message: "오늘 출발하는 방이 있습니다.", room: notDeparted };
-      } else if (diffDays < 2) {
+      } else if (diffDays === 1) {
+        return {
+          message: "내일 출발 예정인 방이 있습니다.",
+          room: notDeparted,
+        };
+      } else if (!notOver) {
         return {
           message: `${diffDays}일 후 출발 예정인 방이 있습니다.`,
           room: notDeparted,
         };
-      } else {
-        if (!notOver) {
-          return {
-            message: `${diffDays}일 후 출발 예정인 방이 있습니다.`,
-            room: notDeparted,
-          };
-        }
       }
     }
     if (notOver) {
