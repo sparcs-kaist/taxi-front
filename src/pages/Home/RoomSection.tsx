@@ -84,7 +84,10 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
       </Title>
       <SelectDate
         selectedDate={selectedDate}
-        onClick={([year, month, date]) => setSelectedDate([year, month, date])}
+        onClick={([year, month, date]) => {
+          history.replace("/home");
+          setSelectedDate([year, month, date]);
+        }}
       />
       <RoomList rooms={rooms} />
     </RLayout.R1>
