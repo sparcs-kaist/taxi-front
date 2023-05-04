@@ -17,6 +17,7 @@ const Home = () => {
   const roomId = _roomId === "privacyPolicy" ? null : _roomId;
 
   useEffect(() => {
+    if (pathname === "/") history.replace("/home");
     if (pathname.startsWith("/invite") && roomId) {
       // dynamic link로 웹에서 앱으로 이동가능할 시 이동합니다.
       window.location.href = getDynamicLink(`/home/${roomId}`);
