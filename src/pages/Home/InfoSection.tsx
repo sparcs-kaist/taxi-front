@@ -25,23 +25,23 @@ const InfoSection = () => {
   const myRooms = useRecoilValue(myRoomsAtom);
   const randomTaxiSlogan = useMemo(randomTaxiSloganGenerator, []);
 
-  const styleContainer: CSS = {
-    position: "relative",
+  const styleContainer = {
+    position: "relative" as any,
     height: "fit-content",
     width: "100%",
     paddingTop: "5px",
     background:
       "linear-gradient(to right top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.1) 100%)",
   };
-  const styleImage: CSS = {
+  const styleImage = {
     backgroundSize: "cover",
     zIndex: -1,
     opacity: 0.8,
     width: "100%",
     height: "100%",
-    position: "absolute",
+    position: "absolute" as any,
     inset: "0px",
-    objectFit: "cover",
+    objectFit: "cover" as any,
   };
   const styleTitle = {
     ...theme.font28,
@@ -90,18 +90,18 @@ const InfoSection = () => {
   }, [JSON.stringify(myRooms)]);
 
   return (
-    <div className="info-section" style={styleContainer}>
+    <div className="info-section" css={styleContainer}>
       <picture>
         <source
           type="image/webp"
-          style={styleImage}
+          css={styleImage}
           src={BackgroundImageDesktop}
           srcSet={`${BackgroundImageMobile} 430w, ${BackgroundImageDesktop} 1980w`}
         />
-        <img style={styleImage} src={BackgroundImage} />
+        <img css={styleImage} src={BackgroundImage} />
       </picture>
       <RLayout.R1>
-        <div style={{ padding: "25px 0 32px" }}>
+        <div css={{ padding: "25px 0 32px" }}>
           <TaxiLogoWhite />
           <div css={{ height: "32px" }} />
           <div css={styleTitle}>
@@ -111,15 +111,15 @@ const InfoSection = () => {
           </div>
           <div css={styleSubTitle}>{isLogin ? message : randomTaxiSlogan}</div>
           {room ? (
-            <Link to={`/myroom/${room._id}`} style={{ textDecoration: "none" }}>
+            <Link to={`/myroom/${room._id}`} css={{ textDecoration: "none" }}>
               <Room data={room} marginTop="24px" />
             </Link>
           ) : (
             <div
-              style={{ marginTop: "32px", display: "flex", columnGap: "10px" }}
+              css={{ marginTop: "32px", display: "flex", columnGap: "10px" }}
             >
               {isLogin ? (
-                <Link to="/addroom" style={{ textDecoration: "none" }}>
+                <Link to="/addroom" css={{ textDecoration: "none" }}>
                   <Button
                     type="purple"
                     padding="12px 20px 11px"
@@ -141,7 +141,7 @@ const InfoSection = () => {
                   </Button>
                 </LinkLogin>
               )}
-              <Link to="/search" style={{ textDecoration: "none" }}>
+              <Link to="/search" css={{ textDecoration: "none" }}>
                 <Button
                   type="white"
                   padding="12px 20px 11px"
