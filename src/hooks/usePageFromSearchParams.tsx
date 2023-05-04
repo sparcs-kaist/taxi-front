@@ -2,7 +2,7 @@ import qs from "qs";
 import { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-const usePageFromSearchParams = (totalPages: Number) => {
+const usePageFromSearchParams = (totalPages: number) => {
   const location = useLocation();
   const { search } = location;
 
