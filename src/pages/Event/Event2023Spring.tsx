@@ -65,7 +65,7 @@ const Event2023Spring = () => {
         이벤트 요약
       </Title>
       <WhiteContainer padding="0px">
-        <Carousel autoplay autoplaySpeed={2000}>
+        <Carousel autoplay autoplaySpeed={5000}>
           {[
             Card01,
             Card02,
@@ -111,7 +111,12 @@ const Event2023Spring = () => {
           />
           를 태그 후 스크린샷으로 인증해 추가로 업로드 하면 당첨확률이 2배!
         </div>
-        <a href="https://bit.ly/2023taxi" target="_blank" rel="noreferrer">
+        <a
+          href="https://bit.ly/2023taxi"
+          target="_blank"
+          rel="noreferrer"
+          css={{ textDecoration: "none" }}
+        >
           <Button
             type="purple"
             padding="14px 0 13px"
@@ -154,6 +159,7 @@ const Event2023Spring = () => {
           href="https://www.instagram.com/sparcs.kaist"
           target="_blank"
           rel="noreferrer"
+          css={{ textDecoration: "none" }}
         >
           <Button
             type="purple"
