@@ -26,7 +26,7 @@ const RoomList = (props: RoomListProps) => {
             .map((room) => (
               <Link
                 key={room._id}
-                to={`/home/${room._id}`}
+                to={`/home/${room._id}?page=${currentPage}`}
                 replace
                 style={{ textDecoration: "none" }}
               >
