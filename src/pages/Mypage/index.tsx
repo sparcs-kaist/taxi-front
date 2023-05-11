@@ -170,7 +170,6 @@ const Mypage = () => {
             isOpen={isOpenNotification}
             onChangeIsOpen={setIsOpenNotification}
           />
-          <ModalTerms isOpen={isOpenPolicy} onChangeIsOpen={setIsOpenPolicy} />
         </>
       ) : (
         <RLayout.R1>
@@ -187,11 +186,9 @@ const Mypage = () => {
           <a className="popup-channeltalk">
             <Menu icon="ask">{t("contact")}</Menu>
           </a>
-          {userId && (
-            <Menu icon="policy" onClick={onClickPolicy}>
-              {t("terms")}
-            </Menu>
-          )}
+          <Menu icon="policy" onClick={onClickPolicy}>
+            {t("terms")}
+          </Menu>
           <Menu icon="policy" onClick={onClickPrivacyPolicy}>
             {t("privacy_policy")}
           </Menu>
@@ -210,6 +207,7 @@ const Mypage = () => {
         isOpen={isOpenPrivacyPolicy}
         onChangeIsOpen={setIsOpenPrivacyPolicy}
       />
+      <ModalTerms isOpen={isOpenPolicy} onChangeIsOpen={setIsOpenPolicy} />
       <ModalCredit isOpen={isOpenMembers} onChangeIsOpen={setOpenIsMembers} />
     </>
   );
