@@ -61,7 +61,11 @@ const Skeleton = ({ children }: SkeletonProps) => {
   const [isAndroid, isIOS] = isMobile();
   const [isTryCloseSuggestApp, setIsTryCloseSuggestApp] = useState(false);
   const isSuggestApp = useMemo(
-    () => isAndroid && !isApp && !isOpposeSuggestApp && !isTryCloseSuggestApp,
+    () =>
+      (isAndroid || isIOS) &&
+      !isApp &&
+      !isOpposeSuggestApp &&
+      !isTryCloseSuggestApp,
     [isAndroid, isIOS, isApp, isOpposeSuggestApp, isTryCloseSuggestApp]
   );
   const setIsOpenSuggestApp = useCallback(
