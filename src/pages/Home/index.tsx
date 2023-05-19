@@ -4,7 +4,6 @@ import { useHistory, useLocation, useParams } from "react-router-dom";
 import Footer from "components/Footer";
 import { ModalPrivacyPolicy } from "components/ModalPopup";
 
-import EventSection from "./EventSection";
 import InfoSection from "./InfoSection";
 import RoomSection from "./RoomSection";
 
@@ -30,7 +29,6 @@ const Home = () => {
     <>
       <InfoSection />
       <div css={{ marginTop: "-10px" }} />
-      <EventSection />
       <RoomSection roomId={roomId} />
       <Footer />
       <ModalPrivacyPolicy
