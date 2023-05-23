@@ -11,8 +11,8 @@ const getDynamicLink = (to, fallback = true) => {
   const encodedLink = origin + encodeURIComponent(to);
 
   return fallback
-    ? `${host}?link=${encodedLink}&apn=${androidPacakgeName}&afl=${encodedLink}&ibi=${iosAppBundleId}&ifl=${encodedLink}`
-    : `${host}?link=${encodedLink}&apn=${androidPacakgeName}&ibi=${iosAppBundleId}`;
+    ? `${host}?link=${encodedLink}&apn=${androidPacakgeName}&afl=${encodedLink}&ibi=${iosAppBundleId}&ifl=${encodedLink}&efr=1`
+    : `${host}?link=${encodedLink}&apn=${androidPacakgeName}&ibi=${iosAppBundleId}&efr=1`;
 };
 
 const getLocationName = (location, langPreference) => {
