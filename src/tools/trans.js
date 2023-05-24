@@ -3,7 +3,7 @@ import { firebaseConfig, s3BaseUrl } from "loadenv";
 const getS3Url = (x) => `${s3BaseUrl}${x}`;
 
 const getDynamicLink = (to, fallback = true) => {
-  const { host, androidPacakgeName, iosAppBundleId } =
+  const { host, androidPacakgeName, iosAppBundleId, appStoreId } =
     firebaseConfig?.dinamicLink || {};
   const { origin } = window.location;
 
@@ -12,7 +12,7 @@ const getDynamicLink = (to, fallback = true) => {
 
   return fallback
     ? `${host}?link=${encodedLink}&apn=${androidPacakgeName}&afl=${encodedLink}&ibi=${iosAppBundleId}&ifl=${encodedLink}&efr=1`
-    : `${host}?link=${encodedLink}&apn=${androidPacakgeName}&ibi=${iosAppBundleId}&efr=1`;
+    : `${host}?link=${encodedLink}&apn=${androidPacakgeName}&ibi=${iosAppBundleId}&isi=${appStoreId}&efr=1`;
 };
 
 const getLocationName = (location, langPreference) => {
