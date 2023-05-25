@@ -7,6 +7,7 @@ import SyncAltRoundedIcon from "@mui/icons-material/SyncAltRounded";
 
 type FlipButtonProps = {
   onClick: () => void;
+  disabled: boolean;
 };
 
 const FlipButton = (props: FlipButtonProps) => {
@@ -26,8 +27,14 @@ const FlipButton = (props: FlipButtonProps) => {
         justifyContent: "center",
         alignItems: "center",
         cursor: "pointer",
-        boxShadow: isClicked ? theme.shadow_clicked : theme.shadow,
-        backgroundColor: isHover ? theme.purple_dark : theme.purple,
+        backgroundColor: props.disabled
+          ? theme.purple_disabled
+          : isHover
+          ? theme.purple_dark
+          : theme.purple,
+        color: theme.white,
+        boxShadow:
+          isClicked && !props.disabled ? theme.shadow_clicked : theme.shadow,
       }}
       onClick={props.onClick}
       {...hoverEventSet(setHover, setClicked)}

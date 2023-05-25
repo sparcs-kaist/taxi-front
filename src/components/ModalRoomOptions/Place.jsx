@@ -5,9 +5,9 @@ import { useValueRecoilState } from "hooks/useFetchRecoilState";
 
 import Button from "components/Button";
 import DottedLine from "components/DottedLine";
-import FlipButton from "components/FlipButton";
 import MiniCircle from "components/MiniCircle";
 import Modal from "components/Modal";
+import FlipButton from "components/ModalRoomOptions/FlipButton";
 import WhiteContainer from "components/WhiteContainer";
 
 import Picker from "./Picker";
@@ -187,6 +187,7 @@ const Place = (props) => {
         <DottedLine direction="column" />
         <FlipButton
           onClick={() => props.handler([props.value[1], props.value[0]])}
+          disabled={!props.value[0] || !props.value[1]}
         />
         <PlaceElement
           value={getPlaceName(props.value[1])}
