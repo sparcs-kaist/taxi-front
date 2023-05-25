@@ -187,7 +187,7 @@ const Place = (props) => {
         <DottedLine direction="column" />
         <FlipButton
           onClick={() => props.handler([props.value[1], props.value[0]])}
-          disabled={!props.value[0] || !props.value[1]}
+          disabled={!props.value[0] && !props.value[1]}
         />
         <PlaceElement
           value={getPlaceName(props.value[1])}
