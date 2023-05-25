@@ -26,7 +26,7 @@ const FlipButton = (props: FlipButtonProps) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        cursor: "pointer",
+        ...theme.cursor(props.disabled),
         backgroundColor: props.disabled
           ? theme.purple_disabled
           : isHover
@@ -36,7 +36,7 @@ const FlipButton = (props: FlipButtonProps) => {
         boxShadow:
           isClicked && !props.disabled ? theme.shadow_clicked : theme.shadow,
       }}
-      onClick={props.onClick}
+      onClick={props.disabled ? undefined : props.onClick}
       {...hoverEventSet(setHover, setClicked)}
     >
       <SyncAltRoundedIcon
