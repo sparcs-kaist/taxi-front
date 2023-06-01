@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { memo, useMemo, useState } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 
 import { useValueRecoilState } from "hooks/useFetchRecoilState";
 
@@ -7,6 +7,7 @@ import Button from "components/Button";
 import DottedLine from "components/DottedLine";
 import MiniCircle from "components/MiniCircle";
 import Modal from "components/Modal";
+import FlipButton from "components/ModalRoomOptions/FlipButton";
 import WhiteContainer from "components/WhiteContainer";
 
 import Picker from "./Picker";
@@ -19,6 +20,12 @@ const PopupInput = (props) => {
   const [value, setValue] = useState({
     place: props.value ?? props.placeOptions?.[0]?.name ?? "",
   });
+
+  useEffect(() => {
+    setValue({
+      place: props.value ?? props.placeOptions?.[0]?.name ?? "",
+    });
+  }, [props.value]);
 
   const optionGroup = {
     place: props.placeOptions.map((x) => {
@@ -178,6 +185,10 @@ const Place = (props) => {
           type="from"
         />
         <DottedLine direction="column" />
+        <FlipButton
+          onClick={() => props.handler([props.value[1], props.value[0]])}
+          disabled={!props.value[0] && !props.value[1]}
+        />
         <PlaceElement
           value={getPlaceName(props.value[1])}
           onClick={() => setPopup2(true)}
