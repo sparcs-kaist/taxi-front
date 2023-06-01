@@ -105,7 +105,8 @@ const Skeleton = ({ children }: SkeletonProps) => {
   if (
     pathname.startsWith("/login") ||
     pathname.startsWith("/logout") ||
-    pathname.startsWith("/chatting")
+    pathname.startsWith("/chatting") ||
+    pathname.startsWith("/invite")
   ) {
     return (
       <Container>
