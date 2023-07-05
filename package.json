@@ -1,6 +1,7 @@
 {
   "name": "taxi-front",
   "version": "0.1.0",
+  "packageManager": "pnpm",
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.4.3",
