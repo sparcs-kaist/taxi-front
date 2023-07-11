@@ -1,7 +1,7 @@
 {
   "name": "taxi-front",
   "version": "0.1.0",
-  "packageManager": "pnpm",
+  "packageManager": "pnpm@8.6.6",
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.4.3",
@@ -38,6 +38,7 @@
     "use-state-with-callback": "^3.0.2"
   },
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "start": "craco start",
     "build": "cross-env GENERATE_SOURCEMAP=false craco build",
     "test": "cypress open"
