@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 
 import { useR2state } from "hooks/useReactiveState";
 
@@ -83,6 +83,9 @@ const Header = (props) => {
     window.addEventListener("resize", resizeEvent);
     return () => window.removeEventListener("resize", resizeEvent);
   }, [props.info]);
+
+  console.log("!!");
+  console.log(history);
 
   return (
     <div css={style}>
