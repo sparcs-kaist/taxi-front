@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useMemo } from "react";
 
-import { getChatUnquewKey } from "../utils";
+import { getChatUniquewKey } from "../../chatting-utils/chats";
 import ChatDate from "./ChatDate";
 import ChatInOut from "./ChatInOut";
 import ChatSet from "./ChatSet";
@@ -33,7 +33,7 @@ const MessagesBody = (props) => {
         if (chatsCache) {
           list.push(
             <ChatSet
-              key={"chat" + getChatUnquewKey(chatsCache[0])}
+              key={"chat" + getChatUniquewKey(chatsCache[0])}
               chats={chatsCache}
               {...chatSetCommonProps}
             />
@@ -54,7 +54,7 @@ const MessagesBody = (props) => {
         if (chatsCache) {
           list.push(
             <ChatSet
-              key={"chat" + getChatUnquewKey(chatsCache[0])}
+              key={"chat" + getChatUniquewKey(chatsCache[0])}
               chats={chatsCache}
               {...chatSetCommonProps}
             />
@@ -70,7 +70,7 @@ const MessagesBody = (props) => {
         if (chatsCache) {
           list.push(
             <ChatSet
-              key={"chat" + getChatUnquewKey(chatsCache[0])}
+              key={"chat" + getChatUniquewKey(chatsCache[0])}
               chats={chatsCache}
               {...chatSetCommonProps}
             />
@@ -79,7 +79,7 @@ const MessagesBody = (props) => {
         }
         list.push(
           <ChatInOut
-            key={"inout" + getChatUnquewKey(item)}
+            key={"inout" + getChatUniquewKey(item)}
             type={item.type}
             users={item.inOutNames}
           />
@@ -97,7 +97,7 @@ const MessagesBody = (props) => {
         ) {
           list.push(
             <ChatSet
-              key={"chat" + getChatUnquewKey(chatsCache[0])}
+              key={"chat" + getChatUniquewKey(chatsCache[0])}
               chats={chatsCache}
               {...chatSetCommonProps}
             />
@@ -112,7 +112,7 @@ const MessagesBody = (props) => {
     if (chatsCache) {
       list.push(
         <ChatSet
-          key={"chatLast" + getChatUnquewKey(chatsCache[0])}
+          key={"chatLast" + getChatUniquewKey(chatsCache[0])}
           chats={chatsCache}
           {...chatSetCommonProps}
         />

@@ -65,9 +65,9 @@ const BtnLeft = (props: BtnLeftProps) => {
 };
 
 type FullChatMessageFormProps = {
-  handleSendMessage: (message: string) => boolean;
-  handleSendImage: (image: File) => void;
-  handleSendAccount: (account: string) => boolean;
+  handleSendMessage: (message: string) => Promise<boolean>;
+  handleSendImage: (image: File) => Promise<boolean>;
+  handleSendAccount: (account: string) => Promise<boolean>;
   setContHeight: (height: PixelValue) => void;
 };
 
@@ -85,10 +85,10 @@ const FullChatMessageForm = (props: FullChatMessageFormProps) => {
   const isMessageValid = () => {
     return regExpTest.chatMsg(message);
   };
-  const onSend = () => {
+  const onSend = async () => {
     textareaRef.current?.focus();
     if (isMessageValid()) {
-      const result = props.handleSendMessage(message);
+      const result = await props.handleSendMessage(message);
       if (result) setMessage("");
     }
   };

@@ -5,6 +5,7 @@ import { Link, useHistory } from "react-router-dom";
 import useDateToken from "hooks/useDateToken";
 import { useQuery } from "hooks/useTaxiAPI";
 
+import { SideChat } from "components/Chatting";
 import DottedLine from "components/DottedLine";
 import Empty from "components/Empty";
 import { ModalRoomShare } from "components/ModalPopup";
@@ -13,8 +14,6 @@ import RLayout from "components/RLayout";
 import Room from "components/Room";
 import Title from "components/Title";
 import WhiteContainer from "components/WhiteContainer";
-import ChatHeaderBody from "pages/Chatting/Header/HeaderBody";
-import SideChat from "pages/Chatting/SideChat";
 
 import theme from "tools/theme";
 
@@ -66,7 +65,7 @@ const ChatHeader = (props) => {
       {isOpen && (
         <>
           <DottedLine direction="row" margin="16px 0" />
-          <ChatHeaderBody info={headerInfo} recallEvent={fetchHeaderInfo} />
+          {/* <ChatHeaderBody info={headerInfo} recallEvent={fetchHeaderInfo} /> TODO */}
         </>
       )}
       <ModalRoomShare

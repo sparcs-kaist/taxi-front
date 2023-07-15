@@ -4,9 +4,9 @@ import { useCallback, useEffect, useState } from "react";
 import LinkCopy from "components/Link/LinkCopy";
 import ModalReportInChatting from "components/ModalPopup/ModalReportInChatting";
 import ProfileImg from "components/User/ProfileImg";
-import ImageFullscreen from "pages/Chatting/MessagesBody/ImageFullscreen";
 
 import ChatPaySettle from "./ChatPaySettle";
+import ImageFullscreen from "./ImageFullscreen";
 
 import hoverEventSet from "tools/hoverEventSet";
 import moment from "tools/moment";

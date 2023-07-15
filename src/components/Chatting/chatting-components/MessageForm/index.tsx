@@ -11,9 +11,9 @@ import theme from "tools/theme";
 type MessageFormProps = {
   layoutType: "sidechat" | "fullchat";
   showNewMessage: boolean;
-  handleSendMessage: (message: string) => boolean;
-  handleSendImage: (image: File) => void;
-  handleSendAccount: (account: string) => boolean;
+  handleSendMessage: (message: string) => Promise<boolean>;
+  handleSendImage: (image: File) => Promise<boolean>;
+  handleSendAccount: (account: string) => Promise<boolean>;
   onClickNewMessage: () => void;
   setContHeight: (height: PixelValue) => void;
 };
