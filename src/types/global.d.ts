@@ -1,9 +1,11 @@
+import { Location as _RouterLocation } from "history";
 import { CSSProperties } from "react";
 
 export {};
 
 declare global {
   type Nullable<T> = T | null | undefined;
+  type RouterLocation = _RouterLocation;
   type CSS = CSSProperties;
   type PixelValue = "0" | `${number}px`;
   type Margin =
@@ -24,6 +26,7 @@ declare global {
     profileImageUrl: string;
   };
   type Room = {
+    _id: string;
     name: string;
     from: Location;
     to: Location;

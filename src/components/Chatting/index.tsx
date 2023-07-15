@@ -35,9 +35,9 @@ const Chatting = ({ roomId, layoutType }: ChattingProps) => {
     sendMessage("image", { file: image });
 
   // Remove me - move to child
-  const [headerInfoToken, fetchHeaderInfo] = useDateToken();
-  const [, headerInfo] = useQuery.get(`/rooms/info?id=${roomId}`, {}, [
-    headerInfoToken,
+  const [roomInfoToken, fetchRoomInfo] = useDateToken();
+  const [, roomInfo] = useQuery.get(`/rooms/info?id=${roomId}`, {}, [
+    roomInfoToken,
   ]);
 
   // Remove me - for test
@@ -48,8 +48,8 @@ const Chatting = ({ roomId, layoutType }: ChattingProps) => {
     <Container layoutType={layoutType}>
       <Header
         layoutType={layoutType}
-        info={headerInfo}
-        recallEvent={fetchHeaderInfo}
+        roomInfo={roomInfo}
+        fetchRoomInfo={fetchRoomInfo}
       />
       <MessagesBody
         layoutType={layoutType}

@@ -49,11 +49,9 @@ const Skeleton = ({ children }: SkeletonProps) => {
     agreeOnTermsOfService: isAgreeOnTermsOfService,
     deviceType,
   } = useValueRecoilState("loginInfo") || {};
+  const { pathname } = useLocation();
   const error = useRecoilValue(errorAtom);
   const isLoading = userId === null;
-
-  const location = useLocation();
-  const { pathname } = location;
 
   const [cookies, setCookies] = useCookies(["isOpposeSuggestApp"]);
   const isOpposeSuggestApp = !!cookies?.isOpposeSuggestApp;

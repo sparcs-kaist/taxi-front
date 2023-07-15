@@ -14,14 +14,25 @@ const syncHeight = () => {
   );
 };
 
+const syncScroll = () => {
+  const scrollY = Math.max(window.scrollY || 0, 0);
+  document.documentElement.style.setProperty(
+    "--window-scroll-y",
+    `${scrollY}px`
+  );
+};
+
 const CSSVariablesProvider = () => {
   useEffect(() => {
     syncHeight();
+    syncScroll();
     window.addEventListener("resize", syncHeight);
+    window.addEventListener("scroll", syncScroll);
     visualViewport?.addEventListener("resize", syncHeight);
 
     return () => {
       window.removeEventListener("resize", syncHeight);
+      window.removeEventListener("scroll", syncScroll);
       visualViewport?.removeEventListener("resize", syncHeight);
     };
   }, []);

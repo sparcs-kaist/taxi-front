@@ -31,7 +31,7 @@ const Myroom = () => {
     if (reactiveState == 3 && roomId) {
       history.replace(`/chatting/${roomId}`);
     }
-  }, [reactiveState, roomId, history]);
+  }, [reactiveState, roomId]);
 
   return !isLogin ? (
     <RLayout.R1>
