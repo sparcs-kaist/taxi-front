@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useStateWithCallbackLazy } from "use-state-with-callback";
 
 import useDateToken from "hooks/useDateToken";
 import useDisableScrollEffect from "hooks/useDisableScrollEffect";
@@ -9,6 +10,8 @@ import Header from "./chatting-components/Header";
 import MessageForm from "./chatting-components/MessageForm";
 import MessagesBody from "./chatting-components/MessagesBody";
 import useSendMessage from "./chatting-hooks/useSendMessage";
+import useSocketChatEffect from "./chatting-hooks/useSocketChatEffect";
+import { Chats } from "./chatting-utils/chats";
 
 import theme from "tools/theme";
 
@@ -24,7 +27,18 @@ type SideChatProps = {
 };
 
 const Chatting = ({ roomId, layoutType }: ChattingProps) => {
+  const [chats, setChats] = useStateWithCallbackLazy<Chats>([]); // 채팅 메시지 배열
+  const [isDisplayNewMessage, setDisplayNewMessage] = useState<boolean>(false); // 새로운 메시지 버튼 표시 여부
   const isSendingMessage = useRef<boolean>(false); // 메시지 전송 중인지 여부
+  const isCallingInfScroll = useRef<boolean>(false); // 무한 스크롤 메시지 요청 중인지 여부
+
+  useSocketChatEffect(
+    roomId,
+    setChats,
+    setDisplayNewMessage,
+    isSendingMessage,
+    isCallingInfScroll
+  );
 
   // Remove me - move to child
   const sendMessage = useSendMessage(roomId, isSendingMessage);
@@ -39,10 +53,6 @@ const Chatting = ({ roomId, layoutType }: ChattingProps) => {
   const [, roomInfo] = useQuery.get(`/rooms/info?id=${roomId}`, {}, [
     roomInfoToken,
   ]);
-
-  // Remove me - for test
-  const chats: Array<any> = [];
-  const [isDisplayNewMessage] = useState(false);
 
   return (
     <Container layoutType={layoutType}>

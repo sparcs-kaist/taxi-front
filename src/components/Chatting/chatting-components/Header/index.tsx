@@ -73,7 +73,12 @@ const Header = ({ layoutType, roomInfo, fetchRoomInfo }: HeaderProps) => {
   if (!roomInfo) return null;
   return (
     <>
-      <SideMenu isOpen={isOpenSideMenu} setIsOpen={setIsOpenSideMenu} />
+      <SideMenu
+        roomInfo={roomInfo}
+        fetchRoomInfo={fetchRoomInfo}
+        isOpen={isOpenSideMenu}
+        setIsOpen={setIsOpenSideMenu}
+      />
       <div css={style}>
         <ArrowBackRoundedIcon
           style={styleIconLarge}
@@ -84,17 +89,17 @@ const Header = ({ layoutType, roomInfo, fetchRoomInfo }: HeaderProps) => {
           }
         />
         <div css={styleInfo}>
-          <div css={styleName}>{roomInfo?.name}</div>
+          <div css={styleName}>{roomInfo.name}</div>
           <div css={styleFromTo}>
-            {roomInfo?.from?.koName}&nbsp; → &nbsp;
-            {roomInfo?.to?.koName}
+            {roomInfo.from?.koName}&nbsp; → &nbsp;
+            {roomInfo.to?.koName}
           </div>
         </div>
         {layoutType === "fullchat" && reactiveState !== 3 && (
           <Link
             to={(location: RouterLocation) => ({
               ...location,
-              pathname: `/myroom/${roomInfo?._id}`,
+              pathname: `/myroom/${roomInfo._id}`,
             })}
             replace
           >
@@ -102,7 +107,7 @@ const Header = ({ layoutType, roomInfo, fetchRoomInfo }: HeaderProps) => {
           </Link>
         )}
         {layoutType === "sidechat" && (
-          <Link to={`/chatting/${roomInfo?._id}`}>
+          <Link to={`/chatting/${roomInfo._id}`}>
             <OpenInFullRoundedIcon style={styleIconSmall} />
           </Link>
         )}

@@ -1,11 +1,22 @@
+import DottedLine from "components/DottedLine";
+
 import theme from "tools/theme";
 
+import ArrowForwardRounded from "@mui/icons-material/ArrowForwardRounded";
+
 type SideMenuProps = {
+  roomInfo: Room;
+  fetchRoomInfo: () => void;
   isOpen: boolean;
   setIsOpen: (x: boolean) => void;
 };
 
-const SideMenu = ({ isOpen, setIsOpen }: SideMenuProps) => {
+const SideMenu = ({
+  roomInfo,
+  fetchRoomInfo,
+  isOpen,
+  setIsOpen,
+}: SideMenuProps) => {
   const styleBackground = {
     position: "absolute" as any,
     top: 0,
@@ -24,15 +35,34 @@ const SideMenu = ({ isOpen, setIsOpen }: SideMenuProps) => {
     right: isOpen ? 0 : "calc(-100% + 60px)",
     width: "calc(100% - 60px)",
     height: "100%",
+    padding: "16px",
+    boxSizing: "border-box" as any,
     background: theme.white,
-    zIndex: theme.zIndex_background,
+    zIndex: theme.zIndex_modal - 1,
     transition: "right 0.3s",
+  };
+  const styleNameSection = {
+    margin: "0 8px 16px",
+    display: "flex",
+    alignItems: "center",
+    gap: "12px",
   };
 
   return (
     <>
       <div css={styleBackground} onClick={() => setIsOpen(false)}></div>
-      <div css={style}></div>
+      <div css={style}>
+        <div css={styleNameSection}>
+          <ArrowForwardRounded
+            style={{ fontSize: "24px", fill: theme.purple }}
+            onClick={() => setIsOpen(false)}
+          />
+          <div css={{ color: theme.purple, ...theme.font18 }}>
+            {roomInfo.name}
+          </div>
+        </div>
+        <DottedLine />
+      </div>
     </>
   );
 };

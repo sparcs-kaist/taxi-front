@@ -1,5 +1,6 @@
 export const checkoutChat = { type: "inf-checkout" };
 export type CheckoutChat = typeof checkoutChat;
+export type Chats = Array<Chat | CheckoutChat>;
 
 // 채팅 메시지의 문자열 고유 값을 반환합니다.
 export const getChatUniquewKey = (chat: Chat): string => {
