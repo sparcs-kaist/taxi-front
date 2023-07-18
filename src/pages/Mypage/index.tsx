@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import useDateToken from "hooks/useDateToken";
 import { useValueRecoilState } from "hooks/useFetchRecoilState";
 
+import AdaptiveDiv from "components/AdaptiveDiv";
 import Footer from "components/Footer";
 import LinkLogout from "components/Link/LinkLogout";
 import {
@@ -14,7 +15,6 @@ import {
   ModalReport,
   ModalTerms,
 } from "components/ModalPopup";
-import RLayout from "components/RLayout";
 import Title from "components/Title";
 import ProfileImg from "components/User/ProfileImg";
 import WhiteContainer from "components/WhiteContainer";
@@ -172,9 +172,9 @@ const Mypage = () => {
           />
         </>
       ) : (
-        <RLayout.R1>
+        <AdaptiveDiv type="center">
           <WhiteContainerSuggestLogin />
-        </RLayout.R1>
+        </AdaptiveDiv>
       )}
       <WhiteContainer marginAuto>
         <div css={{ display: "grid", rowGap: "16px" }}>

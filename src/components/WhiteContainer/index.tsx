@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-import RLayout from "components/RLayout";
+import AdaptiveDiv from "components/AdaptiveDiv";
 
 import theme from "tools/theme";
 
@@ -36,7 +36,7 @@ const WhiteContainer = ({
     </div>
   );
   if (marginAuto) {
-    return <RLayout.R1>{box}</RLayout.R1>;
+    return <AdaptiveDiv type="center">{box}</AdaptiveDiv>;
   }
   return box;
 };

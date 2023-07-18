@@ -8,6 +8,7 @@ import {
 } from "hooks/useFetchRecoilState";
 import { useAxios } from "hooks/useTaxiAPI";
 
+import AdaptiveDiv from "components/AdaptiveDiv";
 import Button from "components/Button";
 import {
   OptionDate,
@@ -16,7 +17,6 @@ import {
   OptionPlace,
   OptionTime,
 } from "components/ModalRoomOptions";
-import RLayout from "components/RLayout";
 import Title from "components/Title";
 import WhiteContainerSuggestLogin from "components/WhiteContainer/WhiteContainerSuggestLogin";
 import { MAX_PARTICIPATION } from "pages/Myroom";
@@ -124,7 +124,7 @@ const AddRoom = () => {
       <Title icon="add" header marginAuto>
         방 개설하기
       </Title>
-      <RLayout.R1>
+      <AdaptiveDiv type="center">
         {isLogin ? (
           <>
             <OptionPlace value={valuePlace} handler={setPlace} />
@@ -162,7 +162,7 @@ const AddRoom = () => {
         ) : (
           <WhiteContainerSuggestLogin />
         )}
-      </RLayout.R1>
+      </AdaptiveDiv>
     </div>
   ) : (
     <FullParticipation />

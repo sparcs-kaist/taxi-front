@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
+import AdaptiveDiv from "components/AdaptiveDiv";
 import Button from "components/Button";
-import RLayout from "components/RLayout";
 import Title from "components/Title";
 import WhiteContainer from "components/WhiteContainer";
 
@@ -9,7 +9,7 @@ import theme from "tools/theme";
 
 const EventSection = () => {
   return (
-    <RLayout.R1>
+    <AdaptiveDiv type="center">
       <Title icon="notice" header>
         공지
       </Title>
@@ -56,7 +56,7 @@ const EventSection = () => {
           </Button>
         </Link>
       </WhiteContainer>
-    </RLayout.R1>
+    </AdaptiveDiv>
   );
 };
 

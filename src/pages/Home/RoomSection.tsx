@@ -4,8 +4,8 @@ import { useHistory } from "react-router-dom";
 import useDateToken from "hooks/useDateToken";
 import { useAxios, useQuery } from "hooks/useTaxiAPI";
 
+import AdaptiveDiv from "components/AdaptiveDiv";
 import { ModalRoomSelection } from "components/ModalPopup";
-import RLayout from "components/RLayout";
 import Title from "components/Title";
 
 import RoomList from "./RoomList";
@@ -71,7 +71,7 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
   }, [roomId, allRooms]);
 
   return (
-    <RLayout.R1>
+    <AdaptiveDiv type="center">
       <ModalRoomSelection
         isOpen={!!roomInfo}
         onChangeIsOpen={() =>
@@ -90,7 +90,7 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
         }}
       />
       <RoomList rooms={rooms} />
-    </RLayout.R1>
+    </AdaptiveDiv>
   );
 };
 

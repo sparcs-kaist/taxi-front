@@ -4,8 +4,8 @@ import { useHistory, useParams } from "react-router-dom";
 import usePageFromSearchParams from "hooks/usePageFromSearchParams";
 import { useR2state } from "hooks/useReactiveState";
 
+import AdaptiveDiv from "components/AdaptiveDiv";
 import { PAGE_MAX_ITEMS } from "components/Pagination";
-import RLayout from "components/RLayout";
 import Title from "components/Title";
 import WhiteContainerSuggestLogin from "components/WhiteContainer/WhiteContainerSuggestLogin";
 
@@ -34,12 +34,12 @@ const Myroom = () => {
   }, [reactiveState, roomId, history]);
 
   return !isLogin ? (
-    <RLayout.R1>
+    <AdaptiveDiv type="center">
       <Title icon="myroom" header>
         내 방 보기
       </Title>
       <WhiteContainerSuggestLogin />
-    </RLayout.R1>
+    </AdaptiveDiv>
   ) : reactiveState === 3 ? (
     <R1Myroom
       roomId={roomId}

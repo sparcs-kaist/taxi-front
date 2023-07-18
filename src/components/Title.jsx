@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { memo } from "react";
 
-import RLayout from "components/RLayout";
+import AdaptiveDiv from "components/AdaptiveDiv";
 
 import theme from "tools/theme";
 
@@ -81,7 +81,13 @@ const Title = (props) => {
   );
 
   if (props.marginAuto) {
-    return <RLayout.R2 left={title} right={props.R2 ? <></> : null} />;
+    return (
+      <AdaptiveDiv
+        type="butterfly"
+        left={title}
+        right={props.R2 ? <></> : null}
+      />
+    );
   }
   return title;
 };

@@ -6,6 +6,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import { useR2state } from "hooks/useReactiveState";
 import { useAxios } from "hooks/useTaxiAPI";
 
+import AdaptiveDiv from "components/AdaptiveDiv";
 import Button from "components/Button";
 import {
   OptionDate,
@@ -14,7 +15,6 @@ import {
   OptionPlace,
   OptionTime,
 } from "components/ModalRoomOptions";
-import RLayout from "components/RLayout";
 import ScrollUpButton from "components/ScrollUpButton";
 import Title from "components/Title";
 import Tooltip from "components/Tooltip";
@@ -291,7 +291,7 @@ const Search = () => {
       <Title icon="search" header marginAuto R2={searchResult !== null}>
         방 검색하기
       </Title>
-      <RLayout.R2 left={leftLay} right={rightLay} />
+      <AdaptiveDiv type="butterfly" left={leftLay} right={rightLay} />
     </>
   );
 };
