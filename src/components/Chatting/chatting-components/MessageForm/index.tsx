@@ -1,6 +1,10 @@
-import { useEffect, useState } from "react";
+import { RefObject, memo } from "react";
 
-import FullChatMessageForm from "./FullChatMessageForm";
+import { LayoutType } from "types/chatting";
+
+import useSendMessage from "../../chatting-hooks/useSendMessage";
+import { scrollToBottom } from "../../chatting-utils/scroll";
+import Form from "./Form";
 import NewMessage from "./NewMessage";
 
 import isVirtualKeyboardDetectedAtom from "atoms/isVirtualKeyboardDetected";
@@ -9,52 +13,45 @@ import { useRecoilValue } from "recoil";
 import theme from "tools/theme";
 
 type MessageFormProps = {
-  layoutType: "sidechat" | "fullchat";
-  showNewMessage: boolean;
-  handleSendMessage: (message: string) => Promise<boolean>;
-  handleSendImage: (image: File) => Promise<boolean>;
-  handleSendAccount: (account: string) => Promise<boolean>;
-  onClickNewMessage: () => void;
-  setContHeight: (height: PixelValue) => void;
+  layoutType: LayoutType;
+  isDisplayNewMessage: boolean;
+  messageBodyRef: RefObject<HTMLDivElement>;
+  sendMessage: ReturnType<typeof useSendMessage>;
 };
 
-const MessageForm = (props: MessageFormProps) => {
+const MessageForm = ({
+  layoutType,
+  isDisplayNewMessage,
+  messageBodyRef,
+  sendMessage,
+}: MessageFormProps) => {
   const isVKDetected = useRecoilValue(isVirtualKeyboardDetectedAtom);
-  const [contHeight, setContHeight] = useState<PixelValue>("48px");
 
-  useEffect(() => {
-    props.setContHeight(contHeight);
-  }, [contHeight]);
+  const onClickNewMessage = () => {
+    if (!messageBodyRef.current) return;
+    scrollToBottom(messageBodyRef.current, true);
+  };
+
+  const style = {
+    zIndex: theme.zIndex_nav - 2,
+    display: "flex",
+    flexDirection: "column" as any,
+    justifyContent: "flex-end",
+    alignItems: "center" as any,
+    boxShadow: theme.shadow_clicked,
+    backgroundColor: theme.white,
+    paddingBottom:
+      layoutType === "sidechat" || isVKDetected
+        ? "0px"
+        : "env(safe-area-inset-bottom)",
+  };
 
   return (
-    <div
-      css={{
-        height: contHeight,
-        zIndex: theme.zIndex_nav - 2,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "flex-end",
-        alignItems: "center",
-        boxShadow: theme.shadow_clicked,
-        backgroundColor: theme.white,
-        paddingBottom:
-          props.layoutType === "sidechat" || isVKDetected
-            ? "0px"
-            : "env(safe-area-inset-bottom)",
-      }}
-    >
-      <NewMessage
-        show={props.showNewMessage}
-        onClick={props.onClickNewMessage}
-      />
-      <FullChatMessageForm
-        handleSendAccount={props.handleSendAccount}
-        handleSendMessage={props.handleSendMessage}
-        handleSendImage={props.handleSendImage}
-        setContHeight={setContHeight}
-      />
+    <div css={style}>
+      <NewMessage isDisplay={isDisplayNewMessage} onClick={onClickNewMessage} />
+      <Form sendMessage={sendMessage} />
     </div>
   );
 };
 
-export default MessageForm;
+export default memo(MessageForm);

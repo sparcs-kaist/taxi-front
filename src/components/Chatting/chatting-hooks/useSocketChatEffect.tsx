@@ -1,9 +1,11 @@
-import { MutableRefObject, useEffect } from "react";
+import { MutableRefObject, RefObject, useEffect } from "react";
+import { useStateWithCallbackLazy } from "use-state-with-callback";
 
 import { useValueRecoilState } from "hooks/useFetchRecoilState";
 import { useAxios } from "hooks/useTaxiAPI";
 
 import { Chats, checkoutChat, getCleanupChats } from "../chatting-utils/chats";
+import { isBottomOnScroll, scrollToBottom } from "../chatting-utils/scroll";
 
 import {
   registerSocketEventListener,
@@ -13,17 +15,14 @@ import {
 
 export default (
   roomId: string,
-  setChats: any, // fixme
-  setDisplayNewMessage: any,
+  setChats: ReturnType<typeof useStateWithCallbackLazy<Chats>>[1],
+  setDisplayNewMessage: (value: boolean) => void,
+  chatBodyRef: RefObject<HTMLDivElement>,
   isSendingMessage: MutableRefObject<boolean>,
   isCallingInfScroll: MutableRefObject<boolean>
 ) => {
   const axios = useAxios();
   const { oid: userOid } = useValueRecoilState("loginInfo") || {};
-
-  // remove me
-  const scrollToBottom = (x?: boolean) => {};
-  const isBottomOnScroll = () => true;
 
   useEffect(() => {
     let isExpired: boolean = false;
@@ -39,27 +38,31 @@ export default (
           isSendingMessage.current = false;
 
           setChats(getCleanupChats(chats), () => {
-            scrollToBottom();
+            if (chatBodyRef?.current) scrollToBottom(chatBodyRef?.current);
             isCallingInfScroll.current = false;
           });
         },
         reconnectListener: () => {
           if (isExpired) return;
-          setChats((prevChats: Chats) => {
-            const lastMsg = prevChats[prevChats.length - 1] as Chat;
-            axios({
-              url: "/chats/load/after",
-              method: "post",
-              data: { roomId, lastMsgDate: lastMsg.time },
-            });
-            return prevChats;
-          });
+          setChats(
+            (prevChats: Chats) => {
+              const lastMsg = prevChats[prevChats.length - 1] as Chat;
+              axios({
+                url: "/chats/load/after",
+                method: "post",
+                data: { roomId, lastMsgDate: lastMsg.time },
+              });
+              return prevChats;
+            },
+            () => {}
+          );
         },
         pushBackListener: (chats) => {
-          if (isExpired) return;
+          chats = chats.filter((chat) => chat.roomId === roomId);
+          if (isExpired || chats.length <= 0) return;
 
-          const isMyMsg = chats.some((chat) => chat.authorId === userOid);
-          if (isMyMsg) isSendingMessage.current = false;
+          const isMyMessage = chats.some((chat) => chat.authorId === userOid);
+          if (isMyMessage) isSendingMessage.current = false;
 
           if (chats.length > 10) {
             axios({
@@ -73,20 +76,24 @@ export default (
           }
           setChats(
             (prevChats: Chats) => getCleanupChats([...prevChats, ...chats]),
-            isMyMsg || isBottomOnScroll()
-              ? () => scrollToBottom(true)
+            isMyMessage ||
+              (chatBodyRef?.current && isBottomOnScroll(chatBodyRef?.current))
+              ? () => {
+                  if (chatBodyRef?.current)
+                    scrollToBottom(chatBodyRef?.current, true);
+                }
               : () => setDisplayNewMessage(true)
           );
         },
         pushFrontListener: (chats) => {
           if (isExpired) return;
 
-          if (chats.length === 0) {
-            isCallingInfScroll.current = false;
-            return;
-          }
-          setChats((prevChats: Chats) =>
-            getCleanupChats([...chats, checkoutChat, ...prevChats])
+          if (chats.length === 0) return;
+          // { isCallingInfScroll.current = false; return; } // 지워도 되는 거겠지? @todo @fixme
+          setChats(
+            (prevChats: Chats) =>
+              getCleanupChats([...chats, checkoutChat, ...prevChats]),
+            () => {}
           );
         },
       });

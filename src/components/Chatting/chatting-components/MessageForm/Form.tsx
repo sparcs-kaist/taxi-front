@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
+import useSendMessage from "../../chatting-hooks/useSendMessage";
 import PopupAccount from "./Popup/PopupAccount";
 
 import regExpTest from "tools/regExpTest";
@@ -15,8 +16,8 @@ type BtnSendProps = {
 };
 
 const BtnSend = (props: BtnSendProps) => {
-  const style: CSS = {
-    position: "absolute",
+  const style = {
+    position: "absolute" as any,
     width: "28px",
     height: "28px",
     bottom: "2px",
@@ -27,7 +28,7 @@ const BtnSend = (props: BtnSendProps) => {
     ...theme.cursor(!props.enable),
   };
   return (
-    <div style={style} onClick={props.onClick}>
+    <div css={style} onClick={props.onClick}>
       <ArrowUpwardRoundedIcon
         style={{
           fontSize: "22px",
@@ -54,7 +55,7 @@ const BtnLeft = (props: BtnLeftProps) => {
   };
   const styleIcon = { width: "100%", height: "100%", fill: theme.gray_text };
   return (
-    <div style={style} onClick={props.onClick}>
+    <div css={style} onClick={props.onClick}>
       {props.type === "image" ? (
         <CropOriginalRoundedIcon style={styleIcon} />
       ) : (
@@ -65,13 +66,10 @@ const BtnLeft = (props: BtnLeftProps) => {
 };
 
 type FullChatMessageFormProps = {
-  handleSendMessage: (message: string) => Promise<boolean>;
-  handleSendImage: (image: File) => Promise<boolean>;
-  handleSendAccount: (account: string) => Promise<boolean>;
-  setContHeight: (height: PixelValue) => void;
+  sendMessage: ReturnType<typeof useSendMessage>;
 };
 
-const FullChatMessageForm = (props: FullChatMessageFormProps) => {
+const FullChatMessageForm = ({ sendMessage }: FullChatMessageFormProps) => {
   const textareaContRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const inputImage = useRef<HTMLInputElement>(null);
@@ -88,7 +86,7 @@ const FullChatMessageForm = (props: FullChatMessageFormProps) => {
   const onSend = async () => {
     textareaRef.current?.focus();
     if (isMessageValid()) {
-      const result = await props.handleSendMessage(message);
+      const result = await sendMessage("text", { text: message });
       if (result) setMessage("");
     }
   };
@@ -104,7 +102,7 @@ const FullChatMessageForm = (props: FullChatMessageFormProps) => {
   const onChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const image = e.target?.files?.[0];
     if (!image) return;
-    props.handleSendImage(image);
+    sendMessage("image", { file: image });
   };
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -144,13 +142,10 @@ const FullChatMessageForm = (props: FullChatMessageFormProps) => {
   useEffect(() => {
     resizeEvent();
   }, [message]);
-  useEffect(() => {
-    props.setContHeight(`calc(16px + ${formHeight})` as PixelValue);
-  }, [formHeight]);
 
   return (
     <div
-      style={{
+      css={{
         display: "flex",
         justifyContent: "center",
         alignItems: "flex-end",
@@ -167,7 +162,7 @@ const FullChatMessageForm = (props: FullChatMessageFormProps) => {
         onClickClose={() => setPopupAccount(false)}
         onClickOk={(account: string) => {
           setPopupAccount(false);
-          props.handleSendAccount(account);
+          sendMessage("account", { text: account });
         }}
       />
       <input
@@ -181,7 +176,7 @@ const FullChatMessageForm = (props: FullChatMessageFormProps) => {
       <BtnLeft type="account" onClick={() => setPopupAccount(true)} />
       <div
         ref={textareaContRef}
-        style={{
+        css={{
           position: "relative",
           background: theme.purple_light,
           boxShadow: theme.shadow_purple_input_inset,
@@ -199,7 +194,7 @@ const FullChatMessageForm = (props: FullChatMessageFormProps) => {
           onChange={onChangeMessage}
           onKeyDown={onKeyDown}
           onKeyUp={onKeyUp}
-          style={{
+          css={{
             width: "calc(100% - 30px)",
             height: "100%",
             background: "none",

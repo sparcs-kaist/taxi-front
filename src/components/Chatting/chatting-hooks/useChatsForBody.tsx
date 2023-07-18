@@ -1,34 +1,39 @@
-import PropTypes from "prop-types";
 import { useMemo } from "react";
 
-import { getChatUniquewKey } from "../../chatting-utils/chats";
-import ChatDate from "./ChatDate";
-import ChatInOut from "./ChatInOut";
-import ChatSet from "./ChatSet";
+import { LayoutType } from "types/chatting";
+
+import ChatDate from "../chatting-components/MessagesBody/ChatDate";
+import ChatInOut from "../chatting-components/MessagesBody/ChatInOut";
+import ChatSet from "../chatting-components/MessagesBody/ChatSet";
+import { Chats, getChatUniquewKey } from "../chatting-utils/chats";
 
 import loginInfoAtom from "atoms/loginInfo";
 import { useRecoilValue } from "recoil";
 
 import moment from "tools/moment";
 
-const MessagesBody = (props) => {
+export default (_chats: Chats, layoutType: LayoutType) => {
   const { oid: userOid } = useRecoilValue(loginInfoAtom) || {};
 
-  const chats = useMemo(() => {
+  // remove me
+  const isBottomOnScroll = () => true;
+  const scrollToBottom = () => {};
+
+  return useMemo(() => {
     const list = [];
-    let momentCache = null;
-    let chatsCache = null;
+    let momentCache: any = null; // fixme, todo
+    let chatsCache: Nullable<Array<Chat>> = null;
     const dateFormat = "YYYY.MM.DD";
     const minFormat = "YYYY.MM.DD HH:mm";
 
     const chatSetCommonProps = {
       authorId: userOid,
-      isBottomOnScroll: props.isBottomOnScroll,
-      scrollToBottom: props.scrollToBottom,
-      isSideChat: props.layoutType === "sidechat",
+      isBottomOnScroll,
+      scrollToBottom,
+      isSideChat: layoutType === "sidechat", // fixme
     };
 
-    props.chats.forEach((item) => {
+    _chats.forEach((item) => {
       if (item.type === "inf-checkout") {
         if (chatsCache) {
           list.push(
@@ -41,11 +46,13 @@ const MessagesBody = (props) => {
         }
         chatsCache = null;
 
-        list.push(<div key={"checkout" + momentCache} chatcheckout="true" />);
+        list.push(
+          <div key={"checkout" + momentCache} className="chatcheckout" />
+        );
         return;
       }
 
-      const currentMoment = moment(item.time);
+      const currentMoment = moment((item as Chat).time);
       if (!momentCache) {
         momentCache = currentMoment.clone();
         momentCache.subtract(1, "years");
@@ -79,9 +86,9 @@ const MessagesBody = (props) => {
         }
         list.push(
           <ChatInOut
-            key={"inout" + getChatUniquewKey(item)}
+            key={"inout" + getChatUniquewKey(item as Chat)}
             type={item.type}
-            users={item.inOutNames}
+            users={(item as Chat).inOutNames}
           />
         );
       } else if (
@@ -91,7 +98,7 @@ const MessagesBody = (props) => {
       ) {
         if (
           chatsCache &&
-          (chatsCache[0].authorId !== item.authorId ||
+          (chatsCache[0].authorId !== (item as Chat).authorId ||
             moment(chatsCache[0].time).format(minFormat) !==
               currentMoment.format(minFormat))
         ) {
@@ -105,7 +112,7 @@ const MessagesBody = (props) => {
           chatsCache = null;
         }
         if (!chatsCache) chatsCache = [];
-        chatsCache.push(item);
+        chatsCache.push(item as Chat);
       }
       momentCache = currentMoment.clone();
     });
@@ -119,38 +126,5 @@ const MessagesBody = (props) => {
       );
     }
     return list;
-  }, [props.chats, userOid]);
-
-  return (
-    <div
-      className="chatting-body"
-      css={{
-        flexBasis: "1px",
-        flexGrow: 1,
-        position: "relative",
-        overflow: "auto",
-        boxSizing: "border-box",
-        paddingBottom: "12px",
-      }}
-      ref={props.forwardedRef}
-      onScroll={props.handleScroll}
-    >
-      {chats}
-    </div>
-  );
+  }, [_chats, layoutType, userOid]);
 };
-
-MessagesBody.propTypes = {
-  layoutType: PropTypes.string,
-  chats: PropTypes.array,
-  forwardedRef: PropTypes.any,
-  handleScroll: PropTypes.func,
-  isBottomOnScroll: PropTypes.func,
-  scrollToBottom: PropTypes.func,
-};
-
-MessagesBody.defaultProps = {
-  chats: [],
-};
-
-export default MessagesBody;

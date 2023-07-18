@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
+import { LayoutType } from "types/chatting";
+
 import { useR2state } from "hooks/useReactiveState";
 
 import SideMenu from "./SideMenu";
@@ -13,7 +15,7 @@ import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import OpenInFullRoundedIcon from "@mui/icons-material/OpenInFullRounded";
 
 type HeaderProps = {
-  layoutType: "sidechat" | "fullchat";
+  layoutType: LayoutType;
   roomInfo: Nullable<Room>;
   fetchRoomInfo: () => void;
 };
