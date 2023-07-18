@@ -2,8 +2,8 @@ import { RefObject, memo } from "react";
 
 import { LayoutType } from "types/chatting";
 
-import useSendMessage from "../../chatting-hooks/useSendMessage";
-import { scrollToBottom } from "../../chatting-utils/scroll";
+import useSendMessage from "../../chat-hooks/useSendMessage";
+import { scrollToBottom } from "../../chat-utils/scroll";
 import Form from "./Form";
 import NewMessage from "./NewMessage";
 

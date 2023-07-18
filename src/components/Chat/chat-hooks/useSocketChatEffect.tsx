@@ -4,8 +4,8 @@ import { useStateWithCallbackLazy } from "use-state-with-callback";
 import { useValueRecoilState } from "hooks/useFetchRecoilState";
 import { useAxios } from "hooks/useTaxiAPI";
 
-import { Chats, checkoutChat, getCleanupChats } from "../chatting-utils/chats";
-import { isBottomOnScroll, scrollToBottom } from "../chatting-utils/scroll";
+import { Chats, checkoutChat, getCleanupChats } from "../chat-utils/chats";
+import { isBottomOnScroll, scrollToBottom } from "../chat-utils/scroll";
 
 import {
   registerSocketEventListener,
@@ -58,7 +58,7 @@ export default (
           );
         },
         pushBackListener: (chats) => {
-          chats = chats.filter((chat) => chat.roomId === roomId);
+          // chats = chats.filter((chat) => chat.roomId === roomId);
           if (isExpired || chats.length <= 0) return;
 
           const isMyMessage = chats.some((chat) => chat.authorId === userOid);

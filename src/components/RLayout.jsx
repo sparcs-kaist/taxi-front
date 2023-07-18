@@ -6,7 +6,7 @@ const R1 = (props) => {
   const state = useR1state();
   return (
     <div
-      style={{
+      css={{
         position: props.position,
         height: props.height,
         width: state === 1 ? "390px" : undefined,
@@ -33,7 +33,7 @@ const R2 = (props) => {
   const styleColumn = { width: state === 1 ? "390px" : "calc(50% - 27.5px)" };
   return (
     <div
-      style={{
+      css={{
         display: "flex",
         gap: "15px",
         justifyContent: "center",
@@ -57,7 +57,7 @@ const Popup = (props) => {
   const state = usePopupstate(props.width);
   return (
     <div
-      style={{
+      css={{
         margin: state === 1 ? "auto" : "auto 20px",
         width: state === 1 ? props.width : "calc(100% - 40px)",
       }}

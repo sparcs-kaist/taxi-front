@@ -32,8 +32,8 @@ const SideMenu = ({
   const style = {
     position: "absolute" as any,
     top: 0,
-    right: isOpen ? 0 : "calc(-100% + 60px)",
-    width: "calc(100% - 60px)",
+    right: isOpen ? 0 : "max(calc(-100% + 60px), -370px)",
+    width: "min(calc(100% - 60px), 370px)",
     height: "100%",
     padding: "16px",
     boxSizing: "border-box" as any,

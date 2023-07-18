@@ -2,8 +2,8 @@ import { ForwardedRef, forwardRef } from "react";
 
 import { LayoutType } from "types/chatting";
 
-import useChatsForBody from "../../chatting-hooks/useChatsForBody";
-import { Chats } from "../../chatting-utils/chats";
+import useChatsForBody from "../../chat-hooks/useChatsForBody";
+import { Chats } from "../../chat-utils/chats";
 
 type MessagesBodyProps = {
   layoutType: LayoutType;

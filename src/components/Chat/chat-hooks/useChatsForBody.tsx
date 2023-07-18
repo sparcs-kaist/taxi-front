@@ -2,10 +2,10 @@ import { useMemo } from "react";
 
 import { LayoutType } from "types/chatting";
 
-import ChatDate from "../chatting-components/MessagesBody/ChatDate";
-import ChatInOut from "../chatting-components/MessagesBody/ChatInOut";
-import ChatSet from "../chatting-components/MessagesBody/ChatSet";
-import { Chats, getChatUniquewKey } from "../chatting-utils/chats";
+import ChatDate from "../chat-components/MessagesBody/ChatDate";
+import ChatInOut from "../chat-components/MessagesBody/ChatInOut";
+import ChatSet from "../chat-components/MessagesBody/ChatSet";
+import { Chats, getChatUniquewKey } from "../chat-utils/chats";
 
 import loginInfoAtom from "atoms/loginInfo";
 import { useRecoilValue } from "recoil";

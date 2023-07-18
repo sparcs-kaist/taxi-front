@@ -7,29 +7,21 @@ import useDateToken from "hooks/useDateToken";
 import useDisableScrollEffect from "hooks/useDisableScrollEffect";
 import useQuery from "hooks/useTaxiAPI";
 
-import Container from "./chatting-components/Container";
-import Header from "./chatting-components/Header";
-import MessageForm from "./chatting-components/MessageForm";
-import MessagesBody from "./chatting-components/MessagesBody";
-import useBodyScrollControllerEffect from "./chatting-hooks/useBodyScrollControllerEffect";
-import useSendMessage from "./chatting-hooks/useSendMessage";
-import useSocketChatEffect from "./chatting-hooks/useSocketChatEffect";
-import { Chats } from "./chatting-utils/chats";
+import Container from "./chat-components/Container";
+import Header from "./chat-components/Header";
+import MessageForm from "./chat-components/MessageForm";
+import MessagesBody from "./chat-components/MessagesBody";
+import useBodyScrollControllerEffect from "./chat-hooks/useBodyScrollControllerEffect";
+import useSendMessage from "./chat-hooks/useSendMessage";
+import useSocketChatEffect from "./chat-hooks/useSocketChatEffect";
+import { Chats } from "./chat-utils/chats";
 
-import theme from "tools/theme";
-
-type ChattingProps = {
+type ChatProps = {
   roomId: string;
   layoutType: LayoutType;
 };
-type FullChatProps = {
-  roomId: ChattingProps["roomId"];
-};
-type SideChatProps = {
-  roomId: ChattingProps["roomId"];
-};
 
-const Chatting = ({ roomId, layoutType }: ChattingProps) => {
+const Chat = ({ roomId, layoutType }: ChatProps) => {
   const [chats, setChats] = useStateWithCallbackLazy<Chats>([]); // 채팅 메시지 배열
   const [isDisplayNewMessage, setDisplayNewMessage] = useState<boolean>(false); // 새로운 메시지 버튼 표시 여부
   const messageBodyRef = useRef<HTMLDivElement>(null); // 스크롤 되는 메시지 HTML 요소
@@ -61,6 +53,9 @@ const Chatting = ({ roomId, layoutType }: ChattingProps) => {
     isCallingInfScroll
   );
 
+  // 전체화면 챗에서는 body의 스크롤을 막습니다.
+  useDisableScrollEffect(layoutType === "fullchat");
+
   return (
     <Container layoutType={layoutType}>
       <Header
@@ -83,23 +78,4 @@ const Chatting = ({ roomId, layoutType }: ChattingProps) => {
   );
 };
 
-export const FullChat = ({ roomId }: FullChatProps) => {
-  // 전체화면 챗에서는 body의 스크롤을 막습니다.
-  useDisableScrollEffect(true);
-
-  return <Chatting roomId={roomId} layoutType="fullchat" />;
-};
-
-export const SideChat = ({ roomId }: SideChatProps) => (
-  <div
-    css={{
-      display: "flex",
-      flexDirection: "column" as any,
-      height: "100%",
-      overflow: "hidden",
-      backgroundColor: theme.white,
-    }}
-  >
-    <Chatting roomId={roomId} layoutType="sidechat" />
-  </div>
-);
+export default Chat;

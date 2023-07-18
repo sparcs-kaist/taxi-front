@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { Link, useHistory } from "react-router-dom";
 
-import { SideChat } from "components/Chatting";
+import Chat from "components/Chat";
 import DottedLine from "components/DottedLine";
 import Empty from "components/Empty";
 import Pagination, { PAGE_MAX_ITEMS } from "components/Pagination";
@@ -125,7 +125,7 @@ const R2Myroom = (props) => {
             }}
           >
             <WhiteContainer padding="0px" style={{ height: "100%" }}>
-              <SideChat roomId={props.roomId} />
+              <Chat roomId={props.roomId} layoutType="sidechat" />
             </WhiteContainer>
           </div>
         ) : null

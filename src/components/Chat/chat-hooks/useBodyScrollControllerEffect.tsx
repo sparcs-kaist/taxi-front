@@ -1,7 +1,7 @@
 import { MutableRefObject, RefObject, useEffect, useLayoutEffect } from "react";
 
-import { Chats } from "../chatting-utils/chats";
-import { isBottomOnScroll, scrollToBottom } from "../chatting-utils/scroll";
+import { Chats } from "../chat-utils/chats";
+import { isBottomOnScroll, scrollToBottom } from "../chat-utils/scroll";
 
 export default (
   roomId: string,
