@@ -51,7 +51,7 @@ const content = (
 
 const Event2022Beta = () => (
   <AdaptiveDiv type="center">
-    <Title icon="taxi" header>
+    <Title icon="taxi" isHeader>
       Taxi 베타 서비스
     </Title>
     {content}

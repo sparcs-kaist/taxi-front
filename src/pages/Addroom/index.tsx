@@ -121,10 +121,10 @@ const AddRoom = () => {
 
   return (myRooms?.ongoing.length ?? 0) < MAX_PARTICIPATION ? (
     <div>
-      <Title icon="add" header marginAuto>
-        방 개설하기
-      </Title>
       <AdaptiveDiv type="center">
+        <Title icon="add" isHeader>
+          방 개설하기
+        </Title>
         {isLogin ? (
           <>
             <OptionPlace value={valuePlace} handler={setPlace} />

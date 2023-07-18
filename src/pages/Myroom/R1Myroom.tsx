@@ -25,7 +25,7 @@ const R1Myroom = ({
   donePageInfo,
 }: R1MyroomProps) => (
   <AdaptiveDiv type="center">
-    <Title icon="current" header>
+    <Title icon="current" isHeader>
       참여 중인 방
     </Title>
     {ongoing.length === 0 ? (
@@ -46,7 +46,7 @@ const R1Myroom = ({
         </Link>
       ))
     )}
-    <Title icon="past" header>
+    <Title icon="past" isHeader>
       과거 참여 방
     </Title>
     {done.length === 0 ? (

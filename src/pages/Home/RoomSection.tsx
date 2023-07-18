@@ -79,7 +79,7 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
         }
         roomInfo={roomInfo}
       />
-      <Title icon="taxi" header>
+      <Title icon="taxi" isHeader>
         요일별 출발하는 방
       </Title>
       <SelectDate

@@ -288,9 +288,15 @@ const Search = () => {
   );
   return (
     <>
-      <Title icon="search" header marginAuto R2={searchResult !== null}>
-        방 검색하기
-      </Title>
+      <AdaptiveDiv
+        type="butterfly"
+        left={
+          <Title icon="search" isHeader>
+            방 검색하기
+          </Title>
+        }
+        right={searchResult ? <></> : null}
+      />
       <AdaptiveDiv type="butterfly" left={leftLay} right={rightLay} />
     </>
   );

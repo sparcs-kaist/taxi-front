@@ -35,7 +35,7 @@ const Myroom = () => {
 
   return !isLogin ? (
     <AdaptiveDiv type="center">
-      <Title icon="myroom" header>
+      <Title icon="myroom" isHeader>
         내 방 보기
       </Title>
       <WhiteContainerSuggestLogin />

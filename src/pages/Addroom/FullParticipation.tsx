@@ -10,7 +10,7 @@ import theme from "tools/theme";
 const FullParticipation = () => {
   return (
     <AdaptiveDiv type="center">
-      <Title icon="add" header>
+      <Title icon="add" isHeader>
         방 개설하기
       </Title>
       <WhiteContainer padding="12px 16px">

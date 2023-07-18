@@ -10,7 +10,7 @@ import theme from "tools/theme";
 const EventSection = () => {
   return (
     <AdaptiveDiv type="center">
-      <Title icon="notice" header>
+      <Title icon="notice" isHeader>
         공지
       </Title>
       <WhiteContainer>

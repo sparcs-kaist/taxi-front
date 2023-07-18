@@ -110,12 +110,7 @@ const R2Myroom = (props) => {
       type="butterfly"
       left={
         <>
-          <Title
-            icon="myroom"
-            header
-            marginAuto
-            R2={props.roomId !== undefined}
-          >
+          <Title icon="myroom" isHeader>
             내 방 보기
           </Title>
           <div style={{ margin: "0 -4px", padding: "0 4px" }}>
