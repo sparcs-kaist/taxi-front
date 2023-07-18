@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 
-import { useR2state } from "hooks/useReactiveState";
+import useButterflyState from "hooks/useButterflyState";
 
 import DottedLine from "components/DottedLine";
 import { ModalRoomShare } from "components/ModalPopup";
@@ -23,7 +23,7 @@ const Header = (props) => {
   const [isOpenShare, setIsOpenShare] = useState(false);
   const [bodyHeight, setBodyHeight] = useState(0);
   const history = useHistory();
-  const reactiveState = useR2state();
+  const butterflyState = useButterflyState();
 
   const style = {
     height: "calc(64px + max(5px, env(safe-area-inset-top)))",
@@ -112,7 +112,7 @@ const Header = (props) => {
             style={{ ...styleIcon, marginRight: "18px", fontSize: "20px" }}
             onClick={() => setIsOpenShare(true)}
           />
-          {reactiveState !== 3 && (
+          {butterflyState !== "fold" && (
             <CloseFullscreenRoundedIcon
               style={{ ...styleIcon, marginRight: "12px", fontSize: "20px" }}
               onClick={() => history.replace(`/myroom/${props.info?._id}`)}

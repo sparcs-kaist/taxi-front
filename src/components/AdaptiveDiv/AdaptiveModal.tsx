@@ -1,19 +1,21 @@
-import { CSSProperties, ReactNode } from "react";
+import { ReactNode } from "react";
 
-import { usePopupstate } from "hooks/useReactiveState";
+import theme from "tools/theme";
 
 export type AdaptiveModalProps = {
-  width?: CSSProperties["width"];
+  width?: PixelValue; // CSSProperties["width"];
   children: ReactNode;
 };
 
-const AdaptiveModal = ({ width = 335, children }: AdaptiveModalProps) => {
-  const state = usePopupstate(width);
+const AdaptiveModal = ({
+  width = theme.modal_width,
+  children,
+}: AdaptiveModalProps) => {
   return (
     <div
       css={{
-        margin: state === 1 ? "auto" : "auto 20px",
-        width: state === 1 ? width : "calc(100% - 40px)",
+        width: `min(${width}, calc(100% - ${theme.adaptivediv.margin * 2}px))`,
+        margin: "auto",
       }}
       onClick={(e) => e.stopPropagation()}
       onMouseUp={(e) => e.stopPropagation()}

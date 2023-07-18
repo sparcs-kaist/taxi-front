@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 
+import useButterflyState from "hooks/useButterflyState";
 import usePageFromSearchParams from "hooks/usePageFromSearchParams";
-import { useR2state } from "hooks/useReactiveState";
 
 import AdaptiveDiv from "components/AdaptiveDiv";
 import { PAGE_MAX_ITEMS } from "components/Pagination";
@@ -21,17 +21,17 @@ export const MAX_PARTICIPATION = 5;
 const Myroom = () => {
   const history = useHistory();
   const { roomId } = useParams();
-  const reactiveState = useR2state();
+  const butterflyState = useButterflyState();
   const myRooms = useRecoilValue(myRoomsAtom);
   const totalPages = Math.ceil((myRooms?.done?.length ?? 0) / PAGE_MAX_ITEMS);
   const currentPage = usePageFromSearchParams(totalPages);
   const isLogin = !!useRecoilValue(loginInfoAtom)?.id;
 
   useEffect(() => {
-    if (reactiveState == 3 && roomId) {
+    if (butterflyState === "fold" && roomId) {
       history.replace(`/chatting/${roomId}`);
     }
-  }, [reactiveState, roomId, history]);
+  }, [butterflyState, roomId, history]);
 
   return !isLogin ? (
     <AdaptiveDiv type="center">
@@ -40,7 +40,7 @@ const Myroom = () => {
       </Title>
       <WhiteContainerSuggestLogin />
     </AdaptiveDiv>
-  ) : reactiveState === 3 ? (
+  ) : butterflyState === "fold" ? (
     <R1Myroom
       roomId={roomId}
       ongoing={myRooms?.ongoing}

@@ -111,7 +111,7 @@ const ModalElem = ({
   if (!shouldMount) return null;
   return (
     <div css={styleBgd} onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
-      <AdaptiveDiv type="modal" width={parseFloat(width.replace("px", ""))}>
+      <AdaptiveDiv type="modal" width={width}>
         <div ref={modalRef} css={styleBody}>
           {children}
           {displayCloseBtn && (
