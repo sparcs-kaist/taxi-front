@@ -5,6 +5,7 @@ import { ModalPrivacyPolicy } from "components/ModalPopup";
 
 import InfoSection from "./InfoSection";
 import RoomSection from "./RoomSection";
+import SuggestAppTopBar from "./SuggestAppTopBar";
 
 const Home = () => {
   const history = useHistory();
@@ -15,6 +16,7 @@ const Home = () => {
 
   return (
     <>
+      <SuggestAppTopBar />
       <InfoSection />
       <div css={{ marginTop: "-10px" }} />
       <RoomSection roomId={roomId} />
