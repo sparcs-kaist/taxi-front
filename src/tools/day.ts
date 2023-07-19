@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import dayjs, { ConfigType, Dayjs } from "dayjs";
 import "dayjs/locale/ko";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 
@@ -25,20 +25,21 @@ export const dayNowServer = () => {
 };
 
 // 서버의 시각을 클라이언트의 시각으로 변환합니다.
-export const dayServerToClient = (serverTime: dayjs.ConfigType) => {
+export const dayServerToClient = (serverTime: ConfigType) => {
   const timeDiff = timeDiffWithServer ?? 0;
   return dayjs(serverTime).add(timeDiff, "millisecond");
 };
 
 // 클라이언트의 시각을 서버의 시각으로 변환합니다.
-export const dayClientToServer = (clientTime: dayjs.ConfigType) => {
+export const dayClientToServer = (clientTime: ConfigType) => {
   const timeDiff = timeDiffWithServer ?? 0;
   return dayjs(clientTime).subtract(timeDiff, "millisecond");
 };
 
 // 시각을 문자열로 변환합니다.
-export const day2str = (day: dayjs.Dayjs, format = "LLLL") => {
+export const day2str = (day: Dayjs, format = "LLLL") => {
   return day.format(format);
 };
 
+export type { Dayjs };
 export default dayjs;

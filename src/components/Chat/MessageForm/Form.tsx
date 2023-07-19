@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
-import useSendMessage from "../../chat-hooks/useSendMessage";
+import useSendMessage from "hooks/chat/useSendMessage";
+
 import PopupAccount from "./Popup/PopupAccount";
 
 import regExpTest from "tools/regExpTest";

@@ -3,18 +3,19 @@ import { useStateWithCallbackLazy } from "use-state-with-callback";
 
 import { LayoutType } from "types/chatting";
 
+import useBodyScrollControllerEffect from "hooks/chat/useBodyScrollControllerEffect";
+import useSendMessage from "hooks/chat/useSendMessage";
+import useSocketChatEffect from "hooks/chat/useSocketChatEffect";
 import useDateToken from "hooks/useDateToken";
 import useDisableScrollEffect from "hooks/useDisableScrollEffect";
 import useQuery from "hooks/useTaxiAPI";
 
-import Container from "./chat-components/Container";
-import Header from "./chat-components/Header";
-import MessageForm from "./chat-components/MessageForm";
-import MessagesBody from "./chat-components/MessagesBody";
-import useBodyScrollControllerEffect from "./chat-hooks/useBodyScrollControllerEffect";
-import useSendMessage from "./chat-hooks/useSendMessage";
-import useSocketChatEffect from "./chat-hooks/useSocketChatEffect";
-import { Chats } from "./chat-utils/chats";
+import Container from "./Container";
+import Header from "./Header";
+import MessageForm from "./MessageForm";
+import MessagesBody from "./MessagesBody";
+
+import { Chats } from "tools/chat/chats";
 
 type ChatProps = {
   roomId: string;

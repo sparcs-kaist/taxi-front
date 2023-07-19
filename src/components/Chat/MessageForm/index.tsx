@@ -2,14 +2,15 @@ import { RefObject, memo } from "react";
 
 import { LayoutType } from "types/chatting";
 
-import useSendMessage from "../../chat-hooks/useSendMessage";
-import { scrollToBottom } from "../../chat-utils/scroll";
+import useSendMessage from "hooks/chat/useSendMessage";
+
 import Form from "./Form";
 import NewMessage from "./NewMessage";
 
 import isVirtualKeyboardDetectedAtom from "atoms/isVirtualKeyboardDetected";
 import { useRecoilValue } from "recoil";
 
+import { scrollToBottom } from "tools/chat/scroll";
 import theme from "tools/theme";
 
 type MessageFormProps = {

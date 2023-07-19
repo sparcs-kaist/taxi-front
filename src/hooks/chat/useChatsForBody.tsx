@@ -2,14 +2,15 @@ import { useMemo } from "react";
 
 import { LayoutType } from "types/chatting";
 
-import ChatDate from "../chat-components/MessagesBody/ChatDate";
-import ChatInOut from "../chat-components/MessagesBody/ChatInOut";
-import ChatSet from "../chat-components/MessagesBody/ChatSet";
-import { Chats, getChatUniquewKey } from "../chat-utils/chats";
+import ChatSet from "components/Chat/MessagesBody/ChatSet";
+import MessageDate from "components/Chat/MessagesBody/MessageDate";
+import MessageInOut from "components/Chat/MessagesBody/MessageInOut";
 
 import loginInfoAtom from "atoms/loginInfo";
 import { useRecoilValue } from "recoil";
 
+import { Chats, getChatUniquewKey } from "tools/chat/chats";
+import dayjs from "tools/day";
 import moment from "tools/moment";
 
 export default (_chats: Chats, layoutType: LayoutType) => {
@@ -70,7 +71,10 @@ export default (_chats: Chats, layoutType: LayoutType) => {
         }
 
         list.push(
-          <ChatDate key={"date" + currentMoment} date={currentMoment} />
+          <MessageDate
+            key={"date" + currentMoment}
+            date={dayjs(currentMoment.toISOString())}
+          />
         );
       }
       if (item.type === "in" || item.type === "out") {
@@ -85,7 +89,7 @@ export default (_chats: Chats, layoutType: LayoutType) => {
           chatsCache = null;
         }
         list.push(
-          <ChatInOut
+          <MessageInOut
             key={"inout" + getChatUniquewKey(item as Chat)}
             type={item.type}
             users={(item as Chat).inOutNames}

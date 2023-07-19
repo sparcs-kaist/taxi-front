@@ -4,9 +4,8 @@ import { useStateWithCallbackLazy } from "use-state-with-callback";
 import { useValueRecoilState } from "hooks/useFetchRecoilState";
 import { useAxios } from "hooks/useTaxiAPI";
 
-import { Chats, checkoutChat, getCleanupChats } from "../chat-utils/chats";
-import { isBottomOnScroll, scrollToBottom } from "../chat-utils/scroll";
-
+import { Chats, checkoutChat, getCleanupChats } from "tools/chat/chats";
+import { isBottomOnScroll, scrollToBottom } from "tools/chat/scroll";
 import {
   registerSocketEventListener,
   resetSocketEventListener,
