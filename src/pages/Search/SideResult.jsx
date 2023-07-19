@@ -5,12 +5,11 @@ import usePageFromSearchParams from "hooks/usePageFromSearchParams";
 
 import DottedLine from "components/DottedLine";
 import Empty from "components/Empty";
+import { ModalRoomSelection } from "components/ModalPopup";
 import Pagination, { PAGE_MAX_ITEMS } from "components/Pagination";
 import Room from "components/Room";
 import Title from "components/Title";
 import WhiteContainer from "components/WhiteContainer";
-
-import RoomSelectionModal from "./RoomSelectionModal";
 
 import theme from "tools/theme";
 
@@ -163,11 +162,9 @@ const SideResult = (props) => {
   if (!props.mobile) {
     return (
       <div style={{ marginTop: 26 }}>
-        <RoomSelectionModal
+        <ModalRoomSelection
           isOpen={!!selectedRoomInfo}
-          onClose={() => {
-            setSelectedRoomInfo(null);
-          }}
+          onChangeIsOpen={() => setSelectedRoomInfo(null)}
           roomInfo={selectedRoomInfo}
         />
         <WhiteContainer padding="20px 20px 22px">
@@ -213,11 +210,9 @@ const SideResult = (props) => {
   } else {
     return (
       <>
-        <RoomSelectionModal
+        <ModalRoomSelection
           isOpen={!!selectedRoomInfo}
-          onClose={() => {
-            setSelectedRoomInfo(null);
-          }}
+          onChangeIsOpen={() => setSelectedRoomInfo(null)}
           roomInfo={selectedRoomInfo}
         />
         <SearchOptions

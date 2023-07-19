@@ -3,7 +3,8 @@ import { useLocation } from "react-router-dom";
 
 import ChannelService from "./channelService";
 
-import loginInfoDetailAtom from "atoms/loginInfoDetail";
+import errorAtom from "atoms/error";
+import loginInfoAtom from "atoms/loginInfo";
 import { useRecoilValue } from "recoil";
 
 import { channelTalkPluginKey } from "loadenv";
@@ -11,26 +12,28 @@ import { channelTalkPluginKey } from "loadenv";
 const ChannelTalkProvider = () => {
   const location = useLocation();
   const pathname = location.pathname;
-  const loginInfoDetail = useRecoilValue(loginInfoDetailAtom);
+  const loginInfo = useRecoilValue(loginInfoAtom);
+  const error = useRecoilValue(errorAtom);
 
   useEffect(() => {
-    if (loginInfoDetail) {
+    if (loginInfo) {
       ChannelService.updateUser({
         profile: {
-          name: loginInfoDetail?.name,
-          email: loginInfoDetail?.email,
+          name: loginInfo?.name,
+          email: loginInfo?.email,
         },
       });
     }
-  }, [loginInfoDetail]);
+  }, [loginInfo]);
 
   useEffect(() => {
     ChannelService.boot({
       pluginKey: channelTalkPluginKey,
-      hideChannelButtonOnBoot: !pathname.startsWith("/login"),
+      // login 페이지와 error 페이지에서는 채널톡 버튼을 띄웁니다.
+      hideChannelButtonOnBoot: !pathname.startsWith("/login") && !error,
       customLauncherSelector: ".popup-channeltalk",
     });
-  }, [pathname]);
+  }, [pathname, error]);
   return null;
 };
 

@@ -6,15 +6,20 @@ import NotInterestedIcon from "@material-ui/icons/NotInterested";
 
 type ScreenType = "mobile" | "pc";
 
-type EmptyProps = { screen: ScreenType; children: ReactNode };
+type EmptyProps = {
+  screen: ScreenType;
+  children: ReactNode;
+  marginBottom?: PixelValue;
+};
 
-const Empty = ({ screen, children }: EmptyProps) => {
+const Empty = ({ screen, children, marginBottom }: EmptyProps) => {
   const styleCommon: CSS = {
     display: "flex",
     justifyContent: "center",
     ...theme.font14_bold,
     color: theme.gray_text,
     columnGap: "6px",
+    marginBottom: marginBottom,
   };
   const styleMobile: CSS = {
     ...styleCommon,

@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
 
+import { useFetchRecoilState } from "hooks/useFetchRecoilState";
 import { useAxios } from "hooks/useTaxiAPI";
 
 import PopupContainer from "./PopupContainer";
 
 import alertAtom from "atoms/alert";
-import myRoomAtom from "atoms/myRoom";
 import { useSetRecoilState } from "recoil";
 
 const PopupPay = (props) => {
@@ -36,7 +36,8 @@ const PopupPay = (props) => {
   };
 
   const setAlert = useSetRecoilState(alertAtom);
-  const setMyRoom = useSetRecoilState(myRoomAtom);
+  const fetchMyRooms = useFetchRecoilState("myRooms");
+
   const onClick = () => {
     axios({
       url: "/rooms/commitPayment",
@@ -44,13 +45,8 @@ const PopupPay = (props) => {
       data: {
         roomId: props.roomId,
       },
-      onSuccess: async () => {
-        setMyRoom(
-          await axios({
-            url: "/rooms/searchByUser",
-            method: "get",
-          })
-        );
+      onSuccess: () => {
+        fetchMyRooms();
         props.recallEvent();
         props.onClickClose();
       },

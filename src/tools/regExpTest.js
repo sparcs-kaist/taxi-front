@@ -7,8 +7,10 @@ const nickname = (x) => {
   return RegExp("^[A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ0-9-_ ]{3,25}$").test(x);
 };
 
-const name = (x) => {
-  return RegExp("^[A-Za-z0-9가-힣ㄱ-ㅎㅏ-ㅣ,.?! _-]{1,20}$").test(x);
+const roomName = (x) => {
+  return RegExp(
+    "^[A-Za-z0-9가-힣ㄱ-ㅎㅏ-ㅣ,.?! _~/#'\\\\@=\"\\-\\^()+*<>{}[\\]]{1,50}$" // ,.?/#'\@="-^()+*<>{}[]
+  ).test(x);
 };
 
 const fromTo = (x) => {
@@ -20,7 +22,7 @@ const reportMsg = (x) => {
 };
 
 const account = (x) => {
-  return RegExp("^[A-Za-z가-힣]{2,7} [0-9]{10,14}$").test(x);
+  return RegExp("^[A-Za-z가-힣]{2,7} ([0-9]{10,14}|)$").test(x);
 };
 
-export default { chatMsg, nickname, name, fromTo, reportMsg, account };
+export default { chatMsg, nickname, roomName, fromTo, reportMsg, account };

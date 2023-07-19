@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import regExpTest from "tools/regExpTest";
 import theme from "tools/theme";
 
 import bankNames from "static/bankNames";
@@ -12,20 +11,22 @@ type AccountSelectorProps = {
 };
 
 const AccountSelector = (props: AccountSelectorProps) => {
+  const initializeAccountState = () => {
+    const account = props.accountNumber.split(" ");
+    return [account?.[0] || bankNames[0], account?.[1] || ""];
+  };
+
   const { t } = useTranslation("mypage");
-  const [bankNumber, setBankNumber] = useState("");
-  const [bankName, setBankName] = useState(bankNames[0]);
+  const [bankName, setBankName] = useState(initializeAccountState()[0]);
+  const [bankNumber, setBankNumber] = useState(initializeAccountState()[1]);
 
   useEffect(() => {
     props.setAccountNumber(bankName + " " + bankNumber);
   }, [bankName, bankNumber]);
 
   useEffect(() => {
-    if (regExpTest.account(props.accountNumber)) {
-      const account = props.accountNumber.split(" ");
-      setBankName(account[0]);
-      setBankNumber(account[1]);
-    }
+    setBankName(initializeAccountState()[0]);
+    setBankNumber(initializeAccountState()[1]);
   }, [props.accountNumber]);
 
   const styleTitle: CSS = {

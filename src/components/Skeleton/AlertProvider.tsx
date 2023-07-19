@@ -1,8 +1,8 @@
-import { ReactNode, useRef } from "react";
+import { ReactNode, useCallback, useRef } from "react";
 
 import Button from "components/Button";
 import DottedLine from "components/DottedLine";
-import Modal from "components/Modal";
+import ModalElem from "components/Modal/ModalElem";
 
 import alertAtom from "atoms/alert";
 import { useRecoilState } from "recoil";
@@ -15,17 +15,18 @@ const AlertProvider = () => {
   const messageCache = useRef<ReactNode>("");
   const [message, setMessage] = useRecoilState(alertAtom);
 
-  const onClickClose = () => setMessage(null);
+  const closeHandler = useCallback(() => setMessage(null), [setMessage]);
   if (message) messageCache.current = message;
 
   return (
-    <Modal
-      display={!!message}
-      onClickClose={onClickClose}
-      width={315}
+    <ModalElem
+      isOpen={!!message}
+      onChangeIsOpen={closeHandler}
+      onEnter={closeHandler}
+      width={theme.modal_width_alert}
       padding="10px"
-      closeBtn={false}
-      alert
+      displayCloseBtn={false}
+      isAlert
     >
       <div
         style={{
@@ -56,11 +57,11 @@ const AlertProvider = () => {
         padding="9px 10px"
         radius={8}
         font={theme.font14_bold}
-        onClick={onClickClose}
+        onClick={closeHandler}
       >
         확인
       </Button>
-    </Modal>
+    </ModalElem>
   );
 };
 

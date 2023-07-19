@@ -1,29 +1,21 @@
-import { useState } from "react";
+import { Link } from "react-router-dom";
 
 import usePageFromSearchParams from "hooks/usePageFromSearchParams";
 
 import Empty from "components/Empty";
 import Pagination, { PAGE_MAX_ITEMS } from "components/Pagination";
 import Room from "components/Room";
-import RoomSelectionModal from "pages/Search/RoomSelectionModal";
 
 type RoomListProps = {
   rooms: Nullable<Array<any>>;
 };
 
 const RoomList = (props: RoomListProps) => {
-  const [selectedRoom, setSelectedRoom] = useState(null);
   const totalPages = Math.ceil((props.rooms ?? []).length / PAGE_MAX_ITEMS);
   const currentPage = usePageFromSearchParams(totalPages);
+
   return (
     <>
-      <RoomSelectionModal
-        isOpen={!!selectedRoom}
-        onClose={() => {
-          setSelectedRoom(null);
-        }}
-        roomInfo={selectedRoom}
-      />
       {props.rooms?.length ? (
         <>
           {props.rooms
@@ -32,14 +24,14 @@ const RoomList = (props: RoomListProps) => {
               PAGE_MAX_ITEMS * currentPage
             )
             .map((room) => (
-              <Room
+              <Link
                 key={room._id}
-                data={room}
-                marginBottom="15px"
-                onClick={() => {
-                  setSelectedRoom(room);
-                }}
-              />
+                to={`/home/${room._id}?page=${currentPage}`}
+                replace
+                style={{ textDecoration: "none" }}
+              >
+                <Room data={room} marginBottom="15px" />
+              </Link>
             ))}
           {props.rooms.length > PAGE_MAX_ITEMS && (
             <Pagination
@@ -50,7 +42,9 @@ const RoomList = (props: RoomListProps) => {
           )}
         </>
       ) : (
-        <Empty screen="mobile">해당 요일에 개설된 방이 없습니다</Empty>
+        <Empty screen="mobile" marginBottom="15px">
+          해당 요일에 개설된 방이 없습니다
+        </Empty>
       )}
     </>
   );

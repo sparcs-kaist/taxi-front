@@ -1,16 +1,29 @@
 import { useEffect } from "react";
 
+const syncHeight = () => {
+  const innerHeight = window.innerHeight || 0;
+  const visualHeight = visualViewport?.height || innerHeight;
+
+  document.documentElement.style.setProperty(
+    "--window-inner-height",
+    `${innerHeight}px`
+  );
+  document.documentElement.style.setProperty(
+    "--window-visual-height",
+    `${visualHeight}px`
+  );
+};
+
 const CSSVariablesProvider = () => {
   useEffect(() => {
-    const syncHeight = () =>
-      document.documentElement.style.setProperty(
-        "--window-inner-height",
-        `${window.innerHeight}px`
-      );
-
     syncHeight();
     window.addEventListener("resize", syncHeight);
-    return () => window.removeEventListener("resize", syncHeight);
+    visualViewport?.addEventListener("resize", syncHeight);
+
+    return () => {
+      window.removeEventListener("resize", syncHeight);
+      visualViewport?.removeEventListener("resize", syncHeight);
+    };
   }, []);
   return null;
 };

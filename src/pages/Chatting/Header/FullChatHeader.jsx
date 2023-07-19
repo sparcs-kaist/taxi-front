@@ -5,6 +5,7 @@ import { useHistory } from "react-router";
 import { useR2state } from "hooks/useReactiveState";
 
 import DottedLine from "components/DottedLine";
+import { ModalRoomShare } from "components/ModalPopup";
 
 import HeaderBody from "./HeaderBody";
 
@@ -12,37 +13,41 @@ import theme from "tools/theme";
 
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import CloseFullscreenRoundedIcon from "@mui/icons-material/CloseFullscreenRounded";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
+import UnfoldLessRoundedIcon from "@mui/icons-material/UnfoldLessRounded";
+import UnfoldMoreRoundedIcon from "@mui/icons-material/UnfoldMoreRounded";
 
 const Header = (props) => {
   const bodyRef = useRef();
   const [isOpen, setOpen] = useState(false);
+  const [isOpenShare, setIsOpenShare] = useState(false);
   const [bodyHeight, setBodyHeight] = useState(0);
   const history = useHistory();
   const reactiveState = useR2state();
 
+  const style = {
+    height: "calc(64px + max(5px, env(safe-area-inset-top)))",
+  };
   const styleBgd = {
     position: "fixed",
     top: "5px",
     width: "100%",
     height: "100%",
     background: theme.black_40,
-    zIndex: theme.zIndex_background,
+    zIndex: theme.zIndex_nav - 1,
     pointerEvents: isOpen ? "auto" : "none",
     opacity: isOpen ? 1 : 0,
     transition: "opacity 0.3s",
   };
   const styleHeader = {
-    position: "fixed",
-    top: "5px",
+    position: "absolute",
     width: "100%",
     overflow: "hidden",
     background: theme.white,
     boxShadow: theme.shadow_3,
-    zIndex: theme.zIndex_header,
+    zIndex: theme.zIndex_nav,
     height: `${64 + (isOpen ? bodyHeight : 0)}px`,
-    paddingTop: "calc(env(safe-area-inset-top) - 5px)",
+    paddingTop: "max(5px, env(safe-area-inset-top))",
     transition: "height 0.3s",
   };
   const styleHeaderTop = {
@@ -80,10 +85,10 @@ const Header = (props) => {
   }, [props.info]);
 
   return (
-    <>
-      <div style={styleBgd} onClick={() => setOpen(false)} />
-      <div style={styleHeader}>
-        <div style={styleHeaderTop}>
+    <div css={style}>
+      <div css={styleBgd} onClick={() => setOpen(false)} />
+      <div css={styleHeader}>
+        <div css={styleHeaderTop}>
           <ArrowBackRoundedIcon
             style={styleIcon}
             onClick={
@@ -92,17 +97,21 @@ const Header = (props) => {
                 : () => history.goBack()
             }
           />
-          <div style={styleInfo}>
-            <div style={{ ...theme.font18, color: theme.purple, ...styleText }}>
+          <div css={styleInfo}>
+            <div css={{ ...theme.font18, color: theme.purple, ...styleText }}>
               {props.info?.name}
             </div>
             <div
-              style={{ ...theme.font12, color: theme.gray_text, ...styleText }}
+              css={{ ...theme.font12, color: theme.gray_text, ...styleText }}
             >
               {props?.info?.from?.koName}&nbsp; → &nbsp;
               {props?.info?.to?.koName}
             </div>
           </div>
+          <ShareRoundedIcon
+            style={{ ...styleIcon, marginRight: "18px", fontSize: "20px" }}
+            onClick={() => setIsOpenShare(true)}
+          />
           {reactiveState !== 3 && (
             <CloseFullscreenRoundedIcon
               style={{ ...styleIcon, marginRight: "12px", fontSize: "20px" }}
@@ -110,25 +119,30 @@ const Header = (props) => {
             />
           )}
           {isOpen ? (
-            <CloseRoundedIcon
+            <UnfoldLessRoundedIcon
               style={styleIcon}
               onClick={() => setOpen(!isOpen)}
             />
           ) : (
-            <MenuRoundedIcon
+            <UnfoldMoreRoundedIcon
               style={styleIcon}
               onClick={() => setOpen(!isOpen)}
             />
           )}
         </div>
-        <div style={{ opacity: isOpen ? 1 : 0, transition: "opacity 0.3s" }}>
+        <div css={{ opacity: isOpen ? 1 : 0, transition: "opacity 0.3s" }}>
           <DottedLine direction="row" margin="0 16px" />
         </div>
-        <div ref={bodyRef} style={{ padding: "16px" }}>
+        <div ref={bodyRef} css={{ padding: "16px" }}>
           <HeaderBody info={props.info} recallEvent={props.recallEvent} />
         </div>
       </div>
-    </>
+      <ModalRoomShare
+        isOpen={isOpenShare}
+        onChangeIsOpen={setIsOpenShare}
+        roomInfo={props.info}
+      />
+    </div>
   );
 };
 Header.propTypes = {
