@@ -84,9 +84,6 @@ const Header = (props) => {
     return () => window.removeEventListener("resize", resizeEvent);
   }, [props.info]);
 
-  console.log("!!");
-  console.log(history);
-
   return (
     <div css={style}>
       <div css={styleBgd} onClick={() => setOpen(false)} />
