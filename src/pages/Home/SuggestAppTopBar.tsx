@@ -10,7 +10,10 @@ const SuggestAppTopBar = () => {
   const currentPath = pathname + search;
 
   return (
-    <div
+    <a
+      href={getDynamicLink(currentPath, false)}
+      target="_blank"
+      rel="noreferrer"
       css={{
         display: "flex",
         flexDirection: "row",
@@ -19,7 +22,7 @@ const SuggestAppTopBar = () => {
         // width: "100%",
         height: "50px",
         backgroundColor: theme.purple,
-
+        textDecoration: "none",
         padding: "0 10px",
       }}
     >
@@ -41,23 +44,19 @@ const SuggestAppTopBar = () => {
           </div>
         </div>
       </div>
-      <a
-        href={getDynamicLink(currentPath, false)}
-        target="_blank"
-        rel="noreferrer"
+      <div
         css={{
           ...theme.font14_bold,
           borderRadius: "15px",
           padding: "7px 20px",
           backgroundColor: theme.white,
           boxShadow: theme.shadow_3_up,
-          textDecoration: "none",
           color: theme.purple,
         }}
       >
         열기
-      </a>
-    </div>
+      </div>
+    </a>
   );
 };
 
