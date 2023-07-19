@@ -52,6 +52,7 @@ const SuggestAppTopBar = () => {
           backgroundColor: theme.white,
           boxShadow: theme.shadow_3_up,
           textDecoration: "none",
+          color: theme.purple,
         }}
       >
         열기
