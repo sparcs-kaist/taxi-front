@@ -5,11 +5,11 @@ import { Link, useHistory } from "react-router-dom";
 import useDateToken from "hooks/useDateToken";
 import { useQuery } from "hooks/useTaxiAPI";
 
+import AdaptiveDiv from "components/AdaptiveDiv";
 import DottedLine from "components/DottedLine";
 import Empty from "components/Empty";
 import { ModalRoomShare } from "components/ModalPopup";
 import Pagination, { PAGE_MAX_ITEMS } from "components/Pagination";
-import RLayout from "components/RLayout";
 import Room from "components/Room";
 import Title from "components/Title";
 import WhiteContainer from "components/WhiteContainer";
@@ -106,15 +106,11 @@ LinkRoom.propTypes = {
 
 const R2Myroom = (props) => {
   return (
-    <RLayout.R2
+    <AdaptiveDiv
+      type="butterfly"
       left={
         <>
-          <Title
-            icon="myroom"
-            header
-            marginAuto
-            R2={props.roomId !== undefined}
-          >
+          <Title icon="myroom" isHeader>
             내 방 보기
           </Title>
           <div style={{ margin: "0 -4px", padding: "0 4px" }}>
