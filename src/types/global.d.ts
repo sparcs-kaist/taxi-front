@@ -1,5 +1,7 @@
 import { CSSProperties } from "react";
 
+import Env from "./env";
+
 export {};
 
 declare global {
@@ -71,6 +73,7 @@ declare global {
     flutter_inappwebview: {
       callHandler: (name: string, ...args: any[]) => Promise<any>;
     };
+    env: Env;
     Kakao: any;
   }
 }

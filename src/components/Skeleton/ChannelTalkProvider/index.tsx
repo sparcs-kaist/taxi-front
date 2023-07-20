@@ -16,7 +16,7 @@ const ChannelTalkProvider = () => {
   const error = useRecoilValue(errorAtom);
 
   useEffect(() => {
-    if (loginInfo) {
+    if (channelTalkPluginKey && loginInfo) {
       ChannelService.updateUser({
         profile: {
           name: loginInfo?.name,
@@ -27,12 +27,14 @@ const ChannelTalkProvider = () => {
   }, [loginInfo]);
 
   useEffect(() => {
-    ChannelService.boot({
-      pluginKey: channelTalkPluginKey,
-      // login 페이지와 error 페이지에서는 채널톡 버튼을 띄웁니다.
-      hideChannelButtonOnBoot: !pathname.startsWith("/login") && !error,
-      customLauncherSelector: ".popup-channeltalk",
-    });
+    if (channelTalkPluginKey) {
+      ChannelService.boot({
+        pluginKey: channelTalkPluginKey,
+        // login 페이지와 error 페이지에서는 채널톡 버튼을 띄웁니다.
+        hideChannelButtonOnBoot: !pathname.startsWith("/login") && !error,
+        customLauncherSelector: ".popup-channeltalk",
+      });
+    }
   }, [pathname, error]);
   return null;
 };
