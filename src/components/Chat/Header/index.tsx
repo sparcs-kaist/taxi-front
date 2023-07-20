@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
-import { LayoutType } from "types/chatting";
+import { LayoutType } from "types/chat";
 
-import { useR2state } from "hooks/useReactiveState";
+import useButterflyState from "hooks/useButterflyState";
 
 import SideMenu from "./SideMenu";
 
@@ -22,7 +22,7 @@ type HeaderProps = {
 
 const Header = ({ layoutType, roomInfo, fetchRoomInfo }: HeaderProps) => {
   const history = useHistory();
-  const reactiveState = useR2state();
+  const butterflyState = useButterflyState();
   const [isOpenSideMenu, setIsOpenSideMenu] = useState(false);
 
   const style = {
@@ -97,7 +97,7 @@ const Header = ({ layoutType, roomInfo, fetchRoomInfo }: HeaderProps) => {
             {roomInfo.to?.koName}
           </div>
         </div>
-        {layoutType === "fullchat" && reactiveState !== 3 && (
+        {layoutType === "fullchat" && butterflyState !== "fold" && (
           <Link
             to={(location: RouterLocation) => ({
               ...location,

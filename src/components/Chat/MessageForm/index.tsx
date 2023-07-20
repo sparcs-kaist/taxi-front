@@ -1,6 +1,6 @@
 import { RefObject, memo } from "react";
 
-import { LayoutType } from "types/chatting";
+import { LayoutType } from "types/chat";
 
 import useSendMessage from "hooks/chat/useSendMessage";
 

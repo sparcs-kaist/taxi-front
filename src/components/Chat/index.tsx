@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 
-import { LayoutType } from "types/chatting";
+import { LayoutType } from "types/chat";
 
 import useBodyScrollControllerEffect from "hooks/chat/useBodyScrollControllerEffect";
 import useSendMessage from "hooks/chat/useSendMessage";

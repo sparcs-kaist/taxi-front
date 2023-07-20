@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import { LayoutType } from "types/chatting";
+import { LayoutType } from "types/chat";
 
 import ChatSet from "components/Chat/MessagesBody/ChatSet";
 import MessageDate from "components/Chat/MessagesBody/MessageDate";

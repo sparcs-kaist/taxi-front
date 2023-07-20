@@ -1,13 +1,13 @@
-import RLayout from "components/RLayout";
+import AdaptiveDiv from "components/AdaptiveDiv";
 import Title from "components/Title";
 
 const SuggestAppSection = () => {
   return (
-    <RLayout.R1>
-      <Title icon="taxi" header>
+    <AdaptiveDiv type="center">
+      <Title icon="taxi" isHeader>
         이벤트
       </Title>
-    </RLayout.R1>
+    </AdaptiveDiv>
   );
 };
 

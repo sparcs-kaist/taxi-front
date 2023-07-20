@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import useDateToken from "hooks/useDateToken";
 import { useValueRecoilState } from "hooks/useFetchRecoilState";
 
+import AdaptiveDiv from "components/AdaptiveDiv";
 import Footer from "components/Footer";
 import LinkLogout from "components/Link/LinkLogout";
 import {
@@ -14,7 +15,6 @@ import {
   ModalReport,
   ModalTerms,
 } from "components/ModalPopup";
-import RLayout from "components/RLayout";
 import Title from "components/Title";
 import ProfileImg from "components/User/ProfileImg";
 import WhiteContainer from "components/WhiteContainer";
@@ -99,13 +99,13 @@ const Mypage = () => {
   };
 
   return (
-    <>
-      <Title icon="mypage" header marginAuto>
+    <AdaptiveDiv type="center">
+      <Title icon="mypage" isHeader>
         {t("my_page")}
       </Title>
       {userId ? (
         <>
-          <WhiteContainer marginAuto padding="16px 24px 24px">
+          <WhiteContainer padding="16px 24px 24px">
             <div css={{ display: "flex", alignItems: "center" }}>
               <div css={styleProfImg}>
                 {loginInfo?.profileImgUrl && (
@@ -142,7 +142,7 @@ const Mypage = () => {
               <div css={infoContent}>{loginInfo?.account}</div>
             </div>
           </WhiteContainer>
-          <WhiteContainer marginAuto>
+          <WhiteContainer>
             <div css={{ display: "grid", rowGap: "16px" }}>
               {nodeEnv === "development" && (
                 <Menu icon="lang" onClick={onClickTranslation}>
@@ -172,11 +172,9 @@ const Mypage = () => {
           />
         </>
       ) : (
-        <RLayout.R1>
-          <WhiteContainerSuggestLogin />
-        </RLayout.R1>
+        <WhiteContainerSuggestLogin />
       )}
-      <WhiteContainer marginAuto>
+      <WhiteContainer>
         <div css={{ display: "grid", rowGap: "16px" }}>
           {userId && (
             <Menu icon="report" onClick={onClickReport}>
@@ -209,7 +207,7 @@ const Mypage = () => {
       />
       <ModalTerms isOpen={isOpenPolicy} onChangeIsOpen={setIsOpenPolicy} />
       <ModalCredit isOpen={isOpenMembers} onChangeIsOpen={setOpenIsMembers} />
-    </>
+    </AdaptiveDiv>
   );
 };
 

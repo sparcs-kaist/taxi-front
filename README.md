@@ -30,7 +30,7 @@ $ git clone https://github.com/sparcs-kaist/taxi-back
 ### Install Requirements
 
 ```bash
-$ npm install
+$ pnpm install
 ```
 
 ### Set Environment Configuration

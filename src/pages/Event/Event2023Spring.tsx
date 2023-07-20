@@ -1,8 +1,8 @@
 import { Carousel } from "antd";
 
+import AdaptiveDiv from "components/AdaptiveDiv";
 import Button from "components/Button";
 import Footer from "components/Footer";
-import RLayout from "components/RLayout";
 import Title from "components/Title";
 import WhiteContainer from "components/WhiteContainer";
 
@@ -60,8 +60,8 @@ const Event2023Spring = () => {
   };
 
   return (
-    <RLayout.R1>
-      <Title icon="notice" header>
+    <AdaptiveDiv type="center">
+      <Title icon="notice" isHeader>
         이벤트 요약
       </Title>
       <WhiteContainer padding="0px">
@@ -82,7 +82,7 @@ const Event2023Spring = () => {
           ))}
         </Carousel>
       </WhiteContainer>
-      <Title icon="taxi" header>
+      <Title icon="taxi" isHeader>
         택시 탑승 인증 이벤트
       </Title>
       <WhiteContainer>
@@ -128,7 +128,7 @@ const Event2023Spring = () => {
         </a>
       </WhiteContainer>
 
-      <Title icon="favorite" header>
+      <Title icon="favorite" isHeader>
         인스타 스토리 공유 이벤트
       </Title>
       <WhiteContainer>
@@ -172,7 +172,7 @@ const Event2023Spring = () => {
         </a>
       </WhiteContainer>
       <Footer />
-    </RLayout.R1>
+    </AdaptiveDiv>
   );
 };
 

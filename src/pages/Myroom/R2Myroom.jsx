@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
 import { Link, useHistory } from "react-router-dom";
 
+import AdaptiveDiv from "components/AdaptiveDiv";
 import Chat from "components/Chat";
 import DottedLine from "components/DottedLine";
 import Empty from "components/Empty";
 import Pagination, { PAGE_MAX_ITEMS } from "components/Pagination";
-import RLayout from "components/RLayout";
 import Room from "components/Room";
 import Title from "components/Title";
 import WhiteContainer from "components/WhiteContainer";
@@ -39,15 +39,11 @@ LinkRoom.propTypes = {
 
 const R2Myroom = (props) => {
   return (
-    <RLayout.R2
+    <AdaptiveDiv
+      type="butterfly"
       left={
         <>
-          <Title
-            icon="myroom"
-            header
-            marginAuto
-            R2={props.roomId !== undefined}
-          >
+          <Title icon="myroom" isHeader>
             내 방 보기
           </Title>
           <div css={{ margin: "0 -4px", padding: "0 4px" }}>
