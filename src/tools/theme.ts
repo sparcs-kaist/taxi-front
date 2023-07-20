@@ -6,6 +6,18 @@ export type Font = {
 };
 
 const theme = {
+  // AdaptiveDiv setting value
+  adaptivediv: {
+    center_device_max_width: 430,
+    butterfly_device_max_width: { wide: 835, narrow: 607 },
+    margin: 20,
+  },
+
+  // Modal width
+  modal_width_alert: "315px" as PixelValue,
+  modal_width: "335px" as PixelValue,
+  modal_width_large: "755px" as PixelValue,
+
   // Color
   white: "#FFFFFF",
   black: "#323232",
@@ -98,11 +110,6 @@ const theme = {
   // Transition
   duration: "150ms",
   duration_num: 150,
-
-  // Modal width
-  modal_width_alert: "315px" as PixelValue,
-  modal_width: "335px" as PixelValue,
-  modal_width_large: "755px" as PixelValue,
 
   // Cursor
   cursor: (disabled?: boolean) => {

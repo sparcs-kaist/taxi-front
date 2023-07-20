@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
+import AdaptiveDiv from "components/AdaptiveDiv";
 import Button from "components/Button";
-import RLayout from "components/RLayout";
 import Title from "components/Title";
 import WhiteContainer from "components/WhiteContainer";
 
@@ -9,8 +9,8 @@ import theme from "tools/theme";
 
 const FullParticipation = () => {
   return (
-    <RLayout.R1>
-      <Title icon="add" header>
+    <AdaptiveDiv type="center">
+      <Title icon="add" isHeader>
         방 개설하기
       </Title>
       <WhiteContainer padding="12px 16px">
@@ -37,7 +37,7 @@ const FullParticipation = () => {
           참여 중인 방 보기
         </Button>
       </Link>
-    </RLayout.R1>
+    </AdaptiveDiv>
   );
 };
 

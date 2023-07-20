@@ -12,6 +12,7 @@ import { getLocationName } from "tools/trans";
 
 import CheckIcon from "@mui/icons-material/Check";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { ogServer } from "loadenv";
 import { ReactComponent as KakaoTalkLogo } from "static/assets/KakaoTalkLogo.svg";
 
 type ButtonShareProps = {
@@ -119,6 +120,7 @@ const BodyRoomShare = ({ roomInfo, height }: BodyRoomShareProps) => {
           )} → ${getLocationName(roomInfo.to, i18n.language)}, ${date2str(
             roomInfo.time
           )}`}
+          imageUrl={ogServer ? `ogServer/${roomInfo._id}.png` : undefined}
           buttonText="확인하기"
           buttonTo={pathForShare}
           partNum={roomInfo.part.length}
