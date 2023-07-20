@@ -30,14 +30,22 @@ const FirebaseMessagingProvider = () => {
         return;
       }
 
+      if (!firebaseApp || !firebaseConfig) return;
+
       // 브라우저가 FCM을 지원하는 경우 FCM 서버로부터 deviceToken을 발급받습니다.
       const firebaseMessaging = getMessaging(firebaseApp);
       const newDeviceToken = await getToken(firebaseMessaging);
 
       // 환경변수가 주입된 서비스 워커를 새로 등록합니다.
-      const firebaseConfigUrlParams = new URLSearchParams(
-        firebaseConfig
-      ).toString();
+      const firebaseConfigUrlParams = new URLSearchParams({
+        apiKey: firebaseConfig.apiKey,
+        authDomain: firebaseConfig.authDomain,
+        projectId: firebaseConfig.projectId,
+        storageBucket: firebaseConfig.storageBucket,
+        messagingSenderId: firebaseConfig.messagingSenderId,
+        appId: firebaseConfig.appId,
+        measurementId: firebaseConfig.measurementId,
+      }).toString();
       await navigator.serviceWorker.register(
         `/firebase-messaging-sw.js?${firebaseConfigUrlParams}`
       );
