@@ -1,5 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 
+import type { Report } from "types/report";
+
 import { useAxios } from "hooks/useTaxiAPI";
 
 import Button from "components/Button";
