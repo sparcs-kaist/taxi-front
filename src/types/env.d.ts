@@ -1,4 +1,5 @@
 type Env = {
+  NODE_ENV: "development" | "production";
   REACT_APP_BACK_URL: string;
   REACT_APP_IO_URL?: string;
   REACT_APP_OG_URL?: string;

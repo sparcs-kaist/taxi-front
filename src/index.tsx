@@ -43,7 +43,10 @@ const App = () => {
             <Suspense fallback={<Loading center />}>
               <Switch>
                 {routes.map((route) => (
-                  <Route key={route.path} {...route} />
+                  <Route
+                    key={Array.isArray(route.path) ? route.path[0] : route.path}
+                    {...route}
+                  />
                 ))}
               </Switch>
             </Suspense>
