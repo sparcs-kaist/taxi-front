@@ -10,11 +10,15 @@ import HeaderBar from "components/HeaderBar";
 import Loading from "components/Loading";
 import { ModalTerms } from "components/ModalPopup";
 import Error from "pages/Error";
+import SuggestAppTopBar from "pages/Home/SuggestAppTopBar";
 
 import Navigation from "./Navigation";
 
 import errorAtom from "atoms/error";
+import isAppAtom from "atoms/isApp";
 import { useRecoilValue } from "recoil";
+
+import isMobile from "tools/isMobile";
 
 type ContainerProps = {
   children: ReactNode;
@@ -43,6 +47,9 @@ const Skeleton = ({ children }: SkeletonProps) => {
     useValueRecoilState("loginInfo") || {};
   const error = useRecoilValue(errorAtom);
   const isLoading = userId === null;
+  const { deviceType } = useValueRecoilState("loginInfo") || {};
+  const isApp = useRecoilValue(isAppAtom) || deviceType === "app";
+  const [isAndroid, isIOS] = isMobile();
 
   const location = useLocation();
   const { pathname } = location;
@@ -81,6 +88,8 @@ const Skeleton = ({ children }: SkeletonProps) => {
   }
   return (
     <Container>
+      {(isAndroid || isIOS) && !isApp ? <SuggestAppTopBar /> : null}
+
       <Navigation />
       <HeaderBar />
       {children}

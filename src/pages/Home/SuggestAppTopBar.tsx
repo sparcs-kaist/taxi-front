@@ -54,7 +54,7 @@ const SuggestAppTopBar = () => {
           color: theme.purple,
         }}
       >
-        열기
+        앱에서 보기
       </div>
     </a>
   );
