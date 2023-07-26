@@ -4,9 +4,10 @@ import theme from "tools/theme";
 
 export type AdaptiveCenterProps = {
   children: ReactNode;
+  horizontal?: boolean;
 };
 
-const AdaptiveCenter = ({ children }: AdaptiveCenterProps) => (
+const AdaptiveCenter = ({ children, horizontal }: AdaptiveCenterProps) => (
   <div
     css={{
       position: "relative",
@@ -14,6 +15,7 @@ const AdaptiveCenter = ({ children }: AdaptiveCenterProps) => (
         theme.adaptivediv.center_device_max_width
       }px, 100%) - ${theme.adaptivediv.margin * 2}px)`,
       margin: "auto",
+      display: horizontal ? "flex" : "block",
     }}
   >
     {children}
