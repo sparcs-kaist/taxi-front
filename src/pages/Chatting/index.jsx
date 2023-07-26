@@ -4,9 +4,9 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 
+import useButterflyState from "hooks/useButterflyState";
 import useDateToken from "hooks/useDateToken";
 import { useValueRecoilState } from "hooks/useFetchRecoilState";
-import { useR2state } from "hooks/useReactiveState";
 import { useAxios, useQuery } from "hooks/useTaxiAPI";
 
 import Container from "./Container";
@@ -38,8 +38,8 @@ const Chatting = ({ roomId, layoutType }) => {
   const [showNewMessage, setShowNewMessage] = useState(false);
   const [, setMessageFormHeight] = useStateWithCallbackLazy("48px");
 
-  const reactiveState = useR2state();
-  const prevReactiveState = useRef(reactiveState);
+  const butterflyState = useButterflyState();
+  const prevReactiveState = useRef(butterflyState);
   const setAlert = useSetRecoilState(alertAtom);
   const { oid: userOid } = useValueRecoilState("loginInfo") || {};
   const [headerInfoToken, fetchHeaderInfo] = useDateToken();
@@ -61,12 +61,12 @@ const Chatting = ({ roomId, layoutType }) => {
   }, [chats]);
 
   useEffect(() => {
-    if (reactiveState !== 3 && prevReactiveState.current === 3) {
+    if (butterflyState !== "fold" && prevReactiveState.current === "fold") {
       history.replace(`/myroom/${roomId}`);
     }
-    if (reactiveState === 3 && prevReactiveState.current !== 3)
-      prevReactiveState.current = reactiveState;
-  }, [reactiveState]);
+    if (butterflyState === "fold" && prevReactiveState.current !== "fold")
+      prevReactiveState.current = butterflyState;
+  }, [butterflyState]);
 
   // scroll event
   const isTopOnScroll = (tol = 0) => {

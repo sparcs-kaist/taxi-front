@@ -1,7 +1,4 @@
-import PropTypes from "prop-types";
-import { memo } from "react";
-
-import RLayout from "components/RLayout";
+import { ReactNode, memo } from "react";
 
 import theme from "tools/theme";
 
@@ -19,13 +16,36 @@ import QuestionAnswerRoundedIcon from "@mui/icons-material/QuestionAnswerRounded
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import SubjectRoundedIcon from "@mui/icons-material/SubjectRounded";
 
-const iconStyle = {
-  width: "24px",
-  height: "24px",
-  color: theme.purple,
+type IconProps = {
+  type?:
+    | "taxi"
+    | "search"
+    | "search_result"
+    | "add"
+    | "myroom"
+    | "current"
+    | "past"
+    | "chat"
+    | "mypage"
+    | "error"
+    | "feed"
+    | "favorite"
+    | "notice";
 };
 
-const getIcon = (icon) => {
+type TitleProps = {
+  icon?: IconProps["type"];
+  children: ReactNode;
+  isHeader?: boolean;
+};
+
+const Icon = ({ type: icon }: IconProps) => {
+  const iconStyle = {
+    width: "24px",
+    height: "24px",
+    color: theme.purple,
+  };
+
   switch (icon) {
     case "taxi":
       return <LocalTaxiRoundedIcon style={iconStyle} />;
@@ -58,45 +78,25 @@ const getIcon = (icon) => {
   }
 };
 
-const Title = (props) => {
-  const title = (
+const Title = ({ icon, children, isHeader = false }: TitleProps) => (
+  <div
+    css={{
+      display: "flex",
+      alignItems: "flex-end",
+      padding: isHeader ? "30px 0 25px" : undefined,
+    }}
+  >
+    {icon && <Icon type={icon} />}
     <div
-      style={{
-        display: "flex",
-        alignItems: "flex-end",
-        padding: props.header ? "30px 0 25px" : undefined,
+      css={{
+        ...theme.font20,
+        color: theme.purple,
+        marginLeft: "8px",
       }}
     >
-      {getIcon(props.icon)}
-      <div
-        style={{
-          ...theme.font20,
-          color: theme.purple,
-          marginLeft: "8px",
-        }}
-      >
-        {props.children}
-      </div>
+      {children}
     </div>
-  );
-
-  if (props.marginAuto) {
-    return <RLayout.R2 left={title} right={props.R2 ? <></> : null} />;
-  }
-  return title;
-};
-
-Title.propTypes = {
-  icon: PropTypes.string,
-  children: PropTypes.node,
-  marginAuto: PropTypes.bool,
-  header: PropTypes.bool,
-  R2: PropTypes.bool,
-};
-Title.defaultProps = {
-  marginAuto: false,
-  header: false,
-  R2: false,
-};
+  </div>
+);
 
 export default memo(Title);

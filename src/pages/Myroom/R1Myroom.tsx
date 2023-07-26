@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 
+import AdaptiveDiv from "components/AdaptiveDiv";
 import Empty from "components/Empty";
 import Pagination, { PAGE_MAX_ITEMS } from "components/Pagination";
-import RLayout from "components/RLayout";
 import Room from "components/Room";
 import Title from "components/Title";
 
@@ -24,8 +24,8 @@ const R1Myroom = ({
   done = [],
   donePageInfo,
 }: R1MyroomProps) => (
-  <RLayout.R1>
-    <Title icon="current" header>
+  <AdaptiveDiv type="center">
+    <Title icon="current" isHeader>
       참여 중인 방
     </Title>
     {ongoing.length === 0 ? (
@@ -46,7 +46,7 @@ const R1Myroom = ({
         </Link>
       ))
     )}
-    <Title icon="past" header>
+    <Title icon="past" isHeader>
       과거 참여 방
     </Title>
     {done.length === 0 ? (
@@ -79,7 +79,7 @@ const R1Myroom = ({
         />
       </>
     )}
-  </RLayout.R1>
+  </AdaptiveDiv>
 );
 
 export default R1Myroom;
