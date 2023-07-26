@@ -9,8 +9,8 @@ import {
 import HeaderBar from "components/HeaderBar";
 import Loading from "components/Loading";
 import { ModalTerms } from "components/ModalPopup";
+import SuggestAppTopBar from "components/Skeleton/SuggestAppTopBar";
 import Error from "pages/Error";
-import SuggestAppTopBar from "pages/Home/SuggestAppTopBar";
 
 import Navigation from "./Navigation";
 
@@ -43,11 +43,13 @@ const Container = ({ children }: ContainerProps) => (
 );
 
 const Skeleton = ({ children }: SkeletonProps) => {
-  const { id: userId, agreeOnTermsOfService: isAgreeOnTermsOfService } =
-    useValueRecoilState("loginInfo") || {};
+  const {
+    id: userId,
+    agreeOnTermsOfService: isAgreeOnTermsOfService,
+    deviceType,
+  } = useValueRecoilState("loginInfo") || {};
   const error = useRecoilValue(errorAtom);
   const isLoading = userId === null;
-  const { deviceType } = useValueRecoilState("loginInfo") || {};
   const isApp = useRecoilValue(isAppAtom) || deviceType === "app";
   const [isAndroid, isIOS] = isMobile();
 
@@ -88,7 +90,7 @@ const Skeleton = ({ children }: SkeletonProps) => {
   }
   return (
     <Container>
-      {(isAndroid || isIOS) && !isApp ? <SuggestAppTopBar /> : null}
+      {(isAndroid || isIOS) && !isApp && <SuggestAppTopBar />}
 
       <Navigation />
       <HeaderBar />

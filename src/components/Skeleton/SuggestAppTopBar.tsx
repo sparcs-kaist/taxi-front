@@ -19,7 +19,6 @@ const SuggestAppTopBar = () => {
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        // width: "100%",
         height: "50px",
         backgroundColor: theme.purple,
         textDecoration: "none",
@@ -40,7 +39,7 @@ const SuggestAppTopBar = () => {
             Taxi For KAIST
           </div>
           <div css={{ ...theme.font10, color: theme.white }}>
-            Taxi 앱에서 새롭게 만나보세요!
+            앱에서 알림 기능과 채팅을 더 편하게 이용해봐요!
           </div>
         </div>
       </div>
