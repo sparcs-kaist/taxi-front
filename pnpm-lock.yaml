@@ -5,8 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@types/react': 17.0.2
-  '@types/react-dom': 17.0.2
+  '@types/react': ^17.0.2
 
 dependencies:
   '@babel/preset-react':
@@ -129,11 +128,11 @@ devDependencies:
     specifier: ^6.9.7
     version: 6.9.7
   '@types/react':
-    specifier: 17.0.2
+    specifier: ^17.0.2
     version: 17.0.2
   '@types/react-dom':
-    specifier: 17.0.2
-    version: 17.0.2
+    specifier: ^18.2.7
+    version: 18.2.7
   '@types/react-router-dom':
     specifier: ^5.3.3
     version: 5.3.3
@@ -3867,8 +3866,8 @@ packages:
     resolution: {integrity: sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw==}
     dev: true
 
-  /@types/react-dom@17.0.2:
-    resolution: {integrity: sha512-Icd9KEgdnFfJs39KyRyr0jQ7EKhq8U6CcHRMGAS45fp5qgUvxL3ujUCfWFttUK2UErqZNj97t9gsVPNAqcwoCg==}
+  /@types/react-dom@18.2.7:
+    resolution: {integrity: sha512-GRaAEriuT4zp9N4p1i8BDBYmEyfo+xQ3yHjJU4eiK5NDa1RmUZG+unZABUTK4/Ox/M+GaHwb6Ow8rUITrtjszA==}
     dependencies:
       '@types/react': 17.0.2
     dev: true

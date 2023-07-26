@@ -26,8 +26,9 @@ const MessageDate = ({ date }: MessageDateProps) => (
         minWidth: "fit-content",
       }}
     >
-      {date.format("YYYY년 M월 D일")}
+      {date.format("YYYY년 M월 D일 (ddd)")}
     </div>
+    <DottedLine />
   </div>
 );
 

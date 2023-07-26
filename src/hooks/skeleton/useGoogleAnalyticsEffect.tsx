@@ -7,7 +7,7 @@ import { useRecoilValue } from "recoil";
 
 import { gaTrackingId, nodeEnv } from "loadenv";
 
-const GoogleAnalyticsProvier = () => {
+export default () => {
   const gaInitialized = useRef(false);
 
   const location = useLocation();
@@ -34,8 +34,4 @@ const GoogleAnalyticsProvier = () => {
       reactGA.set({ userId });
     }
   }, [userId]);
-
-  return null;
 };
-
-export default GoogleAnalyticsProvier;

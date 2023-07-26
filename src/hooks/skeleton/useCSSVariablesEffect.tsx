@@ -22,7 +22,7 @@ const syncScroll = () => {
   );
 };
 
-const CSSVariablesProvider = () => {
+export default () => {
   useEffect(() => {
     syncHeight();
     syncScroll();
@@ -36,7 +36,4 @@ const CSSVariablesProvider = () => {
       visualViewport?.removeEventListener("resize", syncHeight);
     };
   }, []);
-  return null;
 };
-
-export default CSSVariablesProvider;

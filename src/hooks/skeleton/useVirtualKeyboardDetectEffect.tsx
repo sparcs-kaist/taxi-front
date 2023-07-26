@@ -5,7 +5,7 @@ import { useSetRecoilState } from "recoil";
 
 import isMobile from "tools/isMobile";
 
-const VirtualKeyboardDetector = () => {
+export default () => {
   const setIsVKDetected = useSetRecoilState(isVirtualKeyboardDetectedAtom);
   const [isAndroid, isIOS] = isMobile();
 
@@ -93,8 +93,4 @@ const VirtualKeyboardDetector = () => {
       };
     }
   }, []);
-
-  return null;
 };
-
-export default VirtualKeyboardDetector;

@@ -46,7 +46,7 @@ i18n
     defaultNS: "mypage", // default namespace
   });
 
-const I18nextProvider = () => {
+export default () => {
   const { i18n: i18nt } = useTranslation();
 
   useEffect(() => {
@@ -54,8 +54,4 @@ const I18nextProvider = () => {
       i18nt.changeLanguage("ko");
     }
   }, []);
-
-  return null;
 };
-
-export default I18nextProvider;

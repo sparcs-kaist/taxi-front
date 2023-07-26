@@ -12,7 +12,7 @@ import { firebaseConfig } from "loadenv";
 
 const firebaseApp = firebaseConfig && initializeApp(firebaseConfig);
 
-const FirebaseMessagingProvider = () => {
+export default () => {
   const axios = useAxios();
   const { id: userId, deviceToken } = useValueRecoilState("loginInfo") || {};
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
@@ -78,8 +78,4 @@ const FirebaseMessagingProvider = () => {
       document.addEventListener("touchend", registerEvent, { once: true });
     }
   }, [userId, deviceToken]);
-
-  return null;
 };
-
-export default FirebaseMessagingProvider;

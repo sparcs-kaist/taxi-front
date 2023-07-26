@@ -2,7 +2,10 @@ import DottedLine from "components/DottedLine";
 
 import theme from "tools/theme";
 
-import ArrowForwardRounded from "@mui/icons-material/ArrowForwardRounded";
+import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
+import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
+import CalendarTodayRounded from "@mui/icons-material/CalendarTodayRounded";
+import PeopleAltRoundedIcon from "@mui/icons-material/PeopleAltRounded";
 
 type SideMenuProps = {
   roomInfo: Room;
@@ -47,13 +50,25 @@ const SideMenu = ({
     alignItems: "center",
     gap: "12px",
   };
+  const styleIcon = {
+    width: "16px",
+    height: "16px",
+    fill: theme.black,
+  };
+  const styleInfoSection = {
+    padding: "20px 0",
+  };
+  const styleInfo = {
+    ...theme.font14,
+    color: theme.black,
+  };
 
   return (
     <>
       <div css={styleBackground} onClick={() => setIsOpen(false)}></div>
       <div css={style}>
         <div css={styleNameSection}>
-          <ArrowForwardRounded
+          <ArrowForwardRoundedIcon
             style={{ fontSize: "24px", fill: theme.purple }}
             onClick={() => setIsOpen(false)}
           />
@@ -62,6 +77,26 @@ const SideMenu = ({
           </div>
         </div>
         <DottedLine />
+        <div css={styleInfoSection}>
+          <div css={{ display: "flex", gap: "8px" }}>
+            <LocationOnRoundedIcon css={styleIcon} />
+            <div css={{ ...styleInfo, ...theme.font14_bold }}>
+              {roomInfo.from?.koName}&nbsp; → &nbsp;{roomInfo.to?.koName}
+            </div>
+          </div>
+          <div css={{ height: "16px" }} />
+          <div css={{ display: "flex", gap: "8px" }}>
+            <CalendarTodayRounded css={styleIcon} />
+            <div css={styleInfo}>{roomInfo.time}</div>
+          </div>
+        </div>
+        <DottedLine />
+        <div css={styleInfoSection}>
+          <div css={styleInfo}>
+            <PeopleAltRoundedIcon css={styleIcon} />
+            <div css={{ ...styleInfo }}>탑승인원 : ?명 / ?명</div>
+          </div>
+        </div>
       </div>
     </>
   );

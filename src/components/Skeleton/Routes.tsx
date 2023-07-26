@@ -1,6 +1,7 @@
 import { lazy } from "react";
+import { Route, Switch } from "react-router-dom";
 
-const routes = [
+const routeProps = [
   { path: "/login", component: lazy(() => import("pages/Login")), exact: true },
   {
     path: "/login/fail",
@@ -63,4 +64,15 @@ const routes = [
   },
 ];
 
-export default routes;
+const Routes = () => (
+  <Switch>
+    {routeProps.map((route) => (
+      <Route
+        key={Array.isArray(route.path) ? route.path[0] : route.path}
+        {...route}
+      />
+    ))}
+  </Switch>
+);
+
+export default Routes;

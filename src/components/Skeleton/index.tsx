@@ -2,6 +2,14 @@ import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useLocation } from "react-router-dom";
 
+import useI18nextEffect from "hooks/skeleton/useI18nextEffect";
+import useScrollRestorationEffect from "hooks/skeleton/useScrollRestorationEffect";
+import useCSSVariablesEffect from "hooks/skeleton/useCSSVariablesEffect";
+import useVirtualKeyboardDetectEffect from "hooks/skeleton/useVirtualKeyboardDetectEffect";
+import useChannelTalkEffect from "hooks/skeleton/useChannelTalkEffect";
+import useGoogleAnalyticsEffect from "hooks/skeleton/useGoogleAnalyticsEffect";
+import useFirebaseMessagingEffect from "hooks/skeleton/useFirebaseMessagingEffect";
+import useFlutterEventCommunicationEffect from "hooks/skeleton/useFlutterEventCommunicationEffect";
 import {
   useSyncRecoilStateEffect,
   useValueRecoilState,
@@ -83,6 +91,15 @@ const Skeleton = ({ children }: SkeletonProps) => {
 
   // loginIngo, taxiLocations, myRooms, notificationOptions 초기화 및 동기화
   useSyncRecoilStateEffect();
+
+  useI18nextEffect();
+  useScrollRestorationEffect();
+  useCSSVariablesEffect();
+  useVirtualKeyboardDetectEffect();
+  useChannelTalkEffect();
+  useGoogleAnalyticsEffect();
+  useFirebaseMessagingEffect();
+  useFlutterEventCommunicationEffect();
 
   if (error) {
     return (

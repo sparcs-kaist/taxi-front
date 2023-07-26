@@ -11,7 +11,7 @@ import { useSetRecoilState } from "recoil";
 // global flag variable to check if the webview is in Flutter
 let isWebViewInFlutter: boolean = false;
 
-const FlutterEventCommunicationProvider = () => {
+export default () => {
   const setAlert = useSetRecoilState(alertAtom);
   const setError = useSetRecoilState(errorAtom);
   const setIsApp = useSetRecoilState(isAppAtom);
@@ -62,11 +62,7 @@ const FlutterEventCommunicationProvider = () => {
         window.removeEventListener(name, listner)
       );
   }, []);
-
-  return null;
 };
-
-export default FlutterEventCommunicationProvider;
 
 // 로그인 정보 변동 시 Flutter에 이벤트를 전달합니다
 export const sendAuthUpdateEventToFlutter = async (

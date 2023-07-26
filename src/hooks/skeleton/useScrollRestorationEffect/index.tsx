@@ -5,7 +5,7 @@ import { getScrollPage, isBothStartsWith, scrollTo } from "./utils";
 
 const defaultKey = "init-enter";
 
-const ScrollRestoration = () => {
+export default () => {
   const visitedUrl = useRef(new Map());
   const history = useHistory();
   const location = useLocation();
@@ -51,8 +51,4 @@ const ScrollRestoration = () => {
     }
     prevLocation.current = location;
   }, [location.pathname, location.search, location.hash]);
-
-  return null;
 };
-
-export default ScrollRestoration;

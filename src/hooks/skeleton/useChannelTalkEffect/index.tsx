@@ -9,7 +9,7 @@ import { useRecoilValue } from "recoil";
 
 import { channelTalkPluginKey } from "loadenv";
 
-const ChannelTalkProvider = () => {
+export default () => {
   const location = useLocation();
   const pathname = location.pathname;
   const loginInfo = useRecoilValue(loginInfoAtom);
@@ -36,7 +36,4 @@ const ChannelTalkProvider = () => {
       });
     }
   }, [pathname, error]);
-  return null;
 };
-
-export default ChannelTalkProvider;
