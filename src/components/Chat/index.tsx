@@ -25,6 +25,7 @@ type ChatProps = {
 const Chat = ({ roomId, layoutType }: ChatProps) => {
   const [chats, setChats] = useStateWithCallbackLazy<Chats>([]); // 채팅 메시지 배열
   const [isDisplayNewMessage, setDisplayNewMessage] = useState<boolean>(false); // 새로운 메시지 버튼 표시 여부
+  const [isOpenToolSheet, setIsOpenToolSheet] = useState<boolean>(false); // 툴 시트 표시 여부
   const messageBodyRef = useRef<HTMLDivElement>(null); // 스크롤 되는 메시지 HTML 요소
   const isSendingMessage = useRef<boolean>(false); // 메시지 전송 중인지 여부
   const isCallingInfScroll = useRef<boolean>(false); // 무한 스크롤 메시지 요청 중인지 여부
@@ -50,6 +51,7 @@ const Chat = ({ roomId, layoutType }: ChatProps) => {
     roomId,
     chats,
     setDisplayNewMessage,
+    setIsOpenToolSheet,
     messageBodyRef,
     isCallingInfScroll
   );
@@ -72,6 +74,8 @@ const Chat = ({ roomId, layoutType }: ChatProps) => {
       <MessageForm
         layoutType={layoutType}
         isDisplayNewMessage={isDisplayNewMessage}
+        isOpenToolSheet={isOpenToolSheet}
+        onChangeIsOpenToolSheet={setIsOpenToolSheet}
         messageBodyRef={messageBodyRef}
         sendMessage={sendMessage}
       />

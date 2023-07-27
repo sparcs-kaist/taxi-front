@@ -7,8 +7,8 @@ import Loading from "components/Loading";
 import ModalProvider from "components/Modal/ModalProvider";
 import Skeleton from "components/Skeleton";
 import AlertProvider from "components/Skeleton/AlertProvider";
-import SocketToastProvider from "components/Skeleton/SocketToastProvider";
 import Routes from "components/Skeleton/Routes";
+import SocketToastProvider from "components/Skeleton/SocketToastProvider";
 
 import "./App.css";
 import "./Font.css";

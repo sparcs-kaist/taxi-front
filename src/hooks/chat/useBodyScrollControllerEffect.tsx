@@ -7,6 +7,7 @@ export default (
   roomId: string,
   chats: Chats,
   setDisplayNewMessage: (value: boolean) => void,
+  setIsOpenToolSheet: (value: boolean) => void,
   chatBodyRef: RefObject<HTMLDivElement>,
   isCallingInfScroll: MutableRefObject<boolean>
 ) => {
@@ -37,6 +38,7 @@ export default (
         setDisplayNewMessage(false);
         isBottomOnScrollCache = true;
       } else {
+        setIsOpenToolSheet(false);
         isBottomOnScrollCache = false;
       }
       // @todo, @fixme 테스트 필요
@@ -45,15 +47,22 @@ export default (
       //   무한 스크롤 구현 및 API 호출
       // }
     };
+    const touchStartEvent = () => {
+      setIsOpenToolSheet(false);
+    };
 
     const resizeObserver = new ResizeObserver(resizeEvent);
     resizeEvent();
     scrollEvent();
     resizeObserver.observe(chatBody);
     chatBody.addEventListener("scroll", scrollEvent);
+    chatBody.addEventListener("touchstart", touchStartEvent);
+    chatBody.addEventListener("mousedown", touchStartEvent);
     return () => {
       resizeObserver.disconnect();
       chatBody.removeEventListener("scroll", scrollEvent);
+      chatBody.removeEventListener("touchstart", touchStartEvent);
+      chatBody.removeEventListener("mousedown", touchStartEvent);
     };
   }, [roomId, chatBodyRef]);
 };

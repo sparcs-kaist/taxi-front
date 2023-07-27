@@ -10,18 +10,22 @@ type newMessageProps = {
 const NewMessage = ({ isDisplay, onClick }: newMessageProps) => (
   <div
     css={{
-      marginBottom: isDisplay ? "12px" : "-26px",
-      opacity: isDisplay ? "1" : "0",
+      position: "absolute" as any,
+      left: "50%",
+      bottom: "0",
+      transform: `translate(-50%, ${
+        isDisplay ? "-12px" : "calc(100% + 20px)"
+      })`,
+      transition: "all 0.3s",
+      background: theme.white,
+      boxShadow: theme.shadow_clicked,
       padding: "6px 10px 5px 8px",
       borderRadius: "13px",
-      background: theme.white,
       border: `0.5px solid ${theme.purple}`,
-      boxShadow: theme.shadow_clicked,
       color: theme.purple,
       ...theme.font12,
-      transition: "all 0.3s",
-      columnGap: "4px",
       display: "flex",
+      columnGap: "4px",
       ...theme.cursor(),
     }}
     onClick={onClick}

@@ -1,11 +1,25 @@
+import { memo, useState } from "react";
+
 import DottedLine from "components/DottedLine";
+import { ModalRoomShare } from "components/ModalPopup";
+import User from "components/User";
 
 import theme from "tools/theme";
 
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
-import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
 import CalendarTodayRounded from "@mui/icons-material/CalendarTodayRounded";
+import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
+import LocalTaxiRoundedIcon from "@mui/icons-material/LocalTaxiRounded";
+import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import PeopleAltRoundedIcon from "@mui/icons-material/PeopleAltRounded";
+import ReportGmailerrorredRoundedIcon from "@mui/icons-material/ReportGmailerrorredRounded";
+import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
+
+type SideMenuButtonProps = {
+  type: "share" | "report" | "taxi";
+  onClick?: () => void;
+};
 
 type SideMenuProps = {
   roomInfo: Room;
@@ -14,12 +28,47 @@ type SideMenuProps = {
   setIsOpen: (x: boolean) => void;
 };
 
+const SideMenuButton = ({ type, onClick }: SideMenuButtonProps) => {
+  const style = {
+    padding: "16px 0",
+    cursor: "pointer",
+    display: "flex",
+    gap: "8px",
+    alignItems: "center",
+  };
+  const styleIcon = { width: "16px", height: "16px", fill: theme.black };
+  const styleText = { ...theme.font14, color: theme.black, flex: 1 };
+  const styleArrow = { ...styleIcon, fill: theme.gray_text };
+
+  const { icon, text } = {
+    share: { icon: <ShareRoundedIcon css={styleIcon} />, text: "공유하기" },
+    report: {
+      icon: <ReportGmailerrorredRoundedIcon css={styleIcon} />,
+      text: "신고하기",
+    },
+    taxi: {
+      icon: <LocalTaxiRoundedIcon css={styleIcon} />,
+      text: "택시 호출하기",
+    },
+  }[type];
+
+  return (
+    <div css={style} onClick={onClick}>
+      {icon}
+      <div css={styleText}>{text}</div>
+      <KeyboardArrowRightRoundedIcon css={styleArrow} />
+    </div>
+  );
+};
+
 const SideMenu = ({
   roomInfo,
   fetchRoomInfo,
   isOpen,
   setIsOpen,
 }: SideMenuProps) => {
+  const [isOpenShare, setIsOpenShare] = useState<boolean>(false);
+
   const styleBackground = {
     position: "absolute" as any,
     top: 0,
@@ -38,14 +87,16 @@ const SideMenu = ({
     right: isOpen ? 0 : "max(calc(-100% + 60px), -370px)",
     width: "min(calc(100% - 60px), 370px)",
     height: "100%",
-    padding: "16px",
+    padding: "0 16px",
     boxSizing: "border-box" as any,
     background: theme.white,
     zIndex: theme.zIndex_modal - 1,
     transition: "right 0.3s",
+    display: "flex",
+    flexDirection: "column" as any,
   };
   const styleNameSection = {
-    margin: "0 8px 16px",
+    margin: "16px 8px",
     display: "flex",
     alignItems: "center",
     gap: "12px",
@@ -62,14 +113,21 @@ const SideMenu = ({
     ...theme.font14,
     color: theme.black,
   };
+  const styleUsers = {
+    paddingTop: "16px",
+    display: "flex",
+    flexDirection: "column" as any,
+    gap: "6px",
+  };
 
   return (
     <>
       <div css={styleBackground} onClick={() => setIsOpen(false)}></div>
       <div css={style}>
+        <div css={{ height: "max(5px, env(safe-area-inset-top))" }} />
         <div css={styleNameSection}>
           <ArrowForwardRoundedIcon
-            style={{ fontSize: "24px", fill: theme.purple }}
+            css={{ fontSize: "24px", fill: theme.purple, cursor: "pointer" }}
             onClick={() => setIsOpen(false)}
           />
           <div css={{ color: theme.purple, ...theme.font18 }}>
@@ -77,29 +135,63 @@ const SideMenu = ({
           </div>
         </div>
         <DottedLine />
-        <div css={styleInfoSection}>
-          <div css={{ display: "flex", gap: "8px" }}>
-            <LocationOnRoundedIcon css={styleIcon} />
-            <div css={{ ...styleInfo, ...theme.font14_bold }}>
-              {roomInfo.from?.koName}&nbsp; → &nbsp;{roomInfo.to?.koName}
+        <div css={{ flexGrow: 1, overflowY: "auto" }}>
+          <div css={styleInfoSection}>
+            <div css={{ display: "flex", gap: "8px" }}>
+              <LocationOnRoundedIcon css={styleIcon} />
+              <div css={{ ...styleInfo, ...theme.font14_bold }}>
+                {roomInfo.from?.koName}&nbsp; → &nbsp;{roomInfo.to?.koName}
+              </div>
+            </div>
+            <div css={{ height: "16px" }} />
+            <div css={{ display: "flex", gap: "8px" }}>
+              <CalendarTodayRounded css={styleIcon} />
+              <div css={styleInfo}>{roomInfo.time}</div>
             </div>
           </div>
-          <div css={{ height: "16px" }} />
-          <div css={{ display: "flex", gap: "8px" }}>
-            <CalendarTodayRounded css={styleIcon} />
-            <div css={styleInfo}>{roomInfo.time}</div>
+          <DottedLine />
+          <div css={styleInfoSection}>
+            <div css={{ display: "flex", gap: "8px" }}>
+              <PeopleAltRoundedIcon css={styleIcon} />
+              <div css={{ ...styleInfo }}>
+                참여 / 최대 인원 :{" "}
+                <span css={theme.font14_bold}>{roomInfo.part.length}명</span>{" "}
+                <span css={{ color: theme.gray_text }}>
+                  / {roomInfo.maxPartLength}명
+                </span>
+              </div>
+            </div>
+            <div css={styleUsers}>
+              {/* @fixme @todo 유저의 정산 정보 넘겨주나? */}
+              {roomInfo.part.map((item) => (
+                <User key={item._id} value={item} />
+              ))}
+            </div>
           </div>
+          <DottedLine />
+          <SideMenuButton type="share" onClick={() => setIsOpenShare(true)} />
+          {/* <DottedLine />
+          <SideMenuButton type="report" />
+          <DottedLine />
+          <SideMenuButton type="taxi" /> */}
         </div>
         <DottedLine />
-        <div css={styleInfoSection}>
-          <div css={styleInfo}>
-            <PeopleAltRoundedIcon css={styleIcon} />
-            <div css={{ ...styleInfo }}>탑승인원 : ?명 / ?명</div>
-          </div>
+        <div css={styleNameSection}>
+          <LogoutOutlinedIcon
+            css={{ fontSize: "24px", fill: theme.purple, cursor: "pointer" }}
+            onClick={() => setIsOpen(false)}
+          />
+          <div css={{ color: theme.purple, ...theme.font18 }}>탑승 취소</div>
         </div>
+        <div css={{ height: "env(safe-area-inset-bottom)" }} />
       </div>
+      <ModalRoomShare
+        isOpen={isOpenShare}
+        onChangeIsOpen={setIsOpenShare}
+        roomInfo={roomInfo}
+      />
     </>
   );
 };
 
-export default SideMenu;
+export default memo(SideMenu);

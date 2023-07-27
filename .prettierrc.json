@@ -12,6 +12,7 @@
   "requirePragma": false,
   "semi": true,
   "singleQuote": false,
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
   "importOrder": [
     "<THIRD_PARTY_MODULES>",
     "^types/",
