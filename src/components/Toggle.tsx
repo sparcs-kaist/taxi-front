@@ -1,6 +1,7 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 
-import hoverEventSet from "tools/hoverEventSet";
+import useHoverProps from "hooks/theme/useHoverProps";
+
 import theme from "tools/theme";
 
 type ToggleProps = {
@@ -10,7 +11,7 @@ type ToggleProps = {
 };
 
 const Toggle = ({ value, width = "48px", onChangeValue }: ToggleProps) => {
-  const [isHover, setIsHover] = useState(false);
+  const [hoverProps, isHover, , setIsHover] = useHoverProps();
   const onClick = useCallback(() => {
     onChangeValue && onChangeValue(!value);
     setIsHover(false);
@@ -50,7 +51,7 @@ const Toggle = ({ value, width = "48px", onChangeValue }: ToggleProps) => {
   };
 
   return (
-    <div css={style} onClick={onClick} {...hoverEventSet(setIsHover)}>
+    <div css={style} onClick={onClick} {...hoverProps}>
       <div css={styleEmpty} />
       <div css={styleBtn} />
     </div>

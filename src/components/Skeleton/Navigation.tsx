@@ -1,12 +1,13 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
+import useHoverProps from "hooks/theme/useHoverProps";
+
 import isVirtualKeyboardDetectedAtom from "atoms/isVirtualKeyboardDetected";
 import { useRecoilValue } from "recoil";
 
-import hoverEventSet from "tools/hoverEventSet";
 import theme from "tools/theme";
 
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
@@ -22,7 +23,7 @@ type NavigationMenuProps = {
 };
 
 const NavigationMenu = ({ text, page }: NavigationMenuProps) => {
-  const [isHover, setHover] = useState(false);
+  const [hoverProps, isHover] = useHoverProps();
   const { pathname } = useLocation();
   const isSelected =
     pathname.startsWith("/" + page) ||
@@ -74,7 +75,7 @@ const NavigationMenu = ({ text, page }: NavigationMenuProps) => {
   };
 
   return (
-    <Link to={"/" + page} css={styleBox} {...hoverEventSet(setHover)}>
+    <Link to={"/" + page} css={styleBox} {...hoverProps}>
       {getIcon(page)}
       <div css={styleText}>{text}</div>
     </Link>

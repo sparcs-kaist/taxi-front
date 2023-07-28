@@ -1,24 +1,19 @@
 import { useMemo } from "react";
 
-import { LayoutType } from "types/chat";
+import type { LayoutType } from "types/chat";
 
-import ChatSet from "components/Chat/MessagesBody/ChatSet";
+import { useValueRecoilState } from "hooks/useFetchRecoilState";
+
 import MessageDate from "components/Chat/MessagesBody/MessageDate";
 import MessageInOut from "components/Chat/MessagesBody/MessageInOut";
-
-import loginInfoAtom from "atoms/loginInfo";
-import { useRecoilValue } from "recoil";
+import MessageSet from "components/Chat/MessagesBody/MessageSet";
 
 import { Chats, getChatUniquewKey } from "tools/chat/chats";
 import dayjs from "tools/day";
 import moment from "tools/moment";
 
 export default (_chats: Chats, layoutType: LayoutType) => {
-  const { oid: userOid } = useRecoilValue(loginInfoAtom) || {};
-
-  // remove me
-  const isBottomOnScroll = () => true;
-  const scrollToBottom = () => {};
+  const { oid: userOid } = useValueRecoilState("loginInfo") || {};
 
   return useMemo(() => {
     const list = [];
@@ -27,21 +22,14 @@ export default (_chats: Chats, layoutType: LayoutType) => {
     const dateFormat = "YYYY.MM.DD";
     const minFormat = "YYYY.MM.DD HH:mm";
 
-    const chatSetCommonProps = {
-      authorId: userOid,
-      isBottomOnScroll,
-      scrollToBottom,
-      isSideChat: layoutType === "sidechat", // fixme
-    };
-
     _chats.forEach((item) => {
       if (item.type === "inf-checkout") {
         if (chatsCache) {
           list.push(
-            <ChatSet
+            <MessageSet
               key={"chat" + getChatUniquewKey(chatsCache[0])}
               chats={chatsCache}
-              {...chatSetCommonProps}
+              layoutType={layoutType}
             />
           );
         }
@@ -61,10 +49,10 @@ export default (_chats: Chats, layoutType: LayoutType) => {
       if (momentCache.format(dateFormat) !== currentMoment.format(dateFormat)) {
         if (chatsCache) {
           list.push(
-            <ChatSet
+            <MessageSet
               key={"chat" + getChatUniquewKey(chatsCache[0])}
               chats={chatsCache}
-              {...chatSetCommonProps}
+              layoutType={layoutType}
             />
           );
           chatsCache = null;
@@ -80,10 +68,10 @@ export default (_chats: Chats, layoutType: LayoutType) => {
       if (item.type === "in" || item.type === "out") {
         if (chatsCache) {
           list.push(
-            <ChatSet
+            <MessageSet
               key={"chat" + getChatUniquewKey(chatsCache[0])}
               chats={chatsCache}
-              {...chatSetCommonProps}
+              layoutType={layoutType}
             />
           );
           chatsCache = null;
@@ -107,10 +95,10 @@ export default (_chats: Chats, layoutType: LayoutType) => {
               currentMoment.format(minFormat))
         ) {
           list.push(
-            <ChatSet
+            <MessageSet
               key={"chat" + getChatUniquewKey(chatsCache[0])}
               chats={chatsCache}
-              {...chatSetCommonProps}
+              layoutType={layoutType}
             />
           );
           chatsCache = null;
@@ -122,10 +110,10 @@ export default (_chats: Chats, layoutType: LayoutType) => {
     });
     if (chatsCache) {
       list.push(
-        <ChatSet
+        <MessageSet
           key={"chatLast" + getChatUniquewKey(chatsCache[0])}
           chats={chatsCache}
-          {...chatSetCommonProps}
+          layoutType={layoutType}
         />
       );
     }

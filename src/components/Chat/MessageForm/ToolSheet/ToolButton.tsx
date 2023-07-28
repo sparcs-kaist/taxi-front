@@ -1,6 +1,5 @@
-import { useState } from "react";
+import useHoverProps from "hooks/theme/useHoverProps";
 
-import hoverEventSet from "tools/hoverEventSet";
 import theme from "tools/theme";
 
 import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceWalletRounded";
@@ -14,8 +13,7 @@ type ToolButtonProps = {
 };
 
 const ToolButton = ({ type, isVaild = true, onClick }: ToolButtonProps) => {
-  const [isHover, setIsHover] = useState<boolean>(false);
-  const [isClicked, setIsClicked] = useState<boolean>(false);
+  const [hoverProps, isHover, isClicked] = useHoverProps();
 
   const style = { width: "72px" };
   const styleButton = {
@@ -47,23 +45,19 @@ const ToolButton = ({ type, isVaild = true, onClick }: ToolButtonProps) => {
     ...theme.cursor(),
   };
   const { icon, text } = {
-    image: { icon: <ImageRoundedIcon css={styleIcon} />, text: "사진" },
+    image: { icon: <ImageRoundedIcon style={styleIcon} />, text: "사진" },
     settlement: {
-      icon: <AccountBalanceWalletRoundedIcon css={styleIcon} />,
+      icon: <AccountBalanceWalletRoundedIcon style={styleIcon} />,
       text: "정산히기",
     },
     payment: {
-      icon: <LocalAtmRoundedIcon css={styleIcon} />,
+      icon: <LocalAtmRoundedIcon style={styleIcon} />,
       text: "송금하기",
     },
   }[type];
   return (
     <div css={style}>
-      <div
-        css={styleButton}
-        {...hoverEventSet(setIsHover, setIsClicked)}
-        onClick={onClick}
-      >
+      <div css={styleButton} {...hoverProps} onClick={onClick}>
         {icon}
       </div>
       <div css={styleText} onClick={onClick}>

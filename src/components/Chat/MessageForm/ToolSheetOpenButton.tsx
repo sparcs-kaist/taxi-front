@@ -14,7 +14,7 @@ const ToolSheetOpenButton = ({
   <div css={{ marginBottom: "3px" }}>
     <AddRoundedIcon
       onClick={() => onChangeIsOpen && onChangeIsOpen(!isOpen)}
-      css={{
+      style={{
         fill: theme.purple,
         width: "22px",
         height: "22px",

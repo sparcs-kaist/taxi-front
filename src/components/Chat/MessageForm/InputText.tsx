@@ -28,7 +28,7 @@ const BtnSend = (props: BtnSendProps) => (
     onClick={props.onClick}
   >
     <ArrowUpwardRoundedIcon
-      css={{
+      style={{
         fontSize: "22px",
         margin: "3px",
         fill: props.enable ? theme.white : theme.gray_line,

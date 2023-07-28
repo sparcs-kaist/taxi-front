@@ -41,13 +41,13 @@ const SideMenuButton = ({ type, onClick }: SideMenuButtonProps) => {
   const styleArrow = { ...styleIcon, fill: theme.gray_text };
 
   const { icon, text } = {
-    share: { icon: <ShareRoundedIcon css={styleIcon} />, text: "공유하기" },
+    share: { icon: <ShareRoundedIcon style={styleIcon} />, text: "공유하기" },
     report: {
-      icon: <ReportGmailerrorredRoundedIcon css={styleIcon} />,
+      icon: <ReportGmailerrorredRoundedIcon style={styleIcon} />,
       text: "신고하기",
     },
     taxi: {
-      icon: <LocalTaxiRoundedIcon css={styleIcon} />,
+      icon: <LocalTaxiRoundedIcon style={styleIcon} />,
       text: "택시 호출하기",
     },
   }[type];
@@ -56,7 +56,7 @@ const SideMenuButton = ({ type, onClick }: SideMenuButtonProps) => {
     <div css={style} onClick={onClick}>
       {icon}
       <div css={styleText}>{text}</div>
-      <KeyboardArrowRightRoundedIcon css={styleArrow} />
+      <KeyboardArrowRightRoundedIcon style={styleArrow} />
     </div>
   );
 };
@@ -127,7 +127,7 @@ const SideMenu = ({
         <div css={{ height: "max(5px, env(safe-area-inset-top))" }} />
         <div css={styleNameSection}>
           <ArrowForwardRoundedIcon
-            css={{ fontSize: "24px", fill: theme.purple, cursor: "pointer" }}
+            style={{ fontSize: "24px", fill: theme.purple, cursor: "pointer" }}
             onClick={() => setIsOpen(false)}
           />
           <div css={{ color: theme.purple, ...theme.font18 }}>
@@ -138,7 +138,7 @@ const SideMenu = ({
         <div css={{ flexGrow: 1, overflowY: "auto" }}>
           <div css={styleInfoSection}>
             <div css={{ display: "flex", gap: "8px" }}>
-              <LocationOnRoundedIcon css={styleIcon} />
+              <LocationOnRoundedIcon style={styleIcon} />
               <div css={{ ...styleInfo, ...theme.font14_bold }}>
                 {roomInfo.from?.koName}&nbsp; → &nbsp;{roomInfo.to?.koName}
               </div>
@@ -152,7 +152,7 @@ const SideMenu = ({
           <DottedLine />
           <div css={styleInfoSection}>
             <div css={{ display: "flex", gap: "8px" }}>
-              <PeopleAltRoundedIcon css={styleIcon} />
+              <PeopleAltRoundedIcon style={styleIcon} />
               <div css={{ ...styleInfo }}>
                 참여 / 최대 인원 :{" "}
                 <span css={theme.font14_bold}>{roomInfo.part.length}명</span>{" "}
@@ -178,7 +178,7 @@ const SideMenu = ({
         <DottedLine />
         <div css={styleNameSection}>
           <LogoutOutlinedIcon
-            css={{ fontSize: "24px", fill: theme.purple, cursor: "pointer" }}
+            style={{ fontSize: "24px", fill: theme.purple, cursor: "pointer" }}
             onClick={() => setIsOpen(false)}
           />
           <div css={{ color: theme.purple, ...theme.font18 }}>탑승 취소</div>

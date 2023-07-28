@@ -6,7 +6,7 @@ type MessageInOutProps = {
 };
 
 const MessageInOut = ({ type, users = [] }: MessageInOutProps) => (
-  <div css={{ paddingTop: "10px" }}>
+  <div css={{ paddingTop: "10px", margin: "0 12px" }}>
     <div
       css={{
         padding: "4px 8px 3px",
