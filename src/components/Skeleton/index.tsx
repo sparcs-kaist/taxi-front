@@ -61,6 +61,14 @@ const Skeleton = ({ children }: SkeletonProps) => {
   const error = useRecoilValue(errorAtom);
   const isLoading = userId === null;
 
+  const isDisplayNavigation = useMemo(
+    () =>
+      !["/login", "/logout", "/chatting", "/invite"].some((prefix) =>
+        pathname.startsWith(prefix)
+      ),
+    [pathname]
+  );
+
   const [cookies, setCookies] = useCookies(["isOpposeSuggestApp"]);
   const isOpposeSuggestApp = !!cookies?.isOpposeSuggestApp;
   const isApp = useRecoilValue(isAppAtom) || deviceType === "app";
@@ -89,9 +97,7 @@ const Skeleton = ({ children }: SkeletonProps) => {
     }
   }, [isApp, isOpposeSuggestApp]);
 
-  // loginIngo, taxiLocations, myRooms, notificationOptions 초기화 및 동기화
-  useSyncRecoilStateEffect();
-
+  useSyncRecoilStateEffect(); // loginIngo, taxiLocations, myRooms, notificationOptions 초기화 및 동기화
   useI18nextEffect();
   useScrollRestorationEffect();
   useCSSVariablesEffect();
@@ -101,46 +107,25 @@ const Skeleton = ({ children }: SkeletonProps) => {
   useFirebaseMessagingEffect();
   useFlutterEventCommunicationEffect();
 
-  if (error) {
-    return (
-      <Container>
-        <HeaderBar />
-        <Error />
-      </Container>
-    );
-  }
-  if (isLoading) {
-    return (
-      <Container>
-        <HeaderBar />
-        <Loading center />
-      </Container>
-    );
-  }
-  if (
-    pathname.startsWith("/login") ||
-    pathname.startsWith("/logout") ||
-    pathname.startsWith("/chatting") ||
-    pathname.startsWith("/invite")
-  ) {
-    return (
-      <Container>
-        <HeaderBar />
-        {children}
-      </Container>
-    );
-  }
   return (
     <Container>
-      <Navigation />
       <HeaderBar />
-      {children}
-      <ModalSuggestApp
-        isOpen={isSuggestApp}
-        onChangeIsOpen={setIsOpenSuggestApp}
-      />
-      <ModalTerms isOpen={!!userId && !isAgreeOnTermsOfService} />
-      <div css={{ height: "88px" }} />
+      {error ? (
+        <Error />
+      ) : isLoading ? (
+        <Loading center />
+      ) : (
+        <>
+          {isDisplayNavigation && <Navigation />}
+          {children}
+          <ModalSuggestApp
+            isOpen={isSuggestApp}
+            onChangeIsOpen={setIsOpenSuggestApp}
+          />
+          <ModalTerms isOpen={!!userId && !isAgreeOnTermsOfService} />
+          {isDisplayNavigation && <div css={{ height: "88px" }} />}
+        </>
+      )}
     </Container>
   );
 };

@@ -1,3 +1,4 @@
+import axiosOri from "axios";
 import { MutableRefObject, useCallback } from "react";
 
 import { useAxios } from "hooks/useTaxiAPI";
@@ -5,7 +6,6 @@ import { useAxios } from "hooks/useTaxiAPI";
 import alertAtom from "atoms/alert";
 import { useSetRecoilState } from "recoil";
 
-import convertImg from "tools/convertImg";
 import regExpTest from "tools/regExpTest";
 
 export default (
@@ -40,20 +40,28 @@ export default (
         }
 
         if (type === "image") {
+          if (!file) throw new Error();
+
           isSendingMessage.current = true;
-          const image = await convertImg(file);
-          if (!image) throw new Error();
+          const { url, fields, id } = await axios({
+            url: "chats/uploadChatImg/getPUrl",
+            method: "post",
+            data: { roomId, type: file.type },
+          });
+          if (!url || !fields || !id) throw new Error();
 
-          // TODO : 이미지 전송
-          //   axios({
-          //     url: "chats/uploadChatImg/getPUrl",
-          //     method: "post",
-          //     data: { roomId, type: image.type },
-          //     onSuccess: ({ url, fields, id }) => {
+          const formData = new FormData();
+          for (const key in fields) formData.append(key, fields[key]);
+          formData.append("file", file);
+          const { status: s3Status } = await axiosOri.post(url, formData);
+          if (s3Status !== 204) throw new Error();
 
-          //     },
-          //   });
-          return true;
+          const { result } = await axios({
+            url: "chats/uploadChatImg/done",
+            method: "post",
+            data: { id },
+          });
+          if (result) return true;
         }
       } catch (e) {
         console.error(e);

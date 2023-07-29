@@ -1,0 +1,10 @@
+.MessageForm_rotate_infinite {
+  animation: rotate_image_360 1s ease infinite;
+  transform-origin: 50% 50%;
+}
+
+@keyframes rotate_image_360 {
+  100% {
+    transform: rotate(-360deg);
+  }
+}

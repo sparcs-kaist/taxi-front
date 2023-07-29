@@ -1,4 +1,4 @@
-import { RefObject, memo } from "react";
+import { RefObject, memo, useState } from "react";
 
 import { LayoutType } from "types/chat";
 
@@ -8,6 +8,7 @@ import InputText from "./InputText";
 import NewMessage from "./NewMessage";
 import ToolSheet from "./ToolSheet";
 import ToolSheetOpenButton from "./ToolSheetOpenButton";
+import "./index.css";
 
 import isVirtualKeyboardDetectedAtom from "atoms/isVirtualKeyboardDetected";
 import { useRecoilValue } from "recoil";
@@ -33,6 +34,7 @@ const MessageForm = ({
   sendMessage,
 }: MessageFormProps) => {
   const isVKDetected = useRecoilValue(isVirtualKeyboardDetectedAtom);
+  const [uploadedImage, setUploadedImage] = useState<Nullable<File>>(null); // 업로드된 이미지 파일
 
   const onClickNewMessage = () => {
     if (!messageBodyRef.current) return;
@@ -68,7 +70,7 @@ const MessageForm = ({
         <ToolSheet
           isOpen={isOpenToolSheet}
           onChangeIsOpen={onChangeIsOpenToolSheet}
-          sendMessage={sendMessage}
+          onChangeUploadedImage={setUploadedImage}
         />
       </div>
       <div css={styleBody}>
@@ -76,7 +78,11 @@ const MessageForm = ({
           isOpen={isOpenToolSheet}
           onChangeIsOpen={onChangeIsOpenToolSheet}
         />
-        <InputText sendMessage={sendMessage} />
+        <InputText
+          uploadedImage={uploadedImage}
+          onChangeUploadedImage={setUploadedImage}
+          sendMessage={sendMessage}
+        />
       </div>
     </>
   );

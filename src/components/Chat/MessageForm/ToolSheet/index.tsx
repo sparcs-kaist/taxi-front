@@ -1,7 +1,5 @@
 import { memo, useCallback, useRef } from "react";
 
-import useSendMessage from "hooks/chat/useSendMessage";
-
 import AdaptiveDiv from "components/AdaptiveDiv";
 
 import ToolButton from "./ToolButton";
@@ -11,17 +9,23 @@ import theme from "tools/theme";
 type ToolSheetProps = {
   isOpen: boolean;
   onChangeIsOpen?: (x: boolean) => void;
-  sendMessage: ReturnType<typeof useSendMessage>;
+  onChangeUploadedImage?: (x: Nullable<File>) => void;
 };
 
-const ToolSheet = ({ isOpen, onChangeIsOpen, sendMessage }: ToolSheetProps) => {
+const ToolSheet = ({
+  isOpen,
+  onChangeIsOpen,
+  onChangeUploadedImage,
+}: ToolSheetProps) => {
   const inputImageRef = useRef<HTMLInputElement>(null);
   const onChangeImage = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target?.files?.[0];
-      file && sendMessage("image", { file });
+      onChangeUploadedImage && onChangeUploadedImage(file);
+      onChangeIsOpen && onChangeIsOpen(false);
+      e.target.value = "";
     },
-    [sendMessage]
+    [onChangeUploadedImage]
   );
   const onClickImage = useCallback(
     () => inputImageRef.current?.click(),

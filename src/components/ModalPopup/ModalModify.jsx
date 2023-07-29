@@ -18,7 +18,7 @@ import ProfileImg from "components/User/ProfileImg";
 import alertAtom from "atoms/alert";
 import { useSetRecoilState } from "recoil";
 
-import convertImg from "tools/convertImg";
+import { convertImage } from "tools/image";
 import regExpTest from "tools/regExpTest";
 import theme from "tools/theme";
 
@@ -60,7 +60,7 @@ const BtnProfImg = (props) => {
   const handleUploadProfileImage = async () => {
     setProfileAlert("LOADING");
     try {
-      const image = await convertImg(inputImage.current?.files?.[0]);
+      const image = await convertImage(inputImage.current?.files?.[0]);
       if (!image) return;
       const data = await axios({
         url: "/users/editProfileImg/getPUrl",
