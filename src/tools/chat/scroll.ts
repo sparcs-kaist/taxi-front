@@ -21,7 +21,6 @@ export const scrollToBottom = (
   doAnimation = false
 ) => {
   if (!element) return;
-  // setShowNewMessage(false); // 이거 자동으로 되지 않나? @todo @fixme
   const scrollTop = element.scrollHeight - element.clientHeight;
   if (doAnimation) {
     element.scroll({

@@ -1,13 +1,15 @@
+import dayjs from "dayjs";
 import { memo, useState } from "react";
 
 import DottedLine from "components/DottedLine";
 import { ModalRoomShare } from "components/ModalPopup";
 import User from "components/User";
 
+import { day2str } from "tools/day";
 import theme from "tools/theme";
 
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
-import CalendarTodayRounded from "@mui/icons-material/CalendarTodayRounded";
+import CalendarTodayRoundedIcon from "@mui/icons-material/CalendarTodayRounded";
 import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
 import LocalTaxiRoundedIcon from "@mui/icons-material/LocalTaxiRounded";
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
@@ -145,8 +147,8 @@ const SideMenu = ({
             </div>
             <div css={{ height: "16px" }} />
             <div css={{ display: "flex", gap: "8px" }}>
-              <CalendarTodayRounded css={styleIcon} />
-              <div css={styleInfo}>{roomInfo.time}</div>
+              <CalendarTodayRoundedIcon style={styleIcon} />
+              <div css={styleInfo}>{day2str(dayjs(roomInfo.time))}</div>
             </div>
           </div>
           <DottedLine />

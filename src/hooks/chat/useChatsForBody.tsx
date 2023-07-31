@@ -1,14 +1,16 @@
-import { useMemo } from "react";
+import { ReactNode, useMemo } from "react";
 
-import type { LayoutType } from "types/chat";
+import type { Chats, LayoutType } from "types/chat";
 
 import { useValueRecoilState } from "hooks/useFetchRecoilState";
 
 import MessageDate from "components/Chat/MessagesBody/MessageDate";
 import MessageInOut from "components/Chat/MessagesBody/MessageInOut";
+import MessageInfScroll from "components/Chat/MessagesBody/MessageInfScroll";
+import MessageJoint from "components/Chat/MessagesBody/MessageJoint";
 import MessageSet from "components/Chat/MessagesBody/MessageSet";
 
-import { Chats, getChatUniquewKey } from "tools/chat/chats";
+import { getChatUniquewKey } from "tools/chat/chats";
 import dayjs from "tools/day";
 import moment from "tools/moment";
 
@@ -16,48 +18,46 @@ export default (_chats: Chats, layoutType: LayoutType) => {
   const { oid: userOid } = useValueRecoilState("loginInfo") || {};
 
   return useMemo(() => {
-    const list = [];
-    let momentCache: any = null; // fixme, todo
+    const list: Array<ReactNode> = [];
+    let momentCache: any = null; // @fixme, @todo
     let chatsCache: Nullable<Array<Chat>> = null;
     const dateFormat = "YYYY.MM.DD";
     const minFormat = "YYYY.MM.DD HH:mm";
 
+    const popQueue = () => {
+      if (chatsCache) {
+        list.push(
+          <MessageSet
+            key={"chat" + getChatUniquewKey(chatsCache[0])}
+            chats={chatsCache}
+            layoutType={layoutType}
+          />
+        );
+      }
+      chatsCache = null;
+    };
+
     _chats.forEach((item) => {
-      if (item.type === "inf-checkout") {
-        if (chatsCache) {
+      if ("isSpecialChat" in item) {
+        popQueue();
+        if (item.type === "joint-checkout") {
+          list.push(<MessageJoint key={"checkout" + momentCache} />);
+        }
+        if (item.type === "infscroll-checkout") {
           list.push(
-            <MessageSet
-              key={"chat" + getChatUniquewKey(chatsCache[0])}
-              chats={chatsCache}
-              layoutType={layoutType}
-            />
+            <MessageInfScroll key="infscroll-checkout" value={item.key} />
           );
         }
-        chatsCache = null;
-
-        list.push(
-          <div key={"checkout" + momentCache} className="chatcheckout" />
-        );
         return;
       }
 
-      const currentMoment = moment((item as Chat).time);
+      const currentMoment = moment(item.time);
       if (!momentCache) {
         momentCache = currentMoment.clone();
         momentCache.subtract(1, "years");
       }
       if (momentCache.format(dateFormat) !== currentMoment.format(dateFormat)) {
-        if (chatsCache) {
-          list.push(
-            <MessageSet
-              key={"chat" + getChatUniquewKey(chatsCache[0])}
-              chats={chatsCache}
-              layoutType={layoutType}
-            />
-          );
-          chatsCache = null;
-        }
-
+        popQueue();
         list.push(
           <MessageDate
             key={"date" + currentMoment}
@@ -66,21 +66,12 @@ export default (_chats: Chats, layoutType: LayoutType) => {
         );
       }
       if (item.type === "in" || item.type === "out") {
-        if (chatsCache) {
-          list.push(
-            <MessageSet
-              key={"chat" + getChatUniquewKey(chatsCache[0])}
-              chats={chatsCache}
-              layoutType={layoutType}
-            />
-          );
-          chatsCache = null;
-        }
+        popQueue();
         list.push(
           <MessageInOut
-            key={"inout" + getChatUniquewKey(item as Chat)}
+            key={"inout" + getChatUniquewKey(item)}
             type={item.type}
-            users={(item as Chat).inOutNames}
+            users={item.inOutNames}
           />
         );
       } else if (
@@ -90,33 +81,18 @@ export default (_chats: Chats, layoutType: LayoutType) => {
       ) {
         if (
           chatsCache &&
-          (chatsCache[0].authorId !== (item as Chat).authorId ||
+          (chatsCache[0].authorId !== item.authorId ||
             moment(chatsCache[0].time).format(minFormat) !==
               currentMoment.format(minFormat))
         ) {
-          list.push(
-            <MessageSet
-              key={"chat" + getChatUniquewKey(chatsCache[0])}
-              chats={chatsCache}
-              layoutType={layoutType}
-            />
-          );
-          chatsCache = null;
+          popQueue();
         }
         if (!chatsCache) chatsCache = [];
-        chatsCache.push(item as Chat);
+        chatsCache.push(item);
       }
       momentCache = currentMoment.clone();
     });
-    if (chatsCache) {
-      list.push(
-        <MessageSet
-          key={"chatLast" + getChatUniquewKey(chatsCache[0])}
-          chats={chatsCache}
-          layoutType={layoutType}
-        />
-      );
-    }
+    popQueue();
     return list;
   }, [_chats, layoutType, userOid]);
 };

@@ -1,10 +1,10 @@
 import { ForwardedRef, forwardRef } from "react";
 
-import { LayoutType } from "types/chat";
+import type { Chats, LayoutType } from "types/chat";
 
 import useChatsForBody from "hooks/chat//useChatsForBody";
 
-import { Chats } from "tools/chat/chats";
+import LoadingChats from "./LoadingChats";
 
 type MessagesBodyProps = {
   layoutType: LayoutType;
@@ -27,6 +27,7 @@ const MessagesBody = (
     }}
     ref={ref}
   >
+    {_chats.length <= 0 && <LoadingChats />}
     {useChatsForBody(_chats, layoutType)}
   </div>
 );

@@ -48,7 +48,7 @@ const ToolButton = ({ type, isVaild = true, onClick }: ToolButtonProps) => {
     image: { icon: <ImageRoundedIcon style={styleIcon} />, text: "사진" },
     settlement: {
       icon: <AccountBalanceWalletRoundedIcon style={styleIcon} />,
-      text: "정산히기",
+      text: "정산하기",
     },
     payment: {
       icon: <LocalAtmRoundedIcon style={styleIcon} />,

@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 
 import { LayoutType } from "types/chat";
+import type { Chats } from "types/chat";
 
 import useBodyScrollControllerEffect from "hooks/chat/useBodyScrollControllerEffect";
 import useSendMessage from "hooks/chat/useSendMessage";
@@ -15,8 +16,6 @@ import Header from "./Header";
 import MessageForm from "./MessageForm";
 import MessagesBody from "./MessagesBody";
 
-import { Chats } from "tools/chat/chats";
-
 type ChatProps = {
   roomId: string;
   layoutType: LayoutType;
@@ -28,7 +27,6 @@ const Chat = ({ roomId, layoutType }: ChatProps) => {
   const [isOpenToolSheet, setIsOpenToolSheet] = useState<boolean>(false); // 툴 시트 표시 여부
   const messageBodyRef = useRef<HTMLDivElement>(null); // 스크롤 되는 메시지 HTML 요소
   const isSendingMessage = useRef<boolean>(false); // 메시지 전송 중인지 여부
-  const isCallingInfScroll = useRef<boolean>(false); // 무한 스크롤 메시지 요청 중인지 여부
   const sendMessage = useSendMessage(roomId, isSendingMessage); // 메시지 전송 핸들러
 
   // 방 정보 조회
@@ -43,17 +41,16 @@ const Chat = ({ roomId, layoutType }: ChatProps) => {
     setChats,
     setDisplayNewMessage,
     messageBodyRef,
-    isSendingMessage,
-    isCallingInfScroll
+    isSendingMessage
   );
 
+  // 채팅의 scroll을 제어
   useBodyScrollControllerEffect(
     roomId,
     chats,
     setDisplayNewMessage,
     setIsOpenToolSheet,
-    messageBodyRef,
-    isCallingInfScroll
+    messageBodyRef
   );
 
   // 전체화면 챗에서는 body의 스크롤을 막습니다.

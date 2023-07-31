@@ -25,14 +25,13 @@ const MessageImage = ({ id, color }: MessageImageProps) => {
   return isReadyToLoadImage ? (
     <img
       src={src}
+      className="MessageImage_img"
+      loading="lazy"
       css={{
         maxWidth: "100%",
         maxHeight: "360px",
         verticalAlign: "middle",
         cursor: "pointer",
-      }}
-      onLoad={() => {
-        /* @todo @fixme */
       }}
       onClick={() => {
         /* @todo @fixme */
