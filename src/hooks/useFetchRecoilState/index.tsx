@@ -23,13 +23,12 @@ import {
   useValueTaxiLocations,
 } from "./useFetchTaxiLocations";
 
-import isAppAtom from "atoms/isApp";
 import { LoginInfoType } from "atoms/loginInfo";
 import { MyRoomsType } from "atoms/myRooms";
 import { notificationOptionsType } from "atoms/notificationOptions";
 import { TaxiLocationsType } from "atoms/taxiLocations";
-import { useRecoilValue } from "recoil";
 
+import { deviceType } from "tools/loadenv";
 import {
   sendAuthUpdateEventToFlutter,
   sendTryNotificationEventToFlutter,
@@ -91,7 +90,6 @@ export const useFetchRecoilState = (atomName: AtomName) => {
 
 export const useSyncRecoilStateEffect = () => {
   const axios = useAxios();
-  const isApp = useRecoilValue(isAppAtom);
   const loginInfo = useValueRecoilState("loginInfo");
   const notificationOptions = useValueRecoilState("notificationOptions");
   const { id: userId, deviceToken } = loginInfo || {};
@@ -115,8 +113,9 @@ export const useSyncRecoilStateEffect = () => {
   // Flutter에 변동된 로그인 정보 전달
   useEffect(() => {
     const isLoading = loginInfo === null;
-    if (!isLoading && isApp) sendAuthUpdateEventToFlutter(loginInfo);
-  }, [userId, isApp]);
+    if (!isLoading && deviceType.startsWith("app/"))
+      sendAuthUpdateEventToFlutter(loginInfo);
+  }, [userId]);
 
   // Flutter에 초기 알림 설정 전달
   useEffect(() => {
@@ -137,7 +136,12 @@ export const useSyncRecoilStateEffect = () => {
         });
       }
     };
-    if (userId && isApp && isNotificationOn(notificationOptions))
+    if (
+      userId &&
+      deviceType.startsWith("app/") &&
+      isNotificationOn(notificationOptions)
+    ) {
       tryNotification();
-  }, [userId, isApp, notificationOptions]);
+    }
+  }, [userId, notificationOptions]);
 };

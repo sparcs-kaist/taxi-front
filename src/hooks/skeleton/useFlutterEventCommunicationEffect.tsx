@@ -4,7 +4,6 @@ import { useFetchRecoilState } from "hooks/useFetchRecoilState";
 
 import alertAtom from "atoms/alert";
 import errorAtom from "atoms/error";
-import isAppAtom from "atoms/isApp";
 import { LoginInfoType } from "atoms/loginInfo";
 import { useSetRecoilState } from "recoil";
 
@@ -14,7 +13,6 @@ let isWebViewInFlutter: boolean = false;
 export default () => {
   const setAlert = useSetRecoilState(alertAtom);
   const setError = useSetRecoilState(errorAtom);
-  const setIsApp = useSetRecoilState(isAppAtom);
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
 
   useEffect(() => {
@@ -28,7 +26,6 @@ export default () => {
       name: "flutterInAppWebViewPlatformReady",
       listner: () => {
         isWebViewInFlutter = true;
-        setIsApp(true);
       },
     });
 

@@ -24,10 +24,10 @@ import Error from "pages/Error";
 import Navigation from "./Navigation";
 
 import errorAtom from "atoms/error";
-import isAppAtom from "atoms/isApp";
 import { useRecoilValue } from "recoil";
 
 import isMobile from "tools/isMobile";
+import { deviceType } from "tools/loadenv";
 
 type ContainerProps = {
   children: ReactNode;
@@ -52,11 +52,8 @@ const Container = ({ children }: ContainerProps) => (
 );
 
 const Skeleton = ({ children }: SkeletonProps) => {
-  const {
-    id: userId,
-    agreeOnTermsOfService: isAgreeOnTermsOfService,
-    deviceType,
-  } = useValueRecoilState("loginInfo") || {};
+  const { id: userId, agreeOnTermsOfService: isAgreeOnTermsOfService } =
+    useValueRecoilState("loginInfo") || {};
   const { pathname } = useLocation();
   const error = useRecoilValue(errorAtom);
   const isLoading = userId === null;
@@ -71,31 +68,30 @@ const Skeleton = ({ children }: SkeletonProps) => {
 
   const [cookies, setCookies] = useCookies(["isOpposeSuggestApp"]);
   const isOpposeSuggestApp = !!cookies?.isOpposeSuggestApp;
-  const isApp = useRecoilValue(isAppAtom) || deviceType === "app";
   const [isAndroid, isIOS] = isMobile();
   const [isTryCloseSuggestApp, setIsTryCloseSuggestApp] = useState(false);
   const isSuggestApp = useMemo(
     () =>
       (isAndroid || isIOS) &&
-      !isApp &&
+      !deviceType.startsWith("app") &&
       !isOpposeSuggestApp &&
       !isTryCloseSuggestApp,
-    [isAndroid, isIOS, isApp, isOpposeSuggestApp, isTryCloseSuggestApp]
+    [isAndroid, isIOS, isOpposeSuggestApp, isTryCloseSuggestApp]
   );
   const setIsOpenSuggestApp = useCallback(
     () => setIsTryCloseSuggestApp(true),
     []
   );
 
-  // 앱 웹뷰일 경우, 앱 설치 유도 팝업 띄우기를 중단합니다 그리고 쿠키를 설정합니다.
+  // 앱 설치 유도 팝업 띄우기를 중단을 위한 쿠키를 설정합니다.
   useEffect(() => {
-    if (isApp && !isOpposeSuggestApp) {
+    if (!isOpposeSuggestApp) {
       const expirationDate = new Date();
       expirationDate.setFullYear(expirationDate.getFullYear() + 10);
       setCookies("isOpposeSuggestApp", true, { expires: expirationDate });
       setIsTryCloseSuggestApp(true);
     }
-  }, [isApp, isOpposeSuggestApp]);
+  }, [isOpposeSuggestApp]);
 
   useSyncRecoilStateEffect(); // loginIngo, taxiLocations, myRooms, notificationOptions 초기화 및 동기화
   useI18nextEffect();
