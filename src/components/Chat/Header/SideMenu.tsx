@@ -1,11 +1,16 @@
 import dayjs from "dayjs";
-import { memo, useState } from "react";
+import { memo, useCallback, useState } from "react";
+
+import useIsTimeOver from "hooks/useIsTimeOver";
 
 import DottedLine from "components/DottedLine";
-import { ModalRoomShare } from "components/ModalPopup";
+import { ModalChatCancel, ModalRoomShare } from "components/ModalPopup";
 import User from "components/User";
 
-import { day2str } from "tools/day";
+import alertAtom from "atoms/alert";
+import { useSetRecoilState } from "recoil";
+
+import { day2str, dayServerToClient } from "tools/day";
 import theme from "tools/theme";
 
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
@@ -65,11 +70,23 @@ const SideMenuButton = ({ type, onClick }: SideMenuButtonProps) => {
 
 const SideMenu = ({
   roomInfo,
-  fetchRoomInfo,
+  fetchRoomInfo, // @fixme, @todo: ? 안쓰는 파라미터 인것 같은데?
   isOpen,
   setIsOpen,
 }: SideMenuProps) => {
+  const setAlert = useSetRecoilState(alertAtom);
   const [isOpenShare, setIsOpenShare] = useState<boolean>(false);
+  const [isOpenCancel, setIsOpenCancel] = useState<boolean>(false);
+  const isDepart = useIsTimeOver(dayServerToClient(roomInfo.time)); // 방 출발 여부
+
+  const onClikcShare = useCallback(() => setIsOpenShare(true), []);
+  const onClickCancel = useCallback(
+    () =>
+      isDepart
+        ? setAlert("출발 시각이 이전인 방은 탑승 취소를 할 수 없습니다.")
+        : setIsOpenCancel(true),
+    [isDepart]
+  );
 
   const styleBackground = {
     position: "absolute" as any,
@@ -171,19 +188,30 @@ const SideMenu = ({
             </div>
           </div>
           <DottedLine />
-          <SideMenuButton type="share" onClick={() => setIsOpenShare(true)} />
+          <SideMenuButton type="share" onClick={onClikcShare} />
           {/* <DottedLine />
           <SideMenuButton type="report" />
           <DottedLine />
           <SideMenuButton type="taxi" /> */}
         </div>
         <DottedLine />
-        <div css={styleNameSection}>
+        <div css={styleNameSection} onClick={onClickCancel}>
           <LogoutOutlinedIcon
-            style={{ fontSize: "24px", fill: theme.purple, cursor: "pointer" }}
-            onClick={() => setIsOpen(false)}
+            style={{
+              fontSize: "24px",
+              fill: isDepart ? theme.gray_text : theme.purple,
+              ...theme.cursor(isDepart),
+            }}
           />
-          <div css={{ color: theme.purple, ...theme.font18 }}>탑승 취소</div>
+          <div
+            css={{
+              color: isDepart ? theme.gray_text : theme.purple,
+              ...theme.font18,
+              ...theme.cursor(isDepart),
+            }}
+          >
+            탑승 취소
+          </div>
         </div>
         <div css={{ height: "env(safe-area-inset-bottom)" }} />
       </div>
@@ -191,6 +219,11 @@ const SideMenu = ({
         isOpen={isOpenShare}
         onChangeIsOpen={setIsOpenShare}
         roomInfo={roomInfo}
+      />
+      <ModalChatCancel
+        roomId={roomInfo._id}
+        isOpen={isOpenCancel}
+        onChangeIsOpen={setIsOpenCancel}
       />
     </>
   );

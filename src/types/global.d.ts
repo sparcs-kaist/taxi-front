@@ -42,6 +42,7 @@ declare global {
         name: string;
         nickname: string;
         profileImageUrl: string;
+        isSettlement?: string;
       }
     ];
   };

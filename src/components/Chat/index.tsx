@@ -38,6 +38,7 @@ const Chat = ({ roomId, layoutType }: ChatProps) => {
   // socket.io를 통해 채팅 전송 및 수신
   useSocketChatEffect(
     roomId,
+    fetchRoomInfo,
     setChats,
     setDisplayNewMessage,
     messageBodyRef,
@@ -70,6 +71,7 @@ const Chat = ({ roomId, layoutType }: ChatProps) => {
       />
       <MessageForm
         layoutType={layoutType}
+        roomInfo={roomInfo}
         isDisplayNewMessage={isDisplayNewMessage}
         isOpenToolSheet={isOpenToolSheet}
         onChangeIsOpenToolSheet={setIsOpenToolSheet}

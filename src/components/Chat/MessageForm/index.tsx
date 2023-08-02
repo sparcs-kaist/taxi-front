@@ -18,6 +18,7 @@ import theme from "tools/theme";
 
 type MessageFormProps = {
   layoutType: LayoutType;
+  roomInfo: Nullable<Room>;
   isDisplayNewMessage: boolean;
   isOpenToolSheet: boolean;
   onChangeIsOpenToolSheet: (x: boolean) => void;
@@ -27,6 +28,7 @@ type MessageFormProps = {
 
 const MessageForm = ({
   layoutType,
+  roomInfo,
   isDisplayNewMessage,
   isOpenToolSheet,
   onChangeIsOpenToolSheet,
@@ -68,6 +70,7 @@ const MessageForm = ({
           onClick={onClickNewMessage}
         />
         <ToolSheet
+          roomInfo={roomInfo}
           isOpen={isOpenToolSheet}
           onChangeIsOpen={onChangeIsOpenToolSheet}
           onChangeUploadedImage={setUploadedImage}

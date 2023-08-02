@@ -6,6 +6,7 @@ import {
   useFetchRecoilState,
   useValueRecoilState,
 } from "hooks/useFetchRecoilState";
+import useIsTimeOver from "hooks/useIsTimeOver";
 import { useAxios } from "hooks/useTaxiAPI";
 
 import Button from "components/Button";
@@ -18,7 +19,7 @@ import { MAX_PARTICIPATION } from "pages/Myroom";
 import alertAtom from "atoms/alert";
 import { useSetRecoilState } from "recoil";
 
-import { dayNowClient, dayServerToClient } from "tools/day";
+import { dayServerToClient } from "tools/day";
 import { date2str } from "tools/moment";
 import theme from "tools/theme";
 import { getLocationName } from "tools/trans";
@@ -121,8 +122,7 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
       true); // 이미 참여 중인지 여부
   const isMaxPart =
     isLogin && myRooms && myRooms.ongoing.length >= MAX_PARTICIPATION; // 최대 참여 가능한 방 개수를 초과했는지 여부
-  const isDepart =
-    roomInfo && dayServerToClient(roomInfo.time) <= dayNowClient(); // 방 출발 여부
+  const isDepart = useIsTimeOver(dayServerToClient(roomInfo.time)); // 방 출발 여부
 
   const requestJoin = useCallback(async () => {
     if (onCall.current) return;

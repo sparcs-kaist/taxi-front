@@ -20,6 +20,7 @@ import {
 
 export default (
   roomId: string,
+  fetchRoomInfo: () => void,
   setChats: ReturnType<typeof useStateWithCallbackLazy<Chats>>[1],
   setDisplayNewMessage: (value: boolean) => void,
   chatBodyRef: RefObject<HTMLDivElement>,
@@ -70,7 +71,12 @@ export default (
           if (isExpired || chats.length <= 0) return;
 
           const isMyMessage = chats.some((chat) => chat.authorId === userOid);
+          const isNeedToFetch = chats.some((chat) =>
+            ["in", "out", "payment", "settlement"].includes(chat.type)
+          );
+
           if (isMyMessage) isSendingMessage.current = false;
+          if (isNeedToFetch) fetchRoomInfo();
 
           if (chats.length > 10) {
             axios({
