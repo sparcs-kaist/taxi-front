@@ -6,13 +6,13 @@ import DottedLine from "components/DottedLine";
 import LinkCopy from "components/Link/LinkCopy";
 import LinkKakaotalkShare from "components/Link/LinkKakaotalkShare";
 
+import { ogServer } from "tools/loadenv";
 import { date2str } from "tools/moment";
 import theme from "tools/theme";
 import { getLocationName } from "tools/trans";
 
 import CheckIcon from "@mui/icons-material/Check";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import { ogServer } from "loadenv";
 import { ReactComponent as KakaoTalkLogo } from "static/assets/KakaoTalkLogo.svg";
 
 type ButtonShareProps = {

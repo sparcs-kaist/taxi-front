@@ -14,7 +14,7 @@ import nsMyroomKO from "pages/Myroom/langs/ko.json";
 import nsSearchEN from "pages/Search/langs/en.json";
 import nsSearchKO from "pages/Search/langs/ko.json";
 
-import { nodeEnv } from "loadenv";
+import { nodeEnv } from "tools/loadenv";
 
 /**
  * {@link https://www.i18next.com/overview/configuration-options}

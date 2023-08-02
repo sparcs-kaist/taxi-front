@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import isAppAtom from "atoms/isApp";
 import { useRecoilValue } from "recoil";
 
-import { backServer } from "loadenv";
+import { backServer } from "tools/loadenv";
 
 type LinkLoginProps = {
   children: React.ReactNode;

@@ -6,7 +6,7 @@ import {
   useValueRecoilState,
 } from "hooks/useFetchRecoilState";
 
-import { ioServer } from "loadenv";
+import { ioServer } from "tools/loadenv";
 
 export type SocketChatEventListner = (chats: Array<Chat>) => void;
 export type SocketVoidEventListner = () => void;

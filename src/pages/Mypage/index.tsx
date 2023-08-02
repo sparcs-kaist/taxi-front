@@ -22,10 +22,9 @@ import WhiteContainerSuggestLogin from "components/WhiteContainer/WhiteContainer
 
 import Menu from "./Menu";
 
+import { nodeEnv } from "tools/loadenv";
 import theme from "tools/theme";
 import { isNotificationOn } from "tools/trans";
-
-import { nodeEnv } from "loadenv";
 
 const Mypage = () => {
   const { t, i18n } = useTranslation("mypage");

@@ -21,7 +21,7 @@
     "^[./]",
     "^atoms/|^recoil$",
     "^tools/",
-    "^static/|^loadenv$|^@mui|^@material-ui"
+    "^static/|^@mui|^@material-ui"
   ],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true,
