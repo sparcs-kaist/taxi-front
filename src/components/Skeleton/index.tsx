@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 
 import {
@@ -9,10 +9,10 @@ import {
 import HeaderBar from "components/HeaderBar";
 import Loading from "components/Loading";
 import { ModalTerms } from "components/ModalPopup";
-import SuggestAppTopBar from "components/Skeleton/SuggestAppTopBar";
 import Error from "pages/Error";
 
 import Navigation from "./Navigation";
+import SuggestAppTopBar from "./SuggestAppTopBar";
 
 import errorAtom from "atoms/error";
 import isAppAtom from "atoms/isApp";
@@ -90,10 +90,9 @@ const Skeleton = ({ children }: SkeletonProps) => {
   }
   return (
     <Container>
-      {(isAndroid || isIOS) && !isApp && <SuggestAppTopBar />}
-
       <Navigation />
       <HeaderBar />
+      {(isAndroid || isIOS) && !isApp && <SuggestAppTopBar />}
       {children}
       <ModalTerms isOpen={!!userId && !isAgreeOnTermsOfService} />
       <div css={{ height: "88px" }} />
