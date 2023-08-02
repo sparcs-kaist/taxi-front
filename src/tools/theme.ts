@@ -127,6 +127,13 @@ const theme = {
     backgroundPosition: activated ? "left" : "right",
   }),
 
+  // Ellipsis
+  ellipsis: {
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  } as CSS,
+
   // zIndex
   zIndex_nav: 10,
   zIndex_background: 20,
