@@ -52,6 +52,7 @@ const theme = {
   font10: { fontSize: 10, fontWeight: 300, lineHeight: "12px" },
   font10_bold: { fontSize: 10, fontWeight: 700, lineHeight: "12px" },
   font12: { fontSize: 12, letterSpacing: 0.4, lineHeight: "14px" },
+  font12_bold: { fontSize: 12, fontWeight: 700, lineHeight: "14px" },
   font14: { fontSize: 14, lineHeight: "16px" },
   font14_bold: { fontSize: 14, fontWeight: 700, lineHeight: "16px" },
   font16: { fontSize: 16, letterSpacing: -0.4, lineHeight: "19px" },
@@ -125,6 +126,13 @@ const theme = {
     pointerEvents: "none",
     backgroundPosition: activated ? "left" : "right",
   }),
+
+  // Ellipsis
+  ellipsis: {
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  } as CSS,
 
   // zIndex
   zIndex_nav: 10,

@@ -1,5 +1,4 @@
-import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
-import { useCookies } from "react-cookie";
+import type { ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 
 import useCSSVariablesEffect from "hooks/skeleton/useCSSVariablesEffect";
@@ -18,10 +17,10 @@ import {
 import HeaderBar from "components/HeaderBar";
 import Loading from "components/Loading";
 import { ModalTerms } from "components/ModalPopup";
-import ModalSuggestApp from "components/ModalPopup/ModalSuggestApp";
 import Error from "pages/Error";
 
 import Navigation from "./Navigation";
+import SuggestAppTopBar from "./SuggestAppTopBar";
 
 import errorAtom from "atoms/error";
 import isAppAtom from "atoms/isApp";
@@ -60,7 +59,6 @@ const Skeleton = ({ children }: SkeletonProps) => {
   const { pathname } = useLocation();
   const error = useRecoilValue(errorAtom);
   const isLoading = userId === null;
-
   const isDisplayNavigation = useMemo(
     () =>
       !["/login", "/logout", "/chatting", "/invite"].some((prefix) =>
@@ -69,33 +67,10 @@ const Skeleton = ({ children }: SkeletonProps) => {
     [pathname]
   );
 
-  const [cookies, setCookies] = useCookies(["isOpposeSuggestApp"]);
-  const isOpposeSuggestApp = !!cookies?.isOpposeSuggestApp;
   const isApp = useRecoilValue(isAppAtom) || deviceType === "app";
   const [isAndroid, isIOS] = isMobile();
-  const [isTryCloseSuggestApp, setIsTryCloseSuggestApp] = useState(false);
-  const isSuggestApp = useMemo(
-    () =>
-      (isAndroid || isIOS) &&
-      !isApp &&
-      !isOpposeSuggestApp &&
-      !isTryCloseSuggestApp,
-    [isAndroid, isIOS, isApp, isOpposeSuggestApp, isTryCloseSuggestApp]
-  );
-  const setIsOpenSuggestApp = useCallback(
-    () => setIsTryCloseSuggestApp(true),
-    []
-  );
-
-  // 앱 웹뷰일 경우, 앱 설치 유도 팝업 띄우기를 중단합니다 그리고 쿠키를 설정합니다.
-  useEffect(() => {
-    if (isApp && !isOpposeSuggestApp) {
-      const expirationDate = new Date();
-      expirationDate.setFullYear(expirationDate.getFullYear() + 10);
-      setCookies("isOpposeSuggestApp", true, { expires: expirationDate });
-      setIsTryCloseSuggestApp(true);
-    }
-  }, [isApp, isOpposeSuggestApp]);
+  const location = useLocation();
+  const { pathname } = location;
 
   useSyncRecoilStateEffect(); // loginIngo, taxiLocations, myRooms, notificationOptions 초기화 및 동기화
   useI18nextEffect();
@@ -117,6 +92,7 @@ const Skeleton = ({ children }: SkeletonProps) => {
       ) : (
         <>
           {isDisplayNavigation && <Navigation />}
+          {isDisplayNavigation && (isAndroid || isIOS) && !isApp && <SuggestAppTopBar />}
           {children}
           <ModalSuggestApp
             isOpen={isSuggestApp}
