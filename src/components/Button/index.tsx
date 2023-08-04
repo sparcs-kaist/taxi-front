@@ -1,6 +1,7 @@
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 
-import hoverEventSet from "tools/hoverEventSet";
+import useHoverProps from "hooks/theme/useHoverProps";
+
 import theme, { Font } from "tools/theme";
 
 type ButtonType = "purple" | "purple_inset" | "gray" | "white";
@@ -28,8 +29,7 @@ const Button = ({
   className,
   children,
 }: ButtonProps) => {
-  const [isHover, setHover] = useState(false);
-  const [isClicked, setClicked] = useState(false);
+  const [hoverProps, isHover, isClicked] = useHoverProps();
 
   const getColor = () => {
     switch (type) {
@@ -87,7 +87,7 @@ const Button = ({
       onClick={disabled ? undefined : onClick}
       style={style}
       className={className}
-      {...hoverEventSet(setHover, setClicked)}
+      {...hoverProps}
     >
       {children}
     </div>

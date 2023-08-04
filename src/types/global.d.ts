@@ -1,4 +1,6 @@
-import { CSSProperties } from "react";
+import type { Dayjs as _Dayjs } from "dayjs";
+import type { Location as _RouterLocation } from "history";
+import type { CSSProperties } from "react";
 
 import Env from "./env";
 
@@ -6,6 +8,8 @@ export {};
 
 declare global {
   type Nullable<T> = T | null | undefined;
+  type RouterLocation = _RouterLocation;
+  type Dayjs = _Dayjs;
   type CSS = CSSProperties;
   type PixelValue = "0" | `${number}px`;
   type Margin =
@@ -26,6 +30,7 @@ declare global {
     profileImageUrl: string;
   };
   type Room = {
+    _id: string;
     name: string;
     from: Location;
     to: Location;
@@ -39,6 +44,7 @@ declare global {
         name: string;
         nickname: string;
         profileImageUrl: string;
+        isSettlement?: string;
       }
     ];
   };

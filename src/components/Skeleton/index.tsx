@@ -1,6 +1,14 @@
-import type { ReactNode } from "react";
+import { ReactNode, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 
+import useCSSVariablesEffect from "hooks/skeleton/useCSSVariablesEffect";
+import useChannelTalkEffect from "hooks/skeleton/useChannelTalkEffect";
+import useFirebaseMessagingEffect from "hooks/skeleton/useFirebaseMessagingEffect";
+import useFlutterEventCommunicationEffect from "hooks/skeleton/useFlutterEventCommunicationEffect";
+import useGoogleAnalyticsEffect from "hooks/skeleton/useGoogleAnalyticsEffect";
+import useI18nextEffect from "hooks/skeleton/useI18nextEffect";
+import useScrollRestorationEffect from "hooks/skeleton/useScrollRestorationEffect";
+import useVirtualKeyboardDetectEffect from "hooks/skeleton/useVirtualKeyboardDetectEffect";
 import {
   useSyncRecoilStateEffect,
   useValueRecoilState,
@@ -48,54 +56,48 @@ const Skeleton = ({ children }: SkeletonProps) => {
     agreeOnTermsOfService: isAgreeOnTermsOfService,
     deviceType,
   } = useValueRecoilState("loginInfo") || {};
+  const { pathname } = useLocation();
   const error = useRecoilValue(errorAtom);
   const isLoading = userId === null;
+  const isDisplayNavigation = useMemo(
+    () =>
+      !["/login", "/logout", "/chatting", "/invite"].some((prefix) =>
+        pathname.startsWith(prefix)
+      ),
+    [pathname]
+  );
+
   const isApp = useRecoilValue(isAppAtom) || deviceType === "app";
   const [isAndroid, isIOS] = isMobile();
 
-  const location = useLocation();
-  const { pathname } = location;
+  useSyncRecoilStateEffect(); // loginIngo, taxiLocations, myRooms, notificationOptions 초기화 및 동기화
+  useI18nextEffect();
+  useScrollRestorationEffect();
+  useCSSVariablesEffect();
+  useVirtualKeyboardDetectEffect();
+  useChannelTalkEffect();
+  useGoogleAnalyticsEffect();
+  useFirebaseMessagingEffect();
+  useFlutterEventCommunicationEffect();
 
-  // loginIngo, taxiLocations, myRooms, notificationOptions 초기화 및 동기화
-  useSyncRecoilStateEffect();
-
-  if (error) {
-    return (
-      <Container>
-        <HeaderBar />
-        <Error />
-      </Container>
-    );
-  }
-  if (isLoading) {
-    return (
-      <Container>
-        <HeaderBar />
-        <Loading center />
-      </Container>
-    );
-  }
-  if (
-    pathname.startsWith("/login") ||
-    pathname.startsWith("/logout") ||
-    pathname.startsWith("/chatting") ||
-    pathname.startsWith("/invite")
-  ) {
-    return (
-      <Container>
-        <HeaderBar />
-        {children}
-      </Container>
-    );
-  }
   return (
     <Container>
-      <Navigation />
       <HeaderBar />
-      {(isAndroid || isIOS) && !isApp && <SuggestAppTopBar />}
-      {children}
-      <ModalTerms isOpen={!!userId && !isAgreeOnTermsOfService} />
-      <div css={{ height: "88px" }} />
+      {error ? (
+        <Error />
+      ) : isLoading ? (
+        <Loading center />
+      ) : (
+        <>
+          {isDisplayNavigation && <Navigation />}
+          {isDisplayNavigation && (isAndroid || isIOS) && !isApp && (
+            <SuggestAppTopBar />
+          )}
+          {children}
+          <ModalTerms isOpen={!!userId && !isAgreeOnTermsOfService} />
+          {isDisplayNavigation && <div css={{ height: "88px" }} />}
+        </>
+      )}
     </Container>
   );
 };

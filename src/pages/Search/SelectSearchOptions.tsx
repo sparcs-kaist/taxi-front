@@ -1,6 +1,7 @@
-import { memo, useState } from "react";
+import { memo } from "react";
 
-import hoverEventSet from "tools/hoverEventSet";
+import useHoverProps from "hooks/theme/useHoverProps";
+
 import theme from "tools/theme";
 
 type SearchOptions = "place" | "date" | "time" | "maxPeople" | "name";
@@ -26,7 +27,7 @@ const searchOptions: Array<{ name: string; id: SearchOptions }> = [
 ];
 
 const SearchOption = (props: SearchOptionProps) => {
-  const [isHover, setHover] = useState(false);
+  const [hoverProps, isHover] = useHoverProps();
   const onClick = () =>
     props.handler((options: SearchOptionsType) => {
       options[props.id] = !props.selected;
@@ -55,7 +56,7 @@ const SearchOption = (props: SearchOptionProps) => {
         ...theme.cursor(),
       }}
       onClick={onClick}
-      {...hoverEventSet(setHover)}
+      {...hoverProps}
     >
       {props.name}
     </div>

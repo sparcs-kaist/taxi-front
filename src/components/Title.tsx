@@ -3,7 +3,7 @@ import { ReactNode, memo } from "react";
 import theme from "tools/theme";
 
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
-import ErrorOutlineRounded from "@mui/icons-material/ErrorOutlineRounded";
+import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
 import FavoriteRoundedIocn from "@mui/icons-material/FavoriteRounded";
 import FeedRounedIcon from "@mui/icons-material/FeedRounded";
 import HailRoundedIcon from "@mui/icons-material/HailRounded";
@@ -43,7 +43,7 @@ const Icon = ({ type: icon }: IconProps) => {
   const iconStyle = {
     width: "24px",
     height: "24px",
-    color: theme.purple,
+    fill: theme.purple,
   };
 
   switch (icon) {
@@ -66,7 +66,7 @@ const Icon = ({ type: icon }: IconProps) => {
     case "mypage":
       return <PersonOutlineRoundedIcon style={iconStyle} />;
     case "error":
-      return <ErrorOutlineRounded style={iconStyle} />;
+      return <ErrorOutlineRoundedIcon style={iconStyle} />;
     case "feed":
       return <FeedRounedIcon style={iconStyle} />;
     case "favorite":

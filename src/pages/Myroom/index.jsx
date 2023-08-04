@@ -31,7 +31,7 @@ const Myroom = () => {
     if (butterflyState === "fold" && roomId) {
       history.replace(`/chatting/${roomId}`);
     }
-  }, [butterflyState, roomId, history]);
+  }, [butterflyState, roomId]);
 
   return !isLogin ? (
     <AdaptiveDiv type="center">

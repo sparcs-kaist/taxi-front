@@ -1,5 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 
+import type { Report } from "types/report";
+
 import { useAxios } from "hooks/useTaxiAPI";
 
 import Button from "components/Button";
@@ -45,10 +47,8 @@ const ModalReportInChatting = ({
   const styleTitle: CSS = {
     margin: "0 24px 0 12px",
     ...theme.font16_bold,
+    ...theme.ellipsis,
     color: theme.black,
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap",
   };
   const styleTop: CSS = {
     marginTop: "6px",
