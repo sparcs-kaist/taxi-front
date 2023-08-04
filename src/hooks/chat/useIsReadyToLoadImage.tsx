@@ -7,7 +7,6 @@ export default (src: string): [boolean, boolean] => {
   useEffect(() => {
     const imageObj = new Image();
     imageObj.onerror = () => {
-      console.log(123);
       setIsFail(true);
       setSrcAfterLoad(src);
     };

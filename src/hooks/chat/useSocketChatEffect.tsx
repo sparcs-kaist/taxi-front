@@ -51,6 +51,7 @@ export default (
         },
         reconnectListener: () => {
           if (isExpired) return;
+
           setChats(
             (prevChats: Chats): Chats => {
               const lastChat = prevChats[prevChats.length - 1];
@@ -104,11 +105,10 @@ export default (
 
           if (chats.length === 0) {
             setChats(
-              (prevChats: Chats) => {
-                if (prevChats[0].type === "infscroll-checkout")
-                  return prevChats.slice(1);
-                return prevChats;
-              },
+              (prevChats: Chats) =>
+                prevChats[0].type === "infscroll-checkout"
+                  ? prevChats.slice(1)
+                  : prevChats,
               () => {}
             );
           } else {

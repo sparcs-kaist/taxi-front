@@ -1,6 +1,6 @@
 import { memo, useCallback } from "react";
 
-import { LayoutType } from "types/chat";
+import type { LayoutType } from "types/chat";
 
 import { useValueRecoilState } from "hooks/useFetchRecoilState";
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
-import { LayoutType } from "types/chat";
+import type { LayoutType } from "types/chat";
 
 import useButterflyState from "hooks/useButterflyState";
 
