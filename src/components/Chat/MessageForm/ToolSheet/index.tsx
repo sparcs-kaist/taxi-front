@@ -1,4 +1,11 @@
-import { memo, useCallback, useMemo, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  memo,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import { useValueRecoilState } from "hooks/useFetchRecoilState";
 import useIsTimeOver from "hooks/useIsTimeOver";
@@ -43,18 +50,15 @@ const ToolSheet = ({
 
   const inputImageRef = useRef<HTMLInputElement>(null);
   const onChangeImage = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
       const file = e.target?.files?.[0];
-      onChangeUploadedImage && onChangeUploadedImage(file);
+      onChangeUploadedImage?.(file);
       onChangeIsOpen?.(false);
       e.target.value = "";
     },
-    [onChangeUploadedImage]
+    [onChangeUploadedImage, onChangeIsOpen]
   );
-  const onClickImage = useCallback(
-    () => inputImageRef.current?.click(),
-    [onChangeIsOpen]
-  );
+  const onClickImage = useCallback(() => inputImageRef.current?.click(), []);
   const onClickSettlement = useCallback(() => {
     if (!isDepart) setAlert("출발 시각 이후에 정산하기 요청을 보내주세요.");
     else if (settlementStatusForMe === "paid")
@@ -73,8 +77,11 @@ const ToolSheet = ({
     else if (!roomInfo?.settlementTotal)
       setAlert("정산하기 요청을 보낸 사용자가 없어 송금하기가 불가능합니다.");
     else setIsOpenPayment(true);
-  }, [isDepart, settlementStatusForMe]);
-  const onRecallSettlePayment = useCallback(() => onChangeIsOpen?.(false), []);
+  }, [isDepart, settlementStatusForMe, setIsOpenPayment]);
+  const onRecallSettlePayment = useCallback(
+    () => onChangeIsOpen?.(false),
+    [onChangeIsOpen]
+  );
 
   const styleWrap = {
     position: "absolute" as any,

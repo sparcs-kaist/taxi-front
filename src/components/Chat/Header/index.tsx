@@ -17,10 +17,9 @@ import OpenInFullRoundedIcon from "@mui/icons-material/OpenInFullRounded";
 type HeaderProps = {
   layoutType: LayoutType;
   roomInfo: Nullable<Room>;
-  fetchRoomInfo: () => void;
 };
 
-const Header = ({ layoutType, roomInfo, fetchRoomInfo }: HeaderProps) => {
+const Header = ({ layoutType, roomInfo }: HeaderProps) => {
   const history = useHistory();
   const butterflyState = useButterflyState();
   const [isOpenSideMenu, setIsOpenSideMenu] = useState(false);
@@ -77,7 +76,6 @@ const Header = ({ layoutType, roomInfo, fetchRoomInfo }: HeaderProps) => {
     <>
       <SideMenu
         roomInfo={roomInfo}
-        fetchRoomInfo={fetchRoomInfo}
         isOpen={isOpenSideMenu}
         setIsOpen={setIsOpenSideMenu}
       />

@@ -1,4 +1,11 @@
-import { CSSProperties, useCallback, useEffect, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  KeyboardEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 import useSendMessage from "hooks/chat/useSendMessage";
 
@@ -14,12 +21,12 @@ type BodyTextProps = {
 const BodyText = ({ sendMessage }: BodyTextProps) => {
   const wrapRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const [height, setHeight] = useState<CSSProperties["height"]>("32px");
+  const [height, setHeight] = useState<CSS["height"]>("32px");
   const [message, setMessage] = useState<string>("");
   const [isSendingMessage, setIsSendingMessage] = useState<boolean>(false);
 
-  const enterPressed = useRef<boolean>(false);
-  const shiftPressed = useRef<boolean>(false);
+  const isEnterPressed = useRef<boolean>(false);
+  const isShiftPressed = useRef<boolean>(false);
 
   const isMessageValid: boolean =
     regExpTest.chatMsg(message) && !isSendingMessage;
@@ -33,25 +40,22 @@ const BodyText = ({ sendMessage }: BodyTextProps) => {
       setIsSendingMessage(false);
     }
   };
-  const onKeyEvent = (
-    e: React.KeyboardEvent<HTMLTextAreaElement>,
-    v: boolean
-  ) => {
+  const onKeyEvent = (e: KeyboardEvent<HTMLTextAreaElement>, v: boolean) => {
     if (e.code === "ShiftLeft" || e.code === "ShiftRight")
-      shiftPressed.current = v;
-    if (e.code === "Enter") enterPressed.current = v;
+      isShiftPressed.current = v;
+    if (e.code === "Enter") isEnterPressed.current = v;
   };
-  const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (enterPressed.current && !shiftPressed.current) {
+  const onChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    if (isEnterPressed.current && !isShiftPressed.current) {
       onSend();
       return;
     }
     const msg = e.target.value;
     if (!isSendingMessage) setMessage(msg);
   };
-  const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) =>
+  const onKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) =>
     onKeyEvent(e, true);
-  const onKeyUp = (e: React.KeyboardEvent<HTMLTextAreaElement>) =>
+  const onKeyUp = (e: KeyboardEvent<HTMLTextAreaElement>) =>
     onKeyEvent(e, false);
 
   const resizeEvent = useCallback(() => {

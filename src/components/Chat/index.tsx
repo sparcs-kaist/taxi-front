@@ -59,11 +59,7 @@ const Chat = ({ roomId, layoutType }: ChatProps) => {
 
   return (
     <Container layoutType={layoutType}>
-      <Header
-        layoutType={layoutType}
-        roomInfo={roomInfo}
-        fetchRoomInfo={fetchRoomInfo}
-      />
+      <Header layoutType={layoutType} roomInfo={roomInfo} />
       <MessagesBody
         layoutType={layoutType}
         chats={chats}

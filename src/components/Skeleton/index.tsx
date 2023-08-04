@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { ReactNode, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 
 import useCSSVariablesEffect from "hooks/skeleton/useCSSVariablesEffect";
@@ -69,8 +69,6 @@ const Skeleton = ({ children }: SkeletonProps) => {
 
   const isApp = useRecoilValue(isAppAtom) || deviceType === "app";
   const [isAndroid, isIOS] = isMobile();
-  const location = useLocation();
-  const { pathname } = location;
 
   useSyncRecoilStateEffect(); // loginIngo, taxiLocations, myRooms, notificationOptions 초기화 및 동기화
   useI18nextEffect();
@@ -92,12 +90,10 @@ const Skeleton = ({ children }: SkeletonProps) => {
       ) : (
         <>
           {isDisplayNavigation && <Navigation />}
-          {isDisplayNavigation && (isAndroid || isIOS) && !isApp && <SuggestAppTopBar />}
+          {isDisplayNavigation && (isAndroid || isIOS) && !isApp && (
+            <SuggestAppTopBar />
+          )}
           {children}
-          <ModalSuggestApp
-            isOpen={isSuggestApp}
-            onChangeIsOpen={setIsOpenSuggestApp}
-          />
           <ModalTerms isOpen={!!userId && !isAgreeOnTermsOfService} />
           {isDisplayNavigation && <div css={{ height: "88px" }} />}
         </>

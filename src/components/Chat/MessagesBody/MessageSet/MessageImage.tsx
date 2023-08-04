@@ -1,5 +1,3 @@
-import { CSSProperties } from "react";
-
 import useIsReadyToLoadImage from "hooks/chat/useIsReadyToLoadImage";
 
 import alertAtom from "atoms/alert";
@@ -13,7 +11,7 @@ import ImageRoundedIcon from "@mui/icons-material/ImageRounded";
 
 type MessageImageProps = {
   id: string;
-  color: CSSProperties["color"];
+  color: CSS["color"];
 };
 
 const MessageImage = ({ id, color }: MessageImageProps) => {

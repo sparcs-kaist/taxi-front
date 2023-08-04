@@ -30,7 +30,6 @@ type SideMenuButtonProps = {
 
 type SideMenuProps = {
   roomInfo: Room;
-  fetchRoomInfo: () => void;
   isOpen: boolean;
   setIsOpen: (x: boolean) => void;
 };
@@ -68,12 +67,7 @@ const SideMenuButton = ({ type, onClick }: SideMenuButtonProps) => {
   );
 };
 
-const SideMenu = ({
-  roomInfo,
-  fetchRoomInfo, // @fixme, @todo: ? 안쓰는 파라미터 인것 같은데?
-  isOpen,
-  setIsOpen,
-}: SideMenuProps) => {
+const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
   const setAlert = useSetRecoilState(alertAtom);
   const [isOpenShare, setIsOpenShare] = useState<boolean>(false);
   const [isOpenCancel, setIsOpenCancel] = useState<boolean>(false);

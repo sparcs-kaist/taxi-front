@@ -1,4 +1,4 @@
-import { CSSProperties, memo, useCallback } from "react";
+import { memo, useCallback } from "react";
 
 import { LayoutType } from "types/chat";
 
@@ -18,7 +18,7 @@ import theme from "tools/theme";
 type MessageBodyProps = {
   type: Chat["type"];
   content: Chat["content"];
-  color: CSSProperties["color"];
+  color: CSS["color"];
 };
 
 const MessageBody = ({ type, content, color }: MessageBodyProps) => {
