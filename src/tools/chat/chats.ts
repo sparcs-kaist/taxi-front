@@ -1,8 +1,12 @@
 import type {
+  BotChat,
+  Chat,
   Chats,
   InfScrollCheckoutChat,
   JointCheckoutChat,
 } from "types/chat";
+
+import { randomSuggestRoomShareTextGenerator } from "tools/random";
 
 export const jointCheckoutChat: JointCheckoutChat = {
   type: "joint-checkout",
@@ -13,6 +17,17 @@ export const createInfScrollCheckoutChat = (): InfScrollCheckoutChat => {
   const key = Math.random().toString(36).substring(2, 15);
   return { type: "infscroll-checkout", key, isSpecialChat: true };
 };
+
+export const createShareChat = (roomInfo: Room): BotChat => ({
+  type: "share",
+  authorId: "bot",
+  authorName: "택시 봇",
+  content: randomSuggestRoomShareTextGenerator(roomInfo._id),
+  roomInfo,
+  roomId: roomInfo._id,
+  time: roomInfo.madeat,
+  isValid: true,
+});
 
 // 채팅 메시지의 문자열 고유 값을 반환합니다.
 export const getChatUniquewKey = (chat: Chat): string => {
