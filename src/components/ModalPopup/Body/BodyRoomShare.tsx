@@ -64,7 +64,7 @@ const ButtonShare = ({ text, icon, background, onClick }: ButtonShareProps) => (
 
 const BodyRoomShare = ({ roomInfo, height }: BodyRoomShareProps) => {
   const { i18n } = useTranslation();
-  const { origin: host } = window.location;
+  const { origin } = window.location;
   const pathForShare = `/invite/${roomInfo?._id}`;
 
   const [isCopied, setIsCopied] = useState(false);
@@ -108,7 +108,7 @@ const BodyRoomShare = ({ roomInfo, height }: BodyRoomShareProps) => {
       <DottedLine />
       <div css={{ flexGrow: 1 }} />
       <div css={styleQRSection}>
-        <QRCode value={host + pathForShare} size={120} bgColor="none" />
+        <QRCode value={origin + pathForShare} size={120} bgColor="none" />
       </div>
       <div css={{ flexGrow: 1 }} />
       <div css={styleButtonSection}>
@@ -142,7 +142,7 @@ const BodyRoomShare = ({ roomInfo, height }: BodyRoomShareProps) => {
           )} → ${getLocationName(
             roomInfo.to,
             i18n.language
-          )} 택시팟 구합니다!\n🚕 참여 링크: ${host + pathForShare}`}
+          )} 택시팟 구합니다!\n🚕 참여 링크: ${origin + pathForShare}`}
           onCopy={onCopy}
         >
           <ButtonShare

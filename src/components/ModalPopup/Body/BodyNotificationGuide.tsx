@@ -4,6 +4,7 @@ import theme from "tools/theme";
 
 const BodyNotificationGuide = () => {
   const { deviceType } = useValueRecoilState("loginInfo") || {};
+  const { protocol, host } = window.location;
 
   const styleGuide = {
     ...theme.font12,
@@ -21,8 +22,8 @@ const BodyNotificationGuide = () => {
       <div css={styleGuide}>
         Chrome에서 브라우저 알림 허용하기
         <br />
-        1. 더보기 {">"} 설정 {">"} 개인정보 및 보안 {">"} 사이트 설정 {">"}{" "}
-        [taxi.sparcs.org]을 선택합니다.
+        1. 더보기 {">"} 설정 {">"} 개인정보 및 보안 {">"} 사이트 설정 {">"} [
+        {host}]을 선택합니다.
         <br />
         2. 권한 {"'"}알림{"'"} 설정을 허용으로 변경합니다.
       </div>
@@ -34,7 +35,7 @@ const BodyNotificationGuide = () => {
         <br />
         2. {"'"}허용{"'"}의 {"'"}추가{"'"} 버튼을 선택합니다.
         <br />
-        3. {"'"}사이트 추가{"'"} 창에 https://taxi.sparcs.org/를 입력하고 {"'"}
+        3. {"'"}사이트 추가{"'"} 창에 {protocol + host}를 입력하고 {"'"}
         추가{"'"} 버튼을 선택합니다.
       </div>
       <div css={styleGuide}>

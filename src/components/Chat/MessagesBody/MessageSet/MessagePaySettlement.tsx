@@ -22,7 +22,7 @@ const MessagePaySettlement = ({ type, color }: MessagePaySettlementProps) => (
     {type === "payment" ? (
       <>
         <CreditCardRoundedIcon style={{ fontSize: "18px" }} />
-        제가 택시비를 결제하였어요 !
+        제가 택시비를 결제했어요 !
       </>
     ) : (
       <>
