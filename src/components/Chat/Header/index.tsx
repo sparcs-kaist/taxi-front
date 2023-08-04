@@ -57,17 +57,13 @@ const Header = ({ layoutType, roomInfo }: HeaderProps) => {
   };
   const styleName = {
     color: layoutType === "fullchat" ? theme.purple : theme.white,
-    whiteSpace: "nowrap" as any,
-    textOverflow: "ellipsis",
-    overflow: "hidden",
+    ...theme.ellipsis,
     ...theme.font18,
   };
   const styleFromTo = {
     color: layoutType === "fullchat" ? theme.gray_text : theme.white,
     width: "100%",
-    whiteSpace: "nowrap" as any,
-    textOverflow: "ellipsis",
-    overflow: "hidden",
+    ...theme.ellipsis,
     ...theme.font12,
   };
 
