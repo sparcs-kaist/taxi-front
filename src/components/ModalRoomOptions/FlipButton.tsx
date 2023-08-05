@@ -1,6 +1,5 @@
-import { useState } from "react";
+import useHoverProps from "hooks/theme/useHoverProps";
 
-import hoverEventSet from "tools/hoverEventSet";
 import theme from "tools/theme";
 
 import SyncAltRoundedIcon from "@mui/icons-material/SyncAltRounded";
@@ -11,8 +10,7 @@ type FlipButtonProps = {
 };
 
 const FlipButton = (props: FlipButtonProps) => {
-  const [isHover, setHover] = useState(false);
-  const [isClicked, setClicked] = useState(false);
+  const [hoverProps, isHover, isClicked] = useHoverProps();
 
   return (
     <div
@@ -37,7 +35,7 @@ const FlipButton = (props: FlipButtonProps) => {
           isClicked && !props.disabled ? theme.shadow_clicked : theme.shadow,
       }}
       onClick={props.disabled ? undefined : props.onClick}
-      {...hoverEventSet(setHover, setClicked)}
+      {...hoverProps}
     >
       <SyncAltRoundedIcon
         style={{

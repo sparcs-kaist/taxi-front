@@ -82,7 +82,7 @@ const ModalRoomSelection = ({
       {roomInfo && (
         <>
           <div css={styleTitle}>{roomInfo.name}</div>
-          <Navigation pages={pages} />
+          {pages && <Navigation pages={pages} />}
           <HeightFixWrapper onChangeHeight={setBodyHeight}>
             <BodyRoomSelection roomInfo={roomInfo} />
           </HeightFixWrapper>

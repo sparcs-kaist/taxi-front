@@ -7,13 +7,13 @@ COPY . .
 # Install curl (for taxi-docker)
 RUN apk update && apk add curl
 
-# Install requirements
-RUN npm install && \
-    npm install react-inject-env@2.1.0 --save && \
-    npm install serve@14.1.2 -g
+RUN npm install --global pnpm@8.6.6 serve@14.1.2
 
+# Install requirements
+RUN pnpm install && \
+    pnpm install react-inject-env@2.1.0 --save
 # build
-RUN npm run build
+RUN pnpm run build
 
 # serve
 EXPOSE 80

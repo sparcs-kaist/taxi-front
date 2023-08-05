@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import { io } from "socket.io-client";
 
-import { useValueRecoilState } from "hooks/useFetchRecoilState";
+import {
+  useFetchRecoilState,
+  useValueRecoilState,
+} from "hooks/useFetchRecoilState";
 
 import { ioServer } from "loadenv";
 
@@ -18,6 +21,7 @@ let pushFrontEventListener: Nullable<SocketChatEventListner> = null;
 
 const SocketToastProvider = () => {
   const { id: userId } = useValueRecoilState("loginInfo") || {};
+  const fetchMyrooms = useFetchRecoilState("myRooms");
 
   useEffect(() => {
     if (!userId) return;
@@ -39,6 +43,13 @@ const SocketToastProvider = () => {
     });
     socket.on("chat_push_back", ({ chats }) => {
       if (pushBackEventListener) pushBackEventListener(chats);
+
+      // Room 배열의 업데이트가 필요한 채팅을 수신했다면 업데이트합니다.
+      const isNeedToFetch = chats.some((chat: Chat) =>
+        ["in", "out", "payment", "settlement"].includes(chat.type)
+      );
+      if (isNeedToFetch) fetchMyrooms();
+
       // TODO: roomId 다르면 Toast 메시지 띄우기 가능 (라이브러리 조사: React-toastify)
     });
     socket.on("chat_push_front", ({ chats }) => {

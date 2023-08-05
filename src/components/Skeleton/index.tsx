@@ -1,7 +1,14 @@
-import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
-import { useCookies } from "react-cookie";
+import { ReactNode, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 
+import useCSSVariablesEffect from "hooks/skeleton/useCSSVariablesEffect";
+import useChannelTalkEffect from "hooks/skeleton/useChannelTalkEffect";
+import useFirebaseMessagingEffect from "hooks/skeleton/useFirebaseMessagingEffect";
+import useFlutterEventCommunicationEffect from "hooks/skeleton/useFlutterEventCommunicationEffect";
+import useGoogleAnalyticsEffect from "hooks/skeleton/useGoogleAnalyticsEffect";
+import useI18nextEffect from "hooks/skeleton/useI18nextEffect";
+import useScrollRestorationEffect from "hooks/skeleton/useScrollRestorationEffect";
+import useVirtualKeyboardDetectEffect from "hooks/skeleton/useVirtualKeyboardDetectEffect";
 import {
   useSyncRecoilStateEffect,
   useValueRecoilState,
@@ -10,10 +17,10 @@ import {
 import HeaderBar from "components/HeaderBar";
 import Loading from "components/Loading";
 import { ModalTerms } from "components/ModalPopup";
-import ModalSuggestApp from "components/ModalPopup/ModalSuggestApp";
 import Error from "pages/Error";
 
 import Navigation from "./Navigation";
+import SuggestAppTopBar from "./SuggestAppTopBar";
 
 import errorAtom from "atoms/error";
 import isAppAtom from "atoms/isApp";
@@ -49,83 +56,48 @@ const Skeleton = ({ children }: SkeletonProps) => {
     agreeOnTermsOfService: isAgreeOnTermsOfService,
     deviceType,
   } = useValueRecoilState("loginInfo") || {};
+  const { pathname } = useLocation();
   const error = useRecoilValue(errorAtom);
   const isLoading = userId === null;
+  const isDisplayNavigation = useMemo(
+    () =>
+      !["/login", "/logout", "/chatting", "/invite"].some((prefix) =>
+        pathname.startsWith(prefix)
+      ),
+    [pathname]
+  );
 
-  const location = useLocation();
-  const { pathname } = location;
-
-  const [cookies, setCookies] = useCookies(["isOpposeSuggestApp"]);
-  const isOpposeSuggestApp = !!cookies?.isOpposeSuggestApp;
   const isApp = useRecoilValue(isAppAtom) || deviceType === "app";
   const [isAndroid, isIOS] = isMobile();
-  const [isTryCloseSuggestApp, setIsTryCloseSuggestApp] = useState(false);
-  const isSuggestApp = useMemo(
-    () =>
-      (isAndroid || isIOS) &&
-      !isApp &&
-      !isOpposeSuggestApp &&
-      !isTryCloseSuggestApp,
-    [isAndroid, isIOS, isApp, isOpposeSuggestApp, isTryCloseSuggestApp]
-  );
-  const setIsOpenSuggestApp = useCallback(
-    () => setIsTryCloseSuggestApp(true),
-    []
-  );
 
-  // 앱 웹뷰일 경우, 앱 설치 유도 팝업 띄우기를 중단합니다 그리고 쿠키를 설정합니다.
-  useEffect(() => {
-    if (isApp && !isOpposeSuggestApp) {
-      const expirationDate = new Date();
-      expirationDate.setFullYear(expirationDate.getFullYear() + 10);
-      setCookies("isOpposeSuggestApp", true, { expires: expirationDate });
-      setIsTryCloseSuggestApp(true);
-    }
-  }, [isApp, isOpposeSuggestApp]);
+  useSyncRecoilStateEffect(); // loginIngo, taxiLocations, myRooms, notificationOptions 초기화 및 동기화
+  useI18nextEffect();
+  useScrollRestorationEffect();
+  useCSSVariablesEffect();
+  useVirtualKeyboardDetectEffect();
+  useChannelTalkEffect();
+  useGoogleAnalyticsEffect();
+  useFirebaseMessagingEffect();
+  useFlutterEventCommunicationEffect();
 
-  // loginIngo, taxiLocations, myRooms, notificationOptions 초기화 및 동기화
-  useSyncRecoilStateEffect();
-
-  if (error) {
-    return (
-      <Container>
-        <HeaderBar />
-        <Error />
-      </Container>
-    );
-  }
-  if (isLoading) {
-    return (
-      <Container>
-        <HeaderBar />
-        <Loading center />
-      </Container>
-    );
-  }
-  if (
-    pathname.startsWith("/login") ||
-    pathname.startsWith("/logout") ||
-    pathname.startsWith("/chatting") ||
-    pathname.startsWith("/invite")
-  ) {
-    return (
-      <Container>
-        <HeaderBar />
-        {children}
-      </Container>
-    );
-  }
   return (
     <Container>
-      <Navigation />
       <HeaderBar />
-      {children}
-      <ModalSuggestApp
-        isOpen={isSuggestApp}
-        onChangeIsOpen={setIsOpenSuggestApp}
-      />
-      <ModalTerms isOpen={!!userId && !isAgreeOnTermsOfService} />
-      <div css={{ height: "88px" }} />
+      {error ? (
+        <Error />
+      ) : isLoading ? (
+        <Loading center />
+      ) : (
+        <>
+          {isDisplayNavigation && <Navigation />}
+          {isDisplayNavigation && (isAndroid || isIOS) && !isApp && (
+            <SuggestAppTopBar />
+          )}
+          {children}
+          <ModalTerms isOpen={!!userId && !isAgreeOnTermsOfService} />
+          {isDisplayNavigation && <div css={{ height: "88px" }} />}
+        </>
+      )}
     </Container>
   );
 };

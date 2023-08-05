@@ -1,6 +1,7 @@
-import { ReactNode, useMemo, useState } from "react";
+import { ReactNode, useMemo } from "react";
 
-import hoverEventSet from "tools/hoverEventSet";
+import useHoverProps from "hooks/theme/useHoverProps";
+
 import theme from "tools/theme";
 
 import AssignmentOutlinedIcon from "@material-ui/icons/AssignmentOutlined";
@@ -51,7 +52,7 @@ const getIcon = (icon: string) => {
 };
 
 const Menu = ({ icon, onClick, children }: MenuProps) => {
-  const [isHover, setHover] = useState(false);
+  const [hoverProps, isHover] = useHoverProps();
 
   const style = {
     display: "flex",
@@ -72,7 +73,7 @@ const Menu = ({ icon, onClick, children }: MenuProps) => {
   );
 
   return (
-    <div css={style} onClick={onClick} {...hoverEventSet(setHover)}>
+    <div css={style} onClick={onClick} {...hoverProps}>
       {getIcon(icon)}
       <div css={styleText}>{children}</div>
       {isHover && <KeyboardArrowLeftRoundedIcon style={styleIcon} />}

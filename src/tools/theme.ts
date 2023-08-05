@@ -6,6 +6,18 @@ export type Font = {
 };
 
 const theme = {
+  // AdaptiveDiv setting value
+  adaptivediv: {
+    center_device_max_width: 430,
+    butterfly_device_max_width: { wide: 835, narrow: 607 },
+    margin: 20,
+  },
+
+  // Modal width
+  modal_width_alert: "315px" as PixelValue,
+  modal_width: "335px" as PixelValue,
+  modal_width_large: "755px" as PixelValue,
+
   // Color
   white: "#FFFFFF",
   black: "#323232",
@@ -40,6 +52,7 @@ const theme = {
   font10: { fontSize: 10, fontWeight: 300, lineHeight: "12px" },
   font10_bold: { fontSize: 10, fontWeight: 700, lineHeight: "12px" },
   font12: { fontSize: 12, letterSpacing: 0.4, lineHeight: "14px" },
+  font12_bold: { fontSize: 12, fontWeight: 700, lineHeight: "14px" },
   font14: { fontSize: 14, lineHeight: "16px" },
   font14_bold: { fontSize: 14, fontWeight: 700, lineHeight: "16px" },
   font16: { fontSize: 16, letterSpacing: -0.4, lineHeight: "19px" },
@@ -99,11 +112,6 @@ const theme = {
   duration: "150ms",
   duration_num: 150,
 
-  // Modal width
-  modal_width_alert: "315px" as PixelValue,
-  modal_width: "335px" as PixelValue,
-  modal_width_large: "755px" as PixelValue,
-
   // Cursor
   cursor: (disabled?: boolean) => {
     return { cursor: disabled ? "not-allowed" : "pointer" } as CSS;
@@ -118,6 +126,13 @@ const theme = {
     pointerEvents: "none",
     backgroundPosition: activated ? "left" : "right",
   }),
+
+  // Ellipsis
+  ellipsis: {
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  } as CSS,
 
   // zIndex
   zIndex_nav: 10,
