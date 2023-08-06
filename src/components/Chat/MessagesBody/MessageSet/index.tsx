@@ -36,14 +36,14 @@ const MessageBody = ({ type, content, roomInfo, color }: MessageBodyProps) => {
       return <MessagePaySettlement type={type} color={color} />;
     case "account":
       return <MessageAccount account={content} />;
+  }
+
+  if (!roomInfo) return null;
+  switch (type) {
     case "share":
-      if (roomInfo)
-        return (
-          <MessageShare roomInfo={roomInfo} text={content} color={color} />
-        );
-      return <></>;
+      return <MessageShare roomInfo={roomInfo} text={content} color={color} />;
     default:
-      return <></>;
+      return null;
   }
 };
 
