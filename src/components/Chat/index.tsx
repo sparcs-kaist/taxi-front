@@ -36,7 +36,7 @@ const Chat = ({ roomId, layoutType }: ChatProps) => {
 
   // socket.io를 통해 채팅 전송 및 수신
   useSocketChatEffect(
-    roomId,
+    roomInfo,
     fetchRoomInfo,
     setChats,
     setDisplayNewMessage,

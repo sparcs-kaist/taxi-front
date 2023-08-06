@@ -27,7 +27,7 @@ const LinkKakaotalkShare = ({
 
   const onClick = useCallback(() => {
     const kakao = window.Kakao;
-    const { origin: webUrl } = window.location;
+    const { origin } = window.location;
     if (!kakao) {
       console.error("Kakao SDK is not loaded.");
       return;
@@ -44,18 +44,18 @@ const LinkKakaotalkShare = ({
       content: {
         title,
         description,
-        imageUrl: imageUrl || `${webUrl}/graph.png`,
+        imageUrl: imageUrl || `${origin}/graph.png`,
         imageWidth: 1024,
         imageHeight: 500,
-        link: { webUrl, mobileWebUrl: webUrl },
+        link: { webUrl: origin, mobileWebUrl: origin },
       },
       social: { subscriberCount: partNum ?? 0 },
       buttons: [
         {
           title: buttonText,
           link: {
-            mobileWebUrl: `${webUrl}${buttonTo}`,
-            webUrl: `${webUrl}${buttonTo}`,
+            mobileWebUrl: `${origin}${buttonTo}`,
+            webUrl: `${origin}${buttonTo}`,
           },
         },
       ],
