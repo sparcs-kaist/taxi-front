@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import QRCode from "react-qr-code";
 
+import ButtonShare from "components/Button/ButtonShare";
 import DottedLine from "components/DottedLine";
 import LinkCopy from "components/Link/LinkCopy";
 import LinkKakaotalkShare from "components/Link/LinkKakaotalkShare";
@@ -15,54 +16,13 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { ogServer } from "loadenv";
 import { ReactComponent as KakaoTalkLogo } from "static/assets/KakaoTalkLogo.svg";
 
-type ButtonShareProps = {
-  text: string;
-  icon: React.ReactNode;
-  background: string;
-  onClick?: () => void;
-};
 export type BodyRoomShareProps = {
   roomInfo: any; // fixme
   height?: number;
 };
 
-const ButtonShare = ({ text, icon, background, onClick }: ButtonShareProps) => (
-  <div
-    css={{
-      width: "45px",
-      cursor: "pointer",
-    }}
-    onClick={onClick}
-  >
-    <div
-      css={{
-        width: "45px",
-        height: "45px",
-        borderRadius: "6px",
-        backgroundColor: background,
-        boxShadow: theme.shadow_gray_button_inset,
-        color: theme.gray_text,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      {icon}
-    </div>
-    <div
-      css={{
-        ...theme.font10,
-        color: theme.gray_text,
-        textAlign: "center",
-        paddingTop: "4px",
-      }}
-    >
-      {text}
-    </div>
-  </div>
-);
-
 const BodyRoomShare = ({ roomInfo, height }: BodyRoomShareProps) => {
+  console.log("roomInfo", roomInfo);
   const { i18n } = useTranslation();
   const { origin } = window.location;
   const pathForShare = `/invite/${roomInfo?._id}`;
