@@ -1,6 +1,7 @@
 import Modal from "components/Modal";
 
-import BodyRoomShare, { BodyRoomShareProps } from "./Body/BodyRoomShare";
+import BodyCallTaxi from "./Body/BodyCallTaxi";
+import { BodyRoomShareProps } from "./Body/BodyRoomShare";
 
 import theme from "tools/theme";
 
@@ -12,7 +13,7 @@ type ModalCallTaxiProps = {
   roomInfo: BodyRoomShareProps["roomInfo"];
 };
 
-const ModalRoomShare = ({
+const ModalCallTaxi = ({
   isOpen,
   onChangeIsOpen,
   roomInfo,
@@ -38,10 +39,10 @@ const ModalRoomShare = ({
         <LocalTaxiRoundedIcon style={styleIcon} />
         택시 호출하기
       </div>
-      <BodyRoomShare roomInfo={roomInfo} />
+      <BodyCallTaxi roomInfo={roomInfo} />
     </Modal>
   );
 };
 
-export default ModalRoomShare;
-export { BodyRoomShare };
+export default ModalCallTaxi;
+export { ModalCallTaxi };

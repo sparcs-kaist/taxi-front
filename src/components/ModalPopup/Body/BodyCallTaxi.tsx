@@ -1,21 +1,13 @@
-import { useCallback, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import QRCode from "react-qr-code";
-
 import ButtonShare from "components/Button/ButtonShare";
 import DottedLine from "components/DottedLine";
 import LinkCallTaxi from "components/Link/LinkCallTaxi";
-import LinkCopy from "components/Link/LinkCopy";
-import LinkKakaotalkShare from "components/Link/LinkKakaotalkShare";
 
-import { date2str } from "tools/moment";
 import theme from "tools/theme";
-import { getLocationName } from "tools/trans";
 
-import CheckIcon from "@mui/icons-material/Check";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import { ogServer } from "loadenv";
-import { ReactComponent as KakaoTalkLogo } from "static/assets/KakaoTalkLogo.svg";
+import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
+import { ReactComponent as KakaoTaxiLogo } from "static/assets/KakaotTaxiLogo.svg";
+import TmoneyOndaLogo from "static/assets/TmoneyOndaLogo.png";
+import { ReactComponent as UTLogo } from "static/assets/UTLogo.svg";
 
 export type BodyCallTaxiProps = {
   roomInfo: any; // fixme
@@ -23,20 +15,6 @@ export type BodyCallTaxiProps = {
 };
 
 const BodyCallTaxi = ({ roomInfo, height }: BodyCallTaxiProps) => {
-  const { i18n } = useTranslation();
-  const { origin } = window.location;
-  const pathForShare = `/invite/${roomInfo?._id}`;
-
-  const [isCopied, setIsCopied] = useState(false);
-  const onCopy = useCallback(() => setIsCopied(true), [setIsCopied]);
-
-  useEffect(() => {
-    if (isCopied) {
-      const timer = setTimeout(() => setIsCopied(false), 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [isCopied]);
-
   const styleWrapper = height
     ? {
         height,
@@ -49,12 +27,7 @@ const BodyCallTaxi = ({ roomInfo, height }: BodyCallTaxiProps) => {
     color: theme.gray_text,
     margin: "0 8px 12px",
   };
-  const styleQRSection = {
-    marginTop: "12px",
-    position: "relative" as any,
-    overflow: "hidden",
-    textAlign: "center" as any,
-  };
+
   const styleButtonSection = {
     display: "flex",
     justifyContent: "center",
@@ -62,49 +35,61 @@ const BodyCallTaxi = ({ roomInfo, height }: BodyCallTaxiProps) => {
     margin: "12px 0px 0",
   };
 
+  const styleIcon = {
+    width: "16px",
+    height: "16px",
+    fill: theme.gray_text,
+  };
+
+  const styleInfo = {
+    display: "flex",
+    gap: "8px",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: "12px",
+  };
+
   return (
     <div css={styleWrapper}>
-      <div css={styleGuide}>방을 여러 사람들에게 공유할 수 있습니다.</div>
+      <div css={styleGuide}>
+        출발지와 도착지가 이미 설정된 상태로 택시 호출 앱을 실행할 수 있습니다.
+        동승 인원과 출발지에서 모였다면, 버튼을 눌러 택시를 호출하세요.
+      </div>
+      <div css={styleInfo}>
+        <LocationOnRoundedIcon style={styleIcon} />
+        <div css={{ color: theme.gray_text, ...theme.font14_bold }}>
+          {roomInfo.from?.koName}&nbsp; → &nbsp;{roomInfo.to?.koName}
+        </div>
+      </div>
       <DottedLine />
       <div css={{ flexGrow: 1 }} />
-      <div css={styleQRSection}>
-        <QRCode value={origin + pathForShare} size={120} bgColor="none" />
-      </div>
-      <div css={{ flexGrow: 1 }} />
       <div css={styleButtonSection}>
-        <LinkCallTaxi type="kakaotaxi" from={roomInfo.from}>
+        <LinkCallTaxi type="kakaotaxi" from={roomInfo.from} to={roomInfo.to}>
           <ButtonShare
-            text="카카오톡"
-            icon={<KakaoTalkLogo css={{ width: "22px" }} />}
-            background="#FFE812"
+            text="카카오택시"
+            icon={<KakaoTaxiLogo css={{ width: "22px" }} />}
+            background="#292140"
           />
         </LinkCallTaxi>
-        <LinkCopy
-          value={`🚕 ${date2str(
-            roomInfo.time,
-            "LLLL",
-            false
-          )} ${getLocationName(
-            roomInfo.from,
-            i18n.language
-          )} → ${getLocationName(
-            roomInfo.to,
-            i18n.language
-          )} 택시팟 구합니다!\n🚕 참여 링크: ${origin + pathForShare}`}
-          onCopy={onCopy}
-        >
+        <LinkCallTaxi type="ut" from={roomInfo.from} to={roomInfo.to}>
           <ButtonShare
-            text="초대 복사"
-            icon={
-              isCopied ? (
-                <CheckIcon style={{ fontSize: "16px" }} />
-              ) : (
-                <ContentCopyIcon style={{ fontSize: "16px" }} />
-              )
-            }
-            background={theme.gray_background}
+            text="우티"
+            icon={<UTLogo css={{ width: "22px" }} />}
+            background="#000000"
           />
-        </LinkCopy>
+        </LinkCallTaxi>
+        <LinkCallTaxi type="tmoneyonda" from={roomInfo.from} to={roomInfo.to}>
+          <ButtonShare
+            text="티머니온다"
+            icon={
+              <img
+                src={TmoneyOndaLogo}
+                css={{ width: "45px", borderRadius: "6px" }}
+              />
+            }
+            background="#000000"
+          />
+        </LinkCallTaxi>
       </div>
     </div>
   );
