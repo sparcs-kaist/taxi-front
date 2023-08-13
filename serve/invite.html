@@ -2,6 +2,10 @@
 <html lang="ko">
   <head>
     <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover"
+    />
 
     <!-- Name & Description -->
     <title>Taxi 공유하기 링크</title>
@@ -26,37 +30,42 @@
     />
 
     <!-- Open Graph : Web -->
-    <meta property="og:url" content="%FRONT_URL%" />
+    <meta property="og:url" content="%FRONT_URL%/invite/%ROOM_ID%" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Taxi 공유하기 링크" />
     <meta
       property="og:description"
       content="링크로 이동하여 택시에 동승하세요!"
     />
-    <meta property="og:image" content="%OG_URL%/og-image/%ROOM_ID%.png" />
+    <meta property="og:image" content="%OG_URL%/%ROOM_ID%.png" />
     <meta property="og:locale" content="ko_KR" />
     <meta property="og:locale:alternate" content="en_US" />
 
     <!-- Script -->
     <script src="/env.js"></script>
     <script>
-      const firebaseConfig =
-        window["env"]?.REACT_APP_FIREBASE_CONFIG &&
-        JSON.parse(window["env"].REACT_APP_FIREBASE_CONFIG);
-      const rediretPath = window.location.pathname.replace("/invite", "/home");
-      const getDynamicLink = (to, fallback = true) => {
-        const { host, androidPacakgeName, iosAppBundleId, appStoreId } =
-          firebaseConfig?.dinamicLink || {};
-        const { origin } = window.location;
+      document.addEventListener("DOMContentLoaded", () => {
+        const firebaseConfig =
+          window["env"]?.REACT_APP_FIREBASE_CONFIG &&
+          JSON.parse(window["env"].REACT_APP_FIREBASE_CONFIG);
+        const rediretPath = window.location.pathname.replace(
+          "/invite",
+          "/home"
+        );
+        const getDynamicLink = (to, fallback = true) => {
+          const { host, androidPacakgeName, iosAppBundleId, appStoreId } =
+            firebaseConfig?.dinamicLink || {};
+          const { origin } = window.location;
 
-        if (!host) return `${origin}${to}`;
-        const encodedLink = origin + encodeURIComponent(to);
+          if (!host) return `${origin}${to}`;
+          const encodedLink = origin + encodeURIComponent(to);
 
-        return fallback
-          ? `${host}?link=${encodedLink}&apn=${androidPacakgeName}&afl=${encodedLink}&ibi=${iosAppBundleId}&ifl=${encodedLink}&efr=1`
-          : `${host}?link=${encodedLink}&apn=${androidPacakgeName}&ibi=${iosAppBundleId}&isi=${appStoreId}&efr=1`;
-      };
-      window.location.href = getDynamicLink(rediretPath);
+          return fallback
+            ? `${host}?link=${encodedLink}&apn=${androidPacakgeName}&afl=${encodedLink}&ibi=${iosAppBundleId}&ifl=${encodedLink}&efr=1`
+            : `${host}?link=${encodedLink}&apn=${androidPacakgeName}&ibi=${iosAppBundleId}&isi=${appStoreId}&efr=1`;
+        };
+        window.location.href = getDynamicLink(rediretPath);
+      });
     </script>
   </head>
   <style>
@@ -71,6 +80,7 @@
     }
     body {
       color: #6e3678;
+      font-size: 16px;
     }
     body:after {
       content: "Loading 🚕";

@@ -24,6 +24,11 @@ RUN npm install --global pnpm@8.6.6 serve@14.1.2; \
 RUN pnpm run build; \
     chmod 711 /root
 
+# Set default environment variables
+ENV REACT_APP_BACK_URL=https://taxi.sparcs.org/api \
+    REACT_APP_FRONT_URL=https://taxi.sparcs.org \
+    REACT_APP_OG_URL=https://og-image.taxi.sparcs.org
+
 # Serve with injected environment variables
 EXPOSE 80
 CMD ["sh", "-c", "envsubst '$$REACT_APP_FRONT_URL $$REACT_APP_OG_URL' < serve/default.conf > /etc/nginx/conf.d/default.conf && npx react-inject-env set && nginx -g 'daemon off;'"]
