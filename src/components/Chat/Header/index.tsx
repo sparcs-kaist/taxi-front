@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
-import { LayoutType } from "types/chat";
+import type { LayoutType } from "types/chat";
 
 import useButterflyState from "hooks/useButterflyState";
 
@@ -17,10 +17,9 @@ import OpenInFullRoundedIcon from "@mui/icons-material/OpenInFullRounded";
 type HeaderProps = {
   layoutType: LayoutType;
   roomInfo: Nullable<Room>;
-  fetchRoomInfo: () => void;
 };
 
-const Header = ({ layoutType, roomInfo, fetchRoomInfo }: HeaderProps) => {
+const Header = ({ layoutType, roomInfo }: HeaderProps) => {
   const history = useHistory();
   const butterflyState = useButterflyState();
   const [isOpenSideMenu, setIsOpenSideMenu] = useState(false);
@@ -58,17 +57,13 @@ const Header = ({ layoutType, roomInfo, fetchRoomInfo }: HeaderProps) => {
   };
   const styleName = {
     color: layoutType === "fullchat" ? theme.purple : theme.white,
-    whiteSpace: "nowrap" as any,
-    textOverflow: "ellipsis",
-    overflow: "hidden",
+    ...theme.ellipsis,
     ...theme.font18,
   };
   const styleFromTo = {
     color: layoutType === "fullchat" ? theme.gray_text : theme.white,
     width: "100%",
-    whiteSpace: "nowrap" as any,
-    textOverflow: "ellipsis",
-    overflow: "hidden",
+    ...theme.ellipsis,
     ...theme.font12,
   };
 
@@ -77,7 +72,6 @@ const Header = ({ layoutType, roomInfo, fetchRoomInfo }: HeaderProps) => {
     <>
       <SideMenu
         roomInfo={roomInfo}
-        fetchRoomInfo={fetchRoomInfo}
         isOpen={isOpenSideMenu}
         setIsOpen={setIsOpenSideMenu}
       />

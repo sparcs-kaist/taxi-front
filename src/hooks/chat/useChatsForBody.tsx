@@ -1,6 +1,6 @@
 import { ReactNode, useMemo } from "react";
 
-import type { Chats, LayoutType } from "types/chat";
+import type { BotChat, Chats, LayoutType, UserChat } from "types/chat";
 
 import { useValueRecoilState } from "hooks/useFetchRecoilState";
 
@@ -20,7 +20,7 @@ export default (_chats: Chats, layoutType: LayoutType) => {
   return useMemo(() => {
     const list: Array<ReactNode> = [];
     let momentCache: any = null; // @fixme, @todo
-    let chatsCache: Nullable<Array<Chat>> = null;
+    let chatsCache: Nullable<Array<UserChat | BotChat>> = null;
     const dateFormat = "YYYY.MM.DD";
     const minFormat = "YYYY.MM.DD HH:mm";
 
@@ -71,13 +71,16 @@ export default (_chats: Chats, layoutType: LayoutType) => {
           <MessageInOut
             key={"inout" + getChatUniquewKey(item)}
             type={item.type}
-            users={item.inOutNames}
+            users={item.inOutNames || []}
           />
         );
       } else if (
-        ["text", "s3img", "payment", "settlement", "account"].includes(
-          item.type
-        )
+        item.type === "text" ||
+        item.type === "s3img" ||
+        item.type === "payment" ||
+        item.type === "settlement" ||
+        item.type === "account" ||
+        item.type === "share"
       ) {
         if (
           chatsCache &&

@@ -1,11 +1,11 @@
-import { CSSProperties, ReactNode } from "react";
+import { ReactNode } from "react";
 
 import theme from "tools/theme";
 
 type WhiteContainerProps = {
-  padding?: CSSProperties["padding"];
-  margin?: CSSProperties["margin"];
-  style?: CSSProperties;
+  padding?: CSS["padding"];
+  margin?: CSS["margin"];
+  style?: CSS;
   children: ReactNode;
 };
 

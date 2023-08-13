@@ -13,7 +13,7 @@ const ToolSheetOpenButton = ({
 }: ToolSheetOpenButtonProps) => (
   <div css={{ marginBottom: "3px" }}>
     <AddRoundedIcon
-      onClick={() => onChangeIsOpen && onChangeIsOpen(!isOpen)}
+      onClick={() => onChangeIsOpen?.(!isOpen)}
       style={{
         fill: theme.purple,
         width: "22px",

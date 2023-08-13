@@ -35,9 +35,7 @@ const User = ({ value }: UserProps) => (
         boxShadow: theme.shadow_gray_input_inset,
         color: theme.gray_text,
         background: theme.gray_background,
-        overflow: "hidden",
-        whiteSpace: "nowrap",
-        textOverflow: "ellipsis",
+        ...theme.ellipsis,
       }}
     >
       {value.nickname}

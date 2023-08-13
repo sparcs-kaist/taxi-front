@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 import theme from "tools/theme";
 
 export type AdaptiveModalProps = {
-  width?: PixelValue; // CSSProperties["width"];
+  width?: PixelValue; // CSS["width"];
   children: ReactNode;
 };
 

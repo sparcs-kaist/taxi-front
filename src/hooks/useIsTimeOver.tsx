@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Dayjs, dayNowClient } from "tools/day";
+import { dayNowClient } from "tools/day";
 
 export default (time: Dayjs): boolean => {
   const [isTimeOver, setIsTimeOver] = useState(time <= dayNowClient());

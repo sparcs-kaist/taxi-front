@@ -1,8 +1,7 @@
 import { useRef, useState } from "react";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 
-import { LayoutType } from "types/chat";
-import type { Chats } from "types/chat";
+import type { Chats, LayoutType } from "types/chat";
 
 import useBodyScrollControllerEffect from "hooks/chat/useBodyScrollControllerEffect";
 import useSendMessage from "hooks/chat/useSendMessage";
@@ -37,7 +36,7 @@ const Chat = ({ roomId, layoutType }: ChatProps) => {
 
   // socket.io를 통해 채팅 전송 및 수신
   useSocketChatEffect(
-    roomId,
+    roomInfo,
     fetchRoomInfo,
     setChats,
     setDisplayNewMessage,
@@ -59,11 +58,7 @@ const Chat = ({ roomId, layoutType }: ChatProps) => {
 
   return (
     <Container layoutType={layoutType}>
-      <Header
-        layoutType={layoutType}
-        roomInfo={roomInfo}
-        fetchRoomInfo={fetchRoomInfo}
-      />
+      <Header layoutType={layoutType} roomInfo={roomInfo} />
       <MessagesBody
         layoutType={layoutType}
         chats={chats}

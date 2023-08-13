@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { io } from "socket.io-client";
 
+import { Chat } from "types/chat";
+
 import {
   useFetchRecoilState,
   useValueRecoilState,

@@ -36,7 +36,7 @@ type InfoSectionProps = {
   children: React.ReactNode;
 };
 export type BodyRoomSelectionProps = {
-  roomInfo: any; // FIXME
+  roomInfo: Room;
 };
 
 const PlaceSection = ({ type, name }: PlaceSectionProps) => (
@@ -116,8 +116,7 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
     isLogin &&
     roomInfo &&
     (roomInfo.part.some(
-      (user: BodyRoomSelectionProps["roomInfo"]["part"]) =>
-        user._id === loginInfo.oid
+      (user: Room["part"][number]) => user._id === loginInfo.oid
     ) ??
       true); // 이미 참여 중인지 여부
   const isMaxPart =

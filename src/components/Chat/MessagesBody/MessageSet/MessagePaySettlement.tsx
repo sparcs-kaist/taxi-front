@@ -1,5 +1,3 @@
-import { CSSProperties } from "react";
-
 import theme from "tools/theme";
 
 import CreditCardRoundedIcon from "@mui/icons-material/CreditCardRounded";
@@ -7,7 +5,7 @@ import SendRoundedIcon from "@mui/icons-material/SendRounded";
 
 type MessagePaySettlementProps = {
   type: "payment" | "settlement";
-  color: CSSProperties["color"];
+  color: CSS["color"];
 };
 
 const MessagePaySettlement = ({ type, color }: MessagePaySettlementProps) => (
@@ -24,7 +22,7 @@ const MessagePaySettlement = ({ type, color }: MessagePaySettlementProps) => (
     {type === "payment" ? (
       <>
         <CreditCardRoundedIcon style={{ fontSize: "18px" }} />
-        제가 택시비를 결제하였어요 !
+        제가 택시비를 결제했어요 !
       </>
     ) : (
       <>

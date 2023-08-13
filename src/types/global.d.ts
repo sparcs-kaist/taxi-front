@@ -1,5 +1,6 @@
-import { Location as _RouterLocation } from "history";
-import { CSSProperties } from "react";
+import type { Dayjs as _Dayjs } from "dayjs";
+import type { Location as _RouterLocation } from "history";
+import type { CSSProperties } from "react";
 
 import Env from "./env";
 
@@ -8,6 +9,7 @@ export {};
 declare global {
   type Nullable<T> = T | null | undefined;
   type RouterLocation = _RouterLocation;
+  type Dayjs = _Dayjs;
   type CSS = CSSProperties;
   type PixelValue = "0" | `${number}px`;
   type Margin =
@@ -32,8 +34,8 @@ declare global {
     name: string;
     from: Location;
     to: Location;
-    time: string;
-    madeat: string;
+    time: Date;
+    madeat: Date;
     settlementTotal?: number;
     maxPartLength: number;
     part: [
@@ -45,24 +47,6 @@ declare global {
         isSettlement?: string;
       }
     ];
-  };
-  type Chat = {
-    roomId: string; // 방의 objectId
-    type:
-      | "text"
-      | "in"
-      | "out"
-      | "s3img"
-      | "payment"
-      | "settlement"
-      | "account"; // 메시지 종류 (text|in|out|s3img)
-    authorId: string; // 작성자 objectId
-    authorName?: string; // 작성자 닉네임 (사용자 입,퇴장 알림 등 전체 메시지일 때: null)
-    authorProfileUrl?: string;
-    content: string;
-    time: Date; // UTC 시각
-    isValid: boolean;
-    inOutNames: [string];
   };
 
   type ReportResponse = { status: number };

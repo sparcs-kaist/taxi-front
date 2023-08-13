@@ -3,11 +3,10 @@ import { useEffect } from "react";
 import isVirtualKeyboardDetectedAtom from "atoms/isVirtualKeyboardDetected";
 import { useSetRecoilState } from "recoil";
 
-import isMobile from "tools/isMobile";
+import { deviceType } from "tools/loadenv";
 
 export default () => {
   const setIsVKDetected = useSetRecoilState(isVirtualKeyboardDetectedAtom);
-  const [isAndroid, isIOS] = isMobile();
 
   useEffect(() => {
     /*
@@ -17,7 +16,7 @@ export default () => {
      * 하지만, Android는 input의 focus 여부가 키보드 활성화 여부와 일치하지 않습니다.
      * Android에서는 window의 resize이벤트 핸들러를 등록하여 키보드 활성화 여부를 알 수 있습니다.
      */
-    if (isAndroid) {
+    if (deviceType.endsWith("/android")) {
       const minKeyboardHeight = 300;
       const resizeEvent = () => {
         const visualViewportHeight = visualViewport?.height;
@@ -32,7 +31,7 @@ export default () => {
       visualViewport?.addEventListener("resize", resizeEvent);
       return () => visualViewport?.removeEventListener("resize", resizeEvent);
     }
-    if (isIOS) {
+    if (deviceType.endsWith("ios")) {
       let focusedElement: Nullable<EventTarget> = null;
       const onFocus = (e: FocusEvent) => {
         focusedElement = e.target;

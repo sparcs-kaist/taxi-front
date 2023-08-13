@@ -1,6 +1,7 @@
 import theme from "tools/theme";
 
 const BodyPrivacyPolicy = () => {
+  const { protocol, host } = window.location;
   const styleBox = {
     padding: "0 24px 0 16px",
     borderRadius: "10px",
@@ -23,7 +24,7 @@ const BodyPrivacyPolicy = () => {
     <div style={styleBox}>
       <div style={styleSection} />
       <div style={styleContent}>
-        &lt; SPARCS &gt;(&quot;https://taxi.sparcs.org&quot;이하
+        &lt; SPARCS &gt;(&quot;{protocol + host}&quot;이하
         &quot;Taxi&quot;)은(는) 「개인정보 보호법」 제30조에 따라 정보주체의
         개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수
         있도록 하기 위하여 다음과 같이 개인정보 처리방침을 수립·공개합니다.
@@ -31,7 +32,7 @@ const BodyPrivacyPolicy = () => {
       </div>
       <div style={styleSection}>제1조(개인정보의 처리 목적)</div>
       <div style={styleSection}>
-        &lt; SPARCS &gt;(&quot;https://taxi.sparcs.org&quot;이하
+        &lt; SPARCS &gt;(&quot;{protocol + host}&quot;이하
         &quot;Taxi&quot;)은(는) 다음의 목적을 위하여 개인정보를 처리합니다.
         처리하고 있는 개인정보는 다음의 목적 이외의 용도로는 이용되지 않으며
         이용 목적이 변경되는 경우에는 「개인정보 보호법」 제18조에 따라 별도의

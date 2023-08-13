@@ -1,10 +1,8 @@
-import { CSSProperties } from "react";
-
 import theme from "tools/theme";
 
 type MessageTextProps = {
   text: string;
-  color: CSSProperties["color"];
+  color: CSS["color"];
 };
 
 const MessageText = ({ text, color }: MessageTextProps) => (

@@ -1,4 +1,4 @@
-import dayjs, { ConfigType, Dayjs } from "dayjs";
+import dayjs, { ConfigType } from "dayjs";
 import "dayjs/locale/ko";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 
@@ -41,5 +41,4 @@ export const day2str = (day: Dayjs, format = "LLLL") => {
   return day.format(format);
 };
 
-export type { Dayjs };
 export default dayjs;

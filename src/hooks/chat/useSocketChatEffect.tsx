@@ -1,13 +1,14 @@
 import { MutableRefObject, RefObject, useEffect } from "react";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 
-import type { Chats } from "types/chat";
+import type { Chat, Chats } from "types/chat";
 
 import { useValueRecoilState } from "hooks/useFetchRecoilState";
 import { useAxios } from "hooks/useTaxiAPI";
 
 import {
   createInfScrollCheckoutChat,
+  createShareChat,
   getCleanupChats,
   jointCheckoutChat,
 } from "tools/chat/chats";
@@ -19,7 +20,7 @@ import {
 } from "tools/socket";
 
 export default (
-  roomId: string,
+  roomInfo: Nullable<Room>,
   fetchRoomInfo: () => void,
   setChats: ReturnType<typeof useStateWithCallbackLazy<Chats>>[1],
   setDisplayNewMessage: (value: boolean) => void,
@@ -30,6 +31,9 @@ export default (
   const { oid: userOid } = useValueRecoilState("loginInfo") || {};
 
   useEffect(() => {
+    if (!roomInfo) return;
+
+    const { _id: roomId } = roomInfo;
     let isExpired: boolean = false;
     isSendingMessage.current = true;
 
@@ -51,6 +55,7 @@ export default (
         },
         reconnectListener: () => {
           if (isExpired) return;
+
           setChats(
             (prevChats: Chats): Chats => {
               const lastChat = prevChats[prevChats.length - 1];
@@ -105,9 +110,15 @@ export default (
           if (chats.length === 0) {
             setChats(
               (prevChats: Chats) => {
-                if (prevChats[0].type === "infscroll-checkout")
-                  return prevChats.slice(1);
-                return prevChats;
+                const cleanedChat =
+                  prevChats[0].type === "infscroll-checkout"
+                    ? prevChats.slice(1)
+                    : prevChats;
+                return getCleanupChats([
+                  cleanedChat[0],
+                  createShareChat(roomInfo),
+                  ...cleanedChat.slice(1),
+                ]);
               },
               () => {}
             );
@@ -137,5 +148,5 @@ export default (
       isExpired = true;
       resetSocketEventListener();
     };
-  }, [roomId, setChats, setDisplayNewMessage]);
+  }, [roomInfo, setChats, setDisplayNewMessage]);
 };

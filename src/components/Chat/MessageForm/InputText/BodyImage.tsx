@@ -4,6 +4,9 @@ import useSendMessage from "hooks/chat/useSendMessage";
 
 import ButtonSend from "./ButtonSend";
 
+import alertAtom from "atoms/alert";
+import { useSetRecoilState } from "recoil";
+
 import { convertImage, getImageSrc } from "tools/image";
 import theme from "tools/theme";
 
@@ -21,6 +24,7 @@ const BodyImage = ({
   onChangeUploadedImage,
   sendMessage,
 }: BodyImageProps) => {
+  const setAlert = useSetRecoilState(alertAtom);
   const [convertedImage, setConvertedImage] = useState<Nullable<File>>(null); // 압축된 업로드된 이미지 파일
   const [convertedImageSrc, setConvertedImageSrc] =
     useState<Nullable<string>>(null); // 압축된 업로드된 이미지 파일
@@ -34,16 +38,16 @@ const BodyImage = ({
       const result = await sendMessage("image", {
         file: convertedImage as File,
       });
-      if (result) onChangeUploadedImage && onChangeUploadedImage(null);
+      if (result) onChangeUploadedImage?.(null);
       setIsSendingMessage(false);
     }
   };
   const onClickClose = useCallback(() => {
-    onChangeUploadedImage && onChangeUploadedImage(null);
+    onChangeUploadedImage?.(null);
   }, [onChangeUploadedImage]);
   const onError = useCallback(() => {
-    // error -> alert
-    onChangeUploadedImage && onChangeUploadedImage(null);
+    setAlert("이미지 업로드에 실패하였습니다.");
+    onChangeUploadedImage?.(null);
   }, [onChangeUploadedImage]);
 
   useEffect(() => {
@@ -51,8 +55,8 @@ const BodyImage = ({
       if (!uploadedImage) return setConvertedImage(null);
       const _convertedImage = await convertImage(uploadedImage);
       if (!_convertedImage) {
-        // error -> alert
-        onChangeUploadedImage && onChangeUploadedImage(null);
+        setAlert("이미지 업로드에 실패하였습니다.");
+        onChangeUploadedImage?.(null);
       } else setConvertedImage(_convertedImage);
     };
     convert();
@@ -63,8 +67,8 @@ const BodyImage = ({
       if (!convertedImage) return setConvertedImageSrc(null);
       const _convertedImageSrc = await getImageSrc(convertedImage);
       if (!_convertedImageSrc) {
-        // error -> alert
-        onChangeUploadedImage && onChangeUploadedImage(null);
+        setAlert("이미지 업로드에 실패하였습니다.");
+        onChangeUploadedImage?.(null);
       } else setConvertedImageSrc(_convertedImageSrc);
     };
     getSrc();
