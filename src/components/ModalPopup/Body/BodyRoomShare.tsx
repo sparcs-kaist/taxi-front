@@ -17,7 +17,7 @@ import { ogServer } from "loadenv";
 import { ReactComponent as KakaoTalkLogo } from "static/assets/KakaoTalkLogo.svg";
 
 export type BodyRoomShareProps = {
-  roomInfo: any; // fixme
+  roomInfo: Room;
   height?: number;
 };
 
