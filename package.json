@@ -20,7 +20,7 @@
     "dayjs": "^1.11.7",
     "dotenv": "^16.0.0",
     "firebase": "^9.15.0",
-    "heic2any": "^0.0.3",
+    "heic2any": "^0.0.4",
     "i18next": "^22.0.2",
     "i18next-browser-languagedetector": "^7.0.1",
     "moment": "^2.29.3",
