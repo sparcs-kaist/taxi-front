@@ -48,13 +48,13 @@
         const firebaseConfig =
           window["env"]?.REACT_APP_FIREBASE_CONFIG &&
           JSON.parse(window["env"].REACT_APP_FIREBASE_CONFIG);
-        const rediretPath = window.location.pathname.replace(
+        const redirectPath = window.location.pathname.replace(
           "/invite",
           "/home"
         );
         const getDynamicLink = (to, fallback = true) => {
           const { host, androidPacakgeName, iosAppBundleId, appStoreId } =
-            firebaseConfig?.dinamicLink || {};
+            firebaseConfig?.dynamicLink || {};
           const { origin } = window.location;
 
           if (!host) return `${origin}${to}`;
