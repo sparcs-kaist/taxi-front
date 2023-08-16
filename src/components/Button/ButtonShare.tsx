@@ -6,10 +6,6 @@ type ButtonShareProps = {
   background: string;
   onClick?: () => void;
 };
-export type BodyRoomShareProps = {
-  roomInfo: any; // fixme
-  height?: number;
-};
 
 const ButtonShare = ({ text, icon, background, onClick }: ButtonShareProps) => (
   <div

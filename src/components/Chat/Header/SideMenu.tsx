@@ -86,10 +86,7 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
         : setIsOpenCancel(true),
     [isDepart]
   );
-  const onClickCallTaxi = useCallback(
-    () => setIsOpenCallTaxi(true),
-    [roomInfo.from, roomInfo.to]
-  );
+  const onClickCallTaxi = useCallback(() => setIsOpenCallTaxi(true), []);
 
   const styleBackground = {
     position: "absolute" as any,

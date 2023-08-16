@@ -22,7 +22,6 @@ export type BodyRoomShareProps = {
 };
 
 const BodyRoomShare = ({ roomInfo, height }: BodyRoomShareProps) => {
-  console.log("roomInfo", roomInfo);
   const { i18n } = useTranslation();
   const { origin } = window.location;
   const pathForShare = `/invite/${roomInfo?._id}`;

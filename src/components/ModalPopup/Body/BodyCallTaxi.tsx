@@ -10,7 +10,7 @@ import TmoneyOndaLogo from "static/assets/TmoneyOndaLogo.png";
 import { ReactComponent as UTLogo } from "static/assets/UTLogo.svg";
 
 export type BodyCallTaxiProps = {
-  roomInfo: any; // fixme
+  roomInfo: Room;
   height?: number;
 };
 
