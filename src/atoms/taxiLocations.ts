@@ -1,6 +1,8 @@
+import type { Location } from "types/location";
+
 import { atom } from "recoil";
 
-export type TaxiLocationsType = Array<any>;
+export type TaxiLocationsType = Array<Location>;
 
 const taxiLocationsAtom = atom<TaxiLocationsType>({
   key: "taxiLocationsAtom",

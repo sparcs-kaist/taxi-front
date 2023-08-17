@@ -3,6 +3,7 @@ import type { Location as _RouterLocation } from "history";
 import type { CSSProperties } from "react";
 
 import Env from "./env";
+import type { Location } from "./location";
 
 export {};
 
@@ -18,11 +19,6 @@ declare global {
     | `${PixelValue} ${PixelValue} ${PixelValue}`
     | `${PixelValue} ${PixelValue} ${PixelValue} ${PixelValue}`;
   type Padding = Margin;
-  type Location = {
-    _id: string;
-    enName: string;
-    koName: string;
-  };
   type User = {
     _id: string;
     name: string;

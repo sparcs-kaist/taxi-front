@@ -4,7 +4,11 @@ import { memo, useCallback, useState } from "react";
 import useIsTimeOver from "hooks/useIsTimeOver";
 
 import DottedLine from "components/DottedLine";
-import { ModalChatCancel, ModalRoomShare } from "components/ModalPopup";
+import {
+  ModalCallTaxi,
+  ModalChatCancel,
+  ModalRoomShare,
+} from "components/ModalPopup";
 import User from "components/User";
 
 import alertAtom from "atoms/alert";
@@ -70,6 +74,7 @@ const SideMenuButton = ({ type, onClick }: SideMenuButtonProps) => {
 const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
   const setAlert = useSetRecoilState(alertAtom);
   const [isOpenShare, setIsOpenShare] = useState<boolean>(false);
+  const [isOpenCallTaxi, setIsOpenCallTaxi] = useState<boolean>(false);
   const [isOpenCancel, setIsOpenCancel] = useState<boolean>(false);
   const isDepart = useIsTimeOver(dayServerToClient(roomInfo.time)); // 방 출발 여부
 
@@ -81,6 +86,7 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
         : setIsOpenCancel(true),
     [isDepart]
   );
+  const onClickCallTaxi = useCallback(() => setIsOpenCallTaxi(true), []);
 
   const styleBackground = {
     position: "absolute" as any,
@@ -184,9 +190,9 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
           <DottedLine />
           <SideMenuButton type="share" onClick={onClikcShare} />
           {/* <DottedLine />
-          <SideMenuButton type="report" />
+          <SideMenuButton type="report" /> */}
           <DottedLine />
-          <SideMenuButton type="taxi" /> */}
+          <SideMenuButton type="taxi" onClick={onClickCallTaxi} />
         </div>
         <DottedLine />
         <div css={styleNameSection} onClick={onClickCancel}>
@@ -218,6 +224,11 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
         roomId={roomInfo._id}
         isOpen={isOpenCancel}
         onChangeIsOpen={setIsOpenCancel}
+      />
+      <ModalCallTaxi
+        roomInfo={roomInfo}
+        isOpen={isOpenCallTaxi}
+        onChangeIsOpen={setIsOpenCallTaxi}
       />
     </>
   );
