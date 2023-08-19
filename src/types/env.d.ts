@@ -18,7 +18,7 @@ export type FirebaseConfig = {
   messagingSenderId: string;
   appId: string;
   measurementId: string;
-  dinamicLink: {
+  dynamicLink: {
     host: string;
     androidPacakgeName: string;
     iosAppBundleId: string;

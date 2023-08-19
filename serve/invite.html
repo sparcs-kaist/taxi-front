@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover"
+    />
+
+    <!-- Name & Description -->
+    <title>Taxi 공유하기 링크</title>
+    <meta name="apple-mobile-web-app-title" content="Taxi" />
+    <meta
+      name="description"
+      content="KAIST 구성원들의 택시 동승 인원 모집을 위한 서비스"
+    />
+
+    <!-- Icon -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Web App Setting -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="app-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+
+    <!-- Open Graph : Web -->
+    <meta property="og:url" content="%FRONT_URL%/invite/%ROOM_ID%" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Taxi 공유하기 링크" />
+    <meta
+      property="og:description"
+      content="링크로 이동하여 택시에 동승하세요!"
+    />
+    <meta property="og:image" content="%OG_URL%/%ROOM_ID%.png" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:locale:alternate" content="en_US" />
+
+    <!-- Script -->
+    <script src="/env.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const firebaseConfig =
+          window["env"]?.REACT_APP_FIREBASE_CONFIG &&
+          JSON.parse(window["env"].REACT_APP_FIREBASE_CONFIG);
+        const redirectPath = window.location.pathname.replace(
+          "/invite",
+          "/home"
+        );
+        const getDynamicLink = (to, fallback = true) => {
+          const { host, androidPacakgeName, iosAppBundleId, appStoreId } =
+            firebaseConfig?.dynamicLink || {};
+          const { origin } = window.location;
+
+          if (!host) return `${origin}${to}`;
+          const encodedLink = origin + encodeURIComponent(to);
+
+          return fallback
+            ? `${host}?link=${encodedLink}&apn=${androidPacakgeName}&afl=${encodedLink}&ibi=${iosAppBundleId}&ifl=${encodedLink}&efr=1`
+            : `${host}?link=${encodedLink}&apn=${androidPacakgeName}&ibi=${iosAppBundleId}&isi=${appStoreId}&efr=1`;
+        };
+        window.location.href = getDynamicLink(rediretPath);
+      });
+    </script>
+  </head>
+  <style>
+    html {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #faf8fb;
+    }
+    body {
+      color: #6e3678;
+      font-size: 16px;
+    }
+    body:after {
+      content: "Loading 🚕";
+      animation: loading 1.5s linear infinite;
+    }
+    @keyframes loading {
+      25% {
+        content: "Loading. 🚕";
+      }
+      50% {
+        content: "Loading.. 🚕";
+      }
+      75% {
+        content: "Loading... 🚕";
+      }
+    }
+  </style>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
