@@ -79,7 +79,7 @@ const BodyRoomShare = ({ roomInfo, height }: BodyRoomShareProps) => {
           )} → ${getLocationName(roomInfo.to, i18n.language)}, ${date2str(
             roomInfo.time
           )}`}
-          imageUrl={ogServer ? `ogServer/${roomInfo._id}.png` : undefined}
+          imageUrl={ogServer ? `${ogServer}/${roomInfo._id}.png` : undefined}
           buttonText="확인하기"
           buttonTo={pathForShare}
           partNum={roomInfo.part.length}
