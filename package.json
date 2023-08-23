@@ -40,7 +40,7 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "start": "craco start",
-    "build": "cross-env GENERATE_SOURCEMAP=false craco build",
+    "build": "cross-env GENERATE_SOURCEMAP=false craco build && echo '/* /index.html 200' | cat > ./build/_redirects",
     "test": "cypress open"
   },
   "eslintConfig": {
