@@ -3,12 +3,15 @@ import { useCallback } from "react";
 import { useAxios } from "hooks/useTaxiAPI";
 
 import Button from "components/Button";
+import DottedLine from "components/DottedLine";
 import Modal from "components/Modal";
 
 import alertAtom from "atoms/alert";
 import { useSetRecoilState } from "recoil";
 
 import theme from "tools/theme";
+
+import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceWalletRounded";
 
 type ModalChatSettlementProps = Omit<
   Parameters<typeof Modal>[0],
@@ -38,45 +41,60 @@ const ModalChatSettlement = ({
     [roomId, modalProps.onChangeIsOpen, onRecall]
   );
 
-  const styleTextCont = {
-    textAlign: "center" as any,
+  const styleTitle = {
+    ...theme.font18,
+    display: "flex",
+    alignItems: "center",
+    margin: "0 8px 12px",
   };
-  const styleTextCont2 = {
-    textAlign: "center" as any,
-    lineHieght: "12px",
-    paddingTop: "6px",
-    fontSize: "10px",
-    color: "888888",
+  const styleIcon = {
+    fontSize: "21px",
+    margin: "0 4px 0 0",
   };
-  const styleTxt1 = {
-    fontSize: "16px",
-    fontWeight: "bold",
+  const styleText = {
+    ...theme.font12,
+    color: theme.gray_text,
+    margin: "0 8px 12px",
   };
-  const styleTxt2 = {
-    fontSize: "16px",
-    fontWeight: 300,
-  };
-  const styleTxt3 = {
-    fontSize: "16px",
-    fontWeight: "bold",
-    color: "#6E3678",
-  };
+  // const styleTextCont = {
+  //   textAlign: "center" as any,
+  // };
+  // const styleTextCont2 = {
+  //   textAlign: "center" as any,
+  //   lineHieght: "12px",
+  //   paddingTop: "6px",
+  //   fontSize: "10px",
+  //   color: "888888",
+  // };
+  // const styleTxt1 = {
+  //   fontSize: "16px",
+  //   fontWeight: "bold",
+  // };
+  // const styleTxt2 = {
+  //   fontSize: "16px",
+  //   fontWeight: 300,
+  // };
+  // const styleTxt3 = {
+  //   fontSize: "16px",
+  //   fontWeight: "bold",
+  //   color: "#6E3678",
+  // };
 
   return (
-    <Modal {...modalProps} padding="10px" onEnter={onClickOk}>
-      <div css={{ margin: "26px 0 24px" }}>
-        <div css={styleTextCont}>
-          <span css={styleTxt1}>결제</span>
-          <span css={styleTxt2}>를 </span>
-          <span css={styleTxt3}>완료</span>
-          <span css={styleTxt2}>하시겠습니까?</span>
-        </div>
-        <div css={styleTextCont2}>
-          꼭 택시비를 결제한 본인만 완료해주세요.
-          <br />
-          완료 후 취소는 불가능합니다.
-        </div>
+    <Modal {...modalProps} padding="16px 12px 12px" onEnter={onClickOk}>
+      <div css={styleTitle}>
+        <AccountBalanceWalletRoundedIcon style={styleIcon} />
+        정산하기
       </div>
+      <div css={styleText}>동승자들에게 송금을 요청할 수 있습니다.</div>
+      <div css={styleText}>
+        • 완료 후 취소는 <b>불가능</b>합니다.
+        <br />
+        <span css={{ color: theme.red_text }}>
+          • 본인이 택시 요금을 계산한 경우에만 진행해주세요.
+        </span>
+      </div>
+      <DottedLine />
       <div
         css={{
           position: "relative",

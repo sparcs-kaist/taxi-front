@@ -1,4 +1,4 @@
-import ProfileImg from "./ProfileImg";
+import ProfileImage from "./ProfileImage";
 
 import theme from "tools/theme";
 
@@ -25,7 +25,7 @@ const User = ({ value }: UserProps) => (
         background: theme.gray_line,
       }}
     >
-      <ProfileImg path={value.profileImageUrl} />
+      <ProfileImage url={value.profileImageUrl} />
     </div>
     <div
       css={{

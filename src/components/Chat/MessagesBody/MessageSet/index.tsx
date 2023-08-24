@@ -4,7 +4,7 @@ import type { BotChat, LayoutType, UserChat } from "types/chat";
 
 import { useValueRecoilState } from "hooks/useFetchRecoilState";
 
-import ProfileImg from "components/User/ProfileImg";
+import ProfileImage from "components/User/ProfileImage";
 
 import MessageAccount from "./MessageAccount";
 import MessageImage from "./MessageImage";
@@ -139,7 +139,7 @@ const MessageSet = ({ chats, layoutType }: MessageSetProps) => {
             {authorId === "bot" ? (
               <TaxiIcon css={{ width: "100%", height: "100%" }} />
             ) : (
-              <ProfileImg path={authorProfileUrl} />
+              <ProfileImage url={authorProfileUrl} />
             )}
           </div>
         )}

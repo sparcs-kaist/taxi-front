@@ -2,7 +2,7 @@ export { default as ModalChatCancel } from "./ModalChatCancel";
 export { default as ModalChatPayement } from "./ModalChatPayment";
 export { default as ModalChatSettlement } from "./ModalChatSettlement";
 export { default as ModalCredit } from "./ModalCredit";
-export { default as ModalModify } from "./ModalModify";
+export { default as ModalMypageModify } from "./ModalMypageModify";
 export { default as ModalNotification } from "./ModalNotification";
 export { default as ModalPrivacyPolicy } from "./ModalPrivacyPolicy";
 export { default as ModalReport } from "./ModalReport";

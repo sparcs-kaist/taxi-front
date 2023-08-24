@@ -1,6 +1,5 @@
 import axiosOri from "axios";
-import PropTypes from "prop-types";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import {
@@ -12,8 +11,9 @@ import { useAxios } from "hooks/useTaxiAPI";
 import AccountSelector from "components/AccountSelector";
 import Button from "components/Button";
 import DottedLine from "components/DottedLine";
+import Input from "components/Input";
 import Modal from "components/Modal";
-import ProfileImg from "components/User/ProfileImg";
+import ProfileImage from "components/User/ProfileImage";
 
 import alertAtom from "atoms/alert";
 import { useSetRecoilState } from "recoil";
@@ -22,33 +22,37 @@ import { convertImage } from "tools/image";
 import regExpTest from "tools/regExpTest";
 import theme from "tools/theme";
 
-const ProfImg = (props) => {
-  const style = {
-    margin: "auto",
-    width: "110px",
-    height: "110px",
-    borderRadius: "55%",
-    overflow: "hidden",
-  };
-  return (
-    <div style={style}>
-      {props.profileImgUrl && (
-        <ProfileImg path={props.profileImgUrl} token={props.token} />
-      )}
-    </div>
-  );
-};
-ProfImg.propTypes = {
-  profileImgUrl: PropTypes.string,
-  token: PropTypes.any,
+type ModalMypageModifyProps = Omit<
+  Parameters<typeof Modal>[0],
+  "padding" | "children" | "onEnter"
+> & { profToken?: string; onUpdate?: () => void };
+
+type ProfileImageLargeProps = Parameters<typeof ProfileImage>[0];
+
+type ButtonProfileImageProps = {
+  onUpdate?: ModalMypageModifyProps["onUpdate"];
 };
 
-const BtnProfImg = (props) => {
+const ProfileImageLarge = (props: ProfileImageLargeProps) => (
+  <div
+    css={{
+      margin: "auto",
+      width: "110px",
+      height: "110px",
+      borderRadius: "55%",
+      overflow: "hidden",
+    }}
+  >
+    <ProfileImage {...props} />
+  </div>
+);
+
+const ButtonProfileImage = ({ onUpdate }: ButtonProfileImageProps) => {
   const { t } = useTranslation("mypage");
   const axios = useAxios();
 
-  const inputImage = useRef(null);
-  const [profileAlert, setProfileAlert] = useState(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [profileAlert, setProfileAlert] = useState<Nullable<string>>(null);
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
 
   useEffect(() => {
@@ -57,10 +61,10 @@ const BtnProfImg = (props) => {
     return () => clearTimeout(timeoutID);
   }, [profileAlert]);
 
-  const handleUploadProfileImage = async () => {
+  const handleUploadProfileImage = useCallback(async () => {
     setProfileAlert("LOADING");
     try {
-      const image = await convertImage(inputImage.current?.files?.[0]);
+      const image = await convertImage(inputRef.current?.files?.[0]);
       if (!image) return;
       const data = await axios({
         url: "/users/editProfileImg/getPUrl",
@@ -83,7 +87,7 @@ const BtnProfImg = (props) => {
           });
           if (data2?.result) {
             fetchLoginInfo();
-            props.onUpdate();
+            onUpdate?.();
             setProfileAlert("SUCCESS");
             return;
           }
@@ -93,7 +97,12 @@ const BtnProfImg = (props) => {
     } catch (e) {
       setProfileAlert("FAIL");
     }
-  };
+  }, [onUpdate]);
+
+  const onClick = useCallback(() => {
+    if (!profileAlert) inputRef.current?.click();
+  }, [profileAlert]);
+
   const style = {
     textAlign: "center",
     ...theme.font10_bold,
@@ -108,21 +117,16 @@ const BtnProfImg = (props) => {
     width: "fit-content",
     margin: "16px auto",
     cursor: profileAlert ? "default" : "pointer",
-  };
-  const onClick = () => {
-    if (!profileAlert) {
-      inputImage.current.click();
-    }
-  };
+  } as const;
 
   return (
-    <div style={style} onClick={onClick}>
+    <div css={style} onClick={onClick}>
       <input
         type="file"
         accept="image/jpg, image/png, image/jpeg, image/heic"
         hidden
         onChange={handleUploadProfileImage}
-        ref={inputImage}
+        ref={inputRef}
       />
       {profileAlert === "SUCCESS"
         ? t("page_modify.profile_image_success")
@@ -134,12 +138,14 @@ const BtnProfImg = (props) => {
     </div>
   );
 };
-BtnProfImg.propTypes = {
-  onUpdate: PropTypes.func,
-  onClose: PropTypes.func,
-};
 
-const ModalModify = (props) => {
+const ModalMypageModify = ({
+  profToken,
+  onUpdate,
+  isOpen,
+  onChangeIsOpen,
+  ...modalProps
+}: ModalMypageModifyProps) => {
   const { t } = useTranslation("mypage");
   const axios = useAxios();
 
@@ -151,11 +157,11 @@ const ModalModify = (props) => {
   const setAlert = useSetRecoilState(alertAtom);
 
   useEffect(() => {
-    if (props.isOpen) {
+    if (isOpen) {
       setNickname(loginInfo?.nickname || "");
       setAccount(loginInfo?.account || "");
     }
-  }, [loginInfo, props.isOpen]);
+  }, [loginInfo, isOpen]);
 
   const isEditable =
     regExpTest.account(account) && regExpTest.nickname(nickname);
@@ -184,35 +190,24 @@ const ModalModify = (props) => {
     if (isNeedToUpdateLoginInfo) {
       fetchLoginInfo();
     }
-    props.onChangeIsOpen(false);
+    onChangeIsOpen?.(false);
   };
 
   const styleName = {
     ...theme.font20,
     textAlign: "center",
     marginBottom: "16px",
-  };
+  } as const;
   const styleTitle = {
     display: "flex",
     alignItems: "center",
-    ...theme.font14,
     color: theme.gray_text,
     whiteSpace: "nowrap",
-  };
+    ...theme.font14,
+  } as const;
   const styleContent = {
     ...theme.font14,
     marginLeft: "12px",
-  };
-  const styleNickname = {
-    width: "100%",
-    ...theme.font14,
-    border: "none",
-    outline: "none",
-    borderRadius: "6px",
-    padding: "6px 12px",
-    marginLeft: "10px",
-    background: theme.purple_light,
-    boxShadow: theme.shadow_purple_input_inset,
   };
   const styleButton = {
     display: "flex",
@@ -222,36 +217,33 @@ const ModalModify = (props) => {
 
   return (
     <Modal
-      isOpen={props.isOpen}
-      onChangeIsOpen={props.onChangeIsOpen}
+      isOpen={isOpen}
+      onChangeIsOpen={onChangeIsOpen}
       padding="32px 10px 10px"
       onEnter={handleEditProfile}
+      {...modalProps}
     >
-      <div style={styleName}>{loginInfo?.name}</div>
-      <ProfImg
-        profileImgUrl={loginInfo?.profileImgUrl}
-        token={props.profToken}
-      />
-      <BtnProfImg
-        onClose={() => props.onChangeIsOpen(false)}
-        onUpdate={props.onUpdate}
-      />
+      <div css={styleName}>{loginInfo?.name}</div>
+      {loginInfo?.profileImgUrl && (
+        <ProfileImageLarge url={loginInfo?.profileImgUrl} token={profToken} />
+      )}
+      <ButtonProfileImage onUpdate={onUpdate} />
       <DottedLine direction="row" margin="0 2px" />
-      <div style={{ rowGap: "10px", padding: "0px 20px" }}>
-        <div style={{ ...styleTitle, marginTop: "24px" }}>
+      <div css={{ rowGap: "10px", padding: "0px 20px" }}>
+        <div css={{ ...styleTitle, marginTop: "24px" }}>
           {t("student_id")}
-          <div style={styleContent}>{loginInfo?.subinfo?.kaist}</div>
+          <div css={styleContent}>{loginInfo?.subinfo?.kaist}</div>
         </div>
-        <div style={{ ...styleTitle, marginTop: "16px" }}>
+        <div css={{ ...styleTitle, marginTop: "16px" }}>
           {t("email")}
-          <div style={styleContent}>{loginInfo?.email}</div>
+          <div css={styleContent}>{loginInfo?.email}</div>
         </div>
-        <div style={{ ...styleTitle, marginTop: "10px" }}>
+        <div css={{ ...styleTitle, marginTop: "10px" }}>
           {t("nickname")}
-          <input
-            style={styleNickname}
+          <Input
             value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
+            onChangeValue={setNickname}
+            css={{ width: "100%", marginLeft: "10px" }}
           />
         </div>
         <AccountSelector
@@ -259,14 +251,14 @@ const ModalModify = (props) => {
           setAccountNumber={setAccount}
         />
       </div>
-      <div style={styleButton}>
+      <div css={styleButton}>
         <Button
           type="gray"
           width="calc(50% - 5px)"
           padding="10px 0 9px"
           radius={8}
           font={theme.font14}
-          onClick={() => props.onChangeIsOpen(false)}
+          onClick={() => onChangeIsOpen?.(false)}
         >
           {t("page_modify.cancel")}
         </Button>
@@ -288,11 +280,5 @@ const ModalModify = (props) => {
     </Modal>
   );
 };
-ModalModify.propTypes = {
-  profToken: PropTypes.any,
-  isOpen: PropTypes.bool,
-  onChangeIsOpen: PropTypes.func,
-  onUpdate: PropTypes.func,
-};
 
-export default ModalModify;
+export default ModalMypageModify;

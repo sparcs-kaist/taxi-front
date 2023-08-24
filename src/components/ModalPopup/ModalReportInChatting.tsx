@@ -6,7 +6,7 @@ import { useAxios } from "hooks/useTaxiAPI";
 
 import Button from "components/Button";
 import Modal from "components/Modal";
-import ProfileImg from "components/User/ProfileImg";
+import ProfileImage from "components/User/ProfileImage";
 
 import alertAtom from "atoms/alert";
 import { useSetRecoilState } from "recoil";
@@ -172,7 +172,7 @@ const ModalReportInChatting = ({
     <Modal isOpen={isOpen} onChangeIsOpen={handleClose} padding="10px">
       <div style={styleTop}>
         <div style={styleProfImg}>
-          <ProfileImg path={path} />
+          <ProfileImage url={path} />
         </div>
         <div style={styleTitle}>{name}</div>
       </div>
