@@ -5,7 +5,7 @@ import LinkCallTaxi from "components/Link/LinkCallTaxi";
 import theme from "tools/theme";
 
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
-import { ReactComponent as KakaoTaxiLogo } from "static/assets/KakaotTaxiLogo.svg";
+import { ReactComponent as KakaoTaxiLogo } from "static/assets/KakaoTaxiLogo.svg";
 import TmoneyOndaLogo from "static/assets/TmoneyOndaLogo.png";
 import { ReactComponent as UTLogo } from "static/assets/UTLogo.svg";
 

@@ -17,7 +17,7 @@ import theme from "tools/theme";
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
-type ModalReportInChattingProps = {
+type ModalChatReporUserProps = {
   isOpen: boolean;
   onChangeIsOpen: (isOpen: boolean) => void;
   path: string;
@@ -25,13 +25,13 @@ type ModalReportInChattingProps = {
   reportedId: string;
 };
 
-const ModalReportInChatting = ({
+const ModalChatReporUser = ({
   isOpen,
   onChangeIsOpen,
   path,
   name,
   reportedId,
-}: ModalReportInChattingProps) => {
+}: ModalChatReporUserProps) => {
   const axios = useAxios();
   const [type, setType] = useState<Report["type"]>("no-settlement");
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -253,4 +253,4 @@ const ModalReportInChatting = ({
   );
 };
 
-export default ModalReportInChatting;
+export default ModalChatReporUser;

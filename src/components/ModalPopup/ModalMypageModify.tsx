@@ -8,10 +8,10 @@ import {
 } from "hooks/useFetchRecoilState";
 import { useAxios } from "hooks/useTaxiAPI";
 
-import AccountSelector from "components/AccountSelector";
 import Button from "components/Button";
 import DottedLine from "components/DottedLine";
 import Input from "components/Input";
+import InputAccount from "components/Input/InputAccount";
 import Modal from "components/Modal";
 import ProfileImage from "components/User/ProfileImage";
 
@@ -246,10 +246,14 @@ const ModalMypageModify = ({
             css={{ width: "100%", marginLeft: "10px" }}
           />
         </div>
-        <AccountSelector
-          accountNumber={account}
-          setAccountNumber={setAccount}
-        />
+        <div css={{ ...styleTitle, marginTop: "10px" }}>
+          {t("account")}
+          <InputAccount
+            value={account}
+            onChangeValue={setAccount}
+            css={{ width: "100%", marginLeft: "10px" }}
+          />
+        </div>
       </div>
       <div css={styleButton}>
         <Button

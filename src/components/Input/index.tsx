@@ -1,12 +1,19 @@
+import { HTMLProps } from "react";
+
 import theme from "tools/theme";
 
 type InputProps = {
   value?: string;
   onChangeValue?: (v: string) => void;
-  className?: string; // for emotion
-};
+  className?: string; // for emotion (css props)
+} & HTMLProps<HTMLInputElement>;
 
-const Input = ({ value, onChangeValue, className }: InputProps) => (
+const Input = ({
+  value,
+  onChangeValue,
+  className,
+  ...inputProps
+}: InputProps) => (
   <input
     value={value}
     onChange={(e) => onChangeValue?.(e.target.value)}
@@ -20,6 +27,7 @@ const Input = ({ value, onChangeValue, className }: InputProps) => (
       boxShadow: theme.shadow_purple_input_inset,
       ...theme.font14,
     }}
+    {...inputProps}
   />
 );
 

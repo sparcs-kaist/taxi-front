@@ -1,8 +1,14 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import useAccountFromChats from "hooks/chat/useAccountFromChats";
+import { useValueRecoilState } from "hooks/useFetchRecoilState";
 import { useAxios } from "hooks/useTaxiAPI";
 
 import Button from "components/Button";
+import ButtonShare from "components/Button/ButtonShare";
+import DottedLine from "components/DottedLine";
+import LinkCopy from "components/Link/LinkCopy";
+import LinkPayment from "components/Link/LinkPayment";
 import Modal from "components/Modal";
 
 import alertAtom from "atoms/alert";
@@ -10,72 +16,158 @@ import { useSetRecoilState } from "recoil";
 
 import theme from "tools/theme";
 
+import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import LocalAtmRoundedIcon from "@mui/icons-material/LocalAtmRounded";
+import { ReactComponent as KakaoPayLogo } from "static/assets/KakaoPayLogo.svg";
+import { ReactComponent as TossLogo } from "static/assets/TossLogo.svg";
+
 type ModalChatSettlementProps = Omit<
   Parameters<typeof Modal>[0],
   "padding" | "children" | "onEnter"
-> & { roomId: Room["_id"]; onRecall?: () => void };
+> & {
+  roomInfo: Room;
+  onRecall?: () => void;
+  account: ReturnType<typeof useAccountFromChats>;
+};
 
 const ModalChatSettlement = ({
-  roomId,
+  roomInfo,
+  account,
   onRecall,
   ...modalProps
 }: ModalChatSettlementProps) => {
   const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
-
-  const onClickOk = useCallback(
+  const { oid: userOid } = useValueRecoilState("loginInfo") || {};
+  const isRequesting = useRef<boolean>(false);
+  const [isCopied, setIsCopied] = useState(false);
+  const settlementStatusForMe = useMemo(
     () =>
-      axios({
-        url: "/rooms/commitSettlement",
-        method: "post",
-        data: { roomId },
-        onSuccess: () => {
-          modalProps.onChangeIsOpen?.(false);
-          onRecall?.();
-        },
-        onError: () => setAlert("송금하기 요청을 실패하였습니다."),
-      }),
-    [roomId, modalProps.onChangeIsOpen, onRecall]
+      roomInfo &&
+      roomInfo.part.filter((user) => user._id === userOid)?.[0]?.isSettlement,
+    [userOid, roomInfo]
   );
+  const onCopy = useCallback(() => setIsCopied(true), [setIsCopied]);
 
-  const styleTextCont = {
-    textAlign: "center" as any,
+  useEffect(() => {
+    if (isCopied) {
+      const timer = setTimeout(() => setIsCopied(false), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isCopied]);
+
+  const onClickOk = () => {
+    if (isRequesting.current) return;
+    axios({
+      url: "/rooms/commitSettlement",
+      method: "post",
+      data: { roomId: roomInfo._id },
+      onSuccess: () => {
+        isRequesting.current = false;
+        modalProps.onChangeIsOpen?.(false);
+        onRecall?.();
+      },
+      onError: () => {
+        isRequesting.current = false;
+        setAlert("송금하기를 실패하였습니다.");
+      },
+    });
   };
-  const styleTextCont2 = {
-    textAlign: "center" as any,
-    lineHieght: "12px",
-    paddingTop: "6px",
-    fontSize: "10px",
-    color: "888888",
+
+  const styleTitle = {
+    ...theme.font18,
+    display: "flex",
+    alignItems: "center",
+    margin: "0 8px 12px",
   };
-  const styleTxt1 = {
-    fontSize: "16px",
-    fontWeight: "bold",
+  const styleIcon = {
+    fontSize: "21px",
+    margin: "0 4px 0 0",
   };
-  const styleTxt2 = {
-    fontSize: "16px",
-    fontWeight: 300,
+  const styleText = {
+    ...theme.font12,
+    color: theme.gray_text,
+    margin: "0 8px 12px",
   };
-  const styleTxt3 = {
-    fontSize: "16px",
-    fontWeight: "bold",
-    color: "#6E3678",
+  const styleAccount = {
+    ...theme.font14,
+    display: "flex",
+    justifyContent: "center",
+    gap: "12px",
+    margin: "0 8px 12px",
+    color: theme.gray_text,
   };
 
   return (
-    <Modal {...modalProps} padding="10px" onEnter={onClickOk}>
-      <div css={{ margin: "26px 0 24px" }}>
-        <div css={styleTextCont}>
-          <span css={styleTxt1}>송금</span>
-          <span css={styleTxt2}>을 </span>
-          <span css={styleTxt3}>완료</span>
-          <span css={styleTxt2}>하시겠습니까?</span>
-        </div>
-        <div css={styleTextCont2}>
-          택시비 결제자에게 송금 후 완료해주세요.
-          <br />
-          완료 후 취소는 불가능합니다.
-        </div>
+    <Modal {...modalProps} padding="16px 12px 12px" onEnter={onClickOk}>
+      <div css={styleTitle}>
+        <LocalAtmRoundedIcon style={styleIcon} />
+        송금하기
+      </div>
+      {account && (
+        <>
+          <div css={styleText}>
+            택시비 결제자의 계좌번호를 참고하시어 송금해 주세요. 결제 방법 선택
+            시에 해당 앱으로 이동합니다.
+          </div>
+          <div css={styleAccount} className="selectable">
+            계좌번호
+            <div css={{}}>{account}</div>
+          </div>
+          <div
+            css={{
+              display: "flex",
+              justifyContent: "center",
+              gap: "10px",
+              marginBottom: "12px",
+            }}
+          >
+            <LinkCopy value={account} onCopy={onCopy}>
+              <ButtonShare
+                text="계좌 복사"
+                icon={
+                  isCopied ? (
+                    <CheckRoundedIcon
+                      style={{ fontSize: "16px", color: theme.gray_text }}
+                    />
+                  ) : (
+                    <ContentCopyIcon
+                      style={{ fontSize: "16px", color: theme.gray_text }}
+                    />
+                  )
+                }
+                background={theme.gray_background}
+              />
+            </LinkCopy>
+            <LinkPayment type="kakaopay" account={account}>
+              <ButtonShare
+                text="카카오페이"
+                icon={<KakaoPayLogo css={{ width: "22px" }} />}
+                background="#FFEB00"
+              />
+            </LinkPayment>
+            <LinkPayment type="toss" account={account}>
+              <ButtonShare
+                text="토스"
+                icon={<TossLogo css={{ width: "24px" }} />}
+                background="#0050FF"
+              />
+            </LinkPayment>
+          </div>
+          <DottedLine />
+          <div css={{ height: "12px" }} />
+        </>
+      )}
+      <div css={styleText}>
+        택시비 결제자에게 송금 후 <b>송금 확인</b> 버튼을 눌러주세요.
+      </div>
+      <div css={styleText}>
+        • 완료 후 취소는 <b>불가능</b>합니다.
+        <br />
+        <span css={{ color: theme.red_text }}>
+          • 결제자에게 금액을 송금한 경우에만 진행해주세요.
+        </span>
       </div>
       <div
         css={{
@@ -102,8 +194,13 @@ const ModalChatSettlement = ({
           radius={8}
           font={theme.font14_bold}
           onClick={onClickOk}
+          disabled={settlementStatusForMe !== "send-required"}
         >
-          완료하기
+          {settlementStatusForMe === "send-required"
+            ? "송금 확인"
+            : settlementStatusForMe === "sent"
+            ? "송금 확인 완료"
+            : "송금 확인 불가능"}
         </Button>
       </div>
     </Modal>

@@ -23,7 +23,6 @@ export const createShareChat = (roomInfo: Room): BotChat => ({
   authorId: "bot",
   authorName: "택시 봇",
   content: randomSuggestRoomShareTextGenerator(roomInfo._id),
-  roomInfo,
   roomId: roomInfo._id,
   time: roomInfo.madeat,
   isValid: true,

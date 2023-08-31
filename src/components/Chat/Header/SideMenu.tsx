@@ -76,15 +76,15 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
   const [isOpenShare, setIsOpenShare] = useState<boolean>(false);
   const [isOpenCallTaxi, setIsOpenCallTaxi] = useState<boolean>(false);
   const [isOpenCancel, setIsOpenCancel] = useState<boolean>(false);
-  const isDepart = useIsTimeOver(dayServerToClient(roomInfo.time)); // 방 출발 여부
+  const isDeparted = useIsTimeOver(dayServerToClient(roomInfo.time)); // 방 출발 여부
 
   const onClikcShare = useCallback(() => setIsOpenShare(true), []);
   const onClickCancel = useCallback(
     () =>
-      isDepart
+      isDeparted
         ? setAlert("출발 시각이 이전인 방은 탑승 취소를 할 수 없습니다.")
         : setIsOpenCancel(true),
-    [isDepart]
+    [isDeparted]
   );
   const onClickCallTaxi = useCallback(() => setIsOpenCallTaxi(true), []);
 
@@ -181,9 +181,8 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
               </div>
             </div>
             <div css={styleUsers}>
-              {/* @fixme @todo 유저의 정산 정보 넘겨주나? */}
               {roomInfo.part.map((item) => (
-                <User key={item._id} value={item} />
+                <User key={item._id} value={item} isDeparted={isDeparted} />
               ))}
             </div>
           </div>
@@ -199,15 +198,15 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
           <LogoutOutlinedIcon
             style={{
               fontSize: "24px",
-              fill: isDepart ? theme.gray_text : theme.purple,
-              ...theme.cursor(isDepart),
+              fill: isDeparted ? theme.gray_text : theme.purple,
+              ...theme.cursor(isDeparted),
             }}
           />
           <div
             css={{
-              color: isDepart ? theme.gray_text : theme.purple,
+              color: isDeparted ? theme.gray_text : theme.purple,
               ...theme.font18,
-              ...theme.cursor(isDepart),
+              ...theme.cursor(isDeparted),
             }}
           >
             탑승 취소

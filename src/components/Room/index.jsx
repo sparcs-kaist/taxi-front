@@ -42,13 +42,13 @@ const Tag = (props) => {
       </>
     );
   } else if (!paid) {
-    isDone = <div style={{ color: theme.purple }}>결제 미완료</div>;
-  } else if (props.isSettlementForMe === "paid") {
-    isDone = <div>결제 완료</div>;
-  } else if (props.isSettlementForMe === "sent") {
-    isDone = <div>정산 완료</div>;
-  } else if (props.isSettlementForMe === "send-required") {
     isDone = <div style={{ color: theme.purple }}>정산 미완료</div>;
+  } else if (props.isSettlementForMe === "paid") {
+    isDone = <div>정산 완료</div>;
+  } else if (props.isSettlementForMe === "sent") {
+    isDone = <div>송금 완료</div>;
+  } else if (props.isSettlementForMe === "send-required") {
+    isDone = <div style={{ color: theme.purple }}>송금 미완료</div>;
   }
 
   // if (paid.length === 0) {
