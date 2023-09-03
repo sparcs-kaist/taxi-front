@@ -9,6 +9,7 @@ import {
   ModalChatCancel,
   ModalRoomShare,
 } from "components/ModalPopup";
+import ModalChatReport from "components/ModalPopup/ModalChatReport";
 import User from "components/User";
 
 import alertAtom from "atoms/alert";
@@ -75,6 +76,7 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
   const setAlert = useSetRecoilState(alertAtom);
   const [isOpenShare, setIsOpenShare] = useState<boolean>(false);
   const [isOpenCallTaxi, setIsOpenCallTaxi] = useState<boolean>(false);
+  const [isOpenReport, setIsOpenReport] = useState<boolean>(false);
   const [isOpenCancel, setIsOpenCancel] = useState<boolean>(false);
   const isDeparted = useIsTimeOver(dayServerToClient(roomInfo.time)); // 방 출발 여부
 
@@ -87,6 +89,7 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
     [isDeparted]
   );
   const onClickCallTaxi = useCallback(() => setIsOpenCallTaxi(true), []);
+  const onClickReport = useCallback(() => setIsOpenReport(true), []);
 
   const styleBackground = {
     position: "absolute" as any,
@@ -188,10 +191,10 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
           </div>
           <DottedLine />
           <SideMenuButton type="share" onClick={onClikcShare} />
-          {/* <DottedLine />
-          <SideMenuButton type="report" /> */}
           <DottedLine />
           <SideMenuButton type="taxi" onClick={onClickCallTaxi} />
+          <DottedLine />
+          <SideMenuButton type="report" onClick={onClickReport} />
         </div>
         <DottedLine />
         <div css={styleNameSection} onClick={onClickCancel}>
@@ -228,6 +231,11 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
         roomInfo={roomInfo}
         isOpen={isOpenCallTaxi}
         onChangeIsOpen={setIsOpenCallTaxi}
+      />
+      <ModalChatReport
+        roomInfo={roomInfo}
+        isOpen={isOpenReport}
+        onChangeIsOpen={setIsOpenReport}
       />
     </>
   );
