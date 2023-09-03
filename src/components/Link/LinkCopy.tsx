@@ -23,7 +23,7 @@ const LinkCopy = ({ children, value, onCopy }: LinkCopyProps) => {
       return;
     }
     navigator.clipboard.writeText(value);
-    if (onCopy) onCopy(value);
+    onCopy?.(value);
   }, [isApp, value, setAlert, onCopy]);
   return <a onClick={onClick}>{children}</a>;
 };

@@ -1,90 +1,143 @@
-import { useCallback } from "react";
+import { useMemo, useRef, useState } from "react";
 
+import useSendMessage from "hooks/chat/useSendMessage";
+import { useValueRecoilState } from "hooks/useFetchRecoilState";
 import { useAxios } from "hooks/useTaxiAPI";
 
 import Button from "components/Button";
+import DottedLine from "components/DottedLine";
+import InputAcount from "components/Input/InputAccount";
 import Modal from "components/Modal";
 
 import alertAtom from "atoms/alert";
 import { useSetRecoilState } from "recoil";
 
+import regExpTest from "tools/regExpTest";
 import theme from "tools/theme";
+
+import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceWalletRounded";
 
 type ModalChatSettlementProps = Omit<
   Parameters<typeof Modal>[0],
   "padding" | "children" | "onEnter"
-> & { roomId: Room["_id"]; onRecall?: () => void };
+> & {
+  roomInfo: Room;
+  onRecall?: () => void;
+  openSaveAccountModal?: (account: string) => void;
+};
 
 const ModalChatSettlement = ({
-  roomId,
+  roomInfo,
   onRecall,
+  openSaveAccountModal,
   ...modalProps
 }: ModalChatSettlementProps) => {
   const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
+  const { account: defaultAccount } = useValueRecoilState("loginInfo") || {};
+  const [account, setAccount] = useState<string>(defaultAccount || "");
+  const isValidAccount = useMemo(() => regExpTest.account(account), [account]);
+  const isRequesting = useRef<boolean>(false);
+  const sendMessage = useSendMessage(roomInfo._id, isRequesting);
 
-  const onClickOk = useCallback(
-    () =>
-      axios({
-        url: "/rooms/commitPayment",
-        method: "post",
-        data: { roomId },
-        onSuccess: () => {
-          modalProps.onChangeIsOpen?.(false);
-          onRecall?.();
-        },
-        onError: () => setAlert("정산하기 요청을 실패하였습니다."),
-      }),
-    [roomId, modalProps.onChangeIsOpen, onRecall]
-  );
+  const onClickOk = () => {
+    if (isRequesting.current || !isValidAccount) return;
+    isRequesting.current = true;
+    axios({
+      url: "/rooms/commitPayment",
+      method: "post",
+      data: { roomId: roomInfo._id },
+      onSuccess: async () => {
+        isRequesting.current = false;
+        onRecall?.();
+        if (account !== "") {
+          await sendMessage("account", { text: account });
+          isRequesting.current = false;
+          if (account !== defaultAccount) openSaveAccountModal?.(account);
+        }
+        modalProps.onChangeIsOpen?.(false);
+      },
+      onError: () => {
+        isRequesting.current = false;
+        setAlert("정산하기를 실패했습니다.");
+      },
+    });
+  };
 
-  const styleTextCont = {
-    textAlign: "center" as any,
+  const styleTitle = {
+    ...theme.font18,
+    display: "flex",
+    alignItems: "center",
+    margin: "0 8px 12px",
   };
-  const styleTextCont2 = {
-    textAlign: "center" as any,
-    lineHieght: "12px",
-    paddingTop: "6px",
-    fontSize: "10px",
-    color: "888888",
+  const styleIcon = {
+    fontSize: "21px",
+    margin: "0 4px 0 0",
   };
-  const styleTxt1 = {
-    fontSize: "16px",
-    fontWeight: "bold",
+  const styleText = {
+    ...theme.font12,
+    color: theme.gray_text,
+    margin: "0 8px 12px",
   };
-  const styleTxt2 = {
-    fontSize: "16px",
-    fontWeight: 300,
-  };
-  const styleTxt3 = {
-    fontSize: "16px",
-    fontWeight: "bold",
-    color: "#6E3678",
+  const styleAccount = {
+    margin: "12px 8px",
+    display: "flex",
+    alignItems: "center",
+    color: theme.gray_text,
+    whiteSpace: "nowrap",
+    ...theme.font14,
+  } as const;
+  const styleButtons = {
+    position: "relative",
+    display: "flex",
+    justifyContent: "space-between",
+    gap: "10px",
+  } as const;
+  const styleAlarm = {
+    ...theme.font12,
+    color: theme.gray_text,
+    margin: "0 8px 12px",
   };
 
   return (
-    <Modal {...modalProps} padding="10px" onEnter={onClickOk}>
-      <div css={{ margin: "26px 0 24px" }}>
-        <div css={styleTextCont}>
-          <span css={styleTxt1}>결제</span>
-          <span css={styleTxt2}>를 </span>
-          <span css={styleTxt3}>완료</span>
-          <span css={styleTxt2}>하시겠습니까?</span>
-        </div>
-        <div css={styleTextCont2}>
-          꼭 택시비를 결제한 본인만 완료해주세요.
-          <br />
-          완료 후 취소는 불가능합니다.
-        </div>
+    <Modal {...modalProps} padding="16px 12px 12px" onEnter={onClickOk}>
+      <div css={styleTitle}>
+        <AccountBalanceWalletRoundedIcon style={styleIcon} />
+        정산하기
       </div>
-      <div
-        css={{
-          position: "relative",
-          display: "flex",
-          justifyContent: "space-between",
-          gap: "10px",
-        }}
-      >
+      <div css={styleText}>동승자들에게 송금을 요청할 수 있습니다.</div>
+      <div css={styleText}>
+        • 완료 후 취소는 <b>불가능</b>합니다.
+        <br />
+        <span css={{ color: theme.red_text }}>
+          • 본인이 택시 요금을 계산한 경우에만 진행해주세요.
+        </span>
+      </div>
+      <DottedLine />
+      <div css={styleAccount}>
+        계좌번호
+        <InputAcount
+          value={account}
+          onChangeValue={setAccount}
+          css={{ width: "100%", marginLeft: "10px" }}
+        />
+      </div>
+      {isValidAccount ? (
+        account === "" ? (
+          <div css={{ ...styleAlarm, color: theme.gray_text }}>
+            • 계좌번호를 공유하지 않고 정산 요청을 합니다.
+          </div>
+        ) : (
+          <div css={{ ...styleAlarm, color: theme.gray_text }}>
+            • 정산 요청과 함께 계좌번호를 채팅창에 전송합니다.
+          </div>
+        )
+      ) : (
+        <div css={{ ...styleAlarm, color: theme.red_text }}>
+          • 올바른 계좌번호를 입력해주세요.
+        </div>
+      )}
+      <div css={styleButtons}>
         <Button
           type="gray"
           width="calc(50% - 5px)"
@@ -102,6 +155,7 @@ const ModalChatSettlement = ({
           radius={8}
           font={theme.font14_bold}
           onClick={onClickOk}
+          disabled={!isValidAccount}
         >
           완료하기
         </Button>

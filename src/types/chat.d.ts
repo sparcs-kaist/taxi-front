@@ -22,7 +22,6 @@ export type BotChat = {
   type: "share";
   authorId: "bot";
   authorName: string;
-  roomInfo: Room;
 } & CommonChat;
 export type Chat = UserChat | GeneralChat | BotChat;
 
