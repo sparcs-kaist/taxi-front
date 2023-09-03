@@ -12,8 +12,11 @@ import { useValueRecoilState } from "hooks/useFetchRecoilState";
 import useIsTimeOver from "hooks/useIsTimeOver";
 
 import AdaptiveDiv from "components/AdaptiveDiv";
-import { ModalChatPayement, ModalChatSettlement } from "components/ModalPopup";
-import ModalChatSaveAcount from "components/ModalPopup/ModalChatSaveAccount";
+import {
+  ModalChatPayement,
+  ModalChatSaveAccount,
+  ModalChatSettlement,
+} from "components/ModalPopup";
 
 import ToolButton from "./ToolButton";
 
@@ -156,7 +159,7 @@ const ToolSheet = ({
             onRecall={onRecallSettlePayment}
           />
           {accountToSave && (
-            <ModalChatSaveAcount
+            <ModalChatSaveAccount
               isOpen={isOpenSaveAccount}
               onChangeIsOpen={setIsOpenSaveAccount}
               account={accountToSave}

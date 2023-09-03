@@ -142,8 +142,6 @@ const ButtonProfileImage = ({ onUpdate }: ButtonProfileImageProps) => {
 const ModalMypageModify = ({
   profToken,
   onUpdate,
-  isOpen,
-  onChangeIsOpen,
   ...modalProps
 }: ModalMypageModifyProps) => {
   const { t } = useTranslation("mypage");
@@ -157,11 +155,11 @@ const ModalMypageModify = ({
   const setAlert = useSetRecoilState(alertAtom);
 
   useEffect(() => {
-    if (isOpen) {
+    if (modalProps.isOpen) {
       setNickname(loginInfo?.nickname || "");
       setAccount(loginInfo?.account || "");
     }
-  }, [loginInfo, isOpen]);
+  }, [loginInfo, modalProps.isOpen]);
 
   const isEditable =
     regExpTest.account(account) && regExpTest.nickname(nickname);
@@ -190,7 +188,7 @@ const ModalMypageModify = ({
     if (isNeedToUpdateLoginInfo) {
       fetchLoginInfo();
     }
-    onChangeIsOpen?.(false);
+    modalProps.onChangeIsOpen?.(false);
   };
 
   const styleName = {
@@ -216,13 +214,7 @@ const ModalMypageModify = ({
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onChangeIsOpen={onChangeIsOpen}
-      padding="32px 10px 10px"
-      onEnter={handleEditProfile}
-      {...modalProps}
-    >
+    <Modal padding="32px 10px 10px" onEnter={handleEditProfile} {...modalProps}>
       <div css={styleName}>{loginInfo?.name}</div>
       {loginInfo?.profileImgUrl && (
         <ProfileImageLarge url={loginInfo?.profileImgUrl} token={profToken} />
@@ -262,7 +254,7 @@ const ModalMypageModify = ({
           padding="10px 0 9px"
           radius={8}
           font={theme.font14}
-          onClick={() => onChangeIsOpen?.(false)}
+          onClick={() => modalProps.onChangeIsOpen?.(false)}
         >
           {t("page_modify.cancel")}
         </Button>

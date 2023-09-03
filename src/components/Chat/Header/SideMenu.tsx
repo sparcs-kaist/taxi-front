@@ -7,9 +7,9 @@ import DottedLine from "components/DottedLine";
 import {
   ModalCallTaxi,
   ModalChatCancel,
+  ModalChatReport,
   ModalRoomShare,
 } from "components/ModalPopup";
-import ModalChatReport from "components/ModalPopup/ModalChatReport";
 import User from "components/User";
 
 import alertAtom from "atoms/alert";

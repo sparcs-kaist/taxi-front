@@ -107,7 +107,7 @@ const BodyChatReportSelectType = ({
   const handleSubmit = async () => {
     if (isRequesting.current) return;
     isRequesting.current = true;
-    axios({
+    await axios({
       url: "/reports/create",
       method: "post",
       data: {

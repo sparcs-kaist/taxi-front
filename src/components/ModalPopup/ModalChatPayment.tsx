@@ -57,22 +57,20 @@ const ModalChatSettlement = ({
     }
   }, [isCopied]);
 
-  const onClickOk = () => {
+  const onClickOk = async () => {
     if (isRequesting.current) return;
-    axios({
+    isRequesting.current = true;
+    await axios({
       url: "/rooms/commitSettlement",
       method: "post",
       data: { roomId: roomInfo._id },
       onSuccess: () => {
-        isRequesting.current = false;
         modalProps.onChangeIsOpen?.(false);
         onRecall?.();
       },
-      onError: () => {
-        isRequesting.current = false;
-        setAlert("송금하기를 실패하였습니다.");
-      },
+      onError: () => setAlert("송금하기를 실패하였습니다."),
     });
+    isRequesting.current = false;
   };
 
   const styleTitle = {

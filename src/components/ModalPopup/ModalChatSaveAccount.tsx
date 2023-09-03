@@ -70,7 +70,7 @@ const ModalChatSaveAcount = ({
       <div css={styleText}>
         {!accountOrigin || accountOrigin === ""
           ? "계좌번호를 저장하면 다음번 정산하기에서는 자동 입력되어 다시 계좌번호를 입력할 필요가 없어요. 계좌번호를 저장할까요?"
-          : "저장된 계좌번호와 다른 정보가 정산하기에 입력되었어요. 저장된 정보를 입력한 계좌번호로 수정할까요?"}
+          : "저장된 계좌번호와 다른 번호가 정산하기에 입력되었어요. 저장된 계좌번호를 입력한 번호로 수정할까요? 다음번 정산하기에서는 저장된 번호가 자동 입력됩니다."}
       </div>
       <div
         css={{
@@ -90,7 +90,7 @@ const ModalChatSaveAcount = ({
         />
       </div>
       <div
-        style={{
+        css={{
           position: "relative",
           display: "flex",
           justifyContent: "space-between",
