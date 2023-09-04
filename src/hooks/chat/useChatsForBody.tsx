@@ -81,8 +81,14 @@ export default (_chats: Chats, layoutType: LayoutType, roomInfo: Room) => {
         item.type === "payment" ||
         item.type === "settlement" ||
         item.type === "account" ||
-        item.type === "share"
+        item.type === "share" ||
+        item.type === "departure" ||
+        item.type === "arrival"
       ) {
+        if (["share", "departure", "arrival"].includes(item.type)) {
+          item.authorId = "bot";
+          item.authorName = "택시 봇";
+        }
         if (
           chatsCache &&
           (chatsCache[0].authorId !== item.authorId ||

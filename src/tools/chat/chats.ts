@@ -20,8 +20,6 @@ export const createInfScrollCheckoutChat = (): InfScrollCheckoutChat => {
 
 export const createShareChat = (roomInfo: Room): BotChat => ({
   type: "share",
-  authorId: "bot",
-  authorName: "택시 봇",
   content: randomSuggestRoomShareTextGenerator(roomInfo._id),
   roomId: roomInfo._id,
   time: roomInfo.madeat,
