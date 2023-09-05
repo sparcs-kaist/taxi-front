@@ -7,11 +7,16 @@ import {
   useState,
 } from "react";
 
+import useAccountFromChats from "hooks/chat/useAccountFromChats";
 import { useValueRecoilState } from "hooks/useFetchRecoilState";
 import useIsTimeOver from "hooks/useIsTimeOver";
 
 import AdaptiveDiv from "components/AdaptiveDiv";
-import { ModalChatPayement, ModalChatSettlement } from "components/ModalPopup";
+import {
+  ModalChatPayement,
+  ModalChatSaveAccount,
+  ModalChatSettlement,
+} from "components/ModalPopup";
 
 import ToolButton from "./ToolButton";
 
@@ -26,6 +31,7 @@ type ToolSheetProps = {
   isOpen: boolean;
   onChangeIsOpen?: (x: boolean) => void;
   onChangeUploadedImage?: (x: Nullable<File>) => void;
+  account: ReturnType<typeof useAccountFromChats>;
 };
 
 const ToolSheet = ({
@@ -33,11 +39,14 @@ const ToolSheet = ({
   isOpen,
   onChangeIsOpen,
   onChangeUploadedImage,
+  account,
 }: ToolSheetProps) => {
   const setAlert = useSetRecoilState(alertAtom);
   const { oid: userOid } = useValueRecoilState("loginInfo") || {};
+  const [accountToSave, setAccountToSave] = useState<string>("");
   const [isOpenSettlement, setIsOpenSettlement] = useState<boolean>(false);
   const [isOpenPayment, setIsOpenPayment] = useState<boolean>(false);
+  const [isOpenSaveAccount, setIsOpenSaveAccount] = useState<boolean>(true);
   const isDepart = useIsTimeOver(
     roomInfo ? dayServerToClient(roomInfo.time) : dayNowClient()
   ); // 방 출발 여부
@@ -60,28 +69,35 @@ const ToolSheet = ({
   );
   const onClickImage = useCallback(() => inputImageRef.current?.click(), []);
   const onClickSettlement = useCallback(() => {
-    if (!isDepart) setAlert("출발 시각 이후에 정산하기 요청을 보내주세요.");
+    if (!isDepart)
+      setAlert("출발 시각 이후부터 정산 및 송금하기가 가능합니다.");
     else if (settlementStatusForMe === "paid")
-      setAlert("정산하기 요청은 중복하여 보낼 수 없습니다.");
+      setAlert("정산하기는 중복하여 수행될 수 없습니다.");
     else if (roomInfo?.settlementTotal)
       setAlert(
-        "정산하기 요청을 한 사용자가 이미 있습니다." +
-          "만약 결제하지 않은 사용자가 정산하기 요청을 보냈다면 신고해주세요."
+        <>
+          정산하기 요청을 한 사용자가 이미 있습니다.
+          <br />
+          만약 결제하지 않은 사용자가 정산하기 요청을 보냈다면 신고해주세요.
+        </>
       );
     else setIsOpenSettlement(true);
   }, [isDepart, settlementStatusForMe]);
   const onClickPayment = useCallback(() => {
-    if (!isDepart) setAlert("출발 시각 이후에 송금하기 요청을 보내주세요.");
-    else if (settlementStatusForMe === "sent")
-      setAlert("송금하기 요청은 중복하여 보낼 수 없습니다.");
+    if (!isDepart)
+      setAlert("출발 시각 이후부터 정산 및 송금하기가 가능합니다.");
     else if (!roomInfo?.settlementTotal)
-      setAlert("정산하기 요청을 보낸 사용자가 없어 송금하기가 불가능합니다.");
+      setAlert("정산하기를 요청한 사용자가 없어 송금하기가 불가능합니다.");
     else setIsOpenPayment(true);
   }, [isDepart, settlementStatusForMe, setIsOpenPayment]);
   const onRecallSettlePayment = useCallback(
     () => onChangeIsOpen?.(false),
     [onChangeIsOpen]
   );
+  const openSaveAccountModal = useCallback((account: string) => {
+    setAccountToSave(account);
+    setIsOpenSaveAccount(true);
+  }, []);
 
   const styleWrap = {
     position: "absolute" as any,
@@ -131,15 +147,24 @@ const ToolSheet = ({
           <ModalChatSettlement
             isOpen={isOpenSettlement}
             onChangeIsOpen={setIsOpenSettlement}
-            roomId={roomInfo._id}
+            roomInfo={roomInfo}
             onRecall={onRecallSettlePayment}
+            openSaveAccountModal={openSaveAccountModal}
           />
           <ModalChatPayement
             isOpen={isOpenPayment}
             onChangeIsOpen={setIsOpenPayment}
-            roomId={roomInfo._id}
+            roomInfo={roomInfo}
+            account={account}
             onRecall={onRecallSettlePayment}
           />
+          {accountToSave && (
+            <ModalChatSaveAccount
+              isOpen={isOpenSaveAccount}
+              onChangeIsOpen={setIsOpenSaveAccount}
+              account={accountToSave}
+            />
+          )}
         </>
       )}
     </div>

@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 
 import theme from "tools/theme";
@@ -6,18 +5,20 @@ import { getS3Url } from "tools/trans";
 
 import defaultImg from "static/assets/profileImgOnError.png";
 
-const ProfileImg = (props) => {
-  const getSrc = () =>
-    getS3Url(`/profile-img/${props.path}?token=${props.token}`);
+type ProfileImageProps = {
+  url: string;
+  token?: string;
+};
+
+const ProfileImage = ({ url, token }: ProfileImageProps) => {
+  const getSrc = () => getS3Url(`/profile-img/${url}?token=${token || ""}`);
   const [src, setSrc] = useState(getSrc());
 
-  useEffect(() => {
-    setSrc(getSrc());
-  }, [props.path, props.token]);
+  useEffect(() => setSrc(getSrc()), [url, token]);
 
   return (
     <div
-      style={{
+      css={{
         width: "100%",
         height: "100%",
         position: "relative",
@@ -26,7 +27,7 @@ const ProfileImg = (props) => {
     >
       <img
         src={src}
-        style={{
+        css={{
           position: "absolute",
           top: "0px",
           left: "0px",
@@ -34,19 +35,11 @@ const ProfileImg = (props) => {
           height: "100%",
           objectFit: "cover",
         }}
-        alt={`/profile-img/${props.path}`}
+        alt={`/profile-img/${url}`}
         onError={() => setSrc(defaultImg)}
       />
     </div>
   );
 };
 
-ProfileImg.propTypes = {
-  path: PropTypes.string,
-  token: PropTypes.string,
-};
-ProfileImg.defaultProps = {
-  token: "",
-};
-
-export default ProfileImg;
+export default ProfileImage;

@@ -8,11 +8,12 @@ import LoadingChats from "./LoadingChats";
 
 type MessagesBodyProps = {
   layoutType: LayoutType;
+  roomInfo: Room;
   chats: Chats;
 };
 
 const MessagesBody = (
-  { layoutType, chats: _chats }: MessagesBodyProps,
+  { layoutType, roomInfo, chats: _chats }: MessagesBodyProps,
   ref: ForwardedRef<HTMLDivElement>
 ) => (
   <div
@@ -28,7 +29,7 @@ const MessagesBody = (
     ref={ref}
   >
     {_chats.length <= 0 && <LoadingChats />}
-    {useChatsForBody(_chats, layoutType)}
+    {useChatsForBody(_chats, layoutType, roomInfo)}
   </div>
 );
 

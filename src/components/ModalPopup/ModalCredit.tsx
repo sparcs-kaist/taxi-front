@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 
 import DottedLine from "components/DottedLine";
@@ -10,14 +9,20 @@ import { ReactComponent as SparcsLogoBlack } from "static/assets/SparcsLogoBlack
 import { ReactComponent as SparcsLogoYellow } from "static/assets/SparcsLogoYellow.svg";
 import members from "static/members";
 
-const Member = (props) => {
+type MemberProps = {
+  name: string;
+  id: string;
+  period: string;
+};
+
+const Member = ({ name, id, period }: MemberProps) => {
   const styleBox = {
     background: theme.purple_light,
     borderRadius: "10px",
     padding: "16px 12px 12px",
     boxShadow: theme.shadow,
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "column" as const,
   };
   const styleRow = {
     display: "flex",
@@ -26,7 +31,7 @@ const Member = (props) => {
   };
   const styleName = {
     ...theme.font14_bold,
-    whiteSpace: "nowrap",
+    whiteSpace: "nowrap" as const,
   };
   const styleLogo = {
     height: "18px",
@@ -44,23 +49,20 @@ const Member = (props) => {
   };
 
   return (
-    <div style={styleBox}>
-      <div style={styleRow}>
-        <div style={styleName}>{props.name}</div>
-        <SparcsLogoYellow style={styleLogo} alt="sparcs" />
-        <div style={styleNickname}>{props.id}</div>
+    <div css={styleBox}>
+      <div css={styleRow}>
+        <div css={styleName}>{name}</div>
+        <SparcsLogoYellow style={styleLogo} />
+        <div css={styleNickname}>{id}</div>
       </div>
-      <div style={stylePeriod}>{props.period}</div>
+      <div css={stylePeriod}>{period}</div>
     </div>
   );
 };
-Member.propTypes = {
-  name: PropTypes.string,
-  id: PropTypes.string,
-  period: PropTypes.string,
-};
 
-const ModalCredit = (props) => {
+type ModalCreditProps = Parameters<typeof Modal>[0];
+
+const ModalCredit = (modalProps: ModalCreditProps) => {
   const { t } = useTranslation("mypage");
 
   const styleTitle = {
@@ -88,28 +90,27 @@ const ModalCredit = (props) => {
   };
   const styleMemberContainer = {
     display: "flex",
-    flexWrap: "wrap",
+    flexWrap: "wrap" as const,
     gap: "12px",
     paddingBottom: "12px",
   };
   return (
     <Modal
-      isOpen={props.isOpen}
-      onChangeIsOpen={props.onChangeIsOpen}
       width={theme.modal_width_large}
       padding="16px 12px 12px"
+      {...modalProps}
     >
-      <div style={styleTitle}>
+      <div css={styleTitle}>
         <SparcsLogoBlack style={styleLogo} />
         {t("credit")}
       </div>
       <DottedLine direction="row" />
-      <div style={styleContainer}>
+      <div css={styleContainer}>
         {members.map((item) => {
           return (
             <div key={item.position}>
-              <div style={styleRole}>{item.position}</div>
-              <div style={styleMemberContainer}>
+              <div css={styleRole}>{item.position}</div>
+              <div css={styleMemberContainer}>
                 {item.list.map((member) => (
                   <Member
                     name={member.name}
@@ -126,10 +127,6 @@ const ModalCredit = (props) => {
       <DottedLine direction="row" />
     </Modal>
   );
-};
-ModalCredit.propTypes = {
-  isOpen: PropTypes.bool,
-  onChangeIsOpen: PropTypes.func,
 };
 
 export default ModalCredit;
