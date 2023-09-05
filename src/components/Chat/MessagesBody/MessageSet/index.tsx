@@ -4,7 +4,7 @@ import type { BotChat, LayoutType, UserChat } from "types/chat";
 
 import { useValueRecoilState } from "hooks/useFetchRecoilState";
 
-import ProfileImg from "components/User/ProfileImg";
+import ProfileImage from "components/User/ProfileImage";
 
 import MessageAccount from "./MessageAccount";
 import MessageImage from "./MessageImage";
@@ -21,7 +21,7 @@ import { ReactComponent as TaxiIcon } from "static/assets/TaxiAppIcon.svg";
 type MessageBodyProps = {
   type: (UserChat | BotChat)["type"];
   content: (UserChat | BotChat)["content"];
-  roomInfo?: BotChat["roomInfo"];
+  roomInfo: Room;
   color: CSS["color"];
 };
 
@@ -35,11 +35,7 @@ const MessageBody = ({ type, content, roomInfo, color }: MessageBodyProps) => {
     case "settlement":
       return <MessagePaySettlement type={type} color={color} />;
     case "account":
-      return <MessageAccount account={content} />;
-  }
-
-  if (!roomInfo) return null;
-  switch (type) {
+      return <MessageAccount roomInfo={roomInfo} account={content} />;
     case "share":
       return <MessageShare roomInfo={roomInfo} text={content} color={color} />;
     default:
@@ -50,9 +46,10 @@ const MessageBody = ({ type, content, roomInfo, color }: MessageBodyProps) => {
 type MessageSetProps = {
   chats: Array<UserChat | BotChat>;
   layoutType: LayoutType;
+  roomInfo: Room;
 };
 
-const MessageSet = ({ chats, layoutType }: MessageSetProps) => {
+const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
   const { oid: userOid } = useValueRecoilState("loginInfo") || {};
   const authorId = chats?.[0]?.authorId;
   const authorProfileUrl =
@@ -139,7 +136,7 @@ const MessageSet = ({ chats, layoutType }: MessageSetProps) => {
             {authorId === "bot" ? (
               <TaxiIcon css={{ width: "100%", height: "100%" }} />
             ) : (
-              <ProfileImg path={authorProfileUrl} />
+              <ProfileImage url={authorProfileUrl} />
             )}
           </div>
         )}
@@ -156,7 +153,7 @@ const MessageSet = ({ chats, layoutType }: MessageSetProps) => {
               <MessageBody
                 type={chat.type}
                 content={chat.content}
-                roomInfo={"roomInfo" in chat ? chat.roomInfo : undefined}
+                roomInfo={roomInfo}
                 color={authorId === userOid ? theme.white : theme.black}
               />
             </div>

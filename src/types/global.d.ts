@@ -24,6 +24,7 @@ declare global {
     name: string;
     nickname: string;
     profileImageUrl: string;
+    isSettlement?: "not-departed" | "paid" | "send-required" | "sent";
   };
   type Room = {
     _id: string;
@@ -34,15 +35,7 @@ declare global {
     madeat: Date;
     settlementTotal?: number;
     maxPartLength: number;
-    part: [
-      {
-        _id: string;
-        name: string;
-        nickname: string;
-        profileImageUrl: string;
-        isSettlement?: string;
-      }
-    ];
+    part: Array<User>;
   };
 
   type ReportResponse = { status: number };

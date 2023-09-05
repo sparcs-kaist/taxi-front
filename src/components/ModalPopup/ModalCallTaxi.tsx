@@ -1,23 +1,17 @@
 import Modal from "components/Modal";
 
 import BodyCallTaxi from "./Body/BodyCallTaxi";
-import { BodyRoomShareProps } from "./Body/BodyRoomShare";
 
 import theme from "tools/theme";
 
 import LocalTaxiRoundedIcon from "@mui/icons-material/LocalTaxiRounded";
 
-type ModalCallTaxiProps = {
-  isOpen: boolean;
-  onChangeIsOpen?: (isOpen: boolean) => void;
-  roomInfo: BodyRoomShareProps["roomInfo"];
-};
+type ModalCallTaxiProps = Omit<
+  Parameters<typeof Modal>[0],
+  "padding" | "children"
+> & { roomInfo: Room };
 
-const ModalCallTaxi = ({
-  isOpen,
-  onChangeIsOpen,
-  roomInfo,
-}: ModalCallTaxiProps) => {
+const ModalCallTaxi = ({ roomInfo, ...modalProps }: ModalCallTaxiProps) => {
   const styleTitle = {
     ...theme.font18,
     display: "flex",
@@ -30,11 +24,7 @@ const ModalCallTaxi = ({
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onChangeIsOpen={onChangeIsOpen}
-      padding="16px 12px 12px"
-    >
+    <Modal {...modalProps} padding="16px 12px 12px">
       <div css={styleTitle}>
         <LocalTaxiRoundedIcon style={styleIcon} />
         택시 호출하기

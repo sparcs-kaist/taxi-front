@@ -25,7 +25,7 @@ export type ModalElemProps = {
   displayCloseBtn?: boolean;
   width?: PixelValue;
   padding?: Padding;
-  children: ReactNode;
+  children?: ReactNode;
   isAlert?: boolean;
 };
 

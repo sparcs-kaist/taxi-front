@@ -48,6 +48,7 @@ const AlertProvider = () => {
           wordBreak: "keep-all",
           width: "fit-content",
           margin: "24px auto",
+          padding: "0 8px",
         }}
       >
         {messageCache.current}
