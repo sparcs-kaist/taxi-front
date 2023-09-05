@@ -1,4 +1,8 @@
+import { useState } from "react";
+
 import useIsReadyToLoadImage from "hooks/chat/useIsReadyToLoadImage";
+
+import { ModalFullImage } from "components/ModalPopup";
 
 import alertAtom from "atoms/alert";
 import { useSetRecoilState } from "recoil";
@@ -15,26 +19,33 @@ type MessageImageProps = {
 };
 
 const MessageImage = ({ id, color }: MessageImageProps) => {
+  const [isOpenFullImage, setIsOpenFullImage] = useState<boolean>(false);
   const setAlert = useSetRecoilState(alertAtom);
 
   const src = getS3Url(`/chat-img/${id}`);
   const [isReadyToLoadImage, isFailToLoadImage] = useIsReadyToLoadImage(src);
 
   return isReadyToLoadImage ? (
-    <img
-      src={src}
-      className="MessageImage_img"
-      loading="lazy"
-      css={{
-        maxWidth: "100%",
-        maxHeight: "360px",
-        verticalAlign: "middle",
-        cursor: "pointer",
-      }}
-      onClick={() => {
-        /* @todo @fixme */
-      }}
-    />
+    <>
+      <img
+        src={src}
+        className="MessageImage_img"
+        loading="lazy"
+        css={{
+          maxWidth: "100%",
+          maxHeight: "360px",
+          verticalAlign: "middle",
+          cursor: "pointer",
+        }}
+        onClick={() => {
+          setIsOpenFullImage(true);
+        }}
+      />
+      <ModalFullImage
+        isOpen={isOpenFullImage}
+        onChangeIsOpen={setIsOpenFullImage}
+      />
+    </>
   ) : (
     <div
       css={{
