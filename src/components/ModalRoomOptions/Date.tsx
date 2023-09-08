@@ -11,7 +11,7 @@ type DateProps = {
 
 const Date = (props: DateProps) => {
   return (
-    <WhiteContainer padding="10px 15px">
+    <WhiteContainer css={{ padding: "10px 15px" }}>
       <DatePicker
         selectedDate={props.value}
         handler={(x: number, y: number, z: number) => props.handler([x, y, z])}

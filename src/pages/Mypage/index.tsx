@@ -104,7 +104,7 @@ const Mypage = () => {
       </Title>
       {userId ? (
         <>
-          <WhiteContainer padding="16px 24px 24px">
+          <WhiteContainer css={{ padding: "16px 24px 24px" }}>
             <div css={{ display: "flex", alignItems: "center" }}>
               <div css={styleProfImg}>
                 {loginInfo?.profileImgUrl && (

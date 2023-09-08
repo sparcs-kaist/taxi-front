@@ -64,7 +64,7 @@ const Event2023Spring = () => {
       <Title icon="notice" isHeader>
         이벤트 요약
       </Title>
-      <WhiteContainer padding="0px">
+      <WhiteContainer css={{ padding: "0" }}>
         <Carousel autoplay autoplaySpeed={5000}>
           {[
             Card01,
@@ -119,9 +119,11 @@ const Event2023Spring = () => {
         >
           <Button
             type="purple"
-            padding="14px 0 13px"
-            radius={12}
-            font={theme.font16_bold}
+            css={{
+              padding: "14px 0 13px",
+              borderRadius: "12px",
+              ...theme.font16_bold,
+            }}
           >
             탑승 인증하기
           </Button>
@@ -163,9 +165,11 @@ const Event2023Spring = () => {
         >
           <Button
             type="purple"
-            padding="14px 0 13px"
-            radius={12}
-            font={theme.font16_bold}
+            css={{
+              padding: "14px 0 13px",
+              borderRadius: "12px",
+              ...theme.font16_bold,
+            }}
           >
             게시물 확인하기
           </Button>

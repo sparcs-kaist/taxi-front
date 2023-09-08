@@ -250,10 +250,12 @@ const ModalMypageModify = ({
       <div css={styleButton}>
         <Button
           type="gray"
-          width="calc(50% - 5px)"
-          padding="10px 0 9px"
-          radius={8}
-          font={theme.font14}
+          css={{
+            width: "calc(50% - 5px)",
+            padding: "10px 0 9px",
+            borderRadius: "8px",
+            ...theme.font14,
+          }}
           onClick={() => modalProps.onChangeIsOpen?.(false)}
         >
           {t("page_modify.cancel")}
@@ -264,10 +266,12 @@ const ModalMypageModify = ({
             !isEditable ||
             (nickname === loginInfo?.nickname && account === loginInfo?.account)
           }
-          width="calc(50% - 5px)"
-          padding="10px 0 9px"
-          radius={8}
-          font={theme.font14_bold}
+          css={{
+            width: "calc(50% - 5px)",
+            padding: "10px 0 9px",
+            borderRadius: "8px",
+            ...theme.font14_bold,
+          }}
           onClick={handleEditProfile}
         >
           {t("page_modify.modify")}

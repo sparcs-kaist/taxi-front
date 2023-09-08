@@ -13,14 +13,14 @@ const FullParticipation = () => {
       <Title icon="add" isHeader>
         방 개설하기
       </Title>
-      <WhiteContainer padding="12px 16px">
+      <WhiteContainer css={{ padding: "12px 16px" }}>
         <div style={theme.font16}>
           참여할 수 있는 방 개수는{" "}
           <b style={{ color: theme.purple }}>최대 5개</b>
           입니다.
         </div>
       </WhiteContainer>
-      <WhiteContainer padding="12px 16px">
+      <WhiteContainer css={{ padding: "12px 16px" }}>
         <div style={{ ...theme.font16, lineHeight: "24px" }}>
           이미 5개의 방에 참여 중이며 <b>방 개설이 제한</b>됩니다. 추가적으로 방
           개설을 원하는 경우 참여 중인 방에서 <b>정산을 완료</b>하거나{" "}
@@ -30,9 +30,11 @@ const FullParticipation = () => {
       <Link to="/myroom" style={{ textDecoration: "none" }}>
         <Button
           type="purple"
-          padding="13px 24px 14px"
-          radius={12}
-          font={theme.font14_bold}
+          css={{
+            padding: "13px 24px 14px",
+            borderRadius: "12px",
+            ...theme.font14_bold,
+          }}
         >
           참여 중인 방 보기
         </Button>
