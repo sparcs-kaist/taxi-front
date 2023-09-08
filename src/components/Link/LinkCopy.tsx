@@ -24,7 +24,7 @@ const LinkCopy = ({ children, value, onCopy }: LinkCopyProps) => {
       navigator.clipboard.writeText(value);
     }
     onCopy?.(value);
-  }, [value, setAlert, onCopy]);
+  }, [value, onCopy]);
   return <a onClick={onClick}>{children}</a>;
 };
 

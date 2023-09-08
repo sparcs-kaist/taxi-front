@@ -1,7 +1,8 @@
 import { RefObject, memo, useState } from "react";
 
-import type { LayoutType } from "types/chat";
+import type { Chats, LayoutType } from "types/chat";
 
+import useAccountFromChats from "hooks/chat/useAccountFromChats";
 import useSendMessage from "hooks/chat/useSendMessage";
 
 import InputText from "./InputText";
@@ -19,6 +20,7 @@ import theme from "tools/theme";
 type MessageFormProps = {
   layoutType: LayoutType;
   roomInfo: Nullable<Room>;
+  chats: Chats;
   isDisplayNewMessage: boolean;
   isOpenToolSheet: boolean;
   onChangeIsOpenToolSheet: (x: boolean) => void;
@@ -29,6 +31,7 @@ type MessageFormProps = {
 const MessageForm = ({
   layoutType,
   roomInfo,
+  chats,
   isDisplayNewMessage,
   isOpenToolSheet,
   onChangeIsOpenToolSheet,
@@ -37,6 +40,7 @@ const MessageForm = ({
 }: MessageFormProps) => {
   const isVKDetected = useRecoilValue(isVirtualKeyboardDetectedAtom);
   const [uploadedImage, setUploadedImage] = useState<Nullable<File>>(null); // 업로드된 이미지 파일
+  const account = useAccountFromChats(chats);
 
   const onClickNewMessage = () => {
     if (!messageBodyRef.current) return;
@@ -74,6 +78,7 @@ const MessageForm = ({
           isOpen={isOpenToolSheet}
           onChangeIsOpen={onChangeIsOpenToolSheet}
           onChangeUploadedImage={setUploadedImage}
+          account={account}
         />
       </div>
       <div css={styleBody}>

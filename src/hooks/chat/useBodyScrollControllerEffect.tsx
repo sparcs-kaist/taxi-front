@@ -123,6 +123,7 @@ export default (
           const cleandChat = chats.filter(
             (chat) => !("isSpecialChat" in chat)
           ) as Array<Chat>;
+          if (!cleandChat?.[0]?.time) return;
           axios({
             url: "/chats/load/before",
             method: "post",

@@ -57,7 +57,7 @@ const Skeleton = ({ children }: SkeletonProps) => {
   const isLoading = userId === null;
   const isDisplayNavigation = useMemo(
     () =>
-      !["/login", "/logout", "/chatting", "/invite"].some((prefix) =>
+      !["/login", "/logout", "/chatting"].some((prefix) =>
         pathname.startsWith(prefix)
       ),
     [pathname]

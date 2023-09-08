@@ -9,14 +9,14 @@ import Footer from "components/Footer";
 import LinkLogout from "components/Link/LinkLogout";
 import {
   ModalCredit,
-  ModalModify,
+  ModalMypageModify,
   ModalNotification,
   ModalPrivacyPolicy,
   ModalReport,
   ModalTerms,
 } from "components/ModalPopup";
 import Title from "components/Title";
-import ProfileImg from "components/User/ProfileImg";
+import ProfileImage from "components/User/ProfileImage";
 import WhiteContainer from "components/WhiteContainer";
 import WhiteContainerSuggestLogin from "components/WhiteContainer/WhiteContainerSuggestLogin";
 
@@ -108,8 +108,8 @@ const Mypage = () => {
             <div css={{ display: "flex", alignItems: "center" }}>
               <div css={styleProfImg}>
                 {loginInfo?.profileImgUrl && (
-                  <ProfileImg
-                    path={loginInfo.profileImgUrl}
+                  <ProfileImage
+                    url={loginInfo.profileImgUrl}
                     token={profImgToken}
                   />
                 )}
@@ -158,7 +158,7 @@ const Mypage = () => {
               </Menu>
             </div>
           </WhiteContainer>
-          <ModalModify
+          <ModalMypageModify
             isOpen={isOpenProfileModify}
             onChangeIsOpen={setIsOpenProfileModify}
             onUpdate={refreshProfImgToken}

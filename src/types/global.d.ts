@@ -3,6 +3,7 @@ import type { Location as _RouterLocation } from "history";
 import type { CSSProperties } from "react";
 
 import Env from "./env";
+import type { Location } from "./location";
 
 export {};
 
@@ -18,16 +19,12 @@ declare global {
     | `${PixelValue} ${PixelValue} ${PixelValue}`
     | `${PixelValue} ${PixelValue} ${PixelValue} ${PixelValue}`;
   type Padding = Margin;
-  type Location = {
-    _id: string;
-    enName: string;
-    koName: string;
-  };
   type User = {
     _id: string;
     name: string;
     nickname: string;
     profileImageUrl: string;
+    isSettlement?: "not-departed" | "paid" | "send-required" | "sent";
   };
   type Room = {
     _id: string;
@@ -38,15 +35,7 @@ declare global {
     madeat: Date;
     settlementTotal?: number;
     maxPartLength: number;
-    part: [
-      {
-        _id: string;
-        name: string;
-        nickname: string;
-        profileImageUrl: string;
-        isSettlement?: string;
-      }
-    ];
+    part: Array<User>;
   };
 
   type ReportResponse = { status: number };

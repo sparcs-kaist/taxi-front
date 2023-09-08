@@ -14,7 +14,7 @@ import { getChatUniquewKey } from "tools/chat/chats";
 import dayjs from "tools/day";
 import moment from "tools/moment";
 
-export default (_chats: Chats, layoutType: LayoutType) => {
+export default (_chats: Chats, layoutType: LayoutType, roomInfo: Room) => {
   const { oid: userOid } = useValueRecoilState("loginInfo") || {};
 
   return useMemo(() => {
@@ -31,6 +31,7 @@ export default (_chats: Chats, layoutType: LayoutType) => {
             key={"chat" + getChatUniquewKey(chatsCache[0])}
             chats={chatsCache}
             layoutType={layoutType}
+            roomInfo={roomInfo}
           />
         );
       }
@@ -80,8 +81,14 @@ export default (_chats: Chats, layoutType: LayoutType) => {
         item.type === "payment" ||
         item.type === "settlement" ||
         item.type === "account" ||
-        item.type === "share"
+        item.type === "share" ||
+        item.type === "departure" ||
+        item.type === "arrival"
       ) {
+        if (["share", "departure", "arrival"].includes(item.type)) {
+          item.authorId = "bot";
+          item.authorName = "택시 봇";
+        }
         if (
           chatsCache &&
           (chatsCache[0].authorId !== item.authorId ||
@@ -97,5 +104,5 @@ export default (_chats: Chats, layoutType: LayoutType) => {
     });
     popQueue();
     return list;
-  }, [_chats, layoutType, userOid]);
+  }, [_chats, layoutType, userOid, roomInfo]);
 };

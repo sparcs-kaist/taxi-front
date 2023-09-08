@@ -33,7 +33,7 @@
     "received": "신고받은 내역",
     "reason": "신고 사유",
     "date": "신고 일시",
-    "no_settlement": "정산 미완료",
+    "no_settlement": "송금 미완료",
     "no_show": "출발 시간에 나타나지 않음",
     "etc_reason": "기타 사유",
     "empty_reported": "신고한 기록이 없습니다",

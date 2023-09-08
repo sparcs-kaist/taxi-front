@@ -3,7 +3,7 @@ export type LayoutType = "sidechat" | "fullchat";
 type CommonChat = {
   roomId: string; // 방의 objectId
   type: string;
-  authorId: string; // 작성자 objectId
+  authorId?: string; // 작성자 objectId
   content: string;
   time: Date; // UTC 시각
   isValid: boolean;
@@ -11,6 +11,7 @@ type CommonChat = {
 
 export type UserChat = {
   type: "text" | "s3img" | "payment" | "settlement" | "account";
+  authorId: string;
   authorName: string;
   authorProfileUrl: string;
 } & CommonChat;
@@ -19,10 +20,9 @@ export type GeneralChat = {
   inOutNames: Array<string>;
 } & CommonChat;
 export type BotChat = {
-  type: "share";
-  authorId: "bot";
-  authorName: string;
-  roomInfo: Room;
+  type: "share" | "departure" | "arrival";
+  authorId?: "bot";
+  authorName?: string;
 } & CommonChat;
 export type Chat = UserChat | GeneralChat | BotChat;
 

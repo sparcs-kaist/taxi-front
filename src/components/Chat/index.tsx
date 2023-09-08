@@ -61,12 +61,14 @@ const Chat = ({ roomId, layoutType }: ChatProps) => {
       <Header layoutType={layoutType} roomInfo={roomInfo} />
       <MessagesBody
         layoutType={layoutType}
+        roomInfo={roomInfo}
         chats={chats}
         ref={messageBodyRef}
       />
       <MessageForm
         layoutType={layoutType}
         roomInfo={roomInfo}
+        chats={chats}
         isDisplayNewMessage={isDisplayNewMessage}
         isOpenToolSheet={isOpenToolSheet}
         onChangeIsOpenToolSheet={setIsOpenToolSheet}

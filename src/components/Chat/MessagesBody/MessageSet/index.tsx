@@ -4,9 +4,11 @@ import type { BotChat, LayoutType, UserChat } from "types/chat";
 
 import { useValueRecoilState } from "hooks/useFetchRecoilState";
 
-import ProfileImg from "components/User/ProfileImg";
+import ProfileImage from "components/User/ProfileImage";
 
 import MessageAccount from "./MessageAccount";
+import MessageArrival from "./MessageArrival";
+import MessageDeparture from "./MessageDeparture";
 import MessageImage from "./MessageImage";
 import MessagePaySettlement from "./MessagePaySettlement";
 import MessageShare from "./MessageShare";
@@ -21,7 +23,7 @@ import { ReactComponent as TaxiIcon } from "static/assets/TaxiAppIcon.svg";
 type MessageBodyProps = {
   type: (UserChat | BotChat)["type"];
   content: (UserChat | BotChat)["content"];
-  roomInfo?: BotChat["roomInfo"];
+  roomInfo: Room;
   color: CSS["color"];
 };
 
@@ -35,13 +37,15 @@ const MessageBody = ({ type, content, roomInfo, color }: MessageBodyProps) => {
     case "settlement":
       return <MessagePaySettlement type={type} color={color} />;
     case "account":
-      return <MessageAccount account={content} />;
-  }
-
-  if (!roomInfo) return null;
-  switch (type) {
+      return <MessageAccount roomInfo={roomInfo} account={content} />;
     case "share":
       return <MessageShare roomInfo={roomInfo} text={content} color={color} />;
+    case "departure":
+      return (
+        <MessageDeparture roomInfo={roomInfo} minutes={content} color={color} />
+      );
+    case "arrival":
+      return <MessageArrival color={color} />;
     default:
       return null;
   }
@@ -50,14 +54,15 @@ const MessageBody = ({ type, content, roomInfo, color }: MessageBodyProps) => {
 type MessageSetProps = {
   chats: Array<UserChat | BotChat>;
   layoutType: LayoutType;
+  roomInfo: Room;
 };
 
-const MessageSet = ({ chats, layoutType }: MessageSetProps) => {
+const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
   const { oid: userOid } = useValueRecoilState("loginInfo") || {};
   const authorId = chats?.[0]?.authorId;
   const authorProfileUrl =
     "authorProfileUrl" in chats?.[0] ? chats?.[0].authorProfileUrl : "";
-  const authorName = chats?.[0]?.authorName;
+  const authorName = "authorName" in chats?.[0] ? chats?.[0].authorName : "";
 
   const style = {
     position: "relative" as any,
@@ -107,7 +112,10 @@ const MessageSet = ({ chats, layoutType }: MessageSetProps) => {
           ? userOid === authorId
             ? theme.purple_dark
             : theme.gray_background
-          : type === "account" || type === "share"
+          : type === "account" ||
+            type === "share" ||
+            type === "departure" ||
+            type === "arrival"
           ? layoutType === "sidechat"
             ? theme.purple_light
             : theme.white
@@ -139,7 +147,7 @@ const MessageSet = ({ chats, layoutType }: MessageSetProps) => {
             {authorId === "bot" ? (
               <TaxiIcon css={{ width: "100%", height: "100%" }} />
             ) : (
-              <ProfileImg path={authorProfileUrl} />
+              <ProfileImage url={authorProfileUrl} />
             )}
           </div>
         )}
@@ -156,7 +164,7 @@ const MessageSet = ({ chats, layoutType }: MessageSetProps) => {
               <MessageBody
                 type={chat.type}
                 content={chat.content}
-                roomInfo={"roomInfo" in chat ? chat.roomInfo : undefined}
+                roomInfo={roomInfo}
                 color={authorId === userOid ? theme.white : theme.black}
               />
             </div>

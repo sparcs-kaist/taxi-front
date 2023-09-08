@@ -1,6 +1,8 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
-import LinkCopy from "components/Link/LinkCopy";
+import { useValueRecoilState } from "hooks/useFetchRecoilState";
+
+import { ModalChatPayement } from "components/ModalPopup";
 
 import Button from "./Button";
 
@@ -9,14 +11,23 @@ import theme from "tools/theme";
 import WalletRoundedIcon from "@mui/icons-material/WalletRounded";
 
 type MessageAccountProps = {
+  roomInfo: Room;
   account: string;
 };
 
-const MessageAccount = ({ account }: MessageAccountProps) => {
+const MessageAccount = ({ roomInfo, account }: MessageAccountProps) => {
+  const { oid: userOid } = useValueRecoilState("loginInfo") || {};
+  const [isOpenPayment, setIsOpenPayment] = useState<boolean>(false);
   const [bankName, accountNumber] = useMemo((): [string, string] => {
     const splited = account.split(" ");
     return [splited?.[0] || "", splited?.[1] || ""];
   }, [account]);
+  const settlementStatusForMe = useMemo(
+    () =>
+      roomInfo &&
+      roomInfo.part.filter((user) => user._id === userOid)?.[0]?.isSettlement,
+    [userOid, roomInfo]
+  );
 
   const style = { width: "210px" };
   const styleHead = {
@@ -54,12 +65,27 @@ const MessageAccount = ({ account }: MessageAccountProps) => {
         </div>
         <div css={styleButtonSection}>
           <div css={{ flex: 1 }}>
-            <LinkCopy value={account}>
-              <Button>복사하기</Button>
-            </LinkCopy>
+            {settlementStatusForMe === "paid" ? (
+              <Button onClick={() => setIsOpenPayment(true)} isVaild={false}>
+                송금 요청 완료
+              </Button>
+            ) : // @todo: 정산현황
+            settlementStatusForMe === "sent" ? (
+              <Button onClick={() => setIsOpenPayment(true)} isVaild={false}>
+                송금 완료
+              </Button>
+            ) : (
+              <Button onClick={() => setIsOpenPayment(true)}>송금하기</Button>
+            )}
           </div>
         </div>
       </div>
+      <ModalChatPayement
+        isOpen={isOpenPayment}
+        onChangeIsOpen={setIsOpenPayment}
+        roomInfo={roomInfo}
+        account={account}
+      />
     </div>
   );
 };

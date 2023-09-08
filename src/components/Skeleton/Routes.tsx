@@ -19,11 +19,6 @@ const routeProps = [
     exact: true,
   },
   {
-    path: "/invite/:roomId",
-    component: lazy(() => import("pages/Invite")),
-    exact: true,
-  },
-  {
     path: ["/home", "/home/:roomId"],
     component: lazy(() => import("pages/Home")),
     exact: true,
