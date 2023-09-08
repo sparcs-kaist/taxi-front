@@ -31,6 +31,8 @@ import { randomRoomNameGenerator } from "tools/random";
 import regExpTest from "tools/regExpTest";
 import theme from "tools/theme";
 
+import useLocationSearch from "hooks/useLocationSearch";
+
 const AddRoom = () => {
   const axios = useAxios();
   const history = useHistory();
@@ -59,6 +61,37 @@ const AddRoom = () => {
   const isLogin = !!useValueRecoilState("loginInfo")?.id;
   const myRooms = useValueRecoilState("myRooms");
   const fetchMyRooms = useFetchRecoilState("myRooms");
+
+  const locationSearch = useLocationSearch();
+
+  useEffect(() => {
+    if (locationSearch.get("from") && locationSearch.get("to")) {
+      setPlace([locationSearch.get("from")!, locationSearch.get("to")!]);
+    }
+    if (locationSearch.get("name")) {
+      setName(locationSearch.get("name")!);
+    }
+    if (locationSearch.get("date")) {
+      const date = locationSearch.get("date")!.split("-");
+      setDate([Number(date[0]), Number(date[1]), Number(date[2])]);
+    }
+    if (locationSearch.get("time")) {
+      const time = locationSearch.get("time")!.split(":");
+      setTime([Number(time[0]), Number(time[1])]);
+    }
+    if (locationSearch.get("maxPeople")) {
+      setMaxPeople(Number(locationSearch.get("maxPeople")!));
+    }
+  }, [locationSearch]);
+
+  useEffect(() => {
+    locationSearch.set("from", valuePlace[0] || "");
+    locationSearch.set("to", valuePlace[1] || "");
+    locationSearch.set("name", valueName);
+    locationSearch.set("date", date2str(valueDate));
+    locationSearch.set("time", valueTime.join(":"));
+    locationSearch.set("maxPeople", valueMaxPeople.toString());
+  }, [valueName, valuePlace, valueDate, valueTime, valueMaxPeople]);
 
   useEffect(() => {
     const expirationDate = new Date();

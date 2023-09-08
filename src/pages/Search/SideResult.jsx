@@ -156,7 +156,10 @@ const SideResult = (props) => {
           />
           <DottedLine direction="row" />
           {rooms.length == 0 ? (
-            <Empty screen="pc">검색 결과가 없습니다</Empty>
+            <Empty screen="pc">
+              <div>검색 결과가 없습니다</div>
+              {/* <div></div> */}
+            </Empty>
           ) : (
             <>
               {rooms
