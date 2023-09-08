@@ -1,4 +1,4 @@
-import HeaderBar from "components/HeaderBar";
+import HeaderBar from "components/Header/HeaderBar";
 
 import { deviceType } from "tools/loadenv";
 

@@ -1,13 +1,19 @@
-import { ReactNode } from "react";
+import { HTMLProps, ReactNode } from "react";
 
 import theme from "tools/theme";
 
 export type AdaptiveCenterProps = {
-  children: ReactNode;
-};
+  children?: ReactNode;
+  className?: string;
+} & HTMLProps<HTMLDivElement>;
 
-const AdaptiveCenter = ({ children }: AdaptiveCenterProps) => (
+const AdaptiveCenter = ({
+  children,
+  className,
+  ...divProps
+}: AdaptiveCenterProps) => (
   <div
+    className={className}
     css={{
       position: "relative",
       width: `calc(min(${
@@ -15,6 +21,7 @@ const AdaptiveCenter = ({ children }: AdaptiveCenterProps) => (
       }px, 100%) - ${theme.adaptivediv.margin * 2}px)`,
       margin: "auto",
     }}
+    {...divProps}
   >
     {children}
   </div>

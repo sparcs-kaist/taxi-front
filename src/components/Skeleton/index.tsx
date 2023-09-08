@@ -14,7 +14,7 @@ import {
   useValueRecoilState,
 } from "hooks/useFetchRecoilState";
 
-import HeaderBar from "components/HeaderBar";
+import HeaderBar from "components/Header/HeaderBar";
 import Loading from "components/Loading";
 import { ModalTerms } from "components/ModalPopup";
 import Error from "pages/Error";
