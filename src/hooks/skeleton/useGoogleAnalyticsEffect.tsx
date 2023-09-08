@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import loginInfoAtom from "atoms/loginInfo";
 import { useRecoilValue } from "recoil";
 
-import { gaTrackingId, nodeEnv } from "loadenv";
+import { gaTrackingId, nodeEnv } from "tools/loadenv";
 
 export default () => {
   const gaInitialized = useRef(false);

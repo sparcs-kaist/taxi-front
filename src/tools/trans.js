@@ -1,4 +1,4 @@
-import { firebaseConfig, s3BaseUrl } from "loadenv";
+import { firebaseConfig, s3BaseUrl } from "tools/loadenv";
 
 const getS3Url = (x) => `${s3BaseUrl}${x}`;
 

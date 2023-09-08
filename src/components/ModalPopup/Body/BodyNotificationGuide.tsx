@@ -1,9 +1,7 @@
-import { useValueRecoilState } from "hooks/useFetchRecoilState";
-
+import { deviceType } from "tools/loadenv";
 import theme from "tools/theme";
 
 const BodyNotificationGuide = () => {
-  const { deviceType } = useValueRecoilState("loginInfo") || {};
   const { protocol, host } = window.location;
 
   const styleGuide = {
@@ -12,7 +10,15 @@ const BodyNotificationGuide = () => {
     marginBottom: "12px",
     wordBreak: "keep-all" as any,
   };
-  return deviceType === "web" ? (
+  return deviceType.startsWith("app/") ? (
+    <>
+      <div css={styleGuide}>알림 기능을 사용할 수 없습니다.</div>
+      <div css={styleGuide}>
+        앱 푸시 알림 기능을 활성화하기 위해서는, 디바이스 환경설정의 알림 권한
+        허용이 필요합니다.
+      </div>
+    </>
+  ) : (
     <>
       <div css={styleGuide}>알림 기능을 사용할 수 없습니다.</div>
       <div css={styleGuide}>
@@ -42,14 +48,6 @@ const BodyNotificationGuide = () => {
         이 외의 브라우저 역시, 해당 브라우저 환경 설정에서 유사한 방법으로
         알림을 허용할 수 있습니다. 혹은, 웹 푸시 알림 기능을 지원하지 않는
         브라우저일 수 있습니다.
-      </div>
-    </>
-  ) : (
-    <>
-      <div css={styleGuide}>알림 기능을 사용할 수 없습니다.</div>
-      <div css={styleGuide}>
-        앱 푸시 알림 기능을 활성화하기 위해서는, 디바이스 환경설정의 알림 권한
-        허용이 필요합니다.
       </div>
     </>
   );

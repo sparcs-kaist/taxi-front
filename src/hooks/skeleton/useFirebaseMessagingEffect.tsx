@@ -8,7 +8,7 @@ import {
 } from "hooks/useFetchRecoilState";
 import { useAxios } from "hooks/useTaxiAPI";
 
-import { firebaseConfig } from "loadenv";
+import { firebaseConfig } from "tools/loadenv";
 
 const firebaseApp = firebaseConfig && initializeApp(firebaseConfig);
 

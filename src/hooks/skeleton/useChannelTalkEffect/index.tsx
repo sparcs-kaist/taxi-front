@@ -7,7 +7,7 @@ import errorAtom from "atoms/error";
 import loginInfoAtom from "atoms/loginInfo";
 import { useRecoilValue } from "recoil";
 
-import { channelTalkPluginKey } from "loadenv";
+import { channelTalkPluginKey } from "tools/loadenv";
 
 export default () => {
   const location = useLocation();

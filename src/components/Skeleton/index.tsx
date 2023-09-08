@@ -23,10 +23,9 @@ import Navigation from "./Navigation";
 import SuggestAppTopBar from "./SuggestAppTopBar";
 
 import errorAtom from "atoms/error";
-import isAppAtom from "atoms/isApp";
 import { useRecoilValue } from "recoil";
 
-import isMobile from "tools/isMobile";
+import { deviceType } from "tools/loadenv";
 
 type ContainerProps = {
   children: ReactNode;
@@ -51,11 +50,8 @@ const Container = ({ children }: ContainerProps) => (
 );
 
 const Skeleton = ({ children }: SkeletonProps) => {
-  const {
-    id: userId,
-    agreeOnTermsOfService: isAgreeOnTermsOfService,
-    deviceType,
-  } = useValueRecoilState("loginInfo") || {};
+  const { id: userId, agreeOnTermsOfService: isAgreeOnTermsOfService } =
+    useValueRecoilState("loginInfo") || {};
   const { pathname } = useLocation();
   const error = useRecoilValue(errorAtom);
   const isLoading = userId === null;
@@ -66,9 +62,6 @@ const Skeleton = ({ children }: SkeletonProps) => {
       ),
     [pathname]
   );
-
-  const isApp = useRecoilValue(isAppAtom) || deviceType === "app";
-  const [isAndroid, isIOS] = isMobile();
 
   useSyncRecoilStateEffect(); // loginIngo, taxiLocations, myRooms, notificationOptions 초기화 및 동기화
   useI18nextEffect();
@@ -90,7 +83,7 @@ const Skeleton = ({ children }: SkeletonProps) => {
       ) : (
         <>
           {isDisplayNavigation && <Navigation />}
-          {isDisplayNavigation && (isAndroid || isIOS) && !isApp && (
+          {isDisplayNavigation && deviceType.startsWith("app/") && (
             <SuggestAppTopBar />
           )}
           {children}

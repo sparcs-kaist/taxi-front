@@ -1,6 +1,6 @@
 import HeaderBar from "components/HeaderBar";
 
-import isMobile from "tools/isMobile";
+import { deviceType } from "tools/loadenv";
 
 type ContainerProps = {
   layoutType: "sidechat" | "fullchat";
@@ -8,11 +8,11 @@ type ContainerProps = {
 };
 
 const Container = ({ layoutType, children }: ContainerProps) => {
-  const [, isIOS] = isMobile();
   // const isVKDetected = useRecoilValue(isVirtualKeyboardDetectedAtom);
 
   // IOS #254 이슈 대응 크로스 브라우징
-  const isIOSCrossBrowsing = isIOS && layoutType === "fullchat"; // && isVKDetected;
+  const isIOSCrossBrowsing =
+    deviceType.endsWith("/ios") && layoutType === "fullchat"; // && isVKDetected;
   // isVKDetected 옵션 사용시 리랜더링 됨
 
   return (
