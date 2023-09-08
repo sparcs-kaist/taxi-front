@@ -47,7 +47,7 @@ const R2Myroom = (props) => {
             내 방 보기
           </Title>
           <div css={{ margin: "0 -4px", padding: "0 4px" }}>
-            <WhiteContainer padding="20px 20px 22px">
+            <WhiteContainer css={{ padding: "20px 20px 22px" }}>
               <Title icon="current">참여 중인 방</Title>
               <div css={{ height: "19px" }} />
               <DottedLine direction="row" />
@@ -70,7 +70,9 @@ const R2Myroom = (props) => {
                 ))
               )}
             </WhiteContainer>
-            <WhiteContainer padding="20px 20px 22px" margin="0px 0px -17px">
+            <WhiteContainer
+              css={{ padding: "20px 20px 22px", margin: "0 0 -17px" }}
+            >
               <Title icon="past">과거 참여 방</Title>
               <div css={{ height: "19px" }} />
               <DottedLine direction="row" />
@@ -120,7 +122,7 @@ const R2Myroom = (props) => {
               zIndex: theme.zIndex_nav - 1,
             }}
           >
-            <WhiteContainer padding="0px" style={{ height: "100%" }}>
+            <WhiteContainer css={{ padding: "0", height: "100%" }}>
               <Chat roomId={props.roomId} layoutType="sidechat" />
             </WhiteContainer>
           </div>

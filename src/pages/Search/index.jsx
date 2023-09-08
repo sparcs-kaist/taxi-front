@@ -263,9 +263,11 @@ const Search = () => {
       <Button
         type="purple"
         disabled={isDisabled}
-        padding="14px 0 13px"
-        radius={12}
-        font={theme.font16_bold}
+        css={{
+          padding: "14px 0 13px",
+          borderRadius: "12px",
+          ...theme.font16_bold,
+        }}
         onClick={onClickSearch}
         className="scroll-to-button"
       >

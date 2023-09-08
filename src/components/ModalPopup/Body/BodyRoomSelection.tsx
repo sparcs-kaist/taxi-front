@@ -204,9 +204,11 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
         <Button
           type="purple"
           disabled={isRoomFull || isDepart || isAlreadyPart || isMaxPart}
-          padding="10px 0 9px"
-          radius={8}
-          font={theme.font14_bold}
+          css={{
+            padding: "10px 0 9px",
+            borderRadius: "8px",
+            ...theme.font14_bold,
+          }}
           onClick={requestJoin}
         >
           {isAlreadyPart
@@ -223,9 +225,11 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
         <LinkLogin redirect={`/home/${roomInfo?._id}`}>
           <Button
             type="purple"
-            padding="10px 0 9px"
-            radius={8}
-            font={theme.font14_bold}
+            css={{
+              padding: "10px 0 9px",
+              borderRadius: "8px",
+              ...theme.font14_bold,
+            }}
           >
             로그인 후 참여 신청
           </Button>

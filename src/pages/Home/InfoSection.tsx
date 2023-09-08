@@ -120,9 +120,11 @@ const InfoSection = () => {
                 <Link to="/addroom" css={{ textDecoration: "none" }}>
                   <Button
                     type="purple"
-                    padding="12px 20px 11px"
-                    radius={8}
-                    font={theme.font16_bold}
+                    css={{
+                      padding: "12px 20px 11px",
+                      borderRadius: "8px",
+                      ...theme.font16_bold,
+                    }}
                   >
                     방 개설하기
                   </Button>
@@ -131,9 +133,11 @@ const InfoSection = () => {
                 <LinkLogin>
                   <Button
                     type="purple"
-                    padding="12px 20px 11px"
-                    radius={8}
-                    font={theme.font16_bold}
+                    css={{
+                      padding: "12px 20px 11px",
+                      borderRadius: "8px",
+                      ...theme.font16_bold,
+                    }}
                   >
                     로그인
                   </Button>
@@ -142,9 +146,11 @@ const InfoSection = () => {
               <Link to="/search" css={{ textDecoration: "none" }}>
                 <Button
                   type="white"
-                  padding="12px 20px 11px"
-                  radius={8}
-                  font={theme.font16_bold}
+                  css={{
+                    padding: "12px 20px 11px",
+                    borderRadius: "8px",
+                    ...theme.font16_bold,
+                  }}
                 >
                   방 검색하기
                 </Button>

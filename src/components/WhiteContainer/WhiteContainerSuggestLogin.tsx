@@ -18,9 +18,11 @@ const WhiteContainerSuggestLogin = () => (
     <LinkLogin>
       <Button
         type="purple"
-        padding="14px 0 13px"
-        radius={12}
-        font={theme.font16_bold}
+        css={{
+          padding: "14px 0 13px",
+          borderRadius: "12px",
+          ...theme.font16_bold,
+        }}
       >
         로그인
       </Button>

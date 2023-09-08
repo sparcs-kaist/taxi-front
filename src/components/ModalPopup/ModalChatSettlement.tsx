@@ -140,20 +140,24 @@ const ModalChatSettlement = ({
       <div css={styleButtons}>
         <Button
           type="gray"
-          width="calc(50% - 5px)"
-          padding="10px 0 9px"
-          radius={8}
-          font={theme.font14}
+          css={{
+            width: "calc(50% - 5px)",
+            padding: "10px 0 9px",
+            borderRadius: "8px",
+            ...theme.font14,
+          }}
           onClick={() => modalProps.onChangeIsOpen?.(false)}
         >
           돌아가기
         </Button>
         <Button
           type="purple_inset"
-          width="calc(50% - 5px)"
-          padding="10px 0 9px"
-          radius={8}
-          font={theme.font14_bold}
+          css={{
+            width: "calc(50% - 5px)",
+            padding: "10px 0 9px",
+            borderRadius: "8px",
+            ...theme.font14_bold,
+          }}
           onClick={onClickOk}
           disabled={!isValidAccount}
         >

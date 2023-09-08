@@ -23,9 +23,11 @@ const BodyChatReportDone = ({ onChangeIsOpen }: BodyChatReportDoneProps) => {
       </div>
       <Button
         type="purple_inset"
-        padding="10px 0 9px"
-        radius={8}
-        font={theme.font14_bold}
+        css={{
+          padding: "10px 0 9px",
+          borderRadius: "8px",
+          ...theme.font14_bold,
+        }}
         onClick={() => onChangeIsOpen?.(false)}
       >
         확인

@@ -68,20 +68,24 @@ const PopupInput = (props) => {
         >
           <Button
             type="gray"
-            width="calc(40% - 10px)"
-            padding="10px 0 9px"
-            radius={8}
-            font={theme.font14}
+            css={{
+              width: "calc(40% - 10px)",
+              padding: "10px 0 9px",
+              borderRadius: "8px",
+              ...theme.font14,
+            }}
             onClick={props.onClose}
           >
             취소
           </Button>
           <Button
             type="purple"
-            width="60%"
-            padding="10px 0 9px"
-            radius={8}
-            font={theme.font14_bold}
+            css={{
+              width: "60%",
+              padding: "10px 0 9px",
+              borderRadius: "8px",
+              ...theme.font14_bold,
+            }}
             onClick={onClick}
           >
             선택하기
@@ -177,7 +181,7 @@ const Place = (props) => {
   };
 
   return (
-    <WhiteContainer padding="10px">
+    <WhiteContainer css={{ padding: "10px" }}>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <PlaceElement
           value={getPlaceName(props.value[0])}

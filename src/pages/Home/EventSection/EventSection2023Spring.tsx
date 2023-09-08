@@ -7,7 +7,7 @@ import WhiteContainer from "components/WhiteContainer";
 
 import theme from "tools/theme";
 
-const EventSection = () => {
+const EventSection2023Spring = () => {
   return (
     <AdaptiveDiv type="center">
       <Title icon="notice" isHeader>
@@ -48,9 +48,11 @@ const EventSection = () => {
         <Link to="/event/2023spring" style={{ textDecoration: "none" }}>
           <Button
             type="purple"
-            padding="14px 0 13px"
-            radius={12}
-            font={theme.font16_bold}
+            css={{
+              padding: "14px 0 13px",
+              borderRadius: "12px",
+              ...theme.font16_bold,
+            }}
           >
             이벤트 확인하기
           </Button>
@@ -60,4 +62,4 @@ const EventSection = () => {
   );
 };
 
-export default EventSection;
+export default EventSection2023Spring;

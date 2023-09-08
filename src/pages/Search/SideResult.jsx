@@ -145,7 +145,7 @@ const SideResult = (props) => {
           onChangeIsOpen={() => setSelectedRoomInfo(null)}
           roomInfo={selectedRoomInfo}
         />
-        <WhiteContainer padding="20px 20px 22px">
+        <WhiteContainer css={{ padding: "20px 20px 22px" }}>
           <Title icon="search_result">검색 결과</Title>
           <SearchOptions
             isIncludeFullRoom={isIncludeFullRoom}

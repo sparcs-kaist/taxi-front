@@ -1,33 +1,25 @@
-import { ReactNode } from "react";
+import { HTMLProps, ReactNode } from "react";
 
 import useHoverProps from "hooks/theme/useHoverProps";
 
-import theme, { Font } from "tools/theme";
+import theme from "tools/theme";
 
 type ButtonType = "purple" | "purple_inset" | "gray" | "white";
 
 type ButtonProps = {
   type?: ButtonType;
   disabled?: boolean;
-  width?: string;
-  padding?: string | number;
-  radius?: number;
-  font?: Font;
-  onClick?: () => void;
   className?: string;
   children?: ReactNode;
-};
+} & HTMLProps<HTMLDivElement>;
 
 const Button = ({
   type,
   disabled = false,
-  width,
-  padding,
-  radius,
-  font,
-  onClick,
   className,
   children,
+  onClick,
+  ...divProps
 }: ButtonProps) => {
   const [hoverProps, isHover, isClicked] = useHoverProps();
 
@@ -71,23 +63,20 @@ const Button = ({
     }
   };
 
-  const style: CSS = {
-    ...font,
-    width: width,
-    padding: padding,
-    borderRadius: radius,
+  const style = {
     transitionDuration: theme.duration,
+    textAlign: "center" as const,
     ...theme.cursor(disabled),
-    textAlign: "center",
     ...getColor(),
   };
 
   return (
     <div
-      onClick={disabled ? undefined : onClick}
-      style={style}
+      css={style}
       className={className}
+      onClick={disabled ? undefined : onClick}
       {...hoverProps}
+      {...divProps}
     >
       {children}
     </div>
