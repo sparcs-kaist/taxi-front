@@ -7,6 +7,8 @@ import { useValueRecoilState } from "hooks/useFetchRecoilState";
 import ProfileImage from "components/User/ProfileImage";
 
 import MessageAccount from "./MessageAccount";
+import MessageArrival from "./MessageArrival";
+import MessageDeparture from "./MessageDeparture";
 import MessageImage from "./MessageImage";
 import MessagePaySettlement from "./MessagePaySettlement";
 import MessageShare from "./MessageShare";
@@ -38,6 +40,12 @@ const MessageBody = ({ type, content, roomInfo, color }: MessageBodyProps) => {
       return <MessageAccount roomInfo={roomInfo} account={content} />;
     case "share":
       return <MessageShare roomInfo={roomInfo} text={content} color={color} />;
+    case "departure":
+      return (
+        <MessageDeparture roomInfo={roomInfo} minutes={content} color={color} />
+      );
+    case "arrival":
+      return <MessageArrival color={color} />;
     default:
       return null;
   }
@@ -54,7 +62,7 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
   const authorId = chats?.[0]?.authorId;
   const authorProfileUrl =
     "authorProfileUrl" in chats?.[0] ? chats?.[0].authorProfileUrl : "";
-  const authorName = chats?.[0]?.authorName;
+  const authorName = "authorName" in chats?.[0] ? chats?.[0].authorName : "";
 
   const style = {
     position: "relative" as any,
@@ -104,7 +112,10 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
           ? userOid === authorId
             ? theme.purple_dark
             : theme.gray_background
-          : type === "account" || type === "share"
+          : type === "account" ||
+            type === "share" ||
+            type === "departure" ||
+            type === "arrival"
           ? layoutType === "sidechat"
             ? theme.purple_light
             : theme.white
