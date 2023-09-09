@@ -2,10 +2,11 @@ import AdaptiveButterfly, { AdaptiveButterflyProps } from "./AdaptiveButterfly";
 import AdaptiveCenter, { AdaptiveCenterProps } from "./AdaptiveCenter";
 import AdaptiveModal, { AdaptiveModalProps } from "./AdaptiveModal";
 
-type AdaptiveDivProps =
+type AdaptiveDivProps = { className?: string } & (
   | (AdaptiveButterflyProps & { type: "butterfly" })
   | (AdaptiveCenterProps & { type: "center" })
-  | (AdaptiveModalProps & { type: "modal" });
+  | (AdaptiveModalProps & { type: "modal" })
+);
 
 const AdaptiveDiv = (props: AdaptiveDivProps) => {
   switch (props.type) {

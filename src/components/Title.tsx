@@ -91,7 +91,7 @@ const Title = ({ icon, children, isHeader = false }: TitleProps) => (
       css={{
         ...theme.font20,
         color: theme.purple,
-        marginLeft: "8px",
+        marginLeft: icon ? "8px" : undefined,
       }}
     >
       {children}

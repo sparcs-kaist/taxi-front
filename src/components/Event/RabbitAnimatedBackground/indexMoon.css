@@ -1,0 +1,108 @@
+.rabbit-animated-circle1 {
+  width: 450px;
+  height: 450px;
+  position: relative;
+  transform: scale(1.5) translateX(-70px) translateY(5px);
+}
+.rabbit-animated-circle2 {
+  width: 450px;
+  height: 450px;
+  position: relative;
+}
+.moon {
+  background: #ffa62b;
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  top: 18%;
+  left: 40%;
+  border-radius: 100%;
+}
+.moon2 {
+  background: #ffe05d;
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  top: 19%;
+  left: 44%;
+  border-radius: 100%;
+}
+.crater1 {
+  position: absolute;
+  background: #ffa62b;
+  width: 40px;
+  height: 40px;
+  top: 23%;
+  left: 61%;
+  border-radius: 100%;
+}
+.crater2 {
+  position: absolute;
+  background: #ffa62b;
+  width: 20px;
+  height: 20px;
+  top: 38%;
+  left: 56%;
+  border-radius: 100%;
+}
+.crater3 {
+  position: absolute;
+  background: #ffa62b;
+  width: 10px;
+  height: 10px;
+  top: 36%;
+  left: 70%;
+  border-radius: 100%;
+}
+.cloud1 {
+  background: white;
+  position: absolute;
+  top: 30%;
+  left: 10%;
+  height: 15px;
+  width: 90px;
+  border-radius: 50px;
+  opacity: 0.5;
+  animation: 5s linear infinite rabbit-animated-slidein;
+}
+.cloud2 {
+  background: white;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  height: 15px;
+  width: 190px;
+  border-radius: 50px;
+  opacity: 0.5;
+  animation: 7s reverse infinite rabbit-animated-slidein;
+}
+.cloud3 {
+  background: white;
+  position: absolute;
+  top: 42%;
+  left: 10%;
+  height: 20px;
+  width: 250px;
+  border-radius: 50px;
+  opacity: 0.5;
+  animation: 7s linear infinite rabbit-animated-slidein;
+}
+.cloud4 {
+  background: white;
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  height: 15px;
+  width: 90px;
+  border-radius: 50px;
+  opacity: 0.5;
+  animation: 5s reverse infinite rabbit-animated-slidein;
+}
+@keyframes rabbit-animated-slidein {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(500%);
+  }
+}
