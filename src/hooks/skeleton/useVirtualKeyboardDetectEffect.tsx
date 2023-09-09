@@ -31,7 +31,7 @@ export default () => {
       visualViewport?.addEventListener("resize", resizeEvent);
       return () => visualViewport?.removeEventListener("resize", resizeEvent);
     }
-    if (deviceType.endsWith("ios")) {
+    if (deviceType.endsWith("/ios")) {
       let focusedElement: Nullable<EventTarget> = null;
       const onFocus = (e: FocusEvent) => {
         focusedElement = e.target;
