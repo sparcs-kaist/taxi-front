@@ -4,7 +4,7 @@ import Button from "components/Button";
 import DottedLine from "components/DottedLine";
 import Modal from "components/Modal";
 
-import "./Modal2023FallEventRandomBox.css";
+import "./ModalEvent2023FallRandomBox.css";
 
 import theme from "tools/theme";
 
@@ -28,7 +28,6 @@ const BodyRandomBox = ({ isBoxOpend, onClickBox }: BodyRandomBoxProps) => {
     return () => window.removeEventListener("resize", resizeEvent);
   }, []);
 
-  console.log(boxSize);
   return (
     <div ref={bodyRef} css={{ height: `${boxSize * 1.3}px` }}>
       <div
@@ -61,11 +60,11 @@ const BodyRandomBox = ({ isBoxOpend, onClickBox }: BodyRandomBoxProps) => {
   );
 };
 
-type Modal2023FallEventRandomBoxProps = Parameters<typeof Modal>[0] & {};
+type ModalEvent2023FallRandomBoxProps = Parameters<typeof Modal>[0] & {};
 
-const Modal2023FallEventRandomBox = ({
+const ModalEvent2023FallRandomBox = ({
   ...modalProps
-}: Modal2023FallEventRandomBoxProps) => {
+}: ModalEvent2023FallRandomBoxProps) => {
   const [isBoxOpend, setIsBoxOpend] = useState<boolean>(false);
   const onClickOk = useCallback(() => setIsBoxOpend(true), []);
 
@@ -117,4 +116,4 @@ const Modal2023FallEventRandomBox = ({
   );
 };
 
-export default Modal2023FallEventRandomBox;
+export default ModalEvent2023FallRandomBox;

@@ -3,6 +3,7 @@ import { CookiesProvider } from "react-cookie";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 
+import EventProvider from "components/Event/EventProvider";
 import Loading from "components/Loading";
 import ModalProvider from "components/Modal/ModalProvider";
 import Skeleton from "components/Skeleton";
@@ -22,6 +23,7 @@ const App = () => (
         <SocketToastProvider />
         <AlertProvider />
         <ModalProvider />
+        <EventProvider />
         <Skeleton>
           <Suspense fallback={<Loading center />}>
             <Routes />
