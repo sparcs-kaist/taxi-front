@@ -83,7 +83,7 @@ const Skeleton = ({ children }: SkeletonProps) => {
       ) : (
         <>
           {isDisplayNavigation && <Navigation />}
-          {isDisplayNavigation && !deviceType.startsWith("mobile/") && (
+          {isDisplayNavigation && deviceType.startsWith("mobile/") && (
             <SuggestAppTopBar />
           )}
           {children}
