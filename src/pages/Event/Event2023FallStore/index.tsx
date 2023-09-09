@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import useQuery from "hooks/useTaxiAPI";
 
@@ -9,6 +9,7 @@ import HeaderWithLeftNav from "components/Header/HeaderWithLeftNav";
 import ModalEventItem from "components/ModalPopup/ModalEventItem";
 import Title from "components/Title";
 
+import { useFetchEventInfo } from "../hooks/useFetchEventInfo";
 import NPCSection from "./NPCSection";
 
 const EventItemList = ({
@@ -46,6 +47,11 @@ const Event2023FallStore = () => {
   const [, itemList] = useQuery.get("/events/2023fall/items/list");
   const [itemInfo, setItemInfo] = useState<EventItemProps>();
   const [isOpenEventItem, setIsOpenEventItem] = useState<boolean>(false);
+  const fetchEventInfo = useFetchEventInfo();
+
+  useEffect(() => {
+    fetchEventInfo();
+  }, []);
 
   return (
     <>

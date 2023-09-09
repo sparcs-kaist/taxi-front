@@ -5,6 +5,7 @@ import theme from "tools/theme";
 import { ReactComponent as CreditIcon } from "static/events/2023fallCredit.svg";
 
 export type EventItemProps = {
+  _id: string;
   name: string;
   imageUrl: string;
   price: number;

@@ -25,12 +25,15 @@ const ModalEventItem = ({ itemInfo, ...modalProps }: ModalEventItemProps) => {
   };
 
   return (
-    <Modal {...modalProps} padding="16px 12px 12px">
+    <Modal {...modalProps} padding="16px 12px 12px" width="242px">
       <div css={styleTitle}>
         <AccountBalanceWalletRoundedIcon style={styleIcon} />
         구매하기
       </div>
-      <BodyEventItem itemInfo={itemInfo} />
+      <BodyEventItem
+        itemInfo={itemInfo}
+        onChangeIsOpen={modalProps.onChangeIsOpen}
+      />
     </Modal>
   );
 };

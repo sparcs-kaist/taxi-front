@@ -4,6 +4,10 @@ import { useAxios } from "hooks/useTaxiAPI";
 
 import Button from "components/Button";
 import { EventItemProps } from "components/Event/EventItem";
+import {
+  useFetchEventInfo,
+  useValueEventInfo,
+} from "pages/Event/hooks/useFetchEventInfo";
 
 import alertAtom from "atoms/alert";
 import { useSetRecoilState } from "recoil";
@@ -14,10 +18,12 @@ import { ReactComponent as CreditIcon } from "static/events/2023fallCredit.svg";
 
 export type BodyEventItemProps = {
   itemInfo: EventItemProps;
+  onChangeIsOpen: (isOpen: boolean) => void;
 };
 
-const BodyEventItem = ({ itemInfo }: BodyEventItemProps) => {
-  const currentAmount = 500;
+const BodyEventItem = ({ itemInfo, onChangeIsOpen }: BodyEventItemProps) => {
+  const fetchEventInfo = useFetchEventInfo();
+  const eventInfo = useValueEventInfo();
 
   const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
@@ -28,6 +34,8 @@ const BodyEventItem = ({ itemInfo }: BodyEventItemProps) => {
         url: `/events/2023fall/items/purchase/${itemInfo._id}`,
         method: "post",
         onSuccess: () => {
+          fetchEventInfo();
+          onChangeIsOpen(false);
           setAlert("구매가 완료되었습니다.");
         },
         onError: () => setAlert("구매를 실패하였습니다."),
@@ -73,7 +81,7 @@ const BodyEventItem = ({ itemInfo }: BodyEventItemProps) => {
           ...theme.font14_bold,
         }}
         onClick={onClickOk}
-        disabled={currentAmount < itemInfo.price}
+        disabled={eventInfo ? eventInfo?.creditAmount < itemInfo.price : true}
       >
         구매하기
       </Button>
