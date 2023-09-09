@@ -1,54 +1,82 @@
+import { useCallback } from "react";
+
+import { useAxios } from "hooks/useTaxiAPI";
+
+import Button from "components/Button";
 import { EventItemProps } from "components/Event/EventItem";
+
+import alertAtom from "atoms/alert";
+import { useSetRecoilState } from "recoil";
 
 import theme from "tools/theme";
 
-import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
+import { ReactComponent as CreditIcon } from "static/events/2023fallCredit.svg";
 
 export type BodyEventItemProps = {
   itemInfo: EventItemProps;
-  height?: number;
 };
 
-const BodyEventItem = ({ itemInfo, height }: BodyEventItemProps) => {
-  const styleWrapper = height
-    ? {
-        height,
-        display: "flex",
-        flexDirection: "column" as any,
-      }
-    : {};
+const BodyEventItem = ({ itemInfo }: BodyEventItemProps) => {
+  const currentAmount = 500;
 
-  const styleButtonSection = {
-    display: "flex",
-    justifyContent: "center",
-    gap: "10px",
-    margin: "12px 0px 0",
-  };
+  const axios = useAxios();
+  const setAlert = useSetRecoilState(alertAtom);
 
-  const styleIcon = {
-    width: "16px",
-    height: "16px",
-    fill: theme.gray_text,
-  };
-
-  const styleInfo = {
-    display: "flex",
-    gap: "8px",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: "12px",
-  };
+  const onClickOk = useCallback(
+    () =>
+      axios({
+        url: `/events/2023fall/items/purchase/${itemInfo._id}`,
+        method: "post",
+        onSuccess: () => {
+          setAlert("구매가 완료되었습니다.");
+        },
+        onError: () => setAlert("구매를 실패하였습니다."),
+      }),
+    [itemInfo._id]
+  );
 
   return (
-    <div css={styleWrapper}>
-      <div css={styleInfo}>
-        <LocationOnRoundedIcon style={styleIcon} />
-        <div css={{ color: theme.gray_text, ...theme.font14_bold }}>
-          {itemInfo.name}
-        </div>
+    <div
+      css={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "left",
+        gap: "10px",
+      }}
+    >
+      <img
+        css={{
+          width: "100%",
+          borderRadius: "12px",
+          aspectRatio: "1/1",
+        }}
+        src={itemInfo.imageUrl}
+        alt={itemInfo.name}
+      />
+      <div css={theme.font16_bold}>{itemInfo.name}</div>
+      <div css={theme.font14}>{itemInfo.description}</div>
+      <div
+        css={{
+          display: "flex",
+          gap: "4px",
+        }}
+      >
+        <CreditIcon style={{ width: "27px", height: "16px" }} />
+        <div>{itemInfo.price}</div>
       </div>
-      <div css={{ flexGrow: 1 }} />
-      <div css={styleButtonSection}></div>
+      <Button
+        type="purple_inset"
+        css={{
+          width: "100%",
+          padding: "10px 0 9px",
+          borderRadius: "8px",
+          ...theme.font14_bold,
+        }}
+        onClick={onClickOk}
+        disabled={currentAmount < itemInfo.price}
+      >
+        구매하기
+      </Button>
     </div>
   );
 };
