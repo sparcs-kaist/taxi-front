@@ -1,7 +1,6 @@
 import AdaptiveDiv from "components/AdaptiveDiv";
 import CreditAmountStatusContainer from "components/Event/CreditAmountStatusContainer";
 import HeaderWithLeftNav from "components/Header/HeaderWithLeftNav";
-import { Modal2023FallEventRandomBox } from "components/ModalPopup";
 import Title from "components/Title";
 
 import NPCSection from "./NPCSection";
@@ -38,7 +37,6 @@ const Event2023FallStore = () => {
         <Title isHeader>응모권</Title>
         <Title isHeader>아이템</Title>
         <div css={{ height: "3000px" }} />
-        <Modal2023FallEventRandomBox isOpen={true} />
       </AdaptiveDiv>
     </>
   );
