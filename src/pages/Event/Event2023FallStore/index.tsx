@@ -1,8 +1,12 @@
 import AdaptiveDiv from "components/AdaptiveDiv";
+import CreditAmountStatusContainer from "components/Event/CreditAmountStatusContainer";
 import HeaderWithLeftNav from "components/Header/HeaderWithLeftNav";
+import { Modal2023FallEventRandomBox } from "components/ModalPopup";
 import Title from "components/Title";
 
 import NPCSection from "./NPCSection";
+
+import theme from "tools/theme";
 
 const Event2023FallStore = () => {
   return (
@@ -19,11 +23,22 @@ const Event2023FallStore = () => {
         ]}
       />
       <NPCSection />
-      <div css={{ marginTop: "-15px" }} />
       <AdaptiveDiv type="center">
+        <div
+          css={{
+            position: "sticky",
+            top: "75px",
+            marginTop: "-60px",
+            zIndex: theme.zIndex_nav - 1,
+          }}
+        >
+          <CreditAmountStatusContainer />
+        </div>
+        <div css={{ marginTop: "-15px" }} />
         <Title isHeader>응모권</Title>
         <Title isHeader>아이템</Title>
         <div css={{ height: "3000px" }} />
+        <Modal2023FallEventRandomBox isOpen={true} />
       </AdaptiveDiv>
     </>
   );

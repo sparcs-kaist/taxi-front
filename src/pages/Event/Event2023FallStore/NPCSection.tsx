@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 
-import AdaptiveDiv from "components/AdaptiveDiv";
-import CreditAmountStatusContainer from "components/Event/CreditAmountStatusContainer";
 import RabbitAnimatedBackground from "components/Event/RabbitAnimatedBackground";
 
 import theme from "tools/theme";
@@ -92,17 +90,6 @@ const NPCSection = () => {
           background: `linear-gradient(to top, ${theme.purple_background}, rgba(250, 246, 251, 0))`,
         }}
       />
-      <div
-        css={{
-          position: "absolute",
-          width: "100%",
-          bottom: `min(5px, calc(${height - 70}px - var(--window-scroll-y)))`,
-        }}
-      >
-        <AdaptiveDiv type="center">
-          <CreditAmountStatusContainer />
-        </AdaptiveDiv>
-      </div>
     </div>
   );
 };
