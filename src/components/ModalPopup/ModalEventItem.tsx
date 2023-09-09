@@ -1,17 +1,18 @@
+import { EventItemProps } from "components/Event/EventItem";
 import Modal from "components/Modal";
 
-import BodyCallTaxi from "./Body/BodyCallTaxi";
+import BodyEventItem from "./Body/BodyEventItem";
 
 import theme from "tools/theme";
 
-import LocalTaxiRoundedIcon from "@mui/icons-material/LocalTaxiRounded";
+import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceWalletRounded";
 
-type ModalCallTaxiProps = Omit<
+type ModalEventItemProps = Omit<
   Parameters<typeof Modal>[0],
   "padding" | "children"
-> & { roomInfo: Room };
+> & { itemInfo: EventItemProps };
 
-const ModalCallTaxi = ({ roomInfo, ...modalProps }: ModalCallTaxiProps) => {
+const ModalEventItem = ({ itemInfo, ...modalProps }: ModalEventItemProps) => {
   const styleTitle = {
     ...theme.font18,
     display: "flex",
@@ -26,13 +27,12 @@ const ModalCallTaxi = ({ roomInfo, ...modalProps }: ModalCallTaxiProps) => {
   return (
     <Modal {...modalProps} padding="16px 12px 12px">
       <div css={styleTitle}>
-        <LocalTaxiRoundedIcon style={styleIcon} />
-        택시 호출하기
+        <AccountBalanceWalletRoundedIcon style={styleIcon} />
+        구매하기
       </div>
-      <BodyCallTaxi roomInfo={roomInfo} />
+      <BodyEventItem itemInfo={itemInfo} />
     </Modal>
   );
 };
 
-export default ModalCallTaxi;
-export { ModalCallTaxi };
+export default ModalEventItem;

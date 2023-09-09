@@ -11,9 +11,10 @@ export type EventItemProps = {
   description: string;
   isDisabled: boolean;
   stock: number;
+  itemType: number;
 };
 
-const EventItem = (props: EventItemProps) => {
+const EventItem = (props: EventItemProps & { onClick: () => void }) => {
   return (
     <WhiteContainer
       css={{
@@ -28,6 +29,7 @@ const EventItem = (props: EventItemProps) => {
         gap: "8px",
         ...theme.font14,
       }}
+      onClick={props.onClick}
     >
       <img
         css={{

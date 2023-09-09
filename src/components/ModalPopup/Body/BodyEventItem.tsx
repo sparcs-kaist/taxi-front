@@ -1,13 +1,15 @@
+import { EventItemProps } from "components/Event/EventItem";
+
 import theme from "tools/theme";
 
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
 
-export type BodyCallTaxiProps = {
-  roomInfo: Room;
+export type BodyEventItemProps = {
+  itemInfo: EventItemProps;
   height?: number;
 };
 
-const BodyCallTaxi = ({ roomInfo, height }: BodyCallTaxiProps) => {
+const BodyEventItem = ({ itemInfo, height }: BodyEventItemProps) => {
   const styleWrapper = height
     ? {
         height,
@@ -42,7 +44,7 @@ const BodyCallTaxi = ({ roomInfo, height }: BodyCallTaxiProps) => {
       <div css={styleInfo}>
         <LocationOnRoundedIcon style={styleIcon} />
         <div css={{ color: theme.gray_text, ...theme.font14_bold }}>
-          {roomInfo.from?.koName}&nbsp; → &nbsp;{roomInfo.to?.koName}
+          {itemInfo.name}
         </div>
       </div>
       <div css={{ flexGrow: 1 }} />
@@ -51,4 +53,4 @@ const BodyCallTaxi = ({ roomInfo, height }: BodyCallTaxiProps) => {
   );
 };
 
-export default BodyCallTaxi;
+export default BodyEventItem;

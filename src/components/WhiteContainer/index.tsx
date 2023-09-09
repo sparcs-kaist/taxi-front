@@ -5,9 +5,14 @@ import theme from "tools/theme";
 type WhiteContainerProps = {
   className?: string;
   children?: ReactNode;
+  onClick?: () => void;
 };
 
-const WhiteContainer = ({ className, children }: WhiteContainerProps) => (
+const WhiteContainer = ({
+  className,
+  children,
+  onClick,
+}: WhiteContainerProps) => (
   <div
     css={{
       margin: "0 0 15px",
@@ -19,6 +24,7 @@ const WhiteContainer = ({ className, children }: WhiteContainerProps) => (
       borderRadius: "12px",
     }}
     className={className}
+    onClick={onClick}
   >
     {children}
   </div>
