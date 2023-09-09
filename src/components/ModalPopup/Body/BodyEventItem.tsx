@@ -18,7 +18,7 @@ import { ReactComponent as CreditIcon } from "static/events/2023fallCredit.svg";
 
 export type BodyEventItemProps = {
   itemInfo: EventItemProps;
-  onChangeIsOpen: (isOpen: boolean) => void;
+  onChangeIsOpen?: (isOpen: boolean) => void;
 };
 
 const BodyEventItem = ({ itemInfo, onChangeIsOpen }: BodyEventItemProps) => {
@@ -35,7 +35,7 @@ const BodyEventItem = ({ itemInfo, onChangeIsOpen }: BodyEventItemProps) => {
         method: "post",
         onSuccess: () => {
           fetchEventInfo();
-          onChangeIsOpen(false);
+          onChangeIsOpen?.(false);
           setAlert("구매가 완료되었습니다.");
         },
         onError: () => setAlert("구매를 실패하였습니다."),
