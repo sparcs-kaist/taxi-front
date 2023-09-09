@@ -1,3 +1,4 @@
+export { default as Modal2023FallEventRandomBox } from "./Modal2023FallEventRandomBox";
 export { default as ModalChatCancel } from "./ModalChatCancel";
 export { default as ModalChatPayement } from "./ModalChatPayment";
 export { default as ModalChatReport } from "./ModalChatReport";
