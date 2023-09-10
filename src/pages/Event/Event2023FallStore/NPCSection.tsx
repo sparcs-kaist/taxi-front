@@ -4,7 +4,10 @@ import AdaptiveDiv from "components/AdaptiveDiv";
 import CreditAmountStatusContainer from "components/Event/CreditAmountStatusContainer";
 import RabbitAnimatedBackground from "components/Event/RabbitAnimatedBackground";
 
+import { randomEvent2023FallStoreSpeechGenerator } from "tools/random";
 import theme from "tools/theme";
+
+import { ReactComponent as TextBubble } from "static/events/2023fallStoreTextBubble.svg";
 
 const NPCSection = () => {
   const getBodyWidth = () => {
@@ -21,6 +24,26 @@ const NPCSection = () => {
     window.addEventListener("resize", resizeEvent);
     return () => window.removeEventListener("resize", resizeEvent);
   }, []);
+
+  const [text, setText] = useState<string>("");
+
+  const [currentText, setCurrentText] = useState<string>(
+    randomEvent2023FallStoreSpeechGenerator()
+  );
+
+  useEffect(() => {
+    if (text.length === currentText.length) {
+      const timeout = setTimeout(() => {
+        setCurrentText(randomEvent2023FallStoreSpeechGenerator());
+        setText("");
+      }, 2000);
+      return () => clearTimeout(timeout);
+    }
+    const timeout = setTimeout(() => {
+      setText(currentText.substring(0, text.length + 1));
+    }, 100);
+    return () => clearTimeout(timeout);
+  }, [text, currentText]);
 
   return (
     <div
@@ -54,6 +77,33 @@ const NPCSection = () => {
           }}
         >
           <RabbitAnimatedBackground />
+          <div
+            css={{
+              fontSize: "26px",
+              fontWeight: 700,
+              lineHeight: "40px",
+              position: "absolute",
+              bottom: "320px",
+              left: "220px",
+              maxWidth: "530px",
+              background: "white",
+              zIndex: 2,
+              padding: "30px 30px",
+              borderRadius: "20px",
+              boxSizing: "border-box",
+              opacity: 0.9,
+            }}
+          >
+            {text}
+            <TextBubble
+              css={{
+                position: "absolute",
+                bottom: "-20px",
+                left: "0px",
+                opacity: 0.9,
+              }}
+            />
+          </div>
         </div>
       </div>
       <div

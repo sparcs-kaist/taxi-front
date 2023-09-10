@@ -5,6 +5,7 @@ export { default as ModalChatReport } from "./ModalChatReport";
 export { default as ModalChatSaveAccount } from "./ModalChatSaveAccount";
 export { default as ModalChatSettlement } from "./ModalChatSettlement";
 export { default as ModalCredit } from "./ModalCredit";
+export { default as ModalEvent2023FallItem } from "./ModalEvent2023FallItem";
 export { default as ModalMypageModify } from "./ModalMypageModify";
 export { default as ModalNotification } from "./ModalNotification";
 export { default as ModalPrivacyPolicy } from "./ModalPrivacyPolicy";

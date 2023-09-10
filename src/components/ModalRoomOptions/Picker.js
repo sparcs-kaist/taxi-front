@@ -180,7 +180,7 @@ class PickerColumn extends Component {
   handleScroll(event) {
     let deltaY;
     const keyboard =
-      !!event.key && (event.key == "ArrowDown" || event.key == "ArrowUp");
+      !!event.key && (event.key === "ArrowDown" || event.key === "ArrowUp");
     const isTouchPad = event.wheelDeltaY
       ? event.wheelDeltaY === -3 * event.deltaY
       : event.deltaMode === 0;

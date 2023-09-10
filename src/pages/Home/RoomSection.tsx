@@ -38,10 +38,10 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
   const rooms = useMemo(() => {
     if (!allRooms) return null;
     const time = moment(selectedDate);
-    return time.date() == today.date()
+    return time.date() === today.date()
       ? allRooms
       : allRooms?.filter(
-          (room: Room) => moment(room.time).date() == time.date()
+          (room: Room) => moment(room.time).date() === time.date()
         );
   }, [allRooms, selectedDate]);
 
@@ -56,7 +56,7 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
   // 방이 선택되면 해당 방의 정보를 가져옵니다.
   useEffect(() => {
     if (!roomId || !allRooms) return setRoomInfo(null);
-    const _roomInfo = allRooms?.find((room: any) => room._id == roomId);
+    const _roomInfo = allRooms?.find((room: any) => room._id === roomId);
     if (_roomInfo) return setRoomInfo(_roomInfo);
     axios({
       url: "/rooms/publicInfo",

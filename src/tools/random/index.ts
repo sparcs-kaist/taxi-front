@@ -1,3 +1,4 @@
+import event2023FallStoreSpeeches from "./event2023FallStoreSpeeches";
 import roomNames from "./roomNames";
 import suggestRoomShareTexts from "./suggestRoomShareTexts";
 import taxiSlogans from "./taxiSlogans";
@@ -7,6 +8,10 @@ const randomGenerator = (array: Array<string>) => () =>
 
 export const randomRoomNameGenerator = randomGenerator(roomNames);
 export const randomTaxiSloganGenerator = randomGenerator(taxiSlogans);
+
+export const randomEvent2023FallStoreSpeechGenerator = randomGenerator(
+  event2023FallStoreSpeeches
+);
 
 export const randomSuggestRoomShareTextGenerator = (seed: string) => {
   const hash = seed

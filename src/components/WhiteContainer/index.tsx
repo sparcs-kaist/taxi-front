@@ -1,13 +1,12 @@
-import { ReactNode } from "react";
+import { HTMLProps, ReactNode } from "react";
 
 import theme from "tools/theme";
 
 type WhiteContainerProps = {
-  className?: string;
   children?: ReactNode;
-};
+} & HTMLProps<HTMLDivElement>;
 
-const WhiteContainer = ({ className, children }: WhiteContainerProps) => (
+const WhiteContainer = ({ children, ...htmlProps }: WhiteContainerProps) => (
   <div
     css={{
       margin: "0 0 15px",
@@ -18,7 +17,7 @@ const WhiteContainer = ({ className, children }: WhiteContainerProps) => (
       position: "relative",
       borderRadius: "12px",
     }}
-    className={className}
+    {...htmlProps}
   >
     {children}
   </div>

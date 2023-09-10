@@ -155,7 +155,7 @@ const SideResult = (props) => {
             theme="purple"
           />
           <DottedLine direction="row" />
-          {rooms.length == 0 ? (
+          {rooms.length === 0 ? (
             <Empty screen="pc">검색 결과가 없습니다</Empty>
           ) : (
             <>
@@ -196,7 +196,7 @@ const SideResult = (props) => {
           sortOption={sortOption}
           setSortOption={setSortOption}
         />
-        {rooms.length == 0 ? (
+        {rooms.length === 0 ? (
           <Empty screen="mobile">검색 결과가 없습니다</Empty>
         ) : (
           <>
