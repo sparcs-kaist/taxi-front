@@ -1,13 +1,34 @@
+import { useCallback, useMemo } from "react";
+
+import type { EventItem } from "types/event2023fall";
+
+import useDateToken from "hooks/useDateToken";
+import useQuery from "hooks/useTaxiAPI";
+
 import AdaptiveDiv from "components/AdaptiveDiv";
 import CreditAmountStatusContainer from "components/Event/CreditAmountStatusContainer";
 import HeaderWithLeftNav from "components/Header/HeaderWithLeftNav";
 import Title from "components/Title";
 
+import ItemListSection from "./ItemListSection";
 import NPCSection from "./NPCSection";
 
 import theme from "tools/theme";
 
 const Event2023FallStore = () => {
+  const [itemListToken, fetchItemList] = useDateToken();
+  const { items } = useQuery.get("/events/2023fall/items/list", {}, [
+    itemListToken,
+  ])[1] || { items: [] };
+  const getItemFilteredList = useCallback(
+    (type) => items.filter((item: EventItem) => item.itemType === type),
+    [items]
+  );
+  const [itemTypeZeros, itemTypeOnes] = useMemo(
+    () => [getItemFilteredList(0), getItemFilteredList(1)],
+    [getItemFilteredList]
+  );
+
   return (
     <>
       <HeaderWithLeftNav
@@ -35,8 +56,9 @@ const Event2023FallStore = () => {
         </div>
         <div css={{ marginTop: "-15px" }} />
         <Title isHeader>응모권</Title>
+        <ItemListSection items={itemTypeZeros} fetchItems={fetchItemList} />
         <Title isHeader>아이템</Title>
-        <div css={{ height: "3000px" }} />
+        <ItemListSection items={itemTypeOnes} fetchItems={fetchItemList} />
       </AdaptiveDiv>
     </>
   );

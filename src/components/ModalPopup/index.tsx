@@ -7,6 +7,7 @@ export { default as ModalCredit } from "./ModalCredit";
 
 export { default as ModalEvent2023FallMissionComplete } from "./ModalEvent2023FallMissionComplete";
 export { default as ModalEvent2023FallRandomBox } from "./ModalEvent2023FallRandomBox";
+export { default as ModalEvent2023FallItem } from "./ModalEvent2023FallItem";
 
 export { default as ModalMypageModify } from "./ModalMypageModify";
 export { default as ModalNotification } from "./ModalNotification";
