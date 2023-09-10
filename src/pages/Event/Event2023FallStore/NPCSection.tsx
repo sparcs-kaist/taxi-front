@@ -4,10 +4,10 @@ import AdaptiveDiv from "components/AdaptiveDiv";
 import CreditAmountStatusContainer from "components/Event/CreditAmountStatusContainer";
 import RabbitAnimatedBackground from "components/Event/RabbitAnimatedBackground";
 
+import { randomEvent2023FallStoreSpeechGenerator } from "tools/random";
 import theme from "tools/theme";
 
-import { event2023FallTexts } from "static/event2023FallText";
-import { ReactComponent as TextBubble } from "static/events/TextBubble.svg";
+import { ReactComponent as TextBubble } from "static/events/2023fallStoreTextBubble.svg";
 
 const NPCSection = () => {
   const getBodyWidth = () => {
@@ -27,25 +27,21 @@ const NPCSection = () => {
 
   const [text, setText] = useState<string>("");
 
-  const [currentText, setCurrentText] = useState<string>(event2023FallTexts[0]);
+  const [currentText, setCurrentText] = useState<string>(
+    randomEvent2023FallStoreSpeechGenerator()
+  );
 
   useEffect(() => {
     if (text.length === currentText.length) {
       const timeout = setTimeout(() => {
-        setCurrentText(
-          event2023FallTexts[
-            Math.floor(Math.random() * event2023FallTexts.length)
-          ]
-        );
+        setCurrentText(randomEvent2023FallStoreSpeechGenerator());
         setText("");
-      }, 1000);
+      }, 2000);
       return () => clearTimeout(timeout);
     }
-
     const timeout = setTimeout(() => {
       setText(currentText.substring(0, text.length + 1));
     }, 100);
-
     return () => clearTimeout(timeout);
   }, [text, currentText]);
 
@@ -80,20 +76,23 @@ const NPCSection = () => {
             marginTop: `${height / 2 - 300}px`,
           }}
         >
+          <RabbitAnimatedBackground />
           <div
             css={{
-              fontSize: "28px",
+              fontSize: "26px",
+              fontWeight: 700,
               lineHeight: "40px",
               position: "absolute",
-              top: "180px",
+              bottom: "320px",
               left: "220px",
-              maxWidth: "350px",
+              maxWidth: "530px",
               background: "white",
-              zIndex: theme.zIndex_modal,
+              zIndex: 2,
               padding: "30px 30px",
               borderRadius: "20px",
               boxSizing: "border-box",
-            }} // 이렇게 더러운 이유는 상위 컴포넌트에서 transform: scale()을 사용하고 있기 때문. 상대적으로 사이즈를 잡으려면 컨벤션을 깨야함.
+              opacity: 0.9,
+            }}
           >
             {text}
             <TextBubble
@@ -101,10 +100,10 @@ const NPCSection = () => {
                 position: "absolute",
                 bottom: "-20px",
                 left: "0px",
+                opacity: 0.9,
               }}
             />
           </div>
-          <RabbitAnimatedBackground />
         </div>
       </div>
       <div

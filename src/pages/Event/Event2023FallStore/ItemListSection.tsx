@@ -11,9 +11,10 @@ import { ReactComponent as CreditIcon } from "static/events/2023fallCredit.svg";
 
 type EventItemComponentProps = {
   value: EventItem;
+  fetchItems?: () => void;
 };
 
-const EventItemContainer = ({ value }: EventItemComponentProps) => {
+const EventItemContainer = ({ value, fetchItems }: EventItemComponentProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
@@ -54,6 +55,7 @@ const EventItemContainer = ({ value }: EventItemComponentProps) => {
       </div>
       <ModalEvent2023FallItem
         itemInfo={value}
+        fetchItems={fetchItems}
         isOpen={isOpen}
         onChangeIsOpen={setIsOpen}
       />
@@ -61,7 +63,12 @@ const EventItemContainer = ({ value }: EventItemComponentProps) => {
   );
 };
 
-const ItemListSection = ({ itemList }: { itemList: EventItem[] }) => {
+type ItemListSectionProps = {
+  items: Array<EventItem>;
+  fetchItems?: () => void;
+};
+
+const ItemListSection = ({ items, fetchItems }: ItemListSectionProps) => {
   return (
     <div
       css={{
@@ -70,8 +77,12 @@ const ItemListSection = ({ itemList }: { itemList: EventItem[] }) => {
         justifyContent: "space-between",
       }}
     >
-      {itemList?.map((item: EventItem) => (
-        <EventItemContainer key={item._id} value={item} />
+      {items.map((item: EventItem) => (
+        <EventItemContainer
+          key={item._id}
+          value={item}
+          fetchItems={fetchItems}
+        />
       ))}
     </div>
   );

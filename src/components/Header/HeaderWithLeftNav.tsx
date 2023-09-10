@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import AdaptiveDiv from "components/AdaptiveDiv";
@@ -51,6 +51,8 @@ type HeaderWithLeftNavProps = {
 };
 
 const HeaderWithLeftNav = ({ value, options = [] }: HeaderWithLeftNavProps) => {
+  const navRef = useRef<HTMLDivElement>(null);
+  const padRef = useRef<HTMLDivElement>(null);
   const history = useHistory();
 
   const style = {
@@ -82,7 +84,7 @@ const HeaderWithLeftNav = ({ value, options = [] }: HeaderWithLeftNavProps) => {
 
   return (
     <>
-      <div css={style}>
+      <div ref={navRef} css={style}>
         <AdaptiveDiv type="center" css={styleBody}>
           <ArrowBackRoundedIcon
             style={styleIconLarge}
@@ -103,9 +105,12 @@ const HeaderWithLeftNav = ({ value, options = [] }: HeaderWithLeftNavProps) => {
         </AdaptiveDiv>
       </div>
       <div
+        ref={padRef}
         css={{
-          height:
-            "calc(40px + 12px + calc(max(5px, env(safe-area-inset-top)) + 12px))",
+          height: `${
+            (navRef.current?.offsetHeight || 0) -
+            (padRef.current?.offsetTop || 0)
+          }px`,
         }}
       />
     </>

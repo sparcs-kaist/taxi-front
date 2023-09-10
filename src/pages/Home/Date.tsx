@@ -27,7 +27,7 @@ const Date = (props: DateProps) => {
     ...theme.font10,
     opacity: 0.632,
     color:
-      week == 0 ? theme.red_text : week == 6 ? theme.blue_text : theme.black,
+      week === 0 ? theme.red_text : week === 6 ? theme.blue_text : theme.black,
     textAlign: "center" as any,
   };
   const styleBox = {

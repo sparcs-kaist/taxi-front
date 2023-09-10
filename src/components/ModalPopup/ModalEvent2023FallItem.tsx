@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 
 import type { EventItem } from "types/event2023fall";
 
@@ -22,23 +22,14 @@ import { ReactComponent as CreditIcon } from "static/events/2023fallCredit.svg";
 
 type ModalEvent2023FallItemProps = Parameters<typeof Modal>[0] & {
   itemInfo: EventItem;
+  fetchItems?: () => void;
 };
 
 const ModalEvent2023FallItem = ({
   itemInfo,
+  fetchItems,
   ...modalProps
 }: ModalEvent2023FallItemProps) => {
-  const styleTitle = {
-    ...theme.font18,
-    display: "flex",
-    alignItems: "center",
-    margin: "0 8px 12px",
-  };
-  const styleIcon = {
-    fontSize: "21px",
-    margin: "0 4px 0 0",
-  };
-
   const fetchEvent2023FallInfo = useFetchRecoilState("event2023FallInfo");
   const event2023FallInfo = useValueRecoilState("event2023FallInfo");
 
@@ -52,6 +43,7 @@ const ModalEvent2023FallItem = ({
         method: "post",
         onSuccess: () => {
           fetchEvent2023FallInfo();
+          fetchItems?.();
           modalProps.onChangeIsOpen?.(false);
           setAlert("구매가 완료되었습니다.");
         },
@@ -60,8 +52,33 @@ const ModalEvent2023FallItem = ({
     [itemInfo._id]
   );
 
+  const [isDisabled, buttonText] = useMemo(
+    () =>
+      eventMode !== "2023fall"
+        ? [true, "이벤트 기간이 아닙니다"]
+        : itemInfo.stock <= 0
+        ? [true, "매진된 상품은 구매할 수 없습니다"]
+        : !event2023FallInfo
+        ? [true, "로그인 후 구매가 가능합니다"]
+        : event2023FallInfo.creditAmount < itemInfo.price
+        ? [true, "송편이 부족하여 구매할 수 없습니다"]
+        : [false, "구매하기"],
+    [eventMode, event2023FallInfo, itemInfo]
+  );
+
+  const styleTitle = {
+    ...theme.font18,
+    display: "flex",
+    alignItems: "center",
+    margin: "0 8px 12px",
+  };
+  const styleIcon = {
+    fontSize: "21px",
+    margin: "0 4px 0 0",
+  };
+
   return (
-    <Modal {...modalProps} padding="16px 12px 12px">
+    <Modal padding="16px 12px 12px" {...modalProps}>
       <div css={styleTitle}>
         <AccountBalanceWalletRoundedIcon style={styleIcon} />
         구매하기
@@ -103,19 +120,9 @@ const ModalEvent2023FallItem = ({
             ...theme.font14_bold,
           }}
           onClick={onClickOk}
-          disabled={
-            eventMode !== "2023fall" ||
-            !event2023FallInfo ||
-            event2023FallInfo.creditAmount < itemInfo.price
-          }
+          disabled={isDisabled}
         >
-          {eventMode != "2023fall"
-            ? "이벤트 기간이 아닙니다."
-            : !event2023FallInfo
-            ? "이벤트 정보를 불러오는 중입니다."
-            : event2023FallInfo.creditAmount < itemInfo.price
-            ? "송편이 부족합니다."
-            : "구매하기"}
+          {buttonText}
         </Button>
       </div>
     </Modal>

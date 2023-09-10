@@ -112,4 +112,8 @@ export const useSyncRecoilStateEffect = () => {
   // notificationOptions 초기화 및 동기화
   const fetchNotificationOptions = useFetchRecoilState("notificationOptions");
   useEffect(fetchNotificationOptions, [deviceToken]);
+
+  // event2023FallInfo 초기화 및 동기화
+  const fetchEvent2023FallInfo = useFetchRecoilState("event2023FallInfo");
+  useEffect(fetchEvent2023FallInfo, [userId]);
 };
