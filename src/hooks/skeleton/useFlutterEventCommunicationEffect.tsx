@@ -1,19 +1,32 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-import { useFetchRecoilState } from "hooks/useFetchRecoilState";
+import {
+  useFetchRecoilState,
+  useValueRecoilState,
+} from "hooks/useFetchRecoilState";
+import { useAxios } from "hooks/useTaxiAPI";
 
 import alertAtom from "atoms/alert";
 import errorAtom from "atoms/error";
 import { LoginInfoType } from "atoms/loginInfo";
 import { useSetRecoilState } from "recoil";
 
+import { isNotificationOn } from "tools/trans";
+
 // global flag variable to check if the webview is in Flutter
 let isWebViewInFlutter: boolean = false;
 
 export default () => {
+  const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
   const setError = useSetRecoilState(errorAtom);
+  const loginInfo = useValueRecoilState("loginInfo");
+  const { id: userId } = loginInfo || {};
+  const notificationOptions = useValueRecoilState("notificationOptions");
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
+
+  const [isWebViewInFlutterState, setIsWebViewInFlutterState] =
+    useState<boolean>(false);
 
   useEffect(() => {
     const eventListeners: Array<{
@@ -26,6 +39,7 @@ export default () => {
       name: "flutterInAppWebViewPlatformReady",
       listner: () => {
         isWebViewInFlutter = true;
+        setIsWebViewInFlutterState(true);
       },
     });
 
@@ -59,6 +73,41 @@ export default () => {
         window.removeEventListener(name, listner)
       );
   }, []);
+
+  // Flutter에 변동된 로그인 정보 전달
+  useEffect(() => {
+    const isLoading = loginInfo === null;
+    if (!isLoading && isWebViewInFlutterState)
+      sendAuthUpdateEventToFlutter(loginInfo);
+  }, [userId, isWebViewInFlutterState]);
+
+  // Flutter에 초기 알림 설정 전달
+  useEffect(() => {
+    const tryNotification = async () => {
+      const isAllowedFInFlutter = await sendTryNotificationEventToFlutter();
+      if (!isAllowedFInFlutter) {
+        await axios({
+          url: "/notifications/editOptions",
+          method: "post",
+          data: {
+            options: {
+              beforeDepart: false,
+              chatting: false,
+              notice: false,
+            },
+          },
+          onError: () => {},
+        });
+      }
+    };
+    if (
+      userId &&
+      isWebViewInFlutterState &&
+      isNotificationOn(notificationOptions)
+    ) {
+      tryNotification();
+    }
+  }, [userId, notificationOptions, isWebViewInFlutterState]);
 };
 
 // 로그인 정보 변동 시 Flutter에 이벤트를 전달합니다
