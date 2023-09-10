@@ -93,7 +93,7 @@ const NPCSection = () => {
               padding: "30px 30px",
               borderRadius: "20px",
               boxSizing: "border-box",
-            }}
+            }} // 이렇게 더러운 이유는 상위 컴포넌트에서 transform: scale()을 사용하고 있기 때문. 상대적으로 사이즈를 잡으려면 컨벤션을 깨야함.
           >
             {text}
             <TextBubble
