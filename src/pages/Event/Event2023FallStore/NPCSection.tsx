@@ -6,6 +6,9 @@ import RabbitAnimatedBackground from "components/Event/RabbitAnimatedBackground"
 
 import theme from "tools/theme";
 
+import { event2023FallTexts } from "static/event2023FallText";
+import { ReactComponent as TextBubble } from "static/events/TextBubble.svg";
+
 const NPCSection = () => {
   const getBodyWidth = () => {
     const innerWidth = window.innerWidth || 0;
@@ -21,6 +24,30 @@ const NPCSection = () => {
     window.addEventListener("resize", resizeEvent);
     return () => window.removeEventListener("resize", resizeEvent);
   }, []);
+
+  const [text, setText] = useState<string>("");
+
+  const [currentText, setCurrentText] = useState<string>(event2023FallTexts[0]);
+
+  useEffect(() => {
+    if (text.length === currentText.length) {
+      const timeout = setTimeout(() => {
+        setCurrentText(
+          event2023FallTexts[
+            Math.floor(Math.random() * event2023FallTexts.length)
+          ]
+        );
+        setText("");
+      }, 1000);
+      return () => clearTimeout(timeout);
+    }
+
+    const timeout = setTimeout(() => {
+      setText(currentText.substring(0, text.length + 1));
+    }, 100);
+
+    return () => clearTimeout(timeout);
+  }, [text, currentText]);
 
   return (
     <div
@@ -53,6 +80,30 @@ const NPCSection = () => {
             marginTop: `${height / 2 - 300}px`,
           }}
         >
+          <div
+            css={{
+              fontSize: "28px",
+              lineHeight: "40px",
+              position: "absolute",
+              top: "180px",
+              left: "220px",
+              maxWidth: "350px",
+              background: "white",
+              zIndex: theme.zIndex_modal,
+              padding: "30px 30px",
+              borderRadius: "20px",
+              boxSizing: "border-box",
+            }}
+          >
+            {text}
+            <TextBubble
+              css={{
+                position: "absolute",
+                bottom: "-20px",
+                left: "0px",
+              }}
+            />
+          </div>
           <RabbitAnimatedBackground />
         </div>
       </div>

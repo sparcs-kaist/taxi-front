@@ -35,7 +35,7 @@ const RabbitAnimatedBackground = () => {
               <div />
             </div>
             <div className="rabbit-1__mouth">
-              <div />
+              <div></div>
             </div>
             <div className="rabbit-1__nose" />
             <div className="rabbit-1__eye1" />
