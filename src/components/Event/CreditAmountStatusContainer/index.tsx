@@ -22,7 +22,7 @@ const CreditAmountStatusContainer = () => {
       <div css={{ color: theme.white, ...theme.font16_bold, flexGrow: 1 }}>
         내가 모은 송편
       </div>
-      <CreditIcon style={{ width: "27px", height: "16px" }} />
+      <CreditIcon css={{ width: "27px", height: "16px" }} />
       <div css={{ color: theme.white, ...theme.font16_bold }}>
         {creditAmount || 0}
       </div>

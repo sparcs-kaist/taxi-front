@@ -37,8 +37,9 @@ const EventItemContainer = ({ value, fetchItems }: EventItemComponentProps) => {
       <img
         css={{
           width: "100%",
-          borderRadius: "12px",
+          borderRadius: "4px",
           aspectRatio: "1/1",
+          objectFit: "cover",
         }}
         src={value.imageUrl}
         alt={value.name}
@@ -50,7 +51,7 @@ const EventItemContainer = ({ value, fetchItems }: EventItemComponentProps) => {
           gap: "4px",
         }}
       >
-        <CreditIcon style={{ width: "27px", height: "16px" }} />
+        <CreditIcon css={{ width: "27px", height: "16px" }} />
         <div>{value.price}</div>
       </div>
       <ModalEvent2023FallItem

@@ -49,7 +49,7 @@ const ModalEvent2023FallItem = ({
         },
         onError: () => setAlert("구매를 실패하였습니다."),
       }),
-    [itemInfo._id]
+    [itemInfo._id, fetchItems, modalProps.onChangeIsOpen]
   );
 
   const [isDisabled, buttonText] = useMemo(
@@ -108,7 +108,7 @@ const ModalEvent2023FallItem = ({
             gap: "4px",
           }}
         >
-          <CreditIcon style={{ width: "27px", height: "16px" }} />
+          <CreditIcon css={{ width: "27px", height: "16px" }} />
           <div>{itemInfo.price}</div>
         </div>
         <Button
