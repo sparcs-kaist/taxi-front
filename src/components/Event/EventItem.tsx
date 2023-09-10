@@ -15,7 +15,12 @@ export type EventItemProps = {
   itemType: number;
 };
 
-const EventItem = (props: EventItemProps & { onClick: () => void }) => {
+type EventItemComponentProps = {
+  value: EventItemProps;
+  onClick: () => void;
+};
+
+const EventItem = ({ value, onClick }: EventItemComponentProps) => {
   return (
     <WhiteContainer
       css={{
@@ -30,7 +35,7 @@ const EventItem = (props: EventItemProps & { onClick: () => void }) => {
         gap: "8px",
         ...theme.font14,
       }}
-      onClick={props.onClick}
+      onClick={onClick}
     >
       <img
         css={{
@@ -38,10 +43,10 @@ const EventItem = (props: EventItemProps & { onClick: () => void }) => {
           borderRadius: "12px",
           aspectRatio: "1/1",
         }}
-        src={props.imageUrl}
-        alt={props.name}
+        src={value.imageUrl}
+        alt={value.name}
       />
-      <div css={theme.font14_bold}>{props.name}</div>
+      <div css={theme.font14_bold}>{value.name}</div>
       <div
         css={{
           display: "flex",
@@ -49,7 +54,7 @@ const EventItem = (props: EventItemProps & { onClick: () => void }) => {
         }}
       >
         <CreditIcon style={{ width: "27px", height: "16px" }} />
-        <div>{props.price}</div>
+        <div>{value.price}</div>
       </div>
     </WhiteContainer>
   );

@@ -3,6 +3,11 @@ import { useEffect } from "react";
 import { useAxios } from "hooks/useTaxiAPI";
 
 import {
+  useFetchEvent2023FallInfo,
+  useSetEvent2023FallInfo,
+  useValueEvent2023FallInfo,
+} from "./useFetchEvent2023FallInfo";
+import {
   useFetchLoginInfo,
   useSetLoginInfo,
   useValueLoginInfo,
@@ -23,6 +28,7 @@ import {
   useValueTaxiLocations,
 } from "./useFetchTaxiLocations";
 
+import { Event2023FallInfoType } from "atoms/event2023FallInfo";
 import { LoginInfoType } from "atoms/loginInfo";
 import { MyRoomsType } from "atoms/myRooms";
 import { notificationOptionsType } from "atoms/notificationOptions";
@@ -39,13 +45,15 @@ export type AtomName =
   | "loginInfo"
   | "taxiLocations"
   | "myRooms"
-  | "notificationOptions";
+  | "notificationOptions"
+  | "event2023FallInfo";
 
 type useValueRecoilStateType = {
   (atomName: "loginInfo"): LoginInfoType;
   (atomName: "taxiLocations"): TaxiLocationsType;
   (atomName: "myRooms"): MyRoomsType;
   (atomName: "notificationOptions"): notificationOptionsType;
+  (atomName: "event2023FallInfo"): Event2023FallInfoType;
 };
 const _useValueRecoilState = (atomName: AtomName) => {
   switch (atomName) {
@@ -57,6 +65,8 @@ const _useValueRecoilState = (atomName: AtomName) => {
       return useValueMyRooms();
     case "notificationOptions":
       return useValueNotificationOptions();
+    case "event2023FallInfo":
+      return useValueEvent2023FallInfo();
   }
 };
 export const useValueRecoilState =
@@ -72,6 +82,8 @@ export const useSetRecoilState = (atomName: AtomName) => {
       return useSetMyRooms();
     case "notificationOptions":
       return useSetNotificationOptions();
+    case "event2023FallInfo":
+      return useSetEvent2023FallInfo();
   }
 };
 
@@ -85,6 +97,8 @@ export const useFetchRecoilState = (atomName: AtomName) => {
       return useFetchMyRooms();
     case "notificationOptions":
       return useFetchNotificationOptions();
+    case "event2023FallInfo":
+      return useFetchEvent2023FallInfo();
   }
 };
 

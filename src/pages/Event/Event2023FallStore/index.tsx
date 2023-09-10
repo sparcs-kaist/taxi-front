@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
+import { useFetchRecoilState } from "hooks/useFetchRecoilState";
 import useQuery from "hooks/useTaxiAPI";
 
 import AdaptiveDiv from "components/AdaptiveDiv";
@@ -9,7 +10,6 @@ import HeaderWithLeftNav from "components/Header/HeaderWithLeftNav";
 import ModalEventItem from "components/ModalPopup/ModalEventItem";
 import Title from "components/Title";
 
-import { useFetchEventInfo } from "../hooks/useFetchEventInfo";
 import NPCSection from "./NPCSection";
 
 const EventItemList = ({
@@ -29,10 +29,10 @@ const EventItemList = ({
         justifyContent: "space-between",
       }}
     >
-      {itemList?.map((item: EventItemProps, key: number) => (
+      {itemList?.map((item: EventItemProps) => (
         <EventItem
-          {...item}
-          key={key}
+          key={item._id}
+          value={item}
           onClick={() => {
             setItemInfo(item);
             setIsOpenEventItem(true);
@@ -47,7 +47,20 @@ const Event2023FallStore = () => {
   const [, itemList] = useQuery.get("/events/2023fall/items/list");
   const [itemInfo, setItemInfo] = useState<EventItemProps>();
   const [isOpenEventItem, setIsOpenEventItem] = useState<boolean>(false);
-  const fetchEventInfo = useFetchEventInfo();
+  const fetchEventInfo = useFetchRecoilState("event2023FallInfo");
+  const getItemFilteredList = useCallback(
+    (type) =>
+      itemList?.items.filter((item: EventItemProps) => item.itemType === type),
+    [itemList]
+  );
+  const itemZeroList = useMemo(
+    () => getItemFilteredList(0),
+    [getItemFilteredList]
+  );
+  const itemOneList = useMemo(
+    () => getItemFilteredList(1),
+    [getItemFilteredList]
+  );
 
   useEffect(() => {
     fetchEventInfo();
@@ -71,18 +84,14 @@ const Event2023FallStore = () => {
       <AdaptiveDiv type="center">
         <Title isHeader>응모권</Title>
         <EventItemList
-          itemList={itemList?.items.filter(
-            (item: EventItemProps) => item.itemType === 1
-          )}
+          itemList={itemOneList}
           setItemInfo={setItemInfo}
           setIsOpenEventItem={setIsOpenEventItem}
         />
 
         <Title isHeader>아이템</Title>
         <EventItemList
-          itemList={itemList?.items.filter(
-            (item: EventItemProps) => item.itemType === 0
-          )}
+          itemList={itemZeroList}
           setItemInfo={setItemInfo}
           setIsOpenEventItem={setIsOpenEventItem}
         />

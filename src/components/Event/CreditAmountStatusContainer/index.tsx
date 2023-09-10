@@ -1,12 +1,13 @@
+import { useValueRecoilState } from "hooks/useFetchRecoilState";
+
 import WhiteContainer from "components/WhiteContainer";
-import { useValueEventInfo } from "pages/Event/hooks/useFetchEventInfo";
 
 import theme from "tools/theme";
 
 import { ReactComponent as CreditIcon } from "static/events/2023fallCredit.svg";
 
 const CreditAmountStatusContainer = () => {
-  const eventInfo = useValueEventInfo();
+  const eventInfo = useValueRecoilState("event2023FallInfo");
   return (
     <WhiteContainer
       css={{
@@ -22,7 +23,7 @@ const CreditAmountStatusContainer = () => {
       </div>
       <CreditIcon style={{ width: "27px", height: "16px" }} />
       <div css={{ color: theme.white, ...theme.font16_bold }}>
-        {eventInfo?.creditAmount}
+        {eventInfo?.creditAmount || 0}
       </div>
     </WhiteContainer>
   );
