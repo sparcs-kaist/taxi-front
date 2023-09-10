@@ -1,5 +1,7 @@
 import { useCallback } from "react";
 
+import type { EventItem } from "types/event2023fall";
+
 import {
   useFetchRecoilState,
   useValueRecoilState,
@@ -7,7 +9,6 @@ import {
 import { useAxios } from "hooks/useTaxiAPI";
 
 import Button from "components/Button";
-import { EventItemProps } from "components/Event/EventItem";
 import Modal from "components/Modal";
 
 import alertAtom from "atoms/alert";
@@ -19,12 +20,14 @@ import theme from "tools/theme";
 import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceWalletRounded";
 import { ReactComponent as CreditIcon } from "static/events/2023fallCredit.svg";
 
-type ModalEventItemProps = Omit<
-  Parameters<typeof Modal>[0],
-  "padding" | "children"
-> & { itemInfo: EventItemProps };
+type ModalEvent2023FallItemProps = Parameters<typeof Modal>[0] & {
+  itemInfo: EventItem;
+};
 
-const ModalEventItem = ({ itemInfo, ...modalProps }: ModalEventItemProps) => {
+const ModalEvent2023FallItem = ({
+  itemInfo,
+  ...modalProps
+}: ModalEvent2023FallItemProps) => {
   const styleTitle = {
     ...theme.font18,
     display: "flex",
@@ -119,4 +122,4 @@ const ModalEventItem = ({ itemInfo, ...modalProps }: ModalEventItemProps) => {
   );
 };
 
-export default ModalEventItem;
+export default ModalEvent2023FallItem;

@@ -1,26 +1,21 @@
+import { useState } from "react";
+
+import type { EventItem } from "types/event2023fall";
+
+import { ModalEvent2023FallItem } from "components/ModalPopup";
 import WhiteContainer from "components/WhiteContainer";
 
 import theme from "tools/theme";
 
 import { ReactComponent as CreditIcon } from "static/events/2023fallCredit.svg";
 
-export type EventItemProps = {
-  _id: string;
-  name: string;
-  imageUrl: string;
-  price: number;
-  description: string;
-  isDisabled: boolean;
-  stock: number;
-  itemType: number;
-};
-
 type EventItemComponentProps = {
-  value: EventItemProps;
-  onClick: () => void;
+  value: EventItem;
 };
 
-const EventItem = ({ value, onClick }: EventItemComponentProps) => {
+const EventItemContainer = ({ value }: EventItemComponentProps) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
   return (
     <WhiteContainer
       css={{
@@ -34,8 +29,9 @@ const EventItem = ({ value, onClick }: EventItemComponentProps) => {
         alignItems: "left",
         gap: "8px",
         ...theme.font14,
+        ...theme.cursor(),
       }}
-      onClick={onClick}
+      onClick={() => setIsOpen(true)}
     >
       <img
         css={{
@@ -56,8 +52,29 @@ const EventItem = ({ value, onClick }: EventItemComponentProps) => {
         <CreditIcon style={{ width: "27px", height: "16px" }} />
         <div>{value.price}</div>
       </div>
+      <ModalEvent2023FallItem
+        itemInfo={value}
+        isOpen={isOpen}
+        onChangeIsOpen={setIsOpen}
+      />
     </WhiteContainer>
   );
 };
 
-export default EventItem;
+const ItemListSection = ({ itemList }: { itemList: EventItem[] }) => {
+  return (
+    <div
+      css={{
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
+      }}
+    >
+      {itemList?.map((item: EventItem) => (
+        <EventItemContainer key={item._id} value={item} />
+      ))}
+    </div>
+  );
+};
+
+export default ItemListSection;

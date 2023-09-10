@@ -7,7 +7,8 @@ import theme from "tools/theme";
 import { ReactComponent as CreditIcon } from "static/events/2023fallCredit.svg";
 
 const CreditAmountStatusContainer = () => {
-  const eventInfo = useValueRecoilState("event2023FallInfo");
+  const { creditAmount } = useValueRecoilState("event2023FallInfo") || {};
+
   return (
     <WhiteContainer
       css={{
@@ -23,7 +24,7 @@ const CreditAmountStatusContainer = () => {
       </div>
       <CreditIcon style={{ width: "27px", height: "16px" }} />
       <div css={{ color: theme.white, ...theme.font16_bold }}>
-        {eventInfo?.creditAmount || 0}
+        {creditAmount || 0}
       </div>
     </WhiteContainer>
   );

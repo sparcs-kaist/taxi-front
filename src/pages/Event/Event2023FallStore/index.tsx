@@ -1,56 +1,23 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo } from "react";
+
+import type { EventItem } from "types/event2023fall";
 
 import { useFetchRecoilState } from "hooks/useFetchRecoilState";
 import useQuery from "hooks/useTaxiAPI";
 
 import AdaptiveDiv from "components/AdaptiveDiv";
-import type { EventItemProps } from "components/Event/EventItem";
-import EventItem from "components/Event/EventItem";
 import HeaderWithLeftNav from "components/Header/HeaderWithLeftNav";
-import ModalEventItem from "components/ModalPopup/ModalEventItem";
 import Title from "components/Title";
 
+import ItemListSection from "./ItemListSection";
 import NPCSection from "./NPCSection";
-
-const EventItemList = ({
-  itemList,
-  setItemInfo,
-  setIsOpenEventItem,
-}: {
-  itemList: EventItemProps[];
-  setItemInfo: (item: EventItemProps) => void;
-  setIsOpenEventItem: (isOpen: boolean) => void;
-}) => {
-  return (
-    <div
-      css={{
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "space-between",
-      }}
-    >
-      {itemList?.map((item: EventItemProps) => (
-        <EventItem
-          key={item._id}
-          value={item}
-          onClick={() => {
-            setItemInfo(item);
-            setIsOpenEventItem(true);
-          }}
-        />
-      ))}
-    </div>
-  );
-};
 
 const Event2023FallStore = () => {
   const [, itemList] = useQuery.get("/events/2023fall/items/list");
-  const [itemInfo, setItemInfo] = useState<EventItemProps>();
-  const [isOpenEventItem, setIsOpenEventItem] = useState<boolean>(false);
   const fetchEventInfo = useFetchRecoilState("event2023FallInfo");
   const getItemFilteredList = useCallback(
     (type) =>
-      itemList?.items.filter((item: EventItemProps) => item.itemType === type),
+      itemList?.items.filter((item: EventItem) => item.itemType === type),
     [itemList]
   );
   const itemZeroList = useMemo(
@@ -83,26 +50,10 @@ const Event2023FallStore = () => {
       <div css={{ marginTop: "-15px" }} />
       <AdaptiveDiv type="center">
         <Title isHeader>응모권</Title>
-        <EventItemList
-          itemList={itemOneList}
-          setItemInfo={setItemInfo}
-          setIsOpenEventItem={setIsOpenEventItem}
-        />
-
+        <ItemListSection itemList={itemOneList} />
         <Title isHeader>아이템</Title>
-        <EventItemList
-          itemList={itemZeroList}
-          setItemInfo={setItemInfo}
-          setIsOpenEventItem={setIsOpenEventItem}
-        />
+        <ItemListSection itemList={itemZeroList} />
       </AdaptiveDiv>
-      {itemInfo && (
-        <ModalEventItem
-          itemInfo={itemInfo}
-          isOpen={isOpenEventItem}
-          onChangeIsOpen={setIsOpenEventItem}
-        />
-      )}
     </>
   );
 };
