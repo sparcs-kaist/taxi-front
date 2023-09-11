@@ -25,6 +25,8 @@ export type ModalElemProps = {
   displayCloseBtn?: boolean;
   width?: PixelValue;
   padding?: Padding;
+  className?: string;
+  backgroundChildren?: ReactNode;
   children?: ReactNode;
   isAlert?: boolean;
 };
@@ -36,6 +38,8 @@ const ModalElem = ({
   displayCloseBtn = true,
   width = theme.modal_width,
   padding = "0px",
+  className,
+  backgroundChildren,
   children,
   isAlert = false,
 }: ModalElemProps) => {
@@ -111,8 +115,9 @@ const ModalElem = ({
   if (!shouldMount) return null;
   return (
     <div css={styleBgd} onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
+      {backgroundChildren}
       <AdaptiveDiv type="modal" width={width}>
-        <div ref={modalRef} css={styleBody}>
+        <div ref={modalRef} className={className} css={styleBody}>
           {children}
           {displayCloseBtn && (
             <CloseRoundedIcon style={styleBtn} onClick={closeHandler} />

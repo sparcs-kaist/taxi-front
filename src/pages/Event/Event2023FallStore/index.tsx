@@ -6,11 +6,14 @@ import useDateToken from "hooks/useDateToken";
 import useQuery from "hooks/useTaxiAPI";
 
 import AdaptiveDiv from "components/AdaptiveDiv";
+import CreditAmountStatusContainer from "components/Event/CreditAmountStatusContainer";
 import HeaderWithLeftNav from "components/Header/HeaderWithLeftNav";
 import Title from "components/Title";
 
 import ItemListSection from "./ItemListSection";
 import NPCSection from "./NPCSection";
+
+import theme from "tools/theme";
 
 const Event2023FallStore = () => {
   const [itemListToken, fetchItemList] = useDateToken();
@@ -40,8 +43,18 @@ const Event2023FallStore = () => {
         ]}
       />
       <NPCSection />
-      <div css={{ marginTop: "-15px" }} />
       <AdaptiveDiv type="center">
+        <div
+          css={{
+            position: "sticky",
+            top: "75px",
+            marginTop: "-60px",
+            zIndex: theme.zIndex_nav - 1,
+          }}
+        >
+          <CreditAmountStatusContainer />
+        </div>
+        <div css={{ marginTop: "-15px" }} />
         <Title isHeader>응모권</Title>
         <ItemListSection items={itemTypeZeros} fetchItems={fetchItemList} />
         <Title isHeader>아이템</Title>
