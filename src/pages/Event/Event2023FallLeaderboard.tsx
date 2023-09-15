@@ -2,11 +2,11 @@ import AdaptiveDiv from "components/AdaptiveDiv";
 import HeaderWithLeftNav from "components/Header/HeaderWithLeftNav";
 import Title from "components/Title";
 
-const Event2023FallHistory = () => {
+const Event2023FallLeaderboard = () => {
   return (
     <AdaptiveDiv type="center">
       <HeaderWithLeftNav
-        value="history"
+        value="leaderboard"
         options={[
           { value: "store", label: "달토끼 상점", to: "/event/2023fall-store" },
           {
@@ -22,10 +22,10 @@ const Event2023FallHistory = () => {
         ]}
       />
       <Title icon="notice" isHeader>
-        2023Fall 구매 이력
+        리더보드
       </Title>
     </AdaptiveDiv>
   );
 };
 
-export default Event2023FallHistory;
+export default Event2023FallLeaderboard;
