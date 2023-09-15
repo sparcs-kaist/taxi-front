@@ -76,18 +76,21 @@ const BodyText = ({ sendMessage }: BodyTextProps) => {
   };
 
   /* textarea event handler */
-  const onChange = (e: Event) => {
-    if (!textareaRef.current) return;
-    if (isSendingMessage) refreshTextArea();
-    setIsMessageValidState(getIsMessageValid(textareaRef.current.value));
+  const onChange = useCallback(
+    (e: Event) => {
+      if (!textareaRef.current) return;
+      if (isSendingMessage) refreshTextArea();
+      setIsMessageValidState(getIsMessageValid(textareaRef.current.value));
 
-    if (isEnterPressed.current && !isShiftPressed.current) {
-      onSend();
-      return;
-    }
-    resizeEvent();
-  };
-  const onKeyEvent = useCallback((e: KeyboardEvent, v: boolean) => {
+      if (isEnterPressed.current && !isShiftPressed.current) {
+        onSend();
+        return;
+      }
+      resizeEvent();
+    },
+    [isSendingMessage, getIsMessageValid, onSend]
+  );
+  const onKeyEvent = (e: KeyboardEvent, v: boolean) => {
     if (e.code === "ShiftLeft" || e.code === "ShiftRight")
       isShiftPressed.current = v;
     if (e.code === "Enter") {
@@ -97,12 +100,12 @@ const BodyText = ({ sendMessage }: BodyTextProps) => {
       }
       isEnterPressed.current = v;
     }
-  }, []);
-  const onKeyDown = useCallback((e: KeyboardEvent) => onKeyEvent(e, true), []);
-  const onKeyUp = useCallback((e: KeyboardEvent) => onKeyEvent(e, false), []);
+  };
+  const onKeyDown = (e: KeyboardEvent) => onKeyEvent(e, true);
+  const onKeyUp = (e: KeyboardEvent) => onKeyEvent(e, false);
 
   /* textarea refresh handler */
-  const refreshTextArea = useCallback(() => {
+  const refreshTextArea = () => {
     if (!wrapRef.current) return;
     if (textareaRef.current) wrapRef.current.removeChild(textareaRef.current);
     const textarea = document.createElement("textarea");
@@ -114,8 +117,8 @@ const BodyText = ({ sendMessage }: BodyTextProps) => {
     textareaRef.current = textarea;
     wrapRef.current.prepend(textarea);
     resizeEvent();
-  }, []);
-  useEffect(refreshTextArea, []);
+  };
+  useEffect(refreshTextArea, [sendMessage]);
 
   return (
     <div
