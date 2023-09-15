@@ -83,6 +83,11 @@ const Event2023FallHistory = () => {
             label: "구매 이력",
             to: "/event/2023fall-history",
           },
+          {
+            value: "leaderboard",
+            label: "리더보드",
+            to: "/event/2023fall-leaderboard",
+          },
         ]}
       />
       <AdaptiveDiv type="center">

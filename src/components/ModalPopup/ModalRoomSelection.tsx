@@ -78,7 +78,11 @@ const ModalRoomSelection = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onChangeIsOpen={onChangeIsOpen} padding="10px">
+    <Modal
+      isOpen={isOpen}
+      onChangeIsOpen={onChangeIsOpen}
+      css={{ padding: "10px" }}
+    >
       {roomInfo && (
         <>
           <div css={styleTitle}>{roomInfo.name}</div>
