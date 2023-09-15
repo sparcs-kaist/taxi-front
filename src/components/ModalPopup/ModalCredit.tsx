@@ -1,132 +1,177 @@
+import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
-import DottedLine from "components/DottedLine";
+import { Members } from "types/members";
+
 import Modal from "components/Modal";
+import Navigation from "components/Navigation";
 
 import theme from "tools/theme";
 
 import { ReactComponent as SparcsLogoBlack } from "static/assets/SparcsLogoBlack.svg";
 import { ReactComponent as SparcsLogoYellow } from "static/assets/SparcsLogoYellow.svg";
-import members from "static/members";
+import {
+  members,
+  members2023FallEvent,
+  members2023SpringEvent,
+} from "static/members";
 
-type MemberProps = {
-  name: string;
-  id: string;
-  period: string;
-};
+type MemberProps = Members[number]["list"][number];
 
-const Member = ({ name, id, period }: MemberProps) => {
-  const styleBox = {
-    background: theme.purple_light,
-    borderRadius: "10px",
-    padding: "16px 12px 12px",
-    boxShadow: theme.shadow,
-    display: "flex",
-    flexDirection: "column" as const,
-  };
-  const styleRow = {
-    display: "flex",
-    alignItems: "center",
-    marginBottom: "8px",
-  };
-  const styleName = {
-    ...theme.font14_bold,
-    whiteSpace: "nowrap" as const,
-  };
-  const styleLogo = {
-    height: "18px",
-    paddingLeft: "8px",
-    paddingRight: "4px",
-  };
-  const styleNickname = {
-    ...theme.font12,
-    color: theme.yellow,
-    fontWeight: "bold",
-  };
-  const stylePeriod = {
-    ...theme.font10_bold,
-    color: theme.gray_text,
-  };
-
-  return (
-    <div css={styleBox}>
-      <div css={styleRow}>
-        <div css={styleName}>{name}</div>
-        <SparcsLogoYellow style={styleLogo} />
-        <div css={styleNickname}>{id}</div>
+const Member = ({ name, id, period }: MemberProps) => (
+  <div
+    css={{
+      background: theme.purple_light,
+      borderRadius: "10px",
+      padding: "16px 12px 12px",
+      boxShadow: theme.shadow,
+      display: "flex",
+      flexDirection: "column",
+    }}
+  >
+    <div
+      css={{
+        display: "flex",
+        alignItems: "center",
+        marginBottom: "8px",
+      }}
+    >
+      <div
+        css={{
+          ...theme.font14_bold,
+          whiteSpace: "nowrap" as const,
+        }}
+      >
+        {name}
       </div>
-      <div css={stylePeriod}>{period}</div>
+      <SparcsLogoYellow
+        style={{
+          height: "18px",
+          paddingLeft: "8px",
+          paddingRight: "4px",
+        }}
+      />
+      <div
+        css={{
+          ...theme.font12,
+          color: theme.yellow,
+          fontWeight: "bold",
+        }}
+      >
+        {id}
+      </div>
     </div>
-  );
-};
+    <div
+      css={{
+        ...theme.font10_bold,
+        color: theme.gray_text,
+      }}
+    >
+      {period}
+    </div>
+  </div>
+);
 
-type ModalCreditProps = Parameters<typeof Modal>[0];
+type BodyMembersProps = { values: Members };
 
-const ModalCredit = (modalProps: ModalCreditProps) => {
+const BodyMembers = ({ values }: BodyMembersProps) => (
+  <div
+    css={{
+      overflow: "auto",
+      paddingTop: "12px",
+      minHeight: "270px",
+      height: "calc(100vh - 360px)",
+      maskImage:
+        "linear-gradient(to bottom, transparent, white 16px, white calc(100% - 16px), transparent 100%)",
+    }}
+  >
+    {values.map(({ position, list }) => (
+      <div key={position}>
+        <div
+          css={{
+            ...theme.font14_bold,
+            padding: "0 0 12px 12px",
+          }}
+        >
+          {position}
+        </div>
+        <div
+          css={{
+            display: "flex",
+            flexWrap: "wrap" as const,
+            gap: "12px",
+            paddingBottom: "12px",
+          }}
+        >
+          {list.map((member) => (
+            <Member key={member.id} {...member} />
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+);
+
+type ModalCreditProps = {
+  defaultSelectedCatagory?: string;
+} & Parameters<typeof Modal>[0];
+
+const ModalCredit = ({
+  defaultSelectedCatagory,
+  ...modalProps
+}: ModalCreditProps) => {
   const { t } = useTranslation("mypage");
+  const pages = useMemo(
+    () => [
+      {
+        key: "all",
+        name: t("page_credit.category_all"),
+        body: <BodyMembers values={members} />,
+      },
+      {
+        key: "2023FallEvent",
+        name: t("page_credit.category_2023fall_event"),
+        body: <BodyMembers values={members2023FallEvent} />,
+      },
+      {
+        key: "2023SpringEvent",
+        name: t("page_credit.category_2023spring_event"),
+        body: <BodyMembers values={members2023SpringEvent} />,
+      },
+    ],
+    [t]
+  );
 
-  const styleTitle = {
-    ...theme.font18,
-    display: "flex",
-    alignItems: "center",
-    marginBottom: "12px",
-  };
-  const styleLogo = {
-    height: "21px",
-    width: "auto",
-    margin: "0 8px",
-  };
-  const styleContainer = {
-    overflow: "auto",
-    paddingTop: "12px",
-    minHeight: "270px",
-    height: "calc(100vh - 360px)",
-    maskImage:
-      "linear-gradient(to bottom, transparent, white 16px, white calc(100% - 16px), transparent 100%)",
-  };
-  const styleRole = {
-    ...theme.font14_bold,
-    padding: "0 0 12px 12px",
-  };
-  const styleMemberContainer = {
-    display: "flex",
-    flexWrap: "wrap" as const,
-    gap: "12px",
-    paddingBottom: "12px",
-  };
   return (
     <Modal
       width={theme.modal_width_large}
-      padding="16px 12px 12px"
+      css={{ padding: "16px 12px 12px" }}
       {...modalProps}
     >
-      <div css={styleTitle}>
-        <SparcsLogoBlack style={styleLogo} />
+      <div
+        css={{
+          ...theme.font18,
+          display: "flex",
+          alignItems: "center",
+          marginBottom: "12px",
+        }}
+      >
+        <SparcsLogoBlack
+          style={{
+            height: "21px",
+            width: "auto",
+            margin: "0 8px",
+          }}
+        />
         {t("credit")}
       </div>
-      <DottedLine direction="row" />
-      <div css={styleContainer}>
-        {members.map((item) => {
-          return (
-            <div key={item.position}>
-              <div css={styleRole}>{item.position}</div>
-              <div css={styleMemberContainer}>
-                {item.list.map((member) => (
-                  <Member
-                    name={member.name}
-                    id={member.id}
-                    period={member.period}
-                    key={member.id}
-                  />
-                ))}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-      <DottedLine direction="row" />
+      <Navigation
+        defaultSelectedKey={defaultSelectedCatagory}
+        pages={pages}
+        isDisplayDottedLine
+      />
     </Modal>
   );
 };
 
-export default ModalCredit;
+export default memo(ModalCredit);

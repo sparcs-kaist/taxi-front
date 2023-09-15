@@ -12,6 +12,7 @@ import Title from "components/Title";
 
 import ItemListSection from "./ItemListSection";
 import NPCSection from "./NPCSection";
+import PublicNoticeContainer from "./PublicNoticeContainer";
 
 import theme from "tools/theme";
 
@@ -40,6 +41,11 @@ const Event2023FallStore = () => {
             label: "구매 이력",
             to: "/event/2023fall-history",
           },
+          {
+            value: "leaderboard",
+            label: "리더보드",
+            to: "/event/2023fall-leaderboard",
+          },
         ]}
       />
       <NPCSection />
@@ -54,6 +60,7 @@ const Event2023FallStore = () => {
         >
           <CreditAmountStatusContainer />
         </div>
+        <PublicNoticeContainer />
         <div css={{ marginTop: "-15px" }} />
         <Title isHeader>응모권</Title>
         <ItemListSection items={itemTypeZeros} fetchItems={fetchItemList} />

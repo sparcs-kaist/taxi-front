@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+
+import DottedLine from "./DottedLine";
 
 import theme from "tools/theme";
 
@@ -14,6 +16,8 @@ type ButtonNavigationProps = {
 };
 type NavigationProps = {
   pages: Array<Page>;
+  isDisplayDottedLine?: boolean;
+  defaultSelectedKey?: string;
 };
 
 const OptionNavigation = ({
@@ -40,8 +44,18 @@ const OptionNavigation = ({
   </div>
 );
 
-const Navigation = ({ pages }: NavigationProps) => {
-  const [selected, setSelected] = useState(pages?.[0]?.key || "");
+const Navigation = ({
+  pages,
+  isDisplayDottedLine = false,
+  defaultSelectedKey,
+}: NavigationProps) => {
+  const defaultSelected: string = useMemo(
+    () => defaultSelectedKey || pages?.[0]?.key || "",
+    [defaultSelectedKey, pages]
+  );
+  const [selected, setSelected] = useState<string>(defaultSelected);
+  useEffect(() => setSelected(defaultSelected), [defaultSelected]);
+
   return (
     <>
       <div
@@ -61,6 +75,7 @@ const Navigation = ({ pages }: NavigationProps) => {
           />
         ))}
       </div>
+      {isDisplayDottedLine && <DottedLine />}
       {pages.find(({ key }) => key === selected)?.body}
     </>
   );

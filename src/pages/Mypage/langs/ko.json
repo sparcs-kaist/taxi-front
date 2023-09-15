@@ -27,6 +27,11 @@
     "nickname_failed": "닉네임 변경에 실패했습니다",
     "account_failed": "계좌번호 변경에 실패했습니다"
   },
+  "page_credit": {
+    "category_all": "전체",
+    "category_2023fall_event": "2023 가을학기 추석 송편 이벤트",
+    "category_2023spring_event": "2023 봄학기 택시 탑승 인증 이벤트"
+  },
   "page_report": {
     "inquiry": "아래 신고 내역에 대해 문의하고 싶으신 경우 “채널톡 문의하기” 메뉴를 이용해주세요.",
     "reported": "신고한 내역",
