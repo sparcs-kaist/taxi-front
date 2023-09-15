@@ -45,7 +45,7 @@ const ModalEvent2023FallItem = ({
           fetchEvent2023FallInfo();
           fetchItems?.();
           modalProps.onChangeIsOpen?.(false);
-          setAlert("구매가 완료되었습니다.");
+          setAlert("구매가 완료되었습니다. 구매 이력에서 확인보세요.");
         },
         onError: () => setAlert("구매를 실패하였습니다."),
       }),

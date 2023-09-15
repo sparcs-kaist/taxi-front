@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 import AdaptiveDiv from "components/AdaptiveDiv";
 import Title from "components/Title";
 
@@ -11,4 +13,4 @@ const Event2023Fall = () => {
   );
 };
 
-export default Event2023Fall;
+export default memo(Event2023Fall);

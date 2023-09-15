@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { memo, useCallback, useMemo } from "react";
 
 import type { EventItem } from "types/event2023fall";
 
@@ -22,11 +22,11 @@ const Event2023FallStore = () => {
     itemListToken,
   ])[1] || { items: [] };
   const getItemFilteredList = useCallback(
-    (type) => items.filter((item: EventItem) => item.itemType === type),
+    (types) => items.filter((item: EventItem) => types.includes(item.itemType)),
     [items]
   );
   const [itemTypeZeros, itemTypeOnes] = useMemo(
-    () => [getItemFilteredList(0), getItemFilteredList(1)],
+    () => [getItemFilteredList([0]), getItemFilteredList([1, 2])],
     [getItemFilteredList]
   );
 
@@ -62,13 +62,17 @@ const Event2023FallStore = () => {
         </div>
         <PublicNoticeContainer />
         <div css={{ marginTop: "-15px" }} />
-        <Title isHeader>응모권</Title>
-        <ItemListSection items={itemTypeZeros} fetchItems={fetchItemList} />
-        <Title isHeader>아이템</Title>
+        <Title icon="ticket" isHeader>
+          응모권
+        </Title>
         <ItemListSection items={itemTypeOnes} fetchItems={fetchItemList} />
+        <Title icon="shop" isHeader>
+          아이템
+        </Title>
+        <ItemListSection items={itemTypeZeros} fetchItems={fetchItemList} />
       </AdaptiveDiv>
     </>
   );
 };
 
-export default Event2023FallStore;
+export default memo(Event2023FallStore);

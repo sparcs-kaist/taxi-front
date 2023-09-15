@@ -8,3 +8,13 @@ export type EventItem = {
   stock: number;
   itemType: number;
 };
+
+export type Transaction = {
+  _id: string;
+  type: "get" | "use";
+  amount: number;
+  eventId?: string;
+  itemId?: string;
+  comment: string;
+  doneat: Date;
+};

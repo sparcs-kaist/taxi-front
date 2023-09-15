@@ -3,9 +3,11 @@ import { ReactNode, memo } from "react";
 import theme from "tools/theme";
 
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import ConfirmationNumberRoundedIcon from "@mui/icons-material/ConfirmationNumberRounded";
 import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
 import FavoriteRoundedIocn from "@mui/icons-material/FavoriteRounded";
 import FeedRounedIcon from "@mui/icons-material/FeedRounded";
+import FestivalRoundedIcon from "@mui/icons-material/FestivalRounded";
 import HailRoundedIcon from "@mui/icons-material/HailRounded";
 import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
 import LocalTaxiRoundedIcon from "@mui/icons-material/LocalTaxiRounded";
@@ -14,6 +16,7 @@ import NotificationsActiveRoundedIcon from "@mui/icons-material/NotificationsAct
 import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 import QuestionAnswerRoundedIcon from "@mui/icons-material/QuestionAnswerRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
 import SubjectRoundedIcon from "@mui/icons-material/SubjectRounded";
 
 type IconProps = {
@@ -30,7 +33,10 @@ type IconProps = {
     | "error"
     | "feed"
     | "favorite"
-    | "notice";
+    | "notice"
+    | "ticket"
+    | "festival"
+    | "shop";
 };
 
 type TitleProps = {
@@ -73,6 +79,12 @@ const Icon = ({ type: icon }: IconProps) => {
       return <FavoriteRoundedIocn style={iconStyle} />;
     case "notice":
       return <NotificationsActiveRoundedIcon style={iconStyle} />;
+    case "ticket":
+      return <ConfirmationNumberRoundedIcon style={iconStyle} />;
+    case "festival":
+      return <FestivalRoundedIcon style={iconStyle} />;
+    case "shop":
+      return <ShoppingCartRoundedIcon style={iconStyle} />;
     default:
       return <></>;
   }

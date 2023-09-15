@@ -1,4 +1,4 @@
-import { ReactNode, useRef } from "react";
+import { ReactNode, memo, useEffect, useRef, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import AdaptiveDiv from "components/AdaptiveDiv";
@@ -53,7 +53,16 @@ type HeaderWithLeftNavProps = {
 const HeaderWithLeftNav = ({ value, options = [] }: HeaderWithLeftNavProps) => {
   const navRef = useRef<HTMLDivElement>(null);
   const padRef = useRef<HTMLDivElement>(null);
+  const [padHeight, setPadHeight] = useState<number>(0);
   const history = useHistory();
+
+  useEffect(
+    () =>
+      setPadHeight(
+        (navRef.current?.offsetHeight || 0) - (padRef.current?.offsetTop || 0)
+      ),
+    []
+  );
 
   const style = {
     position: "fixed" as const,
@@ -107,14 +116,11 @@ const HeaderWithLeftNav = ({ value, options = [] }: HeaderWithLeftNavProps) => {
       <div
         ref={padRef}
         css={{
-          height: `${
-            (navRef.current?.offsetHeight || 0) -
-            (padRef.current?.offsetTop || 0)
-          }px`,
+          height: `${padHeight}px`,
         }}
       />
     </>
   );
 };
 
-export default HeaderWithLeftNav;
+export default memo(HeaderWithLeftNav);
