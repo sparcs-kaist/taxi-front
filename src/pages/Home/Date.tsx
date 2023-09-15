@@ -1,8 +1,7 @@
-import { useState } from "react";
+import useHoverProps from "hooks/theme/useHoverProps";
 
 import MiniCircle from "components/MiniCircle";
 
-import hoverEventSet from "tools/hoverEventSet";
 import moment from "tools/moment";
 import theme from "tools/theme";
 
@@ -16,7 +15,7 @@ type DateProps = {
 };
 
 const Date = (props: DateProps) => {
-  const [isHover, setHover] = useState(false);
+  const [hoverProps, isHover] = useHoverProps();
   const week = moment(props.date).day();
   const koWeek = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -28,7 +27,7 @@ const Date = (props: DateProps) => {
     ...theme.font10,
     opacity: 0.632,
     color:
-      week == 0 ? theme.red_text : week == 6 ? theme.blue_text : theme.black,
+      week === 0 ? theme.red_text : week === 6 ? theme.blue_text : theme.black,
     textAlign: "center" as any,
   };
   const styleBox = {
@@ -76,7 +75,7 @@ const Date = (props: DateProps) => {
       <div
         css={styleBox}
         onClick={() => props.onClick(props.date)}
-        {...hoverEventSet(setHover)}
+        {...hoverProps}
       >
         <div css={styleDate}>
           {props.type === "all" ? "전체" : props.date[2]}

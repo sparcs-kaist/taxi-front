@@ -1,48 +1,51 @@
-import ProfileImg from "./ProfileImg";
+import ProfileImage from "./ProfileImage";
 
 import theme from "tools/theme";
 
-type UserProps = {
-  value: User;
-  //   type?: "defalut" | "settlement" | "departed";
-};
+type UserProps = { value: User; isDeparted?: boolean };
 
-const User = ({ value }: UserProps) => (
-  <div
-    css={{
-      display: "flex",
-      alignItems: "center",
-      gap: "4px",
-      maxWidth: "100%",
-    }}
-  >
+const User = ({ value, isDeparted }: UserProps) => {
+  const isSettlement =
+    value?.isSettlement === "paid" || value?.isSettlement === "sent";
+  return (
     <div
       css={{
-        minWidth: "21px",
-        height: "21px",
-        overflow: "hidden",
-        borderRadius: "50%",
-        background: theme.gray_line,
+        display: "flex",
+        alignItems: "center",
+        gap: "4px",
+        maxWidth: "100%",
       }}
     >
-      <ProfileImg path={value.profileImageUrl} />
+      <div
+        css={{
+          minWidth: "21px",
+          height: "21px",
+          overflow: "hidden",
+          borderRadius: "50%",
+          background: theme.gray_line,
+        }}
+      >
+        <ProfileImage url={value.profileImageUrl} />
+      </div>
+      <div
+        css={{
+          ...theme.font10,
+          borderRadius: "6px",
+          padding: "4px 6px 3px",
+          boxShadow: theme.shadow_gray_input_inset,
+          color: isDeparted && isSettlement ? theme.white : theme.gray_text,
+          background:
+            isDeparted && isSettlement ? theme.purple : theme.gray_background,
+          ...theme.ellipsis,
+        }}
+      >
+        {value.nickname}
+        {isDeparted && !isSettlement && (
+          <span style={theme.font8}>(미정산)</span>
+        )}
+      </div>
     </div>
-    <div
-      css={{
-        ...theme.font10,
-        borderRadius: "6px",
-        padding: "4px 6px 3px",
-        boxShadow: theme.shadow_gray_input_inset,
-        color: theme.gray_text,
-        background: theme.gray_background,
-        overflow: "hidden",
-        whiteSpace: "nowrap",
-        textOverflow: "ellipsis",
-      }}
-    >
-      {value.nickname}
-    </div>
-  </div>
-);
+  );
+};
 
 export default User;

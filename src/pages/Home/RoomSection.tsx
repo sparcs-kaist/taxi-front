@@ -4,8 +4,8 @@ import { useHistory } from "react-router-dom";
 import useDateToken from "hooks/useDateToken";
 import { useAxios, useQuery } from "hooks/useTaxiAPI";
 
+import AdaptiveDiv from "components/AdaptiveDiv";
 import { ModalRoomSelection } from "components/ModalPopup";
-import RLayout from "components/RLayout";
 import Title from "components/Title";
 
 import RoomList from "./RoomList";
@@ -38,10 +38,10 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
   const rooms = useMemo(() => {
     if (!allRooms) return null;
     const time = moment(selectedDate);
-    return time.date() == today.date()
+    return time.date() === today.date()
       ? allRooms
       : allRooms?.filter(
-          (room: Room) => moment(room.time).date() == time.date()
+          (room: Room) => moment(room.time).date() === time.date()
         );
   }, [allRooms, selectedDate]);
 
@@ -56,7 +56,7 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
   // 방이 선택되면 해당 방의 정보를 가져옵니다.
   useEffect(() => {
     if (!roomId || !allRooms) return setRoomInfo(null);
-    const _roomInfo = allRooms?.find((room: any) => room._id == roomId);
+    const _roomInfo = allRooms?.find((room: any) => room._id === roomId);
     if (_roomInfo) return setRoomInfo(_roomInfo);
     axios({
       url: "/rooms/publicInfo",
@@ -71,7 +71,7 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
   }, [roomId, allRooms]);
 
   return (
-    <RLayout.R1>
+    <AdaptiveDiv type="center">
       <ModalRoomSelection
         isOpen={!!roomInfo}
         onChangeIsOpen={() =>
@@ -79,7 +79,7 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
         }
         roomInfo={roomInfo}
       />
-      <Title icon="taxi" header>
+      <Title icon="taxi" isHeader>
         요일별 출발하는 방
       </Title>
       <SelectDate
@@ -90,7 +90,7 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
         }}
       />
       <RoomList rooms={rooms} />
-    </RLayout.R1>
+    </AdaptiveDiv>
   );
 };
 

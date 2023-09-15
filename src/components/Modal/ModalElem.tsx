@@ -12,7 +12,7 @@ import { useDelayBoolean } from "hooks/useDelay";
 import useDisableScrollEffect from "hooks/useDisableScrollEffect";
 import useKeyboardOperationEffect from "hooks/useKeyboardOperationEffect";
 
-import RLayout from "components/RLayout";
+import AdaptiveDiv from "components/AdaptiveDiv";
 
 import theme from "tools/theme";
 
@@ -25,7 +25,9 @@ export type ModalElemProps = {
   displayCloseBtn?: boolean;
   width?: PixelValue;
   padding?: Padding;
-  children: ReactNode;
+  className?: string;
+  backgroundChildren?: ReactNode;
+  children?: ReactNode;
   isAlert?: boolean;
 };
 
@@ -36,6 +38,8 @@ const ModalElem = ({
   displayCloseBtn = true,
   width = theme.modal_width,
   padding = "0px",
+  className,
+  backgroundChildren,
   children,
   isAlert = false,
 }: ModalElemProps) => {
@@ -111,14 +115,15 @@ const ModalElem = ({
   if (!shouldMount) return null;
   return (
     <div css={styleBgd} onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
-      <RLayout.Popup width={parseFloat(width.replace("px", ""))}>
-        <div ref={modalRef} css={styleBody}>
+      {backgroundChildren}
+      <AdaptiveDiv type="modal" width={width}>
+        <div ref={modalRef} className={className} css={styleBody}>
           {children}
           {displayCloseBtn && (
             <CloseRoundedIcon style={styleBtn} onClick={closeHandler} />
           )}
         </div>
-      </RLayout.Popup>
+      </AdaptiveDiv>
     </div>
   );
 };

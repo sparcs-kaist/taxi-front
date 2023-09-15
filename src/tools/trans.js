@@ -1,10 +1,10 @@
-import { firebaseConfig, s3BaseUrl } from "loadenv";
+import { firebaseConfig, s3BaseUrl } from "tools/loadenv";
 
 const getS3Url = (x) => `${s3BaseUrl}${x}`;
 
 const getDynamicLink = (to, fallback = true) => {
   const { host, androidPacakgeName, iosAppBundleId, appStoreId } =
-    firebaseConfig?.dinamicLink || {};
+    firebaseConfig?.dynamicLink || {};
   const { origin } = window.location;
 
   if (!host) return `${origin}${to}`;

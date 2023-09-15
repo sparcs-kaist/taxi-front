@@ -8,6 +8,7 @@ import {
 } from "hooks/useFetchRecoilState";
 import { useAxios } from "hooks/useTaxiAPI";
 
+import AdaptiveDiv from "components/AdaptiveDiv";
 import Button from "components/Button";
 import {
   OptionDate,
@@ -16,7 +17,6 @@ import {
   OptionPlace,
   OptionTime,
 } from "components/ModalRoomOptions";
-import RLayout from "components/RLayout";
 import Title from "components/Title";
 import WhiteContainerSuggestLogin from "components/WhiteContainer/WhiteContainerSuggestLogin";
 import { MAX_PARTICIPATION } from "pages/Myroom";
@@ -121,10 +121,10 @@ const AddRoom = () => {
 
   return (myRooms?.ongoing.length ?? 0) < MAX_PARTICIPATION ? (
     <div>
-      <Title icon="add" header marginAuto>
-        방 개설하기
-      </Title>
-      <RLayout.R1>
+      <AdaptiveDiv type="center">
+        <Title icon="add" isHeader>
+          방 개설하기
+        </Title>
         {isLogin ? (
           <>
             <OptionPlace value={valuePlace} handler={setPlace} />
@@ -139,9 +139,11 @@ const AddRoom = () => {
             <Button
               type="purple"
               disabled={validatedMsg ? true : false}
-              padding="14px 0 13px"
-              radius={12}
-              font={theme.font16_bold}
+              css={{
+                padding: "14px 0 13px",
+                borderRadius: "12px",
+                ...theme.font16_bold,
+              }}
               onClick={onClickAdd}
               className="scroll-to-button"
             >
@@ -162,7 +164,7 @@ const AddRoom = () => {
         ) : (
           <WhiteContainerSuggestLogin />
         )}
-      </RLayout.R1>
+      </AdaptiveDiv>
     </div>
   ) : (
     <FullParticipation />

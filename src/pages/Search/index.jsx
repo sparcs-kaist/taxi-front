@@ -3,9 +3,10 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useHistory, useLocation } from "react-router-dom";
 
-import { useR2state } from "hooks/useReactiveState";
+import useButterflyState from "hooks/useButterflyState";
 import { useAxios } from "hooks/useTaxiAPI";
 
+import AdaptiveDiv from "components/AdaptiveDiv";
 import Button from "components/Button";
 import {
   OptionDate,
@@ -14,7 +15,6 @@ import {
   OptionPlace,
   OptionTime,
 } from "components/ModalRoomOptions";
-import RLayout from "components/RLayout";
 import ScrollUpButton from "components/ScrollUpButton";
 import Title from "components/Title";
 import Tooltip from "components/Tooltip";
@@ -38,7 +38,7 @@ const Search = () => {
   ]);
   const history = useHistory();
   const { search } = useLocation();
-  const reactiveState = useR2state();
+  const butterflyState = useButterflyState();
   const today10 = getToday10();
   const setError = useSetRecoilState(errorAtom);
 
@@ -202,7 +202,7 @@ const Search = () => {
 
   // 검색 결과 생성 후 스크롤
   useEffect(() => {
-    if (!searchResult || reactiveState !== 3) return;
+    if (!searchResult || butterflyState !== "fold") return;
     setTimeout(() => {
       const scrollToResult = scrollRef.current?.offsetTop + 79; // '검색 결과'의 parent 내에서의 offset + '방 검색하기'의 height
       window.scrollTo({ top: scrollToResult, behavior: "smooth" });
@@ -212,7 +212,7 @@ const Search = () => {
   // scroll & resize 이벤트 등록 및 해제
   useEffect(() => {
     const onScrollOrResize = () => {
-      if (!searchResult && reactiveState !== 3) return;
+      if (!searchResult && butterflyState !== "fold") return;
       const scrolled =
         scrollRef.current?.getBoundingClientRect().top < window.innerHeight / 2; // 화면의 1/2 지점을 넘어설 때
       setShowScrollButton(scrolled);
@@ -263,9 +263,11 @@ const Search = () => {
       <Button
         type="purple"
         disabled={isDisabled}
-        padding="14px 0 13px"
-        radius={12}
-        font={theme.font16_bold}
+        css={{
+          padding: "14px 0 13px",
+          borderRadius: "12px",
+          ...theme.font16_bold,
+        }}
         onClick={onClickSearch}
         className="scroll-to-button"
       >
@@ -274,7 +276,7 @@ const Search = () => {
       {!Object.values(searchOptions).some((option) => option) && (
         <Tooltip text="검색 옵션을 선택하지 않을 경우 '빠른 출발 검색'이 가능합니다. 현재 시각에서 24시간 내의 방들이 검색됩니다." />
       )}
-      {searchResult && reactiveState === 3 && (
+      {searchResult && butterflyState === "fold" && (
         <div style={{ paddingTop: "30px" }} ref={scrollRef}>
           <Title icon="search_result">검색 결과</Title>
           <SideResult result={searchResult} mobile />
@@ -283,15 +285,21 @@ const Search = () => {
       )}
     </>
   );
-  const rightLay = reactiveState !== 3 && searchResult && (
+  const rightLay = butterflyState !== "fold" && searchResult && (
     <SideResult result={searchResult} />
   );
   return (
     <>
-      <Title icon="search" header marginAuto R2={searchResult !== null}>
-        방 검색하기
-      </Title>
-      <RLayout.R2 left={leftLay} right={rightLay} />
+      <AdaptiveDiv
+        type="butterfly"
+        left={
+          <Title icon="search" isHeader>
+            방 검색하기
+          </Title>
+        }
+        right={searchResult ? <></> : null}
+      />
+      <AdaptiveDiv type="butterfly" left={leftLay} right={rightLay} />
     </>
   );
 };

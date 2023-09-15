@@ -1,8 +1,8 @@
 import { Carousel } from "antd";
 
+import AdaptiveDiv from "components/AdaptiveDiv";
 import Button from "components/Button";
 import Footer from "components/Footer";
-import RLayout from "components/RLayout";
 import Title from "components/Title";
 import WhiteContainer from "components/WhiteContainer";
 
@@ -60,11 +60,11 @@ const Event2023Spring = () => {
   };
 
   return (
-    <RLayout.R1>
-      <Title icon="notice" header>
+    <AdaptiveDiv type="center">
+      <Title icon="notice" isHeader>
         이벤트 요약
       </Title>
-      <WhiteContainer padding="0px">
+      <WhiteContainer css={{ padding: "0" }}>
         <Carousel autoplay autoplaySpeed={5000}>
           {[
             Card01,
@@ -82,7 +82,7 @@ const Event2023Spring = () => {
           ))}
         </Carousel>
       </WhiteContainer>
-      <Title icon="taxi" header>
+      <Title icon="taxi" isHeader>
         택시 탑승 인증 이벤트
       </Title>
       <WhiteContainer>
@@ -119,16 +119,18 @@ const Event2023Spring = () => {
         >
           <Button
             type="purple"
-            padding="14px 0 13px"
-            radius={12}
-            font={theme.font16_bold}
+            css={{
+              padding: "14px 0 13px",
+              borderRadius: "12px",
+              ...theme.font16_bold,
+            }}
           >
             탑승 인증하기
           </Button>
         </a>
       </WhiteContainer>
 
-      <Title icon="favorite" header>
+      <Title icon="favorite" isHeader>
         인스타 스토리 공유 이벤트
       </Title>
       <WhiteContainer>
@@ -163,16 +165,18 @@ const Event2023Spring = () => {
         >
           <Button
             type="purple"
-            padding="14px 0 13px"
-            radius={12}
-            font={theme.font16_bold}
+            css={{
+              padding: "14px 0 13px",
+              borderRadius: "12px",
+              ...theme.font16_bold,
+            }}
           >
             게시물 확인하기
           </Button>
         </a>
       </WhiteContainer>
       <Footer />
-    </RLayout.R1>
+    </AdaptiveDiv>
   );
 };
 

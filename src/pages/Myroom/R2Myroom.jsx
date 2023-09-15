@@ -1,86 +1,16 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
-import useDateToken from "hooks/useDateToken";
-import { useQuery } from "hooks/useTaxiAPI";
-
+import AdaptiveDiv from "components/AdaptiveDiv";
+import Chat from "components/Chat";
 import DottedLine from "components/DottedLine";
 import Empty from "components/Empty";
-import { ModalRoomShare } from "components/ModalPopup";
 import Pagination, { PAGE_MAX_ITEMS } from "components/Pagination";
-import RLayout from "components/RLayout";
 import Room from "components/Room";
 import Title from "components/Title";
 import WhiteContainer from "components/WhiteContainer";
-import ChatHeaderBody from "pages/Chatting/Header/HeaderBody";
-import SideChat from "pages/Chatting/SideChat";
 
 import theme from "tools/theme";
-
-import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
-import UnfoldLessRoundedIcon from "@mui/icons-material/UnfoldLessRounded";
-import UnfoldMoreRoundedIcon from "@mui/icons-material/UnfoldMoreRounded";
-
-const ChatHeader = (props) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isOpenShare, setIsOpenShare] = useState(false);
-  const [headerInfoToken, fetchHeaderInfo] = useDateToken();
-  const [, headerInfo] = useQuery.get(`/rooms/info?id=${props.roomId}`, {}, [
-    headerInfoToken,
-  ]);
-
-  return (
-    <WhiteContainer padding="16px" style={{ flex: "0 0 auto" }}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "0 4px 0 8px",
-        }}
-      >
-        <Title icon="chat">채팅 창</Title>
-        <ShareRoundedIcon
-          style={{
-            color: theme.purple,
-            marginLeft: "auto",
-            marginRight: "12px",
-            ...theme.cursor(),
-            fontSize: "20px",
-          }}
-          onClick={() => setIsOpenShare(true)}
-        />
-        {isOpen ? (
-          <UnfoldLessRoundedIcon
-            style={{ color: theme.purple, ...theme.cursor() }}
-            onClick={() => setIsOpen(false)}
-          />
-        ) : (
-          <UnfoldMoreRoundedIcon
-            style={{ color: theme.purple, ...theme.cursor() }}
-            onClick={() => setIsOpen(true)}
-          />
-        )}
-      </div>
-      {isOpen && (
-        <>
-          <DottedLine direction="row" margin="16px 0" />
-          <ChatHeaderBody info={headerInfo} recallEvent={fetchHeaderInfo} />
-        </>
-      )}
-      <ModalRoomShare
-        isOpen={isOpenShare}
-        onChangeIsOpen={setIsOpenShare}
-        roomInfo={headerInfo}
-      />
-    </WhiteContainer>
-  );
-};
-
-ChatHeader.propTypes = {
-  roomId: PropTypes.string,
-};
 
 const LinkRoom = (props) => {
   const history = useHistory();
@@ -89,7 +19,10 @@ const LinkRoom = (props) => {
     <div onClick={() => history.goBack()}>{props.children}</div>
   ) : (
     <Link
-      to={`/myroom/${props.id}`}
+      to={(location) => ({
+        ...location,
+        pathname: `/myroom/${props.id}`,
+      })}
       replace={props.currentId ? true : false}
       style={{ textDecoration: "none" }}
     >
@@ -106,21 +39,17 @@ LinkRoom.propTypes = {
 
 const R2Myroom = (props) => {
   return (
-    <RLayout.R2
+    <AdaptiveDiv
+      type="butterfly"
       left={
         <>
-          <Title
-            icon="myroom"
-            header
-            marginAuto
-            R2={props.roomId !== undefined}
-          >
+          <Title icon="myroom" isHeader>
             내 방 보기
           </Title>
-          <div style={{ margin: "0 -4px", padding: "0 4px" }}>
-            <WhiteContainer padding="20px 20px 22px">
+          <div css={{ margin: "0 -4px", padding: "0 4px" }}>
+            <WhiteContainer css={{ padding: "20px 20px 22px" }}>
               <Title icon="current">참여 중인 방</Title>
-              <div style={{ height: "19px" }} />
+              <div css={{ height: "19px" }} />
               <DottedLine direction="row" />
               {props.ongoing.length === 0 ? (
                 <Empty screen="pc">참여 중인 방이 없습니다</Empty>
@@ -141,9 +70,11 @@ const R2Myroom = (props) => {
                 ))
               )}
             </WhiteContainer>
-            <WhiteContainer padding="20px 20px 22px" margin="0px 0px -17px">
+            <WhiteContainer
+              css={{ padding: "20px 20px 22px", margin: "0 0 -17px" }}
+            >
               <Title icon="past">과거 참여 방</Title>
-              <div style={{ height: "19px" }} />
+              <div css={{ height: "19px" }} />
               <DottedLine direction="row" />
               {props.done.length === 0 ? (
                 <Empty screen="pc">과거 참여했던 방이 없습니다</Empty>
@@ -181,24 +112,19 @@ const R2Myroom = (props) => {
       right={
         props.roomId ? (
           <div
-            style={{
+            css={{
               position: "fixed",
               width: "min(390px, calc(50% - 27.5px))",
-              top: "79px",
+              top: "max(calc(79px - var(--window-scroll-y)), 15px)",
               left: "calc(50% + 7.5px)",
               height:
-                "calc(var(--window-inner-height) - 79px - 56px - 15px - env(safe-area-inset-bottom))",
-              display: "flex",
-              flexDirection: "column",
+                "calc(var(--window-inner-height) - max(calc(79px - var(--window-scroll-y)), 15px) - 56px - 15px - env(safe-area-inset-bottom))",
               zIndex: theme.zIndex_nav - 1,
             }}
           >
-            <ChatHeader roomId={props.roomId} />
-            <div style={{ height: "100%", minHeight: 0 }}>
-              <WhiteContainer padding="0px" style={{ height: "100%" }}>
-                <SideChat roomId={props.roomId} />
-              </WhiteContainer>
-            </div>
+            <WhiteContainer css={{ padding: "0", height: "100%" }}>
+              <Chat roomId={props.roomId} layoutType="sidechat" />
+            </WhiteContainer>
           </div>
         ) : null
       }

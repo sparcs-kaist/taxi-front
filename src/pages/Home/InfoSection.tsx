@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 
+import AdaptiveDiv from "components/AdaptiveDiv";
 import Button from "components/Button";
 import LinkLogin from "components/Link/LinkLogin";
-import RLayout from "components/RLayout";
 import Room from "components/Room";
 
 import loginInfoAtom from "atoms/loginInfo";
@@ -98,7 +98,7 @@ const InfoSection = () => {
         />
         <img css={styleImage} src={BackgroundImage} />
       </picture>
-      <RLayout.R1>
+      <AdaptiveDiv type="center">
         <div css={{ padding: "25px 0 32px" }}>
           <TaxiLogoWhite />
           <div css={{ height: "32px" }} />
@@ -120,9 +120,11 @@ const InfoSection = () => {
                 <Link to="/addroom" css={{ textDecoration: "none" }}>
                   <Button
                     type="purple"
-                    padding="12px 20px 11px"
-                    radius={8}
-                    font={theme.font16_bold}
+                    css={{
+                      padding: "12px 20px 11px",
+                      borderRadius: "8px",
+                      ...theme.font16_bold,
+                    }}
                   >
                     방 개설하기
                   </Button>
@@ -131,9 +133,11 @@ const InfoSection = () => {
                 <LinkLogin>
                   <Button
                     type="purple"
-                    padding="12px 20px 11px"
-                    radius={8}
-                    font={theme.font16_bold}
+                    css={{
+                      padding: "12px 20px 11px",
+                      borderRadius: "8px",
+                      ...theme.font16_bold,
+                    }}
                   >
                     로그인
                   </Button>
@@ -142,9 +146,11 @@ const InfoSection = () => {
               <Link to="/search" css={{ textDecoration: "none" }}>
                 <Button
                   type="white"
-                  padding="12px 20px 11px"
-                  radius={8}
-                  font={theme.font16_bold}
+                  css={{
+                    padding: "12px 20px 11px",
+                    borderRadius: "8px",
+                    ...theme.font16_bold,
+                  }}
                 >
                   방 검색하기
                 </Button>
@@ -152,7 +158,7 @@ const InfoSection = () => {
             </div>
           )}
         </div>
-      </RLayout.R1>
+      </AdaptiveDiv>
     </div>
   );
 };

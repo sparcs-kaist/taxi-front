@@ -1,9 +1,7 @@
 import { useCallback, useRef } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 
-import isAppAtom from "atoms/isApp";
-import { useRecoilValue } from "recoil";
-
+import { deviceType } from "tools/loadenv";
 import { sendAuthLogoutEventToFlutter } from "tools/sendEventToFlutter";
 
 type LinkLogoutProps = {
@@ -14,17 +12,16 @@ type LinkLogoutProps = {
 export const useOnClickLogout = (redirect?: string) => {
   const history = useHistory();
   const { pathname, search } = useLocation();
-  const isApp = useRecoilValue(isAppAtom);
   const redirectPath = redirect || pathname + search;
   const isClicked = useRef(false);
 
   return useCallback(async () => {
     if (isClicked.current) return;
     isClicked.current = true;
-    if (isApp) await sendAuthLogoutEventToFlutter();
+    if (deviceType.startsWith("app/")) await sendAuthLogoutEventToFlutter();
     history.replace(`/logout?redirect=${encodeURIComponent(redirectPath)}`);
     isClicked.current = false;
-  }, [history, redirectPath, isApp]);
+  }, [history, redirectPath]);
 };
 
 const LinkLogout = ({ children, redirect }: LinkLogoutProps) => {

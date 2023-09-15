@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { memo, useEffect, useMemo, useState } from "react";
 
+import useHoverProps from "hooks/theme/useHoverProps";
 import { useValueRecoilState } from "hooks/useFetchRecoilState";
 
 import Button from "components/Button";
@@ -12,7 +13,6 @@ import WhiteContainer from "components/WhiteContainer";
 
 import Picker from "./Picker";
 
-import hoverEventSet from "tools/hoverEventSet";
 import theme from "tools/theme";
 import { getLocationName } from "tools/trans";
 
@@ -68,20 +68,24 @@ const PopupInput = (props) => {
         >
           <Button
             type="gray"
-            width="calc(40% - 10px)"
-            padding="10px 0 9px"
-            radius={8}
-            font={theme.font14}
+            css={{
+              width: "calc(40% - 10px)",
+              padding: "10px 0 9px",
+              borderRadius: "8px",
+              ...theme.font14,
+            }}
             onClick={props.onClose}
           >
             취소
           </Button>
           <Button
             type="purple"
-            width="60%"
-            padding="10px 0 9px"
-            radius={8}
-            font={theme.font14_bold}
+            css={{
+              width: "60%",
+              padding: "10px 0 9px",
+              borderRadius: "8px",
+              ...theme.font14_bold,
+            }}
             onClick={onClick}
           >
             선택하기
@@ -100,7 +104,7 @@ PopupInput.propTypes = {
 };
 
 const PlaceElement = (props) => {
-  const [isHover, setHover] = useState(false);
+  const [hoverProps, isHover] = useHoverProps();
 
   const style = {
     width: "calc(50% - 10px)",
@@ -135,7 +139,7 @@ const PlaceElement = (props) => {
     overflow: "hidden",
   };
   return (
-    <div style={style} onClick={props.onClick} {...hoverEventSet(setHover)}>
+    <div style={style} onClick={props.onClick} {...hoverProps}>
       <MiniCircle type={props.type} isRequired={!props.value} />
       <div style={styleType}>{props.type === "from" ? "출발지" : "도착지"}</div>
       <div style={styleTextGrid}>
@@ -177,7 +181,7 @@ const Place = (props) => {
   };
 
   return (
-    <WhiteContainer padding="10px">
+    <WhiteContainer css={{ padding: "10px" }}>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <PlaceElement
           value={getPlaceName(props.value[0])}

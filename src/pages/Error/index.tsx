@@ -46,18 +46,22 @@ const Error = () => {
       <div style={{ display: "flex", columnGap: "12px" }}>
         <Button
           type="white"
-          padding="13px 24px 14px"
-          radius={12}
-          font={theme.font14}
+          css={{
+            padding: "13px 24px 14px",
+            borderRadius: "12px",
+            ...theme.font14,
+          }}
           onClick={onClickBack}
         >
           이전 페이지
         </Button>
         <Button
           type="purple"
-          padding="13px 24px 14px"
-          radius={12}
-          font={theme.font14_bold}
+          css={{
+            padding: "13px 24px 14px",
+            borderRadius: "12px",
+            ...theme.font14_bold,
+          }}
           onClick={onClickHome}
         >
           홈으로 가기

@@ -94,18 +94,22 @@ const ModalTerms = ({ isOpen, onChangeIsOpen = () => {} }: ModalTermsProps) => {
             <>
               <Button
                 type="gray"
-                padding="9px 24px 10px"
-                radius={8}
-                font={theme.font14}
+                css={{
+                  padding: "9px 24px 10px",
+                  borderRadius: "8px",
+                  ...theme.font14,
+                }}
                 onClick={onClose}
               >
                 취소
               </Button>
               <Button
                 type="purple_inset"
-                padding="9px 24px 10px"
-                radius={8}
-                font={theme.font14_bold}
+                css={{
+                  padding: "9px 24px 10px",
+                  borderRadius: "8px",
+                  ...theme.font14_bold,
+                }}
                 onClick={() => setPage(2)}
               >
                 동의 및 다음
@@ -115,18 +119,22 @@ const ModalTerms = ({ isOpen, onChangeIsOpen = () => {} }: ModalTermsProps) => {
             <>
               <Button
                 type="gray"
-                padding="9px 24px 10px"
-                radius={8}
-                font={theme.font14}
+                css={{
+                  padding: "9px 24px 10px",
+                  borderRadius: "8px",
+                  ...theme.font14,
+                }}
                 onClick={() => setPage(1)}
               >
                 이전
               </Button>
               <Button
                 type="purple_inset"
-                padding="9px 24px 10px"
-                radius={8}
-                font={theme.font14_bold}
+                css={{
+                  padding: "9px 24px 10px",
+                  borderRadius: "8px",
+                  ...theme.font14_bold,
+                }}
                 onClick={onAgree}
               >
                 동의 및 서비스 이용
@@ -137,18 +145,22 @@ const ModalTerms = ({ isOpen, onChangeIsOpen = () => {} }: ModalTermsProps) => {
           <>
             <Button
               type="gray"
-              padding="9px 24px 10px"
-              radius={8}
-              font={theme.font14}
+              css={{
+                padding: "9px 24px 10px",
+                borderRadius: "8px",
+                ...theme.font14,
+              }}
               onClick={onClose}
             >
               취소
             </Button>
             <Button
               type="purple_inset"
-              padding="9px 24px 10px"
-              radius={8}
-              font={theme.font14_bold}
+              css={{
+                padding: "9px 24px 10px",
+                borderRadius: "8px",
+                ...theme.font14_bold,
+              }}
               onClick={() => setPage(2)}
             >
               다음
@@ -158,18 +170,22 @@ const ModalTerms = ({ isOpen, onChangeIsOpen = () => {} }: ModalTermsProps) => {
           <>
             <Button
               type="gray"
-              padding="9px 24px 10px"
-              radius={8}
-              font={theme.font14}
+              css={{
+                padding: "9px 24px 10px",
+                borderRadius: "8px",
+                ...theme.font14,
+              }}
               onClick={() => setPage(1)}
             >
               이전
             </Button>
             <Button
               type="purple_inset"
-              padding="9px 24px 10px"
-              radius={8}
-              font={theme.font14_bold}
+              css={{
+                padding: "9px 24px 10px",
+                borderRadius: "8px",
+                ...theme.font14_bold,
+              }}
               onClick={onClose}
             >
               완료

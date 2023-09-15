@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 
-import { useAxios } from "hooks/useTaxiAPI";
-
+import {
+  useFetchEvent2023FallInfo,
+  useSetEvent2023FallInfo,
+  useValueEvent2023FallInfo,
+} from "./useFetchEvent2023FallInfo";
 import {
   useFetchLoginInfo,
   useSetLoginInfo,
@@ -23,30 +26,25 @@ import {
   useValueTaxiLocations,
 } from "./useFetchTaxiLocations";
 
-import isAppAtom from "atoms/isApp";
+import { Event2023FallInfoType } from "atoms/event2023FallInfo";
 import { LoginInfoType } from "atoms/loginInfo";
 import { MyRoomsType } from "atoms/myRooms";
 import { notificationOptionsType } from "atoms/notificationOptions";
 import { TaxiLocationsType } from "atoms/taxiLocations";
-import { useRecoilValue } from "recoil";
-
-import {
-  sendAuthUpdateEventToFlutter,
-  sendTryNotificationEventToFlutter,
-} from "tools/sendEventToFlutter";
-import { isNotificationOn } from "tools/trans";
 
 export type AtomName =
   | "loginInfo"
   | "taxiLocations"
   | "myRooms"
-  | "notificationOptions";
+  | "notificationOptions"
+  | "event2023FallInfo";
 
 type useValueRecoilStateType = {
   (atomName: "loginInfo"): LoginInfoType;
   (atomName: "taxiLocations"): TaxiLocationsType;
   (atomName: "myRooms"): MyRoomsType;
   (atomName: "notificationOptions"): notificationOptionsType;
+  (atomName: "event2023FallInfo"): Event2023FallInfoType;
 };
 const _useValueRecoilState = (atomName: AtomName) => {
   switch (atomName) {
@@ -58,6 +56,8 @@ const _useValueRecoilState = (atomName: AtomName) => {
       return useValueMyRooms();
     case "notificationOptions":
       return useValueNotificationOptions();
+    case "event2023FallInfo":
+      return useValueEvent2023FallInfo();
   }
 };
 export const useValueRecoilState =
@@ -73,6 +73,8 @@ export const useSetRecoilState = (atomName: AtomName) => {
       return useSetMyRooms();
     case "notificationOptions":
       return useSetNotificationOptions();
+    case "event2023FallInfo":
+      return useSetEvent2023FallInfo();
   }
 };
 
@@ -86,14 +88,13 @@ export const useFetchRecoilState = (atomName: AtomName) => {
       return useFetchMyRooms();
     case "notificationOptions":
       return useFetchNotificationOptions();
+    case "event2023FallInfo":
+      return useFetchEvent2023FallInfo();
   }
 };
 
 export const useSyncRecoilStateEffect = () => {
-  const axios = useAxios();
-  const isApp = useRecoilValue(isAppAtom);
   const loginInfo = useValueRecoilState("loginInfo");
-  const notificationOptions = useValueRecoilState("notificationOptions");
   const { id: userId, deviceToken } = loginInfo || {};
 
   // userId 초기화 및 동기화
@@ -112,32 +113,7 @@ export const useSyncRecoilStateEffect = () => {
   const fetchNotificationOptions = useFetchRecoilState("notificationOptions");
   useEffect(fetchNotificationOptions, [deviceToken]);
 
-  // Flutter에 변동된 로그인 정보 전달
-  useEffect(() => {
-    const isLoading = loginInfo === null;
-    if (!isLoading && isApp) sendAuthUpdateEventToFlutter(loginInfo);
-  }, [userId, isApp]);
-
-  // Flutter에 초기 알림 설정 전달
-  useEffect(() => {
-    const tryNotification = async () => {
-      const isAllowedFInFlutter = await sendTryNotificationEventToFlutter();
-      if (!isAllowedFInFlutter) {
-        await axios({
-          url: "/notifications/editOptions",
-          method: "post",
-          data: {
-            options: {
-              beforeDepart: false,
-              chatting: false,
-              notice: false,
-            },
-          },
-          onError: () => {},
-        });
-      }
-    };
-    if (userId && isApp && isNotificationOn(notificationOptions))
-      tryNotification();
-  }, [userId, isApp, notificationOptions]);
+  // event2023FallInfo 초기화 및 동기화
+  const fetchEvent2023FallInfo = useFetchRecoilState("event2023FallInfo");
+  useEffect(fetchEvent2023FallInfo, [userId]);
 };

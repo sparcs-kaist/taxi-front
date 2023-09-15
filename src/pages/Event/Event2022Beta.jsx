@@ -1,4 +1,4 @@
-import RLayout from "components/RLayout";
+import AdaptiveDiv from "components/AdaptiveDiv";
 import Title from "components/Title";
 
 import theme from "tools/theme";
@@ -50,12 +50,12 @@ const content = (
 );
 
 const Event2022Beta = () => (
-  <RLayout.R1>
-    <Title icon="taxi" header>
+  <AdaptiveDiv type="center">
+    <Title icon="taxi" isHeader>
       Taxi 베타 서비스
     </Title>
     {content}
-  </RLayout.R1>
+  </AdaptiveDiv>
 );
 
 export default Event2022Beta;

@@ -4,28 +4,27 @@ import { useTranslation } from "react-i18next";
 import useDateToken from "hooks/useDateToken";
 import { useValueRecoilState } from "hooks/useFetchRecoilState";
 
+import AdaptiveDiv from "components/AdaptiveDiv";
 import Footer from "components/Footer";
 import LinkLogout from "components/Link/LinkLogout";
 import {
   ModalCredit,
-  ModalModify,
+  ModalMypageModify,
   ModalNotification,
   ModalPrivacyPolicy,
   ModalReport,
   ModalTerms,
 } from "components/ModalPopup";
-import RLayout from "components/RLayout";
 import Title from "components/Title";
-import ProfileImg from "components/User/ProfileImg";
+import ProfileImage from "components/User/ProfileImage";
 import WhiteContainer from "components/WhiteContainer";
 import WhiteContainerSuggestLogin from "components/WhiteContainer/WhiteContainerSuggestLogin";
 
 import Menu from "./Menu";
 
+import { nodeEnv } from "tools/loadenv";
 import theme from "tools/theme";
 import { isNotificationOn } from "tools/trans";
-
-import { nodeEnv } from "loadenv";
 
 const Mypage = () => {
   const { t, i18n } = useTranslation("mypage");
@@ -99,18 +98,18 @@ const Mypage = () => {
   };
 
   return (
-    <>
-      <Title icon="mypage" header marginAuto>
+    <AdaptiveDiv type="center">
+      <Title icon="mypage" isHeader>
         {t("my_page")}
       </Title>
       {userId ? (
         <>
-          <WhiteContainer marginAuto padding="16px 24px 24px">
+          <WhiteContainer css={{ padding: "16px 24px 24px" }}>
             <div css={{ display: "flex", alignItems: "center" }}>
               <div css={styleProfImg}>
                 {loginInfo?.profileImgUrl && (
-                  <ProfileImg
-                    path={loginInfo.profileImgUrl}
+                  <ProfileImage
+                    url={loginInfo.profileImgUrl}
                     token={profImgToken}
                   />
                 )}
@@ -142,7 +141,7 @@ const Mypage = () => {
               <div css={infoContent}>{loginInfo?.account}</div>
             </div>
           </WhiteContainer>
-          <WhiteContainer marginAuto>
+          <WhiteContainer>
             <div css={{ display: "grid", rowGap: "16px" }}>
               {nodeEnv === "development" && (
                 <Menu icon="lang" onClick={onClickTranslation}>
@@ -159,7 +158,7 @@ const Mypage = () => {
               </Menu>
             </div>
           </WhiteContainer>
-          <ModalModify
+          <ModalMypageModify
             isOpen={isOpenProfileModify}
             onChangeIsOpen={setIsOpenProfileModify}
             onUpdate={refreshProfImgToken}
@@ -172,11 +171,9 @@ const Mypage = () => {
           />
         </>
       ) : (
-        <RLayout.R1>
-          <WhiteContainerSuggestLogin />
-        </RLayout.R1>
+        <WhiteContainerSuggestLogin />
       )}
-      <WhiteContainer marginAuto>
+      <WhiteContainer>
         <div css={{ display: "grid", rowGap: "16px" }}>
           {userId && (
             <Menu icon="report" onClick={onClickReport}>
@@ -209,7 +206,7 @@ const Mypage = () => {
       />
       <ModalTerms isOpen={isOpenPolicy} onChangeIsOpen={setIsOpenPolicy} />
       <ModalCredit isOpen={isOpenMembers} onChangeIsOpen={setOpenIsMembers} />
-    </>
+    </AdaptiveDiv>
   );
 };
 

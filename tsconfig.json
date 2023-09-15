@@ -1,5 +1,4 @@
 {
-  "extends": "./tsconfig.paths.json",
   "compilerOptions": {
     "target": "es5",
     "module": "esnext",
@@ -28,6 +27,7 @@
     "node_modules"
   ],
   "include": [
-    "src"
+    "src",
+    "src/types/custom.d.ts"
   ]
 }

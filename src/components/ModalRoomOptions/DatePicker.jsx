@@ -1,10 +1,11 @@
 import PropTypes from "prop-types";
-import { PureComponent, createRef, memo, useState } from "react";
+import { PureComponent, createRef, memo } from "react";
+
+import useHoverProps from "hooks/theme/useHoverProps";
 
 import DottedLine from "components/DottedLine";
 import MiniCircle from "components/MiniCircle";
 
-import hoverEventSet from "tools/hoverEventSet";
 import { getToday10 } from "tools/moment";
 import theme from "tools/theme";
 
@@ -49,7 +50,7 @@ const getCalendarDates = () => {
 };
 
 const Date = (props) => {
-  const [isHover, setHover] = useState(false);
+  const [hoverProps, isHover] = useHoverProps();
 
   const style = {
     width: "calc((100% - 36px) / 7)",
@@ -122,7 +123,7 @@ const Date = (props) => {
 
   if (!props.date) return <div style={style} />;
   return (
-    <div style={styleBox} onClick={onClick} {...hoverEventSet(setHover)}>
+    <div style={styleBox} onClick={onClick} {...hoverProps}>
       <div style={styleDate}>{props.date}</div>
       {props.available === "today" && (
         <div style={styleToday}>

@@ -48,15 +48,18 @@ const AlertProvider = () => {
           wordBreak: "keep-all",
           width: "fit-content",
           margin: "24px auto",
+          padding: "0 8px",
         }}
       >
         {messageCache.current}
       </div>
       <Button
         type="purple_inset"
-        padding="9px 10px"
-        radius={8}
-        font={theme.font14_bold}
+        css={{
+          padding: "9px 10px",
+          borderRadius: "8px",
+          ...theme.font14_bold,
+        }}
         onClick={closeHandler}
       >
         확인

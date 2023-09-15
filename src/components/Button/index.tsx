@@ -1,35 +1,27 @@
-import { ReactNode, useState } from "react";
+import { HTMLProps, ReactNode } from "react";
 
-import hoverEventSet from "tools/hoverEventSet";
-import theme, { Font } from "tools/theme";
+import useHoverProps from "hooks/theme/useHoverProps";
+
+import theme from "tools/theme";
 
 type ButtonType = "purple" | "purple_inset" | "gray" | "white";
 
 type ButtonProps = {
   type?: ButtonType;
   disabled?: boolean;
-  width?: string;
-  padding?: string | number;
-  radius?: number;
-  font?: Font;
-  onClick?: () => void;
   className?: string;
   children?: ReactNode;
-};
+} & HTMLProps<HTMLDivElement>;
 
 const Button = ({
   type,
   disabled = false,
-  width,
-  padding,
-  radius,
-  font,
-  onClick,
   className,
   children,
+  onClick,
+  ...divProps
 }: ButtonProps) => {
-  const [isHover, setHover] = useState(false);
-  const [isClicked, setClicked] = useState(false);
+  const [hoverProps, isHover, isClicked] = useHoverProps();
 
   const getColor = () => {
     switch (type) {
@@ -71,23 +63,20 @@ const Button = ({
     }
   };
 
-  const style: CSS = {
-    ...font,
-    width: width,
-    padding: padding,
-    borderRadius: radius,
+  const style = {
     transitionDuration: theme.duration,
+    textAlign: "center" as const,
     ...theme.cursor(disabled),
-    textAlign: "center",
     ...getColor(),
   };
 
   return (
     <div
-      onClick={disabled ? undefined : onClick}
-      style={style}
+      css={style}
       className={className}
-      {...hoverEventSet(setHover, setClicked)}
+      onClick={disabled ? undefined : onClick}
+      {...hoverProps}
+      {...divProps}
     >
       {children}
     </div>

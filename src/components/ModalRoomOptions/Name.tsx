@@ -37,7 +37,7 @@ const Name = (props: ButtonProps) => {
     outline: "none",
   };
   return (
-    <WhiteContainer padding="9px">
+    <WhiteContainer css={{ padding: "9px" }}>
       <div style={style}>
         <EditRoundedIcon style={styleIcon} />
         <div style={styleName}>방 이름 :</div>

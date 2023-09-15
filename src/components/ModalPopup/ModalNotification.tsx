@@ -16,6 +16,7 @@ import BodyNotificationGuide from "./Body/BodyNotificationGuide";
 import alertAtom from "atoms/alert";
 import { useSetRecoilState } from "recoil";
 
+import { deviceType } from "tools/loadenv";
 import { sendTryNotificationEventToFlutter } from "tools/sendEventToFlutter";
 import theme from "tools/theme";
 import { isNotificationOn } from "tools/trans";
@@ -59,7 +60,7 @@ const ModalNotification = ({
   const axios = useAxios();
 
   const setAlert = useSetRecoilState(alertAtom);
-  const { deviceToken, deviceType } = useValueRecoilState("loginInfo") || {};
+  const { deviceToken } = useValueRecoilState("loginInfo") || {};
   const notificationOptions = useValueRecoilState("notificationOptions");
   const fetchNotificationOptions = useFetchRecoilState("notificationOptions");
   const isAxiosCalled = useRef(false);
@@ -170,9 +171,9 @@ const ModalNotification = ({
       {deviceToken ? (
         <>
           <div css={styleGuide}>
-            {deviceType === "web"
-              ? "브라우저를 닫아도 웹 푸시 알림을 받을 수 있습니다."
-              : "앱을 닫아도 푸시 알림을 받을 수 있습니다."}
+            {deviceType.startsWith("app/")
+              ? "앱을 닫아도 푸시 알림을 받을 수 있습니다."
+              : "브라우저를 닫아도 웹 푸시 알림을 받을 수 있습니다."}
           </div>
           <div css={styleBody}>
             <SelectNotification

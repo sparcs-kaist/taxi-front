@@ -92,7 +92,7 @@ const MaxPeople = (props: MaxPeopleProps) => {
   };
 
   return (
-    <WhiteContainer marginAuto={false} padding="9px">
+    <WhiteContainer css={{ padding: "9px" }}>
       <div style={{ display: "flex", alignItems: "center" }}>
         <PeopleRoundedIcon style={{ fontSize: "16px", marginLeft: "15px" }} />
         <div style={styleText}>최대 인원 :</div>

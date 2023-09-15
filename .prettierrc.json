@@ -12,14 +12,16 @@
   "requirePragma": false,
   "semi": true,
   "singleQuote": false,
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
   "importOrder": [
     "<THIRD_PARTY_MODULES>",
+    "^types/",
     "^hooks/",
     "^components/|^pages/",
     "^[./]",
     "^atoms/|^recoil$",
     "^tools/",
-    "^static/|^loadenv$|^@mui|^@material-ui"
+    "^static/|^@mui|^@material-ui"
   ],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true,

@@ -27,13 +27,18 @@
     "nickname_failed": "닉네임 변경에 실패했습니다",
     "account_failed": "계좌번호 변경에 실패했습니다"
   },
+  "page_credit": {
+    "category_all": "전체",
+    "category_2023fall_event": "2023 가을학기 추석 송편 이벤트",
+    "category_2023spring_event": "2023 봄학기 택시 탑승 인증 이벤트"
+  },
   "page_report": {
     "inquiry": "아래 신고 내역에 대해 문의하고 싶으신 경우 “채널톡 문의하기” 메뉴를 이용해주세요.",
     "reported": "신고한 내역",
     "received": "신고받은 내역",
     "reason": "신고 사유",
     "date": "신고 일시",
-    "no_settlement": "정산 미완료",
+    "no_settlement": "송금 미완료",
     "no_show": "출발 시간에 나타나지 않음",
     "etc_reason": "기타 사유",
     "empty_reported": "신고한 기록이 없습니다",

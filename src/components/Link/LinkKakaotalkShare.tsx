@@ -1,12 +1,13 @@
 import { useCallback } from "react";
 import { useLocation } from "react-router-dom";
 
-import { kakaoSDKKey } from "loadenv";
+import { kakaoSDKKey } from "tools/loadenv";
 
 type LinkKakaotalkShareProps = {
   children: React.ReactNode;
   title?: string;
   description?: string;
+  imageUrl?: string;
   buttonText?: string;
   buttonTo?: string;
   partNum?: number;
@@ -16,6 +17,7 @@ const LinkKakaotalkShare = ({
   children,
   title = "Taxi",
   description = "KAIST 구성원들의 택시 동승 인원 모집을 위한 서비스",
+  imageUrl,
   buttonText = "사이트로 이동",
   buttonTo: _buttonTo,
   partNum,
@@ -25,7 +27,7 @@ const LinkKakaotalkShare = ({
 
   const onClick = useCallback(() => {
     const kakao = window.Kakao;
-    const { origin: webUrl } = window.location;
+    const { origin } = window.location;
     if (!kakao) {
       console.error("Kakao SDK is not loaded.");
       return;
@@ -42,18 +44,18 @@ const LinkKakaotalkShare = ({
       content: {
         title,
         description,
-        imageUrl: `${webUrl}/graph.png`,
+        imageUrl: imageUrl || `${origin}/graph.png`,
         imageWidth: 1024,
         imageHeight: 500,
-        link: { webUrl, mobileWebUrl: webUrl },
+        link: { webUrl: origin, mobileWebUrl: origin },
       },
       social: { subscriberCount: partNum ?? 0 },
       buttons: [
         {
           title: buttonText,
           link: {
-            mobileWebUrl: `${webUrl}${buttonTo}`,
-            webUrl: `${webUrl}${buttonTo}`,
+            mobileWebUrl: `${origin}${buttonTo}`,
+            webUrl: `${origin}${buttonTo}`,
           },
         },
       ],

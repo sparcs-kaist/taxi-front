@@ -5,6 +5,7 @@ import usePageFromSearchParams from "hooks/usePageFromSearchParams";
 
 import DottedLine from "components/DottedLine";
 import Empty from "components/Empty";
+import Select from "components/Input/Select";
 import { ModalRoomSelection } from "components/ModalPopup";
 import Pagination, { PAGE_MAX_ITEMS } from "components/Pagination";
 import Room from "components/Room";
@@ -13,7 +14,6 @@ import WhiteContainer from "components/WhiteContainer";
 
 import theme from "tools/theme";
 
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import CheckIcon from "@mui/icons-material/Check";
 
 const sortOptions = {
@@ -60,24 +60,10 @@ const SearchOptions = (props) => {
   };
 
   const styleSelect = {
-    opacity: 0,
-    right: 0,
-    position: "absolute",
-    ...theme.cursor(),
-  };
-
-  const styleShowOption = {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "flex-start",
     color: theme.purple,
     ...theme.font10_bold,
-    marginRight: "-3px",
-  };
-
-  const styleArrowIcon = {
-    color: theme.purple,
-    fontSize: "11px",
+    borderRadius: "6px",
+    boxShadow: theme.shadow,
   };
 
   return (
@@ -93,23 +79,15 @@ const SearchOptions = (props) => {
         </div>
         만석인 방 포함하기
       </div>
-      <div style={styleOption}>
-        <select
-          value={props.sortOption}
-          onChange={(e) => props.setSortOption(e.target.value)}
-          style={styleSelect}
-        >
-          {Object.entries(sortOptions).map(([key, value]) => (
-            <option value={value} key={key}>
-              {value}
-            </option>
-          ))}
-        </select>
-        <div style={styleShowOption}>
-          {props.sortOption}
-          <ArrowDropDownIcon style={styleArrowIcon} />
-        </div>
-      </div>
+      <Select
+        value={props.sortOption}
+        options={Object.entries(sortOptions).map(([, value]) => ({
+          value,
+          label: value,
+        }))}
+        onChangeValue={props.setSortOption}
+        css={styleSelect}
+      />
     </div>
   );
 };
@@ -167,7 +145,7 @@ const SideResult = (props) => {
           onChangeIsOpen={() => setSelectedRoomInfo(null)}
           roomInfo={selectedRoomInfo}
         />
-        <WhiteContainer padding="20px 20px 22px">
+        <WhiteContainer css={{ padding: "20px 20px 22px" }}>
           <Title icon="search_result">검색 결과</Title>
           <SearchOptions
             isIncludeFullRoom={isIncludeFullRoom}
@@ -177,7 +155,7 @@ const SideResult = (props) => {
             theme="purple"
           />
           <DottedLine direction="row" />
-          {rooms.length == 0 ? (
+          {rooms.length === 0 ? (
             <Empty screen="pc">검색 결과가 없습니다</Empty>
           ) : (
             <>
@@ -218,7 +196,7 @@ const SideResult = (props) => {
           sortOption={sortOption}
           setSortOption={setSortOption}
         />
-        {rooms.length == 0 ? (
+        {rooms.length === 0 ? (
           <Empty screen="mobile">검색 결과가 없습니다</Empty>
         ) : (
           <>
