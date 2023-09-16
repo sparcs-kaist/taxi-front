@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import { PopupInAppNotification } from "types/notification";
+
 import {
   useFetchRecoilState,
   useValueRecoilState,
@@ -149,6 +151,21 @@ export const sendClipboardCopyEventToFlutter = async (value: string) => {
   if (!isWebViewInFlutter) return true;
   try {
     await window.flutter_inappwebview.callHandler("clipboard_copy", value);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export const sendPopupInAppNotificationEventToFlutter = async (
+  value: PopupInAppNotification
+) => {
+  if (!isWebViewInFlutter) return true;
+  try {
+    console.log("fake call", value);
+    await window.flutter_inappwebview.callHandler(
+      "popup_inAppNotification",
+      value
+    );
   } catch (e) {
     console.error(e);
   }

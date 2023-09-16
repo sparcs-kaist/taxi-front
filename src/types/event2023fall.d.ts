@@ -8,3 +8,14 @@ export type EventItem = {
   stock: number;
   itemType: number;
 };
+
+export type Event = {
+  _id: string;
+  name: string;
+  description: string;
+  imageUrl: string;
+  rewardAmount: number;
+  maxCount: number;
+  expireat: string;
+  isDisabled: boolean;
+};

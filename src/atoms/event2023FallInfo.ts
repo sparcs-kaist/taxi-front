@@ -1,8 +1,11 @@
+import { Event } from "types/event2023fall";
+
 import { atom } from "recoil";
 
 export type Event2023FallInfoType = Nullable<{
   creditAmount: number;
   eventStatus: string[];
+  events: Event[];
   ticket1Amount: number;
   ticket2Amount: number;
 }>;
