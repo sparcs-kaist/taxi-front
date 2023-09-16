@@ -6,6 +6,33 @@ import WhiteContainer from "components/WhiteContainer";
 
 import theme from "tools/theme";
 
+import { ReactComponent as TicketIcon } from "static/events/2023fallTicketIcon.svg";
+
+// const RankIcon = ({}) => {};
+
+type ticketAmountProps = {
+  amount: number;
+  fill: string;
+  marginLeft?: string;
+};
+
+const TicketAmount = ({ amount, fill, marginLeft }: ticketAmountProps) => {
+  return (
+    <div
+      css={{
+        display: "flex",
+        alignItems: "center",
+        gap: "8px",
+        marginLeft: marginLeft,
+        ...theme.font16_bold,
+      }}
+    >
+      <TicketIcon fill={fill} />
+      {amount}
+    </div>
+  );
+};
+
 const LeaderboardItem = ({
   index,
   name,
@@ -18,32 +45,31 @@ const LeaderboardItem = ({
       css={{
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-between",
         padding: "12px 16px",
       }}
     >
       <div
         css={{
-          display: "flex",
-          alignItems: "center",
-          gap: "8px",
+          width: "30px",
+          height: "30px",
+          borderRadius: "15px",
+          overflow: "hidden",
+          boxShadow: theme.shadow,
+          flexShrink: 0,
         }}
       >
-        <div
-          css={{
-            width: "30px",
-            height: "30px",
-            borderRadius: "15px",
-            overflow: "hidden",
-            boxShadow: theme.shadow,
-          }}
-        >
-          <ProfileImage url={profileImageUrl} />
-        </div>
+        <ProfileImage url={profileImageUrl} />
+      </div>
+      <div
+        css={{
+          margin: "0 8px",
+          ...theme.ellipsis,
+        }}
+      >
         {name}
       </div>
-
-      <div>hello</div>
+      <TicketAmount marginLeft="auto" amount={ticket1Amount} fill="#FAC85A" />
+      <TicketAmount marginLeft="24px" amount={ticket2Amount} fill="#B2B2B2" />
     </WhiteContainer>
   );
 };
@@ -70,7 +96,7 @@ const testLeaderboard: Leader[] = [
     profileImageUrl: "https://via.placeholder.com/150?text=ShiningStar",
   },
   {
-    name: "토끼달무희",
+    name: "정말_정말_저어엉말_아름다운_선형대수학개론",
     ticket1Amount: 95,
     ticket2Amount: 94,
     profileImageUrl: "https://via.placeholder.com/150?text=RabbitMoon",
@@ -124,7 +150,7 @@ const Event2023FallLeaderboard = () => {
   // const [, leaderboard] = useQuery.get<Leader[]>(
   //   "/events/2023fall/public-notice/leaderboard"
   // );
-  const leaderboard = testLeaderboard;
+  const leaderboard = testLeaderboard; // 백 연결을 기다리는 중...
 
   return (
     <AdaptiveDiv type="center">
@@ -144,14 +170,12 @@ const Event2023FallLeaderboard = () => {
           },
         ]}
       />
-      <Title icon="notice" isHeader>
+      <Title icon="leaderboard" isHeader>
         리더보드
       </Title>
-      <AdaptiveDiv type="center">
-        {leaderboard?.map((item, index) => (
-          <LeaderboardItem key={index} index={index} {...item} />
-        ))}
-      </AdaptiveDiv>
+      {leaderboard?.map((item, index) => (
+        <LeaderboardItem key={index} index={index} {...item} />
+      ))}
     </AdaptiveDiv>
   );
 };
