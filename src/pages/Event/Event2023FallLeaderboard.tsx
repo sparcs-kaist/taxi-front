@@ -1,8 +1,24 @@
+import { useState } from "react";
+
+
+
+import useQuery from "hooks/useTaxiAPI";
+
+
+
 import AdaptiveDiv from "components/AdaptiveDiv";
 import HeaderWithLeftNav from "components/Header/HeaderWithLeftNav";
 import Title from "components/Title";
+import WhiteContainer from "components/WhiteContainer";
+
+
+const LeaderboardItem = () => {
+  return <WhiteContainer css={{ display: "flex" }}></WhiteContainer>;
+};
 
 const Event2023FallLeaderboard = () => {
+  const [leaderboard, setLeaderboard] = useState([]);
+  const [, leaderboard] = useQuery.get("/reports/searchByUser");
   return (
     <AdaptiveDiv type="center">
       <HeaderWithLeftNav
@@ -24,6 +40,7 @@ const Event2023FallLeaderboard = () => {
       <Title icon="notice" isHeader>
         리더보드
       </Title>
+      <AdaptiveDiv type="center"></AdaptiveDiv>
     </AdaptiveDiv>
   );
 };
