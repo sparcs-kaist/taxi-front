@@ -4,7 +4,7 @@ import { ModalCredit, ModalPrivacyPolicy } from "./ModalPopup";
 
 import theme from "tools/theme";
 
-import { ReactComponent as SparcsLogo } from "static/assets/SparcsLogoWithText.svg";
+import { ReactComponent as SparcsLogo } from "static/assets/sparcsLogos/SparcsLogoWithText.svg";
 
 type BtnFooterProps = {
   text: string;
