@@ -7,6 +7,23 @@ import WhiteContainer from "components/WhiteContainer";
 
 import theme from "tools/theme";
 
+// const creditAmout = 1000;
+
+// const mockData = [
+//   {
+//     id: 1,
+//     userName: "wecode",
+//     content: "Welcome to world best coding bootcamp!",
+//     isLiked: true,
+//   },
+//   {
+//     id: 2,
+//     userName: "joonsikyang",
+//     content: "Hi there.",
+//     isLiked: false,
+//   },
+// ];
+
 const MissionContainer = () => {
   const styleBody = {
     display: "flex",
@@ -20,11 +37,19 @@ const MissionContainer = () => {
     borderRadius: "10px",
     overflow: "hidden",
   };
-  const styleDescription = {
+  const styleContentBox = {
     width: 0,
     flexGrow: 1,
+  };
+  const styleTitle = {
+    ...theme.font16_bold,
+  };
+  const styleDescription = {
     ...theme.font12,
-    color: theme.gray_text,
+  };
+  const styleReward = {
+    display: "flex",
+    justifyContent: "space-between",
   };
 
   return (
@@ -41,10 +66,17 @@ const MissionContainer = () => {
       />
       <div css={styleBody}>
         <div css={styleImageWrap}></div>
-        <div css={styleDescription}>
-          2명 이상 탑승하고 정산 완료하기 여기는 미션 설명을 위한 공간입니다
-          최대 세 줄까지 들어가도록 해볼게요
+        <div css={styleContentBox}>
+          <div css={styleTitle}>정산해요 택시의 숲</div>
+          <div css={styleDescription}>
+            2명 이상 탑승하고 정산 완료하기 여기는 미션 설명을 위한 공간입니다
+            최대 세 줄까지 들어가도록 해볼게요
+          </div>
         </div>
+      </div>
+      <div css={styleReward}>
+        <div>hi</div>
+        <div>hello</div>
       </div>
     </WhiteContainer>
   );
@@ -65,6 +97,7 @@ const Event2023FallMissions = () => {
       />
       <div css={{ height: "30px" }} />
       <CreditAmountStatusContainer />
+      <MissionContainer />
       <MissionContainer />
       <MissionContainer />
     </AdaptiveDiv>
