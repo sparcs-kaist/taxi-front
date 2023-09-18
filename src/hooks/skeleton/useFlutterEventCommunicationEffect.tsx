@@ -159,7 +159,7 @@ export const sendClipboardCopyEventToFlutter = async (value: string) => {
 export const sendPopupInAppNotificationEventToFlutter = async (
   value: PopupInAppNotification
 ) => {
-  console.log("fake call", value);
+  console.log("fake notification call", value);
   if (!isWebViewInFlutter) return true;
   try {
     await window.flutter_inappwebview.callHandler(
@@ -176,7 +176,7 @@ export const sendPopupInstagramStoryShareToFlutter = async (value: {
   backgroundLayerUrl: string;
   stickerLayerUrl: string;
 }) => {
-  console.log(value);
+  console.log("fake instagram call", value);
   if (!isWebViewInFlutter) return true;
   try {
     await window.flutter_inappwebview.callHandler(

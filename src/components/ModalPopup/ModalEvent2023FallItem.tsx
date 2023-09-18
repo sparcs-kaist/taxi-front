@@ -32,7 +32,6 @@ const ModalEvent2023FallItem = ({
 }: ModalEvent2023FallItemProps) => {
   const fetchEvent2023FallInfo = useFetchRecoilState("event2023FallInfo");
   const event2023FallInfo = useValueRecoilState("event2023FallInfo");
-  console.log(event2023FallInfo);
 
   const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
