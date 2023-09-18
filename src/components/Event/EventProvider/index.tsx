@@ -11,21 +11,21 @@ import { sendPopupInAppNotificationEventToFlutter } from "tools/sendEventToFlutt
 const EventProvider = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { eventStatus, events } =
+  const { completedQuests, quests } =
     useValueRecoilState("event2023FallInfo") || {};
 
   const prevEventStatusRef = useRef<string[]>();
 
   useEffect(() => {
     if (
-      !eventStatus ||
+      !completedQuests ||
       !prevEventStatusRef.current ||
-      !events ||
-      prevEventStatusRef.current.length === eventStatus?.length
+      !quests ||
+      prevEventStatusRef.current.length === completedQuests?.length
     )
       return;
 
-    let currentEventStatus = [...eventStatus];
+    let currentEventStatus = [...completedQuests];
 
     prevEventStatusRef.current.forEach((event) => {
       const ind = currentEventStatus.indexOf(event);
@@ -34,7 +34,7 @@ const EventProvider = () => {
     });
 
     currentEventStatus.forEach((id) => {
-      const event = events.find((e) => e._id === id);
+      const event = quests.find((e) => e._id === id);
       if (!event) return;
       const popup: PopupInAppNotification = {
         type: "default",
@@ -47,8 +47,8 @@ const EventProvider = () => {
       sendPopupInAppNotificationEventToFlutter(popup);
     });
 
-    prevEventStatusRef.current = eventStatus;
-  }, [eventStatus]);
+    prevEventStatusRef.current = completedQuests;
+  }, [completedQuests]);
 
   return (
     <ModalEvent2023FallMissionComplete

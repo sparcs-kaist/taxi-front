@@ -9,7 +9,7 @@ export type EventItem = {
   itemType: number;
 };
 
-export type Event = {
+export type Quest = {
   _id: string;
   name: string;
   description: string;
