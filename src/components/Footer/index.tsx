@@ -1,38 +1,18 @@
-import { memo, useCallback, useState } from "react";
+import { ReactNode, memo, useCallback, useState } from "react";
+import { Link } from "react-router-dom";
 
-import { ModalCredit, ModalPrivacyPolicy } from "./ModalPopup";
+import { ModalCredit, ModalPrivacyPolicy } from "components/ModalPopup";
 
-import theme from "tools/theme";
+import ButtonAboveFooter from "./ButtonAboveFooter";
 
 import { ReactComponent as SparcsLogo } from "static/assets/sparcsLogos/SparcsLogoWithText.svg";
 
-type BtnFooterProps = {
-  text: string;
-  onClick?: () => void;
-};
-
 type FooterProps = {
   type?: "only-logo" | "full";
+  children?: ReactNode;
 };
 
-const BtnFooter = ({ text, onClick }: BtnFooterProps) => {
-  return (
-    <div css={{ ...theme.font12, padding: "6px" }}>
-      <a
-        onClick={onClick}
-        style={{
-          textDecoration: "none",
-          color: theme.gray_text,
-          ...theme.cursor(),
-        }}
-      >
-        {text}
-      </a>
-    </div>
-  );
-};
-
-const Footer = ({ type = "full" }: FooterProps) => {
+const Footer = ({ type = "full", children }: FooterProps) => {
   const [isOpenPrivacyPolicy, setIsOpenPrivacyPolicy] = useState(false);
   const [isOpenCredit, setIsOpenCredit] = useState(false);
 
@@ -52,6 +32,7 @@ const Footer = ({ type = "full" }: FooterProps) => {
         textAlign: "center",
       }}
     >
+      {children}
       {type === "full" && (
         <>
           <ModalPrivacyPolicy
@@ -60,10 +41,16 @@ const Footer = ({ type = "full" }: FooterProps) => {
           />
           <ModalCredit isOpen={isOpenCredit} onChangeIsOpen={setIsOpenCredit} />
           <a className="popup-channeltalk">
-            <BtnFooter text="채널톡 문의하기" />
+            <ButtonAboveFooter text="채널톡 문의하기" />
           </a>
-          <BtnFooter text="개인정보 처리방침" onClick={onClickPrivacyPolicy} />
-          <BtnFooter text="만든 사람들" onClick={onClickCredit} />
+          <ButtonAboveFooter
+            text="개인정보 처리방침"
+            onClick={onClickPrivacyPolicy}
+          />
+          <Link to="/event/2023spring-guide" css={{ textDecoration: "none" }}>
+            <ButtonAboveFooter text="택시 살펴보기" />
+          </Link>
+          <ButtonAboveFooter text="만든 사람들" onClick={onClickCredit} />
         </>
       )}
       <div css={{ padding: "6px" }}>
