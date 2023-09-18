@@ -159,9 +159,9 @@ export const sendClipboardCopyEventToFlutter = async (value: string) => {
 export const sendPopupInAppNotificationEventToFlutter = async (
   value: PopupInAppNotification
 ) => {
+  console.log("fake call", value);
   if (!isWebViewInFlutter) return true;
   try {
-    console.log("fake call", value);
     await window.flutter_inappwebview.callHandler(
       "popup_inAppNotification",
       value

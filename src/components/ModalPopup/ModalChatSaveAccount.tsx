@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
+import { useEvent2023FallQuestComplete } from "hooks/event/useEvent2023FallQuestComplete";
 import {
   useFetchRecoilState,
   useValueRecoilState,
@@ -31,6 +32,8 @@ const ModalChatSaveAcount = ({
   const { account: accountOrigin } = useValueRecoilState("loginInfo") || {};
   const [account, setAccount] = useState<string>(accountDefault || "");
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
+  const event2023FallQuestComplete =
+    useEvent2023FallQuestComplete("accountChanging");
 
   useEffect(() => setAccount(accountDefault || ""), [accountDefault]);
 
@@ -40,10 +43,13 @@ const ModalChatSaveAcount = ({
       url: "/users/editAccount",
       method: "post",
       data: { account },
-      onSuccess: () => fetchLoginInfo(),
+      onSuccess: () => {
+        event2023FallQuestComplete();
+        fetchLoginInfo();
+      },
       onError: () => setAlert("계좌번호 저장을 실패하였습니다."),
     });
-  }, [account]);
+  }, [account, event2023FallQuestComplete]);
 
   const styleTitle = {
     ...theme.font18,

@@ -25,7 +25,10 @@ export const useFetchEvent2023FallInfo = () => {
         axios({
           url: "/events/2023fall/global-state/",
           method: "get",
-          onSuccess: (data) => setEvent2023FallInfo(data),
+          onSuccess: (data) => {
+            console.log(data);
+            setEvent2023FallInfo(data);
+          },
           onError: onError,
         });
       } else {

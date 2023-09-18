@@ -3,7 +3,6 @@ import { memo, useCallback, useMemo } from "react";
 import type { EventItem } from "types/event2023fall";
 
 import useDateToken from "hooks/useDateToken";
-import { useValueRecoilState } from "hooks/useFetchRecoilState";
 import useQuery from "hooks/useTaxiAPI";
 
 import AdaptiveDiv from "components/AdaptiveDiv";

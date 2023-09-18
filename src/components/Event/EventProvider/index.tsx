@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
+import { QuestId } from "types/event2023fall";
 import { PopupInAppNotification } from "types/notification";
 
 import { useValueRecoilState } from "hooks/useFetchRecoilState";
@@ -14,9 +15,12 @@ const EventProvider = () => {
   const { completedQuests, quests } =
     useValueRecoilState("event2023FallInfo") || {};
 
-  const prevEventStatusRef = useRef<string[]>();
+  const prevEventStatusRef = useRef<QuestId[]>();
 
   useEffect(() => {
+    if (completedQuests && !prevEventStatusRef.current) {
+      prevEventStatusRef.current = completedQuests;
+    }
     if (
       !completedQuests ||
       !prevEventStatusRef.current ||
@@ -34,7 +38,7 @@ const EventProvider = () => {
     });
 
     currentEventStatus.forEach((id) => {
-      const event = quests.find((e) => e._id === id);
+      const event = quests.find((e) => e.id === id);
       if (!event) return;
       const popup: PopupInAppNotification = {
         type: "default",

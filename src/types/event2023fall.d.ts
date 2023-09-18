@@ -10,15 +10,26 @@ export type EventItem = {
 };
 
 export type Quest = {
-  _id: string;
-  name: string;
   description: string;
+  id: QuestId;
   imageUrl: string;
-  rewardAmount: number;
   maxCount: number;
-  expireat: string;
-  isDisabled: boolean;
+  name: string;
+  reward: { credit: number; ticket1?: number; ticket2?: number };
 };
+
+export type QuestId =
+  | "firstLogin"
+  | "payingAndSending"
+  | "firstRoomCreation"
+  | "roomSharing"
+  | "paying"
+  | "sending"
+  | "nicknameChanging"
+  | "accountChanging"
+  | "adPushAgreement"
+  | "eventSharingOnInstagram"
+  | "purchaseSharingOnInstagram";
 
 export type Transaction = {
   _id: string;

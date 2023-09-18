@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import useAccountFromChats from "hooks/chat/useAccountFromChats";
+import { useEvent2023FallQuestComplete } from "hooks/event/useEvent2023FallQuestComplete";
 import { useValueRecoilState } from "hooks/useFetchRecoilState";
 import { useAxios } from "hooks/useTaxiAPI";
 
@@ -22,7 +23,7 @@ import LocalAtmRoundedIcon from "@mui/icons-material/LocalAtmRounded";
 import { ReactComponent as KakaoPayLogo } from "static/assets/KakaoPayLogo.svg";
 import { ReactComponent as TossLogo } from "static/assets/TossLogo.svg";
 
-type ModalChatSettlementProps = Omit<
+type ModalChatPaymentProps = Omit<
   Parameters<typeof Modal>[0],
   "padding" | "children" | "onEnter"
 > & {
@@ -31,12 +32,12 @@ type ModalChatSettlementProps = Omit<
   account: ReturnType<typeof useAccountFromChats>;
 };
 
-const ModalChatSettlement = ({
+const ModalChatPayment = ({
   roomInfo,
   account,
   onRecall,
   ...modalProps
-}: ModalChatSettlementProps) => {
+}: ModalChatPaymentProps) => {
   const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
   const { oid: userOid } = useValueRecoilState("loginInfo") || {};
@@ -49,6 +50,11 @@ const ModalChatSettlement = ({
     [userOid, roomInfo]
   );
   const onCopy = useCallback(() => setIsCopied(true), [setIsCopied]);
+  //#region event2023Fall
+  const event2023FallQuestCompletePS =
+    useEvent2023FallQuestComplete("payingAndSending");
+  const event2023FallQuestCompleteP = useEvent2023FallQuestComplete("paying");
+  //#endregion
 
   useEffect(() => {
     if (isCopied) {
@@ -65,6 +71,10 @@ const ModalChatSettlement = ({
       method: "post",
       data: { roomId: roomInfo._id },
       onSuccess: () => {
+        //#region event2023Fall
+        event2023FallQuestCompletePS();
+        event2023FallQuestCompleteP();
+        //#endregion
         modalProps.onChangeIsOpen?.(false);
         onRecall?.();
       },
@@ -209,4 +219,4 @@ const ModalChatSettlement = ({
   );
 };
 
-export default ModalChatSettlement;
+export default ModalChatPayment;
