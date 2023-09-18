@@ -7,27 +7,14 @@ import WhiteContainer from "components/WhiteContainer";
 
 import theme from "tools/theme";
 
-// const creditAmout = 1000;
+import { ReactComponent as CreditIcon } from "static/events/2023fallCredit.svg";
 
-// const mockData = [
-//   {
-//     id: 1,
-//     userName: "wecode",
-//     content: "Welcome to world best coding bootcamp!",
-//     isLiked: true,
-//   },
-//   {
-//     id: 2,
-//     userName: "joonsikyang",
-//     content: "Hi there.",
-//     isLiked: false,
-//   },
-// ];
-
-const MissionContainer = () => {
+type MissionContainerProps = {
+  isDone?: boolean;
+};
+const MissionContainer = ({ isDone = false }: MissionContainerProps) => {
   const styleBody = {
     display: "flex",
-    gap: "12px",
   };
   const styleImageWrap = {
     flexGrow: 0,
@@ -36,6 +23,8 @@ const MissionContainer = () => {
     border: `2px solid #EEEEEE`,
     borderRadius: "10px",
     overflow: "hidden",
+    marginRight: "12px",
+    backgroundColor: theme.white,
   };
   const styleContentBox = {
     width: 0,
@@ -43,17 +32,26 @@ const MissionContainer = () => {
   };
   const styleTitle = {
     ...theme.font16_bold,
+    color: isDone ? theme.gray_text : theme.black,
+    marginBottom: "4px",
   };
   const styleDescription = {
     ...theme.font12,
+    color: isDone ? theme.gray_text : theme.black,
   };
   const styleReward = {
     display: "flex",
     justifyContent: "space-between",
+    marginTop: "12px",
   };
 
   return (
-    <WhiteContainer css={{ padding: "12px 12px 12px 20px" }}>
+    <WhiteContainer
+      css={{
+        padding: "12px 12px 12px 20px",
+        backgroundColor: isDone ? theme.gray_background : theme.white,
+      }}
+    >
       <div
         css={{
           position: "absolute",
@@ -61,7 +59,7 @@ const MissionContainer = () => {
           bottom: 0,
           left: 0,
           width: "8px",
-          background: theme.purple,
+          background: isDone ? theme.purple_disabled : theme.purple,
         }}
       />
       <div css={styleBody}>
@@ -74,10 +72,21 @@ const MissionContainer = () => {
           </div>
         </div>
       </div>
-      <div css={styleReward}>
-        <div>hi</div>
-        <div>hello</div>
-      </div>
+      {!isDone ? (
+        <div css={styleReward}>
+          <div css={{ ...theme.font12 }}>달성 0번 / 최대 3번</div>
+          <div
+            css={{
+              display: "flex",
+              width: "57px",
+              justifyContent: "space-between",
+            }}
+          >
+            <CreditIcon css={{ width: "27px", height: "16px" }} />
+            <div css={{ ...theme.font12 }}>600</div>
+          </div>
+        </div>
+      ) : null}
     </WhiteContainer>
   );
 };
@@ -99,7 +108,7 @@ const Event2023FallMissions = () => {
       <CreditAmountStatusContainer />
       <MissionContainer />
       <MissionContainer />
-      <MissionContainer />
+      <MissionContainer isDone={true} />
     </AdaptiveDiv>
   );
 };
