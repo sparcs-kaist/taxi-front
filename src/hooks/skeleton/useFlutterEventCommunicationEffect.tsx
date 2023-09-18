@@ -170,3 +170,20 @@ export const sendPopupInAppNotificationEventToFlutter = async (
     console.error(e);
   }
 };
+
+// 알림을 "on"으로 설정 시 Flutter에게 이벤트를 전달하고 앱의 알림 설정 여부를 반환받습니다.
+export const sendPopupInstagramStoryShareToFlutter = async (value: {
+  backgroundLayerUrl: string;
+  stickerLayerUrl: string;
+}) => {
+  console.log(value);
+  if (!isWebViewInFlutter) return true;
+  try {
+    await window.flutter_inappwebview.callHandler(
+      "popup_instagram_story_share",
+      value
+    );
+  } catch (e) {
+    console.error(e);
+  }
+};

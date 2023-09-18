@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 import AdaptiveDiv from "components/AdaptiveDiv";
 import CreditAmountStatusContainer from "components/Event/CreditAmountStatusContainer";
 import HeaderWithLeftNav from "components/Header/HeaderWithLeftNav";
@@ -69,4 +71,4 @@ const Event2023FallMissions = () => {
   );
 };
 
-export default Event2023FallMissions;
+export default memo(Event2023FallMissions);

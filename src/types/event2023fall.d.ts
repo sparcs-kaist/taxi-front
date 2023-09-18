@@ -19,3 +19,13 @@ export type Quest = {
   expireat: string;
   isDisabled: boolean;
 };
+
+export type Transaction = {
+  _id: string;
+  type: "get" | "use";
+  amount: number;
+  eventId?: string;
+  itemId?: string;
+  comment: string;
+  doneat: Date;
+};

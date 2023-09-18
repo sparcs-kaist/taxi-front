@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { memo, useCallback, useState } from "react";
 
 import useIsTimeOver from "hooks/useIsTimeOver";
@@ -15,7 +14,7 @@ import User from "components/User";
 import alertAtom from "atoms/alert";
 import { useSetRecoilState } from "recoil";
 
-import { day2str, dayServerToClient } from "tools/day";
+import dayjs, { day2str, dayServerToClient } from "tools/day";
 import theme from "tools/theme";
 
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";

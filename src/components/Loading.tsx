@@ -1,4 +1,4 @@
-import { css } from "@emotion/react";
+import { css, keyframes } from "@emotion/react";
 
 import theme, { Font } from "tools/theme";
 
@@ -18,9 +18,7 @@ const Loading = ({
       ${font}
       color: ${color};
       content: "Loading 🚕";
-      animation: loading 1.5s linear infinite;
-    }
-    @keyframes loading {
+      animation: ${keyframes`
       25% {
         content: "Loading. 🚕";
       }
@@ -29,7 +27,7 @@ const Loading = ({
       }
       75% {
         content: "Loading... 🚕";
-      }
+      }`} 1.5s linear infinite;
     }
   `;
   const positionCenter = css`

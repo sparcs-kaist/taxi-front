@@ -207,12 +207,26 @@ const BodyStore = () => {
 };
 
 const EventSection2023Fall = () => {
+  const [amountType, setAmountType] = useState<"credit" | "ticket">("credit");
+  const changeAmountType = useCallback(
+    () => setAmountType((prev) => (prev === "credit" ? "ticket" : "credit")),
+    []
+  );
+  useEffect(() => {
+    const interval = setInterval(changeAmountType, 3000);
+    return () => clearInterval(interval);
+  });
+
   return (
     <AdaptiveDiv type="center">
-      <Title icon="notice" isHeader>
+      <Title icon="festival" isHeader>
         추석 이벤트
       </Title>
-      <CreditAmountStatusContainer />
+      <CreditAmountStatusContainer
+        type={amountType}
+        css={{ ...theme.cursor() }}
+        onClick={changeAmountType}
+      />
       <div css={{ display: "flex", gap: "15px" }}>
         <Link to="/event/2023fall" css={{ width: 0, flexGrow: 1 }}>
           <ButtonContainer
