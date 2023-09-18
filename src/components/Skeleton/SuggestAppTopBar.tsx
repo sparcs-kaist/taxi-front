@@ -5,7 +5,7 @@ import AdaptiveDiv from "components/AdaptiveDiv";
 import theme from "tools/theme";
 import { getDynamicLink } from "tools/trans";
 
-import { ReactComponent as TaxiIcon } from "static/assets/TaxiAppIcon.svg";
+import { ReactComponent as TaxiIcon } from "static/assets/sparcsLogos/TaxiAppIcon.svg";
 
 const SuggestAppTopBar = () => {
   const { pathname, search } = useLocation();

@@ -8,6 +8,7 @@ import AdaptiveDiv from "components/AdaptiveDiv";
 import Button from "components/Button";
 import Footer from "components/Footer";
 import ButtonAboveFooter from "components/Footer/ButtonAboveFooter";
+import HeaderWithBackButton from "components/Header/HeaderWithBackButton";
 import { ModalCredit } from "components/ModalPopup";
 import WhiteContainer from "components/WhiteContainer";
 
@@ -53,6 +54,9 @@ const Event2023Fall = () => {
 
   return (
     <>
+      <HeaderWithBackButton>
+        <div css={{ color: theme.purple, ...theme.font18 }}>이벤트 안내</div>
+      </HeaderWithBackButton>
       <AdaptiveDiv
         type="center"
         css={{

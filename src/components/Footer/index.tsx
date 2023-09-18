@@ -5,7 +5,7 @@ import { ModalCredit, ModalPrivacyPolicy } from "components/ModalPopup";
 
 import ButtonAboveFooter from "./ButtonAboveFooter";
 
-import { ReactComponent as SparcsLogo } from "static/assets/SparcsLogoWithText.svg";
+import { ReactComponent as SparcsLogo } from "static/assets/sparcsLogos/SparcsLogoWithText.svg";
 
 type FooterProps = {
   type?: "only-logo" | "full";

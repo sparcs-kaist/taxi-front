@@ -1,11 +1,9 @@
-import { ReactNode, memo, useEffect, useRef, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { ReactNode, memo } from "react";
+import { Link } from "react-router-dom";
 
-import AdaptiveDiv from "components/AdaptiveDiv";
+import HeaderWithBackButton from "./HeaderWithBackButton";
 
 import theme from "tools/theme";
-
-import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 
 type ButtonNavProps = {
   selected?: boolean;
@@ -50,77 +48,19 @@ type HeaderWithLeftNavProps = {
   options?: Array<{ value: string; label: string; to: string }>;
 };
 
-const HeaderWithLeftNav = ({ value, options = [] }: HeaderWithLeftNavProps) => {
-  const navRef = useRef<HTMLDivElement>(null);
-  const padRef = useRef<HTMLDivElement>(null);
-  const [padHeight, setPadHeight] = useState<number>(0);
-  const history = useHistory();
-
-  useEffect(
-    () =>
-      setPadHeight(
-        (navRef.current?.offsetHeight || 0) - (padRef.current?.offsetTop || 0)
-      ),
-    []
-  );
-
-  const style = {
-    position: "fixed" as const,
-    left: 0,
-    top: 0,
-    width: "100%",
-    zIndex: theme.zIndex_nav,
-    overflow: "hidden",
-    background: theme.white,
-    boxShadow: theme.shadow_3,
-    padding: "calc(max(5px, env(safe-area-inset-top)) + 12px) 0 12px",
-    display: "flex",
-    gap: "16px",
-    alignItems: "center",
-  };
-  const styleBody = {
-    height: "40px",
-    display: "flex",
-    gap: "16px",
-    alignItems: "center",
-  };
-  const styleIconLarge = {
-    fill: theme.purple,
-    ...theme.cursor(),
-    width: "24px",
-    height: "24px",
-  };
-
-  return (
-    <>
-      <div ref={navRef} css={style}>
-        <AdaptiveDiv type="center" css={styleBody}>
-          <ArrowBackRoundedIcon
-            style={styleIconLarge}
-            onClick={
-              history.length <= 1
-                ? () => history.replace("/myroom")
-                : () => history.goBack()
-            }
-          />
-          <div css={{ flexGrow: 1 }} />
-          {options.map(({ value: _value, label, to }) => (
-            <Link key={label} to={to} css={{ textDecoration: "none" }}>
-              <ButtonNav key={label} selected={_value === value}>
-                {label}
-              </ButtonNav>
-            </Link>
-          ))}
-        </AdaptiveDiv>
-      </div>
-      <div
-        ref={padRef}
-        css={{
-          height: `${padHeight}px`,
-        }}
-      />
-    </>
-  );
-};
+const HeaderWithLeftNav = ({ value, options = [] }: HeaderWithLeftNavProps) => (
+  <HeaderWithBackButton>
+    <div css={{ display: "flex", gap: "16px" }}>
+      <div css={{ flexGrow: 1 }} />
+      {options.map(({ value: _value, label, to }) => (
+        <Link key={label} to={to} css={{ textDecoration: "none" }}>
+          <ButtonNav key={label} selected={_value === value}>
+            {label}
+          </ButtonNav>
+        </Link>
+      ))}
+    </div>
+  </HeaderWithBackButton>
+);
 
 export default memo(HeaderWithLeftNav);
