@@ -46,7 +46,9 @@ const ModalChatSaveAcount = ({
       method: "post",
       data: { account },
       onSuccess: () => {
+        //#region event2023Fall
         event2023FallQuestComplete();
+        //#endregion
         fetchLoginInfo();
       },
       onError: () => setAlert("계좌번호 저장을 실패하였습니다."),
