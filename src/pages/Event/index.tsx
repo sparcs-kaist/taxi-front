@@ -7,6 +7,7 @@ import Event2023FallLeaderboard from "./Event2023FallLeaderboard";
 import Event2023FallMissions from "./Event2023FallMissions";
 import Event2023FallStore from "./Event2023FallStore";
 import Event2023Spring from "./Event2023Spring";
+import Event2023SpringGuide from "./Event2023SpringGuide";
 
 const Event = () => {
   const { eventName } = useParams() as { eventName: string };
@@ -16,6 +17,8 @@ const Event = () => {
       return <Event2022Beta />;
     case "2023spring":
       return <Event2023Spring />;
+    case "2023spring-guide":
+      return <Event2023SpringGuide />;
     case "2023fall":
       return <Event2023Fall />;
     case "2023fall-store":

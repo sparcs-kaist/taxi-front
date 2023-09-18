@@ -20,8 +20,8 @@ import theme from "tools/theme";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import LocalAtmRoundedIcon from "@mui/icons-material/LocalAtmRounded";
-import { ReactComponent as KakaoPayLogo } from "static/assets/KakaoPayLogo.svg";
-import { ReactComponent as TossLogo } from "static/assets/TossLogo.svg";
+import { ReactComponent as KakaoPayLogo } from "static/assets/serviceLogos/KakaoPayLogo.svg";
+import { ReactComponent as TossLogo } from "static/assets/serviceLogos/TossLogo.svg";
 
 type ModalChatPaymentProps = Omit<
   Parameters<typeof Modal>[0],
