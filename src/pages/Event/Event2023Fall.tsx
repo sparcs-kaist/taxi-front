@@ -18,7 +18,7 @@ import { useSetRecoilState } from "recoil";
 import { deviceType } from "tools/loadenv";
 import theme from "tools/theme";
 
-import { ReactComponent as TaxiLogoIcon } from "static/assets/TaxiLogo.svg";
+import { ReactComponent as TaxiLogoIcon } from "static/assets/sparcsLogos/TaxiLogo.svg";
 import { ReactComponent as MainSection1 } from "static/events/2023fallMainSection1.svg";
 import { ReactComponent as MainSection2 } from "static/events/2023fallMainSection2.svg";
 import { ReactComponent as MainSection4 } from "static/events/2023fallMainSection4.svg";
