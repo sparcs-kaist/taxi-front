@@ -30,14 +30,14 @@
     181px -128.66667px #1e00ff, 90px -123.66667px #c800ff,
     189px 70.33333px #00ffc8, -18px -383.66667px #00ff33,
     100px -6.66667px #ff008c;
-  animation: 1s c2023fallevent-bang ease-out infinite backwards,
+  animation: 2s c2023fallevent-bang ease-out infinite backwards,
     1s c2023fallevent-gravity ease-in infinite backwards,
     5s c2023fallevent-position linear infinite backwards;
 }
 
 .c2023fallevent-after {
-  animation-delay: 2s, 2s, 10s;
-  animation-duration: 2s, 3s, 10s;
+  animation-delay: 2s, 3s, 15s;
+  animation-duration: 2s, 3s, 15s;
 }
 
 @keyframes c2023fallevent-bang {
