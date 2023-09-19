@@ -37,6 +37,4 @@ export const useEventEffect = () => {
     });
     prevEventStatusRef.current = completedQuests;
   }, [completedQuests]);
-
-  return null;
 };
