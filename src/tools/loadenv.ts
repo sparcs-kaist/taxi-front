@@ -17,7 +17,7 @@ export const kakaoSDKKey = env.REACT_APP_KAKAO_SDK_KEY; // optional
 export const gaTrackingId = env.REACT_APP_GA_TRACKING_ID; // optional
 export const firebaseConfig: Nullable<FirebaseConfig> =
   env.REACT_APP_FIREBASE_CONFIG && JSON.parse(env.REACT_APP_FIREBASE_CONFIG); // optional
-export const eventMode: Nullable<string> = undefined; // "2023fall";
+export const eventMode: Nullable<string> = env.EVENT_MODE; // optional. "2023fall"로 설정 가능
 
 // devicet-type 감지
 const userAgent = navigator.userAgent.toLowerCase();
