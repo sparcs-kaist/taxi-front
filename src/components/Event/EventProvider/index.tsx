@@ -18,39 +18,28 @@ const EventProvider = () => {
   const prevEventStatusRef = useRef<QuestId[]>();
 
   useEffect(() => {
-    if (completedQuests && !prevEventStatusRef.current) {
-      prevEventStatusRef.current = completedQuests;
-    }
-    if (
-      !completedQuests ||
-      !prevEventStatusRef.current ||
-      !quests ||
-      prevEventStatusRef.current.length === completedQuests?.length
-    )
-      return;
-
-    let currentEventStatus = [...completedQuests];
-
-    prevEventStatusRef.current.forEach((event) => {
-      const ind = currentEventStatus.indexOf(event);
-      if (ind === -1) return;
-      currentEventStatus.splice(ind, 1);
+    if (!completedQuests || !quests) return;
+    prevEventStatusRef.current = prevEventStatusRef.current || completedQuests;
+    if (prevEventStatusRef.current.length === completedQuests.length) return;
+    
+    const questsForCompare = ...completedQuests];
+    prevEventStatusRef.current.forEach((questId) => {
+      const index = questsForCompare.indexOf(questId);
+      if (ind < 0) return;
+      questsForCompare.index(ind, 1);
     });
-
-    currentEventStatus.forEach((id) => {
-      const event = quests.find((e) => e.id === id);
-      if (!event) return;
-      const popup: PopupInAppNotification = {
+    questsForCompare.forEach((questId) => {
+      const quest = quests.find(({ id }) => id === questId);
+      if (!quest) return;
+      sendPopupInAppNotificationEventToFlutter({
         type: "default",
-        imageUrl: event.imageUrl,
-        title: event.name,
-        subtitle: event.description,
-        content: undefined,
-        button: undefined,
-      };
-      sendPopupInAppNotificationEventToFlutter(popup);
+        imageUrl: quest.imageUrl,
+        title: "퀘스트 완료"
+        subtitle: quest.name,
+        content: quest.description,
+        button: { text: "확인하기", to: "/event/2023fall-missions" },
+      });
     });
-
     prevEventStatusRef.current = completedQuests;
   }, [completedQuests]);
 
