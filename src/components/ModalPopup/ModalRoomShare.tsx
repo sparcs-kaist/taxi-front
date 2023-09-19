@@ -35,7 +35,7 @@ const ModalRoomShare = ({
   //#region Event2023Fall
   const onChangeIsOpenWithEvent2023Fall = (isOpen: boolean) => {
     onChangeIsOpen?.(isOpen);
-    event2023FallQuestComplete("roomSharing");
+    !isOpen && event2023FallQuestComplete("roomSharing");
   };
   //#endregion
 
