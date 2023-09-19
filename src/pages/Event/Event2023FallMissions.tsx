@@ -22,7 +22,7 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
     const cnt =
       completedQuests?.filter((questId) => questId === quest?.id).length || 0;
     const isDone = cnt && quest?.maxCount ? cnt >= quest?.maxCount : false;
-    return [cnt, isDone];
+    return [isDone, cnt];
   }, [completedQuests]);
 
   const styleBody = {
