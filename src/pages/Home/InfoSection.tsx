@@ -17,7 +17,7 @@ import theme from "tools/theme";
 import BackgroundImage from "static/assets/BackgroundImage.jpg";
 import BackgroundImageDesktop from "static/assets/BackgroundImageDesktop.webp";
 import BackgroundImageMobile from "static/assets/BackgroundImageMobile.webp";
-import { ReactComponent as TaxiLogoWhite } from "static/assets/TaxiLogoWhite.svg";
+import { ReactComponent as TaxiLogoWhite } from "static/assets/sparcsLogos/TaxiLogoWhite.svg";
 
 const InfoSection = () => {
   const loginInfo = useRecoilValue(loginInfoAtom);

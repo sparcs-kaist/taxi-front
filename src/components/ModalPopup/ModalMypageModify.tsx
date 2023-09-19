@@ -2,6 +2,7 @@ import axiosOri from "axios";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { useEvent2023FallQuestComplete } from "hooks/event/useEvent2023FallQuestComplete";
 import {
   useFetchRecoilState,
   useValueRecoilState,
@@ -152,6 +153,9 @@ const ModalMypageModify = ({
 
   const loginInfo = useValueRecoilState("loginInfo");
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
+  //#region event2023Fall
+  const event2023FallQuestComplete = useEvent2023FallQuestComplete();
+  //#endregion
   const setAlert = useSetRecoilState(alertAtom);
 
   useEffect(() => {
@@ -174,6 +178,7 @@ const ModalMypageModify = ({
         method: "post",
         data: { nickname },
         onError: () => setAlert(t("page_modify.nickname_failed")),
+        onSuccess: () => event2023FallQuestComplete("nicknameChanging"), // event2023Fall
       });
     }
     if (account !== loginInfo?.account) {
@@ -183,6 +188,7 @@ const ModalMypageModify = ({
         method: "post",
         data: { account },
         onError: () => setAlert(t("page_modify.account_failed")),
+        onSuccess: () => event2023FallQuestComplete("accountChanging"), // event2023Fall
       });
     }
     if (isNeedToUpdateLoginInfo) {

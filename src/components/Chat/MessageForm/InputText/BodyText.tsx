@@ -1,11 +1,5 @@
-import {
-  ChangeEvent,
-  KeyboardEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { css } from "@emotion/react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import useSendMessage from "hooks/chat/useSendMessage";
 
@@ -20,44 +14,13 @@ type BodyTextProps = {
 
 const BodyText = ({ sendMessage }: BodyTextProps) => {
   const wrapRef = useRef<HTMLDivElement>(null);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>();
   const [height, setHeight] = useState<CSS["height"]>("32px");
-  const [message, setMessage] = useState<string>("");
   const [isSendingMessage, setIsSendingMessage] = useState<boolean>(false);
-
   const isEnterPressed = useRef<boolean>(false);
   const isShiftPressed = useRef<boolean>(false);
 
-  const isMessageValid: boolean =
-    regExpTest.chatMsg(message) && !isSendingMessage;
-
-  const onSend = async () => {
-    textareaRef.current?.focus();
-    if (isMessageValid) {
-      setIsSendingMessage(true);
-      const result = await sendMessage("text", { text: message });
-      if (result) setMessage("");
-      setIsSendingMessage(false);
-    }
-  };
-  const onKeyEvent = (e: KeyboardEvent<HTMLTextAreaElement>, v: boolean) => {
-    if (e.code === "ShiftLeft" || e.code === "ShiftRight")
-      isShiftPressed.current = v;
-    if (e.code === "Enter") isEnterPressed.current = v;
-  };
-  const onChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    if (isEnterPressed.current && !isShiftPressed.current) {
-      onSend();
-      return;
-    }
-    const msg = e.target.value;
-    if (!isSendingMessage) setMessage(msg);
-  };
-  const onKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) =>
-    onKeyEvent(e, true);
-  const onKeyUp = (e: KeyboardEvent<HTMLTextAreaElement>) =>
-    onKeyEvent(e, false);
-
+  /* form height handler */
   const resizeEvent = useCallback(() => {
     if (!wrapRef.current) return;
     const cacheHeight = wrapRef.current.style.height;
@@ -71,41 +34,123 @@ const BodyText = ({ sendMessage }: BodyTextProps) => {
     )}px`;
     wrapRef.current.style.height = cacheHeight;
     setHeight(newHeight);
-  }, [setHeight]);
-
+  }, []);
   useEffect(() => {
     resizeEvent();
     window.addEventListener("resize", resizeEvent);
     return () => window.removeEventListener("resize", resizeEvent);
   }, []);
-  useEffect(resizeEvent, [message]);
+
+  /* message validation handler */
+  const [isMessageValidState, setIsMessageValidState] =
+    useState<boolean>(false);
+  const getIsMessageValid = useCallback(
+    (message: string): boolean =>
+      regExpTest.chatMsg(message) && !isSendingMessage,
+    [isSendingMessage]
+  );
+  useEffect(
+    () =>
+      setIsMessageValidState(
+        getIsMessageValid(textareaRef.current?.value || "")
+      ),
+    [getIsMessageValid]
+  );
+
+  /* send message handler */
+  const onSend = async () => {
+    if (!textareaRef.current) return;
+
+    const message = textareaRef.current.value;
+    const isMessageValid = getIsMessageValid(message);
+    refreshTextArea();
+    textareaRef.current.focus();
+    resizeEvent();
+
+    if (isMessageValid) {
+      setIsSendingMessage(true);
+      const result = await sendMessage("text", { text: message });
+      if (!result) textareaRef.current.value = message;
+      setIsSendingMessage(false);
+    }
+  };
+
+  /* textarea event handler */
+  const onChange = useCallback(
+    (e: Event) => {
+      if (!textareaRef.current) return;
+      if (isSendingMessage) refreshTextArea();
+      setIsMessageValidState(getIsMessageValid(textareaRef.current.value));
+
+      if (isEnterPressed.current && !isShiftPressed.current) {
+        onSend();
+        return;
+      }
+      resizeEvent();
+    },
+    [isSendingMessage, getIsMessageValid, onSend]
+  );
+  const onKeyEvent = (e: KeyboardEvent, v: boolean) => {
+    if (e.code === "ShiftLeft" || e.code === "ShiftRight")
+      isShiftPressed.current = v;
+    if (e.code === "Enter") {
+      if (textareaRef.current && !v && !isShiftPressed.current) {
+        refreshTextArea();
+        textareaRef.current.focus();
+      }
+      isEnterPressed.current = v;
+    }
+  };
+  const onKeyDown = (e: KeyboardEvent) => onKeyEvent(e, true);
+  const onKeyUp = (e: KeyboardEvent) => onKeyEvent(e, false);
+
+  /* textarea refresh handler */
+  const refreshTextArea = () => {
+    if (!wrapRef.current) return;
+    if (textareaRef.current) wrapRef.current.removeChild(textareaRef.current);
+    const textarea = document.createElement("textarea");
+    textarea.oninput = onChange;
+    textarea.addEventListener("keydown", onKeyDown);
+    textarea.addEventListener("keyup", onKeyUp);
+    textarea.placeholder = "채팅을 입력해주세요";
+    textarea.value = "";
+    textareaRef.current = textarea;
+    wrapRef.current.prepend(textarea);
+    resizeEvent();
+  };
+  useEffect(refreshTextArea, [sendMessage]);
 
   return (
-    <div ref={wrapRef} css={{ height: height }}>
-      <textarea
-        ref={textareaRef}
-        value={message}
-        placeholder="채팅을 입력해주세요"
-        onChange={onChange}
-        onKeyDown={onKeyDown}
-        onKeyUp={onKeyUp}
-        css={{
-          width: "calc(100% - 30px)",
-          height: "100%",
-          background: "none",
-          border: "none",
-          resize: "none",
-          outline: "none",
-          ...theme.font14,
-          color: theme.black,
-          padding: "8px 12px",
-          boxSizing: "border-box",
-        }}
-      />
+    <div
+      ref={wrapRef}
+      css={css`
+        height: ${height};
+        & > textarea {
+          ${[
+            css`
+              width: calc(100% - 30px);
+              height: 100%;
+              background: none;
+              border: none;
+              resize: none;
+              outline: none;
+              color: ${theme.black};
+              padding: 8px 12px;
+              box-sizing: border-box;
+            `,
+            theme.font14,
+          ]}
+        }
+      `}
+    >
       <ButtonSend
         onClick={onSend}
         status={
-          isSendingMessage ? "pending" : isMessageValid ? "active" : "inactive"
+          isSendingMessage
+            ? "pending"
+            : isMessageValidState
+            ? "active"
+            : "inactive"
         }
       />
     </div>

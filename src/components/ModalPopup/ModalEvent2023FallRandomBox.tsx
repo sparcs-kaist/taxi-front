@@ -1,3 +1,4 @@
+import { css, keyframes } from "@emotion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import Button from "components/Button";
@@ -5,10 +6,25 @@ import DottedLine from "components/DottedLine";
 import Modal from "components/Modal";
 
 import "./ModalEvent2023FallRandomBox.css";
+import "./ModalEvent2023FallRandomBoxBackground.css";
 
 import theme from "tools/theme";
 
 import LocalAtmRoundedIcon from "@mui/icons-material/LocalAtmRounded";
+import { ReactComponent as BackPlane } from "static/events/2023fallRandomboxBack.svg";
+import { ReactComponent as FrontPlane } from "static/events/2023fallRandomboxFront.svg";
+import { ReactComponent as FrontPlaneLight } from "static/events/2023fallRandomboxFrontLight.svg";
+import { ReactComponent as LeftPlane } from "static/events/2023fallRandomboxLeft.svg";
+import { ReactComponent as RightPlane } from "static/events/2023fallRandomboxRight.svg";
+import { ReactComponent as RightPlaneLight } from "static/events/2023fallRandomboxRightLight.svg";
+import { ReactComponent as TopPlane } from "static/events/2023fallRandomboxTop.svg";
+
+const Background = () => (
+  <div css={{ position: "absolute", top: "20%", left: 0, bottom: 0, right: 0 }}>
+    <div className="c2023fallevent-before"></div>
+    <div className="c2023fallevent-after"></div>
+  </div>
+);
 
 type BodyRandomBoxProps = {
   isBoxOpend: boolean;
@@ -28,6 +44,30 @@ const BodyRandomBox = ({ isBoxOpend, onClickBox }: BodyRandomBoxProps) => {
     return () => window.removeEventListener("resize", resizeEvent);
   }, []);
 
+  const stylePlane = {
+    position: "absolute" as const,
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+  };
+  const stylePlaneLRInversion = {
+    transform: "scaleX(-1)",
+  };
+  const stylePlaneFlash = css`
+    animation: ${keyframes`
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+  `} 2s linear infinite;
+  `;
+
   return (
     <div ref={bodyRef} css={{ height: `${boxSize * 1.3}px` }}>
       <div
@@ -45,13 +85,25 @@ const BodyRandomBox = ({ isBoxOpend, onClickBox }: BodyRandomBoxProps) => {
           ].join(" ")}
           onClick={onClickBox}
         >
-          <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-front" />
-          <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-back" />
-          <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-left" />
-          <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-right">
-            🚕
+          <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-front">
+            <FrontPlane css={stylePlane} />
+            <FrontPlaneLight css={[stylePlane, stylePlaneFlash]} />
           </div>
-          <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-top" />
+          <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-back">
+            <BackPlane css={{ ...stylePlane, ...stylePlaneLRInversion }} />
+          </div>
+          <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-left">
+            <LeftPlane css={{ ...stylePlane, ...stylePlaneLRInversion }} />
+          </div>
+          <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-right">
+            {/* <RightPlaneLight css={stylePlane} />
+            <RightPlane css={[stylePlane, stylePlaneFlash]} /> */}
+            <RightPlane css={stylePlane} />
+            <RightPlaneLight css={[stylePlane, stylePlaneFlash]} />
+          </div>
+          <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-top">
+            <TopPlane css={stylePlane} />
+          </div>
           <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-bottom" />
           <div className="c2023fallevent-emoji">🎟</div>
         </div>
@@ -88,6 +140,7 @@ const ModalEvent2023FallRandomBox = ({
     <Modal
       css={{ padding: "16px 12px 12px", overflow: "hidden" }}
       onEnter={onClickOk}
+      backgroundChildren={isBoxOpend ? <Background /> : undefined}
       {...modalProps}
     >
       <div css={styleTitle}>

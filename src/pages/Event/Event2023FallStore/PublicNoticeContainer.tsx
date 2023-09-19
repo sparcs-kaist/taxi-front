@@ -51,7 +51,6 @@ const PublicNoticeContainer = () => {
           width: 0,
           overflow: "hidden",
           whiteSpace: "nowrap",
-          ...theme.font14,
         }}
       >
         <div
@@ -81,7 +80,7 @@ const PublicNoticeContainer = () => {
           `}
         >
           {[...notices, ...notices].map((text, index) => (
-            <span key={index} css={{ padding: "0 20px" }}>
+            <span key={index} css={{ padding: "0 20px", ...theme.font14 }}>
               {text}
             </span>
           ))}

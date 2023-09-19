@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState } from "react";
 
 import useSendMessage from "hooks/chat/useSendMessage";
+import { useEvent2023FallQuestComplete } from "hooks/event/useEvent2023FallQuestComplete";
 import { useValueRecoilState } from "hooks/useFetchRecoilState";
 import { useAxios } from "hooks/useTaxiAPI";
 
@@ -39,6 +40,7 @@ const ModalChatSettlement = ({
   const isValidAccount = useMemo(() => regExpTest.account(account), [account]);
   const isRequesting = useRef<boolean>(false);
   const sendMessage = useSendMessage(roomInfo._id, isRequesting);
+  const event2023FallQuestComplete = useEvent2023FallQuestComplete();
 
   const onClickOk = () => {
     if (isRequesting.current || !isValidAccount) return;
@@ -55,6 +57,10 @@ const ModalChatSettlement = ({
           isRequesting.current = false;
           if (account !== defaultAccount) openSaveAccountModal?.(account);
         }
+        //#region event2023Fall
+        event2023FallQuestComplete("payingAndSending");
+        event2023FallQuestComplete("sending");
+        //#endregion
         modalProps.onChangeIsOpen?.(false);
       },
       onError: () => {

@@ -8,8 +8,8 @@ import Navigation from "components/Navigation";
 
 import theme from "tools/theme";
 
-import { ReactComponent as SparcsLogoBlack } from "static/assets/SparcsLogoBlack.svg";
-import { ReactComponent as SparcsLogoYellow } from "static/assets/SparcsLogoYellow.svg";
+import { ReactComponent as SparcsLogoBlack } from "static/assets/sparcsLogos/SparcsLogoBlack.svg";
+import { ReactComponent as SparcsLogoYellow } from "static/assets/sparcsLogos/SparcsLogoYellow.svg";
 import {
   members,
   members2023FallEvent,

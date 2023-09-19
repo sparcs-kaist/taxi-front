@@ -14,7 +14,7 @@ import { getLocationName } from "tools/trans";
 
 import CheckIcon from "@mui/icons-material/Check";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import { ReactComponent as KakaoTalkLogo } from "static/assets/KakaoTalkLogo.svg";
+import { ReactComponent as KakaoTalkLogo } from "static/assets/serviceLogos/KakaoTalkLogo.svg";
 
 export type BodyRoomShareProps = {
   roomInfo: Room;

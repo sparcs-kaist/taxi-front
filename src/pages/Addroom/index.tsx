@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 
+import { useEvent2023FallQuestComplete } from "hooks/event/useEvent2023FallQuestComplete";
 import {
   useFetchRecoilState,
   useValueRecoilState,
@@ -59,6 +60,9 @@ const AddRoom = () => {
   const isLogin = !!useValueRecoilState("loginInfo")?.id;
   const myRooms = useValueRecoilState("myRooms");
   const fetchMyRooms = useFetchRecoilState("myRooms");
+  //#region event2023Fall
+  const event2023FallQuestComplete = useEvent2023FallQuestComplete();
+  //#endregion
 
   useEffect(() => {
     const expirationDate = new Date();
@@ -111,6 +115,9 @@ const AddRoom = () => {
         },
         onSuccess: () => {
           fetchMyRooms();
+          //#region event2023Fall
+          event2023FallQuestComplete("firstRoomCreation");
+          //#endregion
           history.push("/myroom");
         },
         onError: () => setAlert("방 개설에 실패하였습니다."),
