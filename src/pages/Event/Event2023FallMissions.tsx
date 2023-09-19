@@ -1,4 +1,4 @@
-import { memo, useEffect } from "react";
+import { memo, useMemo } from "react";
 
 import { Quest } from "types/event2023fall";
 
@@ -17,10 +17,14 @@ type MissionContainerProps = {
   quest?: Quest;
 };
 const MissionContainer = ({ quest }: MissionContainerProps) => {
-  useEffect(() => {
-    console.log(quest);
-  }, []);
-  const isDone = false;
+  const { completedQuests } = useValueRecoilState("event2023FallInfo") || {};
+  const [isDone, questCompletedCnt] = useMemo(() => {
+    const cnt =
+      completedQuests?.filter((questId) => questId === quest?.id).length || 0;
+    const isDone = cnt && quest?.maxCount ? cnt >= quest?.maxCount : false;
+    return [cnt, isDone];
+  }, [completedQuests]);
+
   const styleBody = {
     display: "flex",
   };
@@ -81,7 +85,9 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
       </div>
       {!isDone ? (
         <div css={styleReward}>
-          <div css={{ ...theme.font12 }}>달성 0번 / 최대 3번</div>
+          <div css={{ ...theme.font12 }}>
+            달성 {questCompletedCnt}번 / 최대 {quest?.maxCount}번
+          </div>
           <div
             css={{
               display: "flex",
@@ -99,11 +105,7 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
 };
 
 const Event2023FallMissions = () => {
-  const { completedQuests, quests } =
-    useValueRecoilState("event2023FallInfo") || {};
-  useEffect(() => {
-    console.log(completedQuests);
-  }, []);
+  const { quests } = useValueRecoilState("event2023FallInfo") || {};
   return (
     <AdaptiveDiv type="center">
       <HeaderWithLeftNav
