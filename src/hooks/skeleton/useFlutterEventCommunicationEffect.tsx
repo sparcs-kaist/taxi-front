@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 
-import { PopupInAppNotification } from "types/inAppNotification";
-
 import {
   useFetchRecoilState,
   useValueRecoilState,
@@ -157,7 +155,15 @@ export const sendClipboardCopyEventToFlutter = async (value: string) => {
 };
 
 export const sendPopupInAppNotificationEventToFlutter = async (
-  value: PopupInAppNotification
+  value: (
+    | { type: "chat"; profileUrl?: string; imageUrl?: never }
+    | { type: "default"; imageUrl?: string; profileUrl?: never }
+  ) & {
+    title?: string;
+    subtitle?: string;
+    content?: string;
+    button?: { text: string; path: string };
+  }
 ) => {
   console.log("fake notification call", value);
   if (!isWebViewInFlutter) return true;
