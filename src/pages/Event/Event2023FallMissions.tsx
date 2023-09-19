@@ -14,9 +14,12 @@ import theme from "tools/theme";
 import { ReactComponent as CreditIcon } from "static/events/2023fallCredit.svg";
 
 type MissionContainerProps = {
-  event?: Quest;
+  quest?: Quest;
 };
-const MissionContainer = ({ event }: MissionContainerProps) => {
+const MissionContainer = ({ quest }: MissionContainerProps) => {
+  useEffect(() => {
+    console.log(quest);
+  }, []);
   const isDone = false;
   const styleBody = {
     display: "flex",
@@ -68,13 +71,12 @@ const MissionContainer = ({ event }: MissionContainerProps) => {
         }}
       />
       <div css={styleBody}>
-        <div css={styleImageWrap}></div>
+        <div css={styleImageWrap}>
+          <img src={quest?.imageUrl} alt={quest?.name} />
+        </div>
         <div css={styleContentBox}>
-          <div css={styleTitle}>정산해요 택시의 숲</div>
-          <div css={styleDescription}>
-            2명 이상 탑승하고 정산 완료하기 여기는 미션 설명을 위한 공간입니다
-            최대 세 줄까지 들어가도록 해볼게요
-          </div>
+          <div css={styleTitle}>{quest?.name}</div>
+          <div css={styleDescription}>{quest?.description}</div>
         </div>
       </div>
       {!isDone ? (
@@ -88,7 +90,7 @@ const MissionContainer = ({ event }: MissionContainerProps) => {
             }}
           >
             <CreditIcon css={{ width: "27px", height: "16px" }} />
-            <div css={{ ...theme.font12 }}>600</div>
+            <div css={{ ...theme.font12 }}>{quest?.reward?.credit}</div>
           </div>
         </div>
       ) : null}
@@ -97,9 +99,10 @@ const MissionContainer = ({ event }: MissionContainerProps) => {
 };
 
 const Event2023FallMissions = () => {
-  const { quests } = useValueRecoilState("event2023FallInfo") || {};
+  const { completedQuests, quests } =
+    useValueRecoilState("event2023FallInfo") || {};
   useEffect(() => {
-    console.log(quests);
+    console.log(completedQuests);
   }, []);
   return (
     <AdaptiveDiv type="center">
@@ -115,9 +118,8 @@ const Event2023FallMissions = () => {
       />
       <div css={{ height: "30px" }} />
       <CreditAmountStatusContainer />
-      <MissionContainer />
       {quests?.map((e, i) => (
-        <MissionContainer key={e.id} event={e} />
+        <MissionContainer key={e.id} quest={e} />
       ))}
     </AdaptiveDiv>
   );
