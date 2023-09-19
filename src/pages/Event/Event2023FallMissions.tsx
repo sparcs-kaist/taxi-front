@@ -1,4 +1,8 @@
-import { memo } from "react";
+import { memo, useEffect } from "react";
+
+import { Quest } from "types/event2023fall";
+
+import { useValueRecoilState } from "hooks/useFetchRecoilState";
 
 import AdaptiveDiv from "components/AdaptiveDiv";
 import CreditAmountStatusContainer from "components/Event/CreditAmountStatusContainer";
@@ -10,9 +14,10 @@ import theme from "tools/theme";
 import { ReactComponent as CreditIcon } from "static/events/2023fallCredit.svg";
 
 type MissionContainerProps = {
-  isDone?: boolean;
+  event?: Quest;
 };
-const MissionContainer = ({ isDone = false }: MissionContainerProps) => {
+const MissionContainer = ({ event }: MissionContainerProps) => {
+  const isDone = false;
   const styleBody = {
     display: "flex",
   };
@@ -92,6 +97,10 @@ const MissionContainer = ({ isDone = false }: MissionContainerProps) => {
 };
 
 const Event2023FallMissions = () => {
+  const { quests } = useValueRecoilState("event2023FallInfo") || {};
+  useEffect(() => {
+    console.log(quests);
+  }, []);
   return (
     <AdaptiveDiv type="center">
       <HeaderWithLeftNav
@@ -107,8 +116,9 @@ const Event2023FallMissions = () => {
       <div css={{ height: "30px" }} />
       <CreditAmountStatusContainer />
       <MissionContainer />
-      <MissionContainer />
-      <MissionContainer isDone={true} />
+      {quests?.map((e, i) => (
+        <MissionContainer key={e.id} event={e} />
+      ))}
     </AdaptiveDiv>
   );
 };
