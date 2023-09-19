@@ -153,3 +153,43 @@ export const sendClipboardCopyEventToFlutter = async (value: string) => {
     console.error(e);
   }
 };
+
+export const sendPopupInAppNotificationEventToFlutter = async (
+  value: (
+    | { type: "chat"; profileUrl?: string; imageUrl?: never }
+    | { type: "default"; imageUrl?: string; profileUrl?: never }
+  ) & {
+    title?: string;
+    subtitle?: string;
+    content?: string;
+    button?: { text: string; path: string };
+  }
+) => {
+  console.log("fake notification call", value);
+  if (!isWebViewInFlutter) return true;
+  try {
+    await window.flutter_inappwebview.callHandler(
+      "popup_inAppNotification",
+      value
+    );
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// 알림을 "on"으로 설정 시 Flutter에게 이벤트를 전달하고 앱의 알림 설정 여부를 반환받습니다.
+export const sendPopupInstagramStoryShareToFlutter = async (value: {
+  backgroundLayerUrl: string;
+  stickerLayerUrl: string;
+}) => {
+  console.log("fake instagram call", value);
+  if (!isWebViewInFlutter) return true;
+  try {
+    await window.flutter_inappwebview.callHandler(
+      "popup_instagram_story_share",
+      value
+    );
+  } catch (e) {
+    console.error(e);
+  }
+};
