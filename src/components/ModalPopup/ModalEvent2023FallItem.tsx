@@ -49,7 +49,12 @@ const ModalEvent2023FallItem = ({
         },
         onError: () => setAlert("구매를 실패하였습니다."),
       }),
-    [itemInfo._id, fetchItems, modalProps.onChangeIsOpen]
+    [
+      itemInfo._id,
+      fetchItems,
+      modalProps.onChangeIsOpen,
+      fetchEvent2023FallInfo,
+    ]
   );
 
   const [isDisabled, buttonText] = useMemo(

@@ -1,3 +1,5 @@
+import { useEvent2023FallQuestComplete } from "hooks/event/useEvent2023FallQuestComplete";
+
 import Modal from "components/Modal";
 
 import BodyRoomShare, { BodyRoomShareProps } from "./Body/BodyRoomShare";
@@ -17,6 +19,9 @@ const ModalRoomShare = ({
   onChangeIsOpen,
   roomInfo,
 }: ModalRoomShareProps) => {
+  //#region event2023Fall
+  const event2023FallQuestComplete = useEvent2023FallQuestComplete();
+  //#endregion
   const styleTitle = {
     ...theme.font18,
     display: "flex",
@@ -27,11 +32,17 @@ const ModalRoomShare = ({
     fontSize: "21px",
     margin: "0 4px 0 0",
   };
+  //#region Event2023Fall
+  const onChangeIsOpenWithEvent2023Fall = (isOpen: boolean) => {
+    onChangeIsOpen?.(isOpen);
+    !isOpen && event2023FallQuestComplete("roomSharing");
+  };
+  //#endregion
 
   return (
     <Modal
       isOpen={isOpen}
-      onChangeIsOpen={onChangeIsOpen}
+      onChangeIsOpen={onChangeIsOpenWithEvent2023Fall}
       padding="16px 12px 12px"
     >
       <div css={styleTitle}>
