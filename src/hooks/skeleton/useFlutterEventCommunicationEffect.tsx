@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { PopupInAppNotification } from "types/notification";
+import { PopupInAppNotification } from "types/inAppNotification";
 
 import {
   useFetchRecoilState,

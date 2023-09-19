@@ -33,8 +33,7 @@ const ModalChatSaveAcount = ({
   const [account, setAccount] = useState<string>(accountDefault || "");
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
   //#region event2023Fall
-  const event2023FallQuestComplete =
-    useEvent2023FallQuestComplete("accountChanging");
+  const event2023FallQuestComplete = useEvent2023FallQuestComplete();
   //#endregion
 
   useEffect(() => setAccount(accountDefault || ""), [accountDefault]);
@@ -47,7 +46,7 @@ const ModalChatSaveAcount = ({
       data: { account },
       onSuccess: () => {
         //#region event2023Fall
-        event2023FallQuestComplete();
+        event2023FallQuestComplete("accountChanging");
         //#endregion
         fetchLoginInfo();
       },

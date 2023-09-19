@@ -51,9 +51,7 @@ const ModalChatPayment = ({
   );
   const onCopy = useCallback(() => setIsCopied(true), [setIsCopied]);
   //#region event2023Fall
-  const event2023FallQuestCompletePS =
-    useEvent2023FallQuestComplete("payingAndSending");
-  const event2023FallQuestCompleteP = useEvent2023FallQuestComplete("paying");
+  const event2023FallQuestComplete = useEvent2023FallQuestComplete();
   //#endregion
 
   useEffect(() => {
@@ -72,8 +70,8 @@ const ModalChatPayment = ({
       data: { roomId: roomInfo._id },
       onSuccess: () => {
         //#region event2023Fall
-        event2023FallQuestCompletePS();
-        event2023FallQuestCompleteP();
+        event2023FallQuestComplete("payingAndSending");
+        event2023FallQuestComplete("paying");
         //#endregion
         modalProps.onChangeIsOpen?.(false);
         onRecall?.();

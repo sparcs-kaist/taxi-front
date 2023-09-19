@@ -40,9 +40,7 @@ const ModalChatSettlement = ({
   const isValidAccount = useMemo(() => regExpTest.account(account), [account]);
   const isRequesting = useRef<boolean>(false);
   const sendMessage = useSendMessage(roomInfo._id, isRequesting);
-  const event2023FallQuestCompletePS =
-    useEvent2023FallQuestComplete("payingAndSending");
-  const event2023FallQuestCompleteS = useEvent2023FallQuestComplete("sending");
+  const event2023FallQuestComplete = useEvent2023FallQuestComplete();
 
   const onClickOk = () => {
     if (isRequesting.current || !isValidAccount) return;
@@ -60,8 +58,8 @@ const ModalChatSettlement = ({
           if (account !== defaultAccount) openSaveAccountModal?.(account);
         }
         //#region event2023Fall
-        event2023FallQuestCompletePS();
-        event2023FallQuestCompleteS();
+        event2023FallQuestComplete("payingAndSending");
+        event2023FallQuestComplete("sending");
         //#endregion
         modalProps.onChangeIsOpen?.(false);
       },

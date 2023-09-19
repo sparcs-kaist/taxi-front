@@ -61,8 +61,7 @@ const AddRoom = () => {
   const myRooms = useValueRecoilState("myRooms");
   const fetchMyRooms = useFetchRecoilState("myRooms");
   //#region event2023Fall
-  const event2023FallQuestComplete =
-    useEvent2023FallQuestComplete("firstRoomCreation");
+  const event2023FallQuestComplete = useEvent2023FallQuestComplete();
   //#endregion
 
   useEffect(() => {
@@ -117,7 +116,7 @@ const AddRoom = () => {
         onSuccess: () => {
           fetchMyRooms();
           //#region event2023Fall
-          event2023FallQuestComplete();
+          event2023FallQuestComplete("firstRoomCreation");
           //#endregion
           history.push("/myroom");
         },

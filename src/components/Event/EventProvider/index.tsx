@@ -1,17 +1,13 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 import { QuestId } from "types/event2023fall";
-import { PopupInAppNotification } from "types/notification";
+import { PopupInAppNotification } from "types/inAppNotification";
 
 import { useValueRecoilState } from "hooks/useFetchRecoilState";
-
-import { ModalEvent2023FallMissionComplete } from "components/ModalPopup";
 
 import { sendPopupInAppNotificationEventToFlutter } from "tools/sendEventToFlutter";
 
 const EventProvider = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
   const { completedQuests, quests } =
     useValueRecoilState("event2023FallInfo") || {};
 
@@ -43,12 +39,7 @@ const EventProvider = () => {
     prevEventStatusRef.current = completedQuests;
   }, [completedQuests]);
 
-  return (
-    <ModalEvent2023FallMissionComplete
-      isOpen={isOpen}
-      onChangeIsOpen={setIsOpen}
-    />
-  );
+  return null;
 };
 
 export default EventProvider;

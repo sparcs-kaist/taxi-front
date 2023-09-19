@@ -20,8 +20,7 @@ const ModalRoomShare = ({
   roomInfo,
 }: ModalRoomShareProps) => {
   //#region event2023Fall
-  const event2023FallQuestComplete =
-    useEvent2023FallQuestComplete("roomSharing");
+  const event2023FallQuestComplete = useEvent2023FallQuestComplete();
   //#endregion
   const styleTitle = {
     ...theme.font18,
@@ -36,7 +35,7 @@ const ModalRoomShare = ({
   //#region Event2023Fall
   const onChangeIsOpenWithEvent2023Fall = (isOpen: boolean) => {
     onChangeIsOpen?.(isOpen);
-    event2023FallQuestComplete();
+    event2023FallQuestComplete("roomSharing");
   };
   //#endregion
 
