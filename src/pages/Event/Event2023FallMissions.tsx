@@ -1,6 +1,6 @@
 import { memo, useMemo } from "react";
 
-import { Quest } from "types/event2023fall";
+import type { Quest } from "types/event2023fall";
 
 import { useValueRecoilState } from "hooks/useFetchRecoilState";
 
@@ -14,16 +14,16 @@ import theme from "tools/theme";
 import { ReactComponent as CreditIcon } from "static/events/2023fallCredit.svg";
 
 type MissionContainerProps = {
-  quest?: Quest;
+  quest: Quest;
 };
 const MissionContainer = ({ quest }: MissionContainerProps) => {
   const { completedQuests } = useValueRecoilState("event2023FallInfo") || {};
   const [isDone, questCompletedCnt] = useMemo(() => {
     const cnt =
       completedQuests?.filter((questId) => questId === quest?.id).length || 0;
-    const isDone = cnt && quest?.maxCount ? cnt >= quest?.maxCount : false;
+    const isDone = quest.maxCount ? cnt >= quest.maxCount : false;
     return [isDone, cnt];
-  }, [completedQuests]);
+  }, [quest, completedQuests]);
 
   const styleBody = {
     display: "flex",
@@ -76,17 +76,17 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
       />
       <div css={styleBody}>
         <div css={styleImageWrap}>
-          <img src={quest?.imageUrl} alt={quest?.name} />
+          <img src={quest.imageUrl} alt={quest.name} />
         </div>
         <div css={styleContentBox}>
-          <div css={styleTitle}>{quest?.name}</div>
-          <div css={styleDescription}>{quest?.description}</div>
+          <div css={styleTitle}>{quest.name}</div>
+          <div css={styleDescription}>{quest.description}</div>
         </div>
       </div>
-      {!isDone ? (
+      {!isDone && (
         <div css={styleReward}>
-          <div css={{ ...theme.font12 }}>
-            달성 {questCompletedCnt}번 / 최대 {quest?.maxCount}번
+          <div css={theme.font12}>
+            달성 {questCompletedCnt}번 / 최대 {quest.maxCount}번
           </div>
           <div
             css={{
@@ -96,10 +96,10 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
             }}
           >
             <CreditIcon css={{ width: "27px", height: "16px" }} />
-            <div css={{ ...theme.font12 }}>{quest?.reward?.credit}</div>
+            <div css={theme.font12}>{quest.reward?.credit}</div>
           </div>
         </div>
-      ) : null}
+      )}
     </WhiteContainer>
   );
 };
@@ -120,8 +120,8 @@ const Event2023FallMissions = () => {
       />
       <div css={{ height: "30px" }} />
       <CreditAmountStatusContainer />
-      {quests?.map((e, i) => (
-        <MissionContainer key={e.id} quest={e} />
+      {quests?.map((quest) => (
+        <MissionContainer key={quest.id} quest={quest} />
       ))}
     </AdaptiveDiv>
   );
