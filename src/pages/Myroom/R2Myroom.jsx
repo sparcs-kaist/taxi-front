@@ -52,7 +52,7 @@ const R2Myroom = (props) => {
               <div css={{ height: "19px" }} />
               <DottedLine direction="row" />
               {props.ongoing.length === 0 ? (
-                <Empty screen="pc">참여 중인 방이 없습니다</Empty>
+                <Empty type="pc">참여 중인 방이 없습니다</Empty>
               ) : (
                 props.ongoing.map((item) => (
                   <LinkRoom
@@ -77,7 +77,7 @@ const R2Myroom = (props) => {
               <div css={{ height: "19px" }} />
               <DottedLine direction="row" />
               {props.done.length === 0 ? (
-                <Empty screen="pc">과거 참여했던 방이 없습니다</Empty>
+                <Empty type="pc">과거 참여했던 방이 없습니다</Empty>
               ) : (
                 <div>
                   {props.done

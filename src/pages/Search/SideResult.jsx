@@ -156,7 +156,7 @@ const SideResult = (props) => {
           />
           <DottedLine direction="row" />
           {rooms.length === 0 ? (
-            <Empty screen="pc">검색 결과가 없습니다</Empty>
+            <Empty type="pc">검색 결과가 없습니다</Empty>
           ) : (
             <>
               {rooms
@@ -197,7 +197,7 @@ const SideResult = (props) => {
           setSortOption={setSortOption}
         />
         {rooms.length === 0 ? (
-          <Empty screen="mobile">검색 결과가 없습니다</Empty>
+          <Empty type="mobile">검색 결과가 없습니다</Empty>
         ) : (
           <>
             {rooms

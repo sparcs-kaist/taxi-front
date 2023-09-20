@@ -54,7 +54,7 @@ const ReportList = (props: BodyReportProps) => {
   };
   if (!props.selectedReportHistory?.length) {
     return (
-      <Empty screen="mobile">
+      <Empty type="mobile">
         {props.option === "Reporting"
           ? t("page_report.empty_reported")
           : t("page_report.empty_received")}

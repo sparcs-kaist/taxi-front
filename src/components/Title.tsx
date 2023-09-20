@@ -4,6 +4,7 @@ import theme from "tools/theme";
 
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import ConfirmationNumberRoundedIcon from "@mui/icons-material/ConfirmationNumberRounded";
+import EmojiEventsRoundedIcon from "@mui/icons-material/EmojiEventsRounded";
 import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
 import FavoriteRoundedIocn from "@mui/icons-material/FavoriteRounded";
 import FeedRounedIcon from "@mui/icons-material/FeedRounded";
@@ -36,7 +37,8 @@ type IconProps = {
     | "notice"
     | "ticket"
     | "festival"
-    | "shop";
+    | "shop"
+    | "leaderboard";
 };
 
 type TitleProps = {
@@ -85,6 +87,8 @@ const Icon = ({ type: icon }: IconProps) => {
       return <FestivalRoundedIcon style={iconStyle} />;
     case "shop":
       return <ShoppingCartRoundedIcon style={iconStyle} />;
+    case "leaderboard":
+      return <EmojiEventsRoundedIcon style={iconStyle} />;
     default:
       return <></>;
   }
