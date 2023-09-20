@@ -8,6 +8,7 @@ type Env = {
   REACT_APP_KAKAO_SDK_KEY?: string;
   REACT_APP_GA_TRACKING_ID?: string;
   REACT_APP_FIREBASE_CONFIG?: string;
+  REACT_APP_EVENT_MODE?: string;
 };
 
 export type FirebaseConfig = {

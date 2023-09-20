@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback } from "react";
 import { Link } from "react-router-dom";
 
 import { sendPopupInstagramStoryShareToFlutter } from "hooks/skeleton/useFlutterEventCommunicationEffect";
@@ -7,9 +7,7 @@ import { useValueRecoilState } from "hooks/useFetchRecoilState";
 import AdaptiveDiv from "components/AdaptiveDiv";
 import Button from "components/Button";
 import Footer from "components/Footer";
-import ButtonAboveFooter from "components/Footer/ButtonAboveFooter";
 import HeaderWithBackButton from "components/Header/HeaderWithBackButton";
-import { ModalCredit } from "components/ModalPopup";
 import WhiteContainer from "components/WhiteContainer";
 
 import alertAtom from "atoms/alert";
@@ -33,7 +31,6 @@ import { ReactComponent as MissionCompleteIcon } from "static/events/2023fallMis
 const Event2023Fall = () => {
   const setAlert = useSetRecoilState(alertAtom);
   const isLogin = !!useValueRecoilState("loginInfo")?.id;
-  const [isOpenCredit, setIsOpenCredit] = useState(false);
 
   const onClickInstagramShare = useCallback(() => {
     if (!isLogin) {
@@ -50,7 +47,6 @@ const Event2023Fall = () => {
       });
     }
   }, [isLogin]);
-  const onClickCredit = useCallback(() => setIsOpenCredit(true), []);
 
   return (
     <>
@@ -319,20 +315,7 @@ const Event2023Fall = () => {
           </div>
         </AdaptiveDiv>
       </div>
-      <ModalCredit
-        defaultSelectedCatagory="2023FallEvent"
-        isOpen={isOpenCredit}
-        onChangeIsOpen={setIsOpenCredit}
-      />
-      <Footer type="only-logo">
-        <ButtonAboveFooter
-          text="한가위 송편 이벤트를 만든 사람들"
-          onClick={onClickCredit}
-        />
-        <Link to="/event/2023spring-guide" css={{ textDecoration: "none" }}>
-          <ButtonAboveFooter text="택시 살펴보기" />
-        </Link>
-      </Footer>
+      <Footer type="event-2023fall" />
     </>
   );
 };
