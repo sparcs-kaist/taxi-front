@@ -24,7 +24,10 @@ const Event2023FallStore = () => {
     itemListToken,
   ])[1] || { items: [] };
   const getItemFilteredList = useCallback(
-    (types) => items.filter((item: EventItem) => types.includes(item.itemType)),
+    (types) =>
+      items.filter(
+        (item: EventItem) => types.includes(item.itemType) && !item.isDisabled
+      ),
     [items]
   );
   const [itemTypeZeros, itemTypeOnes] = useMemo(
