@@ -5,14 +5,10 @@ import useAxios from "./useAxios";
 type Method = "get" | "post";
 
 const wrapUseQuery =
-  <ResponseType = any>(method: Method) =>
-  (
-    url: string,
-    data?: any,
-    dep?: [any]
-  ): [any, ResponseType | null, boolean] => {
+  (method: Method) =>
+  (url: string, data?: any, dep?: [any]): [any, any, boolean] => {
     const axios = useAxios();
-    const [res, setRes] = useState<{ error: any; data: ResponseType | null }>({
+    const [res, setRes] = useState<{ error: any; data: any }>({
       error: null,
       data: null,
     });
@@ -28,7 +24,7 @@ const wrapUseQuery =
         data,
         onSuccess: (res) => {
           if (isUnmounted || currentReqID !== latestReqID.current) return;
-          setRes({ error: null, data: res as ResponseType });
+          setRes({ error: null, data: res });
           setLoading(false);
         },
         onError: (e) => {
@@ -46,8 +42,6 @@ const wrapUseQuery =
   };
 
 export default {
-  get: <ResponseType = any>(url: string, data?: any, dep?: [any]) =>
-    wrapUseQuery<ResponseType>("get")(url, data, dep),
-  post: <ResponseType = any>(url: string, data?: any, dep?: [any]) =>
-    wrapUseQuery<ResponseType>("post")(url, data, dep),
+  get: wrapUseQuery("get"),
+  post: wrapUseQuery("post"),
 };
