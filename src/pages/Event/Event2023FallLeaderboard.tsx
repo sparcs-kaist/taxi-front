@@ -139,6 +139,7 @@ const LeaderboardItem = ({
         display: "flex",
         alignItems: "center",
         padding: "8px 15px",
+        marginBottom: "8px",
         gap: "8px",
         ...styleContainer(isMe ? -1 : index),
       }}
