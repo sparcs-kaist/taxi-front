@@ -29,7 +29,7 @@ const R1Myroom = ({
       참여 중인 방
     </Title>
     {ongoing.length === 0 ? (
-      <Empty screen="mobile">참여 중인 방이 없습니다</Empty>
+      <Empty type="mobile">참여 중인 방이 없습니다</Empty>
     ) : (
       ongoing.map((item) => (
         <Link
@@ -50,7 +50,7 @@ const R1Myroom = ({
       과거 참여 방
     </Title>
     {done.length === 0 ? (
-      <Empty screen="mobile">과거 참여했던 방이 없습니다</Empty>
+      <Empty type="mobile">과거 참여했던 방이 없습니다</Empty>
     ) : (
       <>
         {done

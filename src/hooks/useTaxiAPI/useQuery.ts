@@ -8,7 +8,10 @@ const wrapUseQuery =
   (method: Method) =>
   (url: string, data?: any, dep?: [any]): [any, any, boolean] => {
     const axios = useAxios();
-    const [res, setRes] = useState<any>({});
+    const [res, setRes] = useState<{ error: any; data: any }>({
+      error: null,
+      data: null,
+    });
     const [loading, setLoading] = useState<any>(true);
     const latestReqID = useRef(0);
 
