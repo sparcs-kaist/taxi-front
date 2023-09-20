@@ -1,64 +1,23 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 
 import Button from "components/Button";
 import DottedLine from "components/DottedLine";
+import BodyRandomBox from "components/Event/BodyRandomBox";
 import Modal from "components/Modal";
 
 import "./ModalEvent2023FallRandomBox.css";
+import "./ModalEvent2023FallRandomBoxBackground.css";
 
 import theme from "tools/theme";
 
 import LocalAtmRoundedIcon from "@mui/icons-material/LocalAtmRounded";
 
-type BodyRandomBoxProps = {
-  isBoxOpend: boolean;
-  onClickBox?: () => void;
-};
-
-const BodyRandomBox = ({ isBoxOpend, onClickBox }: BodyRandomBoxProps) => {
-  const bodyRef = useRef<HTMLDivElement>(null);
-  const getBodyWidth = useCallback(() => bodyRef.current?.clientWidth || 0, []);
-  const [bodyWidth, setBodyWidth] = useState<number>(getBodyWidth());
-  const boxSize = bodyWidth * 0.6;
-
-  useEffect(() => {
-    const resizeEvent = () => setBodyWidth(getBodyWidth());
-    resizeEvent();
-    window.addEventListener("resize", resizeEvent);
-    return () => window.removeEventListener("resize", resizeEvent);
-  }, []);
-
-  return (
-    <div ref={bodyRef} css={{ height: `${boxSize * 1.3}px` }}>
-      <div
-        css={{
-          width: "1rem",
-          aspectRatio: 1,
-          margin: `${boxSize / 2 + 20}px auto 0`,
-          transform: `scale(${(boxSize / 16) * 0.8})`,
-        }}
-      >
-        <div
-          className={[
-            "c2023fallevent-randombox",
-            ...(isBoxOpend ? ["c2023fallevent-randombox-open"] : []),
-          ].join(" ")}
-          onClick={onClickBox}
-        >
-          <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-front" />
-          <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-back" />
-          <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-left" />
-          <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-right">
-            🚕
-          </div>
-          <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-top" />
-          <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-bottom" />
-          <div className="c2023fallevent-emoji">🎟</div>
-        </div>
-      </div>
-    </div>
-  );
-};
+const Background = () => (
+  <div css={{ position: "absolute", top: "20%", left: 0, bottom: 0, right: 0 }}>
+    <div className="c2023fallevent-before"></div>
+    <div className="c2023fallevent-after"></div>
+  </div>
+);
 
 type ModalEvent2023FallRandomBoxProps = Parameters<typeof Modal>[0] & {};
 
@@ -88,6 +47,7 @@ const ModalEvent2023FallRandomBox = ({
     <Modal
       css={{ padding: "16px 12px 12px", overflow: "hidden" }}
       onEnter={onClickOk}
+      backgroundChildren={isBoxOpend ? <Background /> : undefined}
       {...modalProps}
     >
       <div css={styleTitle}>

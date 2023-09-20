@@ -9,7 +9,7 @@ import { useRecoilValue } from "recoil";
 
 import theme from "tools/theme";
 
-import { ReactComponent as TaxiLogo } from "static/assets/TaxiLogo.svg";
+import { ReactComponent as TaxiLogo } from "static/assets/sparcsLogos/TaxiLogo.svg";
 
 const Login = () => {
   const history = useHistory();

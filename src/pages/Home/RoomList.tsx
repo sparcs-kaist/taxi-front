@@ -42,7 +42,7 @@ const RoomList = (props: RoomListProps) => {
           )}
         </>
       ) : (
-        <Empty screen="mobile" marginBottom="15px">
+        <Empty type="mobile" css={{ marginBottom: "15px" }}>
           해당 요일에 개설된 방이 없습니다
         </Empty>
       )}

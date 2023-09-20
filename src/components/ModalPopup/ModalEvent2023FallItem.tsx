@@ -9,6 +9,7 @@ import {
 import { useAxios } from "hooks/useTaxiAPI";
 
 import Button from "components/Button";
+import BodyRandomBox from "components/Event/BodyRandomBox";
 import Modal from "components/Modal";
 
 import alertAtom from "atoms/alert";
@@ -49,20 +50,27 @@ const ModalEvent2023FallItem = ({
         },
         onError: () => setAlert("구매를 실패하였습니다."),
       }),
-    [itemInfo._id, fetchItems, modalProps.onChangeIsOpen]
+    [
+      itemInfo._id,
+      fetchItems,
+      modalProps.onChangeIsOpen,
+      fetchEvent2023FallInfo,
+    ]
   );
 
   const [isDisabled, buttonText] = useMemo(
-    () =>
-      eventMode !== "2023fall"
-        ? [true, "이벤트 기간이 아닙니다"]
-        : itemInfo.stock <= 0
-        ? [true, "매진된 상품은 구매할 수 없습니다"]
-        : !event2023FallInfo
-        ? [true, "로그인 후 구매가 가능합니다"]
-        : event2023FallInfo.creditAmount < itemInfo.price
-        ? [true, "송편이 부족하여 구매할 수 없습니다"]
-        : [false, "구매하기"],
+    () => [true, "달토끼 상점 오픈 전입니다"],
+    // eventMode !== "2023fall"
+    //   ? [true, "이벤트 기간이 아닙니다"]
+    //   : eventMode !== "2023fall"
+    //   ? [true, "이벤트 기간이 아닙니다"]
+    //   : itemInfo.stock <= 0
+    //   ? [true, "매진된 상품은 구매할 수 없습니다"]
+    //   : !event2023FallInfo
+    //   ? [true, "로그인 후 구매가 가능합니다"]
+    //   : event2023FallInfo.creditAmount < itemInfo.price
+    //   ? [true, "송편이 부족하여 구매할 수 없습니다"]
+    //   : [false, "구매하기"],
     [eventMode, event2023FallInfo, itemInfo]
   );
 
@@ -83,23 +91,28 @@ const ModalEvent2023FallItem = ({
         <AccountBalanceWalletRoundedIcon style={styleIcon} />
         구매하기
       </div>
+      {itemInfo.itemType === 3 ? (
+        <BodyRandomBox isBoxOpend={false} />
+      ) : (
+        <img
+          css={{
+            width: "100%",
+            borderRadius: "8px",
+            aspectRatio: "1/1",
+          }}
+          src={itemInfo.imageUrl}
+          alt={itemInfo.name}
+        />
+      )}
       <div
         css={{
           display: "flex",
           flexDirection: "column",
           alignItems: "left",
           gap: "10px",
+          padding: "16px 4px",
         }}
       >
-        <img
-          css={{
-            width: "100%",
-            borderRadius: "12px",
-            aspectRatio: "1/1",
-          }}
-          src={itemInfo.imageUrl}
-          alt={itemInfo.name}
-        />
         <div css={theme.font16_bold}>{itemInfo.name}</div>
         <div css={theme.font14}>{itemInfo.description}</div>
         <div
@@ -111,20 +124,20 @@ const ModalEvent2023FallItem = ({
           <CreditIcon css={{ width: "27px", height: "16px" }} />
           <div>{itemInfo.price}</div>
         </div>
-        <Button
-          type="purple_inset"
-          css={{
-            width: "100%",
-            padding: "10px 0 9px",
-            borderRadius: "8px",
-            ...theme.font14_bold,
-          }}
-          onClick={onClickOk}
-          disabled={isDisabled}
-        >
-          {buttonText}
-        </Button>
       </div>
+      <Button
+        type="purple_inset"
+        css={{
+          width: "100%",
+          padding: "10px 0 9px",
+          borderRadius: "8px",
+          ...theme.font14_bold,
+        }}
+        onClick={onClickOk}
+        disabled={isDisabled}
+      >
+        {buttonText}
+      </Button>
     </Modal>
   );
 };

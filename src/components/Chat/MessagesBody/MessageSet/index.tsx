@@ -18,7 +18,7 @@ import { getChatUniquewKey } from "tools/chat/chats";
 import dayjs from "tools/day";
 import theme from "tools/theme";
 
-import { ReactComponent as TaxiIcon } from "static/assets/TaxiAppIcon.svg";
+import { ReactComponent as TaxiIcon } from "static/assets/sparcsLogos/TaxiAppIcon.svg";
 
 type MessageBodyProps = {
   type: (UserChat | BotChat)["type"];

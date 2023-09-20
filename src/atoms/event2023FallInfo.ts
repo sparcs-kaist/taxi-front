@@ -1,10 +1,13 @@
+import { Quest, QuestId } from "types/event2023fall";
+
 import { atom } from "recoil";
 
 export type Event2023FallInfoType = Nullable<{
   creditAmount: number;
-  eventStatus: string[];
+  completedQuests: QuestId[];
   ticket1Amount: number;
   ticket2Amount: number;
+  quests: Quest[];
 }>;
 
 const event2023FallInfoAtom = atom<Event2023FallInfoType>({

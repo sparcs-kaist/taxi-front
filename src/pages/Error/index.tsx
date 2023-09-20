@@ -7,7 +7,7 @@ import { useRecoilState } from "recoil";
 
 import theme from "tools/theme";
 
-import { ReactComponent as TaxiLogo } from "static/assets/TaxiLogo.svg";
+import { ReactComponent as TaxiLogo } from "static/assets/sparcsLogos/TaxiLogo.svg";
 
 const Error = () => {
   const [error, setError] = useRecoilState(errorAtom);

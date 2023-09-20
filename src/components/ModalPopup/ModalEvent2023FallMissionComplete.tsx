@@ -2,8 +2,6 @@ import Button from "components/Button";
 import DottedLine from "components/DottedLine";
 import Modal from "components/Modal";
 
-import "./ModalEvent2023FallMissionComplete.css";
-
 import theme from "tools/theme";
 
 import LocalAtmRoundedIcon from "@mui/icons-material/LocalAtmRounded";
