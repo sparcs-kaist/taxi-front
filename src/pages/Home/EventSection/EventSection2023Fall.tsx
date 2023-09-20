@@ -78,7 +78,7 @@ const EventSection2023Fall = () => {
   return (
     <AdaptiveDiv type="center">
       <Title icon="festival" isHeader>
-        추석 이벤트
+        한가위 송편 이벤트
       </Title>
       <CreditAmountStatusContainer
         type={amountType}

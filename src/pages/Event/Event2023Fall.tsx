@@ -20,8 +20,8 @@ import { ReactComponent as TaxiLogoIcon } from "static/assets/sparcsLogos/TaxiLo
 import { ReactComponent as MainSection1 } from "static/events/2023fallMainSection1.svg";
 import { ReactComponent as MainSection2 } from "static/events/2023fallMainSection2.svg";
 import { ReactComponent as MainSection4 } from "static/events/2023fallMainSection4.svg";
-import { ReactComponent as MainSection5 } from "static/events/2023fallMainSection5.svg";
-import { ReactComponent as MainSection5Background } from "static/events/2023fallMainSection5Background.svg";
+// import { ReactComponent as MainSection5 } from "static/events/2023fallMainSection5.svg";
+// import { ReactComponent as MainSection5Background } from "static/events/2023fallMainSection5Background.svg";
 import { ReactComponent as MainSection6 } from "static/events/2023fallMainSection6.svg";
 import { ReactComponent as MainStep2 } from "static/events/2023fallMainStep2.svg";
 import { ReactComponent as MainStep3 } from "static/events/2023fallMainStep3.svg";
@@ -260,7 +260,7 @@ const Event2023Fall = () => {
           </div>
         </AdaptiveDiv>
       </div>
-      <div
+      {/* <div
         css={{
           position: "relative",
           overflow: "hidden",
@@ -300,7 +300,7 @@ const Event2023Fall = () => {
             인스타그램에 공유하기
           </Button>
         </AdaptiveDiv>
-      </div>
+      </div> */}
       <div
         css={{
           padding: "56px 0 16px",
