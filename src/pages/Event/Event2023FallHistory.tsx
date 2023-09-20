@@ -139,8 +139,8 @@ const Event2023FallHistory = () => {
             </div>
             <div css={{ ...theme.font14, marginBottom: "5px" }}>
               2. 엔제리너스 아이스 아메리카노 S / BBQ 황금올리브+콜라1.25L /
-              오색송편 : 이벤트 참여 시 등록된 연락처로 기프티콘을
-              발송해드립니다.
+              오색송편 : 이벤트 참여 때 등록한 연락처로 기프티콘을 발송해
+              드립니다.
             </div>
           </div>
         </WhiteContainer>
