@@ -78,7 +78,7 @@ const EventSection2023Fall = () => {
   return (
     <AdaptiveDiv type="center">
       <Title icon="festival" isHeader>
-        추석 이벤트
+        한가위 송편 이벤트
       </Title>
       <CreditAmountStatusContainer
         type={amountType}
@@ -91,7 +91,7 @@ const EventSection2023Fall = () => {
             title="이벤트 안내"
             description={
               <>
-                2023/09/10 - 10/11
+                2023/09/25 - 10/09
                 <br />
                 절찬리 진행 중!
               </>
@@ -113,9 +113,9 @@ const EventSection2023Fall = () => {
             title="달토끼 상점"
             description={
               <>
-                00명의 사용자가
+                귀여운 달토끼가
                 <br />
-                상품을 구매했어요
+                상점 주인?
               </>
             }
           >
@@ -123,6 +123,24 @@ const EventSection2023Fall = () => {
           </ButtonContainer>
         </Link>
       </div>
+      <WhiteContainer>
+        <div
+          css={{
+            ...theme.font14,
+            color: theme.black,
+            margin: "0 4px",
+          }}
+        >
+          <div
+            css={{
+              ...theme.font14,
+            }}
+          >
+            <b>⏳ 아직 이벤트 시작 전! : </b>이벤트 시작{"<"}9월 25일(월){">"}
+            전까지는 퀘스트 달성 및 아이템 구매가 불가능합니다.
+          </div>
+        </div>
+      </WhiteContainer>
     </AdaptiveDiv>
   );
 };

@@ -2,12 +2,14 @@ import { useState } from "react";
 
 import type { EventItem } from "types/event2023fall";
 
+import Empty from "components/Empty";
 import { ModalEvent2023FallItem } from "components/ModalPopup";
 import WhiteContainer from "components/WhiteContainer";
 
 import theme from "tools/theme";
 
 import { ReactComponent as CreditIcon } from "static/events/2023fallCredit.svg";
+import { ReactComponent as SoldOutIcon } from "static/events/2023fallStoreSoldOut.svg";
 
 type EventItemComponentProps = {
   value: EventItem;
@@ -16,6 +18,7 @@ type EventItemComponentProps = {
 
 const EventItemContainer = ({ value, fetchItems }: EventItemComponentProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const isSoldOut = value.stock <= 0;
 
   return (
     <WhiteContainer
@@ -24,27 +27,57 @@ const EventItemContainer = ({ value, fetchItems }: EventItemComponentProps) => {
         flexBasis: "calc(50% - 8px)",
         boxSizing: "border-box",
         minWidth: "100px",
-        padding: "8px",
+        padding: "12px",
         display: "flex",
         flexDirection: "column",
         alignItems: "left",
         gap: "8px",
+        background: isSoldOut ? theme.gray_background : theme.white,
         ...theme.font14,
         ...theme.cursor(),
       }}
       onClick={() => setIsOpen(true)}
     >
-      <img
+      <div
         css={{
           width: "100%",
-          borderRadius: "4px",
+          borderRadius: "6px",
           aspectRatio: "1/1",
           objectFit: "cover",
+          position: "relative",
+          overflow: "hidden",
+          background: theme.purple_light,
         }}
-        src={value.imageUrl}
-        alt={value.name}
-      />
-      <div css={theme.font14_bold}>{value.name}</div>
+      >
+        <img
+          css={{
+            width: "100%",
+            height: "100%",
+          }}
+          src={value.imageUrl}
+          alt={value.name}
+        />
+        {isSoldOut && (
+          <div
+            css={{
+              background: theme.black_40,
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+            }}
+          />
+        )}
+      </div>
+      <div
+        css={{
+          ...theme.font14_bold,
+          color: isSoldOut ? theme.gray_text : theme.black,
+        }}
+      >
+        {value.name}
+      </div>
       <div
         css={{
           display: "flex",
@@ -52,8 +85,27 @@ const EventItemContainer = ({ value, fetchItems }: EventItemComponentProps) => {
         }}
       >
         <CreditIcon css={{ width: "27px", height: "16px" }} />
-        <div>{value.price}</div>
+        <div
+          css={{
+            ...theme.font14,
+            color: isSoldOut ? theme.gray_text : theme.black,
+          }}
+        >
+          {value.price}
+        </div>
       </div>
+      {isSoldOut && (
+        <SoldOutIcon
+          css={{
+            position: "absolute",
+            right: "-10px",
+            bottom: "-10px",
+            width: "100px",
+            height: "100px",
+            opacity: 0.5,
+          }}
+        />
+      )}
       <ModalEvent2023FallItem
         itemInfo={value}
         fetchItems={fetchItems}
@@ -70,7 +122,7 @@ type ItemListSectionProps = {
 };
 
 const ItemListSection = ({ items, fetchItems }: ItemListSectionProps) => {
-  return (
+  return items.length > 0 ? (
     <div
       css={{
         display: "flex",
@@ -86,6 +138,8 @@ const ItemListSection = ({ items, fetchItems }: ItemListSectionProps) => {
         />
       ))}
     </div>
+  ) : (
+    <Empty type="mobile">판매하고 있는 아이템이 없습니다.</Empty>
   );
 };
 

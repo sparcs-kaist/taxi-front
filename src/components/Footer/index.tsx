@@ -67,6 +67,9 @@ const Footer = ({ type = "full", children }: FooterProps) => {
           <Link to="/event/2023spring-guide" css={{ textDecoration: "none" }}>
             <ButtonAboveFooter text="택시 살펴보기" />
           </Link>
+          <a className="popup-channeltalk">
+            <ButtonAboveFooter text="채널톡 문의하기" />
+          </a>
         </>
       )}
       <div css={{ padding: "6px" }}>
