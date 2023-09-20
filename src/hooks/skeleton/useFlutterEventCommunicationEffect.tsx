@@ -156,8 +156,8 @@ export const sendClipboardCopyEventToFlutter = async (value: string) => {
 
 export const sendPopupInAppNotificationEventToFlutter = async (
   value: (
-    | { type: "chat"; profileUrl?: string; imageUrl?: never }
-    | { type: "default"; imageUrl?: string; profileUrl?: never }
+    | { type: "chat"; profileUrl?: string }
+    | { type: "default"; imageUrl?: string }
   ) & {
     title?: string;
     subtitle?: string;
