@@ -74,6 +74,12 @@ const theme = {
     fontWeight: 700,
     lineHeight: "23px",
   },
+  font24: {
+    fontSize: 24,
+    letterSpacing: -0.75,
+    fontWeight: 900,
+    lineHeight: "28px",
+  },
   font28: {
     fontSize: 28,
     letterSpacing: -1,

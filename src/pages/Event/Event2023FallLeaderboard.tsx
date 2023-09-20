@@ -1,3 +1,10 @@
+import { useMemo } from "react";
+
+import type { Leader } from "types/event2023fall";
+
+import { useValueRecoilState } from "hooks/useFetchRecoilState";
+import useQuery from "hooks/useTaxiAPI";
+
 import AdaptiveDiv from "components/AdaptiveDiv";
 import HeaderWithLeftNav from "components/Header/HeaderWithLeftNav";
 import Title from "components/Title";
@@ -6,151 +13,206 @@ import WhiteContainer from "components/WhiteContainer";
 
 import theme from "tools/theme";
 
-import { ReactComponent as TicketIcon } from "static/events/2023fallTicketIcon.svg";
+import { ReactComponent as Ticket1Icon } from "static/events/2023fallTicket1.svg";
+import { ReactComponent as Ticket2Icon } from "static/events/2023fallTicket2.svg";
 
-// const RankIcon = ({}) => {};
-
-type ticketAmountProps = {
-  amount: number;
-  fill: string;
-  marginLeft?: string;
-};
-
-const TicketAmount = ({ amount, fill, marginLeft }: ticketAmountProps) => {
+const LeaderboardTopBar = () => {
   return (
     <div
       css={{
         display: "flex",
         alignItems: "center",
+        padding: "8px 12px",
         gap: "8px",
-        marginLeft: marginLeft,
-        ...theme.font16_bold,
+        ...theme.font12,
+        color: theme.purple_disabled,
       }}
     >
-      <TicketIcon fill={fill} />
-      {amount}
+      <span>순위</span>
+      <span css={{ marginLeft: "16px" }}>플레이어</span>
+      <Ticket1Icon
+        css={{
+          marginLeft: "auto",
+          width: "30px",
+          height: "27px",
+          marginTop: "-4px",
+          marginBottom: "-4px",
+          flexShrink: 0,
+        }}
+      />
+      <Ticket2Icon
+        css={{
+          width: "30px",
+          height: "27px",
+          marginTop: "-4px",
+          marginBottom: "-4px",
+          flexShrink: 0,
+        }}
+      />
+      <span css={{ width: "56px" }}>상품 확률</span>
     </div>
   );
 };
 
 const LeaderboardItem = ({
   index,
-  name,
+  nickname,
   profileImageUrl,
   ticket1Amount,
   ticket2Amount,
-}: Leader & { index: number }) => {
+  probability,
+  isMe,
+}: Leader & { index: number; isMe: boolean }) => {
+  const styleContainer = (index: number) => {
+    switch (index) {
+      case 0:
+        return {
+          color: "#C6B200",
+          border: "0.5px solid #E4CD00",
+          background: "#FFEE5A",
+          boxShadow: "0px 1px 5px 0px #E4CD00",
+          ...theme.font24,
+        };
+      case 1:
+        return {
+          color: "#96BCC6",
+          border: "0.5px solid #BBD4DA",
+          background: "#EEF6F8",
+          boxShadow: "0px 1px 5px 0px #BBD4DA",
+          ...theme.font24,
+        };
+      case 2:
+        return {
+          color: "#CD6830",
+          border: "0.5px solid #DE8C5D",
+          background: "#FFC5A4",
+          boxShadow: "0px 1px 5px 0px #DE8C5D",
+          ...theme.font24,
+        };
+      case -1:
+        return {
+          color: theme.purple_disabled,
+          background: theme.purple,
+          boxShadow: theme.shadow,
+          ...theme.font20,
+        };
+      default:
+        return {
+          color: theme.purple_disabled,
+          background: theme.white,
+          boxShadow: theme.shadow,
+          ...theme.font20,
+        };
+    }
+  };
+
+  const styleText = (index: number) => {
+    switch (index) {
+      case 0:
+        return "#6B6000";
+      case 1:
+        return "#337182";
+      case 2:
+        return "#9E3800";
+      case -1:
+        return theme.white;
+      default:
+        return theme.purple;
+    }
+  };
+
+  const styleTicketText = {
+    ...theme.font16,
+    width: "30px",
+    flexShrink: 0,
+    textAlign: "center",
+  } as CSS;
+
+  const realProbability = useMemo(
+    () => 1 - (1 - probability) ** (ticket1Amount * 1 + ticket2Amount * 5),
+    [probability, ticket1Amount, ticket2Amount]
+  );
+
   return (
     <WhiteContainer
       css={{
         display: "flex",
         alignItems: "center",
-        padding: "12px 16px",
+        padding: "8px 15px",
+        gap: "8px",
+        ...styleContainer(isMe ? -1 : index),
       }}
     >
+      {index + 1}
       <div
         css={{
           width: "30px",
           height: "30px",
           borderRadius: "15px",
           overflow: "hidden",
-          boxShadow: theme.shadow,
           flexShrink: 0,
+          flexGrow: 0,
+          marginLeft: "5px",
         }}
       >
         <ProfileImage url={profileImageUrl} />
       </div>
+      {isMe && (
+        <div
+          css={{
+            width: "20px",
+            height: "20px",
+            ...theme.font12_bold,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: theme.purple_disabled,
+            borderRadius: "5px",
+            color: theme.purple,
+          }}
+        >
+          나
+        </div>
+      )}
       <div
         css={{
-          margin: "0 8px",
+          ...theme.font16_bold,
           ...theme.ellipsis,
+          color: isMe ? theme.white : theme.black,
         }}
       >
-        {name}
+        {nickname}
       </div>
-      <TicketAmount marginLeft="auto" amount={ticket1Amount} fill="#FAC85A" />
-      <TicketAmount marginLeft="24px" amount={ticket2Amount} fill="#B2B2B2" />
+      <span css={{ marginLeft: "auto", ...styleTicketText }}>
+        {ticket1Amount || 0}
+      </span>
+      <span css={{ ...styleTicketText }}>{ticket2Amount || 0}</span>
+      <div
+        css={{
+          color: styleText(isMe ? -1 : index),
+          ...theme.font16_bold,
+          width: "56px",
+          flexShrink: 0,
+          textAlign: "right",
+        }}
+        title={(realProbability * 100).toString()}
+      >
+        <span css={{ ...theme.font20 }}>
+          {Math.trunc(realProbability * 100) || 0}
+        </span>
+        .{Math.floor(((realProbability * 100) % 1) * 10)}%
+      </div>
     </WhiteContainer>
   );
 };
 
-type Leader = {
-  name: string;
-  profileImageUrl: string;
-  ticket1Amount: number;
-  ticket2Amount: number;
-};
-
-const testLeaderboard: Leader[] = [
-  // 닉네임이 다 좀 이상한데 제가 만든건 아니고 챗지피티가... ㅎㅎ 백 연결되면 뺄 예정이니 남겨주세요 :)
-  {
-    name: "바람의노래",
-    ticket1Amount: 99,
-    ticket2Amount: 98,
-    profileImageUrl: "https://via.placeholder.com/150?text=WindSong",
-  },
-  {
-    name: "빛나는별빛여행자",
-    ticket1Amount: 97,
-    ticket2Amount: 96,
-    profileImageUrl: "https://via.placeholder.com/150?text=ShiningStar",
-  },
-  {
-    name: "정말_정말_저어엉말_아름다운_선형대수학개론",
-    ticket1Amount: 95,
-    ticket2Amount: 94,
-    profileImageUrl: "https://via.placeholder.com/150?text=RabbitMoon",
-  },
-  {
-    name: "불꽃춤추는자",
-    ticket1Amount: 93,
-    ticket2Amount: 92,
-    profileImageUrl: "https://via.placeholder.com/150?text=FireDancer",
-  },
-  {
-    name: "천사의미소",
-    ticket1Amount: 91,
-    ticket2Amount: 90,
-    profileImageUrl: "https://via.placeholder.com/150?text=AngelSmile",
-  },
-  {
-    name: "물결타는서퍼",
-    ticket1Amount: 89,
-    ticket2Amount: 88,
-    profileImageUrl: "https://via.placeholder.com/150?text=Wavesurfer",
-  },
-  {
-    name: "구름을걷는자",
-    ticket1Amount: 87,
-    ticket2Amount: 86,
-    profileImageUrl: "https://via.placeholder.com/150?text=Cloudwalker",
-  },
-  {
-    name: "사과나무아래서",
-    ticket1Amount: 85,
-    ticket2Amount: 84,
-    profileImageUrl: "https://via.placeholder.com/150?text=UnderAppleTree",
-  },
-  {
-    name: "섬의왕자",
-    ticket1Amount: 83,
-    ticket2Amount: 82,
-    profileImageUrl: "https://via.placeholder.com/150?text=IslandPrince",
-  },
-  {
-    name: "파도소리",
-    ticket1Amount: 81,
-    ticket2Amount: 80,
-    profileImageUrl: "https://via.placeholder.com/150?text=WaveSound",
-  },
-];
-
 const Event2023FallLeaderboard = () => {
-  // 백 연결을 기다리는 중...
-  // const [, leaderboard] = useQuery.get<Leader[]>(
-  //   "/events/2023fall/public-notice/leaderboard"
-  // );
-  const leaderboard = testLeaderboard; // 백 연결을 기다리는 중...
+  const [, leaderboardResponse] = useQuery.get(
+    "/events/2023fall/public-notice/leaderboard"
+  );
+  const { ticket1Amount, ticket2Amount } =
+    useValueRecoilState("event2023FallInfo") || {};
+  const { nickname, profileImgUrl } = useValueRecoilState("loginInfo") || {};
 
   return (
     <AdaptiveDiv type="center">
@@ -173,9 +235,26 @@ const Event2023FallLeaderboard = () => {
       <Title icon="leaderboard" isHeader>
         리더보드
       </Title>
-      {leaderboard?.map((item, index) => (
-        <LeaderboardItem key={index} index={index} {...item} />
+      <LeaderboardTopBar />
+      {leaderboardResponse?.leaderboard.map((item: Leader, index: number) => (
+        <LeaderboardItem
+          key={index}
+          index={index}
+          isMe={index == leaderboardResponse?.rank - 1}
+          {...item}
+        />
       ))}
+      {leaderboardResponse?.rank > 20 && (
+        <LeaderboardItem
+          index={leaderboardResponse?.rank - 1}
+          isMe={true}
+          nickname={nickname ?? ""}
+          profileImageUrl={profileImgUrl ?? ""}
+          ticket1Amount={ticket1Amount ?? 0}
+          ticket2Amount={ticket2Amount ?? 0}
+          probability={leaderboardResponse?.probability}
+        />
+      )}
     </AdaptiveDiv>
   );
 };

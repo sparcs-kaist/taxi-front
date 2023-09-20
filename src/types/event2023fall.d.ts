@@ -40,3 +40,11 @@ export type Transaction = {
   comment: string;
   doneat: Date;
 };
+
+export type Leader = {
+  nickname: string;
+  profileImageUrl: string;
+  ticket1Amount: number;
+  ticket2Amount: number;
+  probability: number;
+};
