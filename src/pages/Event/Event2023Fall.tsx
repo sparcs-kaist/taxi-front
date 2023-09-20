@@ -1,19 +1,17 @@
-import { memo, useCallback } from "react";
+import { memo } from "react";
 import { Link } from "react-router-dom";
 
-import { sendPopupInstagramStoryShareToFlutter } from "hooks/skeleton/useFlutterEventCommunicationEffect";
-import { useValueRecoilState } from "hooks/useFetchRecoilState";
-
+// import { sendPopupInstagramStoryShareToFlutter } from "hooks/skeleton/useFlutterEventCommunicationEffect";
+// import { useValueRecoilState } from "hooks/useFetchRecoilState";
 import AdaptiveDiv from "components/AdaptiveDiv";
 import Button from "components/Button";
 import Footer from "components/Footer";
 import HeaderWithBackButton from "components/Header/HeaderWithBackButton";
 import WhiteContainer from "components/WhiteContainer";
 
-import alertAtom from "atoms/alert";
-import { useSetRecoilState } from "recoil";
-
-import { deviceType } from "tools/loadenv";
+// import alertAtom from "atoms/alert";
+// import { useSetRecoilState } from "recoil";
+// import { deviceType } from "tools/loadenv";
 import theme from "tools/theme";
 
 import { ReactComponent as TaxiLogoIcon } from "static/assets/sparcsLogos/TaxiLogo.svg";
@@ -29,24 +27,24 @@ import { ReactComponent as MainTitle } from "static/events/2023fallMainTitle.svg
 import { ReactComponent as MissionCompleteIcon } from "static/events/2023fallMissionComplete.svg";
 
 const Event2023Fall = () => {
-  const setAlert = useSetRecoilState(alertAtom);
-  const isLogin = !!useValueRecoilState("loginInfo")?.id;
+  // const setAlert = useSetRecoilState(alertAtom);
+  // const isLogin = !!useValueRecoilState("loginInfo")?.id;
 
-  const onClickInstagramShare = useCallback(() => {
-    if (!isLogin) {
-      setAlert("로그인 이후 이용해주세요.");
-    } else if (!deviceType.startsWith("app/")) {
-      setAlert("앱에서만 이용 가능합니다.");
-    } else {
-      // @todo: 이벤트 참여 여부 확인하기
-      sendPopupInstagramStoryShareToFlutter({
-        backgroundLayerUrl:
-          "https://sparcs-taxi-prod.s3.ap-northeast-2.amazonaws.com/assets/event-2023fall/instagram_background.png",
-        stickerLayerUrl:
-          "https://sparcs-taxi-prod.s3.ap-northeast-2.amazonaws.com/assets/event-2023fall/instagram_sticker.png",
-      });
-    }
-  }, [isLogin]);
+  // const onClickInstagramShare = useCallback(() => {
+  //   if (!isLogin) {
+  //     setAlert("로그인 이후 이용해주세요.");
+  //   } else if (!deviceType.startsWith("app/")) {
+  //     setAlert("앱에서만 이용 가능합니다.");
+  //   } else {
+  //     // @todo: 이벤트 참여 여부 확인하기
+  //     sendPopupInstagramStoryShareToFlutter({
+  //       backgroundLayerUrl:
+  //         "https://sparcs-taxi-prod.s3.ap-northeast-2.amazonaws.com/assets/event-2023fall/instagram_background.png",
+  //       stickerLayerUrl:
+  //         "https://sparcs-taxi-prod.s3.ap-northeast-2.amazonaws.com/assets/event-2023fall/instagram_sticker.png",
+  //     });
+  //   }
+  // }, [isLogin]);
 
   return (
     <>

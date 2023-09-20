@@ -13,6 +13,7 @@ import WhiteContainer from "components/WhiteContainer";
 
 import theme from "tools/theme";
 
+import { ReactComponent as LeaderBoardItems } from "static/events/2023fallLeaderBoardItems.svg";
 import { ReactComponent as Ticket1Icon } from "static/events/2023fallTicket1.svg";
 import { ReactComponent as Ticket2Icon } from "static/events/2023fallTicket2.svg";
 
@@ -259,6 +260,66 @@ const Event2023FallLeaderboard = () => {
         ]}
       />
       <AdaptiveDiv type="center">
+        <Title icon="notice" isHeader>
+          안내
+        </Title>
+        <WhiteContainer>
+          <div
+            css={{
+              ...theme.font14,
+              color: theme.black,
+              margin: "0 4px",
+            }}
+          >
+            <div
+              css={{
+                ...theme.font14,
+                marginBottom: "5px",
+              }}
+            >
+              <b>🌟 참여 방법</b>
+            </div>
+            <div
+              css={{
+                ...theme.font14,
+                marginBottom: "15px",
+              }}
+            >
+              퀘스트 달성, 달토끼 상점을 통해 응모권을 얻을 수 있습니다.
+              <br />
+              고급응모권은 일반응모권 당첨 확률의 5배입니다.
+              <br />
+              여러 개의 응모권으로 중복 참여가 가능합니다.
+            </div>
+            <div
+              css={{
+                ...theme.font14,
+                marginBottom: "5px",
+              }}
+            >
+              <b>📌 경품 추첨 결과 발표일 : </b>10월 13일(금)
+            </div>
+            <div
+              css={{
+                ...theme.font14,
+                marginBottom: "15px",
+              }}
+            >
+              추첨 결과는 인스타그램, Ara, Taxi 홈페이지를 통해 발표됩니다.
+            </div>
+            <div css={{ ...theme.font14, marginBottom: "15px" }}>
+              <b>🎁 경품 :</b> 에어팟 3세대 (1명), 택시비 카카오페이 상품권
+              5000원 (14명)
+            </div>
+            <div css={{ textAlign: "center", position: "relative" }}>
+              <LeaderBoardItems css={{ width: "235px", maxWidth: "100%" }} />
+            </div>
+            <div css={{ ...theme.font14, margin: "12px 0 5px" }}>
+              <b>🏆 리더보드 :</b> 이벤트 기간 중, 실시간으로 변동되는 내 자신과
+              상위 참여자들의 추첨 확률이 공개됩니다.
+            </div>
+          </div>
+        </WhiteContainer>
         <Title icon="leaderboard" isHeader>
           리더보드
         </Title>

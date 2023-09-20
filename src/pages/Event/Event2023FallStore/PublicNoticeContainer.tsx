@@ -9,8 +9,8 @@ import CampaignRoundedIcon from "@mui/icons-material/CampaignRounded";
 
 const PublicNoticeContainer = () => {
   const notices = [
-    "[1분전] 00님이 00아이템을 구매하셨습니다.",
-    "[2분전] 00님이 랜덤박스에서 00아이템을 획득하셨습니다.",
+    "[공지] 9월 25일(월)에 달토끼 상점이 오픈합니다.",
+    "[공지] 아이템이 조기 소진될 경우 9월 30일(토), 10월 5일(목)에 추가 입고될 예정입니다.",
   ];
   const animationDuration = useMemo(
     () => notices.reduce((acc, text) => acc + text.length, 0) * 0.2,
