@@ -6,6 +6,7 @@ import { useValueRecoilState } from "hooks/useFetchRecoilState";
 
 import AdaptiveDiv from "components/AdaptiveDiv";
 import CreditAmountStatusContainer from "components/Event/CreditAmountStatusContainer";
+import Footer from "components/Footer";
 import HeaderWithLeftNav from "components/Header/HeaderWithLeftNav";
 import WhiteContainer from "components/WhiteContainer";
 
@@ -154,6 +155,7 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
 
 const Event2023FallMissions = () => {
   const { quests } = useValueRecoilState("event2023FallInfo") || {};
+
   return (
     <AdaptiveDiv type="center">
       <HeaderWithLeftNav
@@ -171,6 +173,7 @@ const Event2023FallMissions = () => {
       {quests?.map((quest) => (
         <MissionContainer key={quest.id} quest={quest} />
       ))}
+      <Footer type="event-2023fall" />
     </AdaptiveDiv>
   );
 };
