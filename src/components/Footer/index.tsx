@@ -8,7 +8,7 @@ import ButtonAboveFooter from "./ButtonAboveFooter";
 import { ReactComponent as SparcsLogo } from "static/assets/sparcsLogos/SparcsLogoWithText.svg";
 
 type FooterProps = {
-  type?: "only-logo" | "full";
+  type?: "only-logo" | "full" | "event-2023fall";
   children?: ReactNode;
 };
 
@@ -51,6 +51,22 @@ const Footer = ({ type = "full", children }: FooterProps) => {
             <ButtonAboveFooter text="택시 살펴보기" />
           </Link>
           <ButtonAboveFooter text="만든 사람들" onClick={onClickCredit} />
+        </>
+      )}
+      {type === "event-2023fall" && (
+        <>
+          <ModalCredit
+            defaultSelectedCatagory="2023FallEvent"
+            isOpen={isOpenCredit}
+            onChangeIsOpen={setIsOpenCredit}
+          />
+          <ButtonAboveFooter
+            text="한가위 송편 이벤트를 만든 사람들"
+            onClick={onClickCredit}
+          />
+          <Link to="/event/2023spring-guide" css={{ textDecoration: "none" }}>
+            <ButtonAboveFooter text="택시 살펴보기" />
+          </Link>
         </>
       )}
       <div css={{ padding: "6px" }}>
