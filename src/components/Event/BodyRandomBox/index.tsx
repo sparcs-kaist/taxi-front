@@ -63,10 +63,13 @@ const BodyRandomBox = ({
     <div ref={bodyRef} css={{ height: `${boxSize * 1.3}px` }}>
       <div
         css={{
-          width: "1rem",
+          width: `${boxSize}px`,
+          height: `${boxSize}px`,
           aspectRatio: 1,
-          margin: `${boxSize / 2 + 20}px auto 0`,
-          transform: `scale(${(boxSize / 16) * 0.8})`,
+          margin: `0 auto`,
+          transform: `scale(${
+            (boxSize / 500) * 0.8
+          }) translateX(-160px) translateY(-70px)`,
         }}
       >
         <div
@@ -92,13 +95,11 @@ const BodyRandomBox = ({
           </div>
           <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-top">
             <TopPlane css={stylePlane} />
-            {/* <img src={TopPlaneIMG} css={stylePlane} /> */}
           </div>
           <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-bottom" />
           <div className="c2023fallevent-emoji">🎟</div>
         </div>
       </div>
-      {/* <TopPlane css={stylePlane} /> */}
     </div>
   );
 };
