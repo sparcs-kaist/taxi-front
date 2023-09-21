@@ -4,6 +4,7 @@
   font-family: "NanumSquare", "Helvetica", "Arial", sans-serif;
   font-weight: 300;
   -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
   /* -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; */
 }
