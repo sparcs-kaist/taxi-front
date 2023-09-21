@@ -3,8 +3,9 @@ import { Quest, QuestId } from "types/event2023fall";
 import { atom } from "recoil";
 
 export type Event2023FallInfoType = Nullable<{
-  creditAmount: number;
+  isAgreeOnTermsOfEvent: boolean;
   completedQuests: QuestId[];
+  creditAmount: number;
   ticket1Amount: number;
   ticket2Amount: number;
   quests: Quest[];
