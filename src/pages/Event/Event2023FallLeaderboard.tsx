@@ -30,7 +30,7 @@ const LeaderboardTopBar = () => (
     }}
   >
     <span>순위</span>
-    <span css={{ marginLeft: "16px" }}>플레이어</span>
+    <span css={{ marginLeft: "16px" }}>닉네임</span>
     <Ticket1Icon
       css={{
         marginLeft: "auto",
@@ -50,7 +50,7 @@ const LeaderboardTopBar = () => (
         flexShrink: 0,
       }}
     />
-    <span css={{ width: "56px" }}>상품 확률</span>
+    <span css={{ width: "56px" }}>추첨 확률</span>
   </div>
 );
 

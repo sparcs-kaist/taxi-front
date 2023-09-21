@@ -1,6 +1,8 @@
 import { css, keyframes } from "@emotion/react";
 import { useMemo } from "react";
 
+import useQuery from "hooks/useTaxiAPI";
+
 import WhiteContainer from "components/WhiteContainer";
 
 import theme from "tools/theme";
@@ -8,11 +10,15 @@ import theme from "tools/theme";
 import CampaignRoundedIcon from "@mui/icons-material/CampaignRounded";
 
 const PublicNoticeContainer = () => {
-  const notices = [
-    "[공지] 9월 25일(월)에 달토끼 상점이 오픈합니다.",
-    "[공지] 아이템이 조기 소진될 경우 9월 30일(토), 10월 5일(목)에 추가 입고될 예정입니다.",
-    "[공지] 이벤트가 종료되면 아이템을 구매할 수 없습니다. 종료 전에 송편을 모두 소진해주세요.",
-  ];
+  const { transactions } = useQuery.get(
+    "/events/2023fall/public-notice/recentTransactions"
+  )[1] || { transactions: [] };
+  const notices = useMemo(() => {
+    return [
+      "[공지] 아이템이 조기 소진될 경우 9월 30일(토), 10월 5일(목)에 추가 입고될 예정입니다.",
+      "[공지] 이벤트가 종료되면 아이템을 구매할 수 없습니다. 종료 전에 송편을 모두 소진해주세요.",
+    ];
+  }, [transactions]);
   const animationDuration = useMemo(
     () => notices.reduce((acc, text) => acc + text.length, 0) * 0.2,
     [notices]

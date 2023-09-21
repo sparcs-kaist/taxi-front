@@ -6,6 +6,7 @@ import { useValueRecoilState } from "hooks/useFetchRecoilState";
 
 import AdaptiveDiv from "components/AdaptiveDiv";
 import CreditAmountStatusContainer from "components/Event/CreditAmountStatusContainer";
+import WhiteContainerSuggestJoinEvent from "components/Event/WhiteContainerSuggestJoinEvent";
 import Footer from "components/Footer";
 import HeaderWithBackButton from "components/Header/HeaderWithBackButton";
 import WhiteContainer from "components/WhiteContainer";
@@ -164,20 +165,7 @@ const Event2023FallMissions = () => {
       <AdaptiveDiv type="center">
         <div css={{ height: "30px" }} />
         <CreditAmountStatusContainer />
-        <WhiteContainer>
-          <div
-            css={{
-              ...theme.font14,
-              color: theme.black,
-              margin: "0 4px",
-            }}
-          >
-            <div css={theme.font14}>
-              <b>⏳ 이벤트 시작 대기 : </b>이벤트 시작일, 9월 25일(월) 전까지는
-              퀘스트를 달성할 수 없습니다. 조금만 기다려주세요!
-            </div>
-          </div>
-        </WhiteContainer>
+        <WhiteContainerSuggestJoinEvent />
         {quests?.map((quest) => (
           <MissionContainer key={quest.id} quest={quest} />
         ))}

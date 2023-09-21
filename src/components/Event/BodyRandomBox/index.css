@@ -3,6 +3,7 @@
   width: 500px;
   height: 500px;
   transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .c2023fallevent-randombox-side {
@@ -12,6 +13,7 @@
   cursor: pointer;
   transform-style: preserve-3d;
   overflow: hidden;
+  will-change: transform;
 }
 
 .c2023fallevent-randombox-side-front {
