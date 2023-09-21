@@ -5,7 +5,6 @@ import DottedLine from "components/DottedLine";
 import BodyRandomBox from "components/Event/BodyRandomBox";
 import Modal from "components/Modal";
 
-import "./ModalEvent2023FallRandomBox.css";
 import "./ModalEvent2023FallRandomBoxBackground.css";
 
 import theme from "tools/theme";

@@ -7,7 +7,7 @@ import { useValueRecoilState } from "hooks/useFetchRecoilState";
 import AdaptiveDiv from "components/AdaptiveDiv";
 import CreditAmountStatusContainer from "components/Event/CreditAmountStatusContainer";
 import Footer from "components/Footer";
-import HeaderWithLeftNav from "components/Header/HeaderWithLeftNav";
+import HeaderWithBackButton from "components/Header/HeaderWithBackButton";
 import WhiteContainer from "components/WhiteContainer";
 
 import theme from "tools/theme";
@@ -157,42 +157,33 @@ const Event2023FallMissions = () => {
   const { quests } = useValueRecoilState("event2023FallInfo") || {};
 
   return (
-    <AdaptiveDiv type="center">
-      <HeaderWithLeftNav
-        value="missions"
-        options={[
-          {
-            value: "missions",
-            label: "퀘스트",
-            to: "/event/2023fall-missions",
-          },
-        ]}
-      />
-      <div css={{ height: "30px" }} />
-      <CreditAmountStatusContainer />
-      <WhiteContainer>
-        <div
-          css={{
-            ...theme.font14,
-            color: theme.black,
-            margin: "0 4px",
-          }}
-        >
+    <>
+      <HeaderWithBackButton>
+        <div css={{ color: theme.purple, ...theme.font18 }}>퀘스트</div>
+      </HeaderWithBackButton>
+      <AdaptiveDiv type="center">
+        <div css={{ height: "30px" }} />
+        <CreditAmountStatusContainer />
+        <WhiteContainer>
           <div
             css={{
               ...theme.font14,
+              color: theme.black,
+              margin: "0 4px",
             }}
           >
-            <b>⏳ 이벤트 시작 대기 : </b>이벤트 시작일, 9월 25일(월) 전까지는
-            퀘스트를 달성할 수 없습니다. 조금만 기다려주세요!
+            <div css={theme.font14}>
+              <b>⏳ 이벤트 시작 대기 : </b>이벤트 시작일, 9월 25일(월) 전까지는
+              퀘스트를 달성할 수 없습니다. 조금만 기다려주세요!
+            </div>
           </div>
-        </div>
-      </WhiteContainer>
-      {quests?.map((quest) => (
-        <MissionContainer key={quest.id} quest={quest} />
-      ))}
-      <Footer type="event-2023fall" />
-    </AdaptiveDiv>
+        </WhiteContainer>
+        {quests?.map((quest) => (
+          <MissionContainer key={quest.id} quest={quest} />
+        ))}
+        <Footer type="event-2023fall" />
+      </AdaptiveDiv>
+    </>
   );
 };
 
