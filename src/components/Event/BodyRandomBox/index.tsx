@@ -1,5 +1,5 @@
 import { css, keyframes } from "@emotion/react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 
 import "./index.css";
 
@@ -9,7 +9,6 @@ import { ReactComponent as FrontPlaneLight } from "static/events/2023fallRandomb
 import { ReactComponent as LeftPlane } from "static/events/2023fallRandomboxLeft.svg";
 import { ReactComponent as RightPlane } from "static/events/2023fallRandomboxRight.svg";
 import { ReactComponent as RightPlaneLight } from "static/events/2023fallRandomboxRightLight.svg";
-// import TopPlaneIMG from "static/events/2023fallRandomboxTop.png";
 import { ReactComponent as TopPlane } from "static/events/2023fallRandomboxTop.svg";
 
 type BodyRandomBoxProps = {
@@ -104,4 +103,4 @@ const BodyRandomBox = ({
   );
 };
 
-export default BodyRandomBox;
+export default memo(BodyRandomBox);

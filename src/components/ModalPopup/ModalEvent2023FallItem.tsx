@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import type { EventItem } from "types/event2023fall";
 
@@ -10,6 +10,7 @@ import { useAxios } from "hooks/useTaxiAPI";
 
 import Button from "components/Button";
 import BodyRandomBox from "components/Event/BodyRandomBox";
+import Loading from "components/Loading";
 import Modal from "components/Modal";
 
 import alertAtom from "atoms/alert";
@@ -74,6 +75,17 @@ const ModalEvent2023FallItem = ({
     [eventMode, event2023FallInfo, itemInfo]
   );
 
+  const [isDisplayRandomBox, setIsDisplayRandomBox] = useState<boolean>(false);
+  useEffect(() => {
+    if (modalProps.isOpen) {
+      const timeout = setTimeout(() => {
+        setIsDisplayRandomBox(true);
+      }, 500);
+      return () => clearTimeout(timeout);
+    }
+    setIsDisplayRandomBox(false);
+  }, [modalProps.isOpen]);
+
   const styleTitle = {
     ...theme.font18,
     display: "flex",
@@ -92,7 +104,11 @@ const ModalEvent2023FallItem = ({
         구매하기
       </div>
       {itemInfo.itemType === 3 ? (
-        <BodyRandomBox isBoxOpend={false} />
+        isDisplayRandomBox ? (
+          <BodyRandomBox isBoxOpend={false} />
+        ) : (
+          <Loading />
+        )
       ) : (
         <img
           css={{
