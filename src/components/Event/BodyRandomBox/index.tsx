@@ -1,5 +1,7 @@
 import { css, keyframes } from "@emotion/react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
+
+import "./index.css";
 
 import { ReactComponent as BackPlane } from "static/events/2023fallRandomboxBack.svg";
 import { ReactComponent as FrontPlane } from "static/events/2023fallRandomboxFront.svg";
@@ -60,10 +62,13 @@ const BodyRandomBox = ({
     <div ref={bodyRef} css={{ height: `${boxSize * 1.3}px` }}>
       <div
         css={{
-          width: "1rem",
+          width: `${boxSize}px`,
+          height: `${boxSize}px`,
           aspectRatio: 1,
-          margin: `${boxSize / 2 + 20}px auto 0`,
-          transform: `scale(${(boxSize / 16) * 0.8})`,
+          margin: `0 auto`,
+          transform: `scale(${
+            (boxSize / 500) * 0.8
+          }) translateX(-160px) translateY(-70px)`,
         }}
       >
         <div
@@ -84,8 +89,6 @@ const BodyRandomBox = ({
             <LeftPlane css={{ ...stylePlane, ...stylePlaneLRInversion }} />
           </div>
           <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-right">
-            {/* <RightPlaneLight css={stylePlane} />
-              <RightPlane css={[stylePlane, stylePlaneFlash]} /> */}
             <RightPlane css={stylePlane} />
             <RightPlaneLight css={[stylePlane, stylePlaneFlash]} />
           </div>
@@ -100,4 +103,4 @@ const BodyRandomBox = ({
   );
 };
 
-export default BodyRandomBox;
+export default memo(BodyRandomBox);
