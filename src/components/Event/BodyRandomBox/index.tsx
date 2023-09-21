@@ -1,12 +1,15 @@
 import { css, keyframes } from "@emotion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import "./index.css";
+
 import { ReactComponent as BackPlane } from "static/events/2023fallRandomboxBack.svg";
 import { ReactComponent as FrontPlane } from "static/events/2023fallRandomboxFront.svg";
 import { ReactComponent as FrontPlaneLight } from "static/events/2023fallRandomboxFrontLight.svg";
 import { ReactComponent as LeftPlane } from "static/events/2023fallRandomboxLeft.svg";
 import { ReactComponent as RightPlane } from "static/events/2023fallRandomboxRight.svg";
 import { ReactComponent as RightPlaneLight } from "static/events/2023fallRandomboxRightLight.svg";
+// import TopPlaneIMG from "static/events/2023fallRandomboxTop.png";
 import { ReactComponent as TopPlane } from "static/events/2023fallRandomboxTop.svg";
 
 type BodyRandomBoxProps = {
@@ -84,18 +87,18 @@ const BodyRandomBox = ({
             <LeftPlane css={{ ...stylePlane, ...stylePlaneLRInversion }} />
           </div>
           <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-right">
-            {/* <RightPlaneLight css={stylePlane} />
-              <RightPlane css={[stylePlane, stylePlaneFlash]} /> */}
             <RightPlane css={stylePlane} />
             <RightPlaneLight css={[stylePlane, stylePlaneFlash]} />
           </div>
           <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-top">
             <TopPlane css={stylePlane} />
+            {/* <img src={TopPlaneIMG} css={stylePlane} /> */}
           </div>
           <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-bottom" />
           <div className="c2023fallevent-emoji">🎟</div>
         </div>
       </div>
+      {/* <TopPlane css={stylePlane} /> */}
     </div>
   );
 };
