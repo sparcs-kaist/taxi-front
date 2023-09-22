@@ -118,7 +118,7 @@ const ModalNotification = ({
         event2023FallQuestComplete("adPushAgreement");
       //#endregion
     },
-    [deviceToken]
+    [deviceToken, event2023FallQuestComplete]
   );
   const onChangeNotificationAll = useCallback(
     async (value: boolean) => {
@@ -153,7 +153,7 @@ const ModalNotification = ({
       if (value) event2023FallQuestComplete("adPushAgreement");
       //#endregion
     },
-    [deviceToken]
+    [deviceToken, event2023FallQuestComplete]
   );
   const onChangeNotificationChatting = useCallback(
     onChangeNotificationOption("chatting"),
