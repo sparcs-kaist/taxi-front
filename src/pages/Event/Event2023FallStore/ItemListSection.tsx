@@ -3,7 +3,10 @@ import { useState } from "react";
 import type { EventItem } from "types/event2023fall";
 
 import Empty from "components/Empty";
-import { ModalEvent2023FallItem } from "components/ModalPopup";
+import {
+  ModalEvent2023FallItem,
+  ModalEvent2023FallRandomBox,
+} from "components/ModalPopup";
 import WhiteContainer from "components/WhiteContainer";
 
 import theme from "tools/theme";
@@ -18,6 +21,7 @@ type EventItemComponentProps = {
 
 const EventItemContainer = ({ value, fetchItems }: EventItemComponentProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [rewardItem, setRewardItem] = useState<Nullable<EventItem>>(null);
   const isSoldOut = value.stock <= 0;
 
   return (
@@ -109,9 +113,17 @@ const EventItemContainer = ({ value, fetchItems }: EventItemComponentProps) => {
       <ModalEvent2023FallItem
         itemInfo={value}
         fetchItems={fetchItems}
+        setRewardItem={setRewardItem}
         isOpen={isOpen}
         onChangeIsOpen={setIsOpen}
       />
+      {value.itemType === 3 && (
+        <ModalEvent2023FallRandomBox
+          isOpen={!!rewardItem}
+          onChangeIsOpen={() => setRewardItem(null)}
+          item={rewardItem || undefined}
+        />
+      )}
     </WhiteContainer>
   );
 };
