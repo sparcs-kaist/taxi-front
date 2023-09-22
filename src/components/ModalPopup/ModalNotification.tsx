@@ -133,6 +133,7 @@ const ModalNotification = ({
             beforeDepart: value,
             chatting: value,
             notice: value,
+            advertisement: value,
           },
         },
       });
@@ -151,6 +152,10 @@ const ModalNotification = ({
   // );
   const onChangeNotificationNotice = useCallback(
     onChangeNotificationOption("notice"),
+    [onChangeNotificationOption]
+  );
+  const onChangeNotificationAdvertisement = useCallback(
+    onChangeNotificationOption("advertisement"),
     [onChangeNotificationOption]
   );
 
@@ -196,6 +201,11 @@ const ModalNotification = ({
               text="서비스 공지 알림"
               value={!!notificationOptions?.notice}
               onChangeValue={onChangeNotificationNotice}
+            />
+            <SelectNotification
+              text="광고성 알림"
+              value={!!notificationOptions?.advertisement}
+              onChangeValue={onChangeNotificationAdvertisement}
             />
           </div>
         </>
