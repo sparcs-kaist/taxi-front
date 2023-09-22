@@ -70,7 +70,7 @@ export default () => {
     // Flutter에서 history에 새로운 path를 push 할 때, 호출됩니다.
     eventListeners.push({
       name: "pushHistory",
-      listner: ({ path }: { path: string }) => history.push(path),
+      listner: ({ detail }: { detail: string }) => history.push(detail),
     });
 
     eventListeners.forEach(({ name, listner }) =>
