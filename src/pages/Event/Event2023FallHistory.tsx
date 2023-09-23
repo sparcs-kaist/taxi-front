@@ -6,7 +6,6 @@ import { useValueRecoilState } from "hooks/useFetchRecoilState";
 import useQuery from "hooks/useTaxiAPI";
 
 import AdaptiveDiv from "components/AdaptiveDiv";
-import DottedLine from "components/DottedLine";
 import Empty from "components/Empty";
 import CreditAmountStatusContainer from "components/Event/CreditAmountStatusContainer";
 import Footer from "components/Footer";
@@ -18,18 +17,71 @@ import WhiteContainerSuggestLogin from "components/WhiteContainer/WhiteContainer
 import dayjs, { day2str } from "tools/day";
 import theme from "tools/theme";
 
+type HistoryItemProps = {
+  imageUrl: string;
+  title: string;
+  description: string;
+  date: Date;
+};
+
+const HistoryItem = ({
+  imageUrl,
+  title,
+  description,
+  date,
+}: HistoryItemProps) => (
+  <WhiteContainer
+    css={{
+      padding: "12px",
+      display: "flex",
+      alignItems: "stretch",
+      gap: "10px",
+    }}
+  >
+    <div
+      css={{
+        width: "25%",
+        flexShrink: 0,
+      }}
+    >
+      <div
+        css={{
+          border: `1px solid ${theme.gray_line}`,
+          borderRadius: "10px",
+          overflow: "hidden",
+          backgroundColor: theme.white,
+          aspectRatio: "1 / 1",
+        }}
+      >
+        <img src={imageUrl} css={{ width: "100%" }} />
+      </div>
+    </div>
+    <div
+      css={{
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <div css={{ ...theme.font16_bold }}>{title}</div>
+      <div css={{ ...theme.font14, marginTop: "5px" }}>{description}</div>
+      <div css={{ ...theme.font12, color: theme.gray_text, marginTop: "auto" }}>
+        {day2str(dayjs(date))}
+      </div>
+    </div>
+  </WhiteContainer>
+);
+
 const HistorySection = () => {
   const { transactions } =
     useQuery.get("/events/2023fall/transactions")[1] || {};
   const purchaseHistory = useMemo(
     () =>
-      (transactions || [])
-        .filter(({ type }: Transaction) => type === "use")
-        .sort((x: Transaction, y: Transaction) =>
-          dayjs(y.doneat).diff(dayjs(x.doneat))
-        ),
+      (transactions || []).sort((x: Transaction, y: Transaction) =>
+        dayjs(y.createAt).diff(dayjs(x.createAt))
+      ),
     [transactions]
   ) as Array<Transaction>;
+  const { quests } = useValueRecoilState("event2023FallInfo") || {};
 
   return (
     <>
@@ -42,32 +94,32 @@ const HistorySection = () => {
       </Title>
       {purchaseHistory.length > 0 ? (
         purchaseHistory.map(
-          ({ _id, amount, eventId, itemId, comment, doneat }: Transaction) => (
-            <WhiteContainer key={_id} css={{ padding: "12px" }}>
-              <div
-                css={{
-                  ...theme.font12_bold,
-                  color: theme.purple,
-                  margin: "0 8px",
-                  marginBottom: "12px",
-                }}
-              >
-                {comment}
-              </div>
-              <DottedLine />
-              <div css={{ padding: "12px 8px 0" }}>
-                <div css={{ ...theme.font12 }}>
-                  <b>구매 아이디</b> : {_id}
-                  <br />
-                  <b>구매 상품</b> : {itemId || ""}
-                  <br />
-                  <b>차감된 송편</b> : {amount || ""}
-                  <br />
-                  <b>구매 시각</b> : {day2str(dayjs(doneat))}
-                </div>
-              </div>
-            </WhiteContainer>
-          )
+          ({ _id, type, comment, createAt, questId, item }: Transaction) => {
+            if (type === "get") {
+              const quest = quests?.find((quest) => quest.id === questId);
+              return (
+                <HistoryItem
+                  key={_id}
+                  imageUrl={quest?.imageUrl || ""}
+                  title={quest?.name || ""}
+                  description={comment}
+                  date={createAt}
+                />
+              );
+            } else if (type === "use") {
+              return (
+                <HistoryItem
+                  key={_id}
+                  imageUrl={item.imageUrl}
+                  title={item.name}
+                  description={comment}
+                  date={createAt}
+                />
+              );
+            } else {
+              return null;
+            }
+          }
         )
       ) : (
         <Empty type="mobile">구매 이력이 없습니다.</Empty>
