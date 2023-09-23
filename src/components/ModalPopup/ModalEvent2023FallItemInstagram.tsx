@@ -59,7 +59,17 @@ const ModalEvent2023FallItemInstagram = ({
       </div>
       <DottedLine css={{ marginBottom: "12px" }} />
       <div css={styleGuide}>
-        <b css={{ color: theme.black }}>@sparcs.kaist</b> 태그 부탁드려요 :D
+        <a
+          css={{ textDecoration: "none" }}
+          href="https://www.instagram.com/sparcs.kaist/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <u>
+            <b css={{ color: theme.black }}>@sparcs.kaist</b>
+          </u>
+        </a>{" "}
+        태그 부탁드려요 :D
       </div>
       <div
         css={{

@@ -68,7 +68,13 @@ const LinkEvent2023FallInstagramStoryShare = ({
         },
       });
     }
-  }, [isLogin, isAgreeOnTermsOfEvent, event2023FallQuestComplete]);
+  }, [
+    isLogin,
+    isAgreeOnTermsOfEvent,
+    backgroundLayerUrl,
+    stickerLayerUrl,
+    event2023FallQuestComplete,
+  ]);
 
   return (
     <>

@@ -36,7 +36,8 @@ export const useEventEffect = () => {
             ? `일반 응모권 ${quest.reward.ticket1}개를`
             : `송편 ${quest.reward.credit}개를`
         } 획득하셨습니다.`,
-        button: { text: "확인하기", path: "/event/2023fall-missions" },
+        // @fixme, @todo: 앱 버튼 버그로 일단 주석처리
+        // button: { text: "확인하기", path: "/event/2023fall-missions" },
       });
     });
     prevEventStatusRef.current = completedQuests;
