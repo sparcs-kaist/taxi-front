@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useMemo, useRef } from "react";
 
 import type { EventItem } from "types/event2023fall";
 
+import { useDelayBoolean } from "hooks/useDelay";
 import {
   useFetchRecoilState,
   useValueRecoilState,
@@ -25,11 +26,13 @@ import { ReactComponent as CreditIcon } from "static/events/2023fallCredit.svg";
 type ModalEvent2023FallItemProps = Parameters<typeof Modal>[0] & {
   itemInfo: EventItem;
   fetchItems?: () => void;
+  setRewardItem?: Dispatch<SetStateAction<Nullable<EventItem>>>;
 };
 
 const ModalEvent2023FallItem = ({
   itemInfo,
   fetchItems,
+  setRewardItem,
   ...modalProps
 }: ModalEvent2023FallItemProps) => {
   const fetchEvent2023FallInfo = useFetchRecoilState("event2023FallInfo");
@@ -37,27 +40,34 @@ const ModalEvent2023FallItem = ({
 
   const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
+  const isDisplayRandomBox = !useDelayBoolean(!modalProps.isOpen, 500);
+  const isRequesting = useRef<boolean>(false);
 
-  const onClickOk = useCallback(
-    () =>
-      axios({
-        url: `/events/2023fall/items/purchase/${itemInfo._id}`,
-        method: "post",
-        onSuccess: () => {
-          fetchEvent2023FallInfo();
-          fetchItems?.();
-          modalProps.onChangeIsOpen?.(false);
+  const onClickOk = useCallback(async () => {
+    if (isRequesting.current) return;
+    isRequesting.current = true;
+    await axios({
+      url: `/events/2023fall/items/purchase/${itemInfo._id}`,
+      method: "post",
+      onSuccess: ({ reward }) => {
+        fetchEvent2023FallInfo();
+        fetchItems?.();
+        modalProps.onChangeIsOpen?.(false);
+        if (itemInfo.itemType === 3 && reward) {
+          setRewardItem?.(reward);
+        } else {
           setAlert("구매가 완료되었습니다. 구매 이력에서 확인보세요.");
-        },
-        onError: () => setAlert("구매를 실패하였습니다."),
-      }),
-    [
-      itemInfo._id,
-      fetchItems,
-      modalProps.onChangeIsOpen,
-      fetchEvent2023FallInfo,
-    ]
-  );
+        }
+      },
+      onError: () => setAlert("구매를 실패하였습니다."),
+    });
+    isRequesting.current = false;
+  }, [
+    itemInfo._id,
+    fetchItems,
+    modalProps.onChangeIsOpen,
+    fetchEvent2023FallInfo,
+  ]);
 
   const [isDisabled, buttonText] = useMemo(
     () =>
@@ -72,17 +82,6 @@ const ModalEvent2023FallItem = ({
         : [false, "구매하기"],
     [eventMode, event2023FallInfo, itemInfo]
   );
-
-  const [isDisplayRandomBox, setIsDisplayRandomBox] = useState<boolean>(false);
-  useEffect(() => {
-    if (modalProps.isOpen) {
-      const timeout = setTimeout(() => {
-        setIsDisplayRandomBox(true);
-      }, 500);
-      return () => clearTimeout(timeout);
-    }
-    setIsDisplayRandomBox(false);
-  }, [modalProps.isOpen]);
 
   const styleTitle = {
     ...theme.font18,
@@ -105,7 +104,9 @@ const ModalEvent2023FallItem = ({
         isDisplayRandomBox ? (
           <BodyRandomBox isBoxOpend={false} />
         ) : (
-          <Loading />
+          <div css={{ textAlign: "center" }}>
+            <Loading />
+          </div>
         )
       ) : (
         <img

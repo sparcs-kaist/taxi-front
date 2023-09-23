@@ -57,6 +57,13 @@ const BodyRandomBox = ({
     }
     `} 2s linear infinite;
   `;
+  const styleItem = {
+    position: "absolute" as const,
+    top: "10%",
+    left: "10%",
+    width: "80%",
+    height: "80%",
+  };
 
   return (
     <div ref={bodyRef} css={{ height: `${boxSize * 1.3}px` }}>
@@ -96,7 +103,13 @@ const BodyRandomBox = ({
             <TopPlane css={stylePlane} />
           </div>
           <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-bottom" />
-          <div className="c2023fallevent-emoji">🎟</div>
+          <div className="c2023fallevent-emoji">
+            {itemImageUrl ? (
+              <img src={itemImageUrl} alt="item" css={styleItem} />
+            ) : (
+              "🎟"
+            )}
+          </div>
         </div>
       </div>
     </div>

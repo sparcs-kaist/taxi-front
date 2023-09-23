@@ -42,6 +42,10 @@
 
 .c2023fallevent-emoji {
   position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 8px;
+  overflow: hidden;
   font-size: 250px;
   transform: rotateX(-25deg) rotateY(-25deg) translate(calc(250px - 50%), 0rem);
 }
