@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 
-import { useFetchRecoilState } from "hooks/useFetchRecoilState";
+import { useEvent2023FallQuestComplete } from "hooks/event/useEvent2023FallQuestComplete";
 import { useAxios } from "hooks/useTaxiAPI";
 
 import Button from "components/Button";
@@ -21,7 +21,9 @@ type ModalEvent2023FallJoinProps = Parameters<typeof Modal>[0];
 const ModalEvent2023FallJoin = (modalProps: ModalEvent2023FallJoinProps) => {
   const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
-  const fetchEvent2023FallInfo = useFetchRecoilState("event2023FallInfo");
+  //#region event2023Fall
+  const event2023FallQuestComplete = useEvent2023FallQuestComplete();
+  //#endregion
 
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const isValidPhoneNumber = useMemo(
@@ -36,12 +38,14 @@ const ModalEvent2023FallJoin = (modalProps: ModalEvent2023FallJoinProps) => {
         method: "post",
         data: { phoneNumber },
         onSuccess: () => {
-          fetchEvent2023FallInfo();
+          //#region event2023Fall
+          event2023FallQuestComplete("firstLogin");
+          //#endregion
           modalProps.onChangeIsOpen?.(false);
         },
         onError: () => setAlert("이벤트 참여에 실패하였습니다."),
       }),
-    [phoneNumber, setPhoneNumber]
+    [phoneNumber, setPhoneNumber, event2023FallQuestComplete]
   );
 
   const styleTitle = {

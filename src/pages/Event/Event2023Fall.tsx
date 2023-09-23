@@ -1,19 +1,13 @@
-import { memo, useCallback } from "react";
+import { memo } from "react";
 import { Link } from "react-router-dom";
-
-import { sendPopupInstagramStoryShareToFlutter } from "hooks/skeleton/useFlutterEventCommunicationEffect";
-import { useValueRecoilState } from "hooks/useFetchRecoilState";
 
 import AdaptiveDiv from "components/AdaptiveDiv";
 import Button from "components/Button";
 import Footer from "components/Footer";
 import HeaderWithBackButton from "components/Header/HeaderWithBackButton";
+import LinkEvent2023FallInstagramStoryShare from "components/Link/LinkEvent2023FallInstagramStoryShare";
 import WhiteContainer from "components/WhiteContainer";
 
-import alertAtom from "atoms/alert";
-import { useSetRecoilState } from "recoil";
-
-import { deviceType } from "tools/loadenv";
 import theme from "tools/theme";
 
 import { ReactComponent as TaxiLogoIcon } from "static/assets/sparcsLogos/TaxiLogo.svg";
@@ -29,25 +23,6 @@ import { ReactComponent as MainTitle } from "static/events/2023fallMainTitle.svg
 import { ReactComponent as MissionCompleteIcon } from "static/events/2023fallMissionComplete.svg";
 
 const Event2023Fall = () => {
-  const setAlert = useSetRecoilState(alertAtom);
-  const isLogin = !!useValueRecoilState("loginInfo")?.id;
-
-  const onClickInstagramShare = useCallback(() => {
-    if (!deviceType.startsWith("app/")) {
-      setAlert("앱에서만 이용 가능합니다.");
-    } else if (!isLogin) {
-      setAlert("로그인 이후 이용해주세요.");
-    } else {
-      sendPopupInstagramStoryShareToFlutter({
-        backgroundLayerUrl:
-          "https://sparcs-taxi-prod.s3.ap-northeast-2.amazonaws.com/assets/event-2023fall/instagram_background.png",
-        stickerLayerUrl:
-          "https://sparcs-taxi-prod.s3.ap-northeast-2.amazonaws.com/assets/event-2023fall/instagram_sticker.png",
-      });
-      // @todo, @fixme : 퀘스트 완려 API날리고 이벤트인포 업데이트하기
-    }
-  }, [isLogin]);
-
   return (
     <>
       <HeaderWithBackButton>
@@ -288,17 +263,18 @@ const Event2023Fall = () => {
           </div>
           <div css={{ height: "16px" }} />
           <MainSection5 css={{ width: "159px", maxWidth: "100%" }} />
-          <Button
-            type="purple_inset"
-            css={{
-              padding: "14px 0 13px",
-              borderRadius: "12px",
-              ...theme.font14_bold,
-            }}
-            onClick={onClickInstagramShare}
-          >
-            인스타그램에 공유하기
-          </Button>
+          <LinkEvent2023FallInstagramStoryShare type="eventSharingOnInstagram">
+            <Button
+              type="purple_inset"
+              css={{
+                padding: "14px 0 13px",
+                borderRadius: "12px",
+                ...theme.font14_bold,
+              }}
+            >
+              인스타그램에 공유하기
+            </Button>
+          </LinkEvent2023FallInstagramStoryShare>
         </AdaptiveDiv>
       </div>
       <div

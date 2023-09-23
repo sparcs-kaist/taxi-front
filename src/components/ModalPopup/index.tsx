@@ -5,9 +5,10 @@ export { default as ModalChatSaveAccount } from "./ModalChatSaveAccount";
 export { default as ModalChatSettlement } from "./ModalChatSettlement";
 export { default as ModalCredit } from "./ModalCredit";
 
-export { default as ModalEvent2023FallMissionComplete } from "./ModalEvent2023FallMissionComplete";
-export { default as ModalEvent2023FallRandomBox } from "./ModalEvent2023FallRandomBox";
 export { default as ModalEvent2023FallItem } from "./ModalEvent2023FallItem";
+export { default as ModalEvent2023FallItemInstagram } from "./ModalEvent2023FallItemInstagram";
+export { default as ModalEvent2023FallJoin } from "./ModalEvent2023FallJoin";
+export { default as ModalEvent2023FallRandomBox } from "./ModalEvent2023FallRandomBox";
 
 export { default as ModalMypageModify } from "./ModalMypageModify";
 export { default as ModalNotification } from "./ModalNotification";
