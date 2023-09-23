@@ -9,6 +9,33 @@ export type EventItem = {
   itemType: number;
 };
 
+export type Transaction = {
+  _id: string;
+  amount: number;
+  comment: string;
+  createAt: Date;
+} & (
+  | {
+      type: "get";
+      questId: string;
+      item: never;
+    }
+  | {
+      type: "use";
+      item: {
+        _id: string;
+        name: string;
+        imageUrl: string;
+        price: number;
+        description: string;
+        isDisabled: boolean;
+        stock: number;
+        itemType: number;
+      };
+      questId: never;
+    }
+);
+
 export type Quest = {
   description: string;
   id: QuestId;
@@ -30,13 +57,3 @@ export type QuestId =
   | "adPushAgreement"
   | "eventSharingOnInstagram"
   | "purchaseSharingOnInstagram";
-
-export type Transaction = {
-  _id: string;
-  type: "get" | "use";
-  amount: number;
-  eventId?: string;
-  itemId?: string;
-  comment: string;
-  doneat: Date;
-};
