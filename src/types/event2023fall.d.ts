@@ -2,6 +2,7 @@ export type EventItem = {
   _id: string;
   name: string;
   imageUrl: string;
+  instagramStoryStickerImageUrl?: string;
   price: number;
   description: string;
   isDisabled: boolean;

@@ -30,9 +30,14 @@ export const useEventEffect = () => {
         type: "default",
         imageUrl: quest.imageUrl,
         title: "퀘스트 완료",
-        subtitle: quest.name,
-        content: quest.description,
-        button: { text: "확인하기", path: "/event/2023fall-missions" },
+        subtitle: "한가위 송편 이벤트",
+        content: `축하합니다! "${quest.name}" 퀘스트를 달성하여 ${
+          quest.reward.ticket1
+            ? `일반 응모권 ${quest.reward.ticket1}개를`
+            : `송편 ${quest.reward.credit}개를`
+        } 획득하셨습니다.`,
+        // @fixme, @todo: 앱 버튼 버그로 일단 주석처리
+        // button: { text: "확인하기", path: "/event/2023fall-missions" },
       });
     });
     prevEventStatusRef.current = completedQuests;

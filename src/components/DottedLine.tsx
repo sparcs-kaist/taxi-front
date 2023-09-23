@@ -1,3 +1,5 @@
+import { HTMLAttributes } from "react";
+
 import theme from "tools/theme";
 
 type Direction = "row" | "column";
@@ -8,9 +10,13 @@ type LineProps = {
     Margin,
     `${PixelValue}` | `${PixelValue} ${PixelValue} ${PixelValue} ${PixelValue}`
   >;
-};
+} & HTMLAttributes<HTMLDivElement>;
 
-const DottedLine = ({ direction = "row", margin = "0 0" }: LineProps) => {
+const DottedLine = ({
+  direction = "row",
+  margin = "0 0",
+  ...divProps
+}: LineProps) => {
   const wrapper = {
     height: direction === "row" ? "1px" : undefined,
     width:
@@ -33,9 +39,13 @@ const DottedLine = ({ direction = "row", margin = "0 0" }: LineProps) => {
       direction === "column" ? `5px dotted ${theme.gray_line}` : undefined,
     marginTop: direction === "column" ? "-2px" : undefined,
   };
+
   return (
-    <div style={{ ...wrapper, overflow: "hidden", boxSizing: "border-box" }}>
-      <div style={line}></div>
+    <div
+      css={{ ...wrapper, overflow: "hidden", boxSizing: "border-box" }}
+      {...divProps}
+    >
+      <div css={line}></div>
     </div>
   );
 };

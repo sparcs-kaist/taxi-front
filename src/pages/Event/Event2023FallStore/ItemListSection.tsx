@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 
 import type { EventItem } from "types/event2023fall";
 
@@ -7,6 +7,7 @@ import {
   ModalEvent2023FallItem,
   ModalEvent2023FallRandomBox,
 } from "components/ModalPopup";
+import { ModalEvent2023FallItemInstagram } from "components/ModalPopup";
 import WhiteContainer from "components/WhiteContainer";
 
 import theme from "tools/theme";
@@ -22,6 +23,7 @@ type EventItemComponentProps = {
 const EventItemContainer = ({ value, fetchItems }: EventItemComponentProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [rewardItem, setRewardItem] = useState<Nullable<EventItem>>(null);
+  const [shareItem, setShareItem] = useState<Nullable<EventItem>>(null);
   const isSoldOut = value.stock <= 0;
 
   return (
@@ -114,6 +116,7 @@ const EventItemContainer = ({ value, fetchItems }: EventItemComponentProps) => {
         itemInfo={value}
         fetchItems={fetchItems}
         setRewardItem={setRewardItem}
+        setShareItem={setShareItem}
         isOpen={isOpen}
         onChangeIsOpen={setIsOpen}
       />
@@ -124,6 +127,11 @@ const EventItemContainer = ({ value, fetchItems }: EventItemComponentProps) => {
           item={rewardItem || undefined}
         />
       )}
+      <ModalEvent2023FallItemInstagram
+        isOpen={!!shareItem}
+        onChangeIsOpen={() => setShareItem(null)}
+        item={shareItem || undefined}
+      />
     </WhiteContainer>
   );
 };
@@ -155,4 +163,4 @@ const ItemListSection = ({ items, fetchItems }: ItemListSectionProps) => {
   );
 };
 
-export default ItemListSection;
+export default memo(ItemListSection);

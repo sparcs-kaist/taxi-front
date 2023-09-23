@@ -27,12 +27,14 @@ type ModalEvent2023FallItemProps = Parameters<typeof Modal>[0] & {
   itemInfo: EventItem;
   fetchItems?: () => void;
   setRewardItem?: Dispatch<SetStateAction<Nullable<EventItem>>>;
+  setShareItem?: Dispatch<SetStateAction<Nullable<EventItem>>>;
 };
 
 const ModalEvent2023FallItem = ({
   itemInfo,
   fetchItems,
   setRewardItem,
+  setShareItem,
   ...modalProps
 }: ModalEvent2023FallItemProps) => {
   const fetchEvent2023FallInfo = useFetchRecoilState("event2023FallInfo");
@@ -56,7 +58,7 @@ const ModalEvent2023FallItem = ({
         if (itemInfo.itemType === 3 && reward) {
           setRewardItem?.(reward);
         } else {
-          setAlert("구매가 완료되었습니다. 구매 이력에서 확인보세요.");
+          setShareItem?.(itemInfo);
         }
       },
       onError: () => setAlert("구매를 실패하였습니다."),
@@ -140,19 +142,39 @@ const ModalEvent2023FallItem = ({
           <div>{itemInfo.price}</div>
         </div>
       </div>
-      <Button
-        type="purple_inset"
+
+      <div
         css={{
-          width: "100%",
-          padding: "10px 0 9px",
-          borderRadius: "8px",
-          ...theme.font14_bold,
+          display: "flex",
+          justifyContent: "space-between",
         }}
-        onClick={onClickOk}
-        disabled={isDisabled}
       >
-        {buttonText}
-      </Button>
+        <Button
+          type="gray"
+          css={{
+            width: "calc(40% - 10px)",
+            padding: "10px 0 9px",
+            borderRadius: "8px",
+            ...theme.font14,
+          }}
+          onClick={() => modalProps?.onChangeIsOpen?.(false)}
+        >
+          취소
+        </Button>
+        <Button
+          type="purple"
+          css={{
+            width: "60%",
+            padding: "10px 0 9px",
+            borderRadius: "8px",
+            ...theme.font14_bold,
+          }}
+          onClick={onClickOk}
+          disabled={isDisabled}
+        >
+          {buttonText}
+        </Button>
+      </div>
     </Modal>
   );
 };
