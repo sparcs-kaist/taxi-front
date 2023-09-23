@@ -178,7 +178,9 @@ const ModalMypageModify = ({
         method: "post",
         data: { nickname },
         onError: () => setAlert(t("page_modify.nickname_failed")),
+        //#region event2023Fall
         onSuccess: () => event2023FallQuestComplete("nicknameChanging"), // event2023Fall
+        //#endregion
       });
     }
     if (account !== loginInfo?.account) {
@@ -188,7 +190,9 @@ const ModalMypageModify = ({
         method: "post",
         data: { account },
         onError: () => setAlert(t("page_modify.account_failed")),
+        //#region event2023Fall
         onSuccess: () => event2023FallQuestComplete("accountChanging"), // event2023Fall
+        //#endregion
       });
     }
     if (isNeedToUpdateLoginInfo) {
