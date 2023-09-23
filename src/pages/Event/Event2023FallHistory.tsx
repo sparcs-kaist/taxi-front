@@ -32,31 +32,34 @@ const HistoryItem = ({
 }: HistoryItemProps) => (
   <WhiteContainer
     css={{
-      height: "100px",
       padding: "12px",
       display: "flex",
+      alignItems: "stretch",
       gap: "10px",
     }}
   >
-    <img
-      src={imageUrl}
-      css={{
-        height: "100%",
-        aspectRatio: "1 / 1",
-        border: `1px solid ${theme.gray_line}`,
-        borderRadius: "10px",
-        overflow: "hidden",
-        backgroundColor: theme.white,
-        flexShrink: 0,
-      }}
-    />
     <div
       css={{
-        height: "100%",
+        width: "25%",
+        flexShrink: 0,
+      }}
+    >
+      <div
+        css={{
+          border: `1px solid ${theme.gray_line}`,
+          borderRadius: "10px",
+          overflow: "hidden",
+          backgroundColor: theme.white,
+          aspectRatio: "1 / 1",
+        }}
+      >
+        <img src={imageUrl} css={{ width: "100%" }} />
+      </div>
+    </div>
+    <div
+      css={{
         display: "flex",
         flexDirection: "column",
-        padding: "5px",
-        boxSizing: "border-box",
       }}
     >
       <div css={{ ...theme.font16_bold }}>{title}</div>
@@ -92,8 +95,8 @@ const HistorySection = () => {
       {purchaseHistory.length > 0 ? (
         purchaseHistory.map(
           ({ _id, type, comment, createAt, questId, item }: Transaction) => {
-            if (type == "get") {
-              const quest = quests?.find((quest) => quest.id == questId);
+            if (type === "get") {
+              const quest = quests?.find((quest) => quest.id === questId);
               return (
                 <HistoryItem
                   key={_id}
@@ -103,7 +106,7 @@ const HistorySection = () => {
                   date={createAt}
                 />
               );
-            } else if (type == "use") {
+            } else if (type === "use") {
               return (
                 <HistoryItem
                   key={_id}
