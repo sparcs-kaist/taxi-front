@@ -5,17 +5,37 @@ import useQuery from "hooks/useTaxiAPI";
 
 import WhiteContainer from "components/WhiteContainer";
 
+import dayjs, {
+  dayDifference2str,
+  dayNowServer,
+  dayServerToClient,
+} from "tools/day";
 import theme from "tools/theme";
 
 import CampaignRoundedIcon from "@mui/icons-material/CampaignRounded";
 
+type Transaction = {
+  text: string;
+  createAt: Date;
+};
+
 const PublicNoticeContainer = () => {
-  const { transactions } = useQuery.get(
+  const { transactions }: { transactions: Array<Transaction> } = useQuery.get(
     "/events/2023fall/public-notice/recentTransactions"
   )[1] || { transactions: [] };
   const notices = useMemo(() => {
+    const publicNotices = transactions
+      .sort((a, b) => dayjs(b.createAt).diff(a.createAt))
+      .map(
+        ({ text, createAt }) =>
+          `[${dayDifference2str(
+            dayServerToClient(createAt),
+            dayNowServer()
+          )}] ${text}`
+      );
     return [
       "[공지] 아이템이 조기 소진될 경우 9월 30일(토), 10월 5일(목)에 추가 입고될 예정입니다.",
+      ...publicNotices,
       "[공지] 이벤트가 종료되면 아이템을 구매할 수 없습니다. 종료 전에 송편을 모두 소진해주세요.",
     ];
   }, [transactions]);
