@@ -23,9 +23,10 @@ const getLocationName = (location, langPreference) => {
 
 const isNotificationOn = (notificationOptions) => {
   const isOn =
-    // notificationOptions?.advertisement ||
     // notificationOptions?.beforeDepart ||
-    notificationOptions?.chatting || notificationOptions?.notice;
+    notificationOptions?.advertisement ||
+    notificationOptions?.chatting ||
+    notificationOptions?.notice;
   // notificationOptions?.keywords?.length;
   return !!isOn;
 };
