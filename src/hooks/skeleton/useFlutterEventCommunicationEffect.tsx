@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
+import { InAppNotification } from "types/inAppNotification";
+
 import {
   useFetchRecoilState,
   useValueRecoilState,
@@ -166,25 +168,18 @@ export const sendClipboardCopyEventToFlutter = async (value: string) => {
 
 /** 인앱 알림 발생 시 Flutter에 이벤트를 전달합니다. */
 export const sendPopupInAppNotificationEventToFlutter = async (
-  value: (
-    | { type: "chat"; profileUrl?: string }
-    | { type: "default"; imageUrl?: string }
-  ) & {
-    title?: string;
-    subtitle?: string;
-    content?: string;
-    button?: { text: string; path: string };
-  }
-) => {
-  console.log("fake notification call", value);
-  if (!isWebViewInFlutter) return true;
+  value: InAppNotification
+): Promise<boolean> => {
+  if (!isWebViewInFlutter) return false;
   try {
-    await window.flutter_inappwebview.callHandler(
+    const result = await window.flutter_inappwebview.callHandler(
       "popup_inAppNotification",
       value
     );
+    return !!result;
   } catch (e) {
     console.error(e);
+    return false;
   }
 };
 
@@ -196,13 +191,13 @@ export const sendPopupInstagramStoryShareToFlutter = async (value: {
   backgroundLayerUrl: string;
   stickerLayerUrl: string;
 }): Promise<boolean> => {
-  console.log("fake instagram call", value);
-  if (!isWebViewInFlutter) return true;
+  if (!isWebViewInFlutter) return false;
   try {
-    return await window.flutter_inappwebview.callHandler(
+    const result = await window.flutter_inappwebview.callHandler(
       "popup_instagram_story_share",
       value
     );
+    return !!result;
   } catch (e) {
     console.error(e);
     return false;

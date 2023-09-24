@@ -4,7 +4,8 @@ import type { QuestId } from "types/event2023fall";
 
 import { useValueRecoilState } from "hooks/useFetchRecoilState";
 
-import { sendPopupInAppNotificationEventToFlutter } from "tools/sendEventToFlutter";
+// import { sendPopupInAppNotificationEventToFlutter } from "tools/sendEventToFlutter";
+import toast from "tools/toast";
 
 export const useEventEffect = () => {
   const { completedQuests, quests } =
@@ -26,8 +27,8 @@ export const useEventEffect = () => {
     questsForCompare.forEach((questId) => {
       const quest = quests.find(({ id }) => id === questId);
       if (!quest) return;
-      sendPopupInAppNotificationEventToFlutter({
-        type: "default",
+      const notificationValue = {
+        type: "default" as const,
         imageUrl: quest.imageUrl,
         title: "퀘스트 완료",
         subtitle: "한가위 송편 이벤트",
@@ -36,9 +37,10 @@ export const useEventEffect = () => {
             ? `일반 응모권 ${quest.reward.ticket1}개를`
             : `송편 ${quest.reward.credit}개를`
         } 획득하셨습니다.`,
-        // @fixme, @todo: 앱 버튼 버그로 일단 주석처리
-        // button: { text: "확인하기", path: "/event/2023fall-missions" },
-      });
+        button: { text: "확인하기", path: "/event/2023fall-missions" },
+      };
+      // sendPopupInAppNotificationEventToFlutter(notificationValue);
+      toast(notificationValue);
     });
     prevEventStatusRef.current = completedQuests;
   }, [completedQuests]);

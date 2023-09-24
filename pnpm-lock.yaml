@@ -99,6 +99,9 @@ dependencies:
   react-router-dom:
     specifier: ^5.3.3
     version: 5.3.4(react@18.2.0)
+  react-toastify:
+    specifier: 8.2.0
+    version: 8.2.0(react-dom@18.2.0)(react@18.2.0)
   recoil:
     specifier: ^0.7.5
     version: 0.7.7(react-dom@18.2.0)(react@18.2.0)
@@ -13056,6 +13059,17 @@ packages:
       - webpack-command
       - webpack-hot-middleware
       - webpack-plugin-serve
+    dev: false
+
+  /react-toastify@8.2.0(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-Pg2Ju7NngAamarFvLwqrFomJ57u/Ay6i6zfLurt/qPynWkAkOthu6vxfqYpJCyNhHRhR4hu7+bySSeWWJu6PAg==}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      clsx: 1.2.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /react-transition-group@4.4.5(react-dom@18.2.0)(react@18.2.0):
