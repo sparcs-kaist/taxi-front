@@ -350,7 +350,7 @@ const Event2023FallLeaderboard = () => {
             >
               <div css={{ color: theme.purple_disabled, ...theme.font12 }}>
                 • 리더보드의 추첨 확률은 정확한 확률이 아닌 내부 모델을 사용하여
-                계산한 근사값입니다.
+                계산한 근삿값입니다.
               </div>
               <div css={{ color: theme.purple_disabled, ...theme.font12 }}>
                 • 경품 추첨 전체 참여자 수 : {totalUserAmount || 0}명

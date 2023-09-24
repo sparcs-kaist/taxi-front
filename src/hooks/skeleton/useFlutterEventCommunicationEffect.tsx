@@ -156,17 +156,30 @@ export const sendTryNotificationEventToFlutter = async (): Promise<boolean> => {
   }
 };
 
-/** 클립보드로 텍스트 복사 시 Flutter에게 이벤트를 전달합니다. */
-export const sendClipboardCopyEventToFlutter = async (value: string) => {
-  if (!isWebViewInFlutter) return true;
+/**
+ * 클립보드로 텍스트 복사 시 Flutter에게 이벤트를 전달합니다.
+ * 복사 여부를 반환받습니다.
+ */
+export const sendClipboardCopyEventToFlutter = async (
+  value: string
+): Promise<boolean> => {
+  if (!isWebViewInFlutter) return false;
   try {
-    await window.flutter_inappwebview.callHandler("clipboard_copy", value);
+    const result = await window.flutter_inappwebview.callHandler(
+      "clipboard_copy",
+      value
+    );
+    return !!result;
   } catch (e) {
     console.error(e);
+    return false;
   }
 };
 
-/** 인앱 알림 발생 시 Flutter에 이벤트를 전달합니다. */
+/**
+ * 인앱 알림 발생 시 Flutter에 이벤트를 전달합니다.
+ * 인앱 알림 성공 여부를 반환받습니다.
+ */
 export const sendPopupInAppNotificationEventToFlutter = async (
   value: InAppNotification
 ): Promise<boolean> => {

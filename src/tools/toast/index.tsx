@@ -10,6 +10,7 @@ import Button from "components/Button";
 
 import "./index.css";
 
+// import { sendPopupInAppNotificationEventToFlutter } from "tools/sendEventToFlutter";
 import theme from "tools/theme";
 
 let isToastInitialized = false;
@@ -114,7 +115,7 @@ const Toast = ({
   );
 };
 
-const toast = (value: InAppNotification) => {
+const toast = async (value: InAppNotification) => {
   if (!isToastInitialized) {
     document.documentElement.style.setProperty(
       "--toastify-color-progress-light",
@@ -126,7 +127,9 @@ const toast = (value: InAppNotification) => {
     );
   }
 
-  return _toast(<Toast value={value} />, { autoClose: 5000 });
+  // const result = await sendPopupInAppNotificationEventToFlutter(value);
+  // if (!result) _toast(<Toast value={value} />, { autoClose: 5000 });
+  _toast(<Toast value={value} />, { autoClose: 5000 });
 };
 
 export default toast;
