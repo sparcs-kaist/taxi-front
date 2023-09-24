@@ -60,6 +60,7 @@ type LeaderboardElem = {
   ticket1Amount: number;
   ticket2Amount: number;
   probability: number;
+  probabilityV2: number;
 };
 
 type LeaderboardItemProps = {
@@ -138,16 +139,8 @@ const LeaderboardItem = ({
     ...theme.font16,
     width: "30px",
     flexShrink: 0,
-    textAlign: "center",
-  } as CSS;
-
-  const realProbability = useMemo(
-    () =>
-      1 -
-      (1 - value.probability) **
-        (value.ticket1Amount * 1 + value.ticket2Amount * 5),
-    [value]
-  );
+    textAlign: "center" as const,
+  };
 
   return (
     <WhiteContainer
@@ -203,7 +196,7 @@ const LeaderboardItem = ({
       <span css={{ marginLeft: "auto", ...styleTicketText }}>
         {value.ticket1Amount || 0}
       </span>
-      <span css={{ ...styleTicketText }}>{value.ticket2Amount || 0}</span>
+      <span css={styleTicketText}>{value.ticket2Amount || 0}</span>
       <div
         css={{
           color: styleText(isMe ? -1 : rank),
@@ -212,19 +205,19 @@ const LeaderboardItem = ({
           flexShrink: 0,
           textAlign: "right",
         }}
-        title={(realProbability * 100).toString()}
+        title={(value.probabilityV2 * 100).toString()}
       >
         <span css={{ ...theme.font20 }}>
-          {Math.trunc(realProbability * 100) || 0}
+          {Math.trunc(value.probabilityV2 * 100) || 0}
         </span>
-        .{Math.floor(((realProbability * 100) % 1) * 10)}%
+        .{Math.floor(((value.probabilityV2 * 100) % 1) * 10)}%
       </div>
     </WhiteContainer>
   );
 };
 
 const Event2023FallLeaderboard = () => {
-  const { leaderboard, rank, probability } = useQuery.get(
+  const { leaderboard, rank, probability, probabilityV2 } = useQuery.get(
     "/events/2023fall/public-notice/leaderboard"
   )[1] || { leaderboard: [], rank: 0 };
   const { ticket1Amount, ticket2Amount } =
@@ -238,6 +231,7 @@ const Event2023FallLeaderboard = () => {
       ticket1Amount: ticket1Amount || 0,
       ticket2Amount: ticket2Amount || 0,
       probability,
+      probabilityV2,
     };
   }, [nickname, profileImgUrl, ticket1Amount, ticket2Amount, probability]);
 
