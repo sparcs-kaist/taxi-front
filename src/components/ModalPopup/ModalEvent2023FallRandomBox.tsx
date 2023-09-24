@@ -1,15 +1,20 @@
-import { useCallback, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
+
+import type { EventItem } from "types/event2023fall";
+
+import { useDelay, useDelayBoolean } from "hooks/useDelay";
 
 import Button from "components/Button";
 import DottedLine from "components/DottedLine";
 import BodyRandomBox from "components/Event/BodyRandomBox";
+import Loading from "components/Loading";
 import Modal from "components/Modal";
 
 import "./ModalEvent2023FallRandomBoxBackground.css";
 
 import theme from "tools/theme";
 
-import LocalAtmRoundedIcon from "@mui/icons-material/LocalAtmRounded";
+import HelpCenterRoundedIcon from "@mui/icons-material/HelpCenterRounded";
 
 const Background = () => (
   <div css={{ position: "absolute", top: "20%", left: 0, bottom: 0, right: 0 }}>
@@ -18,13 +23,22 @@ const Background = () => (
   </div>
 );
 
-type ModalEvent2023FallRandomBoxProps = Parameters<typeof Modal>[0] & {};
+type ModalEvent2023FallRandomBoxProps = { item?: EventItem } & Parameters<
+  typeof Modal
+>[0];
 
 const ModalEvent2023FallRandomBox = ({
+  item,
   ...modalProps
 }: ModalEvent2023FallRandomBoxProps) => {
   const [isBoxOpend, setIsBoxOpend] = useState<boolean>(false);
+  const isDisplayRandomBox = !useDelayBoolean(!modalProps.isOpen, 500);
+  const isDisplayItemName = useDelay<boolean>(isBoxOpend, !isBoxOpend, 6000);
   const onClickOk = useCallback(() => setIsBoxOpend(true), []);
+
+  useEffect(() => {
+    if (!modalProps.isOpen) setIsBoxOpend(false);
+  }, [modalProps.isOpen]);
 
   const styleTitle = {
     ...theme.font18,
@@ -50,15 +64,36 @@ const ModalEvent2023FallRandomBox = ({
       {...modalProps}
     >
       <div css={styleTitle}>
-        <LocalAtmRoundedIcon style={styleIcon} />
+        <HelpCenterRoundedIcon style={styleIcon} />
         랜덤박스 열기
       </div>
       <div css={styleText}>
-        랜덤박스를 획득했다. <b>상자</b> 또는 <b>열기</b> 버튼을 눌러 상자 안
-        상품을 확인해보자.
+        <b css={{ color: theme.purple }}>랜덤박스를 획득했어요.</b> <b>상자</b>{" "}
+        또는 <b>열기</b> 버튼을 눌러 상자 안 상품을 확인해세요!
       </div>
       <DottedLine />
-      <BodyRandomBox isBoxOpend={isBoxOpend} onClickBox={onClickOk} />
+      {isDisplayRandomBox ? (
+        <BodyRandomBox
+          itemImageUrl={item?.imageUrl}
+          isBoxOpend={isBoxOpend}
+          onClickBox={onClickOk}
+        />
+      ) : (
+        <div css={{ textAlign: "center" }}>
+          <Loading />
+        </div>
+      )}
+      {isDisplayItemName && (
+        <div css={styleText}>
+          축하합니다! 랜덤박스에서{" "}
+          <b>
+            {'"'}
+            {item?.name || ""}
+            {'"'}
+          </b>
+          을(를) 획득하였습니다
+        </div>
+      )}
       <Button
         type="purple_inset"
         css={{
@@ -66,13 +101,17 @@ const ModalEvent2023FallRandomBox = ({
           borderRadius: "8px",
           ...theme.font14_bold,
         }}
-        disabled={isBoxOpend}
-        onClick={onClickOk}
+        disabled={isDisplayItemName ? false : isBoxOpend}
+        onClick={
+          isDisplayItemName
+            ? () => modalProps?.onChangeIsOpen?.(false)
+            : onClickOk
+        }
       >
-        박스 열기
+        {isDisplayItemName ? "확인" : "박스 열기"}
       </Button>
     </Modal>
   );
 };
 
-export default ModalEvent2023FallRandomBox;
+export default memo(ModalEvent2023FallRandomBox);

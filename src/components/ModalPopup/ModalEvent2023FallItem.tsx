@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useMemo, useRef } from "react";
 
 import type { EventItem } from "types/event2023fall";
 
+import { useDelayBoolean } from "hooks/useDelay";
 import {
   useFetchRecoilState,
   useValueRecoilState,
@@ -25,66 +26,65 @@ import { ReactComponent as CreditIcon } from "static/events/2023fallCredit.svg";
 type ModalEvent2023FallItemProps = Parameters<typeof Modal>[0] & {
   itemInfo: EventItem;
   fetchItems?: () => void;
+  setRewardItem?: Dispatch<SetStateAction<Nullable<EventItem>>>;
+  setShareItem?: Dispatch<SetStateAction<Nullable<EventItem>>>;
 };
 
 const ModalEvent2023FallItem = ({
   itemInfo,
   fetchItems,
+  setRewardItem,
+  setShareItem,
   ...modalProps
 }: ModalEvent2023FallItemProps) => {
   const fetchEvent2023FallInfo = useFetchRecoilState("event2023FallInfo");
   const event2023FallInfo = useValueRecoilState("event2023FallInfo");
+  const isLogin = !!useValueRecoilState("loginInfo")?.id;
 
   const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
+  const isDisplayRandomBox = !useDelayBoolean(!modalProps.isOpen, 500);
+  const isRequesting = useRef<boolean>(false);
 
-  const onClickOk = useCallback(
-    () =>
-      axios({
-        url: `/events/2023fall/items/purchase/${itemInfo._id}`,
-        method: "post",
-        onSuccess: () => {
-          fetchEvent2023FallInfo();
-          fetchItems?.();
-          modalProps.onChangeIsOpen?.(false);
-          setAlert("구매가 완료되었습니다. 구매 이력에서 확인보세요.");
-        },
-        onError: () => setAlert("구매를 실패하였습니다."),
-      }),
-    [
-      itemInfo._id,
-      fetchItems,
-      modalProps.onChangeIsOpen,
-      fetchEvent2023FallInfo,
-    ]
-  );
+  const onClickOk = useCallback(async () => {
+    if (isRequesting.current) return;
+    isRequesting.current = true;
+    await axios({
+      url: `/events/2023fall/items/purchase/${itemInfo._id}`,
+      method: "post",
+      onSuccess: ({ reward }) => {
+        fetchEvent2023FallInfo();
+        fetchItems?.();
+        modalProps.onChangeIsOpen?.(false);
+        if (itemInfo.itemType === 3 && reward) {
+          setRewardItem?.(reward);
+        } else {
+          setShareItem?.(itemInfo);
+        }
+      },
+      onError: () => setAlert("구매를 실패하였습니다."),
+    });
+    isRequesting.current = false;
+  }, [
+    itemInfo._id,
+    fetchItems,
+    modalProps.onChangeIsOpen,
+    fetchEvent2023FallInfo,
+  ]);
 
   const [isDisabled, buttonText] = useMemo(
-    () => [true, "달토끼 상점 오픈 전입니다"],
-    // eventMode !== "2023fall"
-    //   ? [true, "이벤트 기간이 아닙니다"]
-    //   : eventMode !== "2023fall"
-    //   ? [true, "이벤트 기간이 아닙니다"]
-    //   : itemInfo.stock <= 0
-    //   ? [true, "매진된 상품은 구매할 수 없습니다"]
-    //   : !event2023FallInfo
-    //   ? [true, "로그인 후 구매가 가능합니다"]
-    //   : event2023FallInfo.creditAmount < itemInfo.price
-    //   ? [true, "송편이 부족하여 구매할 수 없습니다"]
-    //   : [false, "구매하기"],
+    () =>
+      eventMode !== "2023fall"
+        ? [true, "이벤트 기간이 아닙니다"]
+        : itemInfo.stock <= 0
+        ? [true, "매진된 상품은 구매할 수 없습니다"]
+        : !event2023FallInfo || !isLogin
+        ? [true, "로그인 후 구매가 가능합니다"]
+        : event2023FallInfo.creditAmount < itemInfo.price
+        ? [true, "송편이 부족하여 구매할 수 없습니다"]
+        : [false, "구매하기"],
     [eventMode, event2023FallInfo, itemInfo]
   );
-
-  const [isDisplayRandomBox, setIsDisplayRandomBox] = useState<boolean>(false);
-  useEffect(() => {
-    if (modalProps.isOpen) {
-      const timeout = setTimeout(() => {
-        setIsDisplayRandomBox(true);
-      }, 500);
-      return () => clearTimeout(timeout);
-    }
-    setIsDisplayRandomBox(false);
-  }, [modalProps.isOpen]);
 
   const styleTitle = {
     ...theme.font18,
@@ -107,7 +107,9 @@ const ModalEvent2023FallItem = ({
         isDisplayRandomBox ? (
           <BodyRandomBox isBoxOpend={false} />
         ) : (
-          <Loading />
+          <div css={{ textAlign: "center" }}>
+            <Loading />
+          </div>
         )
       ) : (
         <img
@@ -141,19 +143,39 @@ const ModalEvent2023FallItem = ({
           <div>{itemInfo.price}</div>
         </div>
       </div>
-      <Button
-        type="purple_inset"
+
+      <div
         css={{
-          width: "100%",
-          padding: "10px 0 9px",
-          borderRadius: "8px",
-          ...theme.font14_bold,
+          display: "flex",
+          justifyContent: "space-between",
         }}
-        onClick={onClickOk}
-        disabled={isDisabled}
       >
-        {buttonText}
-      </Button>
+        <Button
+          type="gray"
+          css={{
+            width: "calc(40% - 10px)",
+            padding: "10px 0 9px",
+            borderRadius: "8px",
+            ...theme.font14,
+          }}
+          onClick={() => modalProps?.onChangeIsOpen?.(false)}
+        >
+          취소
+        </Button>
+        <Button
+          type="purple"
+          css={{
+            width: "60%",
+            padding: "10px 0 9px",
+            borderRadius: "8px",
+            ...theme.font14_bold,
+          }}
+          onClick={onClickOk}
+          disabled={isDisabled}
+        >
+          {buttonText}
+        </Button>
+      </div>
     </Modal>
   );
 };

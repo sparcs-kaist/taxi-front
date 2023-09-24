@@ -6,10 +6,11 @@ import {
   useFetchRecoilState,
   useValueRecoilState,
 } from "hooks/useFetchRecoilState";
+import { useAxios } from "hooks/useTaxiAPI";
 
 export const useEvent2023FallQuestComplete = () => {
+  const axios = useAxios();
   const fetchEvent2023FallInfo = useFetchRecoilState("event2023FallInfo");
-
   const { completedQuests, quests } =
     useValueRecoilState("event2023FallInfo") || {};
 
@@ -21,7 +22,20 @@ export const useEvent2023FallQuestComplete = () => {
       const questCompletedCount = completedQuests?.filter(
         (questId) => questId === id
       ).length;
-      questCompletedCount < questMaxCount && fetchEvent2023FallInfo();
+      if (questCompletedCount >= questMaxCount) return;
+      if (
+        [
+          "roomSharing",
+          "eventSharingOnInstagram",
+          "purchaseSharingOnInstagram",
+        ].includes(id)
+      ) {
+        axios({
+          url: `/events/2023fall/quests/complete/${id}`,
+          method: "post",
+          onSuccess: () => fetchEvent2023FallInfo(),
+        });
+      } else fetchEvent2023FallInfo();
     },
     [completedQuests, fetchEvent2023FallInfo, quests]
   );

@@ -3,12 +3,11 @@ import { memo, useCallback, useEffect, useRef, useState } from "react";
 
 import "./index.css";
 
-import { ReactComponent as BackPlane } from "static/events/2023fallRandomboxBack.svg";
-import { ReactComponent as FrontPlane } from "static/events/2023fallRandomboxFront.svg";
-import { ReactComponent as FrontPlaneLight } from "static/events/2023fallRandomboxFrontLight.svg";
-import { ReactComponent as LeftPlane } from "static/events/2023fallRandomboxLeft.svg";
-import { ReactComponent as RightPlane } from "static/events/2023fallRandomboxRight.svg";
-import { ReactComponent as RightPlaneLight } from "static/events/2023fallRandomboxRightLight.svg";
+import theme from "tools/theme";
+
+import BackPlaneImage from "static/events/2023fallRandomboxBack.png";
+import FrontPlaneImage from "static/events/2023fallRandomboxFront.png";
+import FrontPlaneLightImage from "static/events/2023fallRandomboxFrontLight.png";
 import { ReactComponent as TopPlane } from "static/events/2023fallRandomboxTop.svg";
 
 type BodyRandomBoxProps = {
@@ -41,8 +40,17 @@ const BodyRandomBox = ({
     width: "100%",
     height: "100%",
   };
-  const stylePlaneLRInversion = {
-    transform: "scaleX(-1)",
+  const stylePlaneFront = {
+    position: "absolute" as const,
+    top: "-32px",
+    left: "-84px",
+    width: "670px",
+  };
+  const stylePlaneBack = {
+    position: "absolute" as const,
+    top: "-120px",
+    left: "-80px",
+    width: "664px",
   };
   const stylePlaneFlash = css`
     animation: ${keyframes`
@@ -57,6 +65,13 @@ const BodyRandomBox = ({
     }
     `} 2s linear infinite;
   `;
+  const styleItem = {
+    position: "absolute" as const,
+    top: "10%",
+    left: "10%",
+    width: "80%",
+    height: "80%",
+  };
 
   return (
     <div ref={bodyRef} css={{ height: `${boxSize * 1.3}px` }}>
@@ -66,38 +81,37 @@ const BodyRandomBox = ({
           height: `${boxSize}px`,
           aspectRatio: 1,
           margin: `0 auto`,
+          ...theme.cursor(isBoxOpend),
           transform: `scale(${
             (boxSize / 500) * 0.8
           }) translateX(-160px) translateY(-70px)`,
         }}
+        onClick={onClickBox}
       >
+        <img src={BackPlaneImage} alt="" css={stylePlaneBack} />
         <div
           className={[
             "c2023fallevent-randombox",
             ...(isBoxOpend ? ["c2023fallevent-randombox-open"] : []),
           ].join(" ")}
-          onClick={onClickBox}
         >
-          <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-front">
-            <FrontPlane css={stylePlane} />
-            <FrontPlaneLight css={[stylePlane, stylePlaneFlash]} />
-          </div>
-          <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-back">
-            <BackPlane css={{ ...stylePlane, ...stylePlaneLRInversion }} />
-          </div>
-          <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-left">
-            <LeftPlane css={{ ...stylePlane, ...stylePlaneLRInversion }} />
-          </div>
-          <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-right">
-            <RightPlane css={stylePlane} />
-            <RightPlaneLight css={[stylePlane, stylePlaneFlash]} />
-          </div>
           <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-top">
             <TopPlane css={stylePlane} />
           </div>
-          <div className="c2023fallevent-randombox-side c2023fallevent-randombox-side-bottom" />
-          <div className="c2023fallevent-emoji">🎟</div>
+          {isBoxOpend && (
+            <div className="c2023fallevent-emoji">
+              {itemImageUrl && (
+                <img src={itemImageUrl} alt="item" css={styleItem} />
+              )}
+            </div>
+          )}
         </div>
+        <img src={FrontPlaneImage} alt="" css={stylePlaneFront} />
+        <img
+          src={FrontPlaneLightImage}
+          alt=""
+          css={[stylePlaneFront, stylePlaneFlash]}
+        />
       </div>
     </div>
   );

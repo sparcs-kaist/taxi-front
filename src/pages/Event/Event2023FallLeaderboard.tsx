@@ -30,7 +30,7 @@ const LeaderboardTopBar = () => (
     }}
   >
     <span>순위</span>
-    <span css={{ marginLeft: "16px" }}>플레이어</span>
+    <span css={{ marginLeft: "16px" }}>닉네임</span>
     <Ticket1Icon
       css={{
         marginLeft: "auto",
@@ -50,7 +50,7 @@ const LeaderboardTopBar = () => (
         flexShrink: 0,
       }}
     />
-    <span css={{ width: "56px" }}>상품 확률</span>
+    <span css={{ width: "56px" }}>추첨 확률</span>
   </div>
 );
 
@@ -60,6 +60,7 @@ type LeaderboardElem = {
   ticket1Amount: number;
   ticket2Amount: number;
   probability: number;
+  probabilityV2: number;
 };
 
 type LeaderboardItemProps = {
@@ -138,16 +139,8 @@ const LeaderboardItem = ({
     ...theme.font16,
     width: "30px",
     flexShrink: 0,
-    textAlign: "center",
-  } as CSS;
-
-  const realProbability = useMemo(
-    () =>
-      1 -
-      (1 - value.probability) **
-        (value.ticket1Amount * 1 + value.ticket2Amount * 5),
-    [value]
-  );
+    textAlign: "center" as const,
+  };
 
   return (
     <WhiteContainer
@@ -203,7 +196,7 @@ const LeaderboardItem = ({
       <span css={{ marginLeft: "auto", ...styleTicketText }}>
         {value.ticket1Amount || 0}
       </span>
-      <span css={{ ...styleTicketText }}>{value.ticket2Amount || 0}</span>
+      <span css={styleTicketText}>{value.ticket2Amount || 0}</span>
       <div
         css={{
           color: styleText(isMe ? -1 : rank),
@@ -212,21 +205,30 @@ const LeaderboardItem = ({
           flexShrink: 0,
           textAlign: "right",
         }}
-        title={(realProbability * 100).toString()}
+        title={(value.probabilityV2 * 100).toString()}
       >
         <span css={{ ...theme.font20 }}>
-          {Math.trunc(realProbability * 100) || 0}
+          {Math.trunc(value.probabilityV2 * 100) || 0}
         </span>
-        .{Math.floor(((realProbability * 100) % 1) * 10)}%
+        .{Math.floor(((value.probabilityV2 * 100) % 1) * 10)}%
       </div>
     </WhiteContainer>
   );
 };
 
 const Event2023FallLeaderboard = () => {
-  const { leaderboard, rank, probability } = useQuery.get(
-    "/events/2023fall/public-notice/leaderboard"
-  )[1] || { leaderboard: [], rank: 0 };
+  const {
+    leaderboard,
+    rank,
+    probability,
+    probabilityV2,
+    totalUserAmount,
+    totalTicket1Amount,
+    totalTicket2Amount,
+  } = useQuery.get("/events/2023fall/public-notice/leaderboard")[1] || {
+    leaderboard: [],
+    rank: 0,
+  };
   const { ticket1Amount, ticket2Amount } =
     useValueRecoilState("event2023FallInfo") || {};
   const { nickname, profileImgUrl } = useValueRecoilState("loginInfo") || {};
@@ -238,6 +240,7 @@ const Event2023FallLeaderboard = () => {
       ticket1Amount: ticket1Amount || 0,
       ticket2Amount: ticket2Amount || 0,
       probability,
+      probabilityV2,
     };
   }, [nickname, profileImgUrl, ticket1Amount, ticket2Amount, probability]);
 
@@ -337,6 +340,28 @@ const Event2023FallLeaderboard = () => {
             {rank > 20 && myLeaderboardInfo && (
               <LeaderboardItem rank={rank - 1} value={myLeaderboardInfo} isMe />
             )}
+            <div
+              css={{
+                margin: "12px 12px 0",
+                display: "flex",
+                flexDirection: "column",
+                gap: "5px",
+              }}
+            >
+              <div css={{ color: theme.purple_disabled, ...theme.font12 }}>
+                • 리더보드의 추첨 확률은 정확한 확률이 아닌 내부 모델을 사용하여
+                계산한 근삿값입니다.
+              </div>
+              <div css={{ color: theme.purple_disabled, ...theme.font12 }}>
+                • 경품 추첨 전체 참여자 수 : {totalUserAmount || 0}명
+              </div>
+              <div css={{ color: theme.purple_disabled, ...theme.font12 }}>
+                • 발급된 전체 일반 응모권 개수 : {totalTicket1Amount || 0}개
+              </div>
+              <div css={{ color: theme.purple_disabled, ...theme.font12 }}>
+                • 발급된 전체 고급 응모권 개수 : {totalTicket2Amount || 0}개
+              </div>
+            </div>
           </>
         ) : (
           <Empty type="mobile">리더보드가 비어있습니다.</Empty>

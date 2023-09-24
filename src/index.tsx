@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { CookiesProvider } from "react-cookie";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 import Loading from "components/Loading";
 import ModalProvider from "components/Modal/ModalProvider";
@@ -10,8 +11,8 @@ import AlertProvider from "components/Skeleton/AlertProvider";
 import Routes from "components/Skeleton/Routes";
 import SocketToastProvider from "components/Skeleton/SocketToastProvider";
 
-import "./App.css";
 import "./Font.css";
+import "./index.css";
 
 import { RecoilRoot } from "recoil";
 
@@ -27,6 +28,7 @@ const App = () => (
             <Routes />
           </Suspense>
         </Skeleton>
+        <ToastContainer />
       </Router>
     </RecoilRoot>
   </CookiesProvider>

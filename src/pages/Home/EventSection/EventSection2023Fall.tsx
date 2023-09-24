@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import AdaptiveDiv from "components/AdaptiveDiv";
 import CreditAmountStatusContainer from "components/Event/CreditAmountStatusContainer";
+import WhiteContainerSuggestJoinEvent from "components/Event/WhiteContainerSuggestJoinEvent";
 import Title from "components/Title";
 import WhiteContainer from "components/WhiteContainer";
 
@@ -123,24 +124,7 @@ const EventSection2023Fall = () => {
           </ButtonContainer>
         </Link>
       </div>
-      <WhiteContainer>
-        <div
-          css={{
-            ...theme.font14,
-            color: theme.black,
-            margin: "0 4px",
-          }}
-        >
-          <div
-            css={{
-              ...theme.font14,
-            }}
-          >
-            <b>⏳ 아직 이벤트 시작 전! : </b>이벤트 시작일, 9월 25일(월)
-            전까지는 퀘스트 달성 및 아이템 구매가 불가능합니다.
-          </div>
-        </div>
-      </WhiteContainer>
+      <WhiteContainerSuggestJoinEvent />
     </AdaptiveDiv>
   );
 };

@@ -10,7 +10,6 @@ import CreditAmountStatusContainer from "components/Event/CreditAmountStatusCont
 import Footer from "components/Footer";
 import HeaderWithLeftNav from "components/Header/HeaderWithLeftNav";
 import Title from "components/Title";
-import WhiteContainer from "components/WhiteContainer";
 
 import ItemListSection from "./ItemListSection";
 import NPCSection from "./NPCSection";
@@ -66,25 +65,7 @@ const Event2023FallStore = () => {
           <CreditAmountStatusContainer />
         </div>
         <PublicNoticeContainer />
-        {/* <div css={{ marginTop: "-15px" }} /> */}
-        <WhiteContainer>
-          <div
-            css={{
-              ...theme.font14,
-              color: theme.black,
-              margin: "0 4px",
-            }}
-          >
-            <div
-              css={{
-                ...theme.font14,
-              }}
-            >
-              <b>⏳ 오픈 대기 : </b>9월 25일(월)에 모든 아이템들이 입고됩니다.
-              그 전까지는 아이템 구매가 불가능하니 조금만 기다려주세요!
-            </div>
-          </div>
-        </WhiteContainer>
+        <div css={{ marginTop: "-15px" }} />
         <Title icon="ticket" isHeader>
           응모권
         </Title>
