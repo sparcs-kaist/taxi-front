@@ -217,9 +217,18 @@ const LeaderboardItem = ({
 };
 
 const Event2023FallLeaderboard = () => {
-  const { leaderboard, rank, probability, probabilityV2 } = useQuery.get(
-    "/events/2023fall/public-notice/leaderboard"
-  )[1] || { leaderboard: [], rank: 0 };
+  const {
+    leaderboard,
+    rank,
+    probability,
+    probabilityV2,
+    totalUserAmount,
+    totalTicket1Amount,
+    totalTicket2Amount,
+  } = useQuery.get("/events/2023fall/public-notice/leaderboard")[1] || {
+    leaderboard: [],
+    rank: 0,
+  };
   const { ticket1Amount, ticket2Amount } =
     useValueRecoilState("event2023FallInfo") || {};
   const { nickname, profileImgUrl } = useValueRecoilState("loginInfo") || {};
@@ -331,6 +340,28 @@ const Event2023FallLeaderboard = () => {
             {rank > 20 && myLeaderboardInfo && (
               <LeaderboardItem rank={rank - 1} value={myLeaderboardInfo} isMe />
             )}
+            <div
+              css={{
+                margin: "12px 12px 0",
+                display: "flex",
+                flexDirection: "column",
+                gap: "5px",
+              }}
+            >
+              <div css={{ color: theme.purple_disabled, ...theme.font12 }}>
+                • 리더보드의 추첨 확률은 정확한 확률이 아닌 내부 모델을 사용하여
+                계산한 근사값입니다.
+              </div>
+              <div css={{ color: theme.purple_disabled, ...theme.font12 }}>
+                • 경품 추첨 전체 참여자 수 : {totalUserAmount || 0}명
+              </div>
+              <div css={{ color: theme.purple_disabled, ...theme.font12 }}>
+                • 발급된 전체 일반 응모권 개수 : {totalTicket1Amount || 0}개
+              </div>
+              <div css={{ color: theme.purple_disabled, ...theme.font12 }}>
+                • 발급된 전체 고급 응모권 개수 : {totalTicket2Amount || 0}개
+              </div>
+            </div>
           </>
         ) : (
           <Empty type="mobile">리더보드가 비어있습니다.</Empty>
