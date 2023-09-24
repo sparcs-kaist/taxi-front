@@ -4,7 +4,6 @@ import type { QuestId } from "types/event2023fall";
 
 import { useValueRecoilState } from "hooks/useFetchRecoilState";
 
-// import { sendPopupInAppNotificationEventToFlutter } from "tools/sendEventToFlutter";
 import toast from "tools/toast";
 
 export const useEventEffect = () => {
@@ -39,7 +38,6 @@ export const useEventEffect = () => {
         } 획득하셨습니다.`,
         button: { text: "확인하기", path: "/event/2023fall-missions" },
       };
-      // sendPopupInAppNotificationEventToFlutter(notificationValue);
       toast(notificationValue);
     });
     prevEventStatusRef.current = completedQuests;

@@ -16,22 +16,6 @@
   will-change: transform;
 }
 
-.c2023fallevent-randombox-side-front {
-  transform: rotateX(-25deg) rotateY(-25deg) translateZ(250px);
-}
-
-.c2023fallevent-randombox-side-back {
-  transform: rotateX(-25deg) rotateY(-25deg) rotateY(180deg) translateZ(250px);
-}
-
-.c2023fallevent-randombox-side-left {
-  transform: rotateX(-25deg) rotateY(-25deg) rotateY(-90deg) translateZ(250px);
-}
-
-.c2023fallevent-randombox-side-right {
-  transform: rotateX(-25deg) rotateY(-25deg) rotateY(90deg) translateZ(250px);
-}
-
 .c2023fallevent-randombox-side-top {
   transform-origin: 0px 0px 0px;
   top: -24px;
@@ -61,6 +45,7 @@
 }
 
 .c2023fallevent-randombox-open .c2023fallevent-emoji {
+  opacity: 0;
   animation: raiseEmoji 4s 4s ease-out forwards,
     rotateEmoji 5s 8s linear infinite;
 }
@@ -82,7 +67,14 @@
 }
 
 @keyframes raiseEmoji {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.5;
+  }
   100% {
+    opacity: 1;
     transform: rotateX(-25deg) rotateY(-25deg)
       translate(calc(250px - 50%), -400px);
   }
