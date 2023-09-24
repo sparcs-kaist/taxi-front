@@ -39,6 +39,7 @@ const ModalEvent2023FallItem = ({
 }: ModalEvent2023FallItemProps) => {
   const fetchEvent2023FallInfo = useFetchRecoilState("event2023FallInfo");
   const event2023FallInfo = useValueRecoilState("event2023FallInfo");
+  const isLogin = !!useValueRecoilState("loginInfo")?.id;
 
   const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
@@ -77,7 +78,7 @@ const ModalEvent2023FallItem = ({
         ? [true, "이벤트 기간이 아닙니다"]
         : itemInfo.stock <= 0
         ? [true, "매진된 상품은 구매할 수 없습니다"]
-        : !event2023FallInfo
+        : !event2023FallInfo || !isLogin
         ? [true, "로그인 후 구매가 가능합니다"]
         : event2023FallInfo.creditAmount < itemInfo.price
         ? [true, "송편이 부족하여 구매할 수 없습니다"]
