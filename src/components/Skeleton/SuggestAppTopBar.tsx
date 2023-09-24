@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 
 import AdaptiveDiv from "components/AdaptiveDiv";
+import Button from "components/Button";
 
 import theme from "tools/theme";
 import { getDynamicLink } from "tools/trans";
@@ -57,19 +58,16 @@ const SuggestAppTopBar = () => {
               알림 기능과 채팅을 더 편하게 이용해봐요!
             </div>
           </div>
-          <div
+          <Button
+            type="white"
             css={{
-              ...theme.font14_bold,
-              borderRadius: "15px",
               padding: "7px 20px",
-              backgroundColor: theme.white,
-              boxShadow: theme.shadow_3_up,
-              color: theme.purple,
-              flex: "0 0 auto",
+              borderRadius: "15px",
+              ...theme.font14_bold,
             }}
           >
             앱에서 보기
-          </div>
+          </Button>
         </div>
       </AdaptiveDiv>
     </a>

@@ -94,7 +94,7 @@ const ModalEvent2023FallJoin = (modalProps: ModalEvent2023FallJoinProps) => {
         사안에 따라{" "}
         <b css={{ color: theme.black }}>
           이벤트 상품이 지급되지 않을 수 있습니다.
-        </b>
+        </b>{" "}
         위 경우, SPARCS Taxi팀 서비스 관리자는 서비스 부정 이용을 방지하기 위해
         택시 탑승을 인증할 수 있는{" "}
         <b css={{ color: theme.black }}>영수증 또는 카카오T 이용기록</b>을
