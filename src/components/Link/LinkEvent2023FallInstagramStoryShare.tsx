@@ -3,7 +3,6 @@ import { HTMLAttributes, ReactNode, useCallback, useState } from "react";
 import { useEvent2023FallQuestComplete } from "hooks/event/useEvent2023FallQuestComplete";
 import { sendPopupInstagramStoryShareToFlutter } from "hooks/skeleton/useFlutterEventCommunicationEffect";
 import { useValueRecoilState } from "hooks/useFetchRecoilState";
-import { useAxios } from "hooks/useTaxiAPI";
 
 import ModalEvent2023FallJoin from "components/ModalPopup/ModalEvent2023FallJoin";
 
@@ -31,7 +30,6 @@ const LinkEvent2023FallInstagramStoryShare = ({
   children,
   ...aProps
 }: LinkEvent2023FallInstagramStoryShareProps) => {
-  const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
   const isLogin = !!useValueRecoilState("loginInfo")?.id;
   const { isAgreeOnTermsOfEvent } =
@@ -54,19 +52,12 @@ const LinkEvent2023FallInstagramStoryShare = ({
         backgroundLayerUrl,
         stickerLayerUrl,
       });
-      if (!result) {
+      if (result) {
+        event2023FallQuestComplete(type);
+      } else {
         setAlert("인스타그램 실행에 실패하였습니다.");
         return;
       }
-      axios({
-        url: `/events/2023fall/quests/complete/${type}`,
-        method: "post",
-        onSuccess: () => {
-          //#region event2023Fall
-          event2023FallQuestComplete(type);
-          //#endregion
-        },
-      });
     }
   }, [
     isLogin,
