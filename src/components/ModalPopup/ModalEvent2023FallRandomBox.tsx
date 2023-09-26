@@ -1,4 +1,11 @@
-import { memo, useCallback, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  memo,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 
 import type { EventItem } from "types/event2023fall";
 
@@ -23,18 +30,28 @@ const Background = () => (
   </div>
 );
 
-type ModalEvent2023FallRandomBoxProps = { item?: EventItem } & Parameters<
-  typeof Modal
->[0];
+type ModalEvent2023FallRandomBoxProps = {
+  item?: EventItem;
+  setShareItem?: Dispatch<SetStateAction<Nullable<EventItem>>>;
+} & Parameters<typeof Modal>[0];
 
 const ModalEvent2023FallRandomBox = ({
   item,
+  setShareItem,
   ...modalProps
 }: ModalEvent2023FallRandomBoxProps) => {
   const [isBoxOpend, setIsBoxOpend] = useState<boolean>(false);
   const isDisplayRandomBox = !useDelayBoolean(!modalProps.isOpen, 500);
   const isDisplayItemName = useDelay<boolean>(isBoxOpend, !isBoxOpend, 6000);
   const onClickOk = useCallback(() => setIsBoxOpend(true), []);
+
+  const onChangeIsOpen = useCallback(
+    (isOpen: boolean) => {
+      if (!isOpen && item) setShareItem?.(item);
+      modalProps?.onChangeIsOpen?.(isOpen);
+    },
+    [item, setShareItem, modalProps]
+  );
 
   useEffect(() => {
     if (!modalProps.isOpen) setIsBoxOpend(false);
@@ -58,10 +75,11 @@ const ModalEvent2023FallRandomBox = ({
 
   return (
     <Modal
-      css={{ padding: "16px 12px 12px", overflow: "hidden" }}
-      onEnter={onClickOk}
-      backgroundChildren={isBoxOpend ? <Background /> : undefined}
       {...modalProps}
+      css={{ padding: "16px 12px 12px", overflow: "hidden" }}
+      backgroundChildren={isBoxOpend ? <Background /> : undefined}
+      onEnter={onClickOk}
+      onChangeIsOpen={onChangeIsOpen}
     >
       <div css={styleTitle}>
         <HelpCenterRoundedIcon style={styleIcon} />
@@ -102,11 +120,7 @@ const ModalEvent2023FallRandomBox = ({
           ...theme.font14_bold,
         }}
         disabled={isDisplayItemName ? false : isBoxOpend}
-        onClick={
-          isDisplayItemName
-            ? () => modalProps?.onChangeIsOpen?.(false)
-            : onClickOk
-        }
+        onClick={isDisplayItemName ? () => onChangeIsOpen(false) : onClickOk}
       >
         {isDisplayItemName ? "확인" : "박스 열기"}
       </Button>
