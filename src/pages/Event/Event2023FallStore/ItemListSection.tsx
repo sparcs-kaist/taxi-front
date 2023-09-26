@@ -125,6 +125,7 @@ const EventItemContainer = ({ value, fetchItems }: EventItemComponentProps) => {
           isOpen={!!rewardItem}
           onChangeIsOpen={() => setRewardItem(null)}
           item={rewardItem || undefined}
+          setShareItem={setShareItem}
         />
       )}
       <ModalEvent2023FallItemInstagram

@@ -18,6 +18,13 @@ type ModalEvent2023FallItemInstagramProps = { item?: EventItem } & Parameters<
   typeof Modal
 >[0];
 
+const Background = () => (
+  <div css={{ position: "absolute", top: "20%", left: 0, bottom: 0, right: 0 }}>
+    <div className="c2023fallevent-before"></div>
+    <div className="c2023fallevent-after"></div>
+  </div>
+);
+
 const ModalEvent2023FallItemInstagram = ({
   item,
   ...modalProps
@@ -43,7 +50,11 @@ const ModalEvent2023FallItemInstagram = ({
   };
 
   return (
-    <Modal padding="16px 12px 12px" {...modalProps}>
+    <Modal
+      padding="16px 12px 12px"
+      backgroundChildren={<Background />}
+      {...modalProps}
+    >
       <div css={styleTitle}>
         <ShareRoundedIcon style={styleIcon} />
         인스타그램 스토리에 공유하기
