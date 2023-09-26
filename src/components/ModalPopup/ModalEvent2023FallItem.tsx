@@ -77,11 +77,11 @@ const ModalEvent2023FallItem = ({
       eventMode !== "2023fall"
         ? [true, "이벤트 기간이 아닙니다"]
         : itemInfo.stock <= 0
-        ? [true, "매진된 상품은 구매할 수 없습니다"]
+        ? [true, "매진된 상품입니다"]
         : !event2023FallInfo || !isLogin
         ? [true, "로그인 후 구매가 가능합니다"]
         : event2023FallInfo.creditAmount < itemInfo.price
-        ? [true, "송편이 부족하여 구매할 수 없습니다"]
+        ? [true, "송편이 부족합니다"]
         : [false, "구매하기"],
     [eventMode, event2023FallInfo, itemInfo]
   );
