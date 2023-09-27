@@ -184,7 +184,7 @@ const Mypage = () => {
             {t("privacy_policy")}
           </Menu>
           {eventMode === "2023fall" && (
-            <Menu icon="credit" onClick={onClickEventPolicy}>
+            <Menu icon="policy" onClick={onClickEventPolicy}>
               한가위 송편 이벤트 참여 약관
             </Menu>
           )}
