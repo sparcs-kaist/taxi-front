@@ -12,6 +12,7 @@ export type LoginInfoType = Nullable<{
   profileImgUrl: string;
   subinfo: { kaist: string; sparcs: string; facebook: string; twitter: string };
   withdraw: boolean;
+  phoneNumber?: string;
   account: string;
   // deviceType: "web" | "app"; // #580 - loadenv의 deviceType을 사용하여야 합니다.
   deviceToken: Nullable<string>;

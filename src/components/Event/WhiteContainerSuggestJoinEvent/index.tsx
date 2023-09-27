@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 
-import { useValueRecoilState } from "hooks/useFetchRecoilState";
+import { useIsLogin, useValueRecoilState } from "hooks/useFetchRecoilState";
 
 import Button from "components/Button";
 import LinkEvent2023FallInstagramStoryShare from "components/Link/LinkEvent2023FallInstagramStoryShare";
@@ -14,7 +14,7 @@ import { deviceType } from "tools/loadenv";
 import theme from "tools/theme";
 
 const WhiteContainerSuggestJoinEvent = () => {
-  const isLogin = !!useValueRecoilState("loginInfo")?.id;
+  const isLogin = useIsLogin();
   const { isAgreeOnTermsOfEvent, completedQuests } =
     useValueRecoilState("event2023FallInfo") || {};
 
