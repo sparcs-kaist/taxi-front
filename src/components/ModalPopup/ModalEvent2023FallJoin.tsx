@@ -138,7 +138,7 @@ const ModalEvent2023FallJoin = (modalProps: ModalEvent2023FallJoinProps) => {
             <div css={styleInputWrap}>
               전화번호
               <Input
-                value={phoneNumberFromLoginInfo}
+                value={phoneNumberFromLoginInfo || ""}
                 css={{ width: "100%", marginLeft: "10px" }}
               />
             </div>
