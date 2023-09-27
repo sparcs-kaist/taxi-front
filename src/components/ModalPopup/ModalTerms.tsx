@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import {
   useFetchRecoilState,
+  useIsLogin,
   useValueRecoilState,
 } from "hooks/useFetchRecoilState";
 import { useAxios } from "hooks/useTaxiAPI";
@@ -36,7 +37,7 @@ const ModalTerms = ({ isOpen, onChangeIsOpen = () => {} }: ModalTermsProps) => {
 
   const loginInfo = useValueRecoilState("loginInfo");
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
-  const isLogin = !!loginInfo?.id; // 로그인 여부
+  const isLogin = useIsLogin(); // 로그인 여부
   const isAgree = !!loginInfo?.agreeOnTermsOfService; // 이용약관 동의 여부
 
   useEffect(() => {

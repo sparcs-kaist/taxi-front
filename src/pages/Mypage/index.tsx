@@ -9,6 +9,7 @@ import Footer from "components/Footer";
 import LinkLogout from "components/Link/LinkLogout";
 import {
   ModalCredit,
+  ModalEvent2023FallJoin,
   ModalMypageModify,
   ModalNotification,
   ModalPrivacyPolicy,
@@ -22,7 +23,7 @@ import WhiteContainerSuggestLogin from "components/WhiteContainer/WhiteContainer
 
 import Menu from "./Menu";
 
-import { nodeEnv } from "tools/loadenv";
+import { eventMode, nodeEnv } from "tools/loadenv";
 import theme from "tools/theme";
 import { isNotificationOn } from "tools/trans";
 
@@ -38,11 +39,12 @@ const Mypage = () => {
   const [isOpenReport, setIsOpenReport] = useState(false);
   const [isOpenPolicy, setIsOpenPolicy] = useState(false);
   const [isOpenPrivacyPolicy, setIsOpenPrivacyPolicy] = useState(false);
+  const [isOpenEventPolicy, setIsOpenEventPolicy] = useState(false);
   const [isOpenMembers, setOpenIsMembers] = useState(false);
 
   const onClickProfileModify = useCallback(
     () => setIsOpenProfileModify(true),
-    [setIsOpenProfileModify]
+    []
   );
   const onClickTranslation = useCallback(
     () => i18n.changeLanguage(i18n.language === "ko" ? "en" : "ko"),
@@ -50,24 +52,16 @@ const Mypage = () => {
   );
   const onClickNotification = useCallback(
     () => setIsOpenNotification(true),
-    [setIsOpenNotification]
+    []
   );
-  const onClickReport = useCallback(
-    () => setIsOpenReport(true),
-    [setIsOpenReport]
-  );
-  const onClickPolicy = useCallback(
-    () => setIsOpenPolicy(true),
-    [setIsOpenPolicy]
-  );
+  const onClickReport = useCallback(() => setIsOpenReport(true), []);
+  const onClickPolicy = useCallback(() => setIsOpenPolicy(true), []);
   const onClickPrivacyPolicy = useCallback(
     () => setIsOpenPrivacyPolicy(true),
-    [setIsOpenPrivacyPolicy]
+    []
   );
-  const onClickMembers = useCallback(
-    () => setOpenIsMembers(true),
-    [setOpenIsMembers]
-  );
+  const onClickEventPolicy = useCallback(() => setIsOpenEventPolicy(true), []);
+  const onClickMembers = useCallback(() => setOpenIsMembers(true), []);
 
   const styleProfImg = {
     width: "50px",
@@ -189,6 +183,11 @@ const Mypage = () => {
           <Menu icon="policy" onClick={onClickPrivacyPolicy}>
             {t("privacy_policy")}
           </Menu>
+          {eventMode === "2023fall" && (
+            <Menu icon="policy" onClick={onClickEventPolicy}>
+              한가위 송편 이벤트 참여 약관
+            </Menu>
+          )}
           <Menu icon="credit" onClick={onClickMembers}>
             {t("credit")}
           </Menu>
@@ -205,6 +204,10 @@ const Mypage = () => {
         onChangeIsOpen={setIsOpenPrivacyPolicy}
       />
       <ModalTerms isOpen={isOpenPolicy} onChangeIsOpen={setIsOpenPolicy} />
+      <ModalEvent2023FallJoin
+        isOpen={isOpenEventPolicy}
+        onChangeIsOpen={setIsOpenEventPolicy}
+      />
       <ModalCredit isOpen={isOpenMembers} onChangeIsOpen={setOpenIsMembers} />
     </AdaptiveDiv>
   );

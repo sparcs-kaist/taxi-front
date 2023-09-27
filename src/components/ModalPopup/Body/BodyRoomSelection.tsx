@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 
 import {
   useFetchRecoilState,
+  useIsLogin,
   useValueRecoilState,
 } from "hooks/useFetchRecoilState";
 import useIsTimeOver from "hooks/useIsTimeOver";
@@ -110,7 +111,7 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
   const fetchMyRooms = useFetchRecoilState("myRooms");
   const setAlert = useSetRecoilState(alertAtom);
 
-  const isLogin = !!loginInfo?.id; // 로그인 여부
+  const isLogin = useIsLogin() && !!loginInfo?.id; // 로그인 여부
   const isRoomFull = roomInfo && roomInfo.part.length >= roomInfo.maxPartLength; // 방이 꽉 찼는지 여부
   const isAlreadyPart =
     isLogin &&

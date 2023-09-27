@@ -2,7 +2,7 @@ import { memo, useMemo } from "react";
 
 import type { Transaction } from "types/event2023fall";
 
-import { useValueRecoilState } from "hooks/useFetchRecoilState";
+import { useIsLogin, useValueRecoilState } from "hooks/useFetchRecoilState";
 import useQuery from "hooks/useTaxiAPI";
 
 import AdaptiveDiv from "components/AdaptiveDiv";
@@ -129,7 +129,7 @@ const HistorySection = () => {
 };
 
 const Event2023FallHistory = () => {
-  const isLogin = !!useValueRecoilState("loginInfo")?.id;
+  const isLogin = useIsLogin();
   return (
     <>
       <HeaderWithLeftNav

@@ -2,7 +2,7 @@ import { HTMLAttributes, ReactNode, useCallback, useState } from "react";
 
 import { useEvent2023FallQuestComplete } from "hooks/event/useEvent2023FallQuestComplete";
 import { sendPopupInstagramStoryShareToFlutter } from "hooks/skeleton/useFlutterEventCommunicationEffect";
-import { useValueRecoilState } from "hooks/useFetchRecoilState";
+import { useIsLogin, useValueRecoilState } from "hooks/useFetchRecoilState";
 
 import ModalEvent2023FallJoin from "components/ModalPopup/ModalEvent2023FallJoin";
 
@@ -31,7 +31,7 @@ const LinkEvent2023FallInstagramStoryShare = ({
   ...aProps
 }: LinkEvent2023FallInstagramStoryShareProps) => {
   const setAlert = useSetRecoilState(alertAtom);
-  const isLogin = !!useValueRecoilState("loginInfo")?.id;
+  const isLogin = useIsLogin();
   const { isAgreeOnTermsOfEvent } =
     useValueRecoilState("event2023FallInfo") || {};
   const [isOpenJoin, setIsOpenJoin] = useState<boolean>(false);

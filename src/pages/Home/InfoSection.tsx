@@ -1,13 +1,14 @@
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 
+import { useIsLogin, useValueRecoilState } from "hooks/useFetchRecoilState";
+
 import AdaptiveDiv from "components/AdaptiveDiv";
 import Button from "components/Button";
 import LinkLogin from "components/Link/LinkLogin";
 import Room from "components/Room";
 
 import loginInfoAtom from "atoms/loginInfo";
-import myRoomsAtom from "atoms/myRooms";
 import { useRecoilValue } from "recoil";
 
 import moment, { getToday } from "tools/moment";
@@ -21,8 +22,8 @@ import { ReactComponent as TaxiLogoWhite } from "static/assets/sparcsLogos/TaxiL
 
 const InfoSection = () => {
   const loginInfo = useRecoilValue(loginInfoAtom);
-  const isLogin = !!loginInfo?.id;
-  const myRooms = useRecoilValue(myRoomsAtom);
+  const isLogin = useIsLogin();
+  const myRooms = useValueRecoilState("myRooms");
   const randomTaxiSlogan = useMemo(randomTaxiSloganGenerator, []);
 
   const styleContainer = {
