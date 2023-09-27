@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { useEvent2023FallQuestComplete } from "hooks/event/useEvent2023FallQuestComplete";
 import {
   useFetchRecoilState,
+  useIsLogin,
   useValueRecoilState,
 } from "hooks/useFetchRecoilState";
 import { useAxios } from "hooks/useTaxiAPI";
@@ -57,7 +58,7 @@ const AddRoom = () => {
   const randomRoomName = useMemo(randomRoomNameGenerator, []);
 
   const setAlert = useSetRecoilState(alertAtom);
-  const isLogin = !!useValueRecoilState("loginInfo")?.id;
+  const isLogin = useIsLogin();
   const myRooms = useValueRecoilState("myRooms");
   const fetchMyRooms = useFetchRecoilState("myRooms");
   //#region event2023Fall

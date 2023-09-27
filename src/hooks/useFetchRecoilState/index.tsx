@@ -117,3 +117,8 @@ export const useSyncRecoilStateEffect = () => {
   const fetchEvent2023FallInfo = useFetchRecoilState("event2023FallInfo");
   useEffect(fetchEvent2023FallInfo, [userId]);
 };
+
+export const useIsLogin = (): boolean => {
+  const isLogin = !!useValueRecoilState("loginInfo")?.id;
+  return isLogin;
+};
