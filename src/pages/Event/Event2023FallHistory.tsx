@@ -186,7 +186,7 @@ const Event2023FallHistory = () => {
               <b>🎁 지급 방법 :</b> 각 상품 별 지급 방법은 아래와 같습니다.
             </div>
             <div css={{ ...theme.font14, marginBottom: "5px" }}>
-              1. 북측 매점 교환권 / 교내 엔제리너스 아이스 아메리카노 S:
+              1. 북측 매점 교환권 / 교내 엔제리너스 커피 쿠폰:
               <br />
               교양분관 SPARCS 동방에서 교환권을 수령하실 수 있습니다.
             </div>
