@@ -1,26 +1,22 @@
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-
+import alertAtom from "@/atoms/alert";
+import Button from "@/components/Button";
+import { useOnClickLogout } from "@/components/Link/LinkLogout";
+import Modal from "@/components/Modal";
 import {
   useFetchRecoilState,
   useIsLogin,
   useValueRecoilState,
-} from "hooks/useFetchRecoilState";
-import { useAxios } from "hooks/useTaxiAPI";
-
-import Button from "components/Button";
-import { useOnClickLogout } from "components/Link/LinkLogout";
-import Modal from "components/Modal";
+} from "@/hooks/useFetchRecoilState";
+import { useAxios } from "@/hooks/useTaxiAPI";
+import { ReactComponent as TaxiLogo } from "@/static/assets/sparcsLogos/TaxiLogo.svg";
+import theme from "@/tools/theme";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import BodyTerms from "./Body/BodyTerms";
 import BodyTermsPrivacy from "./Body/BodyTermsPrivacy";
 
-import alertAtom from "atoms/alert";
 import { useSetRecoilState } from "recoil";
-
-import theme from "tools/theme";
-
-import { ReactComponent as TaxiLogo } from "static/assets/sparcsLogos/TaxiLogo.svg";
 
 type ModalTermsProps = {
   isOpen: boolean;

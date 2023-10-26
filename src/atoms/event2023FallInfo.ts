@@ -1,4 +1,4 @@
-import { Quest, QuestId } from "types/event2023fall";
+import { Quest, QuestId } from "@/types/event2023fall";
 
 import { atom } from "recoil";
 

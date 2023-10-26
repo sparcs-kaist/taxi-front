@@ -1,8 +1,6 @@
+import WhiteContainer from "@/components/WhiteContainer";
+import theme from "@/tools/theme";
 import { memo } from "react";
-
-import WhiteContainer from "components/WhiteContainer";
-
-import theme from "tools/theme";
 
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
 

@@ -1,21 +1,16 @@
+import AdaptiveDiv from "@/components/AdaptiveDiv";
+import CreditAmountStatusContainer from "@/components/Event/CreditAmountStatusContainer";
+import WhiteContainerSuggestJoinEvent from "@/components/Event/WhiteContainerSuggestJoinEvent";
+import Footer from "@/components/Footer";
+import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
+import WhiteContainer from "@/components/WhiteContainer";
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import { ReactComponent as CreditIcon } from "@/static/events/2023fallCredit.svg";
+import { ReactComponent as MissionCompleteIcon } from "@/static/events/2023fallMissionComplete.svg";
+import { ReactComponent as Ticket1Icon } from "@/static/events/2023fallTicket1.svg";
+import theme from "@/tools/theme";
+import type { Quest } from "@/types/event2023fall";
 import { memo, useMemo } from "react";
-
-import type { Quest } from "types/event2023fall";
-
-import { useValueRecoilState } from "hooks/useFetchRecoilState";
-
-import AdaptiveDiv from "components/AdaptiveDiv";
-import CreditAmountStatusContainer from "components/Event/CreditAmountStatusContainer";
-import WhiteContainerSuggestJoinEvent from "components/Event/WhiteContainerSuggestJoinEvent";
-import Footer from "components/Footer";
-import HeaderWithBackButton from "components/Header/HeaderWithBackButton";
-import WhiteContainer from "components/WhiteContainer";
-
-import theme from "tools/theme";
-
-import { ReactComponent as CreditIcon } from "static/events/2023fallCredit.svg";
-import { ReactComponent as MissionCompleteIcon } from "static/events/2023fallMissionComplete.svg";
-import { ReactComponent as Ticket1Icon } from "static/events/2023fallTicket1.svg";
 
 type MissionContainerProps = {
   quest: Quest;

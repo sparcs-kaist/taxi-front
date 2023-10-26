@@ -1,17 +1,14 @@
+import AdaptiveDiv from "@/components/AdaptiveDiv";
+import CreditAmountStatusContainer from "@/components/Event/CreditAmountStatusContainer";
+import WhiteContainerSuggestJoinEvent from "@/components/Event/WhiteContainerSuggestJoinEvent";
+import Title from "@/components/Title";
+import WhiteContainer from "@/components/WhiteContainer";
+import { ReactComponent as BackgroundMain } from "@/static/events/2023fallHomeMain.svg";
+import { ReactComponent as BackgroundMission } from "@/static/events/2023fallHomeMission.svg";
+import { ReactComponent as BackgroundStore } from "@/static/events/2023fallHomeStore.svg";
+import theme from "@/tools/theme";
 import { ReactElement, useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-import AdaptiveDiv from "components/AdaptiveDiv";
-import CreditAmountStatusContainer from "components/Event/CreditAmountStatusContainer";
-import WhiteContainerSuggestJoinEvent from "components/Event/WhiteContainerSuggestJoinEvent";
-import Title from "components/Title";
-import WhiteContainer from "components/WhiteContainer";
-
-import theme from "tools/theme";
-
-import { ReactComponent as BackgroundMain } from "static/events/2023fallHomeMain.svg";
-import { ReactComponent as BackgroundMission } from "static/events/2023fallHomeMission.svg";
-import { ReactComponent as BackgroundStore } from "static/events/2023fallHomeStore.svg";
 
 type ButtonContainerProps = {
   title: string;

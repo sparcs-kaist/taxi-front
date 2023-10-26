@@ -1,10 +1,8 @@
+import { ModalRoomShare } from "@/components/ModalPopup";
+import theme from "@/tools/theme";
 import { useState } from "react";
 
-import { ModalRoomShare } from "components/ModalPopup";
-
 import Button from "./Button";
-
-import theme from "tools/theme";
 
 type MessageShareProps = {
   roomInfo: Room;

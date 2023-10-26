@@ -1,6 +1,6 @@
-import type { Location } from "types/location";
+import taxiLocationsAtom from "@/atoms/taxiLocations";
+import type { Location } from "@/types/location";
 
-import taxiLocationsAtom from "atoms/taxiLocations";
 import { useRecoilValue } from "recoil";
 
 type LinkCallTaxiProps = {

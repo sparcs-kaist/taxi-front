@@ -1,9 +1,8 @@
+import bankNames from "@/static/bankNames";
 import { useEffect, useMemo, useState } from "react";
 
 import Input from ".";
 import Select from "./Select";
-
-import bankNames from "static/bankNames";
 
 type InputAcountProps = {
   value: string;

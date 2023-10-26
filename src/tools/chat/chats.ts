@@ -1,12 +1,11 @@
+import { randomSuggestRoomShareTextGenerator } from "@/tools/random";
 import type {
   BotChat,
   Chat,
   Chats,
   InfScrollCheckoutChat,
   JointCheckoutChat,
-} from "types/chat";
-
-import { randomSuggestRoomShareTextGenerator } from "tools/random";
+} from "@/types/chat";
 
 export const jointCheckoutChat: JointCheckoutChat = {
   type: "joint-checkout",

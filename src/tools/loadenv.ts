@@ -1,6 +1,5 @@
+import type { FirebaseConfig } from "@/types/env";
 import dotenv from "dotenv";
-
-import type { FirebaseConfig } from "types/env";
 
 dotenv.config();
 

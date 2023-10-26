@@ -1,6 +1,5 @@
+import theme from "@/tools/theme";
 import { ReactNode } from "react";
-
-import theme from "tools/theme";
 
 export type AdaptiveModalProps = {
   width?: PixelValue; // CSS["width"];

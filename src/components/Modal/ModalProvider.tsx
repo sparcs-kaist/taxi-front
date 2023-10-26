@@ -1,6 +1,7 @@
+import modalsAtom from "@/atoms/modals";
+
 import ModalElem from "./ModalElem";
 
-import modalsAtom from "atoms/modals";
 import { useRecoilValue } from "recoil";
 
 const ModalProvider = () => {

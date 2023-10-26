@@ -1,8 +1,6 @@
+import useHoverProps from "@/hooks/theme/useHoverProps";
+import theme from "@/tools/theme";
 import { ReactNode, useMemo } from "react";
-
-import useHoverProps from "hooks/theme/useHoverProps";
-
-import theme from "tools/theme";
 
 import AssignmentOutlinedIcon from "@material-ui/icons/AssignmentOutlined";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";

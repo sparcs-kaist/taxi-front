@@ -1,5 +1,5 @@
-import { deviceType } from "tools/loadenv";
-import theme from "tools/theme";
+import { deviceType } from "@/tools/loadenv";
+import theme from "@/tools/theme";
 
 const BodyNotificationGuide = () => {
   const { protocol, host } = window.location;

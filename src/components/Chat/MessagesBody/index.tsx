@@ -1,8 +1,6 @@
+import useChatsForBody from "@/hooks/chat//useChatsForBody";
+import type { Chats, LayoutType } from "@/types/chat";
 import { ForwardedRef, forwardRef } from "react";
-
-import type { Chats, LayoutType } from "types/chat";
-
-import useChatsForBody from "hooks/chat//useChatsForBody";
 
 import LoadingChats from "./LoadingChats";
 

@@ -1,20 +1,17 @@
-import { useCallback, useEffect, useState } from "react";
-
-import { useEvent2023FallQuestComplete } from "hooks/event/useEvent2023FallQuestComplete";
+import alertAtom from "@/atoms/alert";
+import Button from "@/components/Button";
+import InputAcount from "@/components/Input/InputAccount";
+import Modal from "@/components/Modal";
+import { useEvent2023FallQuestComplete } from "@/hooks/event/useEvent2023FallQuestComplete";
 import {
   useFetchRecoilState,
   useValueRecoilState,
-} from "hooks/useFetchRecoilState";
-import { useAxios } from "hooks/useTaxiAPI";
+} from "@/hooks/useFetchRecoilState";
+import { useAxios } from "@/hooks/useTaxiAPI";
+import theme from "@/tools/theme";
+import { useCallback, useEffect, useState } from "react";
 
-import Button from "components/Button";
-import InputAcount from "components/Input/InputAccount";
-import Modal from "components/Modal";
-
-import alertAtom from "atoms/alert";
 import { useSetRecoilState } from "recoil";
-
-import theme from "tools/theme";
 
 import WalletIcon from "@mui/icons-material/Wallet";
 

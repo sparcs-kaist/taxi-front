@@ -1,12 +1,9 @@
+import Modal from "@/components/Modal";
+import { ReactComponent as TaxiLogo } from "@/static/assets/sparcsLogos/TaxiLogo.svg";
+import theme from "@/tools/theme";
 import { useTranslation } from "react-i18next";
 
-import Modal from "components/Modal";
-
 import BodyPrivacyPolicy from "./Body/BodyPrivacyPolicy";
-
-import theme from "tools/theme";
-
-import { ReactComponent as TaxiLogo } from "static/assets/sparcsLogos/TaxiLogo.svg";
 
 type PopupPrivacyPolicyProps = {
   isOpen: boolean;

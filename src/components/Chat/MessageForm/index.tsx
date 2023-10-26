@@ -1,9 +1,10 @@
+import isVirtualKeyboardDetectedAtom from "@/atoms/isVirtualKeyboardDetected";
+import useAccountFromChats from "@/hooks/chat/useAccountFromChats";
+import useSendMessage from "@/hooks/chat/useSendMessage";
+import { scrollToBottom } from "@/tools/chat/scroll";
+import theme from "@/tools/theme";
+import type { Chats, LayoutType } from "@/types/chat";
 import { RefObject, memo, useState } from "react";
-
-import type { Chats, LayoutType } from "types/chat";
-
-import useAccountFromChats from "hooks/chat/useAccountFromChats";
-import useSendMessage from "hooks/chat/useSendMessage";
 
 import InputText from "./InputText";
 import NewMessage from "./NewMessage";
@@ -11,11 +12,7 @@ import ToolSheet from "./ToolSheet";
 import ToolSheetOpenButton from "./ToolSheetOpenButton";
 import "./index.css";
 
-import isVirtualKeyboardDetectedAtom from "atoms/isVirtualKeyboardDetected";
 import { useRecoilValue } from "recoil";
-
-import { scrollToBottom } from "tools/chat/scroll";
-import theme from "tools/theme";
 
 type MessageFormProps = {
   layoutType: LayoutType;

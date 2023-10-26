@@ -1,7 +1,6 @@
+import Footer from "@/components/Footer";
+import { ModalPrivacyPolicy } from "@/components/ModalPopup";
 import { useHistory, useParams } from "react-router-dom";
-
-import Footer from "components/Footer";
-import { ModalPrivacyPolicy } from "components/ModalPopup";
 
 import EventSection from "./EventSection";
 import InfoSection from "./InfoSection";

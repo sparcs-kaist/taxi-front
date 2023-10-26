@@ -1,7 +1,6 @@
-import AdaptiveDiv from "components/AdaptiveDiv";
-import Title from "components/Title";
-
-import theme from "tools/theme";
+import AdaptiveDiv from "@/components/AdaptiveDiv";
+import Title from "@/components/Title";
+import theme from "@/tools/theme";
 
 const content = (
   <div

@@ -1,12 +1,10 @@
-import { useCallback } from "react";
-
-import type { QuestId } from "types/event2023fall";
-
 import {
   useFetchRecoilState,
   useValueRecoilState,
-} from "hooks/useFetchRecoilState";
-import { useAxios } from "hooks/useTaxiAPI";
+} from "@/hooks/useFetchRecoilState";
+import { useAxios } from "@/hooks/useTaxiAPI";
+import type { QuestId } from "@/types/event2023fall";
+import { useCallback } from "react";
 
 export const useEvent2023FallQuestComplete = () => {
   const axios = useAxios();

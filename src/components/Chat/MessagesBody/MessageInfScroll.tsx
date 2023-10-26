@@ -1,4 +1,4 @@
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
 import MotionPhotosOnIcon from "@mui/icons-material/RotateLeftRounded";
 

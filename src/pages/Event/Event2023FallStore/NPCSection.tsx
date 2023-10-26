@@ -1,11 +1,8 @@
+import RabbitAnimatedBackground from "@/components/Event/RabbitAnimatedBackground";
+import { ReactComponent as TextBubble } from "@/static/events/2023fallStoreTextBubble.svg";
+import { randomEvent2023FallStoreSpeechGenerator } from "@/tools/random";
+import theme from "@/tools/theme";
 import { useEffect, useState } from "react";
-
-import RabbitAnimatedBackground from "components/Event/RabbitAnimatedBackground";
-
-import { randomEvent2023FallStoreSpeechGenerator } from "tools/random";
-import theme from "tools/theme";
-
-import { ReactComponent as TextBubble } from "static/events/2023fallStoreTextBubble.svg";
 
 const NPCSection = () => {
   const getBodyWidth = () => {

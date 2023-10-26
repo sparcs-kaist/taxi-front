@@ -1,10 +1,8 @@
+import { ModalCallTaxi } from "@/components/ModalPopup";
+import theme from "@/tools/theme";
 import { useState } from "react";
 
-import { ModalCallTaxi } from "components/ModalPopup";
-
 import Button from "./Button";
-
-import theme from "tools/theme";
 
 type MessageDepartureProps = {
   roomInfo: Room;

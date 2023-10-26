@@ -1,20 +1,18 @@
+import nsAddroomEN from "@/pages/Addroom/langs/en.json";
+import nsAddroomKO from "@/pages/Addroom/langs/ko.json";
+import nsHomeEN from "@/pages/Home/langs/en.json";
+import nsHomeKO from "@/pages/Home/langs/ko.json";
+import nsMypageEN from "@/pages/Mypage/langs/en.json";
+import nsMypageKO from "@/pages/Mypage/langs/ko.json";
+import nsMyroomEN from "@/pages/Myroom/langs/en.json";
+import nsMyroomKO from "@/pages/Myroom/langs/ko.json";
+import nsSearchEN from "@/pages/Search/langs/en.json";
+import nsSearchKO from "@/pages/Search/langs/ko.json";
+import { nodeEnv } from "@/tools/loadenv";
 import i18n from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { useEffect } from "react";
 import { initReactI18next, useTranslation } from "react-i18next";
-
-import nsAddroomEN from "pages/Addroom/langs/en.json";
-import nsAddroomKO from "pages/Addroom/langs/ko.json";
-import nsHomeEN from "pages/Home/langs/en.json";
-import nsHomeKO from "pages/Home/langs/ko.json";
-import nsMypageEN from "pages/Mypage/langs/en.json";
-import nsMypageKO from "pages/Mypage/langs/ko.json";
-import nsMyroomEN from "pages/Myroom/langs/en.json";
-import nsMyroomKO from "pages/Myroom/langs/ko.json";
-import nsSearchEN from "pages/Search/langs/en.json";
-import nsSearchKO from "pages/Search/langs/ko.json";
-
-import { nodeEnv } from "tools/loadenv";
 
 /**
  * {@link https://www.i18next.com/overview/configuration-options}

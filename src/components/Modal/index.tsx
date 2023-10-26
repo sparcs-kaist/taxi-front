@@ -1,10 +1,9 @@
+import modalsAtom from "@/atoms/modals";
+import useDateToken from "@/hooks/useDateToken";
 import { useEffect } from "react";
-
-import useDateToken from "hooks/useDateToken";
 
 import { ModalElemProps } from "./ModalElem";
 
-import modalsAtom from "atoms/modals";
 import { useSetRecoilState } from "recoil";
 
 const Modal = (props: ModalElemProps) => {

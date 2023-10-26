@@ -1,11 +1,9 @@
+import { ModalCredit, ModalPrivacyPolicy } from "@/components/ModalPopup";
+import { ReactComponent as SparcsLogo } from "@/static/assets/sparcsLogos/SparcsLogoWithText.svg";
 import { ReactNode, memo, useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { ModalCredit, ModalPrivacyPolicy } from "components/ModalPopup";
-
 import ButtonAboveFooter from "./ButtonAboveFooter";
-
-import { ReactComponent as SparcsLogo } from "static/assets/sparcsLogos/SparcsLogoWithText.svg";
 
 type FooterProps = {
   type?: "only-logo" | "full" | "event-2023fall";

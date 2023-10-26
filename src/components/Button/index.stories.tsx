@@ -1,8 +1,7 @@
+import theme from "@/tools/theme";
 import type { Meta, StoryObj } from "@storybook/react";
 
 import Button from "./index";
-
-import theme from "tools/theme";
 
 const meta: Meta<typeof Button> = {
   component: Button,

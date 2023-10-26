@@ -1,14 +1,12 @@
-import { initializeApp } from "firebase/app";
-import { getMessaging, getToken, isSupported } from "firebase/messaging";
-import { useCallback, useEffect } from "react";
-
 import {
   useFetchRecoilState,
   useValueRecoilState,
-} from "hooks/useFetchRecoilState";
-import { useAxios } from "hooks/useTaxiAPI";
-
-import { firebaseConfig } from "tools/loadenv";
+} from "@/hooks/useFetchRecoilState";
+import { useAxios } from "@/hooks/useTaxiAPI";
+import { firebaseConfig } from "@/tools/loadenv";
+import { initializeApp } from "firebase/app";
+import { getMessaging, getToken, isSupported } from "firebase/messaging";
+import { useCallback, useEffect } from "react";
 
 const firebaseApp = firebaseConfig && initializeApp(firebaseConfig);
 

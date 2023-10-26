@@ -1,8 +1,6 @@
+import useHoverProps from "@/hooks/theme/useHoverProps";
+import theme from "@/tools/theme";
 import { useCallback } from "react";
-
-import useHoverProps from "hooks/theme/useHoverProps";
-
-import theme from "tools/theme";
 
 type ToggleProps = {
   value: boolean;

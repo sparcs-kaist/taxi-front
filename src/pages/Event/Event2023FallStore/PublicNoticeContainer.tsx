@@ -1,16 +1,13 @@
-import { css, keyframes } from "@emotion/react";
-import { useMemo } from "react";
-
-import useQuery from "hooks/useTaxiAPI";
-
-import WhiteContainer from "components/WhiteContainer";
-
+import WhiteContainer from "@/components/WhiteContainer";
+import useQuery from "@/hooks/useTaxiAPI";
 import dayjs, {
   dayDifference2str,
   dayNowServer,
   dayServerToClient,
-} from "tools/day";
-import theme from "tools/theme";
+} from "@/tools/day";
+import theme from "@/tools/theme";
+import { css, keyframes } from "@emotion/react";
+import { useMemo } from "react";
 
 import CampaignRoundedIcon from "@mui/icons-material/CampaignRounded";
 

@@ -1,11 +1,9 @@
-import { EventItem } from "types/event2023fall";
-
-import Button from "components/Button";
-import DottedLine from "components/DottedLine";
-import LinkEvent2023FallInstagramStoryShare from "components/Link/LinkEvent2023FallInstagramStoryShare";
-import Modal from "components/Modal";
-
-import theme from "tools/theme";
+import Button from "@/components/Button";
+import DottedLine from "@/components/DottedLine";
+import LinkEvent2023FallInstagramStoryShare from "@/components/Link/LinkEvent2023FallInstagramStoryShare";
+import Modal from "@/components/Modal";
+import theme from "@/tools/theme";
+import { EventItem } from "@/types/event2023fall";
 
 import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
 

@@ -1,3 +1,11 @@
+import Button from "@/components/Button";
+import DottedLine from "@/components/DottedLine";
+import BodyRandomBox from "@/components/Event/BodyRandomBox";
+import Loading from "@/components/Loading";
+import Modal from "@/components/Modal";
+import { useDelay, useDelayBoolean } from "@/hooks/useDelay";
+import theme from "@/tools/theme";
+import type { EventItem } from "@/types/event2023fall";
 import {
   Dispatch,
   SetStateAction,
@@ -7,19 +15,7 @@ import {
   useState,
 } from "react";
 
-import type { EventItem } from "types/event2023fall";
-
-import { useDelay, useDelayBoolean } from "hooks/useDelay";
-
-import Button from "components/Button";
-import DottedLine from "components/DottedLine";
-import BodyRandomBox from "components/Event/BodyRandomBox";
-import Loading from "components/Loading";
-import Modal from "components/Modal";
-
 import "./ModalEvent2023FallRandomBoxBackground.css";
-
-import theme from "tools/theme";
 
 import HelpCenterRoundedIcon from "@mui/icons-material/HelpCenterRounded";
 

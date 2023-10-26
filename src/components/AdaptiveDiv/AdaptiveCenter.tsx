@@ -1,6 +1,5 @@
+import theme from "@/tools/theme";
 import { HTMLProps, ReactNode } from "react";
-
-import theme from "tools/theme";
 
 export type AdaptiveCenterProps = {
   children?: ReactNode;

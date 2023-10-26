@@ -1,16 +1,14 @@
+import AdaptiveDiv from "@/components/AdaptiveDiv";
+import Chat from "@/components/Chat";
+import DottedLine from "@/components/DottedLine";
+import Empty from "@/components/Empty";
+import Pagination, { PAGE_MAX_ITEMS } from "@/components/Pagination";
+import Room from "@/components/Room";
+import Title from "@/components/Title";
+import WhiteContainer from "@/components/WhiteContainer";
+import theme from "@/tools/theme";
 import PropTypes from "prop-types";
 import { Link, useHistory } from "react-router-dom";
-
-import AdaptiveDiv from "components/AdaptiveDiv";
-import Chat from "components/Chat";
-import DottedLine from "components/DottedLine";
-import Empty from "components/Empty";
-import Pagination, { PAGE_MAX_ITEMS } from "components/Pagination";
-import Room from "components/Room";
-import Title from "components/Title";
-import WhiteContainer from "components/WhiteContainer";
-
-import theme from "tools/theme";
 
 const LinkRoom = (props) => {
   const history = useHistory();

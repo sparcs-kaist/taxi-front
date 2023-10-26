@@ -1,14 +1,12 @@
+import alertAtom from "@/atoms/alert";
+import useSendMessage from "@/hooks/chat/useSendMessage";
+import { convertImage, getImageSrc } from "@/tools/image";
+import theme from "@/tools/theme";
 import { useCallback, useEffect, useState } from "react";
-
-import useSendMessage from "hooks/chat/useSendMessage";
 
 import ButtonSend from "./ButtonSend";
 
-import alertAtom from "atoms/alert";
 import { useSetRecoilState } from "recoil";
-
-import { convertImage, getImageSrc } from "tools/image";
-import theme from "tools/theme";
 
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import MotionPhotosOnIcon from "@mui/icons-material/RotateLeftRounded";

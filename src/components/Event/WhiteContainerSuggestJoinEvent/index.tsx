@@ -1,17 +1,14 @@
-import { useMemo, useState } from "react";
-
-import { useIsLogin, useValueRecoilState } from "hooks/useFetchRecoilState";
-
-import Button from "components/Button";
-import LinkEvent2023FallInstagramStoryShare from "components/Link/LinkEvent2023FallInstagramStoryShare";
+import Button from "@/components/Button";
+import LinkEvent2023FallInstagramStoryShare from "@/components/Link/LinkEvent2023FallInstagramStoryShare";
 import {
   ModalEvent2023FallJoin,
   ModalNotification,
-} from "components/ModalPopup";
-import WhiteContainer from "components/WhiteContainer";
-
-import { deviceType } from "tools/loadenv";
-import theme from "tools/theme";
+} from "@/components/ModalPopup";
+import WhiteContainer from "@/components/WhiteContainer";
+import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import { deviceType } from "@/tools/loadenv";
+import theme from "@/tools/theme";
+import { useMemo, useState } from "react";
 
 const WhiteContainerSuggestJoinEvent = () => {
   const isLogin = useIsLogin();
