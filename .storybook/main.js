@@ -16,14 +16,11 @@ const config = {
     autodocs: "tag",
   },
   webpackFinal: async (config) => {
-    // Ensure config.resolve is an object if it doesn't already exist
-
     config.resolve = config.resolve || {};
 
-    // Add support for absolute path imports
     config.resolve.modules = [
       ...(config.resolve.modules || []),
-      path.resolve(__dirname, "../src"), // This should point to your src directory
+      path.resolve(__dirname, "../src"),
     ];
 
     config.module.rules.push({
