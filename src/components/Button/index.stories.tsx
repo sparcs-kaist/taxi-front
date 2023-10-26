@@ -5,13 +5,10 @@ import Button from "./index";
 import theme from "tools/theme";
 
 const meta: Meta<typeof Button> = {
-  title: "Main/Button",
-
   component: Button,
   parameters: {
     layout: "centered",
   },
-  tags: ["autodocs"],
   argTypes: {
     children: {
       control: {
