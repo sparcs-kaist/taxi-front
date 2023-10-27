@@ -38,7 +38,7 @@ i18n
         mypage: nsMypageEN,
       },
     },
-    debug: nodeEnv === "development",
+    debug: nodeEnv,
     keySeparator: ".",
     fallbackLng: "ko",
     defaultNS: "mypage", // default namespace

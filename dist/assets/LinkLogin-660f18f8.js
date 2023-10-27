@@ -1,0 +1,1 @@
+import{a as o,b as n,be as c,ak as i}from"./index-ffb5f151.js";const h=({children:e,redirect:s})=>{const{pathname:t,search:a}=o(),r=s||t+a;return n("a",{href:`${c}/auth/sparcssso?redirect=${encodeURIComponent(r)}${i.startsWith("app/")?"&isApp=true":""}`,css:{textDecoration:"none"},children:e})};export{h as L};

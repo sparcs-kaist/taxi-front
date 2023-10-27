@@ -1,0 +1,20 @@
+{
+  "short_name": "Taxi",
+  "name": "SPARCS Taxi",
+  "icons": [
+    {
+      "src": "icons-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icons-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#faf8fb",
+  "background_color": "#faf8fb"
+}

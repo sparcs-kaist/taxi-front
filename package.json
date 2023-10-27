@@ -9,14 +9,11 @@
     "@material-ui/icons": "^4.11.2",
     "@mui/icons-material": "^5.14.1",
     "@mui/material": "^5.4.1",
-    "@svgr/webpack": "5.5.0",
-    "@vitejs/plugin-react-swc": "^3.4.0",
     "antd": "^5.4.6",
     "axios": "^0.21.1",
     "browser-image-compression": "^2.0.0",
     "cross-env": "^7.0.3",
     "dayjs": "^1.11.7",
-    "dotenv": "^16.0.0",
     "firebase": "^9.15.0",
     "heic2any": "^0.0.4",
     "i18next": "^22.0.2",
@@ -34,16 +31,13 @@
     "react-toastify": "8.2.0",
     "recoil": "^0.7.5",
     "socket.io-client": "^4.3.2",
-    "use-state-with-callback": "^3.0.2",
-    "vite": "^4.5.0",
-    "vite-plugin-svgr": "^4.1.0",
-    "vite-tsconfig-paths": "^4.2.1"
+    "use-state-with-callback": "^3.0.2"
   },
   "scripts": {
     "dev": "vite",
+    "build": "tsc && vite build",
     "preinstall": "npx only-allow pnpm",
     "start": "craco start",
-    "build": "cross-env GENERATE_SOURCEMAP=false craco build",
     "test": "cypress open"
   },
   "eslintConfig": {
@@ -75,6 +69,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@typescript-eslint/eslint-plugin": "^5.37.0",
     "@typescript-eslint/parser": "^5.37.0",
+    "@vitejs/plugin-react": "^4.1.0",
     "cypress": "^10.3.1",
     "cypress-react-selector": "^3.0.0",
     "eslint": "^7.32.0",
@@ -85,7 +80,9 @@
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "vite": "^4.5.0",
+    "vite-plugin-svgr": "^3.2.0"
   },
   "resolutions": {
     "@types/react": "^17.0.2",

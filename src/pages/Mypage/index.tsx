@@ -134,7 +134,7 @@ const Mypage = () => {
           </WhiteContainer>
           <WhiteContainer>
             <div css={{ display: "grid", rowGap: "16px" }}>
-              {nodeEnv === "development" && (
+              {nodeEnv && (
                 <Menu icon="lang" onClick={onClickTranslation}>
                   {t("translation")}
                 </Menu>

@@ -21,7 +21,7 @@ export default () => {
       if (!gaInitialized.current) {
         gaInitialized.current = true;
         reactGA.initialize(gaTrackingId, {
-          testMode: nodeEnv === "development",
+          testMode: nodeEnv,
         });
       }
       reactGA.send({ hitType: "pageview", page: pathname });

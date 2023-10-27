@@ -1,0 +1,1 @@
+import{j as n,b as t,t as i,B as o,W as s}from"./index-ffb5f151.js";import{L as e}from"./LinkLogin-660f18f8.js";const d=()=>n(s,{children:[t("div",{css:{...i.font14,marginBottom:12},children:"로그인이 필요한 서비스입니다"}),t(e,{children:t(o,{type:"purple",css:{padding:"14px 0 13px",borderRadius:"12px",...i.font16_bold},children:"로그인"})})]});export{d as W};

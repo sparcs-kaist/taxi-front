@@ -38,6 +38,7 @@ export const dayClientToServer = (clientTime: ConfigType) => {
 
 /** 시각을 문자열로 변환합니다. */
 export const day2str = (day: Dayjs, format = "LLLL") => {
+  console.log(day.format(format));
   return day.format(format);
 };
 

@@ -1,0 +1,1 @@
+import{c as r,e as t,r as o}from"./index-ffb5f151.js";const a=()=>{const e=r(t);return o.useEffect(()=>{e({title:"페이지를 찾을 수 없습니다.",message:"요청하신 URL이 올바른지 확인해주세요.",record:null})},[]),null};export{a as default};
