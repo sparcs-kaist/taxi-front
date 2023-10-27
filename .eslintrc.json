@@ -10,7 +10,8 @@
     "plugin:cypress/recommended",
     "eslint:recommended",
     "plugin:react/recommended",
-    "prettier"
+    "prettier",
+    "plugin:storybook/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -20,20 +21,29 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react", "cypress"],
+  "plugins": [
+    "react",
+    "cypress"
+  ],
   "rules": {
     "no-unused-vars": 1,
     "react/react-in-jsx-scope": "off",
     "react/no-unknown-property": [
       "error",
       {
-        "ignore": ["css"]
+        "ignore": [
+          "css"
+        ]
       }
     ]
   },
   "overrides": [
     {
-      "files": ["*.ts", "*.tsx", "public/firebase-messaging-sw.js"],
+      "files": [
+        "*.ts",
+        "*.tsx",
+        "public/firebase-messaging-sw.js"
+      ],
       "rules": {
         "no-undef": "off",
         "no-unused-vars": "off"
