@@ -2,7 +2,7 @@ import WhiteContainer from "@/components/WhiteContainer";
 import theme from "@/tools/theme";
 import { memo } from "react";
 
-import EditRoundedIcon from "@material-ui/icons/EditRounded";
+import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
 type ButtonProps = {
   value: string;

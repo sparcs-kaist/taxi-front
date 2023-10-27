@@ -2,9 +2,9 @@ import WhiteContainer from "@/components/WhiteContainer";
 import theme from "@/tools/theme";
 import { memo } from "react";
 
-import AddRoundedIcon from "@material-ui/icons/AddRounded";
-import PeopleRoundedIcon from "@material-ui/icons/PeopleRounded";
-import RemoveRoundedIcon from "@material-ui/icons/RemoveRounded";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import PeopleRoundedIcon from "@mui/icons-material/PeopleRounded";
+import RemoveRoundedIcon from "@mui/icons-material/RemoveRounded";
 
 type CounterProps = {
   min: number;

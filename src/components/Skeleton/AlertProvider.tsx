@@ -7,7 +7,7 @@ import { ReactNode, useCallback, useRef } from "react";
 
 import { useRecoilState } from "recoil";
 
-import WbIncandescentRoundedIcon from "@material-ui/icons/WbIncandescentRounded";
+import WbIncandescentRoundedIcon from "@mui/icons-material/WbIncandescentRounded";
 
 const AlertProvider = () => {
   const messageCache = useRef<ReactNode>("");

@@ -7,7 +7,7 @@ import { memo, useEffect, useState } from "react";
 
 import Picker from "./Picker";
 
-import ScheduleRoundedIcon from "@material-ui/icons/ScheduleRounded";
+import ScheduleRoundedIcon from "@mui/icons-material/ScheduleRounded";
 
 type Page = "add" | "search";
 

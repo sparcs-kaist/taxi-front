@@ -6,7 +6,7 @@ import theme from "@/tools/theme";
 import PropTypes from "prop-types";
 import { PureComponent, createRef, memo } from "react";
 
-import TodayRoundedIcon from "@material-ui/icons/TodayRounded";
+import TodayRoundedIcon from "@mui/icons-material/TodayRounded";
 import UnfoldLessRoundedIcon from "@mui/icons-material/UnfoldLessRounded";
 import UnfoldMoreRoundedIcon from "@mui/icons-material/UnfoldMoreRounded";
 

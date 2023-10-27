@@ -8,10 +8,10 @@ import { useLocation } from "react-router-dom";
 
 import { useRecoilValue } from "recoil";
 
-import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 import RoofingRoundedIcon from "@mui/icons-material/RoofingRounded";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import SubjectRoundedIcon from "@mui/icons-material/SubjectRounded";
 
 type PageType = "home" | "search" | "addroom" | "myroom" | "mypage";
