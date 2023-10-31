@@ -5,20 +5,6 @@ import Room from "./index";
 
 import { useSetRecoilState } from "recoil";
 
-// const MockSnackBar = () => {
-//   const setSnackBarState = useSetRecoilState(snackBarState);
-//   setSnackBarState({
-//     isOpen: true,
-//     message: "테스트입니다.",
-//   });
-
-//   return <SnackBar />;
-// };
-
-// const Template: Story = () => <MockSnackBar />;
-
-// export const DefaultSnackBar = Template.bind({});
-
 const MockRoom = () => {
   const atomSetState = useSetRecoilState(loginInfoAtom);
   atomSetState({
@@ -105,37 +91,7 @@ const data = {
 
 export const Primary: Story = {
   args: {
-    data: {
-      _id: "650882351f7c08d176f43e9e",
-      name: "매일매일 택시",
-      from: {
-        _id: "64c118f5a6860842a1d4e287",
-        enName: "Daejeon Station",
-        koName: "대전역",
-      },
-      to: {
-        _id: "64c118f5a6860842a1d4e295",
-        enName: "Duck Pond",
-        koName: "오리연못",
-      },
-      time: "2023-09-18T17:10:00.000Z",
-      part: [
-        {
-          _id: "64c118f5a6860842a1d4e27c",
-          name: "sunday-name",
-          nickname: "sunday-mmd3289u324923u489",
-          profileImageUrl: "default/GooseGreen.png",
-          isSettlement: "not-departed",
-          readAt: "2023-09-18T17:00:37.628Z",
-        },
-      ],
-      madeat: "2023-09-18T17:00:37.628Z",
-      settlementTotal: 0,
-      maxPartLength: 4,
-      __v: 0,
-      isOver: false,
-      isDeparted: true,
-    },
+    data,
     selected: false,
     theme: "purple",
     marginTop: "15px",

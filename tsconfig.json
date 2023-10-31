@@ -22,7 +22,7 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "jsxImportSource": "@emotion/react",
-    "types": [ "vite-plugin-svgr/client"]
+    "types": [ "vite-plugin-svgr/client" ]
   },
   "exclude": [
     "node_modules"
