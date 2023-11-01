@@ -127,11 +127,19 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
     }),
     [userOid, authorId, layoutType]
   );
+  const styleSubinfoWrap = {
+    display: "flex",
+    flexDirection: "column" as any,
+    alignItems: authorId === userOid ? "flex-end" : "flex-start",
+  };
   const styleTime = {
     ...theme.font8,
     color: theme.gray_text,
     marginBottom: "1px",
     minWidth: "fit-content",
+  };
+  const styleUnreadNum = {
+    ...theme.font8_medium,
   };
 
   return (
@@ -168,11 +176,16 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
                 color={authorId === userOid ? theme.white : theme.black}
               />
             </div>
-            {index === chats.length - 1 && (
-              <div css={styleTime} className="selectable">
-                {dayjs(chat.time).format("H시 mm분")}
+            <div css={styleSubinfoWrap}>
+              <div css={styleUnreadNum} className="selectable">
+                1
               </div>
-            )}
+              {index === chats.length - 1 && (
+                <div css={styleTime} className="selectable">
+                  {dayjs(chat.time).format("H시 mm분")}
+                </div>
+              )}
+            </div>
           </div>
         ))}
       </div>
