@@ -1,4 +1,4 @@
-import { memo, useCallback } from "react";
+import { memo, useCallback, useMemo } from "react";
 
 import type { BotChat, LayoutType, UserChat } from "types/chat";
 
@@ -59,6 +59,10 @@ type MessageSetProps = {
 
 const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
   const { oid: userOid } = useValueRecoilState("loginInfo") || {};
+  const readAts = useMemo(() => {
+    const readAts = roomInfo?.part?.map((user) => user?.readAt);
+    return readAts;
+  }, [chats, roomInfo]);
   const authorId = chats?.[0]?.authorId;
   const authorProfileUrl =
     "authorProfileUrl" in chats?.[0] ? chats?.[0].authorProfileUrl : "";
@@ -178,7 +182,7 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
             </div>
             <div css={styleSubinfoWrap}>
               <div css={styleUnreadNum} className="selectable">
-                1
+                {readAts?.filter((readAt) => readAt < chat.time).length}
               </div>
               {index === chats.length - 1 && (
                 <div css={styleTime} className="selectable">
