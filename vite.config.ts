@@ -12,11 +12,6 @@ export default defineConfig({
   },
   build: {
     outDir: "./build",
-    rollupOptions: {
-      input: {
-        app: "./public/index.html",
-      },
-    },
   },
   server: {
     port: 3000,
