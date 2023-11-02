@@ -1,19 +1,19 @@
 import type { FirebaseConfig } from "@/types/env";
 
+const env = { ...import.meta.env, ...window["env"] };
+
 // 환경변수
-export const nodeEnv = import.meta.env.DEV; // automatically provided
-export const backServer = import.meta.env.REACT_APP_BACK_URL; // required
-export const ioServer = import.meta.env.REACT_APP_IO_URL ?? backServer; // optional (주어지지 않은 경우 REACT_APP_BACK_URL로 설정)
-export const ogServer = import.meta.env.REACT_APP_OG_URL; // optional
-export const s3BaseUrl = import.meta.env.REACT_APP_S3_URL; // required
-export const channelTalkPluginKey = import.meta.env
-  .REACT_APP_CHANNELTALK_PLUGIN_KEY; // optional
-export const kakaoSDKKey = import.meta.env.REACT_APP_KAKAO_SDK_KEY; // optional
-export const gaTrackingId = import.meta.env.REACT_APP_GA_TRACKING_ID; // optional
+export const nodeEnv = env.DEV; // automatically provided
+export const backServer = env.REACT_APP_BACK_URL; // required
+export const ioServer = env.REACT_APP_IO_URL ?? backServer; // optional (주어지지 않은 경우 REACT_APP_BACK_URL로 설정)
+export const ogServer = env.REACT_APP_OG_URL; // optional
+export const s3BaseUrl = env.REACT_APP_S3_URL; // required
+export const channelTalkPluginKey = env.REACT_APP_CHANNELTALK_PLUGIN_KEY; // optional
+export const kakaoSDKKey = env.REACT_APP_KAKAO_SDK_KEY; // optional
+export const gaTrackingId = env.REACT_APP_GA_TRACKING_ID; // optional
 export const firebaseConfig: Nullable<FirebaseConfig> =
-  import.meta.env.REACT_APP_FIREBASE_CONFIG &&
-  JSON.parse(import.meta.env.REACT_APP_FIREBASE_CONFIG); // optional
-export const eventMode = import.meta.env.REACT_APP_EVENT_MODE || null; // optional. "2023fall"로 설정 가능
+  env.REACT_APP_FIREBASE_CONFIG && JSON.parse(env.REACT_APP_FIREBASE_CONFIG); // optional
+export const eventMode = env.REACT_APP_EVENT_MODE || null; // optional. "2023fall"로 설정 가능
 
 // devicet-type 감지
 const userAgent = navigator.userAgent.toLowerCase();
