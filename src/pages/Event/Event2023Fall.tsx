@@ -1,9 +1,15 @@
+import { memo } from "react";
+import { Link } from "react-router-dom";
+
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
 import Footer from "@/components/Footer";
 import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
 import LinkEvent2023FallInstagramStoryShare from "@/components/Link/LinkEvent2023FallInstagramStoryShare";
 import WhiteContainer from "@/components/WhiteContainer";
+
+import theme from "@/tools/theme";
+
 import { ReactComponent as TaxiLogoIcon } from "@/static/assets/sparcsLogos/TaxiLogo.svg";
 import { ReactComponent as MainSection1 } from "@/static/events/2023fallMainSection1.svg";
 import { ReactComponent as MainSection2 } from "@/static/events/2023fallMainSection2.svg";
@@ -15,9 +21,6 @@ import { ReactComponent as MainStep2 } from "@/static/events/2023fallMainStep2.s
 import { ReactComponent as MainStep3 } from "@/static/events/2023fallMainStep3.svg";
 import { ReactComponent as MainTitle } from "@/static/events/2023fallMainTitle.svg";
 import { ReactComponent as MissionCompleteIcon } from "@/static/events/2023fallMissionComplete.svg";
-import theme from "@/tools/theme";
-import { memo } from "react";
-import { Link } from "react-router-dom";
 
 const Event2023Fall = () => {
   return (

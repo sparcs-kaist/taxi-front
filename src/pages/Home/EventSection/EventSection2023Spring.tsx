@@ -1,9 +1,11 @@
+import { Link } from "react-router-dom";
+
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
 import Title from "@/components/Title";
 import WhiteContainer from "@/components/WhiteContainer";
+
 import theme from "@/tools/theme";
-import { Link } from "react-router-dom";
 
 const EventSection2023Spring = () => {
   return (

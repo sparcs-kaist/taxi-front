@@ -1,5 +1,11 @@
+import { MutableRefObject, RefObject, useEffect } from "react";
+import { useStateWithCallbackLazy } from "use-state-with-callback";
+
+import type { Chat, Chats } from "@/types/chat";
+
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
+
 import {
   createInfScrollCheckoutChat,
   createShareChat,
@@ -12,9 +18,6 @@ import {
   resetSocketEventListener,
   socketReady,
 } from "@/tools/socket";
-import type { Chat, Chats } from "@/types/chat";
-import { MutableRefObject, RefObject, useEffect } from "react";
-import { useStateWithCallbackLazy } from "use-state-with-callback";
 
 export default (
   roomInfo: Nullable<Room>,

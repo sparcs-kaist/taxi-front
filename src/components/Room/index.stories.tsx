@@ -1,8 +1,8 @@
-import loginInfoAtom from "@/atoms/loginInfo";
 import type { Meta, StoryObj } from "@storybook/react";
 
 import Room from "./index";
 
+import loginInfoAtom from "@/atoms/loginInfo";
 import { useSetRecoilState } from "recoil";
 
 const MockRoom = () => {

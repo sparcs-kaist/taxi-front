@@ -1,7 +1,7 @@
-import { eventMode } from "@/tools/loadenv";
-
 import EventSection2023Fall from "./EventSection2023Fall";
 import EventSection2023Spring from "./EventSection2023Spring";
+
+import { eventMode } from "@/tools/loadenv";
 
 const EventSection = () => {
   switch (eventMode) {

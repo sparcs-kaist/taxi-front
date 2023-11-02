@@ -1,5 +1,6 @@
-import theme from "@/tools/theme";
 import { HTMLProps } from "react";
+
+import theme from "@/tools/theme";
 
 type InputProps = {
   value?: string;

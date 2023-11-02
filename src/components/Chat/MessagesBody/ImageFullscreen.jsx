@@ -1,5 +1,6 @@
-import theme from "@/tools/theme";
 import PropTypes from "prop-types";
+
+import theme from "@/tools/theme";
 
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 

@@ -1,8 +1,10 @@
-import useButterflyState from "@/hooks/useButterflyState";
-import theme from "@/tools/theme";
 import { ReactNode } from "react";
 
+import useButterflyState from "@/hooks/useButterflyState";
+
 import AdaptiveCenter from "./AdaptiveCenter";
+
+import theme from "@/tools/theme";
 
 export type AdaptiveButterflyProps = {
   left?: ReactNode;

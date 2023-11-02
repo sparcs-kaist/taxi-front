@@ -1,12 +1,14 @@
+import { useRef, useState } from "react";
+import { useStateWithCallbackLazy } from "use-state-with-callback";
+
+import type { Chats, LayoutType } from "@/types/chat";
+
 import useBodyScrollControllerEffect from "@/hooks/chat/useBodyScrollControllerEffect";
 import useSendMessage from "@/hooks/chat/useSendMessage";
 import useSocketChatEffect from "@/hooks/chat/useSocketChatEffect";
 import useDateToken from "@/hooks/useDateToken";
 import useDisableScrollEffect from "@/hooks/useDisableScrollEffect";
 import useQuery from "@/hooks/useTaxiAPI";
-import type { Chats, LayoutType } from "@/types/chat";
-import { useRef, useState } from "react";
-import { useStateWithCallbackLazy } from "use-state-with-callback";
 
 import Container from "./Container";
 import Header from "./Header";

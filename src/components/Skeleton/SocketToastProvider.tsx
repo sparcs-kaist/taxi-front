@@ -1,11 +1,14 @@
+import { useEffect } from "react";
+import { io } from "socket.io-client";
+
+import { Chat } from "@/types/chat";
+
 import {
   useFetchRecoilState,
   useValueRecoilState,
 } from "@/hooks/useFetchRecoilState";
+
 import { ioServer } from "@/tools/loadenv";
-import { Chat } from "@/types/chat";
-import { useEffect } from "react";
-import { io } from "socket.io-client";
 
 export type SocketChatEventListner = (chats: Array<Chat>) => void;
 export type SocketVoidEventListner = () => void;

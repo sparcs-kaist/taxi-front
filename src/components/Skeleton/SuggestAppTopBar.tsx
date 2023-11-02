@@ -1,9 +1,12 @@
+import { useLocation } from "react-router-dom";
+
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
-import { ReactComponent as TaxiIcon } from "@/static/assets/sparcsLogos/TaxiAppIcon.svg";
+
 import theme from "@/tools/theme";
 import { getDynamicLink } from "@/tools/trans";
-import { useLocation } from "react-router-dom";
+
+import { ReactComponent as TaxiIcon } from "@/static/assets/sparcsLogos/TaxiAppIcon.svg";
 
 const SuggestAppTopBar = () => {
   const { pathname, search } = useLocation();

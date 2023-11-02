@@ -1,11 +1,14 @@
-import Modal from "@/components/Modal";
-import theme from "@/tools/theme";
-import type { Report } from "@/types/report";
 import { useEffect, useState } from "react";
+
+import type { Report } from "@/types/report";
+
+import Modal from "@/components/Modal";
 
 import BodyChatReportDone from "./Body/BodyChatReportDone";
 import BodyChatReportSelectType from "./Body/BodyChatReportSelectType";
 import BodyChatReportSelectUser from "./Body/BodyChatReportSelectUser";
+
+import theme from "@/tools/theme";
 
 import ReportGmailerrorredRoundedIcon from "@mui/icons-material/ReportGmailerrorredRounded";
 

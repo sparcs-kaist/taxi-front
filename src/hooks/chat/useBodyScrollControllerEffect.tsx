@@ -1,12 +1,15 @@
+import { RefObject, useEffect, useLayoutEffect, useRef } from "react";
+
+import type { Chat, Chats } from "@/types/chat";
+
 import { useAxios } from "@/hooks/useTaxiAPI";
+
 import {
   isBottomOnScroll,
   isTopOnScroll,
   scrollToBottom,
 } from "@/tools/chat/scroll";
 import { socketReady } from "@/tools/socket";
-import type { Chat, Chats } from "@/types/chat";
-import { RefObject, useEffect, useLayoutEffect, useRef } from "react";
 
 const mutationObserverConfig = {
   childList: true,

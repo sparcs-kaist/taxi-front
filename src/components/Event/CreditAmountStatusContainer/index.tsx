@@ -1,9 +1,12 @@
-import WhiteContainer from "@/components/WhiteContainer";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+
+import WhiteContainer from "@/components/WhiteContainer";
+
+import theme from "@/tools/theme";
+
 import { ReactComponent as CreditIcon } from "@/static/events/2023fallCredit.svg";
 import { ReactComponent as Ticket1Icon } from "@/static/events/2023fallTicket1.svg";
 import { ReactComponent as Ticket2Icon } from "@/static/events/2023fallTicket2.svg";
-import theme from "@/tools/theme";
 
 type CreditAmountStatusContainerProps = {
   type?: "credit" | "ticket";

@@ -1,5 +1,6 @@
-import { backServer, deviceType } from "@/tools/loadenv";
 import { useLocation } from "react-router-dom";
+
+import { backServer, deviceType } from "@/tools/loadenv";
 
 type LinkLoginProps = {
   children: React.ReactNode;

@@ -1,11 +1,12 @@
 import ButtonShare from "@/components/Button/ButtonShare";
 import DottedLine from "@/components/DottedLine";
 import LinkCallTaxi from "@/components/Link/LinkCallTaxi";
+
+import theme from "@/tools/theme";
+
 import { ReactComponent as KakaoTaxiLogo } from "@/static/assets/serviceLogos/KakaoTaxiLogo.svg";
 import TmoneyOndaLogo from "@/static/assets/serviceLogos/TmoneyOndaLogo.png";
 import { ReactComponent as UTLogo } from "@/static/assets/serviceLogos/UTLogo.svg";
-import theme from "@/tools/theme";
-
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
 
 export type BodyCallTaxiProps = {

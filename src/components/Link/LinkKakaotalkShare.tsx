@@ -1,6 +1,7 @@
-import { kakaoSDKKey } from "@/tools/loadenv";
 import { useCallback } from "react";
 import { useLocation } from "react-router-dom";
+
+import { kakaoSDKKey } from "@/tools/loadenv";
 
 type LinkKakaotalkShareProps = {
   children: React.ReactNode;

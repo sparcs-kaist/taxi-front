@@ -1,8 +1,9 @@
 import Button from "@/components/Button";
 import LinkLogin from "@/components/Link/LinkLogin";
-import theme from "@/tools/theme";
 
 import WhiteContainer from ".";
+
+import theme from "@/tools/theme";
 
 const WhiteContainerSuggestLogin = () => (
   <WhiteContainer>

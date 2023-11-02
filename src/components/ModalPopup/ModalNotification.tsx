@@ -1,23 +1,26 @@
-import alertAtom from "@/atoms/alert";
-import DottedLine from "@/components/DottedLine";
-import Modal from "@/components/Modal";
-import Toggle from "@/components/Toggle";
+import { useCallback, useRef } from "react";
+import { useTranslation } from "react-i18next";
+
 import { useEvent2023FallQuestComplete } from "@/hooks/event/useEvent2023FallQuestComplete";
 import {
   useFetchRecoilState,
   useValueRecoilState,
 } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
+
+import DottedLine from "@/components/DottedLine";
+import Modal from "@/components/Modal";
+import Toggle from "@/components/Toggle";
+
+import BodyNotificationGuide from "./Body/BodyNotificationGuide";
+
+import alertAtom from "@/atoms/alert";
+import { useSetRecoilState } from "recoil";
+
 import { deviceType } from "@/tools/loadenv";
 import { sendTryNotificationEventToFlutter } from "@/tools/sendEventToFlutter";
 import theme from "@/tools/theme";
 import { isNotificationOn } from "@/tools/trans";
-import { useCallback, useRef } from "react";
-import { useTranslation } from "react-i18next";
-
-import BodyNotificationGuide from "./Body/BodyNotificationGuide";
-
-import { useSetRecoilState } from "recoil";
 
 import AlarmOffRoundedIcon from "@mui/icons-material/AlarmOffRounded";
 import AlarmOnRoundedIcon from "@mui/icons-material/AlarmOnRounded";

@@ -1,16 +1,18 @@
-import ButtonShare from "@/components/Button/ButtonShare";
-import DottedLine from "@/components/DottedLine";
-import LinkCopy from "@/components/Link/LinkCopy";
-import LinkKakaotalkShare from "@/components/Link/LinkKakaotalkShare";
-import { ReactComponent as KakaoTalkLogo } from "@/static/assets/serviceLogos/KakaoTalkLogo.svg";
-import { ogServer } from "@/tools/loadenv";
-import { date2str } from "@/tools/moment";
-import theme from "@/tools/theme";
-import { getLocationName } from "@/tools/trans";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import QRCode from "react-qr-code";
 
+import ButtonShare from "@/components/Button/ButtonShare";
+import DottedLine from "@/components/DottedLine";
+import LinkCopy from "@/components/Link/LinkCopy";
+import LinkKakaotalkShare from "@/components/Link/LinkKakaotalkShare";
+
+import { ogServer } from "@/tools/loadenv";
+import { date2str } from "@/tools/moment";
+import theme from "@/tools/theme";
+import { getLocationName } from "@/tools/trans";
+
+import { ReactComponent as KakaoTalkLogo } from "@/static/assets/serviceLogos/KakaoTalkLogo.svg";
 import CheckIcon from "@mui/icons-material/Check";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 

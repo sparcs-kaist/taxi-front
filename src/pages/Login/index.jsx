@@ -1,12 +1,15 @@
-import loginInfoAtom from "@/atoms/loginInfo";
-import Button from "@/components/Button";
-import LinkLogin from "@/components/Link/LinkLogin";
-import { ReactComponent as TaxiLogo } from "@/static/assets/sparcsLogos/TaxiLogo.svg";
-import theme from "@/tools/theme";
 import { useCallback, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 
+import Button from "@/components/Button";
+import LinkLogin from "@/components/Link/LinkLogin";
+
+import loginInfoAtom from "@/atoms/loginInfo";
 import { useRecoilValue } from "recoil";
+
+import theme from "@/tools/theme";
+
+import { ReactComponent as TaxiLogo } from "@/static/assets/sparcsLogos/TaxiLogo.svg";
 
 const Login = () => {
   const history = useHistory();

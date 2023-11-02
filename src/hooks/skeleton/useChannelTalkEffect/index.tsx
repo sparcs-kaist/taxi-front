@@ -1,12 +1,13 @@
-import errorAtom from "@/atoms/error";
-import loginInfoAtom from "@/atoms/loginInfo";
-import { channelTalkPluginKey } from "@/tools/loadenv";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 import ChannelService from "./channelService";
 
+import errorAtom from "@/atoms/error";
+import loginInfoAtom from "@/atoms/loginInfo";
 import { useRecoilValue } from "recoil";
+
+import { channelTalkPluginKey } from "@/tools/loadenv";
 
 export default () => {
   const location = useLocation();
