@@ -23,7 +23,7 @@ import { useSetRecoilState } from "recoil";
 type ModalMypageModifyProps = Omit<
   Parameters<typeof Modal>[0],
   "padding" | "children" | "onEnter"
-> & { profToken?: string; onUpdate?: () => void };
+> & { onUpdate?: () => void };
 
 type ProfileImageLargeProps = Parameters<typeof ProfileImage>[0];
 
@@ -138,7 +138,6 @@ const ButtonProfileImage = ({ onUpdate }: ButtonProfileImageProps) => {
 };
 
 const ModalMypageModify = ({
-  profToken,
   onUpdate,
   ...modalProps
 }: ModalMypageModifyProps) => {
@@ -224,7 +223,7 @@ const ModalMypageModify = ({
     <Modal padding="32px 10px 10px" onEnter={handleEditProfile} {...modalProps}>
       <div css={styleName}>{loginInfo?.name}</div>
       {loginInfo?.profileImgUrl && (
-        <ProfileImageLarge url={loginInfo?.profileImgUrl} token={profToken} />
+        <ProfileImageLarge url={loginInfo?.profileImgUrl} />
       )}
       <ButtonProfileImage onUpdate={onUpdate} />
       <DottedLine direction="row" margin="0 2px" />

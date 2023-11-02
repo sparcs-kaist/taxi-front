@@ -153,7 +153,7 @@ const Mypage = () => {
             isOpen={isOpenProfileModify}
             onChangeIsOpen={setIsOpenProfileModify}
             onUpdate={refreshProfImgToken}
-            profToken={profImgToken}
+            // profToken={profImgToken}
           />
           <ModalReport isOpen={isOpenReport} onChangeIsOpen={setIsOpenReport} />
           <ModalNotification
