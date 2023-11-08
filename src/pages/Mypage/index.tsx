@@ -23,7 +23,7 @@ import WhiteContainerSuggestLogin from "@/components/WhiteContainer/WhiteContain
 
 import Menu from "./Menu";
 
-import { eventMode, nodeEnv } from "@/tools/loadenv";
+import { eventMode, isDev } from "@/tools/loadenv";
 import theme from "@/tools/theme";
 import { isNotificationOn } from "@/tools/trans";
 
@@ -137,7 +137,7 @@ const Mypage = () => {
           </WhiteContainer>
           <WhiteContainer>
             <div css={{ display: "grid", rowGap: "16px" }}>
-              {nodeEnv && (
+              {isDev && (
                 <Menu icon="lang" onClick={onClickTranslation}>
                   {t("translation")}
                 </Menu>

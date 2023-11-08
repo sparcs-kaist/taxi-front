@@ -13,7 +13,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import { useEffect } from "react";
 import { initReactI18next, useTranslation } from "react-i18next";
 
-import { nodeEnv } from "@/tools/loadenv";
+import { isDev } from "@/tools/loadenv";
 
 /**
  * {@link https://www.i18next.com/overview/configuration-options}
@@ -39,7 +39,7 @@ i18n
         mypage: nsMypageEN,
       },
     },
-    debug: nodeEnv,
+    debug: isDev,
     keySeparator: ".",
     fallbackLng: "ko",
     defaultNS: "mypage", // default namespace
