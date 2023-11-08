@@ -182,7 +182,9 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
             </div>
             <div css={styleSubinfoWrap}>
               <div css={styleUnreadNum} className="selectable">
-                {readAts?.filter((readAt) => readAt < chat.time).length}
+                {readAts?.filter((readAt) => readAt < chat.time).length == 0
+                  ? null
+                  : readAts?.filter((readAt) => readAt < chat.time).length}
               </div>
               {index === chats.length - 1 && (
                 <div css={styleTime} className="selectable">

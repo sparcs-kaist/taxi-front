@@ -20,6 +20,7 @@ declare global {
     | `${PixelValue} ${PixelValue} ${PixelValue} ${PixelValue}`;
   type Padding = Margin;
   type User = {
+    readAt: any;
     _id: string;
     name: string;
     nickname: string;
