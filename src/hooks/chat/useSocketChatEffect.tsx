@@ -45,7 +45,6 @@ export default (
         initListener: (chats) => {
           if (isExpired) return;
           isSendingMessage.current = false;
-
           setChats(
             getCleanupChats([createInfScrollCheckoutChat(), ...chats]),
             () => {
@@ -55,7 +54,6 @@ export default (
         },
         reconnectListener: () => {
           if (isExpired) return;
-
           setChats(
             (prevChats: Chats): Chats => {
               const lastChat = prevChats[prevChats.length - 1];
@@ -73,6 +71,8 @@ export default (
         },
         pushBackListener: (chats: Array<Chat>) => {
           chats = chats.filter((chat) => chat.roomId === roomId);
+          fetchRoomInfo();
+          console.log(roomInfo?.part);
           if (isExpired || chats.length <= 0) return;
 
           const isMyMessage = chats.some((chat) => chat.authorId === userOid);
@@ -106,7 +106,7 @@ export default (
         },
         pushFrontListener: (chats: Array<Chat>) => {
           if (isExpired) return;
-
+          fetchRoomInfo();
           if (chats.length === 0) {
             setChats(
               (prevChats: Chats) => {

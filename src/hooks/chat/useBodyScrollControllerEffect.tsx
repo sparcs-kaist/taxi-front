@@ -78,6 +78,7 @@ export default (
         setDisplayNewMessage(false);
         isBottomOnScrollCache = true;
         // scroll이 가장 아래일 때, read api call
+        console.log("bottom scroll");
         axios({
           url: "/chats/read",
           method: "post",
