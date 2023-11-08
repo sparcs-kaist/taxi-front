@@ -77,6 +77,12 @@ export default (
       if (isBottomOnScroll(chatBody)) {
         setDisplayNewMessage(false);
         isBottomOnScrollCache = true;
+        // scroll이 가장 아래일 때, read api call
+        axios({
+          url: "/chats/read",
+          method: "post",
+          data: { roomId },
+        });
       } else {
         setIsOpenToolSheet(false);
         isBottomOnScrollCache = false;
