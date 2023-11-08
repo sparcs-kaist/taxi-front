@@ -1,4 +1,3 @@
-import { MAX_PARTICIPATION } from "@/pages/Myroom";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
@@ -22,6 +21,7 @@ import {
 } from "@/components/ModalRoomOptions";
 import Title from "@/components/Title";
 import WhiteContainerSuggestLogin from "@/components/WhiteContainer/WhiteContainerSuggestLogin";
+import { MAX_PARTICIPATION } from "@/pages/Myroom";
 
 import FullParticipation from "./FullParticipation";
 

@@ -1,4 +1,3 @@
-import { MAX_PARTICIPATION } from "@/pages/Myroom";
 import { useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
@@ -16,6 +15,7 @@ import DottedLine from "@/components/DottedLine";
 import LinkLogin from "@/components/Link/LinkLogin";
 import MiniCircle from "@/components/MiniCircle";
 import Users from "@/components/User/Users";
+import { MAX_PARTICIPATION } from "@/pages/Myroom";
 
 import alertAtom from "@/atoms/alert";
 import { useSetRecoilState } from "recoil";

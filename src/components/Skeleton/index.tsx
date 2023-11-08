@@ -1,4 +1,3 @@
-import Error from "@/pages/Error";
 import { ReactNode, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -19,6 +18,7 @@ import {
 import HeaderBar from "@/components/Header/HeaderBar";
 import Loading from "@/components/Loading";
 import { ModalTerms } from "@/components/ModalPopup";
+import Error from "@/pages/Error";
 
 import Navigation from "./Navigation";
 import SuggestAppTopBar from "./SuggestAppTopBar";

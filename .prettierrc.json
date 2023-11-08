@@ -17,7 +17,7 @@
     "<THIRD_PARTY_MODULES>",
     "^@/types/",
     "^@/hooks/",
-    "^@/components/|^@pages/",
+    "^@/components/|^@/pages/",
     "^[./]",
     "^@/atoms/|^recoil$",
     "^@/tools/",
