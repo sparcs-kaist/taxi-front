@@ -1,20 +1,20 @@
 import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
-import { Members } from "types/members";
+import { Members } from "@/types/members";
 
-import Modal from "components/Modal";
-import Navigation from "components/Navigation";
+import Modal from "@/components/Modal";
+import Navigation from "@/components/Navigation";
 
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
-import { ReactComponent as SparcsLogoBlack } from "static/assets/sparcsLogos/SparcsLogoBlack.svg";
-import { ReactComponent as SparcsLogoYellow } from "static/assets/sparcsLogos/SparcsLogoYellow.svg";
+import { ReactComponent as SparcsLogoBlack } from "@/static/assets/sparcsLogos/SparcsLogoBlack.svg";
+import { ReactComponent as SparcsLogoYellow } from "@/static/assets/sparcsLogos/SparcsLogoYellow.svg";
 import {
   members,
   members2023FallEvent,
   members2023SpringEvent,
-} from "static/members";
+} from "@/static/members";
 
 type MemberProps = Members[number]["list"][number];
 

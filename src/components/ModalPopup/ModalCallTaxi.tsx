@@ -1,8 +1,8 @@
-import Modal from "components/Modal";
+import Modal from "@/components/Modal";
 
 import BodyCallTaxi from "./Body/BodyCallTaxi";
 
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
 import LocalTaxiRoundedIcon from "@mui/icons-material/LocalTaxiRounded";
 

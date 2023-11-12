@@ -1,27 +1,27 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import useAccountFromChats from "hooks/chat/useAccountFromChats";
-import { useEvent2023FallQuestComplete } from "hooks/event/useEvent2023FallQuestComplete";
-import { useValueRecoilState } from "hooks/useFetchRecoilState";
-import { useAxios } from "hooks/useTaxiAPI";
+import useAccountFromChats from "@/hooks/chat/useAccountFromChats";
+import { useEvent2023FallQuestComplete } from "@/hooks/event/useEvent2023FallQuestComplete";
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import { useAxios } from "@/hooks/useTaxiAPI";
 
-import Button from "components/Button";
-import ButtonShare from "components/Button/ButtonShare";
-import DottedLine from "components/DottedLine";
-import LinkCopy from "components/Link/LinkCopy";
-import LinkPayment from "components/Link/LinkPayment";
-import Modal from "components/Modal";
+import Button from "@/components/Button";
+import ButtonShare from "@/components/Button/ButtonShare";
+import DottedLine from "@/components/DottedLine";
+import LinkCopy from "@/components/Link/LinkCopy";
+import LinkPayment from "@/components/Link/LinkPayment";
+import Modal from "@/components/Modal";
 
-import alertAtom from "atoms/alert";
+import alertAtom from "@/atoms/alert";
 import { useSetRecoilState } from "recoil";
 
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
+import { ReactComponent as KakaoPayLogo } from "@/static/assets/serviceLogos/KakaoPayLogo.svg";
+import { ReactComponent as TossLogo } from "@/static/assets/serviceLogos/TossLogo.svg";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import LocalAtmRoundedIcon from "@mui/icons-material/LocalAtmRounded";
-import { ReactComponent as KakaoPayLogo } from "static/assets/serviceLogos/KakaoPayLogo.svg";
-import { ReactComponent as TossLogo } from "static/assets/serviceLogos/TossLogo.svg";
 
 type ModalChatPaymentProps = Omit<
   Parameters<typeof Modal>[0],

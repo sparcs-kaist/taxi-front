@@ -1,6 +1,6 @@
-import HeaderBar from "components/Header/HeaderBar";
+import HeaderBar from "@/components/Header/HeaderBar";
 
-import { deviceType } from "tools/loadenv";
+import { deviceType } from "@/tools/loadenv";
 
 type ContainerProps = {
   layoutType: "sidechat" | "fullchat";

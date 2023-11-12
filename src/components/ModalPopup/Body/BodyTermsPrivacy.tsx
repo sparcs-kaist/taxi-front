@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
 const BodyTermsPrivacy = () => {
   const styleBox = {

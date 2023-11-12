@@ -3,22 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@babel/preset-react": "7.12.5",
-    "@craco/craco": "^6.4.3",
-    "@emotion/babel-plugin": "^11.10.6",
     "@emotion/css": "^11.10.6",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
-    "@material-ui/icons": "^4.11.2",
     "@mui/icons-material": "^5.14.1",
     "@mui/material": "^5.4.1",
-    "@svgr/webpack": "5.5.0",
     "antd": "^5.4.6",
     "axios": "^0.21.1",
     "browser-image-compression": "^2.0.0",
-    "cross-env": "^7.0.3",
     "dayjs": "^1.11.7",
-    "dotenv": "^16.0.0",
     "firebase": "^9.15.0",
     "heic2any": "^0.0.4",
     "i18next": "^22.0.2",
@@ -39,10 +32,12 @@
     "use-state-with-callback": "^3.0.2"
   },
   "scripts": {
+    "start": "vite",
+    "build": "tsc && vite build",
     "preinstall": "npx only-allow pnpm",
-    "start": "craco start",
-    "build": "cross-env GENERATE_SOURCEMAP=false craco build",
-    "test": "cypress open"
+    "test": "cypress open",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "eslintConfig": {
     "extends": [
@@ -63,8 +58,15 @@
     ]
   },
   "devDependencies": {
+    "@storybook/addon-essentials": "^7.5.2",
+    "@storybook/addon-interactions": "^7.5.2",
+    "@storybook/addon-links": "^7.5.2",
+    "@storybook/addon-onboarding": "^1.0.8",
+    "@storybook/blocks": "^7.5.2",
+    "@storybook/react": "^7.5.2",
+    "@storybook/react-vite": "^7.5.2",
+    "@storybook/testing-library": "^0.2.2",
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
-    "@types/craco__craco": "^6.4.0",
     "@types/eslint": "^8.44.0",
     "@types/eslint-config-prettier": "^6.11.0",
     "@types/prop-types": "^15.7.5",
@@ -74,6 +76,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@typescript-eslint/eslint-plugin": "^5.37.0",
     "@typescript-eslint/parser": "^5.37.0",
+    "@vitejs/plugin-react-swc": "^3.4.1",
     "cypress": "^10.3.1",
     "cypress-react-selector": "^3.0.0",
     "eslint": "^7.32.0",
@@ -84,7 +87,11 @@
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "typescript": "^5.1.6"
+    "eslint-plugin-storybook": "^0.6.15",
+    "storybook": "^7.5.2",
+    "typescript": "^5.1.6",
+    "vite": "^4.5.0",
+    "vite-plugin-svgr": "^3.2.0"
   },
   "resolutions": {
     "@types/react": "^17.0.2",

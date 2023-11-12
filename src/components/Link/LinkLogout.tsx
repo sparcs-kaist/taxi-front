@@ -1,8 +1,8 @@
 import { useCallback, useRef } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 
-import { deviceType } from "tools/loadenv";
-import { sendAuthLogoutEventToFlutter } from "tools/sendEventToFlutter";
+import { deviceType } from "@/tools/loadenv";
+import { sendAuthLogoutEventToFlutter } from "@/tools/sendEventToFlutter";
 
 type LinkLogoutProps = {
   children: React.ReactNode;

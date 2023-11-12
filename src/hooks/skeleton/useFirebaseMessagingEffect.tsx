@@ -5,10 +5,10 @@ import { useCallback, useEffect } from "react";
 import {
   useFetchRecoilState,
   useValueRecoilState,
-} from "hooks/useFetchRecoilState";
-import { useAxios } from "hooks/useTaxiAPI";
+} from "@/hooks/useFetchRecoilState";
+import { useAxios } from "@/hooks/useTaxiAPI";
 
-import { firebaseConfig } from "tools/loadenv";
+import { firebaseConfig } from "@/tools/loadenv";
 
 const firebaseApp = firebaseConfig && initializeApp(firebaseConfig);
 

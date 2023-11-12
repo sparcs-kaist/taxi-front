@@ -1,4 +1,4 @@
-import { ModalElemProps } from "components/Modal/ModalElem";
+import { ModalElemProps } from "@/components/Modal/ModalElem";
 
 import { atom } from "recoil";
 

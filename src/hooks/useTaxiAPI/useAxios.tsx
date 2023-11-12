@@ -4,10 +4,10 @@ import { useHistory, useLocation } from "react-router-dom";
 
 import axios from "./axios";
 
-import errorAtom from "atoms/error";
+import errorAtom from "@/atoms/error";
 import { useSetRecoilState } from "recoil";
 
-import dayjs, { dayNowClient, syncDayWithServer } from "tools/day";
+import dayjs, { dayNowClient, syncDayWithServer } from "@/tools/day";
 
 export type AxiosOption = {
   url: string;

@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "esnext",
-    "lib": [
-      "es5",
-      "dom"
-    ],
+    "target": "ESNext",
+    "module": "ESNext",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "baseUrl": "./src",
+    "paths": {
+      "@/*": ["./*"]
+    },
     "removeComments": true,
     "allowJs": true,
     "skipLibCheck": true,
@@ -21,13 +21,15 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "jsxImportSource": "@emotion/react"
+    "jsxImportSource": "@emotion/react",
+    "types": [ "vite-plugin-svgr/client" ]
   },
   "exclude": [
     "node_modules"
   ],
   "include": [
     "src",
-    "src/types/custom.d.ts"
-  ]
+    "src/types/custom.d.ts",
+    "vite.config.ts"
+  ],
 }

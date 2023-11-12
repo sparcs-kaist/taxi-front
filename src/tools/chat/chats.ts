@@ -4,9 +4,9 @@ import type {
   Chats,
   InfScrollCheckoutChat,
   JointCheckoutChat,
-} from "types/chat";
+} from "@/types/chat";
 
-import { randomSuggestRoomShareTextGenerator } from "tools/random";
+import { randomSuggestRoomShareTextGenerator } from "@/tools/random";
 
 export const jointCheckoutChat: JointCheckoutChat = {
   type: "joint-checkout",

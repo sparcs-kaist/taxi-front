@@ -1,26 +1,26 @@
 import { memo } from "react";
 import { Link } from "react-router-dom";
 
-import AdaptiveDiv from "components/AdaptiveDiv";
-import Button from "components/Button";
-import Footer from "components/Footer";
-import HeaderWithBackButton from "components/Header/HeaderWithBackButton";
-import LinkEvent2023FallInstagramStoryShare from "components/Link/LinkEvent2023FallInstagramStoryShare";
-import WhiteContainer from "components/WhiteContainer";
+import AdaptiveDiv from "@/components/AdaptiveDiv";
+import Button from "@/components/Button";
+import Footer from "@/components/Footer";
+import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
+import LinkEvent2023FallInstagramStoryShare from "@/components/Link/LinkEvent2023FallInstagramStoryShare";
+import WhiteContainer from "@/components/WhiteContainer";
 
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
-import { ReactComponent as TaxiLogoIcon } from "static/assets/sparcsLogos/TaxiLogo.svg";
-import { ReactComponent as MainSection1 } from "static/events/2023fallMainSection1.svg";
-import { ReactComponent as MainSection2 } from "static/events/2023fallMainSection2.svg";
-import { ReactComponent as MainSection4 } from "static/events/2023fallMainSection4.svg";
-import { ReactComponent as MainSection5 } from "static/events/2023fallMainSection5.svg";
-import { ReactComponent as MainSection5Background } from "static/events/2023fallMainSection5Background.svg";
-import { ReactComponent as MainSection6 } from "static/events/2023fallMainSection6.svg";
-import { ReactComponent as MainStep2 } from "static/events/2023fallMainStep2.svg";
-import { ReactComponent as MainStep3 } from "static/events/2023fallMainStep3.svg";
-import { ReactComponent as MainTitle } from "static/events/2023fallMainTitle.svg";
-import { ReactComponent as MissionCompleteIcon } from "static/events/2023fallMissionComplete.svg";
+import { ReactComponent as TaxiLogoIcon } from "@/static/assets/sparcsLogos/TaxiLogo.svg";
+import { ReactComponent as MainSection1 } from "@/static/events/2023fallMainSection1.svg";
+import { ReactComponent as MainSection2 } from "@/static/events/2023fallMainSection2.svg";
+import { ReactComponent as MainSection4 } from "@/static/events/2023fallMainSection4.svg";
+import { ReactComponent as MainSection5 } from "@/static/events/2023fallMainSection5.svg";
+import { ReactComponent as MainSection5Background } from "@/static/events/2023fallMainSection5Background.svg";
+import { ReactComponent as MainSection6 } from "@/static/events/2023fallMainSection6.svg";
+import { ReactComponent as MainStep2 } from "@/static/events/2023fallMainStep2.svg";
+import { ReactComponent as MainStep3 } from "@/static/events/2023fallMainStep3.svg";
+import { ReactComponent as MainTitle } from "@/static/events/2023fallMainTitle.svg";
+import { ReactComponent as MissionCompleteIcon } from "@/static/events/2023fallMissionComplete.svg";
 
 const Event2023Fall = () => {
   return (

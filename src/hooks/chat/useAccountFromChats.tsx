@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import type { Chats } from "types/chat";
+import type { Chats } from "@/types/chat";
 
 export default (chats: Chats): Nullable<string> => {
   return useMemo(() => {

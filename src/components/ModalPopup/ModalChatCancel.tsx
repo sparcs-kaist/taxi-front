@@ -1,16 +1,16 @@
 import { useCallback } from "react";
 import { useHistory } from "react-router-dom";
 
-import { useFetchRecoilState } from "hooks/useFetchRecoilState";
-import { useAxios } from "hooks/useTaxiAPI";
+import { useFetchRecoilState } from "@/hooks/useFetchRecoilState";
+import { useAxios } from "@/hooks/useTaxiAPI";
 
-import Button from "components/Button";
-import Modal from "components/Modal";
+import Button from "@/components/Button";
+import Modal from "@/components/Modal";
 
-import alertAtom from "atoms/alert";
+import alertAtom from "@/atoms/alert";
 import { useSetRecoilState } from "recoil";
 
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
 type ModalChatCancelProps = Omit<
   Parameters<typeof Modal>[0],

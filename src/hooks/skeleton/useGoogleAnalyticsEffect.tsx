@@ -2,10 +2,10 @@ import { useEffect, useRef } from "react";
 import reactGA from "react-ga4";
 import { useLocation } from "react-router-dom";
 
-import loginInfoAtom from "atoms/loginInfo";
+import loginInfoAtom from "@/atoms/loginInfo";
 import { useRecoilValue } from "recoil";
 
-import { gaTrackingId, nodeEnv } from "tools/loadenv";
+import { gaTrackingId, isDev } from "@/tools/loadenv";
 
 export default () => {
   const gaInitialized = useRef(false);
@@ -22,7 +22,7 @@ export default () => {
       if (!gaInitialized.current) {
         gaInitialized.current = true;
         reactGA.initialize(gaTrackingId, {
-          testMode: nodeEnv === "development",
+          testMode: isDev,
         });
       }
       reactGA.send({ hitType: "pageview", page: pathname });

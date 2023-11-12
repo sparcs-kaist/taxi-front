@@ -1,4 +1,4 @@
-import { Members } from "types/members";
+import { Members } from "@/types/members";
 
 /**
  * TAXI-SPARCS Taxi Members 활동 학기 인정 기준

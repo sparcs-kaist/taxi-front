@@ -3,15 +3,15 @@ import { toast as _toast } from "react-toastify";
 import type { ToastContentProps } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import type { InAppNotification } from "types/inAppNotification";
+import type { InAppNotification } from "@/types/inAppNotification";
 
-import AdaptiveDiv from "components/AdaptiveDiv";
-import Button from "components/Button";
+import AdaptiveDiv from "@/components/AdaptiveDiv";
+import Button from "@/components/Button";
 
 import "./index.css";
 
-// import { sendPopupInAppNotificationEventToFlutter } from "tools/sendEventToFlutter";
-import theme from "tools/theme";
+// import { sendPopupInAppNotificationEventToFlutter } from "@/tools/sendEventToFlutter";
+import theme from "@/tools/theme";
 
 let isToastInitialized = false;
 
