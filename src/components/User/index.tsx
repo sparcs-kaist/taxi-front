@@ -1,6 +1,6 @@
-import theme from "@/tools/theme";
-
 import ProfileImage from "./ProfileImage";
+
+import theme from "@/tools/theme";
 
 type UserProps = { value: User; isDeparted?: boolean };
 

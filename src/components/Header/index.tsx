@@ -1,5 +1,6 @@
-import theme from "@/tools/theme";
 import { HTMLProps, ReactNode, memo, useEffect, useRef, useState } from "react";
+
+import theme from "@/tools/theme";
 
 type HeaderProps = {
   children?: ReactNode;

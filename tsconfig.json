@@ -29,7 +29,7 @@
   ],
   "include": [
     "src",
-    "src/types/custom.d.ts"
+    "src/types/custom.d.ts",
+    "vite.config.ts"
   ],
-  "references": [{ "path": "./tsconfig.node.json" }]
 }

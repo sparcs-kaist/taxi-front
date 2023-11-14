@@ -1,6 +1,8 @@
-import useHoverProps from "@/hooks/theme/useHoverProps";
-import theme from "@/tools/theme";
 import { ReactNode } from "react";
+
+import useHoverProps from "@/hooks/theme/useHoverProps";
+
+import theme from "@/tools/theme";
 
 type ButtonProps = {
   children: ReactNode;

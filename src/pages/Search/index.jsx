@@ -1,4 +1,11 @@
-import errorAtom from "@/atoms/error";
+import qs from "qs";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useCookies } from "react-cookie";
+import { useHistory, useLocation } from "react-router-dom";
+
+import useButterflyState from "@/hooks/useButterflyState";
+import { useAxios } from "@/hooks/useTaxiAPI";
+
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
 import {
@@ -11,21 +18,17 @@ import {
 import ScrollUpButton from "@/components/ScrollUpButton";
 import Title from "@/components/Title";
 import Tooltip from "@/components/Tooltip";
-import useButterflyState from "@/hooks/useButterflyState";
-import { useAxios } from "@/hooks/useTaxiAPI";
-import moment, { getToday, getToday10 } from "@/tools/moment";
-import regExpTest from "@/tools/regExpTest";
-import theme from "@/tools/theme";
-import qs from "qs";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useCookies } from "react-cookie";
-import { useHistory, useLocation } from "react-router-dom";
 
 import SelectSearchOptions from "./SelectSearchOptions";
 import SideResult from "./SideResult";
 import { isValidQuery } from "./utils";
 
+import errorAtom from "@/atoms/error";
 import { useSetRecoilState } from "recoil";
+
+import moment, { getToday, getToday10 } from "@/tools/moment";
+import regExpTest from "@/tools/regExpTest";
+import theme from "@/tools/theme";
 
 const Search = () => {
   const axios = useAxios();

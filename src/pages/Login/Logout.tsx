@@ -1,8 +1,9 @@
-import errorAtom from "@/atoms/error";
-import { useQuery } from "@/hooks/useTaxiAPI";
 import { useEffect, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 
+import { useQuery } from "@/hooks/useTaxiAPI";
+
+import errorAtom from "@/atoms/error";
 import { useSetRecoilState } from "recoil";
 
 const Logout = () => {

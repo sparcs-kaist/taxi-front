@@ -1,8 +1,9 @@
 import useSendMessage from "@/hooks/chat/useSendMessage";
-import theme from "@/tools/theme";
 
 import BodyImage from "./BodyImage";
 import BodyText from "./BodyText";
+
+import theme from "@/tools/theme";
 
 type InputTextProps = {
   uploadedImage?: Nullable<File>;

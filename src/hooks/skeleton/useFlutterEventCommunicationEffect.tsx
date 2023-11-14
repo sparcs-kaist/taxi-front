@@ -1,17 +1,20 @@
-import alertAtom from "@/atoms/alert";
-import errorAtom from "@/atoms/error";
-import { LoginInfoType } from "@/atoms/loginInfo";
+import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+
+import { InAppNotification } from "@/types/inAppNotification";
+
 import {
   useFetchRecoilState,
   useValueRecoilState,
 } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
-import { isNotificationOn } from "@/tools/trans";
-import { InAppNotification } from "@/types/inAppNotification";
-import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 
+import alertAtom from "@/atoms/alert";
+import errorAtom from "@/atoms/error";
+import { LoginInfoType } from "@/atoms/loginInfo";
 import { useSetRecoilState } from "recoil";
+
+import { isNotificationOn } from "@/tools/trans";
 
 /** flag variable to check if the webview is in Flutter */
 let isWebViewInFlutter: boolean = false;

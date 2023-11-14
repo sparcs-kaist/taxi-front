@@ -1,7 +1,6 @@
-import errorAtom from "@/atoms/error";
-import HeaderBar from "@/components/Header/HeaderBar";
-import Loading from "@/components/Loading";
-import { ModalTerms } from "@/components/ModalPopup";
+import { ReactNode, useMemo } from "react";
+import { useLocation } from "react-router-dom";
+
 import { useEventEffect } from "@/hooks/event/useEventEffect";
 import useCSSVariablesEffect from "@/hooks/skeleton/useCSSVariablesEffect";
 import useChannelTalkEffect from "@/hooks/skeleton/useChannelTalkEffect";
@@ -15,15 +14,19 @@ import {
   useSyncRecoilStateEffect,
   useValueRecoilState,
 } from "@/hooks/useFetchRecoilState";
+
+import HeaderBar from "@/components/Header/HeaderBar";
+import Loading from "@/components/Loading";
+import { ModalTerms } from "@/components/ModalPopup";
 import Error from "@/pages/Error";
-import { deviceType } from "@/tools/loadenv";
-import { ReactNode, useMemo } from "react";
-import { useLocation } from "react-router-dom";
 
 import Navigation from "./Navigation";
 import SuggestAppTopBar from "./SuggestAppTopBar";
 
+import errorAtom from "@/atoms/error";
 import { useRecoilValue } from "recoil";
+
+import { deviceType } from "@/tools/loadenv";
 
 type ContainerProps = {
   children: ReactNode;

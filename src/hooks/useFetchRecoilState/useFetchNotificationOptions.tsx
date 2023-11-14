@@ -1,10 +1,11 @@
-import notificationOptionsAtom from "@/atoms/notificationOptions";
+import { useCallback } from "react";
+
 import { useAxios } from "@/hooks/useTaxiAPI";
 import { AxiosOption } from "@/hooks/useTaxiAPI/useAxios";
-import { useCallback } from "react";
 
 import { useValueRecoilState } from ".";
 
+import notificationOptionsAtom from "@/atoms/notificationOptions";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 export const useValueNotificationOptions = () =>

@@ -1,6 +1,6 @@
-import errorAtom from "@/atoms/error";
 import { useEffect } from "react";
 
+import errorAtom from "@/atoms/error";
 import { useSetRecoilState } from "recoil";
 
 const PageNotFound = () => {
