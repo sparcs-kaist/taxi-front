@@ -14,7 +14,6 @@ import Title from "@/components/Title";
 import ProfileImage from "@/components/User/ProfileImage";
 import WhiteContainer from "@/components/WhiteContainer";
 import WhiteContainerSuggestLogin from "@/components/WhiteContainer/WhiteContainerSuggestLogin";
-import useDateToken from "@/hooks/useDateToken";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import { eventMode, nodeEnv } from "@/tools/loadenv";
 import theme from "@/tools/theme";
@@ -26,7 +25,6 @@ import Menu from "./Menu";
 
 const Mypage = () => {
   const { t, i18n } = useTranslation("mypage");
-  const [profImgToken, refreshProfImgToken] = useDateToken();
   const loginInfo = useValueRecoilState("loginInfo");
   const notificationOptions = useValueRecoilState("notificationOptions");
   const { id: userId } = loginInfo || {};
@@ -99,10 +97,7 @@ const Mypage = () => {
             <div css={{ display: "flex", alignItems: "center" }}>
               <div css={styleProfImg}>
                 {loginInfo?.profileImgUrl && (
-                  <ProfileImage
-                    url={loginInfo.profileImgUrl}
-                    token={profImgToken}
-                  />
+                  <ProfileImage url={loginInfo.profileImgUrl} />
                 )}
               </div>
               <div css={theme.font16_bold} className="selectable">
@@ -152,8 +147,6 @@ const Mypage = () => {
           <ModalMypageModify
             isOpen={isOpenProfileModify}
             onChangeIsOpen={setIsOpenProfileModify}
-            onUpdate={refreshProfImgToken}
-            // profToken={profImgToken}
           />
           <ModalReport isOpen={isOpenReport} onChangeIsOpen={setIsOpenReport} />
           <ModalNotification
