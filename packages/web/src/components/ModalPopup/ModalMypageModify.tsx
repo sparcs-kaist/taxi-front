@@ -70,13 +70,8 @@ const ButtonProfileImage = () => {
           type: image.type,
         },
       });
-      if (data.url && data.fields) {
-        const formData = new FormData();
-        for (const key in data.fields) {
-          formData.append(key, data.fields[key]);
-        }
-        formData.append("file", image);
-        const res = await axiosOri.post(data.url, formData);
+      if (data.url) {
+        const res = await axiosOri.put(data.url, image);
         if (res.status === 204) {
           const data2 = await axios({
             url: "/users/editProfileImg/done",
