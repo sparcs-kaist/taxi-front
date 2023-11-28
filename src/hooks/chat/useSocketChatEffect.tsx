@@ -71,8 +71,7 @@ export default (
         },
         pushBackListener: (chats: Array<Chat>) => {
           chats = chats.filter((chat) => chat.roomId === roomId);
-          fetchRoomInfo();
-          console.log(roomInfo?.part);
+
           if (isExpired || chats.length <= 0) return;
 
           const isMyMessage = chats.some((chat) => chat.authorId === userOid);
@@ -106,7 +105,6 @@ export default (
         },
         pushFrontListener: (chats: Array<Chat>) => {
           if (isExpired) return;
-          fetchRoomInfo();
           if (chats.length === 0) {
             setChats(
               (prevChats: Chats) => {
@@ -134,6 +132,10 @@ export default (
               () => {}
             );
           }
+        },
+        updateListener: (_roomId: string) => {
+          if (roomId !== _roomId) return;
+          fetchRoomInfo();
         },
       });
 

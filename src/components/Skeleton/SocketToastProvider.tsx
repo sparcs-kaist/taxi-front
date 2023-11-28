@@ -11,6 +11,7 @@ import {
 import { ioServer } from "tools/loadenv";
 
 export type SocketChatEventListner = (chats: Array<Chat>) => void;
+export type SocketUpdateEventListner = (roomId: string) => void;
 export type SocketVoidEventListner = () => void;
 
 let isSocketReady: boolean = false;
@@ -20,6 +21,7 @@ let initEventListener: Nullable<SocketChatEventListner> = null;
 let reconnectEventListener: Nullable<SocketVoidEventListner> = null;
 let pushBackEventListener: Nullable<SocketChatEventListner> = null;
 let pushFrontEventListener: Nullable<SocketChatEventListner> = null;
+let updateEventListener: Nullable<SocketUpdateEventListner> = null;
 
 const SocketToastProvider = () => {
   const { id: userId } = useValueRecoilState("loginInfo") || {};
@@ -57,6 +59,9 @@ const SocketToastProvider = () => {
     socket.on("chat_push_front", ({ chats }) => {
       if (pushFrontEventListener) pushFrontEventListener(chats);
     });
+    socket.on("chat_update", ({ roomId }) => {
+      if (updateEventListener) updateEventListener(roomId);
+    });
 
     return () => {
       socket.disconnect();
@@ -72,16 +77,19 @@ const registerSocketEventListener = ({
   reconnectListener,
   pushBackListener,
   pushFrontListener,
+  updateListener,
 }: {
   initListener?: SocketChatEventListner;
   reconnectListener?: SocketVoidEventListner;
   pushBackListener?: SocketChatEventListner;
   pushFrontListener?: SocketChatEventListner;
+  updateListener?: SocketUpdateEventListner;
 }) => {
   initEventListener = initListener;
   reconnectEventListener = reconnectListener;
   pushBackEventListener = pushBackListener;
   pushFrontEventListener = pushFrontListener;
+  updateEventListener = updateListener;
 };
 
 // socket event listener 해제
@@ -90,6 +98,7 @@ const resetSocketEventListener = () => {
   reconnectEventListener = null;
   pushBackEventListener = null;
   pushFrontEventListener = null;
+  updateEventListener = null;
 };
 
 // socket이 연결된 이후 event 함수를 실행합니다.

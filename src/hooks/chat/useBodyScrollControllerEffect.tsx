@@ -45,6 +45,16 @@ export default (
   }, [chats]);
 
   useEffect(() => {
+    socketReady(() =>
+      axios({
+        url: "/chats/read",
+        method: "post",
+        data: { roomId },
+      })
+    );
+  }, [chats.length]);
+
+  useEffect(() => {
     const chatBody = chatBodyRef?.current;
     let isBottomOnScrollCache: boolean = true;
 
@@ -77,13 +87,6 @@ export default (
       if (isBottomOnScroll(chatBody)) {
         setDisplayNewMessage(false);
         isBottomOnScrollCache = true;
-        // scroll이 가장 아래일 때, read api call
-        console.log("bottom scroll");
-        axios({
-          url: "/chats/read",
-          method: "post",
-          data: { roomId },
-        });
       } else {
         setIsOpenToolSheet(false);
         isBottomOnScrollCache = false;
