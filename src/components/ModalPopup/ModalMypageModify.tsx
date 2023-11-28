@@ -26,13 +26,9 @@ import theme from "@/tools/theme";
 type ModalMypageModifyProps = Omit<
   Parameters<typeof Modal>[0],
   "padding" | "children" | "onEnter"
-> & { profToken?: string; onUpdate?: () => void };
+>;
 
 type ProfileImageLargeProps = Parameters<typeof ProfileImage>[0];
-
-type ButtonProfileImageProps = {
-  onUpdate?: ModalMypageModifyProps["onUpdate"];
-};
 
 const ProfileImageLarge = (props: ProfileImageLargeProps) => (
   <div
@@ -48,7 +44,7 @@ const ProfileImageLarge = (props: ProfileImageLargeProps) => (
   </div>
 );
 
-const ButtonProfileImage = ({ onUpdate }: ButtonProfileImageProps) => {
+const ButtonProfileImage = () => {
   const { t } = useTranslation("mypage");
   const axios = useAxios();
 
@@ -88,7 +84,6 @@ const ButtonProfileImage = ({ onUpdate }: ButtonProfileImageProps) => {
           });
           if (data2?.result) {
             fetchLoginInfo();
-            onUpdate?.();
             setProfileAlert("SUCCESS");
             return;
           }
@@ -98,7 +93,7 @@ const ButtonProfileImage = ({ onUpdate }: ButtonProfileImageProps) => {
     } catch (e) {
       setProfileAlert("FAIL");
     }
-  }, [onUpdate]);
+  }, []);
 
   const onClick = useCallback(() => {
     if (!profileAlert) inputRef.current?.click();
@@ -140,11 +135,7 @@ const ButtonProfileImage = ({ onUpdate }: ButtonProfileImageProps) => {
   );
 };
 
-const ModalMypageModify = ({
-  profToken,
-  onUpdate,
-  ...modalProps
-}: ModalMypageModifyProps) => {
+const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
   const { t } = useTranslation("mypage");
   const axios = useAxios();
 
@@ -227,9 +218,9 @@ const ModalMypageModify = ({
     <Modal padding="32px 10px 10px" onEnter={handleEditProfile} {...modalProps}>
       <div css={styleName}>{loginInfo?.name}</div>
       {loginInfo?.profileImgUrl && (
-        <ProfileImageLarge url={loginInfo?.profileImgUrl} token={profToken} />
+        <ProfileImageLarge url={loginInfo?.profileImgUrl} />
       )}
-      <ButtonProfileImage onUpdate={onUpdate} />
+      <ButtonProfileImage />
       <DottedLine direction="row" margin="0 2px" />
       <div css={{ rowGap: "10px", padding: "0px 20px" }}>
         <div css={{ ...styleTitle, marginTop: "24px" }}>

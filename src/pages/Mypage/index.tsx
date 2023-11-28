@@ -1,7 +1,6 @@
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import useDateToken from "@/hooks/useDateToken";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
@@ -29,7 +28,6 @@ import { isNotificationOn } from "@/tools/trans";
 
 const Mypage = () => {
   const { t, i18n } = useTranslation("mypage");
-  const [profImgToken, refreshProfImgToken] = useDateToken();
   const loginInfo = useValueRecoilState("loginInfo");
   const notificationOptions = useValueRecoilState("notificationOptions");
   const { id: userId } = loginInfo || {};
@@ -102,10 +100,7 @@ const Mypage = () => {
             <div css={{ display: "flex", alignItems: "center" }}>
               <div css={styleProfImg}>
                 {loginInfo?.profileImgUrl && (
-                  <ProfileImage
-                    url={loginInfo.profileImgUrl}
-                    token={profImgToken}
-                  />
+                  <ProfileImage url={loginInfo.profileImgUrl} />
                 )}
               </div>
               <div css={theme.font16_bold} className="selectable">
@@ -155,8 +150,6 @@ const Mypage = () => {
           <ModalMypageModify
             isOpen={isOpenProfileModify}
             onChangeIsOpen={setIsOpenProfileModify}
-            onUpdate={refreshProfImgToken}
-            profToken={profImgToken}
           />
           <ModalReport isOpen={isOpenReport} onChangeIsOpen={setIsOpenReport} />
           <ModalNotification
