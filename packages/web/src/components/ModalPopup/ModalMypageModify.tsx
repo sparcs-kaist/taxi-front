@@ -71,8 +71,15 @@ const ButtonProfileImage = () => {
         },
       });
       if (data.url) {
-        const res = await axiosOri.put(data.url, image);
-        if (res.status === 204) {
+        const res = await axiosOri({
+          url: data.url,
+          method: "put",
+          headers: {
+            "Content-Type": image.type,
+          },
+          data: image,
+        });
+        if (res.status === 200) {
           const data2 = await axios({
             url: "/users/editProfileImg/done",
             method: "get",
