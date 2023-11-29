@@ -44,6 +44,7 @@ export default (
     chatBodyRef.current.scrollTop = scrollTop;
   }, [chats]);
 
+  const lastChat = chats.length > 0 ? chats[chats.length - 1] : {};
   useEffect(() => {
     socketReady(() =>
       axios({
@@ -52,7 +53,7 @@ export default (
         data: { roomId },
       })
     );
-  }, [chats.length]);
+  }, ["time" in lastChat ? lastChat?.time : ""]);
 
   useEffect(() => {
     const chatBody = chatBodyRef?.current;

@@ -134,7 +134,7 @@ export default (
           }
         },
         updateListener: (_roomId: string) => {
-          if (roomId !== _roomId) return;
+          if (isExpired || roomId !== _roomId) return;
           fetchRoomInfo();
         },
       });
@@ -150,5 +150,5 @@ export default (
       isExpired = true;
       resetSocketEventListener();
     };
-  }, [roomInfo, setChats, setDisplayNewMessage]);
+  }, [roomInfo?._id, setChats, setDisplayNewMessage]);
 };
