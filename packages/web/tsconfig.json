@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": [
+    "src",
+    "src/types/custom.d.ts",
+    "vite.config.ts"
+  ],
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["packages/web/src/*"],
+      "@taxi/*": ["packages/*/src"]
+    }
+  }
+}
