@@ -1,20 +1,19 @@
 import { useEffect, useState } from "react";
 
 import theme from "@/tools/theme";
-import { getS3Url } from "@/tools/trans";
 
 import defaultImg from "@/static/assets/profileImgOnError.png";
 
 type ProfileImageProps = {
   url: string;
-  token?: string;
 };
 
-const ProfileImage = ({ url, token }: ProfileImageProps) => {
-  const getSrc = () => getS3Url(`/profile-img/${url}?token=${token || ""}`);
-  const [src, setSrc] = useState(getSrc());
+const ProfileImage = ({ url }: ProfileImageProps) => {
+  const [src, setSrc] = useState(url);
 
-  useEffect(() => setSrc(getSrc()), [url, token]);
+  useEffect(() => {
+    setSrc(url);
+  }, [url]);
 
   return (
     <div
