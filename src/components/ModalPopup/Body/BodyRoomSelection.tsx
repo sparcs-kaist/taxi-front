@@ -6,24 +6,24 @@ import {
   useFetchRecoilState,
   useIsLogin,
   useValueRecoilState,
-} from "hooks/useFetchRecoilState";
-import useIsTimeOver from "hooks/useIsTimeOver";
-import { useAxios } from "hooks/useTaxiAPI";
+} from "@/hooks/useFetchRecoilState";
+import useIsTimeOver from "@/hooks/useIsTimeOver";
+import { useAxios } from "@/hooks/useTaxiAPI";
 
-import Button from "components/Button";
-import DottedLine from "components/DottedLine";
-import LinkLogin from "components/Link/LinkLogin";
-import MiniCircle from "components/MiniCircle";
-import Users from "components/User/Users";
-import { MAX_PARTICIPATION } from "pages/Myroom";
+import Button from "@/components/Button";
+import DottedLine from "@/components/DottedLine";
+import LinkLogin from "@/components/Link/LinkLogin";
+import MiniCircle from "@/components/MiniCircle";
+import Users from "@/components/User/Users";
+import { MAX_PARTICIPATION } from "@/pages/Myroom";
 
-import alertAtom from "atoms/alert";
+import alertAtom from "@/atoms/alert";
 import { useSetRecoilState } from "recoil";
 
-import { dayServerToClient } from "tools/day";
-import { date2str } from "tools/moment";
-import theme from "tools/theme";
-import { getLocationName } from "tools/trans";
+import { dayServerToClient } from "@/tools/day";
+import { date2str } from "@/tools/moment";
+import theme from "@/tools/theme";
+import { getLocationName } from "@/tools/trans";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 

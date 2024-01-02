@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
-import theme from "tools/theme";
-import { getS3Url } from "tools/trans";
+import theme from "@/tools/theme";
+import { getS3Url } from "@/tools/trans";
 
-import defaultImg from "static/assets/profileImgOnError.png";
+import defaultImg from "@/static/assets/profileImgOnError.png";
 
 type ProfileImageProps = {
   url: string;

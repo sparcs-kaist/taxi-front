@@ -1,23 +1,23 @@
 import { MutableRefObject, RefObject, useEffect } from "react";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 
-import type { Chat, Chats } from "types/chat";
+import type { Chat, Chats } from "@/types/chat";
 
-import { useValueRecoilState } from "hooks/useFetchRecoilState";
-import { useAxios } from "hooks/useTaxiAPI";
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import { useAxios } from "@/hooks/useTaxiAPI";
 
 import {
   createInfScrollCheckoutChat,
   createShareChat,
   getCleanupChats,
   jointCheckoutChat,
-} from "tools/chat/chats";
-import { isBottomOnScroll, scrollToBottom } from "tools/chat/scroll";
+} from "@/tools/chat/chats";
+import { isBottomOnScroll, scrollToBottom } from "@/tools/chat/scroll";
 import {
   registerSocketEventListener,
   resetSocketEventListener,
   socketReady,
-} from "tools/socket";
+} from "@/tools/socket";
 
 export default (
   roomInfo: Nullable<Room>,

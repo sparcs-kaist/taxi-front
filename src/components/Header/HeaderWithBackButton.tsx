@@ -1,11 +1,11 @@
 import { ReactNode } from "react";
 import { useHistory } from "react-router-dom";
 
-import AdaptiveDiv from "components/AdaptiveDiv";
+import AdaptiveDiv from "@/components/AdaptiveDiv";
 
 import Header from ".";
 
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 

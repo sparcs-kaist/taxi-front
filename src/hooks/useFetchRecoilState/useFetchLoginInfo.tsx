@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 
-import { useAxios } from "hooks/useTaxiAPI";
-import { AxiosOption } from "hooks/useTaxiAPI/useAxios";
+import { useAxios } from "@/hooks/useTaxiAPI";
+import { AxiosOption } from "@/hooks/useTaxiAPI/useAxios";
 
-import loginInfoAtom from "atoms/loginInfo";
+import loginInfoAtom from "@/atoms/loginInfo";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 export const useValueLoginInfo = () => useRecoilValue(loginInfoAtom);

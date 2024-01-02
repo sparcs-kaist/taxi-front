@@ -1,4 +1,4 @@
-import { Members } from "types/members";
+import { Members } from "@/types/members";
 
 /**
  * TAXI-SPARCS Taxi 2023 가을학기 / 한가위 송편이벤트 기여자

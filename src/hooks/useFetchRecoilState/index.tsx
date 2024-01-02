@@ -26,11 +26,11 @@ import {
   useValueTaxiLocations,
 } from "./useFetchTaxiLocations";
 
-import { Event2023FallInfoType } from "atoms/event2023FallInfo";
-import { LoginInfoType } from "atoms/loginInfo";
-import { MyRoomsType } from "atoms/myRooms";
-import { notificationOptionsType } from "atoms/notificationOptions";
-import { TaxiLocationsType } from "atoms/taxiLocations";
+import { Event2023FallInfoType } from "@/atoms/event2023FallInfo";
+import { LoginInfoType } from "@/atoms/loginInfo";
+import { MyRoomsType } from "@/atoms/myRooms";
+import { notificationOptionsType } from "@/atoms/notificationOptions";
+import { TaxiLocationsType } from "@/atoms/taxiLocations";
 
 export type AtomName =
   | "loginInfo"

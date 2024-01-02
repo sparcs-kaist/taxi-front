@@ -1,18 +1,18 @@
 import { ReactNode, useMemo } from "react";
 
-import type { BotChat, Chats, LayoutType, UserChat } from "types/chat";
+import type { BotChat, Chats, LayoutType, UserChat } from "@/types/chat";
 
-import { useValueRecoilState } from "hooks/useFetchRecoilState";
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
-import MessageDate from "components/Chat/MessagesBody/MessageDate";
-import MessageInOut from "components/Chat/MessagesBody/MessageInOut";
-import MessageInfScroll from "components/Chat/MessagesBody/MessageInfScroll";
-import MessageJoint from "components/Chat/MessagesBody/MessageJoint";
-import MessageSet from "components/Chat/MessagesBody/MessageSet";
+import MessageDate from "@/components/Chat/MessagesBody/MessageDate";
+import MessageInOut from "@/components/Chat/MessagesBody/MessageInOut";
+import MessageInfScroll from "@/components/Chat/MessagesBody/MessageInfScroll";
+import MessageJoint from "@/components/Chat/MessagesBody/MessageJoint";
+import MessageSet from "@/components/Chat/MessagesBody/MessageSet";
 
-import { getChatUniquewKey } from "tools/chat/chats";
-import dayjs from "tools/day";
-import moment from "tools/moment";
+import { getChatUniquewKey } from "@/tools/chat/chats";
+import dayjs from "@/tools/day";
+import moment from "@/tools/moment";
 
 export default (_chats: Chats, layoutType: LayoutType, roomInfo: Room) => {
   const { oid: userOid } = useValueRecoilState("loginInfo") || {};

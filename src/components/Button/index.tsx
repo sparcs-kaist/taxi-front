@@ -1,8 +1,8 @@
 import { HTMLProps, ReactNode } from "react";
 
-import useHoverProps from "hooks/theme/useHoverProps";
+import useHoverProps from "@/hooks/theme/useHoverProps";
 
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
 type ButtonType = "purple" | "purple_inset" | "gray" | "white";
 

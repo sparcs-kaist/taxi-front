@@ -1,12 +1,12 @@
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import useDateToken from "hooks/useDateToken";
-import { useValueRecoilState } from "hooks/useFetchRecoilState";
+import useDateToken from "@/hooks/useDateToken";
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
-import AdaptiveDiv from "components/AdaptiveDiv";
-import Footer from "components/Footer";
-import LinkLogout from "components/Link/LinkLogout";
+import AdaptiveDiv from "@/components/AdaptiveDiv";
+import Footer from "@/components/Footer";
+import LinkLogout from "@/components/Link/LinkLogout";
 import {
   ModalCredit,
   ModalEvent2023FallJoin,
@@ -15,17 +15,17 @@ import {
   ModalPrivacyPolicy,
   ModalReport,
   ModalTerms,
-} from "components/ModalPopup";
-import Title from "components/Title";
-import ProfileImage from "components/User/ProfileImage";
-import WhiteContainer from "components/WhiteContainer";
-import WhiteContainerSuggestLogin from "components/WhiteContainer/WhiteContainerSuggestLogin";
+} from "@/components/ModalPopup";
+import Title from "@/components/Title";
+import ProfileImage from "@/components/User/ProfileImage";
+import WhiteContainer from "@/components/WhiteContainer";
+import WhiteContainerSuggestLogin from "@/components/WhiteContainer/WhiteContainerSuggestLogin";
 
 import Menu from "./Menu";
 
-import { eventMode, nodeEnv } from "tools/loadenv";
-import theme from "tools/theme";
-import { isNotificationOn } from "tools/trans";
+import { eventMode, isDev } from "@/tools/loadenv";
+import theme from "@/tools/theme";
+import { isNotificationOn } from "@/tools/trans";
 
 const Mypage = () => {
   const { t, i18n } = useTranslation("mypage");
@@ -137,7 +137,7 @@ const Mypage = () => {
           </WhiteContainer>
           <WhiteContainer>
             <div css={{ display: "grid", rowGap: "16px" }}>
-              {nodeEnv === "development" && (
+              {isDev && (
                 <Menu icon="lang" onClick={onClickTranslation}>
                   {t("translation")}
                 </Menu>

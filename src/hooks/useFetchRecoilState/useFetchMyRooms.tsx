@@ -1,11 +1,11 @@
 import { useCallback } from "react";
 
-import { useAxios } from "hooks/useTaxiAPI";
-import { AxiosOption } from "hooks/useTaxiAPI/useAxios";
+import { useAxios } from "@/hooks/useTaxiAPI";
+import { AxiosOption } from "@/hooks/useTaxiAPI/useAxios";
 
 import { useValueRecoilState } from ".";
 
-import myRoomsAtom from "atoms/myRooms";
+import myRoomsAtom from "@/atoms/myRooms";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 export const useValueMyRooms = () => useRecoilValue(myRoomsAtom);

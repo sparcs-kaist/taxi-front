@@ -9,23 +9,23 @@ import {
   useState,
 } from "react";
 
-import type { Report } from "types/report";
+import type { Report } from "@/types/report";
 
-import { useValueRecoilState } from "hooks/useFetchRecoilState";
-import useIsTimeOver from "hooks/useIsTimeOver";
-import { useAxios } from "hooks/useTaxiAPI";
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import useIsTimeOver from "@/hooks/useIsTimeOver";
+import { useAxios } from "@/hooks/useTaxiAPI";
 
-import Button from "components/Button";
-import DottedLine from "components/DottedLine";
-import Select from "components/Input/Select";
-import User from "components/User";
+import Button from "@/components/Button";
+import DottedLine from "@/components/DottedLine";
+import Select from "@/components/Input/Select";
+import User from "@/components/User";
 
-import alertAtom from "atoms/alert";
+import alertAtom from "@/atoms/alert";
 import { useSetRecoilState } from "recoil";
 
-import { dayServerToClient } from "tools/day";
-import regExpTest from "tools/regExpTest";
-import theme from "tools/theme";
+import { dayServerToClient } from "@/tools/day";
+import regExpTest from "@/tools/regExpTest";
+import theme from "@/tools/theme";
 
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 

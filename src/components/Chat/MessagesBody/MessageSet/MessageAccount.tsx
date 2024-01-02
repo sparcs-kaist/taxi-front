@@ -1,12 +1,12 @@
 import { useMemo, useState } from "react";
 
-import { useValueRecoilState } from "hooks/useFetchRecoilState";
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
-import { ModalChatPayement } from "components/ModalPopup";
+import { ModalChatPayement } from "@/components/ModalPopup";
 
 import Button from "./Button";
 
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
 import WalletRoundedIcon from "@mui/icons-material/WalletRounded";
 

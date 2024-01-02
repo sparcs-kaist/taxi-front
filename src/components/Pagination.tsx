@@ -2,7 +2,7 @@ import qs from "qs";
 import { ReactElement } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeftRounded";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRightRounded";

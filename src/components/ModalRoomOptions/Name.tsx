@@ -1,10 +1,10 @@
 import { memo } from "react";
 
-import WhiteContainer from "components/WhiteContainer";
+import WhiteContainer from "@/components/WhiteContainer";
 
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
-import EditRoundedIcon from "@material-ui/icons/EditRounded";
+import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
 type ButtonProps = {
   value: string;

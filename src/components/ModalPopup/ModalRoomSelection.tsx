@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import Modal from "components/Modal";
-import Navigation from "components/Navigation";
+import Modal from "@/components/Modal";
+import Navigation from "@/components/Navigation";
 
 import BodyRoomSelection, {
   BodyRoomSelectionProps,
 } from "./Body/BodyRoomSelection";
 import { BodyRoomShare } from "./ModalRoomShare";
 
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
 type HeightFixWrapperProps = {
   children: React.ReactNode;

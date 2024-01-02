@@ -1,10 +1,10 @@
 import { useCallback } from "react";
 
-import alertAtom from "atoms/alert";
+import alertAtom from "@/atoms/alert";
 import { useSetRecoilState } from "recoil";
 
-import { deviceType } from "tools/loadenv";
-import { sendClipboardCopyEventToFlutter } from "tools/sendEventToFlutter";
+import { deviceType } from "@/tools/loadenv";
+import { sendClipboardCopyEventToFlutter } from "@/tools/sendEventToFlutter";
 
 type LinkCopyProps = {
   children: React.ReactNode;

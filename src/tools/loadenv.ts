@@ -1,13 +1,9 @@
-import dotenv from "dotenv";
+import type { FirebaseConfig } from "@/types/env";
 
-import type { FirebaseConfig } from "types/env";
-
-dotenv.config();
-
-const env = { ...process.env, ...window["env"] };
+const env = { ...import.meta.env, ...window["env"] };
 
 // 환경변수
-export const nodeEnv = env.NODE_ENV; // automatically provided
+export const isDev = env.DEV; // automatically provided
 export const backServer = env.REACT_APP_BACK_URL; // required
 export const ioServer = env.REACT_APP_IO_URL ?? backServer; // optional (주어지지 않은 경우 REACT_APP_BACK_URL로 설정)
 export const ogServer = env.REACT_APP_OG_URL; // optional

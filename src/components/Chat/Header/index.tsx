@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
-import type { LayoutType } from "types/chat";
+import type { LayoutType } from "@/types/chat";
 
-import useButterflyState from "hooks/useButterflyState";
+import useButterflyState from "@/hooks/useButterflyState";
 
 import SideMenu from "./SideMenu";
 
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import CloseFullscreenRoundedIcon from "@mui/icons-material/CloseFullscreenRounded";

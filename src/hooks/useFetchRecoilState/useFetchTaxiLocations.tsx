@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 
-import { useAxios } from "hooks/useTaxiAPI";
-import { AxiosOption } from "hooks/useTaxiAPI/useAxios";
+import { useAxios } from "@/hooks/useTaxiAPI";
+import { AxiosOption } from "@/hooks/useTaxiAPI/useAxios";
 
-import taxiLocationsAtom from "atoms/taxiLocations";
+import taxiLocationsAtom from "@/atoms/taxiLocations";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 export const useValueTaxiLocations = () => useRecoilValue(taxiLocationsAtom);

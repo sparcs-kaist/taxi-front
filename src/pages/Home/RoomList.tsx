@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 
-import usePageFromSearchParams from "hooks/usePageFromSearchParams";
+import usePageFromSearchParams from "@/hooks/usePageFromSearchParams";
 
-import Empty from "components/Empty";
-import Pagination, { PAGE_MAX_ITEMS } from "components/Pagination";
-import Room from "components/Room";
+import Empty from "@/components/Empty";
+import Pagination, { PAGE_MAX_ITEMS } from "@/components/Pagination";
+import Room from "@/components/Room";
 
 type RoomListProps = {
   rooms: Nullable<Array<any>>;

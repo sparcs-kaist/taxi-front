@@ -3,17 +3,17 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
-import useHoverProps from "hooks/theme/useHoverProps";
+import useHoverProps from "@/hooks/theme/useHoverProps";
 
-import isVirtualKeyboardDetectedAtom from "atoms/isVirtualKeyboardDetected";
+import isVirtualKeyboardDetectedAtom from "@/atoms/isVirtualKeyboardDetected";
 import { useRecoilValue } from "recoil";
 
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
-import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 import RoofingRoundedIcon from "@mui/icons-material/RoofingRounded";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import SubjectRoundedIcon from "@mui/icons-material/SubjectRounded";
 
 type PageType = "home" | "search" | "addroom" | "myroom" | "mypage";

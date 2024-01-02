@@ -1,23 +1,23 @@
 import { Carousel } from "antd";
 
-import AdaptiveDiv from "components/AdaptiveDiv";
-import Button from "components/Button";
-import Footer from "components/Footer";
-import Title from "components/Title";
-import WhiteContainer from "components/WhiteContainer";
+import AdaptiveDiv from "@/components/AdaptiveDiv";
+import Button from "@/components/Button";
+import Footer from "@/components/Footer";
+import Title from "@/components/Title";
+import WhiteContainer from "@/components/WhiteContainer";
 
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
-import Card01 from "static/events/2023springCard01.png";
-import Card02 from "static/events/2023springCard02.png";
-import Card03 from "static/events/2023springCard03.png";
-import Card04 from "static/events/2023springCard04.png";
-import Card05 from "static/events/2023springCard05.png";
-import Card06 from "static/events/2023springCard06.png";
-import Card07 from "static/events/2023springCard07.png";
-import Card08 from "static/events/2023springCard08.png";
-import Card09 from "static/events/2023springCard09.png";
-import Card10 from "static/events/2023springCard10.png";
+import Card01 from "@/static/events/2023springCard01.png";
+import Card02 from "@/static/events/2023springCard02.png";
+import Card03 from "@/static/events/2023springCard03.png";
+import Card04 from "@/static/events/2023springCard04.png";
+import Card05 from "@/static/events/2023springCard05.png";
+import Card06 from "@/static/events/2023springCard06.png";
+import Card07 from "@/static/events/2023springCard07.png";
+import Card08 from "@/static/events/2023springCard08.png";
+import Card09 from "@/static/events/2023springCard09.png";
+import Card10 from "@/static/events/2023springCard10.png";
 
 type EventLinkProps = {
   href: string;

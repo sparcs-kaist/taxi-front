@@ -1,4 +1,4 @@
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
 import ArrowUpwardRoundedIcon from "@mui/icons-material/ArrowUpwardRounded";
 import MotionPhotosOnIcon from "@mui/icons-material/RotateLeftRounded";

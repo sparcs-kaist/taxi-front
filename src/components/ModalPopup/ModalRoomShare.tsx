@@ -1,10 +1,10 @@
-import { useEvent2023FallQuestComplete } from "hooks/event/useEvent2023FallQuestComplete";
+import { useEvent2023FallQuestComplete } from "@/hooks/event/useEvent2023FallQuestComplete";
 
-import Modal from "components/Modal";
+import Modal from "@/components/Modal";
 
 import BodyRoomShare, { BodyRoomShareProps } from "./Body/BodyRoomShare";
 
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
 import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
 

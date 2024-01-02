@@ -1,8 +1,8 @@
 import { HTMLProps, ReactNode } from "react";
 
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
-import NotInterestedIcon from "@material-ui/icons/NotInterested";
+import NotInterestedIcon from "@mui/icons-material/NotInterested";
 
 type EmptyProps = {
   type: "mobile" | "pc";

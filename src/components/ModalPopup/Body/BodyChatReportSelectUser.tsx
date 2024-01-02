@@ -1,15 +1,15 @@
 import { Dispatch, SetStateAction, useState } from "react";
 
-import type { Report } from "types/report";
+import type { Report } from "@/types/report";
 
-import useIsTimeOver from "hooks/useIsTimeOver";
+import useIsTimeOver from "@/hooks/useIsTimeOver";
 
-import Button from "components/Button";
-import DottedLine from "components/DottedLine";
-import User from "components/User";
+import Button from "@/components/Button";
+import DottedLine from "@/components/DottedLine";
+import User from "@/components/User";
 
-import { dayServerToClient } from "tools/day";
-import theme from "tools/theme";
+import { dayServerToClient } from "@/tools/day";
+import theme from "@/tools/theme";
 
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 

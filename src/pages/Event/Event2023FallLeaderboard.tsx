@@ -1,21 +1,21 @@
 import { useMemo } from "react";
 
-import { useValueRecoilState } from "hooks/useFetchRecoilState";
-import useQuery from "hooks/useTaxiAPI";
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import useQuery from "@/hooks/useTaxiAPI";
 
-import AdaptiveDiv from "components/AdaptiveDiv";
-import Empty from "components/Empty";
-import Footer from "components/Footer";
-import HeaderWithLeftNav from "components/Header/HeaderWithLeftNav";
-import Title from "components/Title";
-import ProfileImage from "components/User/ProfileImage";
-import WhiteContainer from "components/WhiteContainer";
+import AdaptiveDiv from "@/components/AdaptiveDiv";
+import Empty from "@/components/Empty";
+import Footer from "@/components/Footer";
+import HeaderWithLeftNav from "@/components/Header/HeaderWithLeftNav";
+import Title from "@/components/Title";
+import ProfileImage from "@/components/User/ProfileImage";
+import WhiteContainer from "@/components/WhiteContainer";
 
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
-import { ReactComponent as LeaderBoardItems } from "static/events/2023fallLeaderBoardItems.svg";
-import { ReactComponent as Ticket1Icon } from "static/events/2023fallTicket1.svg";
-import { ReactComponent as Ticket2Icon } from "static/events/2023fallTicket2.svg";
+import { ReactComponent as LeaderBoardItems } from "@/static/events/2023fallLeaderBoardItems.svg";
+import { ReactComponent as Ticket1Icon } from "@/static/events/2023fallTicket1.svg";
+import { ReactComponent as Ticket2Icon } from "@/static/events/2023fallTicket2.svg";
 
 const LeaderboardTopBar = () => (
   <div

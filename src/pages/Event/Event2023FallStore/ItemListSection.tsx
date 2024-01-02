@@ -1,19 +1,19 @@
 import { memo, useState } from "react";
 
-import type { EventItem } from "types/event2023fall";
+import type { EventItem } from "@/types/event2023fall";
 
-import Empty from "components/Empty";
+import Empty from "@/components/Empty";
 import {
   ModalEvent2023FallItem,
   ModalEvent2023FallRandomBox,
-} from "components/ModalPopup";
-import { ModalEvent2023FallItemInstagram } from "components/ModalPopup";
-import WhiteContainer from "components/WhiteContainer";
+} from "@/components/ModalPopup";
+import { ModalEvent2023FallItemInstagram } from "@/components/ModalPopup";
+import WhiteContainer from "@/components/WhiteContainer";
 
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
-import { ReactComponent as CreditIcon } from "static/events/2023fallCredit.svg";
-import { ReactComponent as SoldOutIcon } from "static/events/2023fallStoreSoldOut.svg";
+import { ReactComponent as CreditIcon } from "@/static/events/2023fallCredit.svg";
+import { ReactComponent as SoldOutIcon } from "@/static/events/2023fallStoreSoldOut.svg";
 
 type EventItemComponentProps = {
   value: EventItem;

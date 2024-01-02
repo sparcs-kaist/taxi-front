@@ -1,15 +1,15 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useQuery } from "hooks/useTaxiAPI";
+import { useQuery } from "@/hooks/useTaxiAPI";
 
-import DottedLine from "components/DottedLine";
-import Modal from "components/Modal";
-import Navigation from "components/Navigation";
+import DottedLine from "@/components/DottedLine";
+import Modal from "@/components/Modal";
+import Navigation from "@/components/Navigation";
 
 import BodyReport from "./Body/BodyReport";
 
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
 import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
 

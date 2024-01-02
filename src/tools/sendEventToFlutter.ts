@@ -4,4 +4,4 @@ export {
   sendTryNotificationEventToFlutter,
   sendClipboardCopyEventToFlutter,
   sendPopupInAppNotificationEventToFlutter,
-} from "hooks/skeleton/useFlutterEventCommunicationEffect";
+} from "@/hooks/skeleton/useFlutterEventCommunicationEffect";

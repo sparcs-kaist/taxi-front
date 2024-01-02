@@ -1,10 +1,10 @@
 import { useEffect, useRef } from "react";
 
-import type { QuestId } from "types/event2023fall";
+import type { QuestId } from "@/types/event2023fall";
 
-import { useValueRecoilState } from "hooks/useFetchRecoilState";
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
-import toast from "tools/toast";
+import toast from "@/tools/toast";
 
 export const useEventEffect = () => {
   const { completedQuests, quests } =

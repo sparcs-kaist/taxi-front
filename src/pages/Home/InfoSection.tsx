@@ -1,24 +1,24 @@
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 
-import { useIsLogin, useValueRecoilState } from "hooks/useFetchRecoilState";
+import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
-import AdaptiveDiv from "components/AdaptiveDiv";
-import Button from "components/Button";
-import LinkLogin from "components/Link/LinkLogin";
-import Room from "components/Room";
+import AdaptiveDiv from "@/components/AdaptiveDiv";
+import Button from "@/components/Button";
+import LinkLogin from "@/components/Link/LinkLogin";
+import Room from "@/components/Room";
 
-import loginInfoAtom from "atoms/loginInfo";
+import loginInfoAtom from "@/atoms/loginInfo";
 import { useRecoilValue } from "recoil";
 
-import moment, { getToday } from "tools/moment";
-import { randomTaxiSloganGenerator } from "tools/random";
-import theme from "tools/theme";
+import moment, { getToday } from "@/tools/moment";
+import { randomTaxiSloganGenerator } from "@/tools/random";
+import theme from "@/tools/theme";
 
-import BackgroundImage from "static/assets/BackgroundImage.jpg";
-import BackgroundImageDesktop from "static/assets/BackgroundImageDesktop.webp";
-import BackgroundImageMobile from "static/assets/BackgroundImageMobile.webp";
-import { ReactComponent as TaxiLogoWhite } from "static/assets/sparcsLogos/TaxiLogoWhite.svg";
+import BackgroundImage from "@/static/assets/BackgroundImage.jpg";
+import BackgroundImageDesktop from "@/static/assets/BackgroundImageDesktop.webp";
+import BackgroundImageMobile from "@/static/assets/BackgroundImageMobile.webp";
+import { ReactComponent as TaxiLogoWhite } from "@/static/assets/sparcsLogos/TaxiLogoWhite.svg";
 
 const InfoSection = () => {
   const loginInfo = useRecoilValue(loginInfoAtom);

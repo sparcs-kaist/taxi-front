@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import DottedLine from "./DottedLine";
 
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
 type Page = {
   key: string;

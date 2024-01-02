@@ -1,6 +1,6 @@
 import { memo } from "react";
 
-import WhiteContainer from "components/WhiteContainer";
+import WhiteContainer from "@/components/WhiteContainer";
 
 import DatePicker from "./DatePicker";
 

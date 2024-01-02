@@ -1,10 +1,10 @@
 import { useTranslation } from "react-i18next";
 
-import DottedLine from "components/DottedLine";
-import Empty from "components/Empty";
+import DottedLine from "@/components/DottedLine";
+import Empty from "@/components/Empty";
 
-import { date2str } from "tools/moment";
-import theme from "tools/theme";
+import { date2str } from "@/tools/moment";
+import theme from "@/tools/theme";
 
 type BodyReportProps = {
   option: "Reporting" | "Reported";

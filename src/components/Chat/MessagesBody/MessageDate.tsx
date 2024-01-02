@@ -1,6 +1,6 @@
-import DottedLine from "components/DottedLine";
+import DottedLine from "@/components/DottedLine";
 
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
 type MessageDateProps = {
   date: Dayjs;

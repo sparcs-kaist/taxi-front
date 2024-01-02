@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
 type ButterflyState = "wide" | "narrow" | "fold";
 

@@ -1,15 +1,15 @@
 import { memo, useEffect, useState } from "react";
 
-import Button from "components/Button";
-import Modal from "components/Modal";
-import WhiteContainer from "components/WhiteContainer";
+import Button from "@/components/Button";
+import Modal from "@/components/Modal";
+import WhiteContainer from "@/components/WhiteContainer";
 
 import Picker from "./Picker";
 
-import { time2str } from "tools/moment";
-import theme from "tools/theme";
+import { time2str } from "@/tools/moment";
+import theme from "@/tools/theme";
 
-import ScheduleRoundedIcon from "@material-ui/icons/ScheduleRounded";
+import ScheduleRoundedIcon from "@mui/icons-material/ScheduleRounded";
 
 type Page = "add" | "search";
 
