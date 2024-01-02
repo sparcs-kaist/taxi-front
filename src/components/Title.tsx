@@ -1,6 +1,6 @@
 import { ReactNode, memo } from "react";
 
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import ConfirmationNumberRoundedIcon from "@mui/icons-material/ConfirmationNumberRounded";

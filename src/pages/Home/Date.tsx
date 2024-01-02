@@ -1,9 +1,9 @@
-import useHoverProps from "hooks/theme/useHoverProps";
+import useHoverProps from "@/hooks/theme/useHoverProps";
 
-import MiniCircle from "components/MiniCircle";
+import MiniCircle from "@/components/MiniCircle";
 
-import moment from "tools/moment";
-import theme from "tools/theme";
+import moment from "@/tools/moment";
+import theme from "@/tools/theme";
 
 type DateProps = {
   index: number;

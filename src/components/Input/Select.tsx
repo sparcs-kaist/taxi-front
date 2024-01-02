@@ -1,4 +1,4 @@
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
 

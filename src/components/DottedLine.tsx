@@ -1,6 +1,6 @@
 import { HTMLAttributes } from "react";
 
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
 type Direction = "row" | "column";
 

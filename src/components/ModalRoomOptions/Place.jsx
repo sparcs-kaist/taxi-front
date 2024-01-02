@@ -1,20 +1,20 @@
 import PropTypes from "prop-types";
 import { memo, useEffect, useMemo, useState } from "react";
 
-import useHoverProps from "hooks/theme/useHoverProps";
-import { useValueRecoilState } from "hooks/useFetchRecoilState";
+import useHoverProps from "@/hooks/theme/useHoverProps";
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
-import Button from "components/Button";
-import DottedLine from "components/DottedLine";
-import MiniCircle from "components/MiniCircle";
-import Modal from "components/Modal";
-import FlipButton from "components/ModalRoomOptions/FlipButton";
-import WhiteContainer from "components/WhiteContainer";
+import Button from "@/components/Button";
+import DottedLine from "@/components/DottedLine";
+import MiniCircle from "@/components/MiniCircle";
+import Modal from "@/components/Modal";
+import FlipButton from "@/components/ModalRoomOptions/FlipButton";
+import WhiteContainer from "@/components/WhiteContainer";
 
 import Picker from "./Picker";
 
-import theme from "tools/theme";
-import { getLocationName } from "tools/trans";
+import theme from "@/tools/theme";
+import { getLocationName } from "@/tools/trans";
 
 const PopupInput = (props) => {
   const [value, setValue] = useState({

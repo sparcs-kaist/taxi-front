@@ -1,10 +1,10 @@
 import { memo, useCallback } from "react";
 
-import type { BotChat, LayoutType, UserChat } from "types/chat";
+import type { BotChat, LayoutType, UserChat } from "@/types/chat";
 
-import { useValueRecoilState } from "hooks/useFetchRecoilState";
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
-import ProfileImage from "components/User/ProfileImage";
+import ProfileImage from "@/components/User/ProfileImage";
 
 import MessageAccount from "./MessageAccount";
 import MessageArrival from "./MessageArrival";
@@ -14,11 +14,11 @@ import MessagePaySettlement from "./MessagePaySettlement";
 import MessageShare from "./MessageShare";
 import MessageText from "./MessageText";
 
-import { getChatUniquewKey } from "tools/chat/chats";
-import dayjs from "tools/day";
-import theme from "tools/theme";
+import { getChatUniquewKey } from "@/tools/chat/chats";
+import dayjs from "@/tools/day";
+import theme from "@/tools/theme";
 
-import { ReactComponent as TaxiIcon } from "static/assets/sparcsLogos/TaxiAppIcon.svg";
+import { ReactComponent as TaxiIcon } from "@/static/assets/sparcsLogos/TaxiAppIcon.svg";
 
 type MessageBodyProps = {
   type: (UserChat | BotChat)["type"];

@@ -1,4 +1,4 @@
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 

@@ -15,13 +15,13 @@
   "plugins": ["@trivago/prettier-plugin-sort-imports"],
   "importOrder": [
     "<THIRD_PARTY_MODULES>",
-    "^types/",
-    "^hooks/",
-    "^components/|^pages/",
+    "^@/types/",
+    "^@/hooks/",
+    "^@/components/|^@/pages/",
     "^[./]",
-    "^atoms/|^recoil$",
-    "^tools/",
-    "^static/|^@mui|^@material-ui"
+    "^@/atoms/|^recoil$",
+    "^@/tools/",
+    "^@/static/|^@mui|^@material-ui"
   ],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true,

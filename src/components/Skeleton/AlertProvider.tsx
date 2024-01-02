@@ -1,15 +1,15 @@
 import { ReactNode, useCallback, useRef } from "react";
 
-import Button from "components/Button";
-import DottedLine from "components/DottedLine";
-import ModalElem from "components/Modal/ModalElem";
+import Button from "@/components/Button";
+import DottedLine from "@/components/DottedLine";
+import ModalElem from "@/components/Modal/ModalElem";
 
-import alertAtom from "atoms/alert";
+import alertAtom from "@/atoms/alert";
 import { useRecoilState } from "recoil";
 
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
-import WbIncandescentRoundedIcon from "@material-ui/icons/WbIncandescentRounded";
+import WbIncandescentRoundedIcon from "@mui/icons-material/WbIncandescentRounded";
 
 const AlertProvider = () => {
   const messageCache = useRef<ReactNode>("");

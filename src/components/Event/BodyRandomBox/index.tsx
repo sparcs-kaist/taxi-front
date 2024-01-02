@@ -3,12 +3,12 @@ import { memo, useCallback, useEffect, useRef, useState } from "react";
 
 import "./index.css";
 
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
-import BackPlaneImage from "static/events/2023fallRandomboxBack.png";
-import FrontPlaneImage from "static/events/2023fallRandomboxFront.png";
-import FrontPlaneLightImage from "static/events/2023fallRandomboxFrontLight.png";
-import { ReactComponent as TopPlane } from "static/events/2023fallRandomboxTop.svg";
+import BackPlaneImage from "@/static/events/2023fallRandomboxBack.png";
+import FrontPlaneImage from "@/static/events/2023fallRandomboxFront.png";
+import FrontPlaneLightImage from "@/static/events/2023fallRandomboxFrontLight.png";
+import { ReactComponent as TopPlane } from "@/static/events/2023fallRandomboxTop.svg";
 
 type BodyRandomBoxProps = {
   isBoxOpend: boolean;

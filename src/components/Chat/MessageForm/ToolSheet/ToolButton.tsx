@@ -1,6 +1,6 @@
-import useHoverProps from "hooks/theme/useHoverProps";
+import useHoverProps from "@/hooks/theme/useHoverProps";
 
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
 import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceWalletRounded";
 import ImageRoundedIcon from "@mui/icons-material/ImageRounded";

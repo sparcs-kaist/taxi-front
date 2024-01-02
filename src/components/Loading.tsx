@@ -1,6 +1,6 @@
 import { css, keyframes } from "@emotion/react";
 
-import theme, { Font } from "tools/theme";
+import theme, { Font } from "@/tools/theme";
 
 type LoadingProps = {
   center?: boolean;

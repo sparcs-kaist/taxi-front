@@ -1,32 +1,32 @@
 import { ReactNode, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 
-import { useEventEffect } from "hooks/event/useEventEffect";
-import useCSSVariablesEffect from "hooks/skeleton/useCSSVariablesEffect";
-import useChannelTalkEffect from "hooks/skeleton/useChannelTalkEffect";
-import useFirebaseMessagingEffect from "hooks/skeleton/useFirebaseMessagingEffect";
-import useFlutterEventCommunicationEffect from "hooks/skeleton/useFlutterEventCommunicationEffect";
-import useGoogleAnalyticsEffect from "hooks/skeleton/useGoogleAnalyticsEffect";
-import useI18nextEffect from "hooks/skeleton/useI18nextEffect";
-import useScrollRestorationEffect from "hooks/skeleton/useScrollRestorationEffect";
-import useVirtualKeyboardDetectEffect from "hooks/skeleton/useVirtualKeyboardDetectEffect";
+import { useEventEffect } from "@/hooks/event/useEventEffect";
+import useCSSVariablesEffect from "@/hooks/skeleton/useCSSVariablesEffect";
+import useChannelTalkEffect from "@/hooks/skeleton/useChannelTalkEffect";
+import useFirebaseMessagingEffect from "@/hooks/skeleton/useFirebaseMessagingEffect";
+import useFlutterEventCommunicationEffect from "@/hooks/skeleton/useFlutterEventCommunicationEffect";
+import useGoogleAnalyticsEffect from "@/hooks/skeleton/useGoogleAnalyticsEffect";
+import useI18nextEffect from "@/hooks/skeleton/useI18nextEffect";
+import useScrollRestorationEffect from "@/hooks/skeleton/useScrollRestorationEffect";
+import useVirtualKeyboardDetectEffect from "@/hooks/skeleton/useVirtualKeyboardDetectEffect";
 import {
   useSyncRecoilStateEffect,
   useValueRecoilState,
-} from "hooks/useFetchRecoilState";
+} from "@/hooks/useFetchRecoilState";
 
-import HeaderBar from "components/Header/HeaderBar";
-import Loading from "components/Loading";
-import { ModalTerms } from "components/ModalPopup";
-import Error from "pages/Error";
+import HeaderBar from "@/components/Header/HeaderBar";
+import Loading from "@/components/Loading";
+import { ModalTerms } from "@/components/ModalPopup";
+import Error from "@/pages/Error";
 
 import Navigation from "./Navigation";
 import SuggestAppTopBar from "./SuggestAppTopBar";
 
-import errorAtom from "atoms/error";
+import errorAtom from "@/atoms/error";
 import { useRecoilValue } from "recoil";
 
-import { deviceType } from "tools/loadenv";
+import { deviceType } from "@/tools/loadenv";
 
 type ContainerProps = {
   children: ReactNode;

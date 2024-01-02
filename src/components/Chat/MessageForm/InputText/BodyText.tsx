@@ -1,12 +1,12 @@
 import { css } from "@emotion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import useSendMessage from "hooks/chat/useSendMessage";
+import useSendMessage from "@/hooks/chat/useSendMessage";
 
 import ButtonSend from "./ButtonSend";
 
-import regExpTest from "tools/regExpTest";
-import theme from "tools/theme";
+import regExpTest from "@/tools/regExpTest";
+import theme from "@/tools/theme";
 
 type BodyTextProps = {
   sendMessage: ReturnType<typeof useSendMessage>;

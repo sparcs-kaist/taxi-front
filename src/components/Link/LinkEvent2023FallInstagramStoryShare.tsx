@@ -1,15 +1,15 @@
 import { HTMLAttributes, ReactNode, useCallback, useState } from "react";
 
-import { useEvent2023FallQuestComplete } from "hooks/event/useEvent2023FallQuestComplete";
-import { sendPopupInstagramStoryShareToFlutter } from "hooks/skeleton/useFlutterEventCommunicationEffect";
-import { useIsLogin, useValueRecoilState } from "hooks/useFetchRecoilState";
+import { useEvent2023FallQuestComplete } from "@/hooks/event/useEvent2023FallQuestComplete";
+import { sendPopupInstagramStoryShareToFlutter } from "@/hooks/skeleton/useFlutterEventCommunicationEffect";
+import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
-import ModalEvent2023FallJoin from "components/ModalPopup/ModalEvent2023FallJoin";
+import ModalEvent2023FallJoin from "@/components/ModalPopup/ModalEvent2023FallJoin";
 
-import alertAtom from "atoms/alert";
+import alertAtom from "@/atoms/alert";
 import { useSetRecoilState } from "recoil";
 
-import { deviceType } from "tools/loadenv";
+import { deviceType } from "@/tools/loadenv";
 
 const backgroundLayerDefaultUrl =
   "https://sparcs-taxi-prod.s3.ap-northeast-2.amazonaws.com/assets/event-2023fall/instagram_background.png";

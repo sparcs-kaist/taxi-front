@@ -1,4 +1,4 @@
-import theme from "tools/theme";
+import theme from "@/tools/theme";
 
 const BodyPrivacyPolicy = () => {
   const { protocol, host } = window.location;
