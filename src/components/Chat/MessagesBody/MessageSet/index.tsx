@@ -1,4 +1,4 @@
-import { memo, useCallback } from "react";
+import { memo, useCallback, useMemo } from "react";
 
 import type { BotChat, LayoutType, UserChat } from "@/types/chat";
 
@@ -59,6 +59,10 @@ type MessageSetProps = {
 
 const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
   const { oid: userOid } = useValueRecoilState("loginInfo") || {};
+  const readAts = useMemo(() => {
+    const readAts = roomInfo?.part?.map((user) => user?.readAt);
+    return readAts;
+  }, [chats, roomInfo]);
   const authorId = chats?.[0]?.authorId;
   const authorProfileUrl =
     "authorProfileUrl" in chats?.[0] ? chats?.[0].authorProfileUrl : "";
@@ -127,11 +131,19 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
     }),
     [userOid, authorId, layoutType]
   );
+  const styleSubinfoWrap = {
+    display: "flex",
+    flexDirection: "column" as any,
+    alignItems: authorId === userOid ? "flex-end" : "flex-start",
+  };
   const styleTime = {
     ...theme.font8,
     color: theme.gray_text,
     marginBottom: "1px",
     minWidth: "fit-content",
+  };
+  const styleUnreadNum = {
+    ...theme.font8_medium,
   };
 
   return (
@@ -168,11 +180,18 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
                 color={authorId === userOid ? theme.white : theme.black}
               />
             </div>
-            {index === chats.length - 1 && (
-              <div css={styleTime} className="selectable">
-                {dayjs(chat.time).format("H시 mm분")}
+            <div css={styleSubinfoWrap}>
+              <div css={styleUnreadNum} className="selectable">
+                {readAts?.filter((readAt) => readAt < chat.time).length == 0
+                  ? null
+                  : readAts?.filter((readAt) => readAt < chat.time).length}
               </div>
-            )}
+              {index === chats.length - 1 && (
+                <div css={styleTime} className="selectable">
+                  {dayjs(chat.time).format("H시 mm분")}
+                </div>
+              )}
+            </div>
           </div>
         ))}
       </div>
