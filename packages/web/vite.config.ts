@@ -4,6 +4,7 @@ import svgr from "vite-plugin-svgr";
 
 export default defineConfig({
   plugins: [svgr(), react({ jsxImportSource: "@emotion/react" })],
+  envDir: "../..",
   envPrefix: "REACT_APP_",
   resolve: {
     alias: {
