@@ -38,6 +38,32 @@ $ pnpm install
 See [notion page](https://www.notion.so/sparcs/Environment-Variables-1b404bd385fa495bac6d5517b57d72bf).
 Refer to [.env.example](.env.example) and write your own `.env`.
 
+
+## Development
+
+Run scoped scripts
+
+```bash
+pnpm <scope> <script>
+```
+
+Valid scopes are:
+- `web`: Corresponds to `@taxi/web`
+- ~~`app`: (intended) Corresponds to `@taxi/app`~~
+- ~~`core`: (intended) Corresponds to `@taxi/core`~~
+
+### Examples
+
+Run `web` development server
+```bash
+pnpm web start
+```
+
+Install new dependency to `app`
+```bash
+pnpm app install <package_name>
+```
+
 ## Testing
 
 This project contains E2E tests with Cypress. To run the test, start React development server with `npm start` and run test script by `npm run test` on another shell.
