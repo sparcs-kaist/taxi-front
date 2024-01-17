@@ -5,7 +5,8 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "web": "pnpm -F @taxi/web",
-    "build": "pnpm -r build",
+    "build:all": "pnpm -r build",
+    "build:web": "pnpm --filter @taxi/web... build",
     "test": "pnpm -r test",
     "typecheck": "pnpm -r typecheck"
   },
