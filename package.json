@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "web": "pnpm -F @taxi/web",
+    "app": "pnpm --filter @taxi/app",
+    "web": "pnpm --filter @taxi/web",
     "build:all": "pnpm -r build",
     "build:web": "pnpm --filter @taxi/web... build",
     "test": "pnpm -r test",
