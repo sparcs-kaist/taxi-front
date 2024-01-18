@@ -1,10 +1,13 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View } from "react-native";
+import "text-encoding-polyfill";
+
+import { Wrapped } from "./web/Test";
 
 export function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+      <Wrapped />
       <StatusBar style="auto" />
     </View>
   );
@@ -13,8 +16,8 @@ export function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "purple",
+    // alignItems: "center",
+    // justifyContent: "center",
   },
 });
