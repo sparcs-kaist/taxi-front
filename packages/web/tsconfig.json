@@ -6,9 +6,9 @@
     "vite.config.ts"
   ],
   "compilerOptions": {
+    "baseUrl": "./src",
     "paths": {
-      "@/*": ["packages/web/src/*"],
-      "@taxi/*": ["packages/*/src"]
+      "@/*": ["./*"],
     }
   }
 }
