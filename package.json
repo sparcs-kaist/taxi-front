@@ -6,6 +6,8 @@
     "preinstall": "npx only-allow pnpm",
     "app": "pnpm --filter @taxi/app",
     "web": "pnpm --filter @taxi/web",
+    "start:app": "pnpm -r --stream start",
+    "start:web": "pnpm --filter @taxi/web... start",
     "build:all": "pnpm -r build",
     "build:web": "pnpm --filter @taxi/web... build",
     "test": "pnpm -r test",
