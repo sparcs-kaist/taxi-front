@@ -41,7 +41,7 @@ export const route = <Pattern extends string>(
 ): Route => {
   const pattern = new URLPattern(routePattern);
 
-  return (pathname: string): ReturnType<typeof screen> | null => {
+  return (pathname: string) => {
     const params = pattern.match(pathname);
 
     return params && getScreen(params);
