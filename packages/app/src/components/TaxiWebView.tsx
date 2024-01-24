@@ -38,10 +38,6 @@ export const TaxiWebView: React.FC<TaxiWebViewProps> = ({ path }) => {
       userAgent="taxi-app-webview"
       source={{ uri }}
       onNavigationStateChange={onNavigationStateChange}
-      onShouldStartLoadWithRequest={(request) => {
-        console.log(request.mainDocumentURL);
-        return true;
-      }}
     />
   );
 };
