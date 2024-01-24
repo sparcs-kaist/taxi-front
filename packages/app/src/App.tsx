@@ -1,26 +1,15 @@
-import Constants from "expo-constants";
+import { RootStack } from "@/screens";
+import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View } from "react-native";
-import { WebView } from "react-native-webview";
-
-// import { Wrapped } from "./web/Test";
+import { View } from "react-native";
 
 export function App() {
   return (
-    <View style={styles.container}>
-      <WebView
-        source={{
-          uri: Constants.expoConfig?.extra?.SERVER_URL,
-        }}
-      />
+    <View style={{ flex: 1 }}>
+      <NavigationContainer>
+        <RootStack />
+      </NavigationContainer>
       <StatusBar style="auto" />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "purple",
-  },
-});
