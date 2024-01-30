@@ -3,6 +3,7 @@ import { mapWebRoutes } from "@/navigation/web";
 import { isSameScreen } from "@/utils/navigation";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import React, { useCallback, useMemo, useRef } from "react";
+import { Platform } from "react-native";
 import { WebView, type WebViewNavigation } from "react-native-webview";
 
 type TaxiWebViewProps = {
@@ -35,7 +36,7 @@ export const TaxiWebView: React.FC<TaxiWebViewProps> = ({ path }) => {
     <WebView
       cacheEnabled
       ref={ref}
-      userAgent="taxi-app-webview"
+      userAgent={`taxi-app-webview/${Platform.OS}`}
       source={{ uri }}
       onNavigationStateChange={onNavigationStateChange}
     />
