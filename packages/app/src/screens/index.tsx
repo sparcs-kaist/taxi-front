@@ -4,7 +4,8 @@ import React from "react";
 
 import { Chatting } from "./Chatting";
 import { Event } from "./Event";
-import { HomeTab } from "./HomeTab";
+import { Home } from "./Home";
+// import { HomeTab } from "./HomeTab";
 import { Web } from "./Web";
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -12,12 +13,8 @@ const Stack = createStackNavigator<RootStackParamList>();
 export const RootStack: React.FC = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="HomeTab" component={HomeTab} />
-      <Stack.Screen
-        name="Chatting"
-        options={{ headerShown: true, headerBackTitle: "" }}
-        component={Chatting}
-      />
+      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Chatting" component={Chatting} />
       <Stack.Screen name="Event" component={Event} />
       <Stack.Screen
         name="Web"
