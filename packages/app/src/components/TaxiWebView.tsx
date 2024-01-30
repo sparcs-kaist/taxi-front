@@ -44,6 +44,7 @@ export const TaxiWebView: React.FC<TaxiWebViewProps> = ({ path }) => {
       source={{ uri }}
       onNavigationStateChange={onNavigationStateChange}
       onMessage={handleMessage}
+      webviewDebuggingEnabled={true}
     />
   );
 };

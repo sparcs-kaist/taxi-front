@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { WebViewMessageEvent } from "react-native-webview";
 
 export interface RNEventProps {
@@ -12,7 +12,12 @@ export interface RNEventListenrProps {
 }
 
 export const useWebViewEvent = () => {
-  const eventRef = useRef<Map<string, RNEventListenrProps>>();
+  const eventRef = useRef<Map<string, RNEventListenrProps>>(new Map());
+
+  useEffect(() => {
+    eventRef.current = new Map();
+  }, []);
+
   const addEvent = (event: RNEventListenrProps) => {
     eventRef.current?.set(event.event, event);
   };
