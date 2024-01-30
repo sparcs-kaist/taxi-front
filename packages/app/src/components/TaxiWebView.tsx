@@ -1,8 +1,9 @@
 import { env } from "@/env";
 import { mapWebRoutes } from "@/navigation/web";
+import { useWebViewEvent } from "@/utils/eventHandler";
 import { isSameScreen } from "@/utils/navigation";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
-import React, { useCallback, useMemo, useRef } from "react";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { Platform } from "react-native";
 import { WebView, type WebViewNavigation } from "react-native-webview";
 
@@ -19,6 +20,7 @@ export const TaxiWebView: React.FC<TaxiWebViewProps> = ({ path }) => {
   const currentScreen = useMemo(() => mapWebRoutes(uri), [uri]);
   const isFocused = useIsFocused();
   const navigation = useNavigation();
+  const { addEvent, removeEvent, handleMessage } = useWebViewEvent();
 
   const onNavigationStateChange = useCallback(
     (event: WebViewNavigation) => {
@@ -32,6 +34,8 @@ export const TaxiWebView: React.FC<TaxiWebViewProps> = ({ path }) => {
     [isFocused, currentScreen, navigation]
   );
 
+  useEffect(() => {}, []);
+
   return (
     <WebView
       cacheEnabled
@@ -39,6 +43,7 @@ export const TaxiWebView: React.FC<TaxiWebViewProps> = ({ path }) => {
       userAgent={`taxi-app-rn-webview/${Platform.OS}`}
       source={{ uri }}
       onNavigationStateChange={onNavigationStateChange}
+      onMessage={handleMessage}
     />
   );
 };

@@ -2,7 +2,7 @@ import { RootStack } from "@/screens";
 import { NavigationContainer } from "@react-navigation/native";
 import Constants from "expo-constants";
 import { StatusBar } from "expo-status-bar";
-import { Platform, SafeAreaView, View } from "react-native";
+import { Platform, SafeAreaView } from "react-native";
 
 export function App() {
   return (
