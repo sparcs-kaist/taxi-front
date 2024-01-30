@@ -16,5 +16,16 @@ export default defineConfig({
   },
   server: {
     port: 3000,
+    host: true,
+    proxy: {
+      "/api": {
+        target: process.env.REACT_APP_BACK_URL ?? "http://localhost:9000",
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+      "/socket.io": {
+        target: process.env.REACT_APP_IO_URL ?? "http://localhost:9000",
+        ws: true,
+      },
+    },
   },
 });
