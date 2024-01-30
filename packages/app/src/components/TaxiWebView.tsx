@@ -36,7 +36,7 @@ export const TaxiWebView: React.FC<TaxiWebViewProps> = ({ path }) => {
     <WebView
       cacheEnabled
       ref={ref}
-      userAgent={`taxi-app-webview/${Platform.OS}`}
+      userAgent={`taxi-app-rn-webview/${Platform.OS}`}
       source={{ uri }}
       onNavigationStateChange={onNavigationStateChange}
     />
