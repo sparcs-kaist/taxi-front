@@ -23,7 +23,7 @@ const Event2023FallStore = () => {
     itemListToken,
   ])[1] || { items: [] };
   const getItemFilteredList = useCallback(
-    (types) =>
+    (types: number[]) =>
       items.filter(
         (item: EventItem) => types.includes(item.itemType) && !item.isDisabled
       ),

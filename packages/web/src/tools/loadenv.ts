@@ -4,8 +4,8 @@ const env = { ...import.meta.env, ...window["env"] };
 
 // 환경변수
 export const isDev = env.DEV; // automatically provided
-export const backServer = env.REACT_APP_BACK_URL; // required
-export const ioServer = env.REACT_APP_IO_URL ?? backServer; // optional (주어지지 않은 경우 REACT_APP_BACK_URL로 설정)
+export const backServer = isDev ? "/api" : env.REACT_APP_BACK_URL; // use proxy in dev mode
+export const ioServer = isDev ? "/" : env.REACT_APP_IO_URL ?? backServer; // optional (주어지지 않은 경우 REACT_APP_BACK_URL로 설정)
 export const ogServer = env.REACT_APP_OG_URL; // optional
 export const s3BaseUrl = env.REACT_APP_S3_URL; // required
 export const channelTalkPluginKey = env.REACT_APP_CHANNELTALK_PLUGIN_KEY; // optional
