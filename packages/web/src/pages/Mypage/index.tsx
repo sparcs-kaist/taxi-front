@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link, useHistory, useParams } from "react-router-dom";
 
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
@@ -31,35 +32,17 @@ const Mypage = () => {
   const loginInfo = useValueRecoilState("loginInfo");
   const notificationOptions = useValueRecoilState("notificationOptions");
   const { id: userId } = loginInfo || {};
+  const { page } = useParams<{ page?: string }>();
+  const history = useHistory();
 
-  const [isOpenProfileModify, setIsOpenProfileModify] = useState(false);
-  const [isOpenNotification, setIsOpenNotification] = useState(false);
-  const [isOpenReport, setIsOpenReport] = useState(false);
-  const [isOpenPolicy, setIsOpenPolicy] = useState(false);
-  const [isOpenPrivacyPolicy, setIsOpenPrivacyPolicy] = useState(false);
-  const [isOpenEventPolicy, setIsOpenEventPolicy] = useState(false);
-  const [isOpenMembers, setOpenIsMembers] = useState(false);
+  const closeModal = useCallback(() => {
+    history.push("/mypage");
+  }, []);
 
-  const onClickProfileModify = useCallback(
-    () => setIsOpenProfileModify(true),
-    []
-  );
   const onClickTranslation = useCallback(
     () => i18n.changeLanguage(i18n.language === "ko" ? "en" : "ko"),
     [i18n.changeLanguage, i18n.language]
   );
-  const onClickNotification = useCallback(
-    () => setIsOpenNotification(true),
-    []
-  );
-  const onClickReport = useCallback(() => setIsOpenReport(true), []);
-  const onClickPolicy = useCallback(() => setIsOpenPolicy(true), []);
-  const onClickPrivacyPolicy = useCallback(
-    () => setIsOpenPrivacyPolicy(true),
-    []
-  );
-  const onClickEventPolicy = useCallback(() => setIsOpenEventPolicy(true), []);
-  const onClickMembers = useCallback(() => setOpenIsMembers(true), []);
 
   const styleProfImg = {
     width: "50px",
@@ -88,6 +71,9 @@ const Mypage = () => {
     ...theme.font14,
     marginLeft: "12px",
   };
+  const styleLink = {
+    textDecoration: "none",
+  };
 
   return (
     <AdaptiveDiv type="center">
@@ -109,9 +95,9 @@ const Mypage = () => {
             </div>
             <div css={infoTitle}>
               <div css={theme.font14_bold}>{t("my_information")}</div>
-              <div css={infoModify} onClick={onClickProfileModify}>
+              <Link to="/mypage/modify" css={[infoModify, styleLink]}>
                 {t("revise")}
-              </div>
+              </Link>
             </div>
             <div css={infoType} className="selectable">
               {t("student_id")}
@@ -137,24 +123,25 @@ const Mypage = () => {
                   {t("translation")}
                 </Menu>
               )}
-              <Menu
-                icon={`notification-${
-                  isNotificationOn(notificationOptions) ? "on" : "off"
-                }`}
-                onClick={onClickNotification}
-              >
-                {t("notification")}
-              </Menu>
+              <Link to="/mypage/notification" css={styleLink}>
+                <Menu
+                  icon={`notification-${
+                    isNotificationOn(notificationOptions) ? "on" : "off"
+                  }`}
+                >
+                  {t("notification")}
+                </Menu>
+              </Link>
             </div>
           </WhiteContainer>
           <ModalMypageModify
-            isOpen={isOpenProfileModify}
-            onChangeIsOpen={setIsOpenProfileModify}
+            isOpen={page === "modify"}
+            onChangeIsOpen={closeModal}
           />
-          <ModalReport isOpen={isOpenReport} onChangeIsOpen={setIsOpenReport} />
+          <ModalReport isOpen={page === "report"} onChangeIsOpen={closeModal} />
           <ModalNotification
-            isOpen={isOpenNotification}
-            onChangeIsOpen={setIsOpenNotification}
+            isOpen={page === "notification"}
+            onChangeIsOpen={closeModal}
           />
         </>
       ) : (
@@ -163,27 +150,27 @@ const Mypage = () => {
       <WhiteContainer>
         <div css={{ display: "grid", rowGap: "16px" }}>
           {userId && (
-            <Menu icon="report" onClick={onClickReport}>
-              {t("report_record")}
-            </Menu>
+            <Link to="/mypage/report" css={styleLink}>
+              <Menu icon="report">{t("report_record")}</Menu>
+            </Link>
           )}
           <a className="popup-channeltalk">
             <Menu icon="ask">{t("contact")}</Menu>
           </a>
-          <Menu icon="policy" onClick={onClickPolicy}>
-            {t("terms")}
-          </Menu>
-          <Menu icon="policy" onClick={onClickPrivacyPolicy}>
-            {t("privacy_policy")}
-          </Menu>
+          <Link to="/mypage/terms" css={styleLink}>
+            <Menu icon="policy">{t("terms")}</Menu>
+          </Link>
+          <Link to="/mypage/privacyPolicy" css={styleLink}>
+            <Menu icon="policy">{t("privacy_policy")}</Menu>
+          </Link>
           {eventMode === "2023fall" && (
-            <Menu icon="policy" onClick={onClickEventPolicy}>
-              한가위 송편 이벤트 참여 약관
-            </Menu>
+            <Link to="/mypage/event2023FallJoin" css={styleLink}>
+              <Menu icon="policy">한가위 송편 이벤트 참여 약관</Menu>
+            </Link>
           )}
-          <Menu icon="credit" onClick={onClickMembers}>
-            {t("credit")}
-          </Menu>
+          <Link to="/mypage/credit" css={styleLink}>
+            <Menu icon="credit">{t("credit")}</Menu>
+          </Link>
           {userId && (
             <LinkLogout>
               <Menu icon="logout">{t("logout")}</Menu>
@@ -193,15 +180,15 @@ const Mypage = () => {
       </WhiteContainer>
       <Footer type="only-logo" />
       <ModalPrivacyPolicy
-        isOpen={isOpenPrivacyPolicy}
-        onChangeIsOpen={setIsOpenPrivacyPolicy}
+        isOpen={page === "privacyPolicy"}
+        onChangeIsOpen={closeModal}
       />
-      <ModalTerms isOpen={isOpenPolicy} onChangeIsOpen={setIsOpenPolicy} />
+      <ModalTerms isOpen={page === "terms"} onChangeIsOpen={closeModal} />
       <ModalEvent2023FallJoin
-        isOpen={isOpenEventPolicy}
-        onChangeIsOpen={setIsOpenEventPolicy}
+        isOpen={page === "event2023FallJoin"}
+        onChangeIsOpen={closeModal}
       />
-      <ModalCredit isOpen={isOpenMembers} onChangeIsOpen={setOpenIsMembers} />
+      <ModalCredit isOpen={page === "credit"} onChangeIsOpen={closeModal} />
     </AdaptiveDiv>
   );
 };

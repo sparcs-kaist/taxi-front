@@ -48,7 +48,7 @@ const routeProps = [
     exact: true,
   },
   {
-    path: "/mypage",
+    path: ["/mypage", "/mypage/:page"],
     component: lazy(() => import("@/pages/Mypage")),
     exact: true,
   },
