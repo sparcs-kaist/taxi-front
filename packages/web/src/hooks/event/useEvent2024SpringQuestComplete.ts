@@ -1,0 +1,42 @@
+import { useCallback } from "react";
+
+import type { QuestId } from "@/types/event2023fall";
+
+import {
+  useFetchRecoilState,
+  useValueRecoilState,
+} from "@/hooks/useFetchRecoilState";
+import { useAxios } from "@/hooks/useTaxiAPI";
+
+export const useEvent2024SpringQuestComplete = () => {
+  const axios = useAxios();
+  const fetchEvent2024SpringInfo = useFetchRecoilState("event2024SpringInfo");
+  const { completedQuests, quests } =
+    useValueRecoilState("event2024SpringInfo") || {};
+
+  return useCallback(
+    (id: QuestId) => {
+      if (!completedQuests || !quests) return;
+      const questMaxCount =
+        quests?.find((quest) => quest.id === id)?.maxCount || 0;
+      const questCompletedCount = completedQuests?.filter(
+        (questId) => questId === id
+      ).length;
+      if (questCompletedCount >= questMaxCount) return;
+      if (
+        [
+          "roomSharing",
+          "eventSharingOnInstagram",
+          "purchaseSharingOnInstagram",
+        ].includes(id)
+      ) {
+        axios({
+          url: `/events/2023fall/quests/complete/${id}`,
+          method: "post",
+          onSuccess: () => fetchEvent2024SpringInfo(),
+        });
+      } else fetchEvent2024SpringInfo();
+    },
+    [completedQuests, fetchEvent2024SpringInfo, quests]
+  );
+};

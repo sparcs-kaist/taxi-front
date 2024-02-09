@@ -1,14 +1,14 @@
 import { useEffect, useRef } from "react";
 
-import type { QuestId } from "@/types/event2023fall";
+import type { QuestId } from "@/types/event2024spring";
 
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import toast from "@/tools/toast";
 
-export const useEventEffect = () => {
+export const useEvent2024SpringEffect = () => {
   const { completedQuests, quests } =
-    useValueRecoilState("event2023FallInfo") || {};
+    useValueRecoilState("event2024SpringInfo") || {};
 
   const prevEventStatusRef = useRef<QuestId[]>();
 
@@ -30,13 +30,9 @@ export const useEventEffect = () => {
         type: "default" as const,
         imageUrl: quest.imageUrl,
         title: "퀘스트 완료",
-        subtitle: "한가위 송편 이벤트",
-        content: `축하합니다! "${quest.name}" 퀘스트를 달성하여 ${
-          quest.reward.ticket1
-            ? `일반 응모권 ${quest.reward.ticket1}개를`
-            : `송편 ${quest.reward.credit}개를`
-        } 획득하셨습니다.`,
-        button: { text: "확인하기", path: "/event/2023fall-missions" },
+        subtitle: "새터반 택시대제전",
+        content: `축하합니다! "${quest.name}" 퀘스트를 달성하여 넙죽코인 ${quest.reward.credit}개를 획득하셨습니다.`,
+        button: { text: "확인하기", path: "/event/2024spring-missions" },
       };
       toast(notificationValue);
     });
