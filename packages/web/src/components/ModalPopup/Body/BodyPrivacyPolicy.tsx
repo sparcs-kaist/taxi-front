@@ -28,7 +28,7 @@ const BodyPrivacyPolicy = () => {
         &quot;Taxi&quot;)은(는) 「개인정보 보호법」 제30조에 따라 정보주체의
         개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수
         있도록 하기 위하여 다음과 같이 개인정보 처리방침을 수립·공개합니다.
-        <br />○ 이 개인정보처리방침은 2023년 3월 4부터 적용됩니다.
+        <br />○ 이 개인정보처리방침은 2024년 2월 17부터 적용됩니다.
       </div>
       <div style={styleSection}>제1조(개인정보의 처리 목적)</div>
       <div style={styleSection}>
@@ -56,13 +56,14 @@ const BodyPrivacyPolicy = () => {
         <br />
         - &lt;홈페이지 회원가입 및 관리&gt;와 관련한 개인정보는 수집.이용에 관한
         동의일로부터&lt;1년&gt;까지 위 이용목적을 위하여 보유.이용됩니다.
-        <br />- 보유근거 : 회원가입 및 탈퇴 의사의 확인, 회원 식별
+        <br />- 보유근거 : 회원가입 및 탈퇴 의사의 확인, 회원 식별, 서비스
+        부정이용자 연락
       </div>
       <div style={styleSection}>제3조(처리하는 개인정보의 항목)</div>
       <div style={styleContent}>
         ① &lt; SPARCS &gt;은(는) 다음의 개인정보 항목을 처리하고 있습니다.
         <br />- 1&lt; 홈페이지 회원가입 및 관리 &gt;
-        <br />- 필수항목 : 이메일, 이름, 접속 로그, 접속 IP 정보, 학번
+        <br />- 필수항목 : 이메일, 이름, 접속 로그, 접속 IP 정보, 학번, 전화번호
       </div>
       <div style={styleSection}>제4조(개인정보의 파기절차 및 파기방법)</div>
       <div style={styleContent}>
@@ -177,8 +178,8 @@ const BodyPrivacyPolicy = () => {
         피해구제 등을 위하여 아래와 같이 개인정보 보호책임자를 지정하고
         있습니다.
         <br />
-        - 성명 :김건
-        <br />- 연락처 :010-5633-6757, geon6757@kaist.ac.kr
+        - 성명 : 김민찬
+        <br />- 연락처 : 010-8608-7057, kmc7468@kaist.ac.kr
         <br />② 정보주체께서는 &lt; SPARCS &gt;(&quot;Taxi&quot;) 의 서비스를
         이용하시면서 발생한 모든 개인정보 보호 관련 문의, 불만처리, 피해구제
         등에 관한 사항을 개인정보 보호책임자 및 담당부서로 문의하실 수 있습니다.
@@ -196,8 +197,8 @@ const BodyPrivacyPolicy = () => {
         신속하게 처리되도록 노력하겠습니다.
       </div>
       <div style={styleContent}>
-        - 담당자 : 김건
-        <br />- 연락처 : 010-5633-6757, geon6757@kaist.ac.kr
+        - 담당자 : 김민찬
+        <br />- 연락처 : 010-8608-7057, kmc7468@kaist.ac.kr
       </div>
       <div style={styleSection}>
         제10조(정보주체의 권익침해에 대한 구제방법)
@@ -225,7 +226,7 @@ const BodyPrivacyPolicy = () => {
       </div>
       <div style={styleSection}>제11조(개인정보 처리방침 변경)</div>
       <div style={styleSection}>
-        이 개인정보처리방침은 2023년 3월 4부터 적용됩니다.
+        이 개인정보처리방침은 2024년 2월 17부터 적용됩니다.
       </div>
     </div>
   );
