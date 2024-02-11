@@ -25,3 +25,10 @@
     url("./static/fonts/NanumSquare_acEB.ttf") format("truetype");
   font-weight: 700;
 }
+
+@font-face {
+  font-family: "Galmuri11";
+  src: local("Galmuri11 Regular"),
+    url("./static/fonts/Galmuri11.woff2") format("woff2");
+  font-weight: 400;
+}
