@@ -8,6 +8,9 @@ import Event2023FallMissions from "./Event2023FallMissions";
 import Event2023FallStore from "./Event2023FallStore";
 import Event2023Spring from "./Event2023Spring";
 import Event2023SpringGuide from "./Event2023SpringGuide";
+import Event2024Spring from "./Event2024Spring";
+import Event2024SpringLeaderboard from "./Event2024SpringLeaderboard";
+import Event2024SpringMissions from "./Event2024SpringMissions";
 
 const Event = () => {
   const { eventName } = useParams() as { eventName: string };
@@ -29,6 +32,12 @@ const Event = () => {
       return <Event2023FallLeaderboard />;
     case "2023fall-missions":
       return <Event2023FallMissions />;
+    case "2024spring":
+      return <Event2024Spring />;
+    case "2024spring-missions":
+      return <Event2024SpringMissions />;
+    case "2024spring-leaderboard":
+      return <Event2024SpringLeaderboard />;
     default:
       return <Event2023Fall />;
   }
