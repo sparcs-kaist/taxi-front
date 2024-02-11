@@ -152,7 +152,6 @@ const EventSection2024Spring = () => {
           </div>
         </div>
       </AdaptiveDiv>
-
       <WhiteContainerSuggestJoinEvent />
     </div>
   );
