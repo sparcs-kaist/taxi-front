@@ -12,6 +12,9 @@ const eventTheme = {
   blue_button: "linear-gradient(180deg, #00B2FF 0%, #0401B4 100%)",
   purple_button: "linear-gradient(180deg, #F111DA 0%, #5E35B1 100%)",
   orange_button: "linear-gradient(180deg, #FFC700 0%, #C50A0A 100%)",
+  blue_title: "linear-gradient(180deg, #00B2FF 0%, #5E35B1 100%)",
+  blue_icon_top: "#00B2FF",
+  blue_icon_bottom: "#5E35B1",
   yellow: "#F2A024",
 
   // Border radius
@@ -32,6 +35,14 @@ const eventTheme = {
     letterSpacing: -0.4,
     fontWeight: 700,
     lineHeight: "19px",
+  },
+
+  font20: {
+    fontFamily: "Galmuri11",
+    fontSize: 20,
+    letterSpacing: -0.75,
+    fontWeight: 700,
+    lineHeight: "23px",
   },
 };
 
