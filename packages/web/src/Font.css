@@ -28,7 +28,14 @@
 
 @font-face {
   font-family: "Galmuri11";
-  src: local("Galmuri11 Regular"),
-    url("./static/fonts/Galmuri11.woff2") format("woff2");
+  src: local("Galmuri11"),
+    url("./static/fonts/Galmuri11.ttf") format("truetype");
   font-weight: 400;
+}
+
+@font-face {
+  font-family: "Galmuri11";
+  src: local("Galmuri11"),
+    url("./static/fonts/Galmuri11-Bold.ttf") format("truetype");
+  font-weight: 700;
 }
