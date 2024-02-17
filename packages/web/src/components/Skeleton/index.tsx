@@ -2,6 +2,7 @@ import { ReactNode, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 
 import { useEvent2024SpringEffect } from "@/hooks/event/useEvent2024SpringEffect";
+import { useEvent2024SpringTheme } from "@/hooks/event/useEvent2024SpringTheme";
 import useCSSVariablesEffect from "@/hooks/skeleton/useCSSVariablesEffect";
 import useChannelTalkEffect from "@/hooks/skeleton/useChannelTalkEffect";
 import useFirebaseMessagingEffect from "@/hooks/skeleton/useFirebaseMessagingEffect";
@@ -26,6 +27,7 @@ import SuggestAppTopBar from "./SuggestAppTopBar";
 import errorAtom from "@/atoms/error";
 import { useRecoilValue } from "recoil";
 
+import eventTheme from "@/tools/eventTheme";
 import { deviceType } from "@/tools/loadenv";
 
 type ContainerProps = {
@@ -66,6 +68,7 @@ const Skeleton = ({ children }: SkeletonProps) => {
 
   //#region event2023Fall
   useEvent2024SpringEffect();
+  const isEvent2024Spring = useEvent2024SpringTheme();
   //#endregion
   useSyncRecoilStateEffect(); // loginIngo, taxiLocations, myRooms, notificationOptions 초기화 및 동기화
   useI18nextEffect();
@@ -92,7 +95,16 @@ const Skeleton = ({ children }: SkeletonProps) => {
           )}
           {children}
           <ModalTerms isOpen={!!userId && !isAgreeOnTermsOfService} />
-          {isDisplayNavigation && <div css={{ height: "88px" }} />}
+          {isDisplayNavigation && (
+            <div
+              css={{
+                height: "88px",
+                ...(isEvent2024Spring && {
+                  background: eventTheme.black,
+                }),
+              }}
+            />
+          )}
         </>
       )}
     </Container>

@@ -5,10 +5,13 @@ import { ModalCredit, ModalPrivacyPolicy } from "@/components/ModalPopup";
 
 import ButtonAboveFooter from "./ButtonAboveFooter";
 
+import eventTheme from "@/tools/eventTheme";
+
 import { ReactComponent as SparcsLogo } from "@/static/assets/sparcsLogos/SparcsLogoWithText.svg";
+import { ReactComponent as SparcsLogoWhite } from "@/static/assets/sparcsLogos/SparcsLogoWithTextWhite.svg";
 
 type FooterProps = {
-  type?: "only-logo" | "full" | "event-2023fall";
+  type?: "only-logo" | "full" | "event-2023fall" | "event-2024spring";
   children?: ReactNode;
 };
 
@@ -72,9 +75,42 @@ const Footer = ({ type = "full", children }: FooterProps) => {
           </a>
         </>
       )}
+      {type === "event-2024spring" && (
+        <div
+          css={{
+            background: eventTheme.black,
+          }}
+        >
+          <ModalCredit
+            defaultSelectedCatagory="2024SpringEvent"
+            isOpen={isOpenCredit}
+            onChangeIsOpen={setIsOpenCredit}
+          />
+          <a className="popup-channeltalk">
+            <ButtonAboveFooter text="채널톡 문의하기" isWhite={true} />
+          </a>
+          <ButtonAboveFooter
+            text="개인정보 처리방침"
+            onClick={onClickPrivacyPolicy}
+            isWhite={true}
+          />
+          <Link to="/event/2024spring-guide" css={{ textDecoration: "none" }}>
+            <ButtonAboveFooter text="택시 살펴보기" isWhite={true} />
+          </Link>
+          <ButtonAboveFooter
+            text="새터반 택시대제전을 만든 사람들"
+            onClick={onClickCredit}
+            isWhite={true}
+          />
+        </div>
+      )}
       <div css={{ padding: "6px" }}>
         <a href="https://sparcs.org/" target="_blank" rel="noreferrer">
-          <SparcsLogo style={{ height: "27px", opacity: 0.632 }} />
+          {type === "event-2024spring" ? (
+            <SparcsLogoWhite style={{ height: "27px", opacity: 1 }} />
+          ) : (
+            <SparcsLogo style={{ height: "27px", opacity: 1 }} />
+          )}
         </a>
       </div>
     </div>

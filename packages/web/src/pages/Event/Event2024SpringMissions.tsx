@@ -11,6 +11,7 @@ import Footer from "@/components/Footer";
 import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
 import WhiteContainer from "@/components/WhiteContainer";
 
+import eventTheme from "@/tools/eventTheme";
 import theme from "@/tools/theme";
 
 import { ReactComponent as CreditIcon } from "@/static/events/2023fallCredit.svg";
@@ -155,10 +156,14 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
 };
 
 const Event2024SpringMissions = () => {
-  const { quests } = useValueRecoilState("event2023FallInfo") || {};
+  const { quests } = useValueRecoilState("event2024SpringInfo") || {};
 
   return (
-    <>
+    <div
+      css={{
+        background: eventTheme.black,
+      }}
+    >
       <HeaderWithBackButton>
         <div css={{ color: theme.purple, ...theme.font18 }}>퀘스트</div>
       </HeaderWithBackButton>
@@ -169,9 +174,9 @@ const Event2024SpringMissions = () => {
         {quests?.map((quest) => (
           <MissionContainer key={quest.id} quest={quest} />
         ))}
-        <Footer type="event-2023fall" />
+        <Footer type="event-2024spring" />
       </AdaptiveDiv>
-    </>
+    </div>
   );
 };
 
