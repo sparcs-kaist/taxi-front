@@ -1,121 +1,149 @@
-import { useMemo } from "react";
-
-import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import useQuery from "@/hooks/useTaxiAPI";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Empty from "@/components/Empty";
 import Footer from "@/components/Footer";
-import HeaderWithLeftNav from "@/components/Header/HeaderWithLeftNav";
-import Title from "@/components/Title";
-import ProfileImage from "@/components/User/ProfileImage";
-import WhiteContainer from "@/components/WhiteContainer";
+import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
 
 import theme from "@/tools/theme";
 
-import { ReactComponent as LeaderBoardItems } from "@/static/events/2023fallLeaderBoardItems.svg";
-import { ReactComponent as Ticket1Icon } from "@/static/events/2023fallTicket1.svg";
-import { ReactComponent as Ticket2Icon } from "@/static/events/2023fallTicket2.svg";
+import profileImgOnError from "@/static/assets/profileImgOnError.png";
+import Nubzukcoin2 from "@/static/events/2024springCoin.gif";
+//TODO: 택시 대대전 로고 svg 필요...
+import EventLogo from "@/static/events/2024springEventLogo.svg";
 
 const LeaderboardTopBar = () => (
   <div
     css={{
       display: "flex",
       alignItems: "center",
-      padding: "8px 12px",
+      padding: "0px 16px",
       gap: "8px",
-      ...theme.font12,
-      color: theme.purple_disabled,
-      marginTop: "-10px",
     }}
   >
-    <span>순위</span>
-    <span css={{ marginLeft: "16px" }}>닉네임</span>
-    <Ticket1Icon
+    <span
+      css={{
+        color: theme.white,
+        ...theme.font12,
+        fontFamily: "Galmuri11",
+        textAlign: "center",
+      }}
+    >
+      순위
+    </span>
+    <span
+      css={{
+        width: "65px",
+        color: theme.white,
+        ...theme.font12,
+        fontFamily: "Galmuri11",
+        textAlign: "center",
+      }}
+    >
+      새터반
+    </span>
+    <span
       css={{
         marginLeft: "auto",
-        width: "30px",
-        height: "27px",
-        marginTop: "-4px",
-        marginBottom: "-4px",
-        flexShrink: 0,
+        marginRight: "auto",
+        color: theme.white,
+        ...theme.font12,
+        fontFamily: "Galmuri11",
+        textAlign: "center",
       }}
-    />
-    <Ticket2Icon
+    >
+      MVP
+    </span>
+    <span
       css={{
-        width: "30px",
-        height: "27px",
-        marginTop: "-4px",
-        marginBottom: "-4px",
-        flexShrink: 0,
+        color: theme.white,
+        ...theme.font12,
+        fontFamily: "Galmuri11",
+        textAlign: "center",
       }}
-    />
-    <span css={{ width: "56px" }}>추첨 확률</span>
+    >
+      넙죽코인
+    </span>
   </div>
 );
 
 type LeaderboardElem = {
+  group: number;
+  creditAmount: number;
   nickname: string;
   profileImageUrl: string;
-  ticket1Amount: number;
-  ticket2Amount: number;
-  probability: number;
-  probabilityV2: number;
 };
 
 type LeaderboardItemProps = {
   value: LeaderboardElem;
   rank: number;
-  isMe?: boolean;
+  isMe: boolean;
 };
 
-const LeaderboardItem = ({
-  value,
-  rank,
-  isMe = false,
-}: LeaderboardItemProps) => {
+const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
   const styleContainer = (index: number) => {
     switch (index) {
       case 0:
         return {
-          color: "#C6B200",
-          border: "0.5px solid #E4CD00",
-          background: "#FFEE5A",
-          boxShadow: "0px 1px 5px 0px #E4CD00",
-          ...theme.font20,
-          fontSize: "24px",
+          background: "linear-gradient(180deg, #FFEB3B 0%, #FF9800 100%)",
+          padding: "14px 16px 13px 16px",
+          gap: "8px",
+          flexDirection: "row",
+          height: "fit-content",
+          boxShadow:
+            "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), " +
+            "0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), " +
+            "0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
         };
       case 1:
         return {
-          color: "#96BCC6",
-          border: "0.5px solid #BBD4DA",
-          background: "#EEF6F8",
-          boxShadow: "0px 1px 5px 0px #BBD4DA",
-          ...theme.font20,
-          fontSize: "24px",
+          background: "linear-gradient(180deg, #D6DEE1 0%, #586D75 100%)",
+          padding: "14px 16px 13px 16px",
+          gap: "8px",
+          flexDirection: "row",
+          height: "fit-content",
+          boxShadow:
+            "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), " +
+            "0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), " +
+            "0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
         };
       case 2:
         return {
-          color: "#CD6830",
-          border: "0.5px solid #DE8C5D",
-          background: "#FFC5A4",
-          boxShadow: "0px 1px 5px 0px #DE8C5D",
-          ...theme.font20,
-          fontSize: "24px",
+          background: "linear-gradient(180deg, #FFAD94 0%, #954B2C 100%)",
+          padding: "14px 16px 13px 16px",
+          gap: "8px",
+          flexDirection: "row",
+          height: "fit-content",
+          boxShadow:
+            "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), " +
+            "0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), " +
+            "0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
         };
       case -1:
         return {
-          color: theme.purple_disabled,
-          background: theme.purple,
-          boxShadow: theme.shadow,
-          ...theme.font20,
+          background: "linear-gradient(180deg, #00B2FF 0%, #5E35B1 100%)",
+          padding: "14px 16px 13px 16px",
+          gap: "8px",
+          flexDirection: "row",
+          height: "fit-content",
+          boxShadow:
+            "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), " +
+            "0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), " +
+            "0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
         };
       default:
         return {
-          color: theme.purple_disabled,
-          background: theme.white,
-          boxShadow: theme.shadow,
-          ...theme.font20,
+          background: "#000000",
+          border: "1px solid",
+          borderColor: theme.white,
+          padding: "14px 16px 13px 16px",
+          gap: "8px",
+          flexDirection: "row",
+          height: "fit-content",
+          boxShadow:
+            "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), " +
+            "0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), " +
+            "0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
         };
     }
   };
@@ -123,251 +151,187 @@ const LeaderboardItem = ({
   const styleText = (index: number) => {
     switch (index) {
       case 0:
-        return "#6B6000";
       case 1:
-        return "#337182";
       case 2:
-        return "#9E3800";
       case -1:
-        return theme.white;
+        return {
+          color: theme.white,
+          fontFamily: "Galmuri11",
+          letterSpacing: -0.75,
+          lineHeight: "19px",
+          fontSize: "16px",
+          fontWeight: 700,
+        };
       default:
-        return theme.purple;
+        return {
+          color: theme.white,
+          fontFamily: "Galmuri11",
+          letterSpacing: -0.75,
+          lineHeight: "19px",
+          fontSize: "16px",
+          fontWeight: 400,
+        };
     }
   };
 
-  const styleTicketText = {
-    ...theme.font16,
-    width: "30px",
-    flexShrink: 0,
-    textAlign: "center" as const,
+  const styleLeaderboardText = {
+    ...theme.font16_bold,
+    color: theme.white,
+    fontFamily: "Galmuri11",
+    textAlign: "center",
   };
 
   return (
-    <WhiteContainer
+    <div
       css={{
         display: "flex",
+        justifyContent: "space-between",
         alignItems: "center",
-        padding: "8px 15px",
-        marginBottom: "8px",
-        gap: "8px",
+        borderRadius: "12px",
         ...styleContainer(isMe ? -1 : rank),
       }}
     >
-      {rank + 1}
-      <div
+      <span
         css={{
-          width: "30px",
-          height: "30px",
-          borderRadius: "15px",
-          overflow: "hidden",
-          flexShrink: 0,
-          flexGrow: 0,
-          marginLeft: "5px",
+          width: "24px",
+          color: theme.white,
+          fontFamily: "Galmuri11",
+          fontWeight: 700,
+          letterSpacing: -0.75,
+          lineHeight: "19px",
+          fontSize: "16px",
+          textAlign: "center",
         }}
       >
-        <ProfileImage url={value.profileImageUrl} />
+        {rank + 1}
+      </span>
+      <div
+        css={{
+          ...theme.font16,
+          ...theme.ellipsis,
+          ...styleText(isMe ? -1 : rank),
+        }}
+      >
+        {"새터 " + value.group + "반"}
       </div>
-      {isMe && (
-        <div
+      <div
+        css={{
+          display: "flex",
+          flexDirection: "row",
+          gap: "8px",
+          marginLeft: "auto",
+          marginRight: "auto",
+          alignItems: "center",
+        }}
+      >
+        <img
+          src={value.profileImageUrl || profileImgOnError}
+          alt="넙죽코인"
+          css={{ width: "16px", height: "16px", borderRadius: "50%" }}
+        />
+        <span
           css={{
-            width: "20px",
-            height: "20px",
-            ...theme.font12_bold,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            background: theme.purple_disabled,
-            borderRadius: "5px",
-            color: theme.purple,
+            fontSize: "10px",
+            fontWeight: 400,
+            color: theme.white,
+            fontFamily: "Galmuri11",
+            textAlign: "center",
           }}
         >
-          나
-        </div>
-      )}
-      <div
-        css={{
-          ...theme.font16_bold,
-          ...theme.ellipsis,
-          color: isMe ? theme.white : theme.black,
-        }}
-      >
-        {value.nickname}
-      </div>
-      <span css={{ marginLeft: "auto", ...styleTicketText }}>
-        {value.ticket1Amount || 0}
-      </span>
-      <span css={styleTicketText}>{value.ticket2Amount || 0}</span>
-      <div
-        css={{
-          color: styleText(isMe ? -1 : rank),
-          ...theme.font16_bold,
-          width: "56px",
-          flexShrink: 0,
-          textAlign: "right",
-        }}
-        title={(value.probabilityV2 * 100).toString()}
-      >
-        <span css={{ ...theme.font20 }}>
-          {Math.trunc(value.probabilityV2 * 100) || 0}
+          {value.nickname}
         </span>
-        .{Math.floor(((value.probabilityV2 * 100) % 1) * 10)}%
       </div>
-    </WhiteContainer>
+      <div
+        css={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          gap: "8px",
+        }}
+      >
+        <img
+          src={Nubzukcoin2}
+          alt="넙죽코인"
+          css={{ width: "24px", height: "24px" }}
+        />
+        <span css={{ ...styleLeaderboardText }}>
+          {value.creditAmount || "000"}
+        </span>
+      </div>
+    </div>
   );
 };
 
 const Event2024SpringLeaderboard = () => {
-  const {
-    leaderboard,
-    rank,
-    probability,
-    probabilityV2,
-    totalUserAmount,
-    totalTicket1Amount,
-    totalTicket2Amount,
-  } = useQuery.get("/events/2023fall/public-notice/leaderboard")[1] || {
+  const { leaderboard, group, rank } = useQuery.get(
+    "/publicNotice/leaderboard"
+  )[1] || {
     leaderboard: [],
+    group: 0,
     rank: 0,
   };
-  const { ticket1Amount, ticket2Amount } =
-    useValueRecoilState("event2023FallInfo") || {};
-  const { nickname, profileImgUrl } = useValueRecoilState("loginInfo") || {};
-  const myLeaderboardInfo = useMemo<Nullable<LeaderboardElem>>(() => {
-    if (!nickname || !profileImgUrl || !probability) return null;
-    return {
-      nickname,
-      profileImageUrl: profileImgUrl,
-      ticket1Amount: ticket1Amount || 0,
-      ticket2Amount: ticket2Amount || 0,
-      probability,
-      probabilityV2,
-    };
-  }, [nickname, profileImgUrl, ticket1Amount, ticket2Amount, probability]);
 
   return (
     <>
-      <HeaderWithLeftNav
-        value="leaderboard"
-        options={[
-          { value: "store", label: "달토끼 상점", to: "/event/2023fall-store" },
-          {
-            value: "history",
-            label: "구매 이력",
-            to: "/event/2023fall-history",
-          },
-          {
-            value: "leaderboard",
-            label: "리더보드",
-            to: "/event/2023fall-leaderboard",
-          },
-        ]}
-      />
-      <AdaptiveDiv type="center">
-        <Title icon="notice" isHeader>
-          안내
-        </Title>
-        <WhiteContainer>
+      <HeaderWithBackButton>
+        <span css={{ color: theme.purple, ...theme.font18 }}>새터반 순위</span>
+      </HeaderWithBackButton>
+
+      <div css={{ background: "#000000", height: "100%" }}>
+        <AdaptiveDiv type="center">
           <div
+            className="body"
             css={{
-              ...theme.font14,
-              color: theme.black,
-              margin: "0 4px",
+              paddingTop: "20px",
+              display: "flex",
+              flexDirection: "column",
             }}
           >
-            <div
+            <img
+              src={EventLogo}
               css={{
-                ...theme.font14,
-                marginBottom: "5px",
+                width: "100%",
+                minWidth: "335px",
+                minHeight: "70px",
+                margin: "0 auto",
+              }}
+              alt={"택시 대대전"}
+            />
+            <div
+              className="Leaderboard Container"
+              css={{
+                paddingTop: "15px",
+                width: "auto",
               }}
             >
-              <b>🌟 참여 방법</b>
-            </div>
-            <div
-              css={{
-                ...theme.font14,
-                marginBottom: "15px",
-              }}
-            >
-              퀘스트 달성, 달토끼 상점을 통해 응모권을 얻을 수 있습니다.
-              <br />
-              고급응모권은 일반응모권 당첨 확률의 5배입니다.
-              <br />
-              여러 개의 응모권으로 중복 참여가 가능합니다.
-            </div>
-            <div
-              css={{
-                ...theme.font14,
-                marginBottom: "5px",
-              }}
-            >
-              <b>📌 경품 추첨 결과 발표일 : </b>10월 13일(금)
-            </div>
-            <div
-              css={{
-                ...theme.font14,
-                marginBottom: "15px",
-              }}
-            >
-              추첨 결과는 인스타그램, Ara, Taxi 홈페이지를 통해 발표됩니다.
-            </div>
-            <div css={{ ...theme.font14, marginBottom: "15px" }}>
-              <b>🎁 경품 :</b> 에어팟 3세대 (1명), 택시비 카카오페이 상품권
-              5000원 (14명)
-            </div>
-            <div css={{ textAlign: "center", position: "relative" }}>
-              <LeaderBoardItems css={{ width: "235px", maxWidth: "100%" }} />
-            </div>
-            <div css={{ ...theme.font14, margin: "12px 0 5px" }}>
-              <b>🏆 리더보드 :</b> 이벤트 기간 중, 실시간으로 변동되는 내 자신과
-              상위 참여자들의 추첨 확률이 공개됩니다.
+              {leaderboard.length > 0 ? (
+                <>
+                  <div
+                    css={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "8px",
+                    }}
+                  >
+                    <LeaderboardTopBar />
+                    {leaderboard.map((elem: LeaderboardElem, index: number) => (
+                      <LeaderboardItem
+                        key={index}
+                        rank={index}
+                        value={elem}
+                        isMe={group === elem.group}
+                      />
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <Empty type="mobile">리더보드가 비어있습니다.</Empty>
+              )}
             </div>
           </div>
-        </WhiteContainer>
-        <Title icon="leaderboard" isHeader>
-          리더보드
-        </Title>
-        {leaderboard.length > 0 ? (
-          <>
-            <LeaderboardTopBar />
-            {leaderboard.map((elem: LeaderboardElem, index: number) => (
-              <LeaderboardItem
-                key={index}
-                rank={index}
-                value={elem}
-                isMe={index === rank - 1}
-              />
-            ))}
-            {rank > 20 && myLeaderboardInfo && (
-              <LeaderboardItem rank={rank - 1} value={myLeaderboardInfo} isMe />
-            )}
-            <div
-              css={{
-                margin: "12px 12px 0",
-                display: "flex",
-                flexDirection: "column",
-                gap: "5px",
-              }}
-            >
-              <div css={{ color: theme.purple_disabled, ...theme.font12 }}>
-                • 리더보드의 추첨 확률은 정확한 확률이 아닌 내부 모델을 사용하여
-                계산한 근삿값입니다.
-              </div>
-              <div css={{ color: theme.purple_disabled, ...theme.font12 }}>
-                • 경품 추첨 전체 참여자 수 : {totalUserAmount || 0}명
-              </div>
-              <div css={{ color: theme.purple_disabled, ...theme.font12 }}>
-                • 발급된 전체 일반 응모권 개수 : {totalTicket1Amount || 0}개
-              </div>
-              <div css={{ color: theme.purple_disabled, ...theme.font12 }}>
-                • 발급된 전체 고급 응모권 개수 : {totalTicket2Amount || 0}개
-              </div>
-            </div>
-          </>
-        ) : (
-          <Empty type="mobile">리더보드가 비어있습니다.</Empty>
-        )}
-      </AdaptiveDiv>
-      <Footer type="event-2023fall" />
+        </AdaptiveDiv>
+        <Footer type="event-2024spring" />
+      </div>
     </>
   );
 };

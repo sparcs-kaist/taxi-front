@@ -19,7 +19,7 @@ export const useFetchEvent2024SpringInfo = () => {
   return useCallback((onError?: AxiosOption["onError"]) => {
     if (eventMode === "2024spring") {
       axios({
-        url: "/events/2024spring/global-state/",
+        url: "/events/2024spring/globalState/",
         method: "get",
         onSuccess: (data) => setEvent2024SpringInfo(data),
         onError: onError,

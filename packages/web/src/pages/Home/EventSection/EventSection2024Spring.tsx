@@ -141,7 +141,7 @@ const EventSection2024Spring = () => {
               ></EventButton>
             </Link>
             <Link
-              to="/event/2024spring-ranking"
+              to="/event/2024spring-leaderboard"
               css={{ width: 0, flexGrow: 1, textDecoration: "none" }}
             >
               <EventButton
