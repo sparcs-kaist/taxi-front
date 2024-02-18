@@ -37,6 +37,30 @@ const eventTheme = {
     lineHeight: "19px",
   },
 
+  font12: {
+    fontFamily: "Galmuri11",
+    fontSize: 12,
+    letterSpacing: -0.4,
+    fontWeight: 400,
+    lineHeight: "19px",
+  },
+
+  font12_bold: {
+    fontFamily: "Galmuri11",
+    fontSize: 12,
+    letterSpacing: -0.4,
+    fontWeight: 700,
+    lineHeight: "19px",
+  },
+
+  font10: {
+    fontFamily: "Galmuri11",
+    fontSize: 10,
+    letterSpacing: -0.4,
+    fontWeight: 400,
+    lineHeight: "19px",
+  },
+
   font20: {
     fontFamily: "Galmuri11",
     fontSize: 20,

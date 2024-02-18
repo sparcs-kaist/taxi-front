@@ -5,7 +5,7 @@ import type { Quest } from "@/types/event2023fall";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
-import CreditAmountStatusContainer from "@/components/Event/CreditAmountStatusContainer";
+import CoinAmountStatusContainer from "@/components/Event/CoinAmountStatusContainer";
 import WhiteContainerSuggestJoinEvent from "@/components/Event/WhiteContainerSuggestJoinEvent";
 import Footer from "@/components/Footer";
 import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
@@ -14,9 +14,8 @@ import WhiteContainer from "@/components/WhiteContainer";
 import eventTheme from "@/tools/eventTheme";
 import theme from "@/tools/theme";
 
-import { ReactComponent as CreditIcon } from "@/static/events/2023fallCredit.svg";
 import { ReactComponent as MissionCompleteIcon } from "@/static/events/2023fallMissionComplete.svg";
-import { ReactComponent as Ticket1Icon } from "@/static/events/2023fallTicket1.svg";
+import CoinIcon from "@/static/events/2024springCoin.gif";
 
 type MissionContainerProps = {
   quest: Quest;
@@ -65,13 +64,15 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
     flexGrow: 1,
   };
   const styleTitle = {
-    ...theme.font16_bold,
-    color: isDone ? theme.gray_text : theme.black,
+    ...eventTheme.font16_bold,
+    background: isDone ? theme.gray_text : eventTheme.blue_title,
+    backgroundClip: "text",
+    textFillColor: "transparent",
     marginBottom: "4px",
   };
   const styleDescription = {
-    ...theme.font12,
-    color: isDone ? theme.gray_text : theme.black,
+    ...eventTheme.font10,
+    color: isDone ? theme.gray_text : theme.white,
   };
   const styleReward = {
     display: "flex",
@@ -79,9 +80,14 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
     gap: "4px",
   };
   const styleRewardText = {
-    ...theme.font12_bold,
-    color: isDone ? theme.gray_text : theme.black,
+    ...eventTheme.font12,
+    color: isDone ? theme.gray_text : theme.white,
   };
+  const styleRewardCoin = {
+    ...eventTheme.font12_bold,
+    color: isDone ? theme.gray_text : theme.white,
+  };
+
   const styleStamp = {
     position: "absolute" as const,
     right: "-10px",
@@ -94,63 +100,50 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
   return (
     <WhiteContainer
       css={{
-        padding: "12px 12px 12px 20px",
-        backgroundColor: isDone ? theme.gray_background : theme.white,
+        padding: "1px",
+        background: "linear-gradient(180deg, #00B2FF 0%, #5E35B1 100%)",
       }}
     >
       <div
         css={{
-          position: "absolute",
-          top: 0,
-          bottom: 0,
-          left: 0,
-          width: "8px",
-          background: isDone ? theme.purple_disabled : theme.purple,
+          backgroundColor: "#000",
+          padding: "16px",
+          border: "1px solid transparent",
+          borderRadius: "11px",
         }}
-      />
-      <div css={styleBody}>
-        <div css={styleImageWrap}>
-          <div css={styleImageBorder}>
-            <img src={quest.imageUrl} alt={quest.name} css={styleImage} />
-            {isDone && <div css={styleBlur} />}
+      >
+        <div css={styleBody}>
+          <div css={styleImageWrap}>
+            <div css={styleImageBorder}>
+              <img src={quest.imageUrl} alt={quest.name} css={styleImage} />
+              {isDone && <div css={styleBlur} />}
+            </div>
+          </div>
+          <div css={styleContentBox}>
+            <div css={styleTitle}>{quest.name}</div>
+            <div
+              css={styleDescription}
+              dangerouslySetInnerHTML={{ __html: quest.description }}
+            />
           </div>
         </div>
-        <div css={styleContentBox}>
-          <div css={styleTitle}>{quest.name}</div>
-          <div
-            css={styleDescription}
-            dangerouslySetInnerHTML={{ __html: quest.description }}
-          />
+        <div css={styleReward}>
+          <div css={styleRewardText}>
+            {questCompletedCnt}회 달성 (최대 {quest.maxCount}회)
+          </div>
+          <div css={{ flexGrow: 1 }} />
+          {!isDone && (
+            <>
+              <img width="16px" src={CoinIcon} alt="coin" />
+
+              <div css={styleRewardCoin}>
+                {quest.reward.credit + (quest.reward.ticket1 || 0)}
+              </div>
+            </>
+          )}
         </div>
+        {/* {isDone && <MissionCompleteIcon css={styleStamp} />} */}
       </div>
-      <div css={styleReward}>
-        <div css={styleRewardText}>
-          달성 {questCompletedCnt}번 / 최대 {quest.maxCount}번
-        </div>
-        <div css={{ flexGrow: 1 }} />
-        {!isDone && (
-          <>
-            <div css={styleRewardText}>달성 시에</div>
-            {quest.reward.credit ? (
-              <CreditIcon
-                css={{ width: "27px", height: "16px", marginTop: "-2px" }}
-              />
-            ) : (
-              <Ticket1Icon
-                css={{
-                  width: "27px",
-                  height: "27px",
-                  marginTop: "-6px",
-                }}
-              />
-            )}
-            <div css={styleRewardText}>
-              X {quest.reward.credit + (quest.reward.ticket1 || 0)} 획득
-            </div>
-          </>
-        )}
-      </div>
-      {isDone && <MissionCompleteIcon css={styleStamp} />}
     </WhiteContainer>
   );
 };
@@ -169,7 +162,7 @@ const Event2024SpringMissions = () => {
       </HeaderWithBackButton>
       <AdaptiveDiv type="center">
         <div css={{ height: "30px" }} />
-        <CreditAmountStatusContainer />
+        <CoinAmountStatusContainer />
         <WhiteContainerSuggestJoinEvent />
         {quests?.map((quest) => (
           <MissionContainer key={quest.id} quest={quest} />
