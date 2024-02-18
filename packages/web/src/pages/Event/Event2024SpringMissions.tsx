@@ -14,8 +14,8 @@ import WhiteContainer from "@/components/WhiteContainer";
 import eventTheme from "@/tools/eventTheme";
 import theme from "@/tools/theme";
 
-import { ReactComponent as MissionCompleteIcon } from "@/static/events/2023fallMissionComplete.svg";
-import CoinIcon from "@/static/events/2024springCoin.gif";
+import Coin from "@/static/events/2024springCoin.gif";
+import { ReactComponent as CoinComplete } from "@/static/events/2024springCoinComplete.svg";
 
 type MissionContainerProps = {
   quest: Quest;
@@ -88,20 +88,11 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
     color: isDone ? theme.gray_text : theme.white,
   };
 
-  const styleStamp = {
-    position: "absolute" as const,
-    right: "-10px",
-    bottom: "-10px",
-    width: "100px",
-    height: "100px",
-    opacity: 0.5,
-  };
-
   return (
     <WhiteContainer
       css={{
         padding: "1px",
-        background: "linear-gradient(180deg, #00B2FF 0%, #5E35B1 100%)",
+        background: isDone ? theme.gray_text : eventTheme.blue_title,
       }}
     >
       <div
@@ -132,15 +123,17 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
             {questCompletedCnt}회 달성 (최대 {quest.maxCount}회)
           </div>
           <div css={{ flexGrow: 1 }} />
-          {!isDone && (
-            <>
-              <img width="16px" src={CoinIcon} alt="coin" />
+          <>
+            {isDone ? (
+              <CoinComplete width="16px" height="16px" />
+            ) : (
+              <img width="16px" src={Coin} alt="coin" />
+            )}
 
-              <div css={styleRewardCoin}>
-                {quest.reward.credit + (quest.reward.ticket1 || 0)}
-              </div>
-            </>
-          )}
+            <div css={styleRewardCoin}>
+              {quest.reward.credit + (quest.reward.ticket1 || 0)}
+            </div>
+          </>
         </div>
         {/* {isDone && <MissionCompleteIcon css={styleStamp} />} */}
       </div>
