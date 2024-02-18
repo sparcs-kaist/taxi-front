@@ -9,7 +9,6 @@ import theme from "@/tools/theme";
 
 import profileImgOnError from "@/static/assets/profileImgOnError.png";
 import Nubzukcoin2 from "@/static/events/2024springCoin.gif";
-//TODO: 택시 대대전 로고 svg 필요...
 import EventLogo from "@/static/events/2024springEventLogo.svg";
 
 const LeaderboardTopBar = () => (
@@ -70,8 +69,8 @@ const LeaderboardTopBar = () => (
 type LeaderboardElem = {
   group: number;
   creditAmount: number;
-  nickname: string;
-  profileImageUrl: string;
+  mvpNickname: string;
+  mvpProfileImageUrl: string;
 };
 
 type LeaderboardItemProps = {
@@ -225,7 +224,7 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
         }}
       >
         <img
-          src={value.profileImageUrl || profileImgOnError}
+          src={value.mvpProfileImageUrl || profileImgOnError}
           alt="넙죽코인"
           css={{ width: "16px", height: "16px", borderRadius: "50%" }}
         />
@@ -238,7 +237,7 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
             textAlign: "center",
           }}
         >
-          {value.nickname}
+          {value.mvpNickname}
         </span>
       </div>
       <div
@@ -264,7 +263,7 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
 
 const Event2024SpringLeaderboard = () => {
   const { leaderboard, group, rank } = useQuery.get(
-    "/publicNotice/leaderboard"
+    "/events/2024spring/publicNotice/leaderboard"
   )[1] || {
     leaderboard: [],
     group: 0,
