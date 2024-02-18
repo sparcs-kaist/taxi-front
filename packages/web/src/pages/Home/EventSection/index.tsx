@@ -10,7 +10,7 @@ const EventSection = () => {
       return <EventSection2023Spring />;
     case "2023fall":
       return <EventSection2023Fall />;
-    case null:
+    case "2024spring":
       return <EventSection2024Spring />;
     default:
       return null;
