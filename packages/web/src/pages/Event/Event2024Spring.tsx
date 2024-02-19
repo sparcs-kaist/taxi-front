@@ -120,7 +120,7 @@ const Event2024Spring = () => {
         >
           <EventButton
             title="이벤트 참여하기"
-            background={eventTheme.home_button}
+            css={{ background: eventTheme.home_button }}
           />
         </Link>
       </AdaptiveDiv>
@@ -260,7 +260,7 @@ const Event2024Spring = () => {
           >
             <EventButton
               title="퀘스트 보러가기"
-              background={eventTheme.purple_button}
+              css={{ background: eventTheme.purple_button }}
             />
           </Link>
         </EventStep>
@@ -311,7 +311,7 @@ const Event2024Spring = () => {
           >
             <EventButton
               title="세터반 순위 보러가기"
-              background={eventTheme.orange_button}
+              css={{ background: eventTheme.orange_button }}
             />
           </Link>
         </EventStep>
@@ -320,7 +320,7 @@ const Event2024Spring = () => {
           <Link to="/" css={{ textDecoration: "none", width: "100%" }}>
             <EventButton
               title="인스타그램 게시물 보러가기"
-              background={eventTheme.instagram_button}
+              css={{ background: eventTheme.instagram_button }}
             />
           </Link>
         </EventStep>

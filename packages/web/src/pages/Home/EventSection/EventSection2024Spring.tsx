@@ -91,8 +91,8 @@ const EventSection2024Spring = () => {
             >
               <EventButton
                 title="이벤트 안내"
-                background={eventTheme.blue_button}
-              ></EventButton>
+                css={{ background: eventTheme.blue_button }}
+              />
             </Link>
             <Link
               to="/event/2024spring-missions"
@@ -100,8 +100,8 @@ const EventSection2024Spring = () => {
             >
               <EventButton
                 title="퀘스트"
-                background={eventTheme.purple_button}
-              ></EventButton>
+                css={{ background: eventTheme.purple_button }}
+              />
             </Link>
             <Link
               to="/event/2024spring-leaderboard"
@@ -109,8 +109,8 @@ const EventSection2024Spring = () => {
             >
               <EventButton
                 title="새터반 순위"
-                background={eventTheme.orange_button}
-              ></EventButton>
+                css={{ background: eventTheme.orange_button }}
+              />
             </Link>
           </div>
         </div>
