@@ -1,6 +1,3 @@
-import { blue } from "@mui/material/colors";
-import shadows from "@mui/material/styles/shadows";
-
 export type Font = {
   fontSize: number;
   letterSpacing?: number;
@@ -42,7 +39,7 @@ const eventTheme = {
     fontWeight: 400,
     lineHeight: "12px",
   },
-  
+
   font12: {
     fontFamily: "Galmuri11",
     fontWeight: 400,
@@ -81,7 +78,7 @@ const eventTheme = {
     fontWeight: 700,
     lineHeight: "33px",
   },
-  
+
   //shadow
   shadow_leaderboard:
     "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), " +
