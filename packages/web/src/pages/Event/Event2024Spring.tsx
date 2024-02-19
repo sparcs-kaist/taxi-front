@@ -103,7 +103,7 @@ const Event2024Spring = () => {
         >
           2024.02.23. ~ 03.18.
         </div>
-        <img src={LineArt} css={{ width: "100%" }} />
+        <img src={LineArt} alt="line art" css={{ width: "100%" }} />
         <Link
           to="/event/2024spring-missions"
           css={{ textDecoration: "none", width: "100%" }}
@@ -126,7 +126,11 @@ const Event2024Spring = () => {
           margin: "0px",
         }}
       >
-        <img src={NupzukiEyes} css={{ width: "100%", maxWidth: "380px" }} />
+        <img
+          src={NupzukiEyes}
+          alt="Nupzuki Eyes"
+          css={{ width: "100%", maxWidth: "380px" }}
+        />
         <div css={{ ...styleTextBox, width: "335px" }}>
           <span css={{ color: eventTheme.kaist, ...eventTheme.font20 }}>
             KAIST
@@ -172,6 +176,7 @@ const Event2024Spring = () => {
           </div>
           <img
             src={AIArt}
+            alt="AI Art of a taxi"
             css={{
               position: "absolute",
               top: "129px",
