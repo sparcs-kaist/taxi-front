@@ -23,6 +23,10 @@ const members: Members = [
     ],
   },
   {
+    position: "📜 Planner",
+    list: [{ name: "박병찬", id: "chan", period: "2024" }],
+  },
+  {
     position: "🎨 Designer",
     list: [{ name: "황인태", id: "ricky", period: "2024" }],
   },
