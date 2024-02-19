@@ -223,7 +223,7 @@ const Event2024Spring = () => {
         }}
       >
         이제 여러분들의 차례입니다!
-        <img src={NupzukCoin} css={{ width: "180px" }} />
+        <img src={NupzukCoin} alt="Nupzuk Coin" css={{ width: "180px" }} />
       </AdaptiveDiv>
       <AdaptiveDiv
         type="center"
