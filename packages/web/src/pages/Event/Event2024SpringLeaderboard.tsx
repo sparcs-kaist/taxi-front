@@ -9,7 +9,7 @@ import theme from "@/tools/theme";
 
 import profileImgOnError from "@/static/assets/profileImgOnError.png";
 import Nubzukcoin2 from "@/static/events/2024springCoin.gif";
-import EventLogo from "@/static/events/2024springEventLogo.svg";
+import { ReactComponent as EventLogo } from "@/static/events/2024springEventLogo.svg";
 
 const LeaderboardTopBar = () => (
   <div
@@ -286,15 +286,12 @@ const Event2024SpringLeaderboard = () => {
               flexDirection: "column",
             }}
           >
-            <img
-              src={EventLogo}
+            <EventLogo
               css={{
-                width: "100%",
                 minWidth: "335px",
-                minHeight: "70px",
+                minHeight: "60px",
                 margin: "0 auto",
               }}
-              alt={"택시 대대전"}
             />
             <div
               className="Leaderboard Container"

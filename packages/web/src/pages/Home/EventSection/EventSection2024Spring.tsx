@@ -87,7 +87,7 @@ const EventSection2024Spring = () => {
               textFillColor: "transparent",
             }}
           >
-            세터반 택시대제전
+            새터반 택시대제전
           </div>
           <div
             css={{
@@ -145,7 +145,7 @@ const EventSection2024Spring = () => {
               css={{ width: 0, flexGrow: 1, textDecoration: "none" }}
             >
               <EventButton
-                title="세터반 순위"
+                title="새터반 순위"
                 background={eventTheme.orange_button}
               ></EventButton>
             </Link>

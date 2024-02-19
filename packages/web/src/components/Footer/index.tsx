@@ -95,7 +95,7 @@ const Footer = ({ type = "full", children }: FooterProps) => {
             <ButtonAboveFooter text="택시 살펴보기" />
           </Link>
           <ButtonAboveFooter
-            text="새터반 택시대대전를 만든 사람들"
+            text="새터반 택시대제전을 만든 사람들"
             onClick={onClickCredit}
           />
           <div css={{ padding: "6px" }}>
