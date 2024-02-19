@@ -5,8 +5,6 @@ import { ModalCredit, ModalPrivacyPolicy } from "@/components/ModalPopup";
 
 import ButtonAboveFooter from "./ButtonAboveFooter";
 
-import eventTheme from "@/tools/eventTheme";
-
 import { ReactComponent as SparcsLogo } from "@/static/assets/sparcsLogos/SparcsLogoWithText.svg";
 import { ReactComponent as SparcsLogoWhite } from "@/static/events/2024SparcsLogoWithTextWhite.svg";
 

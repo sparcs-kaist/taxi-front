@@ -74,6 +74,10 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
   const styleDescription = {
     ...eventTheme.font10,
     color: isDone ? theme.gray_text : theme.white,
+    "& *": {
+      ...eventTheme.font10,
+      color: isDone ? theme.gray_text : theme.white,
+    },
   };
   const styleReward = {
     display: "flex",
@@ -98,7 +102,7 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
     >
       <div
         css={{
-          backgroundColor: "#000",
+          background: eventTheme.black,
           padding: "16px",
           border: "1px solid transparent",
           borderRadius: "11px",
@@ -121,9 +125,12 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
         </div>
         <div css={styleReward}>
           <div css={styleRewardText}>
-            {questCompletedCnt}회 달성 (최대 {quest.maxCount}회)
+            {questCompletedCnt}회 달성{" "}
+            {quest.maxCount > 0
+              ? `(최대 ${quest.maxCount}회)`
+              : `(무제한 달성 가능)`}
           </div>
-          <div css={{ flexGrow: 1 }} />
+          <div css={{ flexGrow: 1, width: 0 }} />
           <>
             {isDone ? (
               <CoinComplete width="16px" height="16px" />
@@ -142,14 +149,10 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
 
 const Event2024SpringMissions = () => {
   const { quests } = useValueRecoilState("event2024SpringInfo") || {};
-  useEventBackgroundEffect({ color: "#000000" });
+  useEventBackgroundEffect();
 
   return (
-    <div
-      css={{
-        background: eventTheme.black,
-      }}
-    >
+    <div>
       <HeaderWithBackButton>
         <div css={{ color: theme.purple, ...theme.font18 }}>퀘스트</div>
       </HeaderWithBackButton>
