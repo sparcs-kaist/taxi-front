@@ -13,7 +13,7 @@ import theme from "@/tools/theme";
 import AIArt from "@/static/events/2024springAIArt.png";
 import GoldPrize from "@/static/events/2024springGoldPrize.png";
 import LineArt from "@/static/events/2024springLineArt.png";
-import { ReactComponent as NupzukCoin } from "@/static/events/2024springNubzukcoinLarge.svg";
+import NupzukCoin from "@/static/events/2024springNubzukcoinLarge.gif";
 import NupzukiEyes from "@/static/events/2024springNubzukiEyes.png";
 import SilverPrize from "@/static/events/2024springSilverPrize.png";
 import { ReactComponent as MainTitle } from "@/static/events/2024springTitle.svg";
@@ -213,34 +213,27 @@ const Event2024Spring = () => {
       <AdaptiveDiv
         type="center"
         css={{
-          display: "flex",
-          flexDirection: "column",
+          ...styleVerticalCenter,
           padding: "32px 11px 97.75px 11px",
-          alightItems: "center",
-          justifyContent: "center",
           gap: "40px",
-          background:
-            "radial-gradient(50% 50% at 50% 50%, #00B2FF 0%, #5E35B1 78%, #000 100%)",
+          background: eventTheme.radial_coin,
           ...eventTheme.font28,
           color: theme.white,
           textAlign: "center",
         }}
       >
         이제 여러분들의 차례입니다!
-        <NupzukCoin css={{ width: "100%" }} />
+        <img src={NupzukCoin} css={{ width: "180px" }} />
       </AdaptiveDiv>
       <AdaptiveDiv
         type="center"
         css={{
-          display: "flex",
-          flexDirection: "column",
+          ...styleVerticalCenter,
           padding: "20px 0",
           gap: "10px",
           width: "100%",
           ...eventTheme.font20,
           color: theme.white,
-          alignItems: "center",
-          justifyContent: "center",
           textAlign: "center",
         }}
       >

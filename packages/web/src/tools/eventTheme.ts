@@ -18,6 +18,8 @@ const eventTheme = {
   nubzuki_eyes: "linear-gradient(180deg, #00B2FF 0%, #000 100%)",
   ai_img:
     "linear-gradient(180deg, #000 0%, #E6D198 20.31%, #E9D3A1 79.7%, #000 100%)",
+  radial_coin:
+    "radial-gradient(50% 50% at 50% 50%, #00B2FF 0%, #5E35B1 78%, #000 100%)",
   blue_icon_top: "#00B2FF",
   blue_icon_bottom: "#5E35B1",
   yellow: "#F2A024",
