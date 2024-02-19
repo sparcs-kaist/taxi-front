@@ -92,7 +92,13 @@ const Skeleton = ({ children }: SkeletonProps) => {
           )}
           {children}
           <ModalTerms isOpen={!!userId && !isAgreeOnTermsOfService} />
-          {isDisplayNavigation && <div css={{ height: "88px" }} />}
+          {isDisplayNavigation && (
+            <div
+              css={{
+                height: "88px",
+              }}
+            />
+          )}
         </>
       )}
     </Container>

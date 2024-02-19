@@ -39,7 +39,7 @@ const Event = () => {
     case "2024spring-leaderboard":
       return <Event2024SpringLeaderboard />;
     default:
-      return <Event2023Fall />;
+      return <Event2024Spring />;
   }
 };
 

@@ -6,6 +6,8 @@ export type Event2024SpringInfoType = Nullable<{
   isAgreeOnTermsOfEvent: boolean;
   completedQuests: QuestId[];
   creditAmount: number;
+  groupCreditAmount: number;
+  group: number;
   ticket1Amount: number;
   ticket2Amount: number;
   quests: Quest[];
