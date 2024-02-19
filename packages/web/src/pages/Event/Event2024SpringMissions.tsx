@@ -5,7 +5,7 @@ import type { Quest } from "@/types/event2023fall";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
-import CoinAmountStatusContainer from "@/components/Event/CoinAmountStatusContainer";
+import CreditAmountContainer from "@/components/Event/CreditAmoutContainer";
 import WhiteContainerSuggestJoinEvent from "@/components/Event/WhiteContainerSuggestJoinEvent";
 import Footer from "@/components/Footer";
 import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
@@ -155,7 +155,7 @@ const Event2024SpringMissions = () => {
       </HeaderWithBackButton>
       <AdaptiveDiv type="center">
         <div css={{ height: "30px" }} />
-        <CoinAmountStatusContainer />
+        <CreditAmountContainer />
         <WhiteContainerSuggestJoinEvent />
         {quests?.map((quest) => (
           <MissionContainer key={quest.id} quest={quest} />
