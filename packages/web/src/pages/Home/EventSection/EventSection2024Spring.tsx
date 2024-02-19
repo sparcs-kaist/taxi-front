@@ -27,7 +27,7 @@ type EventButtonProps = {
   background: string;
 };
 
-const EventButton = ({ title, background }: EventButtonProps) => {
+export const EventButton = ({ title, background }: EventButtonProps) => {
   return (
     <div
       css={{
