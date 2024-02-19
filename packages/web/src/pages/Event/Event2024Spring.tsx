@@ -1,31 +1,68 @@
-import { memo } from "react";
+import { ReactNode, memo } from "react";
 import { Link } from "react-router-dom";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
-import Button from "@/components/Button";
 import Footer from "@/components/Footer";
 import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
-import LinkEvent2023FallInstagramStoryShare from "@/components/Link/LinkEvent2023FallInstagramStoryShare";
-import WhiteContainer from "@/components/WhiteContainer";
 
 import { EventButton } from "../Home/EventSection/EventSection2024Spring";
 
 import eventTheme from "@/tools/eventTheme";
 import theme from "@/tools/theme";
 
-import { ReactComponent as TaxiLogoIcon } from "@/static/assets/sparcsLogos/TaxiLogo.svg";
-import { ReactComponent as MainSection1 } from "@/static/events/2023fallMainSection1.svg";
-import { ReactComponent as MainSection4 } from "@/static/events/2023fallMainSection4.svg";
-import { ReactComponent as MainSection5 } from "@/static/events/2023fallMainSection5.svg";
-import { ReactComponent as MainSection5Background } from "@/static/events/2023fallMainSection5Background.svg";
-import { ReactComponent as MainSection6 } from "@/static/events/2023fallMainSection6.svg";
-import { ReactComponent as MainStep2 } from "@/static/events/2023fallMainStep2.svg";
-import { ReactComponent as MainStep3 } from "@/static/events/2023fallMainStep3.svg";
-import { ReactComponent as MissionCompleteIcon } from "@/static/events/2023fallMissionComplete.svg";
-import { ReactComponent as HomeSection1 } from "@/static/events/2024springHome01.svg";
+import AIArt from "@/static/events/2024springAIArt.png";
+import { ReactComponent as GoldPrize } from "@/static/events/2024springGoldPrize.svg";
 import LineArt from "@/static/events/2024springLineArt.png";
+import { ReactComponent as NupzukCoin } from "@/static/events/2024springNubzukcoinLarge.svg";
 import NupzukiEyes from "@/static/events/2024springNubzukiEyes.png";
+import { ReactComponent as SilverPrize } from "@/static/events/2024springSilverPrize.svg";
 import { ReactComponent as MainTitle } from "@/static/events/2024springTitle.svg";
+
+type EventStepProps = {
+  step: string;
+  title: string;
+  subtitle?: string;
+  children?: ReactNode;
+};
+
+const EventStep = ({ step, title, subtitle, children }: EventStepProps) => {
+  return (
+    <div
+      css={{
+        display: "flex",
+        padding: "16px",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "40px",
+        border: "1px solid #FFF",
+        borderRadius: "12px",
+        width: "100%",
+        boxSizing: "border-box",
+      }}
+    >
+      <div
+        css={{
+          ...eventTheme.font12,
+          color: theme.white,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "16px",
+          textAlign: "center",
+        }}
+      >
+        {step}
+        <div css={{ ...eventTheme.font20, color: theme.white }}>
+          {title}
+          <br></br>
+          {subtitle}
+        </div>
+      </div>
+      {children}
+    </div>
+  );
+};
 
 const Event2024Spring = () => {
   const styleTextBox = {
@@ -67,10 +104,15 @@ const Event2024Spring = () => {
           2024.02.23. ~ 03.18.
         </div>
         <img src={LineArt} css={{ width: "100%" }} />
-        <EventButton
-          title="이벤트 참여하기"
-          background={eventTheme.home_button}
-        />
+        <Link
+          to="/event/2024spring-missions"
+          css={{ textDecoration: "none", width: "100%" }}
+        >
+          <EventButton
+            title="이벤트 참여하기"
+            background={eventTheme.home_button}
+          />
+        </Link>
       </AdaptiveDiv>
       <AdaptiveDiv
         type="center"
@@ -80,9 +122,11 @@ const Event2024Spring = () => {
           alignItems: "center",
           background: "linear-gradient(180deg, #00B2FF 0%, #000 100%)",
           padding: "80px 0px 20px 0px",
+          width: "100%",
+          margin: "0px",
         }}
       >
-        <img src={NupzukiEyes} css={{ width: "100%" }} />
+        <img src={NupzukiEyes} css={{ width: "100%", maxWidth: "380px" }} />
         <div css={{ ...styleTextBox, width: "335px" }}>
           <span css={{ color: eventTheme.kaist, ...eventTheme.font20 }}>
             KAIST
@@ -96,11 +140,194 @@ const Event2024Spring = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "flex-start",
-          background: "linear-gradient(180deg, #00B2FF 0%, #000 100%)",
+          justifyContent: "center",
           padding: "80px 0px",
+          gap: "10px",
+          margin: "0px",
+          width: "100%",
         }}
-      ></AdaptiveDiv>
-
+      >
+        <div
+          css={{
+            width: "100%",
+            height: "631px",
+            background:
+              "linear-gradient(180deg, #000 0%, #E6D198 20.31%, #E9D3A1 79.7%, #000 100%)",
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <div
+            css={{
+              ...styleTextBox,
+              position: "absolute",
+              top: "0px",
+              left: "40px",
+            }}
+          >
+            아주 오래전부터
+          </div>
+          <img
+            src={AIArt}
+            css={{
+              position: "absolute",
+              top: "129px",
+              width: "100%",
+              flexShrink: 0,
+              maxWidth: "380px",
+            }}
+          />
+          <div
+            css={{
+              ...styleTextBox,
+              position: "absolute",
+              bottom: "84px",
+              left: "63px",
+              display: "block",
+            }}
+          >
+            KAIST 학생들은{" "}
+            <span
+              css={{
+                color: theme.purple,
+                ...eventTheme.font20,
+                display: "inline",
+              }}
+            >
+              택시
+            </span>
+            를 타고 곳곳을 모험했습니다.
+          </div>
+        </div>
+      </AdaptiveDiv>
+      <AdaptiveDiv
+        type="center"
+        css={{
+          display: "flex",
+          flexDirection: "column",
+          padding: "32px 11px 97.75px 11px",
+          alightItems: "center",
+          justifyContent: "center",
+          gap: "40px",
+          background:
+            "radial-gradient(50% 50% at 50% 50%, #00B2FF 0%, #5E35B1 78%, #000 100%)",
+          ...eventTheme.font28,
+          color: theme.white,
+          textAlign: "center",
+        }}
+      >
+        이제 여러분들의 차례입니다!
+        <NupzukCoin css={{ width: "100%" }} />
+      </AdaptiveDiv>
+      <AdaptiveDiv
+        type="center"
+        css={{
+          display: "flex",
+          flexDirection: "column",
+          padding: "20px 0px",
+          gap: "10px",
+          width: "100%",
+          ...eventTheme.font20,
+          color: theme.white,
+          alignItems: "center",
+          justifyContent: "center",
+          textAlign: "center",
+        }}
+      >
+        이벤트 참여 방법<br></br>↓
+      </AdaptiveDiv>
+      <AdaptiveDiv
+        type="center"
+        css={{
+          display: "flex",
+          flexDirection: "column",
+          padding: "0px 20px",
+          gap: "16px",
+          width: "100%",
+          alignItems: "center",
+          justifyContent: "center",
+          boxSizing: "border-box",
+        }}
+      >
+        <EventStep
+          step="STEP 1"
+          title="퀘스트 달성하고"
+          subtitle="넙죽코인 획득 !"
+        >
+          {/* 퀘스트 컴포넌트 넣을곳 */}
+          <Link
+            to="/event/2024spring-missions"
+            css={{ textDecoration: "none", width: "100%" }}
+          >
+            <EventButton
+              title="퀘스트 보러가기"
+              background={eventTheme.purple_button}
+            />
+          </Link>
+        </EventStep>
+        <EventStep
+          step="STEP 2"
+          title="이벤트 종료 후"
+          subtitle="세터반 순위대로 상품 지급 !"
+        >
+          <div
+            css={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "8px",
+              width: "100%",
+            }}
+          >
+            <div
+              css={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                width: "100%",
+                color: theme.white,
+                textAlign: "center",
+              }}
+            >
+              <span css={{ ...eventTheme.font12, width: "144px" }}>
+                1등 세터반
+              </span>
+              <span css={{ ...eventTheme.font12, width: "144px" }}>
+                2등 세터반
+              </span>
+            </div>
+            <div
+              css={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                width: "100%",
+              }}
+            >
+              <GoldPrize /> <SilverPrize />
+            </div>
+          </div>
+          <Link
+            to="/event/2024spring-ranking"
+            css={{ textDecoration: "none", width: "100%" }}
+          >
+            <EventButton
+              title="세터반 순위 보러가기"
+              background={eventTheme.orange_button}
+            />
+          </Link>
+        </EventStep>
+        <EventStep step="EVENT" title="인스타그램 공유이벤트">
+          {/* 퀘스트 컴포넌트 넣을곳 */}
+          <EventButton
+            title="인스타그램 게시물 보러가기"
+            background={eventTheme.instagram_button}
+          />
+        </EventStep>
+      </AdaptiveDiv>
       <Footer type="event-2024spring" />
     </div>
   );
