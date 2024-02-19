@@ -24,7 +24,12 @@ type EventStepProps = {
   children?: ReactNode;
 };
 
-const EventStep = ({ step, title, subtitle, children }: EventStepProps) => {
+const EventStep = ({
+  step,
+  title,
+  subtitle = "",
+  children,
+}: EventStepProps) => {
   return (
     <div
       css={{
