@@ -2,10 +2,9 @@ import { ReactNode, memo } from "react";
 import { Link } from "react-router-dom";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
+import EventButton from "@/components/Event/EventButton";
 import Footer from "@/components/Footer";
 import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
-
-import { EventButton } from "../Home/EventSection/EventSection2024Spring";
 
 import eventTheme from "@/tools/eventTheme";
 import theme from "@/tools/theme";

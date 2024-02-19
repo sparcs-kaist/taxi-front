@@ -2,36 +2,12 @@ import { Link } from "react-router-dom";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import CreditAmountContainer from "@/components/Event/CreditAmoutContainer";
+import EventButton from "@/components/Event/EventButton";
 import WhiteContainerSuggestJoinEvent from "@/components/Event/WhiteContainerSuggestJoinEvent";
 
 import eventTheme from "@/tools/eventTheme";
-import theme from "@/tools/theme";
 
 import EmojiEventsRounded from "@mui/icons-material/EmojiEventsRounded";
-
-type EventButtonProps = {
-  title: string;
-  background: string;
-};
-
-export const EventButton = ({ title, background }: EventButtonProps) => {
-  return (
-    <div
-      css={{
-        ...eventTheme.font16_bold,
-        borderRadius: eventTheme.borderRadius,
-        textAlign: "center",
-        lineHeight: "50px",
-        background,
-        color: theme.white,
-        width: "100%",
-        height: "50px",
-      }}
-    >
-      {title}
-    </div>
-  );
-};
 
 const EventSection2024Spring = () => {
   const styleContainer = {
