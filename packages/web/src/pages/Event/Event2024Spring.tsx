@@ -322,10 +322,12 @@ const Event2024Spring = () => {
         </EventStep>
         <EventStep step="EVENT" title="인스타그램 공유이벤트">
           {/* 퀘스트 컴포넌트 넣을곳 */}
-          <EventButton
-            title="인스타그램 게시물 보러가기"
-            background={eventTheme.instagram_button}
-          />
+          <Link to="/" css={{ textDecoration: "none", width: "100%" }}>
+            <EventButton
+              title="인스타그램 게시물 보러가기"
+              background={eventTheme.instagram_button}
+            />
+          </Link>
         </EventStep>
       </AdaptiveDiv>
       <Footer type="event-2024spring" />
