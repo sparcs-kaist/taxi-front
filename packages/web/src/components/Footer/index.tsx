@@ -8,7 +8,7 @@ import ButtonAboveFooter from "./ButtonAboveFooter";
 import eventTheme from "@/tools/eventTheme";
 
 import { ReactComponent as SparcsLogo } from "@/static/assets/sparcsLogos/SparcsLogoWithText.svg";
-import { ReactComponent as SparcsLogoWhite } from "@/static/assets/sparcsLogos/SparcsLogoWithTextWhite.svg";
+import { ReactComponent as SparcsLogoWhite } from "@/static/events/2024SparcsLogoWithTextWhite.svg";
 
 type FooterProps = {
   type?: "only-logo" | "full" | "event-2023fall" | "event-2024spring";
@@ -76,43 +76,44 @@ const Footer = ({ type = "full", children }: FooterProps) => {
         </>
       )}
       {type === "event-2024spring" && (
-        <div
-          css={{
-            background: eventTheme.black,
-          }}
-        >
+        <>
+          <ModalPrivacyPolicy
+            isOpen={isOpenPrivacyPolicy}
+            onChangeIsOpen={setIsOpenPrivacyPolicy}
+          />
           <ModalCredit
             defaultSelectedCatagory="2024SpringEvent"
             isOpen={isOpenCredit}
             onChangeIsOpen={setIsOpenCredit}
           />
           <a className="popup-channeltalk">
-            <ButtonAboveFooter text="채널톡 문의하기" isWhite={true} />
+            <ButtonAboveFooter text="채널톡 문의하기" />
           </a>
           <ButtonAboveFooter
             text="개인정보 처리방침"
             onClick={onClickPrivacyPolicy}
-            isWhite={true}
           />
           <Link to="/event/2024spring-guide" css={{ textDecoration: "none" }}>
-            <ButtonAboveFooter text="택시 살펴보기" isWhite={true} />
+            <ButtonAboveFooter text="택시 살펴보기" />
           </Link>
           <ButtonAboveFooter
             text="새터반 택시대제전을 만든 사람들"
             onClick={onClickCredit}
-            isWhite={true}
           />
+          <div css={{ padding: "6px" }}>
+            <a href="https://sparcs.org/" target="_blank" rel="noreferrer">
+              <SparcsLogoWhite style={{ height: "27px", opacity: 0.632 }} />
+            </a>
+          </div>
+        </>
+      )}
+      {type !== "event-2024spring" && (
+        <div css={{ padding: "6px" }}>
+          <a href="https://sparcs.org/" target="_blank" rel="noreferrer">
+            <SparcsLogo style={{ height: "27px", opacity: 0.632 }} />
+          </a>
         </div>
       )}
-      <div css={{ padding: "6px" }}>
-        <a href="https://sparcs.org/" target="_blank" rel="noreferrer">
-          {type === "event-2024spring" ? (
-            <SparcsLogoWhite style={{ height: "27px", opacity: 1 }} />
-          ) : (
-            <SparcsLogo style={{ height: "27px", opacity: 1 }} />
-          )}
-        </a>
-      </div>
     </div>
   );
 };
