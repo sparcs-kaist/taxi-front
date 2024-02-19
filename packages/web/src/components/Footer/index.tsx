@@ -105,7 +105,7 @@ const Footer = ({ type = "full", children }: FooterProps) => {
           </div>
         </>
       )}
-      {type != "event-2024spring" && (
+      {type !== "event-2024spring" && (
         <div css={{ padding: "6px" }}>
           <a href="https://sparcs.org/" target="_blank" rel="noreferrer">
             <SparcsLogo style={{ height: "27px", opacity: 0.632 }} />

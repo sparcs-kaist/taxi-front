@@ -4,10 +4,10 @@ import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Empty from "@/components/Empty";
 import Footer from "@/components/Footer";
 import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
+import ProfileImage from "@/components/User/ProfileImage";
 
 import theme from "@/tools/theme";
 
-import profileImgOnError from "@/static/assets/profileImgOnError.png";
 import Nubzukcoin2 from "@/static/events/2024springCoin.gif";
 import { ReactComponent as EventLogo } from "@/static/events/2024springEventLogo.svg";
 
@@ -93,7 +93,7 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
             "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), " +
             "0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), " +
             "0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
-        };
+        } as CSS;
       case 1:
         return {
           background: "linear-gradient(180deg, #D6DEE1 0%, #586D75 100%)",
@@ -105,7 +105,7 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
             "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), " +
             "0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), " +
             "0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
-        };
+        } as CSS;
       case 2:
         return {
           background: "linear-gradient(180deg, #FFAD94 0%, #954B2C 100%)",
@@ -117,7 +117,7 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
             "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), " +
             "0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), " +
             "0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
-        };
+        } as CSS;
       case -1:
         return {
           background: "linear-gradient(180deg, #00B2FF 0%, #5E35B1 100%)",
@@ -129,7 +129,7 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
             "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), " +
             "0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), " +
             "0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
-        };
+        } as CSS;
       default:
         return {
           background: "#000000",
@@ -143,7 +143,7 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
             "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), " +
             "0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), " +
             "0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
-        };
+        } as CSS;
     }
   };
 
@@ -178,7 +178,7 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
     color: theme.white,
     fontFamily: "Galmuri11",
     textAlign: "center",
-  };
+  } as CSS;
 
   return (
     <div
@@ -223,11 +223,16 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
           alignItems: "center",
         }}
       >
-        <img
-          src={value.mvpProfileImageUrl || profileImgOnError}
-          alt="넙죽코인"
-          css={{ width: "16px", height: "16px", borderRadius: "50%" }}
-        />
+        <div
+          style={{
+            width: "16px",
+            height: "16px",
+            borderRadius: "50%",
+            overflow: "hidden",
+          }}
+        >
+          <ProfileImage url={value.mvpProfileImageUrl} />
+        </div>
         <span
           css={{
             fontSize: "10px",
@@ -262,7 +267,7 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
 };
 
 const Event2024SpringLeaderboard = () => {
-  const { leaderboard, group, rank } = useQuery.get(
+  const { leaderboard, group } = useQuery.get(
     "/events/2024spring/publicNotice/leaderboard"
   )[1] || {
     leaderboard: [],
