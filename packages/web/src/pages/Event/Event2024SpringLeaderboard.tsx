@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
 import ProfileImage from "@/components/User/ProfileImage";
 
+import eventTheme from "@/tools/eventTheme";
 import theme from "@/tools/theme";
 
 import Nubzukcoin2 from "@/static/events/2024springCoin.gif";
@@ -23,9 +24,8 @@ const LeaderboardTopBar = () => (
     <span
       css={{
         color: theme.white,
-        ...theme.font12,
-        fontFamily: "Galmuri11",
         textAlign: "center",
+        ...eventTheme.font12,
       }}
     >
       순위
@@ -33,10 +33,9 @@ const LeaderboardTopBar = () => (
     <span
       css={{
         width: "65px",
-        color: theme.white,
-        ...theme.font12,
-        fontFamily: "Galmuri11",
         textAlign: "center",
+        color: theme.white,
+        ...eventTheme.font12,
       }}
     >
       새터반
@@ -46,9 +45,8 @@ const LeaderboardTopBar = () => (
         marginLeft: "auto",
         marginRight: "auto",
         color: theme.white,
-        ...theme.font12,
-        fontFamily: "Galmuri11",
         textAlign: "center",
+        ...eventTheme.font12,
       }}
     >
       MVP
@@ -56,10 +54,9 @@ const LeaderboardTopBar = () => (
     <span
       css={{
         color: theme.white,
-        ...theme.font12,
-        fontFamily: "Galmuri11",
-        textAlign: "right",
         width: "80px",
+        textAlign: "right",
+        ...eventTheme.font12,
       }}
     >
       넙죽코인
@@ -85,66 +82,26 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
     switch (index) {
       case 0:
         return {
-          background: "linear-gradient(180deg, #FFEB3B 0%, #FF9800 100%)",
-          padding: "14px 16px 13px 16px",
-          gap: "8px",
-          flexDirection: "row",
-          height: "fit-content",
-          boxShadow:
-            "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), " +
-            "0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), " +
-            "0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
-        } as CSS;
+          background: eventTheme.gold_leaderboard,
+        };
       case 1:
         return {
-          background: "linear-gradient(180deg, #D6DEE1 0%, #586D75 100%)",
-          padding: "14px 16px 13px 16px",
-          gap: "8px",
-          flexDirection: "row",
-          height: "fit-content",
-          boxShadow:
-            "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), " +
-            "0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), " +
-            "0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
-        } as CSS;
+          background: eventTheme.silver_leaderboard,
+        };
       case 2:
         return {
-          background: "linear-gradient(180deg, #FFAD94 0%, #954B2C 100%)",
-          padding: "14px 16px 13px 16px",
-          gap: "8px",
-          flexDirection: "row",
-          height: "fit-content",
-          boxShadow:
-            "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), " +
-            "0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), " +
-            "0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
-        } as CSS;
+          background: eventTheme.copper_leaderboard,
+        };
       case -1:
         return {
-          background: "linear-gradient(180deg, #00B2FF 0%, #5E35B1 100%)",
-          padding: "14px 16px 13px 16px",
-          gap: "8px",
-          flexDirection: "row",
-          height: "fit-content",
-          boxShadow:
-            "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), " +
-            "0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), " +
-            "0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
-        } as CSS;
+          background: eventTheme.blue_leaderboard,
+        };
       default:
         return {
-          background: "#000000",
+          background: eventTheme.black,
           border: "1px solid",
           borderColor: theme.white,
-          padding: "14px 16px 13px 16px",
-          gap: "8px",
-          flexDirection: "row",
-          height: "fit-content",
-          boxShadow:
-            "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), " +
-            "0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), " +
-            "0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
-        } as CSS;
+        };
     }
   };
 
@@ -156,31 +113,15 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
       case -1:
         return {
           color: theme.white,
-          fontFamily: "Galmuri11",
-          letterSpacing: -0.75,
-          lineHeight: "19px",
-          fontSize: "16px",
-          fontWeight: 700,
+          ...eventTheme.font16_bold,
         };
       default:
         return {
           color: theme.white,
-          fontFamily: "Galmuri11",
-          letterSpacing: -0.75,
-          lineHeight: "19px",
-          fontSize: "16px",
-          fontWeight: 400,
+          ...eventTheme.font16,
         };
     }
   };
-
-  const styleLeaderboardText = {
-    ...theme.font16_bold,
-    color: theme.white,
-    fontFamily: "Galmuri11",
-    textAlign: "center",
-  } as CSS;
-
   return (
     <div
       css={{
@@ -188,24 +129,27 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
         justifyContent: "space-between",
         alignItems: "center",
         borderRadius: "12px",
+        padding: "14px 16px 13px 16px",
+        gap: "8px",
+        flexDirection: "row",
+        height: "fit-content",
+        boxShadow: eventTheme.shadow_leaderboard,
         ...styleContainer(isMe ? -1 : rank),
       }}
     >
       <span
+        className="rank"
         css={{
           width: "24px",
           color: theme.white,
-          fontFamily: "Galmuri11",
-          fontWeight: 700,
-          letterSpacing: -0.75,
-          lineHeight: "19px",
-          fontSize: "16px",
           textAlign: "center",
+          ...eventTheme.font16_bold,
         }}
       >
         {rank + 1}
       </span>
-      <div
+      <span
+        className="group"
         css={{
           ...theme.font16,
           ...theme.ellipsis,
@@ -213,8 +157,9 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
         }}
       >
         {"새터 " + value.group + "반"}
-      </div>
+      </span>
       <div
+        className="profileContainer"
         css={{
           display: "flex",
           flexDirection: "row",
@@ -225,6 +170,7 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
         }}
       >
         <div
+          className="profileImageContainer"
           style={{
             width: "16px",
             height: "16px",
@@ -235,22 +181,22 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
           <ProfileImage url={value.mvpProfileImageUrl} />
         </div>
         <span
+          className="mvpNickname"
           css={{
-            fontSize: "10px",
-            fontWeight: 400,
-            color: theme.white,
-            fontFamily: "Galmuri11",
             textAlign: "center",
             overflow: "hidden",
             whiteSpace: "nowrap",
             textOverflow: "ellipsis",
             maxWidth: "130px",
+            color: theme.white,
+            ...eventTheme.font10,
           }}
         >
           {value.mvpNickname}
         </span>
       </div>
       <div
+        className="creditAmountContainer"
         css={{
           display: "flex",
           flexDirection: "row",
@@ -265,7 +211,14 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
           alt="넙죽코인"
           css={{ width: "24px", height: "24px" }}
         />
-        <span css={{ ...styleLeaderboardText }}>
+        <span
+          className="creditAmount"
+          css={{
+            ...eventTheme.font16_bold,
+            color: theme.white,
+            textAlign: "center",
+          }}
+        >
           {value.creditAmount || "000"}
         </span>
       </div>
@@ -290,7 +243,7 @@ const Event2024SpringLeaderboard = () => {
         <span css={{ color: theme.purple, ...theme.font18 }}>새터반 순위</span>
       </HeaderWithBackButton>
 
-      <div css={{ background: "#000000", height: "100%" }}>
+      <div css={{ background: eventTheme.black, height: "100%" }}>
         <AdaptiveDiv type="center">
           <div
             className="body"
@@ -329,6 +282,8 @@ const Event2024SpringLeaderboard = () => {
                         return b.creditAmount - a.creditAmount ||
                           b.group === group
                           ? 1
+                          : a.group === group
+                          ? -1
                           : a.group - b.group;
                       })
                       .map((elem: LeaderboardElem, index: number) => {
