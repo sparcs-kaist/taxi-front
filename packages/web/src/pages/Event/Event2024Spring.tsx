@@ -242,13 +242,10 @@ const Event2024Spring = () => {
       <AdaptiveDiv
         type="center"
         css={{
-          display: "flex",
-          flexDirection: "column",
+          ...styleVerticalCenter,
           padding: "0 20px",
           gap: "16px",
           width: "100%",
-          alignItems: "center",
-          justifyContent: "center",
           boxSizing: "border-box",
         }}
       >
@@ -275,9 +272,7 @@ const Event2024Spring = () => {
         >
           <div
             css={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
+              ...styleVerticalCenter,
               gap: "8px",
               width: "100%",
             }}
