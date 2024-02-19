@@ -234,6 +234,9 @@ const Event2024Spring = () => {
           ...eventTheme.font20,
           color: theme.white,
           textAlign: "center",
+          background: eventTheme.blue_title,
+          backgroundClip: "text",
+          textFillColor: "transparent",
         }}
       >
         이벤트 참여 방법<br></br>↓
