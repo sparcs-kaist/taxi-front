@@ -1,25 +1,12 @@
-import {
-  ReactElement,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
 import { Link } from "react-router-dom";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
-import CreditAmountStatusContainer from "@/components/Event/CreditAmountStatusContainer";
 import CreditAmountContainer from "@/components/Event/CreditAmoutContainer";
 import WhiteContainerSuggestJoinEvent from "@/components/Event/WhiteContainerSuggestJoinEvent";
-import Title from "@/components/Title";
-import WhiteContainer from "@/components/WhiteContainer";
 
 import eventTheme from "@/tools/eventTheme";
 import theme from "@/tools/theme";
 
-import { ReactComponent as BackgroundMain } from "@/static/events/2023fallHomeMain.svg";
-import { ReactComponent as BackgroundMission } from "@/static/events/2023fallHomeMission.svg";
-import { ReactComponent as BackgroundStore } from "@/static/events/2023fallHomeStore.svg";
 import EmojiEventsRounded from "@mui/icons-material/EmojiEventsRounded";
 
 type EventButtonProps = {
@@ -87,7 +74,7 @@ const EventSection2024Spring = () => {
               textFillColor: "transparent",
             }}
           >
-            세터반 택시대제전
+            새터반 택시대제전
           </div>
           <div
             css={{
@@ -141,11 +128,11 @@ const EventSection2024Spring = () => {
               ></EventButton>
             </Link>
             <Link
-              to="/event/2024spring-ranking"
+              to="/event/2024spring-leaderboard"
               css={{ width: 0, flexGrow: 1, textDecoration: "none" }}
             >
               <EventButton
-                title="세터반 순위"
+                title="새터반 순위"
                 background={eventTheme.orange_button}
               ></EventButton>
             </Link>
