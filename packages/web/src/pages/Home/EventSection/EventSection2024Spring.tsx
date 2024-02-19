@@ -2,36 +2,12 @@ import { Link } from "react-router-dom";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import CreditAmountContainer from "@/components/Event/CreditAmoutContainer";
+import EventButton from "@/components/Event/EventButton";
 import WhiteContainerSuggestJoinEvent from "@/components/Event/WhiteContainerSuggestJoinEvent";
 
 import eventTheme from "@/tools/eventTheme";
-import theme from "@/tools/theme";
 
 import EmojiEventsRounded from "@mui/icons-material/EmojiEventsRounded";
-
-type EventButtonProps = {
-  title: string;
-  background: string;
-};
-
-const EventButton = ({ title, background }: EventButtonProps) => {
-  return (
-    <div
-      css={{
-        ...eventTheme.font16_bold,
-        borderRadius: eventTheme.borderRadius,
-        textAlign: "center",
-        lineHeight: "50px",
-        background,
-        color: theme.white,
-        width: "100%",
-        height: "50px",
-      }}
-    >
-      {title}
-    </div>
-  );
-};
 
 const EventSection2024Spring = () => {
   const styleContainer = {
@@ -115,8 +91,8 @@ const EventSection2024Spring = () => {
             >
               <EventButton
                 title="이벤트 안내"
-                background={eventTheme.blue_button}
-              ></EventButton>
+                css={{ background: eventTheme.blue_button }}
+              />
             </Link>
             <Link
               to="/event/2024spring-missions"
@@ -124,8 +100,8 @@ const EventSection2024Spring = () => {
             >
               <EventButton
                 title="퀘스트"
-                background={eventTheme.purple_button}
-              ></EventButton>
+                css={{ background: eventTheme.purple_button }}
+              />
             </Link>
             <Link
               to="/event/2024spring-leaderboard"
@@ -133,8 +109,8 @@ const EventSection2024Spring = () => {
             >
               <EventButton
                 title="새터반 순위"
-                background={eventTheme.orange_button}
-              ></EventButton>
+                css={{ background: eventTheme.orange_button }}
+              />
             </Link>
           </div>
         </div>

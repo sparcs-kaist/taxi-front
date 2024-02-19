@@ -1,298 +1,340 @@
-import { memo } from "react";
+import { ReactNode, memo } from "react";
 import { Link } from "react-router-dom";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
-import Button from "@/components/Button";
+import EventButton from "@/components/Event/EventButton";
 import Footer from "@/components/Footer";
 import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
-import LinkEvent2023FallInstagramStoryShare from "@/components/Link/LinkEvent2023FallInstagramStoryShare";
-import WhiteContainer from "@/components/WhiteContainer";
 
+import eventTheme from "@/tools/eventTheme";
 import theme from "@/tools/theme";
 
-import { ReactComponent as TaxiLogoIcon } from "@/static/assets/sparcsLogos/TaxiLogo.svg";
-import { ReactComponent as MainSection1 } from "@/static/events/2023fallMainSection1.svg";
-import { ReactComponent as MainSection2 } from "@/static/events/2023fallMainSection2.svg";
-import { ReactComponent as MainSection4 } from "@/static/events/2023fallMainSection4.svg";
-import { ReactComponent as MainSection5 } from "@/static/events/2023fallMainSection5.svg";
-import { ReactComponent as MainSection5Background } from "@/static/events/2023fallMainSection5Background.svg";
-import { ReactComponent as MainSection6 } from "@/static/events/2023fallMainSection6.svg";
-import { ReactComponent as MainStep2 } from "@/static/events/2023fallMainStep2.svg";
-import { ReactComponent as MainStep3 } from "@/static/events/2023fallMainStep3.svg";
-import { ReactComponent as MainTitle } from "@/static/events/2023fallMainTitle.svg";
-import { ReactComponent as MissionCompleteIcon } from "@/static/events/2023fallMissionComplete.svg";
+import AIArt from "@/static/events/2024springAIArt.png";
+import GoldPrize from "@/static/events/2024springGoldPrize.png";
+import LineArt from "@/static/events/2024springLineArt.png";
+import NupzukCoin from "@/static/events/2024springNubzukcoinLarge.gif";
+import NupzukiEyes from "@/static/events/2024springNubzukiEyes.png";
+import SilverPrize from "@/static/events/2024springSilverPrize.png";
+import { ReactComponent as MainTitle } from "@/static/events/2024springTitle.svg";
+
+type EventStepProps = {
+  step: string;
+  title: string;
+  subtitle?: string;
+  children?: ReactNode;
+};
+
+const EventStep = ({
+  step,
+  title,
+  subtitle = "",
+  children,
+}: EventStepProps) => {
+  return (
+    <div
+      css={{
+        display: "flex",
+        padding: "16px",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "40px",
+        border: "1px solid #FFF",
+        borderRadius: "12px",
+        width: "100%",
+        boxSizing: "border-box",
+      }}
+    >
+      <div
+        css={{
+          ...eventTheme.font12,
+          color: theme.white,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "16px",
+          textAlign: "center",
+        }}
+      >
+        {step}
+        <div css={{ ...eventTheme.font20, color: theme.white }}>
+          {title}
+          <br></br>
+          {subtitle}
+        </div>
+      </div>
+      {children}
+    </div>
+  );
+};
 
 const Event2024Spring = () => {
+  const styleTextBox = {
+    ...eventTheme.font20,
+    display: "flex",
+    padding: "24px 16px",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "10px",
+    border: "4px solid #000",
+    background: "#FFF",
+  } as const;
+  const styleVerticalCenter = {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  } as const;
+
+  const styleAdaptiveDiv = {
+    ...styleVerticalCenter,
+    width: "100%",
+    margin: 0,
+  } as const;
+
   return (
-    <>
+    <div
+      css={{
+        backgroundColor: eventTheme.black,
+      }}
+    >
       <HeaderWithBackButton>
         <div css={{ color: theme.purple, ...theme.font18 }}>이벤트 안내</div>
       </HeaderWithBackButton>
       <AdaptiveDiv
         type="center"
         css={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          ...styleVerticalCenter,
+          gap: "16px",
+          padding: "20px",
         }}
       >
-        <TaxiLogoIcon
-          css={{ width: "71.36px", maxWidth: "100%", marginTop: "20px" }}
-        />
-        <MainTitle
-          css={{ width: "218px", maxWidth: "100%", marginTop: "12px" }}
-        />
+        <MainTitle css={{ width: "100%", marginTop: "12px" }} />
         <div
-          css={{ ...theme.font16_bold, color: theme.purple, marginTop: "16px" }}
-        >
-          2023.9.25.(월) ~ 10.9.(월)
-        </div>
-        <MainSection1 css={{ width: "100%" }} />
-      </AdaptiveDiv>
-      <div css={{ background: theme.purple }}>
-        <AdaptiveDiv type="center">
-          <MainSection2 css={{ width: "100%" }} />
-        </AdaptiveDiv>
-      </div>
-      <div css={{ background: theme.purple_disabled, padding: "20px 0" }}>
-        <AdaptiveDiv type="center">
-          <WhiteContainer
-            css={{ margin: 0, padding: "16px", textAlign: "center" }}
-          >
-            <div
-              css={{
-                ...theme.font14_bold,
-                color: theme.purple,
-              }}
-            >
-              STEP 1
-            </div>
-            <div css={{ height: "16px" }} />
-            <div
-              css={{
-                ...theme.font20,
-                color: theme.black,
-              }}
-            >
-              Taxi 퀘스트 달성하고
-              <br />
-              송편을 모아보세요!
-            </div>
-            <div css={{ height: "16px" }} />
-            <MissionCompleteIcon css={{ width: "192px", maxWidth: "100%" }} />
-            <div css={{ height: "16px" }} />
-            <div
-              css={{
-                ...theme.font14,
-                color: theme.gray_text,
-              }}
-            >
-              Taxi 웹사이트와 앱에서 퀘스트 내용 확인
-              <br />
-              이벤트 기간 내 첫 로그인 시 송편 100개 지급
-            </div>
-            <div css={{ height: "16px" }} />
-            <Link
-              to="/event/2023fall-missions"
-              css={{ textDecoration: "none" }}
-            >
-              <Button
-                type="purple_inset"
-                css={{
-                  padding: "14px 0 13px",
-                  borderRadius: "12px",
-                  ...theme.font14_bold,
-                }}
-              >
-                퀘스트 바로가기
-              </Button>
-            </Link>
-          </WhiteContainer>
-          <div css={{ height: "16px" }} />
-          <WhiteContainer
-            css={{ margin: 0, padding: "16px", textAlign: "center" }}
-          >
-            <div
-              css={{
-                ...theme.font14_bold,
-                color: theme.purple,
-              }}
-            >
-              STEP 2
-            </div>
-            <div css={{ height: "16px" }} />
-            <div
-              css={{
-                ...theme.font20,
-                color: theme.black,
-              }}
-            >
-              달토끼 상점에서
-              <br />
-              아이템을 구매해보세요!
-            </div>
-            <div css={{ height: "16px" }} />
-            <MainStep2 css={{ width: "100%" }} />
-            <div css={{ height: "16px" }} />
-            <div
-              css={{
-                ...theme.font14,
-                color: theme.gray_text,
-              }}
-            >
-              일반응모권, 고급응모권, 랜덤박스도 구매 가능
-              <br />
-              상품이 조기에 품절될 수 있어 선착순 판매
-            </div>
-            <div css={{ height: "16px" }} />
-            <Link to="/event/2023fall-store" css={{ textDecoration: "none" }}>
-              <Button
-                type="purple_inset"
-                css={{
-                  padding: "14px 0 13px",
-                  borderRadius: "12px",
-                  ...theme.font14_bold,
-                }}
-              >
-                상점 구경하기
-              </Button>
-            </Link>
-          </WhiteContainer>
-          <div css={{ height: "16px" }} />
-          <WhiteContainer
-            css={{ margin: 0, padding: "16px", textAlign: "center" }}
-          >
-            <div
-              css={{
-                ...theme.font14_bold,
-                color: theme.purple,
-              }}
-            >
-              STEP 3
-            </div>
-            <div css={{ height: "16px" }} />
-            <div
-              css={{
-                ...theme.font20,
-                color: theme.black,
-              }}
-            >
-              보너스 경품 추첨에
-              <br />
-              응모권으로 참여해보세요!
-            </div>
-            <div css={{ height: "16px" }} />
-            <MainStep3 css={{ width: "216px", maxWidht: "100%" }} />
-            <div css={{ height: "16px" }} />
-            <div
-              css={{
-                ...theme.font14,
-                color: theme.gray_text,
-              }}
-            >
-              응모권은 퀘스트 달성, 달토끼 상점을 통해 얻음
-              <br />
-              고급응모권은 일반응모권 당첨확률의 5배
-            </div>
-            <div css={{ height: "16px" }} />
-            <Link
-              to="/event/2023fall-leaderboard"
-              css={{ textDecoration: "none" }}
-            >
-              <Button
-                type="purple_inset"
-                css={{
-                  padding: "14px 0 13px",
-                  borderRadius: "12px",
-                  ...theme.font14_bold,
-                }}
-              >
-                응모권 리더보드 확인하기
-              </Button>
-            </Link>
-          </WhiteContainer>
-        </AdaptiveDiv>
-      </div>
-      <div css={{ background: "linear-gradient(to top, #797F6C, #203F76)" }}>
-        <AdaptiveDiv
-          type="center"
-          css={{ padding: "16px", textAlign: "center" }}
-        >
-          <div css={{ color: theme.white, ...theme.font14_bold }}>EVENT</div>
-          <div css={{ height: "16px" }} />
-          <div css={{ color: theme.white, ...theme.font20 }}>
-            10월 13일 아이템 받고
-            <br />
-            경품 추첨 결과도 확인해보세요!
-          </div>
-          <div css={{ height: "16px" }} />
-          <MainSection4 css={{ width: "334px", maxWidth: "100%" }} />
-          <div css={{ height: "16px" }} />
-          <div css={{ color: theme.gray_line, ...theme.font14 }}>
-            추첨 결과는 인스타그램, Ara, Taxi 홈페이지에 발표
-            <br />
-            달토끼 상점에서 구매한 아이템 실물 상품으로 교환
-          </div>
-        </AdaptiveDiv>
-      </div>
-      <div
-        css={{
-          position: "relative",
-          overflow: "hidden",
-          background: "#3C0057",
-        }}
-      >
-        <MainSection5Background
           css={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
+            ...eventTheme.font20,
+            color: theme.white,
           }}
-        />
-        <AdaptiveDiv
-          type="center"
-          css={{ padding: "16px", textAlign: "center" }}
         >
-          <div css={{ color: theme.white, ...theme.font14_bold }}>EVENT</div>
-          <div css={{ height: "16px" }} />
-          <div css={{ color: theme.white, ...theme.font20 }}>
-            지금 스토리 공유하고
-            <br />
-            송편 100개 받아가세요!
-          </div>
-          <div css={{ height: "16px" }} />
-          <MainSection5 css={{ width: "159px", maxWidth: "100%" }} />
-          <LinkEvent2023FallInstagramStoryShare type="eventSharingOnInstagram">
-            <Button
-              type="purple_inset"
-              css={{
-                padding: "14px 0 13px",
-                borderRadius: "12px",
-                ...theme.font14_bold,
-              }}
-            >
-              인스타그램에 공유하기
-            </Button>
-          </LinkEvent2023FallInstagramStoryShare>
-        </AdaptiveDiv>
-      </div>
-      <div
+          2024.02.23. ~ 03.18.
+        </div>
+        <img src={LineArt} alt="line art" css={{ width: "100%" }} />
+        <Link
+          to="/event/2024spring-missions"
+          css={{ textDecoration: "none", width: "100%" }}
+        >
+          <EventButton
+            title="이벤트 참여하기"
+            css={{ background: eventTheme.home_button }}
+          />
+        </Link>
+      </AdaptiveDiv>
+      <AdaptiveDiv
+        type="center"
         css={{
-          padding: "56px 0 16px",
-          background: theme.white,
+          ...styleAdaptiveDiv,
+          background: eventTheme.nubzuki_eyes,
+          padding: "80px 0 20px 0",
         }}
       >
-        <AdaptiveDiv type="center" css={{ textAlign: "center" }}>
-          <MainSection6 css={{ width: "292px", maxWidth: "100%" }} />
-          <div css={{ height: "56px" }} />
-          <div css={{ color: theme.gray_text, ...theme.font14 }}>
-            본 이벤트는 위메이드와 KAIST의 후원으로 진행되었습니다.
+        <img
+          src={NupzukiEyes}
+          alt="Nupzuki Eyes"
+          css={{ width: "100%", maxWidth: "380px" }}
+        />
+        <div css={{ ...styleTextBox, width: "335px" }}>
+          <span css={{ color: eventTheme.kaist, ...eventTheme.font20 }}>
+            KAIST
+          </span>
+          24학번 새내기들이여...
+        </div>
+      </AdaptiveDiv>
+      <AdaptiveDiv
+        type="center"
+        css={{
+          ...styleAdaptiveDiv,
+          padding: "80px 0",
+          gap: "10px",
+        }}
+      >
+        <div
+          css={{
+            ...styleVerticalCenter,
+            position: "relative",
+            width: "100%",
+            height: "631px",
+            background: eventTheme.ai_img,
+          }}
+        >
+          <div
+            css={{
+              ...styleTextBox,
+              position: "absolute",
+              top: 0,
+              left: "40px",
+              width: "calc(100% - 200px)",
+              minWidth: "120px",
+            }}
+          >
+            아주 오래전부터
           </div>
-        </AdaptiveDiv>
-      </div>
-      <Footer type="event-2023fall" />
-    </>
+          <img
+            src={AIArt}
+            alt="AI Art of a taxi"
+            css={{
+              position: "absolute",
+              top: "129px",
+              width: "100%",
+              flexShrink: 0,
+              maxWidth: "380px",
+            }}
+          />
+          <div
+            css={{
+              ...styleTextBox,
+              position: "absolute",
+              bottom: "84px",
+              right: "20px",
+              width: "calc(100% - 120px)",
+              minWidth: "200px",
+              display: "block",
+            }}
+          >
+            KAIST 학생들은{" "}
+            <span
+              css={{
+                color: theme.purple,
+                ...eventTheme.font20,
+                display: "inline",
+              }}
+            >
+              택시
+            </span>
+            를 타고 곳곳을 모험했습니다.
+          </div>
+        </div>
+      </AdaptiveDiv>
+      <AdaptiveDiv
+        type="center"
+        css={{
+          ...styleVerticalCenter,
+          padding: "32px 11px 97.75px 11px",
+          gap: "40px",
+          background: eventTheme.radial_coin,
+          ...eventTheme.font28,
+          color: theme.white,
+          textAlign: "center",
+        }}
+      >
+        이제 여러분들의 차례입니다!
+        <img src={NupzukCoin} alt="Nupzuk Coin" css={{ width: "180px" }} />
+      </AdaptiveDiv>
+      <AdaptiveDiv
+        type="center"
+        css={{
+          ...styleVerticalCenter,
+          padding: "20px 0",
+          gap: "10px",
+          width: "100%",
+          ...eventTheme.font20,
+          color: theme.white,
+          textAlign: "center",
+          background: eventTheme.blue_title,
+          backgroundClip: "text",
+          textFillColor: "transparent",
+        }}
+      >
+        이벤트 참여 방법<br></br>↓
+      </AdaptiveDiv>
+      <AdaptiveDiv
+        type="center"
+        css={{
+          ...styleVerticalCenter,
+          padding: "0 20px",
+          gap: "16px",
+          width: "100%",
+          boxSizing: "border-box",
+        }}
+      >
+        <EventStep
+          step="STEP 1"
+          title="퀘스트 달성하고"
+          subtitle="넙죽코인 획득 !"
+        >
+          {/* 퀘스트 컴포넌트 넣을곳 */}
+          <Link
+            to="/event/2024spring-missions"
+            css={{ textDecoration: "none", width: "100%" }}
+          >
+            <EventButton
+              title="퀘스트 보러가기"
+              css={{ background: eventTheme.purple_button }}
+            />
+          </Link>
+        </EventStep>
+        <EventStep
+          step="STEP 2"
+          title="이벤트 종료 후"
+          subtitle="세터반 순위대로 상품 지급 !"
+        >
+          <div
+            css={{
+              ...styleVerticalCenter,
+              gap: "8px",
+              width: "100%",
+            }}
+          >
+            <div
+              css={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                width: "100%",
+                color: theme.white,
+                textAlign: "center",
+              }}
+            >
+              <span css={{ ...eventTheme.font12, width: "144px" }}>
+                1등 세터반
+              </span>
+              <span css={{ ...eventTheme.font12, width: "144px" }}>
+                2등 세터반
+              </span>
+            </div>
+            <div
+              css={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                width: "100%",
+              }}
+            >
+              <img src={GoldPrize} alt="prize" css={{ width: "144px" }} />
+              <img src={SilverPrize} alt="prize" css={{ width: "144px" }} />
+            </div>
+          </div>
+          <Link
+            to="/event/2024spring-ranking"
+            css={{ textDecoration: "none", width: "100%" }}
+          >
+            <EventButton
+              title="세터반 순위 보러가기"
+              css={{ background: eventTheme.orange_button }}
+            />
+          </Link>
+        </EventStep>
+        <EventStep step="EVENT" title="인스타그램 공유이벤트">
+          {/* 퀘스트 컴포넌트 넣을곳 */}
+          <Link to="/" css={{ textDecoration: "none", width: "100%" }}>
+            <EventButton
+              title="인스타그램 게시물 보러가기"
+              css={{ background: eventTheme.instagram_button }}
+            />
+          </Link>
+        </EventStep>
+      </AdaptiveDiv>
+      <Footer type="event-2024spring" />
+    </div>
   );
 };
 
