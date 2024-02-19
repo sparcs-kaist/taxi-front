@@ -58,7 +58,8 @@ const LeaderboardTopBar = () => (
         color: theme.white,
         ...theme.font12,
         fontFamily: "Galmuri11",
-        textAlign: "center",
+        textAlign: "right",
+        width: "80px",
       }}
     >
       넙죽코인
@@ -240,6 +241,10 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
             color: theme.white,
             fontFamily: "Galmuri11",
             textAlign: "center",
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+            textOverflow: "ellipsis",
+            maxWidth: "130px",
           }}
         >
           {value.mvpNickname}
@@ -249,8 +254,10 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
         css={{
           display: "flex",
           flexDirection: "row",
+          justifyContent: "flex-end",
           alignItems: "center",
           gap: "8px",
+          width: "80px",
         }}
       >
         <img
@@ -274,7 +281,6 @@ const Event2024SpringLeaderboard = () => {
     group: 0,
     rank: 0,
   };
-
   let prevRank = 0;
   let prevCreditAmount = 0;
 
@@ -318,20 +324,27 @@ const Event2024SpringLeaderboard = () => {
                     }}
                   >
                     <LeaderboardTopBar />
-                    {leaderboard.map((elem: LeaderboardElem, index: number) => {
-                      if (prevCreditAmount !== elem.creditAmount) {
-                        prevRank = index;
-                        prevCreditAmount = elem.creditAmount;
-                      }
-                      return (
-                        <LeaderboardItem
-                          key={index}
-                          rank={prevRank}
-                          value={elem}
-                          isMe={group === elem.group}
-                        />
-                      );
-                    })}
+                    {leaderboard
+                      .sort((a: LeaderboardElem, b: LeaderboardElem) => {
+                        return b.creditAmount - a.creditAmount ||
+                          b.group === group
+                          ? 0
+                          : -1 || a.group - b.group;
+                      })
+                      .map((elem: LeaderboardElem, index: number) => {
+                        if (prevCreditAmount !== elem.creditAmount) {
+                          prevRank = index;
+                          prevCreditAmount = elem.creditAmount;
+                        }
+                        return (
+                          <LeaderboardItem
+                            key={index}
+                            rank={prevRank}
+                            value={elem}
+                            isMe={group === elem.group}
+                          />
+                        );
+                      })}
                   </div>
                 </>
               ) : (
