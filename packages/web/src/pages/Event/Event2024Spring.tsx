@@ -74,19 +74,19 @@ const Event2024Spring = () => {
     gap: "10px",
     border: "4px solid #000",
     background: "#FFF",
-  };
+  } as const;
   const styleVerticalCenter = {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-  } as CSS;
+  } as const;
 
   const styleAdaptiveDiv = {
     ...styleVerticalCenter,
     width: "100%",
     margin: 0,
-  } as CSS;
+  } as const;
 
   return (
     <div
