@@ -275,6 +275,9 @@ const Event2024SpringLeaderboard = () => {
     rank: 0,
   };
 
+  let prevRank = 0;
+  let prevCreditAmount = 0;
+
   return (
     <>
       <HeaderWithBackButton>
@@ -315,14 +318,20 @@ const Event2024SpringLeaderboard = () => {
                     }}
                   >
                     <LeaderboardTopBar />
-                    {leaderboard.map((elem: LeaderboardElem, index: number) => (
-                      <LeaderboardItem
-                        key={index}
-                        rank={index}
-                        value={elem}
-                        isMe={group === elem.group}
-                      />
-                    ))}
+                    {leaderboard.map((elem: LeaderboardElem, index: number) => {
+                      if (prevCreditAmount !== elem.creditAmount) {
+                        prevRank = index;
+                        prevCreditAmount = elem.creditAmount;
+                      }
+                      return (
+                        <LeaderboardItem
+                          key={index}
+                          rank={prevRank}
+                          value={elem}
+                          isMe={group === elem.group}
+                        />
+                      );
+                    })}
                   </div>
                 </>
               ) : (
