@@ -7,7 +7,7 @@ import theme from "@/tools/theme";
 
 import CoinIcon from "@/static/events/2024springCoin.gif";
 
-type CreditAmountContainerProps = {} & Parameters<typeof WhiteContainer>[0];
+type CreditAmountContainerProps = Parameters<typeof WhiteContainer>[0];
 
 const CreditAmountContainer = ({
   ...whiteContainerProps

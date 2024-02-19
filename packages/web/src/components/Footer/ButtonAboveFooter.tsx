@@ -6,17 +6,13 @@ type ButtonAboveFooterProps = {
   isWhite?: boolean;
 };
 
-const ButtonAboveFooter = ({
-  text,
-  onClick,
-  isWhite = false,
-}: ButtonAboveFooterProps) => (
+const ButtonAboveFooter = ({ text, onClick }: ButtonAboveFooterProps) => (
   <div css={{ ...theme.font12, padding: "6px" }}>
     <a
       onClick={onClick}
       style={{
         textDecoration: "none",
-        color: isWhite ? theme.white : theme.gray_text,
+        color: theme.gray_text,
         ...theme.cursor(),
       }}
     >

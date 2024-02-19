@@ -2,12 +2,12 @@ import { memo, useMemo } from "react";
 
 import type { Quest } from "@/types/event2024spring";
 
+import { useEventBackgroundEffect } from "@/hooks/event/useEventBackgroundEffect";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import CreditAmountContainer from "@/components/Event/CreditAmoutContainer";
 import SuggestJoinEventContainer from "@/components/Event/SuggestJoinEventContainer";
-import WhiteContainerSuggestJoinEvent from "@/components/Event/WhiteContainerSuggestJoinEvent";
 import Footer from "@/components/Footer";
 import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
 import WhiteContainer from "@/components/WhiteContainer";
@@ -142,6 +142,7 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
 
 const Event2024SpringMissions = () => {
   const { quests } = useValueRecoilState("event2024SpringInfo") || {};
+  useEventBackgroundEffect({ color: "#000000" });
 
   return (
     <div
