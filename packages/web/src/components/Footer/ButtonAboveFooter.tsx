@@ -3,7 +3,6 @@ import theme from "@/tools/theme";
 type ButtonAboveFooterProps = {
   text: string;
   onClick?: () => void;
-  isWhite?: boolean;
 };
 
 const ButtonAboveFooter = ({ text, onClick }: ButtonAboveFooterProps) => (
