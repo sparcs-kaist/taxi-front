@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
@@ -39,6 +39,7 @@ const SuggestJoinEventContainer = () => {
   const styleDescription = {
     ...eventTheme.font10,
     color: theme.white,
+    margin: "12px",
   };
 
   return (
@@ -51,9 +52,7 @@ const SuggestJoinEventContainer = () => {
             border: "1px solid #FFF",
           }}
         >
-          <div css={styleTitle}>
-            <b>🌟 첫 발걸음</b>
-          </div>
+          <div css={styleTitle}>🌟 첫 발걸음</div>
           <div css={styleDescription}>
             이벤트 참여 동의 이후 퀘스트 달성 및 달토끼 상점 이용이 가능합니다.
             많은 혜택과 기회를 놓치지 마세요!
