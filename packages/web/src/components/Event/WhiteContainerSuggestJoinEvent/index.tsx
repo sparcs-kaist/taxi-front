@@ -16,7 +16,7 @@ import theme from "@/tools/theme";
 const WhiteContainerSuggestJoinEvent = () => {
   const isLogin = useIsLogin();
   const { isAgreeOnTermsOfEvent, completedQuests } =
-    useValueRecoilState("event2024SpringInfo") || {};
+    useValueRecoilState("event2023FallInfo") || {};
 
   const randomToken = useMemo(() => !!Math.floor(Math.random() * 2), []);
   const [isOpenJoin, setIsOpenJoin] = useState<boolean>(false);
