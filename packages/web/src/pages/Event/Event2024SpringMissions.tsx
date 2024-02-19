@@ -1,6 +1,6 @@
 import { memo, useMemo } from "react";
 
-import type { Quest } from "@/types/event2023fall";
+import type { Quest } from "@/types/event2024spring";
 
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
@@ -21,7 +21,7 @@ type MissionContainerProps = {
   quest: Quest;
 };
 const MissionContainer = ({ quest }: MissionContainerProps) => {
-  const { completedQuests } = useValueRecoilState("event2023FallInfo") || {};
+  const { completedQuests } = useValueRecoilState("event2024SpringInfo") || {};
   const [isDone, questCompletedCnt] = useMemo(() => {
     const cnt =
       completedQuests?.filter((questId) => questId === quest?.id).length || 0;
@@ -130,9 +130,7 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
               <img width="16px" src={Coin} alt="coin" />
             )}
 
-            <div css={styleRewardCoin}>
-              {quest.reward.credit + (quest.reward.ticket1 || 0)}
-            </div>
+            <div css={styleRewardCoin}>{quest.reward.credit}</div>
           </>
         </div>
         {/* {isDone && <MissionCompleteIcon css={styleStamp} />} */}
@@ -156,7 +154,7 @@ const Event2024SpringMissions = () => {
       <AdaptiveDiv type="center">
         <div css={{ height: "30px" }} />
         <CreditAmountContainer />
-        <WhiteContainerSuggestJoinEvent />
+        <WhiteContainerSuggestJoinEvent type="2024spring" />
         {quests?.map((quest) => (
           <MissionContainer key={quest.id} quest={quest} />
         ))}
