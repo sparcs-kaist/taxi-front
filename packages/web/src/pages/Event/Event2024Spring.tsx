@@ -130,7 +130,7 @@ const Event2024Spring = () => {
         css={{
           ...styleAdaptiveDiv,
           background: eventTheme.nubzuki_eyes,
-          padding: "80px 0px 20px 0px",
+          padding: "80px 0 20px 0",
         }}
       >
         <img
@@ -149,7 +149,7 @@ const Event2024Spring = () => {
         type="center"
         css={{
           ...styleAdaptiveDiv,
-          padding: "80px 0px",
+          padding: "80px 0",
           gap: "10px",
         }}
       >
@@ -166,7 +166,7 @@ const Event2024Spring = () => {
             css={{
               ...styleTextBox,
               position: "absolute",
-              top: "0px",
+              top: 0,
               left: "40px",
               width: "calc(100% - 200px)",
               minWidth: "120px",
@@ -234,7 +234,7 @@ const Event2024Spring = () => {
         css={{
           display: "flex",
           flexDirection: "column",
-          padding: "20px 0px",
+          padding: "20px 0",
           gap: "10px",
           width: "100%",
           ...eventTheme.font20,
@@ -251,7 +251,7 @@ const Event2024Spring = () => {
         css={{
           display: "flex",
           flexDirection: "column",
-          padding: "0px 20px",
+          padding: "0 20px",
           gap: "16px",
           width: "100%",
           alignItems: "center",
