@@ -138,7 +138,6 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
       }}
     >
       <span
-        className="rank"
         css={{
           width: "24px",
           color: theme.white,
@@ -149,7 +148,6 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
         {rank + 1}
       </span>
       <span
-        className="group"
         css={{
           ...theme.font16,
           ...theme.ellipsis,
@@ -159,7 +157,6 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
         {"새터 " + value.group + "반"}
       </span>
       <div
-        className="profileContainer"
         css={{
           display: "flex",
           flexDirection: "row",
@@ -170,7 +167,6 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
         }}
       >
         <div
-          className="profileImageContainer"
           style={{
             width: "16px",
             height: "16px",
@@ -181,7 +177,6 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
           <ProfileImage url={value.mvpProfileImageUrl} />
         </div>
         <span
-          className="mvpNickname"
           css={{
             textAlign: "center",
             overflow: "hidden",
@@ -196,7 +191,6 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
         </span>
       </div>
       <div
-        className="creditAmountContainer"
         css={{
           display: "flex",
           flexDirection: "row",
@@ -212,7 +206,6 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
           css={{ width: "24px", height: "24px" }}
         />
         <span
-          className="creditAmount"
           css={{
             ...eventTheme.font16_bold,
             color: theme.white,
@@ -246,7 +239,6 @@ const Event2024SpringLeaderboard = () => {
       <div css={{ background: eventTheme.black, height: "100%" }}>
         <AdaptiveDiv type="center">
           <div
-            className="body"
             css={{
               paddingTop: "20px",
               display: "flex",
@@ -261,7 +253,6 @@ const Event2024SpringLeaderboard = () => {
               }}
             />
             <div
-              className="Leaderboard Container"
               css={{
                 paddingTop: "15px",
                 width: "auto",
