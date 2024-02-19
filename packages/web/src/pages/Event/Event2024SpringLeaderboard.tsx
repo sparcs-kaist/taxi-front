@@ -328,8 +328,8 @@ const Event2024SpringLeaderboard = () => {
                       .sort((a: LeaderboardElem, b: LeaderboardElem) => {
                         return b.creditAmount - a.creditAmount ||
                           b.group === group
-                          ? 0
-                          : -1 || a.group - b.group;
+                          ? 1
+                          : a.group - b.group;
                       })
                       .map((elem: LeaderboardElem, index: number) => {
                         if (prevCreditAmount !== elem.creditAmount) {
