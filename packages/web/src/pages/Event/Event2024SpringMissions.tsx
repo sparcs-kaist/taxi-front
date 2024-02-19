@@ -6,6 +6,7 @@ import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import CreditAmountContainer from "@/components/Event/CreditAmoutContainer";
+import SuggestJoinEventContainer from "@/components/Event/SuggestJoinEventContainer";
 import WhiteContainerSuggestJoinEvent from "@/components/Event/WhiteContainerSuggestJoinEvent";
 import Footer from "@/components/Footer";
 import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
@@ -154,7 +155,7 @@ const Event2024SpringMissions = () => {
       <AdaptiveDiv type="center">
         <div css={{ height: "30px" }} />
         <CreditAmountContainer />
-        <WhiteContainerSuggestJoinEvent type="2024spring" />
+        <SuggestJoinEventContainer />
         {quests?.map((quest) => (
           <MissionContainer key={quest.id} quest={quest} />
         ))}
