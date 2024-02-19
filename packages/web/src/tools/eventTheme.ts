@@ -15,6 +15,9 @@ const eventTheme = {
   blue_title: "linear-gradient(180deg, #00B2FF 0%, #5E35B1 100%)",
   home_button: "linear-gradient(180deg, #00B2FF 0%, #5E35B1 100%)",
   instagram_button: "linear-gradient(180deg, #FC01C5 0%, #FFC800 100%)",
+  nubzuki_eyes: "linear-gradient(180deg, #00B2FF 0%, #000 100%)",
+  ai_img:
+    "linear-gradient(180deg, #000 0%, #E6D198 20.31%, #E9D3A1 79.7%, #000 100%)",
   blue_icon_top: "#00B2FF",
   blue_icon_bottom: "#5E35B1",
   yellow: "#F2A024",

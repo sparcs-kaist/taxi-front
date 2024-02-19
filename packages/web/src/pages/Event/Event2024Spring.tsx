@@ -11,11 +11,11 @@ import eventTheme from "@/tools/eventTheme";
 import theme from "@/tools/theme";
 
 import AIArt from "@/static/events/2024springAIArt.png";
-import { ReactComponent as GoldPrize } from "@/static/events/2024springGoldPrize.svg";
+import GoldPrize from "@/static/events/2024springGoldPrize.png";
 import LineArt from "@/static/events/2024springLineArt.png";
 import { ReactComponent as NupzukCoin } from "@/static/events/2024springNubzukcoinLarge.svg";
 import NupzukiEyes from "@/static/events/2024springNubzukiEyes.png";
-import { ReactComponent as SilverPrize } from "@/static/events/2024springSilverPrize.svg";
+import SilverPrize from "@/static/events/2024springSilverPrize.png";
 import { ReactComponent as MainTitle } from "@/static/events/2024springTitle.svg";
 
 type EventStepProps = {
@@ -75,6 +75,19 @@ const Event2024Spring = () => {
     border: "4px solid #000",
     background: "#FFF",
   };
+  const styleVerticalCenter = {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  } as CSS;
+
+  const styleAdaptiveDiv = {
+    ...styleVerticalCenter,
+    width: "100%",
+    margin: 0,
+  } as CSS;
+
   return (
     <div
       css={{
@@ -87,9 +100,7 @@ const Event2024Spring = () => {
       <AdaptiveDiv
         type="center"
         css={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          ...styleVerticalCenter,
           gap: "16px",
           padding: "20px",
         }}
@@ -117,13 +128,9 @@ const Event2024Spring = () => {
       <AdaptiveDiv
         type="center"
         css={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          background: "linear-gradient(180deg, #00B2FF 0%, #000 100%)",
+          ...styleAdaptiveDiv,
+          background: eventTheme.nubzuki_eyes,
           padding: "80px 0px 20px 0px",
-          width: "100%",
-          margin: "0px",
         }}
       >
         <img
@@ -141,27 +148,18 @@ const Event2024Spring = () => {
       <AdaptiveDiv
         type="center"
         css={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
-          justifyContent: "center",
+          ...styleAdaptiveDiv,
           padding: "80px 0px",
           gap: "10px",
-          margin: "0px",
-          width: "100%",
         }}
       >
         <div
           css={{
+            ...styleVerticalCenter,
+            position: "relative",
             width: "100%",
             height: "631px",
-            background:
-              "linear-gradient(180deg, #000 0%, #E6D198 20.31%, #E9D3A1 79.7%, #000 100%)",
-            position: "relative",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
+            background: eventTheme.ai_img,
           }}
         >
           <div
@@ -170,6 +168,8 @@ const Event2024Spring = () => {
               position: "absolute",
               top: "0px",
               left: "40px",
+              width: "calc(100% - 200px)",
+              minWidth: "120px",
             }}
           >
             아주 오래전부터
@@ -190,7 +190,9 @@ const Event2024Spring = () => {
               ...styleTextBox,
               position: "absolute",
               bottom: "84px",
-              left: "63px",
+              right: "20px",
+              width: "calc(100% - 120px)",
+              minWidth: "200px",
               display: "block",
             }}
           >
@@ -312,7 +314,8 @@ const Event2024Spring = () => {
                 width: "100%",
               }}
             >
-              <GoldPrize /> <SilverPrize />
+              <img src={GoldPrize} alt="prize" css={{ width: "144px" }} />
+              <img src={SilverPrize} alt="prize" css={{ width: "144px" }} />
             </div>
           </div>
           <Link
