@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 
 import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
@@ -15,7 +15,7 @@ import theme from "@/tools/theme";
 const SuggestJoinEventContainer = () => {
   const isLogin = useIsLogin();
   const { isAgreeOnTermsOfEvent, completedQuests } =
-    useValueRecoilState("event2023FallInfo") || {};
+    useValueRecoilState("event2024SpringInfo") || {};
 
   const randomToken = useMemo(() => !!Math.floor(Math.random() * 2), []);
   const [isOpenJoin, setIsOpenJoin] = useState<boolean>(false);
@@ -66,7 +66,13 @@ const SuggestJoinEventContainer = () => {
       ) : randomToken &&
         completedQuests &&
         !completedQuests.includes("adPushAgreement") ? (
-        <WhiteContainer>
+        <WhiteContainer
+          css={{
+            padding: "14px 16px",
+            background: eventTheme.black,
+            border: "1px solid #FFF",
+          }}
+        >
           <div css={styleTitle}>🌟 Taxi의 소울메이트</div>
           <div css={styleDescription}>
             Taxi 서비스를 잊지 않도록 가끔 찾아갈게요! 광고성 푸시 알림 수신
@@ -116,4 +122,4 @@ const SuggestJoinEventContainer = () => {
   );
 };
 
-export default SuggestJoinEventContainer;
+export default memo(SuggestJoinEventContainer);
