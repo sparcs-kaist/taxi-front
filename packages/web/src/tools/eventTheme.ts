@@ -39,15 +39,6 @@ const eventTheme = {
     fontWeight: 400,
     lineHeight: "12px",
   },
-
-  font12: {
-    fontFamily: "Galmuri11",
-    fontWeight: 400,
-    fontSize: 12,
-    letterSpacing: "0.048px",
-    lineHeight: "14px",
-  },
-
   font16: {
     fontFamily: "Galmuri11",
     fontWeight: 400,
@@ -61,6 +52,30 @@ const eventTheme = {
     fontSize: 16,
     letterSpacing: -0.4,
     fontWeight: 700,
+    lineHeight: "19px",
+  },
+
+  font12: {
+    fontFamily: "Galmuri11",
+    fontSize: 12,
+    letterSpacing: -0.4,
+    fontWeight: 400,
+    lineHeight: "19px",
+  },
+
+  font12_bold: {
+    fontFamily: "Galmuri11",
+    fontSize: 12,
+    letterSpacing: -0.4,
+    fontWeight: 700,
+    lineHeight: "19px",
+  },
+
+  font10: {
+    fontFamily: "Galmuri11",
+    fontSize: 10,
+    letterSpacing: -0.4,
+    fontWeight: 400,
     lineHeight: "19px",
   },
 
