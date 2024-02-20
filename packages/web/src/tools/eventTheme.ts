@@ -33,12 +33,6 @@ const eventTheme = {
   borderRadius: "12px",
 
   // Font Size
-  font10: {
-    fontFamily: "Galmuri11",
-    fontSize: 10,
-    fontWeight: 400,
-    lineHeight: "12px",
-  },
   font16: {
     fontFamily: "Galmuri11",
     fontWeight: 400,
