@@ -1,3 +1,4 @@
+import { useEventBackgroundEffect } from "@/hooks/event/useEventBackgroundEffect";
 import useQuery from "@/hooks/useTaxiAPI";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
@@ -230,77 +231,77 @@ const Event2024SpringLeaderboard = () => {
   let prevRank = 0;
   let prevCreditAmount = 0;
 
+  useEventBackgroundEffect();
+
   return (
     <>
       <HeaderWithBackButton>
         <span css={{ color: theme.purple, ...theme.font18 }}>새터반 순위</span>
       </HeaderWithBackButton>
 
-      <div css={{ background: eventTheme.black, height: "100%" }}>
-        <AdaptiveDiv type="center">
+      <AdaptiveDiv type="center">
+        <div
+          css={{
+            paddingTop: "20px",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <EventLogo
+            css={{
+              minWidth: "335px",
+              minHeight: "60px",
+              margin: "0 auto",
+            }}
+          />
           <div
             css={{
-              paddingTop: "20px",
-              display: "flex",
-              flexDirection: "column",
+              paddingTop: "15px",
+              width: "auto",
             }}
           >
-            <EventLogo
-              css={{
-                minWidth: "335px",
-                minHeight: "60px",
-                margin: "0 auto",
-              }}
-            />
-            <div
-              css={{
-                paddingTop: "15px",
-                width: "auto",
-              }}
-            >
-              {leaderboard.length > 0 ? (
-                <>
-                  <div
-                    css={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "8px",
-                    }}
-                  >
-                    <LeaderboardTopBar />
-                    {leaderboard
-                      .sort((a: LeaderboardElem, b: LeaderboardElem) => {
-                        return b.creditAmount - a.creditAmount ||
-                          b.group === group
-                          ? 1
-                          : a.group === group
-                          ? -1
-                          : a.group - b.group;
-                      })
-                      .map((elem: LeaderboardElem, index: number) => {
-                        if (prevCreditAmount !== elem.creditAmount) {
-                          prevRank = index;
-                          prevCreditAmount = elem.creditAmount;
-                        }
-                        return (
-                          <LeaderboardItem
-                            key={index}
-                            rank={prevRank}
-                            value={elem}
-                            isMe={group === elem.group}
-                          />
-                        );
-                      })}
-                  </div>
-                </>
-              ) : (
-                <Empty type="mobile">리더보드가 비어있습니다.</Empty>
-              )}
-            </div>
+            {leaderboard.length > 0 ? (
+              <>
+                <div
+                  css={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "8px",
+                  }}
+                >
+                  <LeaderboardTopBar />
+                  {leaderboard
+                    .sort((a: LeaderboardElem, b: LeaderboardElem) => {
+                      return b.creditAmount - a.creditAmount ||
+                        b.group === group
+                        ? 1
+                        : a.group === group
+                        ? -1
+                        : a.group - b.group;
+                    })
+                    .map((elem: LeaderboardElem, index: number) => {
+                      if (prevCreditAmount !== elem.creditAmount) {
+                        prevRank = index;
+                        prevCreditAmount = elem.creditAmount;
+                      }
+                      return (
+                        <LeaderboardItem
+                          key={index}
+                          rank={prevRank}
+                          value={elem}
+                          isMe={group === elem.group}
+                        />
+                      );
+                    })}
+                </div>
+              </>
+            ) : (
+              <Empty type="mobile">리더보드가 비어있습니다.</Empty>
+            )}
           </div>
-        </AdaptiveDiv>
-        <Footer type="event-2024spring" />
-      </div>
+        </div>
+      </AdaptiveDiv>
+      <Footer type="event-2024spring" />
     </>
   );
 };
