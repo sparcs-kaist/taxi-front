@@ -4,6 +4,7 @@ import { atom } from "recoil";
 
 export type Event2024SpringInfoType = Nullable<{
   isAgreeOnTermsOfEvent: boolean;
+  isEligible: boolean;
   completedQuests: QuestId[];
   creditAmount: number;
   groupCreditAmount: number;
