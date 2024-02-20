@@ -4,7 +4,7 @@ import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import Button from "@/components/Button";
 import {
-  ModalEvent2023FallJoin,
+  ModalEvent2024SpringJoin,
   ModalNotification,
 } from "@/components/ModalPopup";
 import WhiteContainer from "@/components/WhiteContainer";
@@ -110,7 +110,7 @@ const SuggestJoinEventContainer = () => {
           </Button>
         </WhiteContainer>
       ) : null}
-      <ModalEvent2023FallJoin
+      <ModalEvent2024SpringJoin
         isOpen={isOpenJoin}
         onChangeIsOpen={setIsOpenJoin}
       />
