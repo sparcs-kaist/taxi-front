@@ -73,9 +73,11 @@ const EventStep = ({
 
 const Event2024Spring = () => {
   const [isOpenShare, setIsOpenShare] = useState<boolean>(false);
-  const [, inviteUrl] = useQuery.post(`/events/2024spring/invite/create`, {}, [
-    isOpenShare,
-  ]);
+  const [, { inviteUrl }] = useQuery.post(
+    `/events/2024spring/invite/create`,
+    {},
+    [isOpenShare]
+  );
 
   const styleTextBox = {
     ...eventTheme.font20,

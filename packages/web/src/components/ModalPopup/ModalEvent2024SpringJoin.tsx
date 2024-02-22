@@ -15,6 +15,8 @@ import DottedLine from "@/components/DottedLine";
 import Input from "@/components/Input";
 import Modal from "@/components/Modal";
 
+import ProfileImage from "../User/ProfileImage";
+
 import alertAtom from "@/atoms/alert";
 import { useSetRecoilState } from "recoil";
 
@@ -68,7 +70,7 @@ const ModalEvent2024SpringJoin = ({
       axios({
         url: "/events/2024spring/globalState/create",
         method: "post",
-        data: { phoneNumber, group, inviterId },
+        data: { phoneNumber, group, invitor: inviterId },
         onSuccess: () => {
           fetchLoginInfo();
           //#region event2024Spring
@@ -185,17 +187,6 @@ const ModalEvent2024SpringJoin = ({
                 css={{ width: "100%", marginLeft: "10px" }}
               />
             </div>
-            {
-              <div css={styleInputWrap}>
-                추천인
-                <img
-                  src=""
-                  alt="추천인"
-                  css={{ width: "24px", height: "24px", marginLeft: "10px" }}
-                />
-                <span css={{ marginLeft: "5px" }}>추천인닉네임</span>
-              </div>
-            }
             <Button
               type="purple_inset"
               css={{
@@ -240,12 +231,21 @@ const ModalEvent2024SpringJoin = ({
             {isInvited && (
               <div css={styleInputWrap}>
                 추천인
-                <img
-                  src={inviterInfo?.profileImage}
-                  alt="추천인"
-                  css={{ width: "24px", height: "24px", marginLeft: "10px" }}
-                />
-                <span css={{ marginLeft: "5px" }}>{inviterInfo.nickname}</span>
+                <div
+                  css={{
+                    width: "24px",
+                    height: "24px",
+                    margin: "0px 10px",
+                    borderRadius: "12px",
+                    overflow: "hidden",
+                    boxShadow: theme.shadow,
+                  }}
+                >
+                  <ProfileImage url={inviterInfo?.profileImageUrl} />
+                </div>
+                <span css={{ width: "100%", ...theme.ellipsis }}>
+                  {inviterInfo?.nickname}
+                </span>
               </div>
             )}
             <Button

@@ -1,5 +1,7 @@
 import { useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
+
+import { useIsLogin } from "@/hooks/useFetchRecoilState";
 
 import Footer from "@/components/Footer";
 import {
@@ -15,13 +17,21 @@ import { getDynamicLink } from "@/tools/trans";
 
 const Home = () => {
   const history = useHistory();
+  const { pathname, search } = useLocation();
 
-  const { roomId: _roomId, inviterId: _inviterId } = useParams<{
+  const isLogin = useIsLogin();
+
+  const {
+    roomId: _roomId,
+    inviterId,
+    eventStatusId,
+  } = useParams<{
     roomId: string;
     inviterId: string;
+    eventStatusId: string;
   }>();
 
-  const isOpenEventJoin = _inviterId ? true : _roomId == "startEvent";
+  const isOpenEventJoin = inviterId ? true : _roomId == "startEvent";
   const onChangeIsOpenPrivacyPolicy = () => history.replace("/home");
   const onChangeIsOpenEventJoin = () => history.replace("/home");
 
@@ -29,10 +39,22 @@ const Home = () => {
     _roomId === "privacyPolicy" ? null : isOpenEventJoin ? null : _roomId;
 
   useEffect(() => {
-    if (!_inviterId) return;
-    const dynamicLink = getDynamicLink(window.location.pathname);
-    window.location.replace(dynamicLink);
-  }, [_inviterId]);
+    if (!eventStatusId) return;
+    const redirectPath = window.location.pathname.replace(
+      "/event/2024spring-invite",
+      "/home/startEvent"
+    );
+    const dynamicLink = getDynamicLink(redirectPath);
+    window.location.href = dynamicLink;
+  }, [eventStatusId]);
+
+  useEffect(() => {
+    if (inviterId && !isLogin) {
+      history.replace(
+        `/login?redirect=${encodeURIComponent(pathname + search)}`
+      );
+    }
+  }, [isLogin, inviterId]);
 
   return (
     <>
@@ -46,6 +68,7 @@ const Home = () => {
         onChangeIsOpen={onChangeIsOpenPrivacyPolicy}
       />
       <ModalEvent2024SpringJoin
+        inviterId={inviterId}
         isOpen={isOpenEventJoin}
         onChangeIsOpen={onChangeIsOpenEventJoin}
       />
