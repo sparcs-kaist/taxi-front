@@ -12,6 +12,7 @@ import { useAxios } from "@/hooks/useTaxiAPI";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
+import { ModalEvent2024SpringAbuseWarning } from "@/components/ModalPopup";
 import {
   OptionDate,
   OptionMaxPeople,
@@ -64,6 +65,10 @@ const AddRoom = () => {
   //#region event2023Fall
   const event2023FallQuestComplete = useEvent2023FallQuestComplete();
   //#endregion
+  //#region event2024Spring
+  const [isOpenModalEventAbuseWarning, setIsOpenModalEventAbuseWarning] =
+    useState<boolean>(false);
+  //#endregion
 
   useEffect(() => {
     const expirationDate = new Date();
@@ -103,6 +108,40 @@ const AddRoom = () => {
   const onClickAdd = async () => {
     if (!onCall.current) {
       onCall.current = true;
+
+      // #region event2024Spring
+      let isAgreeOnTermsOfEvent = false;
+      await axios({
+        url: "/events/2024spring/globalState",
+        method: "get",
+        onSuccess: (data) => {
+          if (data.isAgreeOnTermsOfEvent) {
+            isAgreeOnTermsOfEvent = data.isAgreeOnTermsOfEvent;
+          }
+        },
+        onError: () => {},
+      });
+      if (isAgreeOnTermsOfEvent) {
+        await axios({
+          url: "/rooms/create/test",
+          method: "post",
+          data: {
+            from: valuePlace[0],
+            to: valuePlace[1],
+            time: calculatedTime!.toISOString(),
+            maxPartLength: valueMaxPeople,
+          },
+          onSuccess: (data) => {
+            if (!data!.result) {
+              setIsOpenModalEventAbuseWarning(true);
+            }
+          },
+          onError: () => {},
+        });
+        return;
+      }
+      // #endregion
+
       // FIXME: "/rooms/create" API가 myRoom을 반환하도록 수정
       await axios({
         url: "/rooms/create",
@@ -128,52 +167,85 @@ const AddRoom = () => {
   };
 
   return (myRooms?.ongoing.length ?? 0) < MAX_PARTICIPATION ? (
-    <div>
-      <AdaptiveDiv type="center">
-        <Title icon="add" isHeader>
-          방 개설하기
-        </Title>
-        {isLogin ? (
-          <>
-            <OptionPlace value={valuePlace} handler={setPlace} />
-            <OptionDate value={valueDate} handler={setDate} />
-            <OptionName
-              value={valueName}
-              handler={setName}
-              placeholder={randomRoomName}
-            />
-            <OptionTime value={valueTime} handler={setTime} page="add" />
-            <OptionMaxPeople value={valueMaxPeople} handler={setMaxPeople} />
-            <Button
-              type="purple"
-              disabled={validatedMsg ? true : false}
-              css={{
-                padding: "14px 0 13px",
-                borderRadius: "12px",
-                ...theme.font16_bold,
-              }}
-              onClick={onClickAdd}
-              className="scroll-to-button"
-            >
-              {validatedMsg
-                ? validatedMsg
-                : `${date2str(
-                    new Date(
-                      valueDate[0]!,
-                      valueDate[1]! - 1,
-                      valueDate[2]!,
-                      valueTime[0],
-                      valueTime[1]
-                    ),
-                    "MMM Do [(]dd[)] a h[시] m[분]"
-                  )} 방 개설하기`}
-            </Button>
-          </>
-        ) : (
-          <WhiteContainerSuggestLogin />
-        )}
-      </AdaptiveDiv>
-    </div>
+    <>
+      <div>
+        <AdaptiveDiv type="center">
+          <Title icon="add" isHeader>
+            방 개설하기
+          </Title>
+          {isLogin ? (
+            <>
+              <OptionPlace value={valuePlace} handler={setPlace} />
+              <OptionDate value={valueDate} handler={setDate} />
+              <OptionName
+                value={valueName}
+                handler={setName}
+                placeholder={randomRoomName}
+              />
+              <OptionTime value={valueTime} handler={setTime} page="add" />
+              <OptionMaxPeople value={valueMaxPeople} handler={setMaxPeople} />
+              <Button
+                type="purple"
+                disabled={validatedMsg ? true : false}
+                css={{
+                  padding: "14px 0 13px",
+                  borderRadius: "12px",
+                  ...theme.font16_bold,
+                }}
+                onClick={onClickAdd}
+                className="scroll-to-button"
+              >
+                {validatedMsg
+                  ? validatedMsg
+                  : `${date2str(
+                      new Date(
+                        valueDate[0]!,
+                        valueDate[1]! - 1,
+                        valueDate[2]!,
+                        valueTime[0],
+                        valueTime[1]
+                      ),
+                      "MMM Do [(]dd[)] a h[시] m[분]"
+                    )} 방 개설하기`}
+              </Button>
+            </>
+          ) : (
+            <WhiteContainerSuggestLogin />
+          )}
+        </AdaptiveDiv>
+      </div>
+      {/* #region event2024Spring */}
+      <ModalEvent2024SpringAbuseWarning
+        isOpen={isOpenModalEventAbuseWarning}
+        onChangeIsOpen={async (data) => {
+          if (data === true) {
+            setIsOpenModalEventAbuseWarning(data);
+            await axios({
+              url: "/rooms/create",
+              method: "post",
+              data: {
+                name: valueName || randomRoomName,
+                from: valuePlace[0],
+                to: valuePlace[1],
+                time: calculatedTime!.toISOString(),
+                maxPartLength: valueMaxPeople,
+              },
+              onSuccess: () => {
+                fetchMyRooms();
+                //#region event2023Fall
+                event2023FallQuestComplete("firstRoomCreation");
+                //#endregion
+                history.push("/myroom");
+              },
+              onError: () => setAlert("방 개설에 실패하였습니다."),
+            });
+          } else if (data === false) {
+            setIsOpenModalEventAbuseWarning(data);
+          }
+        }}
+      />
+      {/* #endregion */}
+    </>
   ) : (
     <FullParticipation />
   );
