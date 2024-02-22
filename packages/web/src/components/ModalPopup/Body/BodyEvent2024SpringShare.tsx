@@ -74,7 +74,7 @@ const BodyEvent2024SpringShare = ({
           description={`새터반 택시대제전 이벤트에 참여해보세요!`}
           imageUrl={origin + "/2024springEvent-graph.png"}
           buttonText="확인하기"
-          buttonTo={inviteUrl}
+          buttonTo={new URL(inviteUrl).pathname}
           partNum={1}
         >
           <ButtonShare
