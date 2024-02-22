@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 import { useEvent2024SpringQuestComplete } from "@/hooks/event/useEvent2024SpringQuestComplete";
 import {
@@ -29,12 +30,11 @@ const ModalEvent2024SpringJoin = (
   const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
   const isLogin = useIsLogin();
-  const {
-    phoneNumber: phoneNumberFromLoginInfo,
-    group: groupFromLoginInfo,
-    inviter: inviterFromLoginInfo,
-  } = useValueRecoilState("loginInfo") || {};
+  const { phoneNumber: phoneNumberFromLoginInfo } =
+    useValueRecoilState("loginInfo") || {};
   const { isAgreeOnTermsOfEvent } =
+    useValueRecoilState("event2024SpringInfo") || {};
+  const { group: groupFromLoginInfo } =
     useValueRecoilState("event2024SpringInfo") || {};
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
   //#region event2024Spring
@@ -52,6 +52,10 @@ const ModalEvent2024SpringJoin = (
   );
 
   const isValidGroup = useMemo(() => group > 0 && group < 27, [group]);
+
+  const location = useLocation();
+  const path = location.pathname;
+  const isInvited = path.startsWith("/home/startEvent/");
 
   const onClickJoin = useCallback(
     () =>
@@ -175,6 +179,16 @@ const ModalEvent2024SpringJoin = (
                 css={{ width: "100%", marginLeft: "10px" }}
               />
             </div>
+            {/* 추천인이 있을 경우에만 표시하도록 변경 필요 */}
+            {/* <div css={styleInputWrap}>
+              추천인
+              <img
+                src=""
+                alt="추천인"
+                css={{ width: "24px", height: "24px", marginLeft: "10px" }}
+              />
+              <span css={{ marginLeft: "5px" }}>추천인닉네임</span>
+            </div> */}
             <Button
               type="purple_inset"
               css={{
@@ -214,6 +228,18 @@ const ModalEvent2024SpringJoin = (
                 css={{ width: "100%", marginLeft: "10px" }}
               />
             </div>
+            {isInvited && (
+              <div css={styleInputWrap}>
+                추천인
+                <img
+                  src=""
+                  alt="추천인"
+                  css={{ width: "24px", height: "24px", marginLeft: "10px" }}
+                />
+                <span css={{ marginLeft: "5px" }}>추천인닉네임</span>
+              </div>
+            )}
+
             <Button
               type="purple_inset"
               css={{
