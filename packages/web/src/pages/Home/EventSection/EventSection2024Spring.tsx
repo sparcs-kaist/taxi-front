@@ -5,7 +5,7 @@ import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import CreditAmountContainer from "@/components/Event/CreditAmoutContainer";
 import EventButton from "@/components/Event/EventButton";
-import WhiteContainerSuggestJoinEvent from "@/components/Event/WhiteContainerSuggestJoinEvent";
+import SuggestJoinEventContainer from "@/components/Event/SuggestJoinEventContainer";
 
 import eventTheme from "@/tools/eventTheme";
 
@@ -106,8 +106,8 @@ const EventSection2024Spring = () => {
                 </Link>
               </div>
             </div>
+            <SuggestJoinEventContainer />
           </AdaptiveDiv>
-          <WhiteContainerSuggestJoinEvent />
         </div>
       ) : null}
     </>

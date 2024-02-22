@@ -1,7 +1,10 @@
 import { useHistory, useParams } from "react-router-dom";
 
 import Footer from "@/components/Footer";
-import { ModalPrivacyPolicy } from "@/components/ModalPopup";
+import {
+  ModalEvent2024SpringJoin,
+  ModalPrivacyPolicy,
+} from "@/components/ModalPopup";
 
 import EventSection from "./EventSection";
 import InfoSection from "./InfoSection";
@@ -10,9 +13,14 @@ import RoomSection from "./RoomSection";
 const Home = () => {
   const history = useHistory();
   const { roomId: _roomId } = useParams<{ roomId: string }>();
-  const roomId = _roomId === "privacyPolicy" ? null : _roomId;
+  const { inviterId: _inviterId } = useParams<{ inviterId: string }>();
 
+  const isOpenEventJoin = _inviterId ? true : _roomId == "startEvent";
   const onChangeIsOpenPrivacyPolicy = () => history.replace("/home");
+  const onChangeIsOpenEventJoin = () => history.replace("/home");
+
+  const roomId =
+    _roomId === "privacyPolicy" ? null : isOpenEventJoin ? null : _roomId;
 
   return (
     <>
@@ -24,6 +32,10 @@ const Home = () => {
       <ModalPrivacyPolicy
         isOpen={_roomId === "privacyPolicy"}
         onChangeIsOpen={onChangeIsOpenPrivacyPolicy}
+      />
+      <ModalEvent2024SpringJoin
+        isOpen={isOpenEventJoin}
+        onChangeIsOpen={onChangeIsOpenEventJoin}
       />
     </>
   );
