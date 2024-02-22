@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 
-import { useEvent2023FallQuestComplete } from "@/hooks/event/useEvent2023FallQuestComplete";
+import { useEvent2024SpringQuestComplete } from "@/hooks/event/useEvent2024SpringQuestComplete";
 import {
   useFetchRecoilState,
   useIsLogin,
@@ -62,10 +62,8 @@ const AddRoom = () => {
   const isLogin = useIsLogin();
   const myRooms = useValueRecoilState("myRooms");
   const fetchMyRooms = useFetchRecoilState("myRooms");
-  //#region event2023Fall
-  const event2023FallQuestComplete = useEvent2023FallQuestComplete();
-  //#endregion
   //#region event2024Spring
+  const event2024SpringQuestComplete = useEvent2024SpringQuestComplete();
   const [isOpenModalEventAbuseWarning, setIsOpenModalEventAbuseWarning] =
     useState<boolean>(false);
   //#endregion
@@ -155,8 +153,8 @@ const AddRoom = () => {
         },
         onSuccess: () => {
           fetchMyRooms();
-          //#region event2023Fall
-          event2023FallQuestComplete("firstRoomCreation");
+          //#region event2024spring
+          event2024SpringQuestComplete("firstRoomCreation");
           //#endregion
           history.push("/myroom");
         },
@@ -232,8 +230,8 @@ const AddRoom = () => {
               },
               onSuccess: () => {
                 fetchMyRooms();
-                //#region event2023Fall
-                event2023FallQuestComplete("firstRoomCreation");
+                //#region event2024spring
+                event2024SpringQuestComplete("firstRoomCreation");
                 //#endregion
                 history.push("/myroom");
               },

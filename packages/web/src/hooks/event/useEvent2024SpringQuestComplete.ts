@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-import type { QuestId } from "@/types/event2023fall";
+import type { QuestId } from "@/types/event2024spring";
 
 import {
   useFetchRecoilState,
@@ -31,7 +31,7 @@ export const useEvent2024SpringQuestComplete = () => {
         ].includes(id)
       ) {
         axios({
-          url: `/events/2023fall/quests/complete/${id}`,
+          url: `/events/2024spring/quests/complete/${id}`,
           method: "post",
           onSuccess: () => fetchEvent2024SpringInfo(),
         });
