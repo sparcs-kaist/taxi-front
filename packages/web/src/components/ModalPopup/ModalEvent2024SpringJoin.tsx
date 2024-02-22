@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useLocation } from "react-router-dom";
 
 import { useEvent2024SpringQuestComplete } from "@/hooks/event/useEvent2024SpringQuestComplete";
 import {
@@ -8,7 +7,6 @@ import {
   useValueRecoilState,
 } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
-import useQuery from "@/hooks/useTaxiAPI";
 
 import Button from "@/components/Button";
 import DottedLine from "@/components/DottedLine";
@@ -60,7 +58,7 @@ const ModalEvent2024SpringJoin = ({
     () =>
       axios({
         url: `/events/2024spring/invite/search/${inviterId}`,
-        method: "post",
+        method: "get",
         onSuccess: (data) => {
           setInvitorInfo(data);
         },
@@ -69,8 +67,10 @@ const ModalEvent2024SpringJoin = ({
     [inviterId]
   );
 
+  const isInvited = !!inviterId;
+
   useEffect(() => {
-    if (inviterId) getInvitorInfo();
+    if (isInvited) getInvitorInfo();
   }, [inviterId]);
 
   const isValidPhoneNumber = useMemo(
@@ -78,10 +78,6 @@ const ModalEvent2024SpringJoin = ({
     [phoneNumber]
   );
   const isValidGroup = useMemo(() => group > 0 && group < 27, [group]);
-
-  const location = useLocation();
-  const path = location.pathname;
-  const isInvited = path.startsWith("/home/startEvent/");
 
   const onClickJoin = useCallback(
     () =>
@@ -219,7 +215,7 @@ const ModalEvent2024SpringJoin = ({
         </>
       ) : (
         <>
-          <DottedLine />
+          {(isLogin || (isInvited && inviterInfo)) && <DottedLine />}
           {isLogin && (
             <>
               <div css={{ height: "12px" }} />
@@ -249,7 +245,6 @@ const ModalEvent2024SpringJoin = ({
               </div>
             </>
           )}
-
           {isInvited && inviterInfo && (
             <div css={styleInputWrap}>
               추천인
