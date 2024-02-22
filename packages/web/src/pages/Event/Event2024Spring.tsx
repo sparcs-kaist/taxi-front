@@ -1,6 +1,8 @@
 import { ReactNode, memo, useState } from "react";
 import { Link } from "react-router-dom";
 
+import { QuestId } from "@/types/event2024spring";
+
 import useQuery from "@/hooks/useTaxiAPI";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
@@ -8,6 +10,8 @@ import EventButton from "@/components/Event/EventButton";
 import Footer from "@/components/Footer";
 import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
 import { ModalEvent2024SpringShare } from "@/components/ModalPopup";
+
+import { MissionContainer } from "./Event2024SpringMissions";
 
 import eventTheme from "@/tools/eventTheme";
 import theme from "@/tools/theme";
@@ -101,6 +105,20 @@ const Event2024Spring = () => {
     width: "100%",
     margin: 0,
   } as const;
+
+  const exampleMission = {
+    name: "첫 발걸음",
+    description:
+      "로그인만 해도 넙죽코인을 얻을 수 있다고?? 이벤트 기간에 처음으로 SPARCS Taxi 서비스에 로그인하여 넙죽코인을 받아보세요.",
+    imageUrl:
+      "https://sparcs-taxi-prod.s3.ap-northeast-2.amazonaws.com/assets/event-2024spring/quest_firstLogin.png",
+    reward: {
+      credit: 50,
+      ticket1: 0,
+    },
+    id: "firstLogin" as QuestId,
+    maxCount: 1,
+  };
 
   return (
     <div
@@ -275,7 +293,9 @@ const Event2024Spring = () => {
           title="퀘스트 달성하고"
           subtitle="넙죽코인 획득 !"
         >
-          {/* 퀘스트 컴포넌트 넣을곳 */}
+          <div css={{ width: "100%" }}>
+            <MissionContainer quest={exampleMission} />
+          </div>
           <Link
             to="/event/2024spring-missions"
             css={{ textDecoration: "none", width: "100%" }}
@@ -328,7 +348,7 @@ const Event2024Spring = () => {
             </div>
           </div>
           <Link
-            to="/event/2024spring-ranking"
+            to="/event/2024spring-leaderboard"
             css={{ textDecoration: "none", width: "100%" }}
           >
             <EventButton
@@ -338,7 +358,6 @@ const Event2024Spring = () => {
           </Link>
         </EventStep>
         <EventStep step="EVENT" title="인스타그램 공유이벤트">
-          {/* 퀘스트 컴포넌트 넣을곳 */}
           <Link to="/" css={{ textDecoration: "none", width: "100%" }}>
             <EventButton
               title="인스타그램 게시물 보러가기"

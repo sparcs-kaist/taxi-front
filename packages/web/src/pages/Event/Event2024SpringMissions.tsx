@@ -21,7 +21,7 @@ import { ReactComponent as CoinComplete } from "@/static/events/2024springCoinCo
 type MissionContainerProps = {
   quest: Quest;
 };
-const MissionContainer = ({ quest }: MissionContainerProps) => {
+export const MissionContainer = ({ quest }: MissionContainerProps) => {
   const { completedQuests } = useValueRecoilState("event2024SpringInfo") || {};
   const [isDone, questCompletedCnt] = useMemo(() => {
     const cnt =
