@@ -130,6 +130,11 @@ const ModalCredit = ({
         body: <BodyMembers values={members} />,
       },
       {
+        key: "2024SpringEvent",
+        name: t("page_credit.category_2024spring_event"),
+        body: <BodyMembers values={members2024SpringEvent} />,
+      },
+      {
         key: "2023FallEvent",
         name: t("page_credit.category_2023fall_event"),
         body: <BodyMembers values={members2023FallEvent} />,
@@ -138,11 +143,6 @@ const ModalCredit = ({
         key: "2023SpringEvent",
         name: t("page_credit.category_2023spring_event"),
         body: <BodyMembers values={members2023SpringEvent} />,
-      },
-      {
-        key: "2024SpringEvent",
-        name: t("page_credit.category_2024spring_event"),
-        body: <BodyMembers values={members2024SpringEvent} />,
       },
     ],
     [t]
