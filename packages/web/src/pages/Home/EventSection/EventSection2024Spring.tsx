@@ -75,21 +75,7 @@ const EventSection2024Spring = () => {
                 paddingBottom: "15px",
               }}
             >
-              {/* <div
-            css={{
-              ...eventTheme.font16,
-              display: "flex",
-              padding: "14px 16px",
-              justifyContent: "space-between",
-              alignItems: "center",
-              borderRadius: "12px",
-              border: "1px solid #FFF",
-              color: eventTheme.white,
-            }}
-          >
-            새터 00반 넙죽코인 */}
               <CreditAmountContainer />
-              {/* </div> */}
               <div css={{ display: "flex", gap: "15px" }}>
                 <Link
                   to="/event/2024spring"
