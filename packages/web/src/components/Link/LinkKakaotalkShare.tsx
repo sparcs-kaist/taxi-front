@@ -24,8 +24,6 @@ const LinkKakaotalkShare = ({
 }: LinkKakaotalkShareProps) => {
   const { pathname, search } = useLocation();
   const buttonTo = _buttonTo ?? pathname + search;
-  imageUrl =
-    "https://raw.githubusercontent.com/sparcs-kaist/taxi-front/ce77401e72ddb3b87e47528b8c9c86762fa572a6/packages/web/public/2024springEvent-graph.png";
 
   const onClick = useCallback(() => {
     const kakao = window.Kakao;
