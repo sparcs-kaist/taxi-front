@@ -15,6 +15,7 @@ import DottedLine from "@/components/DottedLine";
 import Input from "@/components/Input";
 import Modal from "@/components/Modal";
 
+import LinkLogin from "../Link/LinkLogin";
 import ProfileImage from "../User/ProfileImage";
 
 import alertAtom from "@/atoms/alert";
@@ -164,91 +165,96 @@ const ModalEvent2024SpringJoin = ({
         지급됩니다.
       </div>
       <div css={{ height: "12px" }} />
-      <div css={styleText}>
+      <div css={{ ...styleText, marginBottom: "12px" }}>
         • 본 약관은 동의 이후에도 {'"'}마이페이지{">"}새터반 택시대제전 이벤트
         참여 약관{'"'}에서 다시 확인하실 수 있습니다.{" "}
       </div>
-      {isLogin &&
-        (isAgreeOnTermsOfEvent ? (
-          <>
-            <div css={{ height: "12px" }} />
-            <DottedLine />
-            <div css={styleInputWrap}>
-              전화번호
-              <Input
-                value={phoneNumberFromLoginInfo || ""}
-                css={{ width: "100%", marginLeft: "10px" }}
-              />
-            </div>
-            <div css={styleInputWrap}>
-              새터반
-              <Input
-                value={groupFromLoginInfo?.toString() || ""}
-                css={{ width: "100%", marginLeft: "10px" }}
-              />
-            </div>
-            <Button
-              type="purple_inset"
-              css={{
-                width: "100%",
-                padding: "10px 0 9px",
-                borderRadius: "8px",
-                ...theme.font14_bold,
-              }}
-              disabled
-            >
-              이미 동의하셨습니다
-            </Button>
-          </>
-        ) : (
-          <>
-            <div css={{ height: "12px" }} />
-            <DottedLine />
-            <div css={styleInputWrap}>
-              전화번호
-              <Input
-                value={phoneNumber}
-                onChangeValue={setPhoneNumber}
-                placeholder="010-0000-0000 형식으로 입력하세요"
-                css={{ width: "100%", marginLeft: "10px" }}
-              />
-            </div>
-            <div css={styleInputWrap}>
-              새터반
-              <Input
-                type="number"
-                value={group.toString()}
-                min={1}
-                max={26}
-                onChangeValue={(value) => {
-                  const number = parseInt(value, 10);
-                  setGroup(number);
-                }}
-                placeholder="숫자만 입력하세요"
-                css={{ width: "100%", marginLeft: "10px" }}
-              />
-            </div>
-            {isInvited && (
+      {isAgreeOnTermsOfEvent ? (
+        <>
+          <div css={{ height: "12px" }} />
+          <DottedLine />
+          <div css={styleInputWrap}>
+            전화번호
+            <Input
+              value={phoneNumberFromLoginInfo || ""}
+              css={{ width: "100%", marginLeft: "10px" }}
+            />
+          </div>
+          <div css={styleInputWrap}>
+            새터반
+            <Input
+              value={groupFromLoginInfo?.toString() || ""}
+              css={{ width: "100%", marginLeft: "10px" }}
+            />
+          </div>
+          <Button
+            type="purple_inset"
+            css={{
+              width: "100%",
+              padding: "10px 0 9px",
+              borderRadius: "8px",
+              ...theme.font14_bold,
+            }}
+            disabled
+          >
+            이미 동의하셨습니다
+          </Button>
+        </>
+      ) : (
+        <>
+          <DottedLine />
+          {isLogin && (
+            <>
+              <div css={{ height: "12px" }} />
               <div css={styleInputWrap}>
-                추천인
-                <div
-                  css={{
-                    width: "24px",
-                    height: "24px",
-                    margin: "0px 10px",
-                    borderRadius: "12px",
-                    overflow: "hidden",
-                    boxShadow: theme.shadow,
-                    flexShrink: 0,
-                  }}
-                >
-                  <ProfileImage url={inviterInfo?.profileImageUrl} />
-                </div>
-                <span css={{ width: "100%", ...theme.ellipsis }}>
-                  {inviterInfo?.nickname}
-                </span>
+                전화번호
+                <Input
+                  value={phoneNumber}
+                  onChangeValue={setPhoneNumber}
+                  placeholder="010-0000-0000 형식으로 입력하세요"
+                  css={{ width: "100%", marginLeft: "10px" }}
+                />
               </div>
-            )}
+              <div css={styleInputWrap}>
+                새터반
+                <Input
+                  type="number"
+                  value={group.toString()}
+                  min={1}
+                  max={26}
+                  onChangeValue={(value) => {
+                    const number = parseInt(value, 10);
+                    setGroup(number);
+                  }}
+                  placeholder="숫자만 입력하세요"
+                  css={{ width: "100%", marginLeft: "10px" }}
+                />
+              </div>
+            </>
+          )}
+
+          {isInvited && (
+            <div css={styleInputWrap}>
+              추천인
+              <div
+                css={{
+                  width: "24px",
+                  height: "24px",
+                  margin: "0px 10px",
+                  borderRadius: "12px",
+                  overflow: "hidden",
+                  boxShadow: theme.shadow,
+                  flexShrink: 0,
+                }}
+              >
+                <ProfileImage url={inviterInfo?.profileImageUrl} />
+              </div>
+              <span css={{ width: "100%", ...theme.ellipsis }}>
+                {inviterInfo?.nickname}
+              </span>
+            </div>
+          )}
+          {isLogin ? (
             <Button
               type="purple_inset"
               css={{
@@ -266,8 +272,23 @@ const ModalEvent2024SpringJoin = ({
                 ? "올바른 새터반을 입력하세요"
                 : "동의 후 이벤트 참여하기"}
             </Button>
-          </>
-        ))}
+          ) : (
+            <LinkLogin>
+              <Button
+                type="purple_inset"
+                css={{
+                  width: "100%",
+                  padding: "10px 0 9px",
+                  borderRadius: "8px",
+                  ...theme.font14_bold,
+                }}
+              >
+                로그인 후 이벤트 참여하기
+              </Button>
+            </LinkLogin>
+          )}
+        </>
+      )}
     </Modal>
   );
 };

@@ -1,7 +1,5 @@
 import { useEffect } from "react";
-import { useHistory, useLocation, useParams } from "react-router-dom";
-
-import { useIsLogin } from "@/hooks/useFetchRecoilState";
+import { useHistory, useParams } from "react-router-dom";
 
 import Footer from "@/components/Footer";
 import {
@@ -17,9 +15,6 @@ import { getDynamicLink } from "@/tools/trans";
 
 const Home = () => {
   const history = useHistory();
-  const { pathname, search } = useLocation();
-
-  const isLogin = useIsLogin();
 
   const {
     roomId: _roomId,
@@ -47,14 +42,6 @@ const Home = () => {
     const dynamicLink = getDynamicLink(redirectPath);
     window.location.href = dynamicLink;
   }, [eventStatusId]);
-
-  useEffect(() => {
-    if (inviterId && !isLogin) {
-      history.replace(
-        `/login?redirect=${encodeURIComponent(pathname + search)}`
-      );
-    }
-  }, [isLogin, inviterId]);
 
   return (
     <>
