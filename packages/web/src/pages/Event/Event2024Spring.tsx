@@ -130,7 +130,7 @@ const Event2024Spring = () => {
         </div>
         <img src={LineArt} alt="line art" css={{ width: "100%" }} />
         <EventButton
-          title="이벤트 참여하기"
+          title="이벤트 공유하기"
           css={{ background: eventTheme.home_button }}
           onClick={() => setIsOpenShare(true)}
         />
