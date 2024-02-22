@@ -70,7 +70,7 @@ const ModalEvent2024SpringJoin = ({
       axios({
         url: "/events/2024spring/globalState/create",
         method: "post",
-        data: { phoneNumber, group, invitor: inviterId },
+        data: { phoneNumber, group, inviter: inviterId },
         onSuccess: () => {
           fetchLoginInfo();
           //#region event2024Spring
@@ -80,7 +80,7 @@ const ModalEvent2024SpringJoin = ({
         },
         onError: () => setAlert("이벤트 참여에 실패하였습니다."),
       }),
-    [phoneNumber, setPhoneNumber, event2024SpringQuestComplete]
+    [phoneNumber, setPhoneNumber, group, setGroup, event2024SpringQuestComplete]
   );
 
   const styleTitle = {
