@@ -111,7 +111,7 @@ const ModalEvent2024SpringJoin = ({
     margin: "0 8px",
   };
   const styleInputWrap = {
-    margin: "12px 8px",
+    margin: "0 8px 12px",
     display: "flex",
     alignItems: "center",
     color: theme.gray_text,
@@ -184,6 +184,7 @@ const ModalEvent2024SpringJoin = ({
         <>
           <div css={{ height: "12px" }} />
           <DottedLine />
+          <div css={{ height: "12px" }} />
           <div css={styleInputWrap}>
             전화번호
             <Input
@@ -219,6 +220,7 @@ const ModalEvent2024SpringJoin = ({
               <DottedLine />
             </>
           )}
+          <div css={{ height: "12px" }} />
           {isLogin && (
             <>
               <div css={styleInputWrap}>
