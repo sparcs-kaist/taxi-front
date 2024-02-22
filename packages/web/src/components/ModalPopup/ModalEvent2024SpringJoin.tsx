@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 import { useEvent2024SpringQuestComplete } from "@/hooks/event/useEvent2024SpringQuestComplete";
@@ -50,11 +50,28 @@ const ModalEvent2024SpringJoin = ({
 
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [group, setGroup] = useState<number>(0);
-  const [, inviterInfo] = useQuery.get(
-    `/events/2024spring/invite/search/${inviterId}`,
-    {},
+
+  const [inviterInfo, setInvitorInfo] = useState<{
+    profileImageUrl: string;
+    nickname: string;
+  }>();
+
+  const getInvitorInfo = useCallback(
+    () =>
+      axios({
+        url: `/events/2024spring/invite/search/${inviterId}`,
+        method: "post",
+        onSuccess: (data) => {
+          setInvitorInfo(data);
+        },
+        onError: () => setAlert("올바르지 않은 추천인입니다."),
+      }),
     [inviterId]
   );
+
+  useEffect(() => {
+    if (inviterId) getInvitorInfo();
+  }, [inviterId]);
 
   const isValidPhoneNumber = useMemo(
     () => regExpTest.phoneNumber(phoneNumber),
