@@ -1,10 +1,13 @@
-import { ReactNode, memo } from "react";
+import { ReactNode, memo, useState } from "react";
 import { Link } from "react-router-dom";
+
+import useQuery from "@/hooks/useTaxiAPI";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import EventButton from "@/components/Event/EventButton";
 import Footer from "@/components/Footer";
 import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
+import { ModalEvent2024SpringShare } from "@/components/ModalPopup";
 
 import eventTheme from "@/tools/eventTheme";
 import theme from "@/tools/theme";
@@ -69,6 +72,11 @@ const EventStep = ({
 };
 
 const Event2024Spring = () => {
+  const [isOpenShare, setIsOpenShare] = useState<boolean>(false);
+  const [, inviteUrl] = useQuery.post(`/events/2024spring/invite/create`, {}, [
+    isOpenShare,
+  ]);
+
   const styleTextBox = {
     ...eventTheme.font20,
     display: "flex",
@@ -119,15 +127,16 @@ const Event2024Spring = () => {
           2024.02.23. ~ 03.18.
         </div>
         <img src={LineArt} alt="line art" css={{ width: "100%" }} />
-        <Link
-          to="/event/2024spring-missions"
-          css={{ textDecoration: "none", width: "100%" }}
-        >
-          <EventButton
-            title="이벤트 참여하기"
-            css={{ background: eventTheme.home_button }}
-          />
-        </Link>
+        <EventButton
+          title="이벤트 참여하기"
+          css={{ background: eventTheme.home_button }}
+          onClick={() => setIsOpenShare(true)}
+        />
+        <ModalEvent2024SpringShare
+          isOpen={isOpenShare}
+          onChangeIsOpen={setIsOpenShare}
+          inviteUrl={inviteUrl}
+        />
       </AdaptiveDiv>
       <AdaptiveDiv
         type="center"
