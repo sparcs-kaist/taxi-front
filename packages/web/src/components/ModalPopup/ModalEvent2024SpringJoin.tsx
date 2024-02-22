@@ -50,7 +50,6 @@ const ModalEvent2024SpringJoin = (
     () => regExpTest.phoneNumber(phoneNumber),
     [phoneNumber]
   );
-
   const isValidGroup = useMemo(() => group > 0 && group < 27, [group]);
 
   const location = useLocation();
@@ -135,30 +134,30 @@ const ModalEvent2024SpringJoin = (
         <b css={{ color: theme.red_text }}>
           입력해주신 새터반으로 점수가 합산됩니다.
         </b>{" "}
-        또한, 입력해주신 전화번호는 서비스 신고 대응 및 본인 확인을 위해 사용될
-        수 있습니다.
+        또한, 입력해주신 연락처는 서비스 신고 대응 및 본인 확인을 위해 사용될 수
+        있습니다.
       </div>
       <div css={{ height: "12px" }} />
       <div css={styleText}>
         •{" "}
         <b css={{ color: theme.red_text }}>
-          입력해주신 새터반과 연락처는 이후 수정이 불가능합니다.
+          입력해주신 연락처와 새터반은 이후 수정이 불가능합니다.
         </b>{" "}
       </div>
       <div css={{ height: "12px" }} />
       <div css={styleText}>
-        • 본 약관은 동의 이후에도 {'"'}마이페이지{">"}새터반 택시 대제전 이벤트
+        •{" "}
+        <b css={{ color: theme.red_text }}>
+          추천인 이벤트 참여를 위해서는 추천인이 발송한 링크로 이벤트에 참여해야
+          합니다.
+        </b>{" "}
+        추천인을 통해 이벤트에 참여할 시, 참가자와 추천인 모두에게 50 넙죽코인이
+        지급됩니다.
+      </div>
+      <div css={{ height: "12px" }} />
+      <div css={styleText}>
+        • 본 약관은 동의 이후에도 {'"'}마이페이지{">"}새터반 택시대제전 이벤트
         참여 약관{'"'}에서 다시 확인하실 수 있습니다.{" "}
-      </div>
-      <div css={{ height: "12px" }} />
-      <div css={styleText}>
-        •{" "}
-        <b css={{ color: theme.red_text }}>
-          추천인 이벤트 참여를 위해서는 추천인이 발송한 링크로 이벤트에
-          참여해야합니다.
-        </b>{" "}
-        추천인 이벤트를 통해 이벤트를 참여할 시 참가자와 추천인 모두에게 50
-        넙죽코인이 제공됩니다.
       </div>
       {isLogin &&
         (isAgreeOnTermsOfEvent ? (
