@@ -37,9 +37,7 @@ const ModalEvent2024SpringJoin = ({
   const isLogin = useIsLogin();
   const { phoneNumber: phoneNumberFromLoginInfo } =
     useValueRecoilState("loginInfo") || {};
-  const { isAgreeOnTermsOfEvent } =
-    useValueRecoilState("event2024SpringInfo") || {};
-  const { group: groupFromLoginInfo } =
+  const { isAgreeOnTermsOfEvent, group: groupFromLoginInfo } =
     useValueRecoilState("event2024SpringInfo") || {};
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
   //#region event2024Spring
