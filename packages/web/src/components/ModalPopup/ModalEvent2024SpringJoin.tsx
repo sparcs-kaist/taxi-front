@@ -8,6 +8,7 @@ import {
   useValueRecoilState,
 } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
+import useQuery from "@/hooks/useTaxiAPI";
 
 import Button from "@/components/Button";
 import DottedLine from "@/components/DottedLine";
@@ -22,11 +23,14 @@ import theme from "@/tools/theme";
 
 import FestivalRoundedIcon from "@mui/icons-material/FestivalRounded";
 
-type ModalEvent2024SpringJoinProps = Parameters<typeof Modal>[0];
+type ModalEvent2024SpringJoinProps = Parameters<typeof Modal>[0] & {
+  inviterId?: string;
+};
 
-const ModalEvent2024SpringJoin = (
-  modalProps: ModalEvent2024SpringJoinProps
-) => {
+const ModalEvent2024SpringJoin = ({
+  inviterId,
+  ...modalProps
+}: ModalEvent2024SpringJoinProps) => {
   const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
   const isLogin = useIsLogin();
@@ -43,8 +47,11 @@ const ModalEvent2024SpringJoin = (
 
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [group, setGroup] = useState<number>(0);
-  // 추천인 구현 방식에 따라 삭제가 필요할 수도 있습니다.
-  const [inviter] = useState<string>("");
+  const [, inviterInfo] = useQuery.get(
+    `/events/2024spring/invite/search/${inviterId}`,
+    {},
+    [inviterId]
+  );
 
   const isValidPhoneNumber = useMemo(
     () => regExpTest.phoneNumber(phoneNumber),
@@ -61,7 +68,7 @@ const ModalEvent2024SpringJoin = (
       axios({
         url: "/events/2024spring/globalState/create",
         method: "post",
-        data: { phoneNumber, group, inviter },
+        data: { phoneNumber, group, inviterId },
         onSuccess: () => {
           fetchLoginInfo();
           //#region event2024Spring
@@ -178,16 +185,17 @@ const ModalEvent2024SpringJoin = (
                 css={{ width: "100%", marginLeft: "10px" }}
               />
             </div>
-            {/* 추천인이 있을 경우에만 표시하도록 변경 필요 */}
-            {/* <div css={styleInputWrap}>
-              추천인
-              <img
-                src=""
-                alt="추천인"
-                css={{ width: "24px", height: "24px", marginLeft: "10px" }}
-              />
-              <span css={{ marginLeft: "5px" }}>추천인닉네임</span>
-            </div> */}
+            {
+              <div css={styleInputWrap}>
+                추천인
+                <img
+                  src=""
+                  alt="추천인"
+                  css={{ width: "24px", height: "24px", marginLeft: "10px" }}
+                />
+                <span css={{ marginLeft: "5px" }}>추천인닉네임</span>
+              </div>
+            }
             <Button
               type="purple_inset"
               css={{
@@ -233,14 +241,13 @@ const ModalEvent2024SpringJoin = (
               <div css={styleInputWrap}>
                 추천인
                 <img
-                  src=""
+                  src={inviterInfo?.profileImage}
                   alt="추천인"
                   css={{ width: "24px", height: "24px", marginLeft: "10px" }}
                 />
-                <span css={{ marginLeft: "5px" }}>추천인닉네임</span>
+                <span css={{ marginLeft: "5px" }}>{inviterInfo.nickname}</span>
               </div>
             )}
-
             <Button
               type="purple_inset"
               css={{

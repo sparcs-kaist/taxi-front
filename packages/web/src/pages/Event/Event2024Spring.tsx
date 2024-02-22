@@ -174,6 +174,7 @@ const Event2024Spring = () => {
               left: "40px",
               width: "calc(100% - 200px)",
               minWidth: "120px",
+              maxWidth: "250px",
             }}
           >
             아주 오래전부터
@@ -198,6 +199,8 @@ const Event2024Spring = () => {
               width: "calc(100% - 120px)",
               minWidth: "200px",
               display: "block",
+              textAlign: "center",
+              maxWidth: "600px",
             }}
           >
             KAIST 학생들은{" "}
@@ -252,7 +255,7 @@ const Event2024Spring = () => {
           ...styleVerticalCenter,
           padding: "0 20px",
           gap: "16px",
-          width: "100%",
+          // width: "100%",
           boxSizing: "border-box",
         }}
       >

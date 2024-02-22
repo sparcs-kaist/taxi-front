@@ -1,8 +1,6 @@
 import { useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 
-import useQuery from "@/hooks/useTaxiAPI";
-
 import Footer from "@/components/Footer";
 import {
   ModalEvent2024SpringJoin,
@@ -18,8 +16,10 @@ import { getDynamicLink } from "@/tools/trans";
 const Home = () => {
   const history = useHistory();
 
-  const { roomId: _roomId } = useParams<{ roomId: string }>();
-  const { inviterId: _inviterId } = useParams<{ inviterId: string }>();
+  const { roomId: _roomId, inviterId: _inviterId } = useParams<{
+    roomId: string;
+    inviterId: string;
+  }>();
 
   const isOpenEventJoin = _inviterId ? true : _roomId == "startEvent";
   const onChangeIsOpenPrivacyPolicy = () => history.replace("/home");
@@ -29,11 +29,10 @@ const Home = () => {
     _roomId === "privacyPolicy" ? null : isOpenEventJoin ? null : _roomId;
 
   useEffect(() => {
-    if (!eventStatusId) return;
+    if (!_inviterId) return;
     const dynamicLink = getDynamicLink(window.location.pathname);
     window.location.replace(dynamicLink);
-    
-  }, [eventStatusId]);
+  }, [_inviterId]);
 
   return (
     <>
