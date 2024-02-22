@@ -9,6 +9,10 @@ const eventTheme = {
   // Color
   white: "#FFFFFF",
   black: "#000000",
+  gold_leaderboard: "linear-gradient(180deg, #FFEB3B 0%, #FF9800 100%)",
+  silver_leaderboard: "linear-gradient(180deg, #D6DEE1 0%, #586D75 100%)",
+  copper_leaderboard: "linear-gradient(180deg, #FFAD94 0%, #954B2C 100%)",
+  blue_leaderboard: "linear-gradient(180deg, #00B2FF 0%, #5E35B1 100%)",
   blue_button: "linear-gradient(180deg, #00B2FF 0%, #0401B4 100%)",
   purple_button: "linear-gradient(180deg, #F111DA 0%, #5E35B1 100%)",
   orange_button: "linear-gradient(180deg, #FFC700 0%, #C50A0A 100%)",
@@ -76,7 +80,6 @@ const eventTheme = {
     fontWeight: 700,
     lineHeight: "23px",
   },
-
   font28: {
     fontFamily: "Galmuri11",
     fontSize: 28,
@@ -84,6 +87,12 @@ const eventTheme = {
     fontWeight: 700,
     lineHeight: "33px",
   },
+
+  //shadow
+  shadow_leaderboard:
+    "0px 1.5px 1px -0.5px rgba(110, 54, 120, 0.05), " +
+    "0px 2.5px 1px -0.5px rgba(110, 54, 120, 0.03), " +
+    "0px 2px 3px -1px rgba(110, 54, 120, 0.11)",
 };
 
 export default eventTheme;
