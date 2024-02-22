@@ -146,6 +146,16 @@ const ModalEvent2024SpringJoin = (
         • 본 약관은 동의 이후에도 {'"'}마이페이지{">"}새터반 택시 대제전 이벤트
         참여 약관{'"'}에서 다시 확인하실 수 있습니다.{" "}
       </div>
+      <div css={{ height: "12px" }} />
+      <div css={styleText}>
+        •{" "}
+        <b css={{ color: theme.red_text }}>
+          추천인 이벤트 참여를 위해서는 추천인이 발송한 링크로 이벤트에
+          참여해야합니다.
+        </b>{" "}
+        추천인 이벤트를 통해 이벤트를 참여할 시 참가자와 추천인 모두에게 50
+        넙죽코인이 제공됩니다.
+      </div>
       {isLogin &&
         (isAgreeOnTermsOfEvent ? (
           <>
@@ -162,14 +172,6 @@ const ModalEvent2024SpringJoin = (
               새터반
               <Input
                 value={groupFromLoginInfo?.toString() || ""}
-                css={{ width: "100%", marginLeft: "10px" }}
-              />
-            </div>
-            {/* 추천인 구현 방식에 따라 삭제가 필요할 수도 있습니다. */}
-            <div css={styleInputWrap}>
-              추천인
-              <Input
-                value={inviterFromLoginInfo || ""}
                 css={{ width: "100%", marginLeft: "10px" }}
               />
             </div>
@@ -209,16 +211,6 @@ const ModalEvent2024SpringJoin = (
                   setGroup(number);
                 }}
                 placeholder="숫자만 입력하세요"
-                css={{ width: "100%", marginLeft: "10px" }}
-              />
-            </div>
-            {/* 추천인 구현 방식에 따라 삭제가 필요할 수도 있습니다. */}
-            <div css={styleInputWrap}>
-              추천인
-              <Input
-                value={inviter}
-                onChangeValue={setInviter}
-                placeholder="추천인을 입력하세요"
                 css={{ width: "100%", marginLeft: "10px" }}
               />
             </div>

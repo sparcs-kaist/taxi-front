@@ -42,7 +42,7 @@ const SuggestJoinEventContainer = () => {
 
   return (
     <>
-      {!isLogin ? null : !isAgreeOnTermsOfEvent ? (
+      {!isLogin ? null : isAgreeOnTermsOfEvent ? (
         <WhiteContainer
           css={{
             padding: "14px 16px",
