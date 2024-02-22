@@ -44,7 +44,7 @@ const ModalEvent2024SpringJoin = (
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [group, setGroup] = useState<number>(0);
   // 추천인 구현 방식에 따라 삭제가 필요할 수도 있습니다.
-  const [inviter, setInviter] = useState<string>("");
+  const [inviter] = useState<string>("");
 
   const isValidPhoneNumber = useMemo(
     () => regExpTest.phoneNumber(phoneNumber),

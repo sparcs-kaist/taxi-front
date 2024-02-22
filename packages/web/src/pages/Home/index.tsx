@@ -1,4 +1,4 @@
-import { useHistory, useLocation, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 import Footer from "@/components/Footer";
 import {
