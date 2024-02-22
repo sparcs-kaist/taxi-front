@@ -220,6 +220,8 @@ const ModalEvent2024SpringJoin = (
               <Input
                 type="number"
                 value={group.toString()}
+                min={1}
+                max={26}
                 onChangeValue={(value) => {
                   const number = parseInt(value, 10);
                   setGroup(number);
