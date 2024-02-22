@@ -43,10 +43,13 @@ export const day2str = (day: Dayjs, format = "LLLL") => {
 
 export const getDday = (dateString: string) => {
   const targetDate = dayjs(dateString);
-  const currentDate = dayNowServer(); // Get current server time
+  const currentDate = dayNowServer().startOf("day"); // Get current server time
   const diffDays = currentDate.diff(targetDate, "day");
 
-  return `D-${Math.abs(diffDays).toString().padStart(3, "0")}`;
+  const sign = diffDays > 0 ? "+" : "-";
+  return `D${sign}${
+    diffDays !== 0 ? Math.abs(diffDays).toString().padStart(3, "0") : "DAY"
+  }`;
 };
 
 /** 다음은 초, 분, 시간, 일, 월, 년을 고려하여 시간 차이를 문자열로 반환 */
