@@ -239,6 +239,7 @@ const ModalEvent2024SpringJoin = ({
                     borderRadius: "12px",
                     overflow: "hidden",
                     boxShadow: theme.shadow,
+                    flexShrink: 0,
                   }}
                 >
                   <ProfileImage url={inviterInfo?.profileImageUrl} />
