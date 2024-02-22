@@ -4,7 +4,10 @@ import { useHistory, useParams } from "react-router-dom";
 import useQuery from "@/hooks/useTaxiAPI";
 
 import Footer from "@/components/Footer";
-import { ModalPrivacyPolicy } from "@/components/ModalPopup";
+import {
+  ModalEvent2024SpringJoin,
+  ModalPrivacyPolicy,
+} from "@/components/ModalPopup";
 
 import EventSection from "./EventSection";
 import InfoSection from "./InfoSection";
@@ -14,19 +17,16 @@ import { getDynamicLink } from "@/tools/trans";
 
 const Home = () => {
   const history = useHistory();
-  const { roomId: _roomId, eventStatusId: eventStatusId } = useParams<{
-    roomId: string;
-    eventStatusId: string;
-  }>();
-  const roomId = _roomId === "privacyPolicy" ? null : _roomId;
 
-  const [, eventProfile] = useQuery.get(
-    `/events/2024spring/invite/search/:${roomId}`,
-    {},
-    [eventStatusId]
-  );
+  const { roomId: _roomId } = useParams<{ roomId: string }>();
+  const { inviterId: _inviterId } = useParams<{ inviterId: string }>();
 
+  const isOpenEventJoin = _inviterId ? true : _roomId == "startEvent";
   const onChangeIsOpenPrivacyPolicy = () => history.replace("/home");
+  const onChangeIsOpenEventJoin = () => history.replace("/home");
+
+  const roomId =
+    _roomId === "privacyPolicy" ? null : isOpenEventJoin ? null : _roomId;
 
   useEffect(() => {
     if (!eventStatusId) return;
@@ -46,7 +46,10 @@ const Home = () => {
         isOpen={_roomId === "privacyPolicy"}
         onChangeIsOpen={onChangeIsOpenPrivacyPolicy}
       />
-      {/* 모달 완성되면 넣을 곳 */}
+      <ModalEvent2024SpringJoin
+        isOpen={isOpenEventJoin}
+        onChangeIsOpen={onChangeIsOpenEventJoin}
+      />
     </>
   );
 };
