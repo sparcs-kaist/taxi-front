@@ -250,7 +250,7 @@ const ModalEvent2024SpringJoin = ({
             </>
           )}
 
-          {isInvited && (
+          {isInvited && inviterInfo && (
             <div css={styleInputWrap}>
               추천인
               <div
