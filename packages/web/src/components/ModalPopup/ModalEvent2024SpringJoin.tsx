@@ -176,7 +176,7 @@ const ModalEvent2024SpringJoin = ({
         지급됩니다.
       </div>
       <div css={{ height: "12px" }} />
-      <div css={{ ...styleText, marginBottom: "12px" }}>
+      <div css={styleText}>
         • 본 약관은 동의 이후에도 {'"'}마이페이지{">"}새터반 택시대제전 이벤트
         참여 약관{'"'}에서 다시 확인하실 수 있습니다.{" "}
       </div>
@@ -213,10 +213,14 @@ const ModalEvent2024SpringJoin = ({
         </>
       ) : (
         <>
-          {(isLogin || (isInvited && inviterInfo)) && <DottedLine />}
-          {isLogin && (
+          {(isLogin || (isInvited && inviterInfo)) && (
             <>
               <div css={{ height: "12px" }} />
+              <DottedLine />
+            </>
+          )}
+          {isLogin && (
+            <>
               <div css={styleInputWrap}>
                 전화번호
                 <Input
