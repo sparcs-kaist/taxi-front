@@ -96,8 +96,7 @@ const Event2024Spring = () => {
         onSuccess: ({ inviteUrl }) => {
           setInviteUrl(inviteUrl);
         },
-        onError: () =>
-          setAlert("이벤트를 공유하기 위해서는 이벤트에 참여해야 합니다."),
+        onError: () => setAlert("공유 링크를 생성하지 못했습니다."),
       }),
     [isAgreeOnTermsOfEvent]
   );
@@ -176,9 +175,7 @@ const Event2024Spring = () => {
           onClick={() => {
             if (inviteUrl) setIsOpenShare(true);
             else
-              setAlert(
-                "이벤트를 공유하기 위해서는 이벤트에 참여가 필요합니다."
-              );
+              setAlert("이벤트를 공유하기 위해서는 이벤트에 참여해야 합니다.");
           }}
         />
         <ModalEvent2024SpringShare
