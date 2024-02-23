@@ -24,7 +24,7 @@ const BodyChatReportSelectUser = ({
     display: "flex",
     alignItem: "center",
     marginLeft: "5px",
-    marginBottom: "12px",
+    lineHeight: "16px",
     color: theme.red_text,
   };
   const styleButtons = {
@@ -61,7 +61,7 @@ const BodyChatReportSelectUser = ({
   return (
     <>
       <div css={styleText}>
-        짧은 시간동안 반복적으로 여러 개의 방을 생성하신 것 같습니다.
+        짧은 시간 동안 반복적으로 여러 개의 방을 생성하신 것 같습니다.
       </div>
       <div css={styleText}>
         • 방 생성 후 <b css={{ color: theme.black }}>정산/송금 기능을 사용</b>
@@ -74,6 +74,10 @@ const BodyChatReportSelectUser = ({
         <b css={{ color: theme.black }}>획득한 넙죽코인이 모두 회수</b>되고
         추가적인 <b css={{ color: theme.black }}>이벤트 참여가 제한</b>될 수
         있습니다.
+      </div>
+      <div css={styleText}>
+        • 자세한 이벤트 약관은 {'"'}마이페이지{">"}새터반 택시대제전 이벤트 참여
+        약관{'"'}에서 확인하실 수 있습니다.{" "}
       </div>
       <div css={styleText}>그래도 방을 생성할까요?</div>
       <DottedLine />
