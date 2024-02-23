@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { QuestId } from "@/types/event2024spring";
 
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
-import useQuery, { useAxios } from "@/hooks/useTaxiAPI";
+import { useAxios } from "@/hooks/useTaxiAPI";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import EventButton from "@/components/Event/EventButton";
