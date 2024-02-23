@@ -309,7 +309,7 @@ const Event2024Spring = () => {
         <EventStep
           step="STEP 2"
           title="이벤트 종료 후"
-          subtitle="세터반 순위대로 상품 지급 !"
+          subtitle="새터반 순위대로 상품 지급 !"
         >
           <div
             css={{
@@ -329,10 +329,10 @@ const Event2024Spring = () => {
               }}
             >
               <span css={{ ...eventTheme.font12, width: "144px" }}>
-                1등 세터반
+                1등 새터반
               </span>
               <span css={{ ...eventTheme.font12, width: "144px" }}>
-                2등 세터반
+                2등 새터반
               </span>
             </div>
             <div
@@ -352,7 +352,7 @@ const Event2024Spring = () => {
             css={{ textDecoration: "none", width: "100%" }}
           >
             <EventButton
-              title="세터반 순위 보러가기"
+              title="새터반 순위 보러가기"
               css={{ background: eventTheme.orange_button }}
             />
           </Link>
