@@ -120,6 +120,7 @@ const AddRoom = () => {
         onError: () => {},
       });
       if (isAgreeOnTermsOfEvent) {
+        let isFalse = false;
         await axios({
           url: "/rooms/create/test",
           method: "post",
@@ -133,11 +134,13 @@ const AddRoom = () => {
             if (data!.result === false) {
               setIsOpenModalEventAbuseWarning(true);
               onCall.current = false;
+              isFalse = true;
               return;
             }
           },
           onError: () => {},
         });
+        if (isFalse) return;
       }
       // #endregion
 
