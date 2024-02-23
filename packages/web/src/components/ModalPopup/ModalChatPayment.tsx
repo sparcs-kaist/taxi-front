@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import useAccountFromChats from "@/hooks/chat/useAccountFromChats";
-import { useEvent2023FallQuestComplete } from "@/hooks/event/useEvent2023FallQuestComplete";
+import { useEvent2024SpringQuestComplete } from "@/hooks/event/useEvent2024SpringQuestComplete";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
@@ -50,8 +50,8 @@ const ModalChatPayment = ({
     [userOid, roomInfo]
   );
   const onCopy = useCallback(() => setIsCopied(true), [setIsCopied]);
-  //#region event2023Fall
-  const event2023FallQuestComplete = useEvent2023FallQuestComplete();
+  //#region event2024Spring
+  const event2024SpringQuestComplete = useEvent2024SpringQuestComplete();
   //#endregion
 
   useEffect(() => {
@@ -69,9 +69,9 @@ const ModalChatPayment = ({
       method: "post",
       data: { roomId: roomInfo._id },
       onSuccess: () => {
-        //#region event2023Fall
-        event2023FallQuestComplete("payingAndSending");
-        event2023FallQuestComplete("paying");
+        //#region event2024Spring
+        event2024SpringQuestComplete("payingAndSending");
+        event2024SpringQuestComplete("paying");
         //#endregion
         modalProps.onChangeIsOpen?.(false);
         onRecall?.();
