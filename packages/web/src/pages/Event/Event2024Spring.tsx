@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import { QuestId } from "@/types/event2024spring";
 
+import { useEventBackgroundEffect } from "@/hooks/event/useEventBackgroundEffect";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
@@ -142,12 +143,10 @@ const Event2024Spring = () => {
     maxCount: 1,
   };
 
+  useEventBackgroundEffect();
+
   return (
-    <div
-      css={{
-        backgroundColor: eventTheme.black,
-      }}
-    >
+    <>
       <HeaderWithBackButton>
         <div css={{ color: theme.purple, ...theme.font18 }}>이벤트 안내</div>
       </HeaderWithBackButton>
@@ -393,7 +392,7 @@ const Event2024Spring = () => {
         </EventStep>
       </AdaptiveDiv>
       <Footer type="event-2024spring" />
-    </div>
+    </>
   );
 };
 
