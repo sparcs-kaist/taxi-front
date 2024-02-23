@@ -9,6 +9,7 @@ import LinkLogout from "@/components/Link/LinkLogout";
 import {
   ModalCredit,
   ModalEvent2023FallJoin,
+  ModalEvent2024SpringJoin,
   ModalMypageModify,
   ModalNotification,
   ModalPrivacyPolicy,
@@ -31,6 +32,8 @@ const Mypage = () => {
   const loginInfo = useValueRecoilState("loginInfo");
   const notificationOptions = useValueRecoilState("notificationOptions");
   const { id: userId } = loginInfo || {};
+  const { isAgreeOnTermsOfEvent } =
+    (eventMode && useValueRecoilState("event2024SpringInfo")) || {};
 
   const [isOpenProfileModify, setIsOpenProfileModify] = useState(false);
   const [isOpenNotification, setIsOpenNotification] = useState(false);
@@ -176,11 +179,17 @@ const Mypage = () => {
           <Menu icon="policy" onClick={onClickPrivacyPolicy}>
             {t("privacy_policy")}
           </Menu>
-          {eventMode === "2023fall" && (
-            <Menu icon="policy" onClick={onClickEventPolicy}>
-              한가위 송편 이벤트 참여 약관
-            </Menu>
-          )}
+          {eventMode &&
+            isAgreeOnTermsOfEvent &&
+            (eventMode === "2023fall" ? (
+              <Menu icon="policy" onClick={onClickEventPolicy}>
+                한가위 송편 이벤트 참여 약관
+              </Menu>
+            ) : eventMode === "2024spring" ? (
+              <Menu icon="policy" onClick={onClickEventPolicy}>
+                새내기 택시대제전 참여 약관
+              </Menu>
+            ) : null)}
           <Menu icon="credit" onClick={onClickMembers}>
             {t("credit")}
           </Menu>
@@ -197,10 +206,19 @@ const Mypage = () => {
         onChangeIsOpen={setIsOpenPrivacyPolicy}
       />
       <ModalTerms isOpen={isOpenPolicy} onChangeIsOpen={setIsOpenPolicy} />
-      <ModalEvent2023FallJoin
-        isOpen={isOpenEventPolicy}
-        onChangeIsOpen={setIsOpenEventPolicy}
-      />
+      {eventMode &&
+        isAgreeOnTermsOfEvent &&
+        (eventMode === "2023fall" ? (
+          <ModalEvent2023FallJoin
+            isOpen={isOpenEventPolicy}
+            onChangeIsOpen={setIsOpenEventPolicy}
+          />
+        ) : eventMode === "2024spring" ? (
+          <ModalEvent2024SpringJoin
+            isOpen={isOpenEventPolicy}
+            onChangeIsOpen={setIsOpenEventPolicy}
+          />
+        ) : null)}
       <ModalCredit isOpen={isOpenMembers} onChangeIsOpen={setOpenIsMembers} />
     </AdaptiveDiv>
   );

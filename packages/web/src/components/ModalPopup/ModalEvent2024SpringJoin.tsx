@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useLocation } from "react-router-dom";
 
 import { useEvent2024SpringQuestComplete } from "@/hooks/event/useEvent2024SpringQuestComplete";
 import {
@@ -8,7 +7,6 @@ import {
   useValueRecoilState,
 } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
-import useQuery from "@/hooks/useTaxiAPI";
 
 import Button from "@/components/Button";
 import DottedLine from "@/components/DottedLine";
@@ -39,9 +37,7 @@ const ModalEvent2024SpringJoin = ({
   const isLogin = useIsLogin();
   const { phoneNumber: phoneNumberFromLoginInfo } =
     useValueRecoilState("loginInfo") || {};
-  const { isAgreeOnTermsOfEvent } =
-    useValueRecoilState("event2024SpringInfo") || {};
-  const { group: groupFromLoginInfo } =
+  const { isAgreeOnTermsOfEvent, group: groupFromLoginInfo } =
     useValueRecoilState("event2024SpringInfo") || {};
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
   //#region event2024Spring
@@ -60,7 +56,7 @@ const ModalEvent2024SpringJoin = ({
     () =>
       axios({
         url: `/events/2024spring/invite/search/${inviterId}`,
-        method: "post",
+        method: "get",
         onSuccess: (data) => {
           setInvitorInfo(data);
         },
@@ -69,8 +65,10 @@ const ModalEvent2024SpringJoin = ({
     [inviterId]
   );
 
+  const isInvited = !!inviterId;
+
   useEffect(() => {
-    if (inviterId) getInvitorInfo();
+    if (!isAgreeOnTermsOfEvent && isInvited) getInvitorInfo();
   }, [inviterId]);
 
   const isValidPhoneNumber = useMemo(
@@ -78,10 +76,6 @@ const ModalEvent2024SpringJoin = ({
     [phoneNumber]
   );
   const isValidGroup = useMemo(() => group > 0 && group < 27, [group]);
-
-  const location = useLocation();
-  const path = location.pathname;
-  const isInvited = path.startsWith("/home/startEvent/");
 
   const onClickJoin = useCallback(
     () =>
@@ -117,7 +111,7 @@ const ModalEvent2024SpringJoin = ({
     margin: "0 8px",
   };
   const styleInputWrap = {
-    margin: "12px 8px",
+    margin: "0 8px 12px",
     display: "flex",
     alignItems: "center",
     color: theme.gray_text,
@@ -182,7 +176,7 @@ const ModalEvent2024SpringJoin = ({
         지급됩니다.
       </div>
       <div css={{ height: "12px" }} />
-      <div css={{ ...styleText, marginBottom: "12px" }}>
+      <div css={styleText}>
         • 본 약관은 동의 이후에도 {'"'}마이페이지{">"}새터반 택시대제전 이벤트
         참여 약관{'"'}에서 다시 확인하실 수 있습니다.{" "}
       </div>
@@ -190,6 +184,7 @@ const ModalEvent2024SpringJoin = ({
         <>
           <div css={{ height: "12px" }} />
           <DottedLine />
+          <div css={{ height: "12px" }} />
           <div css={styleInputWrap}>
             전화번호
             <Input
@@ -219,10 +214,15 @@ const ModalEvent2024SpringJoin = ({
         </>
       ) : (
         <>
-          <DottedLine />
-          {isLogin && (
+          {(isLogin || (isInvited && inviterInfo)) && (
             <>
               <div css={{ height: "12px" }} />
+              <DottedLine />
+            </>
+          )}
+          <div css={{ height: "12px" }} />
+          {isLogin && (
+            <>
               <div css={styleInputWrap}>
                 전화번호
                 <Input
@@ -249,7 +249,6 @@ const ModalEvent2024SpringJoin = ({
               </div>
             </>
           )}
-
           {isInvited && inviterInfo && (
             <div css={styleInputWrap}>
               추천인

@@ -41,6 +41,7 @@ export const day2str = (day: Dayjs, format = "LLLL") => {
   return day.format(format);
 };
 
+/** 일을 기준으로 특정 날짜까지의 D-DAY를 반환합니다. */
 export const getDday = (dateString: string) => {
   const targetDate = dayjs(dateString);
   const currentDate = dayNowServer().startOf("day"); // Get current server time
