@@ -23,13 +23,7 @@ export const useEvent2024SpringQuestComplete = () => {
         (questId) => questId === id
       ).length;
       if (questCompletedCount >= questMaxCount) return;
-      if (
-        [
-          "roomSharing",
-          "eventSharingOnInstagram",
-          "purchaseSharingOnInstagram",
-        ].includes(id)
-      ) {
+      if (["roomSharing"].includes(id)) {
         axios({
           url: `/events/2024spring/quests/complete/${id}`,
           method: "post",
