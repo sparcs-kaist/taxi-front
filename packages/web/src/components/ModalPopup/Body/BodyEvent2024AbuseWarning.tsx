@@ -21,8 +21,8 @@ const BodyChatReportSelectUser = ({
   };
   const styleTextWarn = {
     ...theme.font12,
-    height: "36px",
-    width: "90%",
+    display: "flex",
+    alignItem: "center",
     marginLeft: "5px",
     marginBottom: "12px",
     color: theme.red_text,
@@ -33,15 +33,9 @@ const BodyChatReportSelectUser = ({
     justifyContent: "space-between",
     gap: "10px",
   } as const;
-  const styleUsers = {
+  const styleWarn = {
+    display: "flex",
     margin: "12px 8px",
-    display: "flex",
-    flexDirection: "column" as const,
-    gap: "10px",
-  };
-  const styleUser = {
-    display: "flex",
-    alignItems: "center",
     gap: "6px",
     ...theme.cursor(),
   };
@@ -83,8 +77,8 @@ const BodyChatReportSelectUser = ({
       </div>
       <div css={styleText}>그래도 방을 생성할까요?</div>
       <DottedLine />
-      <div css={styleUsers}>
-        <div css={styleUser} onClick={() => setIsAgree(!isAgree)}>
+      <div css={{ display: "flex", alignItems: "center" }}>
+        <div css={styleWarn} onClick={() => setIsAgree(!isAgree)}>
           <div
             css={{
               ...styleCheckBox,

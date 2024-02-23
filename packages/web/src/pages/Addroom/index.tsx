@@ -130,13 +130,14 @@ const AddRoom = () => {
             maxPartLength: valueMaxPeople,
           },
           onSuccess: (data) => {
-            if (!data!.result) {
+            if (data!.result === false) {
               setIsOpenModalEventAbuseWarning(true);
+              onCall.current = false;
+              return;
             }
           },
           onError: () => {},
         });
-        return;
       }
       // #endregion
 
