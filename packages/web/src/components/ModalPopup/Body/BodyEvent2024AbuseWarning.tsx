@@ -70,10 +70,16 @@ const BodyChatReportSelectUser = ({
         짧은 시간동안 반복적으로 여러 개의 방을 생성하신 것 같습니다.
       </div>
       <div css={styleText}>
-        방 생성 후 정산/송금 기능을 사용하실 경우, 실제로 택시 탑승이
-        이루어졌는지 확인하기 위해 Taxi팀에서 영수증 등 증빙 서류의 제출을
-        요청드릴 수 있습니다. 실제로 택시에 탑승하지 않으신 경우, 획득한
-        넙죽코인이 모두 회수되고 추가적인 이벤트 참여가 제한될 수 있습니다.
+        • 방 생성 후 <b css={{ color: theme.black }}>정산/송금 기능을 사용</b>
+        하실 경우, 실제로 택시 탑승이 이루어졌는지 확인하기 위해 Taxi팀에서{" "}
+        <b css={{ color: theme.black }}>영수증 등 증빙 서류의 제출을 요청</b>
+        드릴 수 있습니다.
+      </div>
+      <div css={styleText}>
+        • 실제로 택시에 탑승하지 않으신 경우,{" "}
+        <b css={{ color: theme.black }}>획득한 넙죽코인이 모두 회수</b>되고
+        추가적인 <b css={{ color: theme.black }}>이벤트 참여가 제한</b>될 수
+        있습니다.
       </div>
       <div css={styleText}>그래도 방을 생성할까요?</div>
       <DottedLine />
@@ -85,7 +91,7 @@ const BodyChatReportSelectUser = ({
               background: isAgree ? theme.purple : theme.purple_light,
             }}
           >
-            {<CheckRoundedIcon style={styleCheckBoxIcon} />}
+            <CheckRoundedIcon style={styleCheckBoxIcon} />
           </div>
           <div style={styleTextWarn}>
             이 방은 실제로 택시에 탑승하기 위한 목적의 방입니다.
