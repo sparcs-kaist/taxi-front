@@ -10,6 +10,8 @@ export { default as ModalEvent2023FallItemInstagram } from "./ModalEvent2023Fall
 export { default as ModalEvent2023FallJoin } from "./ModalEvent2023FallJoin";
 export { default as ModalEvent2023FallRandomBox } from "./ModalEvent2023FallRandomBox";
 export { default as ModalEvent2024SpringAbuseWarning } from "./ModalEvent2024SpringAbuseWarning";
+export { default as ModalEvent2024SpringJoin } from "./ModalEvent2024SpringJoin";
+export { default as ModalEvent2024SpringShare } from "./ModalEvent2024SpringShare";
 
 export { default as ModalMypageModify } from "./ModalMypageModify";
 export { default as ModalNotification } from "./ModalNotification";

@@ -153,7 +153,7 @@ const AddRoom = () => {
         },
         onSuccess: () => {
           fetchMyRooms();
-          //#region event2024spring
+          //#region event2024Spring
           event2024SpringQuestComplete("firstRoomCreation");
           //#endregion
           history.push("/myroom");
