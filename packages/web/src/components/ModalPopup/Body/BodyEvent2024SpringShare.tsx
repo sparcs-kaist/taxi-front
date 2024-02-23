@@ -61,7 +61,11 @@ const BodyEvent2024SpringShare = ({
 
   return (
     <div css={styleWrapper}>
-      <div css={styleGuide}>이벤트를 여러 사람들에게 공유할 수 있습니다.</div>
+      <div css={styleGuide}>
+        이벤트를 여러 사람들에게 공유할 수 있습니다. 이 링크를 통해 다른
+        사용자가 이벤트에 참여하면, 회원님과 새 참여자 모두{" "}
+        <b>50 넙죽코인을 획득</b>합니다.
+      </div>
       <DottedLine />
       <div css={{ flexGrow: 1 }} />
       <div css={styleQRSection}>

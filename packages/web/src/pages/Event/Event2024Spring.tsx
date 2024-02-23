@@ -97,7 +97,7 @@ const Event2024Spring = () => {
           setInviteUrl(inviteUrl);
         },
         onError: () =>
-          setAlert("이벤트를 공유하기 위해서는 이벤트에 참여가 필요합니다."),
+          setAlert("이벤트를 공유하기 위해서는 이벤트에 참여해야 합니다."),
       }),
     [isAgreeOnTermsOfEvent]
   );
