@@ -68,7 +68,7 @@ const ModalEvent2024SpringJoin = ({
   const isInvited = !!inviterId;
 
   useEffect(() => {
-    if (isInvited) getInvitorInfo();
+    if (!isAgreeOnTermsOfEvent && isInvited) getInvitorInfo();
   }, [inviterId]);
 
   const isValidPhoneNumber = useMemo(
