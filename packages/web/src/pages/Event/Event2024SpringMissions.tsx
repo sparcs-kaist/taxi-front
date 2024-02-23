@@ -78,6 +78,9 @@ export const MissionContainer = ({ quest }: MissionContainerProps) => {
       ...eventTheme.font10,
       color: isDone ? theme.gray_text : theme.white,
     },
+    b: {
+      fontWeight: 700,
+    },
   };
   const styleReward = {
     display: "flex",
