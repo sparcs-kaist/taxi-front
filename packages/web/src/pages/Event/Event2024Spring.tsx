@@ -1,9 +1,10 @@
-import { ReactNode, memo, useState } from "react";
+import { ReactNode, memo, useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { QuestId } from "@/types/event2024spring";
 
-import useQuery from "@/hooks/useTaxiAPI";
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import useQuery, { useAxios } from "@/hooks/useTaxiAPI";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import EventButton from "@/components/Event/EventButton";
@@ -12,6 +13,9 @@ import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
 import { ModalEvent2024SpringShare } from "@/components/ModalPopup";
 
 import { MissionContainer } from "./Event2024SpringMissions";
+
+import alertAtom from "@/atoms/alert";
+import { useSetRecoilState } from "recoil";
 
 import eventTheme from "@/tools/eventTheme";
 import theme from "@/tools/theme";
@@ -77,11 +81,30 @@ const EventStep = ({
 
 const Event2024Spring = () => {
   const [isOpenShare, setIsOpenShare] = useState<boolean>(false);
-  const [, inviteUrl_] = useQuery.post(`/events/2024spring/invite/create`, {}, [
-    isOpenShare,
-  ]);
+  const [inviteUrl, setInviteUrl] = useState<string>();
+  const setAlert = useSetRecoilState(alertAtom);
+  const { isAgreeOnTermsOfEvent } =
+    useValueRecoilState("event2024SpringInfo") || {};
 
-  const inviteUrl = inviteUrl_?.inviteUrl;
+  const axios = useAxios();
+
+  const getInviteUrl = useCallback(
+    () =>
+      axios({
+        url: `/events/2024spring/invite/create`,
+        method: "post",
+        onSuccess: ({ inviteUrl }) => {
+          setInviteUrl(inviteUrl);
+        },
+        onError: () =>
+          setAlert("이벤트를 공유하기 위해서는 이벤트에 참여가 필요합니다."),
+      }),
+    [isAgreeOnTermsOfEvent]
+  );
+
+  useEffect(() => {
+    if (isAgreeOnTermsOfEvent) getInviteUrl();
+  }, [isAgreeOnTermsOfEvent]);
 
   const styleTextBox = {
     ...eventTheme.font20,
@@ -150,12 +173,18 @@ const Event2024Spring = () => {
         <EventButton
           title="이벤트 공유하기"
           css={{ background: eventTheme.home_button }}
-          onClick={() => setIsOpenShare(true)}
+          onClick={() => {
+            if (inviteUrl) setIsOpenShare(true);
+            else
+              setAlert(
+                "이벤트를 공유하기 위해서는 이벤트에 참여가 필요합니다."
+              );
+          }}
         />
         <ModalEvent2024SpringShare
           isOpen={isOpenShare}
           onChangeIsOpen={setIsOpenShare}
-          inviteUrl={inviteUrl}
+          inviteUrl={inviteUrl || ""}
         />
       </AdaptiveDiv>
       <AdaptiveDiv
