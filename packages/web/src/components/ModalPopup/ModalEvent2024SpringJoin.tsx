@@ -1,5 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { useEvent2024SpringQuestComplete } from "@/hooks/event/useEvent2024SpringQuestComplete";
 import {
@@ -14,6 +13,9 @@ import DottedLine from "@/components/DottedLine";
 import Input from "@/components/Input";
 import Modal from "@/components/Modal";
 
+import LinkLogin from "../Link/LinkLogin";
+import ProfileImage from "../User/ProfileImage";
+
 import alertAtom from "@/atoms/alert";
 import { useSetRecoilState } from "recoil";
 
@@ -22,19 +24,20 @@ import theme from "@/tools/theme";
 
 import FestivalRoundedIcon from "@mui/icons-material/FestivalRounded";
 
-type ModalEvent2024SpringJoinProps = Parameters<typeof Modal>[0];
+type ModalEvent2024SpringJoinProps = Parameters<typeof Modal>[0] & {
+  inviterId?: string;
+};
 
-const ModalEvent2024SpringJoin = (
-  modalProps: ModalEvent2024SpringJoinProps
-) => {
+const ModalEvent2024SpringJoin = ({
+  inviterId,
+  ...modalProps
+}: ModalEvent2024SpringJoinProps) => {
   const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
   const isLogin = useIsLogin();
   const { phoneNumber: phoneNumberFromLoginInfo } =
     useValueRecoilState("loginInfo") || {};
-  const { isAgreeOnTermsOfEvent } =
-    useValueRecoilState("event2024SpringInfo") || {};
-  const { group: groupFromLoginInfo } =
+  const { isAgreeOnTermsOfEvent, group: groupFromLoginInfo } =
     useValueRecoilState("event2024SpringInfo") || {};
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
   //#region event2024Spring
@@ -43,8 +46,30 @@ const ModalEvent2024SpringJoin = (
 
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [group, setGroup] = useState<number>(0);
-  // 추천인 구현 방식에 따라 삭제가 필요할 수도 있습니다.
-  const [inviter] = useState<string>("");
+
+  const [inviterInfo, setInvitorInfo] = useState<{
+    profileImageUrl: string;
+    nickname: string;
+  }>();
+
+  const getInvitorInfo = useCallback(
+    () =>
+      axios({
+        url: `/events/2024spring/invite/search/${inviterId}`,
+        method: "get",
+        onSuccess: (data) => {
+          setInvitorInfo(data);
+        },
+        onError: () => setAlert("올바르지 않은 추천인입니다."),
+      }),
+    [inviterId]
+  );
+
+  const isInvited = !!inviterId;
+
+  useEffect(() => {
+    if (!isAgreeOnTermsOfEvent && isInvited) getInvitorInfo();
+  }, [inviterId]);
 
   const isValidPhoneNumber = useMemo(
     () => regExpTest.phoneNumber(phoneNumber),
@@ -52,16 +77,12 @@ const ModalEvent2024SpringJoin = (
   );
   const isValidGroup = useMemo(() => group > 0 && group < 27, [group]);
 
-  const location = useLocation();
-  const path = location.pathname;
-  const isInvited = path.startsWith("/home/startEvent/");
-
   const onClickJoin = useCallback(
     () =>
       axios({
         url: "/events/2024spring/globalState/create",
         method: "post",
-        data: { phoneNumber, group, inviter },
+        data: { phoneNumber, group, inviter: inviterId },
         onSuccess: () => {
           fetchLoginInfo();
           //#region event2024Spring
@@ -71,7 +92,7 @@ const ModalEvent2024SpringJoin = (
         },
         onError: () => setAlert("이벤트 참여에 실패하였습니다."),
       }),
-    [phoneNumber, setPhoneNumber, event2024SpringQuestComplete]
+    [phoneNumber, setPhoneNumber, group, setGroup, event2024SpringQuestComplete]
   );
 
   const styleTitle = {
@@ -90,7 +111,7 @@ const ModalEvent2024SpringJoin = (
     margin: "0 8px",
   };
   const styleInputWrap = {
-    margin: "12px 8px",
+    margin: "0 8px 12px",
     display: "flex",
     alignItems: "center",
     color: theme.gray_text,
@@ -159,88 +180,97 @@ const ModalEvent2024SpringJoin = (
         • 본 약관은 동의 이후에도 {'"'}마이페이지{">"}새터반 택시대제전 이벤트
         참여 약관{'"'}에서 다시 확인하실 수 있습니다.{" "}
       </div>
-      {isLogin &&
-        (isAgreeOnTermsOfEvent ? (
-          <>
-            <div css={{ height: "12px" }} />
-            <DottedLine />
-            <div css={styleInputWrap}>
-              전화번호
-              <Input
-                value={phoneNumberFromLoginInfo || ""}
-                css={{ width: "100%", marginLeft: "10px" }}
-              />
-            </div>
-            <div css={styleInputWrap}>
-              새터반
-              <Input
-                value={groupFromLoginInfo?.toString() || ""}
-                css={{ width: "100%", marginLeft: "10px" }}
-              />
-            </div>
-            {/* 추천인이 있을 경우에만 표시하도록 변경 필요 */}
-            {/* <div css={styleInputWrap}>
-              추천인
-              <img
-                src=""
-                alt="추천인"
-                css={{ width: "24px", height: "24px", marginLeft: "10px" }}
-              />
-              <span css={{ marginLeft: "5px" }}>추천인닉네임</span>
-            </div> */}
-            <Button
-              type="purple_inset"
-              css={{
-                width: "100%",
-                padding: "10px 0 9px",
-                borderRadius: "8px",
-                ...theme.font14_bold,
-              }}
-              disabled
-            >
-              이미 동의하셨습니다
-            </Button>
-          </>
-        ) : (
-          <>
-            <div css={{ height: "12px" }} />
-            <DottedLine />
-            <div css={styleInputWrap}>
-              전화번호
-              <Input
-                value={phoneNumber}
-                onChangeValue={setPhoneNumber}
-                placeholder="010-0000-0000 형식으로 입력하세요"
-                css={{ width: "100%", marginLeft: "10px" }}
-              />
-            </div>
-            <div css={styleInputWrap}>
-              새터반
-              <Input
-                type="number"
-                value={group.toString()}
-                min={1}
-                max={26}
-                onChangeValue={(value) => {
-                  const number = parseInt(value, 10);
-                  setGroup(number);
-                }}
-                placeholder="숫자만 입력하세요"
-                css={{ width: "100%", marginLeft: "10px" }}
-              />
-            </div>
-            {isInvited && (
+      {isAgreeOnTermsOfEvent ? (
+        <>
+          <div css={{ height: "12px" }} />
+          <DottedLine />
+          <div css={{ height: "12px" }} />
+          <div css={styleInputWrap}>
+            전화번호
+            <Input
+              value={phoneNumberFromLoginInfo || ""}
+              css={{ width: "100%", marginLeft: "10px" }}
+            />
+          </div>
+          <div css={styleInputWrap}>
+            새터반
+            <Input
+              value={groupFromLoginInfo?.toString() || ""}
+              css={{ width: "100%", marginLeft: "10px" }}
+            />
+          </div>
+          <Button
+            type="purple_inset"
+            css={{
+              width: "100%",
+              padding: "10px 0 9px",
+              borderRadius: "8px",
+              ...theme.font14_bold,
+            }}
+            disabled
+          >
+            이미 동의하셨습니다
+          </Button>
+        </>
+      ) : (
+        <>
+          {(isLogin || (isInvited && inviterInfo)) && (
+            <>
+              <div css={{ height: "12px" }} />
+              <DottedLine />
+            </>
+          )}
+          <div css={{ height: "12px" }} />
+          {isLogin && (
+            <>
               <div css={styleInputWrap}>
-                추천인
-                <img
-                  src=""
-                  alt="추천인"
-                  css={{ width: "24px", height: "24px", marginLeft: "10px" }}
+                전화번호
+                <Input
+                  value={phoneNumber}
+                  onChangeValue={setPhoneNumber}
+                  placeholder="010-0000-0000 형식으로 입력하세요"
+                  css={{ width: "100%", marginLeft: "10px" }}
                 />
-                <span css={{ marginLeft: "5px" }}>추천인닉네임</span>
               </div>
-            )}
-
+              <div css={styleInputWrap}>
+                새터반
+                <Input
+                  type="number"
+                  value={group.toString()}
+                  min={1}
+                  max={26}
+                  onChangeValue={(value) => {
+                    const number = parseInt(value, 10);
+                    setGroup(number);
+                  }}
+                  placeholder="숫자만 입력하세요"
+                  css={{ width: "100%", marginLeft: "10px" }}
+                />
+              </div>
+            </>
+          )}
+          {isInvited && inviterInfo && (
+            <div css={styleInputWrap}>
+              추천인
+              <div
+                css={{
+                  width: "24px",
+                  height: "24px",
+                  margin: "0px 10px",
+                  borderRadius: "12px",
+                  overflow: "hidden",
+                  boxShadow: theme.shadow,
+                  flexShrink: 0,
+                }}
+              >
+                <ProfileImage url={inviterInfo?.profileImageUrl} />
+              </div>
+              <span css={{ width: "100%", ...theme.ellipsis }}>
+                {inviterInfo?.nickname}
+              </span>
+            </div>
+          )}
+          {isLogin ? (
             <Button
               type="purple_inset"
               css={{
@@ -258,8 +288,23 @@ const ModalEvent2024SpringJoin = (
                 ? "올바른 새터반을 입력하세요"
                 : "동의 후 이벤트 참여하기"}
             </Button>
-          </>
-        ))}
+          ) : (
+            <LinkLogin>
+              <Button
+                type="purple_inset"
+                css={{
+                  width: "100%",
+                  padding: "10px 0 9px",
+                  borderRadius: "8px",
+                  ...theme.font14_bold,
+                }}
+              >
+                로그인 후 이벤트 참여하기
+              </Button>
+            </LinkLogin>
+          )}
+        </>
+      )}
     </Modal>
   );
 };

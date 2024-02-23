@@ -1,10 +1,21 @@
-import { ReactNode, memo } from "react";
+import { ReactNode, memo, useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
+import { QuestId } from "@/types/event2024spring";
+
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import { useAxios } from "@/hooks/useTaxiAPI";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import EventButton from "@/components/Event/EventButton";
 import Footer from "@/components/Footer";
 import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
+import { ModalEvent2024SpringShare } from "@/components/ModalPopup";
+
+import { MissionContainer } from "./Event2024SpringMissions";
+
+import alertAtom from "@/atoms/alert";
+import { useSetRecoilState } from "recoil";
 
 import eventTheme from "@/tools/eventTheme";
 import theme from "@/tools/theme";
@@ -69,6 +80,31 @@ const EventStep = ({
 };
 
 const Event2024Spring = () => {
+  const [isOpenShare, setIsOpenShare] = useState<boolean>(false);
+  const [inviteUrl, setInviteUrl] = useState<string>();
+  const setAlert = useSetRecoilState(alertAtom);
+  const { isAgreeOnTermsOfEvent } =
+    useValueRecoilState("event2024SpringInfo") || {};
+
+  const axios = useAxios();
+
+  const getInviteUrl = useCallback(
+    () =>
+      axios({
+        url: `/events/2024spring/invite/create`,
+        method: "post",
+        onSuccess: ({ inviteUrl }) => {
+          setInviteUrl(inviteUrl);
+        },
+        onError: () => setAlert("공유 링크를 생성하지 못했습니다."),
+      }),
+    [isAgreeOnTermsOfEvent]
+  );
+
+  useEffect(() => {
+    if (isAgreeOnTermsOfEvent) getInviteUrl();
+  }, [isAgreeOnTermsOfEvent]);
+
   const styleTextBox = {
     ...eventTheme.font20,
     display: "flex",
@@ -91,6 +127,20 @@ const Event2024Spring = () => {
     width: "100%",
     margin: 0,
   } as const;
+
+  const exampleMission = {
+    name: "첫 발걸음",
+    description:
+      "로그인만 해도 넙죽코인을 얻을 수 있다고?? 이벤트 기간에 처음으로 SPARCS Taxi 서비스에 로그인하여 넙죽코인을 받아보세요.",
+    imageUrl:
+      "https://sparcs-taxi-prod.s3.ap-northeast-2.amazonaws.com/assets/event-2024spring/quest_firstLogin.png",
+    reward: {
+      credit: 50,
+      ticket1: 0,
+    },
+    id: "firstLogin" as QuestId,
+    maxCount: 1,
+  };
 
   return (
     <div
@@ -119,15 +169,20 @@ const Event2024Spring = () => {
           2024.02.23. ~ 03.18.
         </div>
         <img src={LineArt} alt="line art" css={{ width: "100%" }} />
-        <Link
-          to="/event/2024spring-missions"
-          css={{ textDecoration: "none", width: "100%" }}
-        >
-          <EventButton
-            title="이벤트 참여하기"
-            css={{ background: eventTheme.home_button }}
-          />
-        </Link>
+        <EventButton
+          title="이벤트 공유하기"
+          css={{ background: eventTheme.home_button }}
+          onClick={() => {
+            if (inviteUrl) setIsOpenShare(true);
+            else
+              setAlert("이벤트를 공유하기 위해서는 이벤트에 참여해야 합니다.");
+          }}
+        />
+        <ModalEvent2024SpringShare
+          isOpen={isOpenShare}
+          onChangeIsOpen={setIsOpenShare}
+          inviteUrl={inviteUrl || ""}
+        />
       </AdaptiveDiv>
       <AdaptiveDiv
         type="center"
@@ -174,6 +229,7 @@ const Event2024Spring = () => {
               left: "40px",
               width: "calc(100% - 200px)",
               minWidth: "120px",
+              maxWidth: "250px",
             }}
           >
             아주 오래전부터
@@ -198,6 +254,8 @@ const Event2024Spring = () => {
               width: "calc(100% - 120px)",
               minWidth: "200px",
               display: "block",
+              textAlign: "center",
+              maxWidth: "600px",
             }}
           >
             KAIST 학생들은{" "}
@@ -252,7 +310,7 @@ const Event2024Spring = () => {
           ...styleVerticalCenter,
           padding: "0 20px",
           gap: "16px",
-          width: "100%",
+          // width: "100%",
           boxSizing: "border-box",
         }}
       >
@@ -261,7 +319,9 @@ const Event2024Spring = () => {
           title="퀘스트 달성하고"
           subtitle="넙죽코인 획득 !"
         >
-          {/* 퀘스트 컴포넌트 넣을곳 */}
+          <div css={{ width: "100%" }}>
+            <MissionContainer quest={exampleMission} />
+          </div>
           <Link
             to="/event/2024spring-missions"
             css={{ textDecoration: "none", width: "100%" }}
@@ -275,7 +335,7 @@ const Event2024Spring = () => {
         <EventStep
           step="STEP 2"
           title="이벤트 종료 후"
-          subtitle="세터반 순위대로 상품 지급 !"
+          subtitle="새터반 순위대로 상품 지급 !"
         >
           <div
             css={{
@@ -295,10 +355,10 @@ const Event2024Spring = () => {
               }}
             >
               <span css={{ ...eventTheme.font12, width: "144px" }}>
-                1등 세터반
+                1등 새터반
               </span>
               <span css={{ ...eventTheme.font12, width: "144px" }}>
-                2등 세터반
+                2등 새터반
               </span>
             </div>
             <div
@@ -314,17 +374,16 @@ const Event2024Spring = () => {
             </div>
           </div>
           <Link
-            to="/event/2024spring-ranking"
+            to="/event/2024spring-leaderboard"
             css={{ textDecoration: "none", width: "100%" }}
           >
             <EventButton
-              title="세터반 순위 보러가기"
+              title="새터반 순위 보러가기"
               css={{ background: eventTheme.orange_button }}
             />
           </Link>
         </EventStep>
         <EventStep step="EVENT" title="인스타그램 공유이벤트">
-          {/* 퀘스트 컴포넌트 넣을곳 */}
           <Link to="/" css={{ textDecoration: "none", width: "100%" }}>
             <EventButton
               title="인스타그램 게시물 보러가기"

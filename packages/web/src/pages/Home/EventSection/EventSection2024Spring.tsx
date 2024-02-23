@@ -7,6 +7,7 @@ import CreditAmountContainer from "@/components/Event/CreditAmoutContainer";
 import EventButton from "@/components/Event/EventButton";
 import SuggestJoinEventContainer from "@/components/Event/SuggestJoinEventContainer";
 
+import { getDday } from "@/tools/day";
 import eventTheme from "@/tools/eventTheme";
 
 import EmojiEventsRounded from "@mui/icons-material/EmojiEventsRounded";
@@ -64,7 +65,7 @@ const EventSection2024Spring = () => {
                   color: eventTheme.white,
                 }}
               >
-                D-001
+                {getDday("2024-03-18")}
               </div>
             </div>
             <div
