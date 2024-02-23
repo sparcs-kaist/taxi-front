@@ -37,8 +37,11 @@ const ModalEvent2024SpringJoin = ({
   const isLogin = useIsLogin();
   const { phoneNumber: phoneNumberFromLoginInfo } =
     useValueRecoilState("loginInfo") || {};
-  const { isAgreeOnTermsOfEvent, group: groupFromLoginInfo } =
-    useValueRecoilState("event2024SpringInfo") || {};
+  const {
+    isAgreeOnTermsOfEvent,
+    isEligible,
+    group: groupFromLoginInfo,
+  } = useValueRecoilState("event2024SpringInfo") || {};
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
   //#region event2024Spring
   const event2024SpringQuestComplete = useEvent2024SpringQuestComplete();
@@ -214,14 +217,14 @@ const ModalEvent2024SpringJoin = ({
         </>
       ) : (
         <>
-          {(isLogin || (isInvited && inviterInfo)) && (
+          {((isLogin && isEligible) || (isInvited && inviterInfo)) && (
             <>
               <div css={{ height: "12px" }} />
               <DottedLine />
             </>
           )}
           <div css={{ height: "12px" }} />
-          {isLogin && (
+          {isLogin && isEligible && (
             <>
               <div css={styleInputWrap}>
                 전화번호
@@ -282,7 +285,9 @@ const ModalEvent2024SpringJoin = ({
               onClick={onClickJoin}
               disabled={!isValidPhoneNumber || !isValidGroup}
             >
-              {!isValidPhoneNumber
+              {!isEligible
+                ? "이벤트 참여 대상이 아닙니다"
+                : !isValidPhoneNumber
                 ? "올바른 전화번호를 입력하세요"
                 : !isValidGroup
                 ? "올바른 새터반을 입력하세요"
