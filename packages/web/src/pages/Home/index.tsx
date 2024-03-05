@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 
+import { useIsLogin } from "@/hooks/useFetchRecoilState";
+
 import Footer from "@/components/Footer";
 import {
   ModalEvent2024SpringJoin,
@@ -29,6 +31,8 @@ const Home = () => {
   const isOpenEventJoin = inviterId ? true : _roomId == "startEvent";
   const onChangeIsOpenPrivacyPolicy = () => history.replace("/home");
   const onChangeIsOpenEventJoin = () => history.replace("/home");
+  const isLogin = useIsLogin();
+  console.log(isLogin);
 
   const roomId =
     _roomId === "privacyPolicy" ? null : isOpenEventJoin ? null : _roomId;
@@ -47,18 +51,20 @@ const Home = () => {
     <>
       <InfoSection />
       <div css={{ marginTop: "-10px" }} />
-      <EventSection />
+      {isLogin && <EventSection />}
       <RoomSection roomId={roomId} />
       <Footer />
       <ModalPrivacyPolicy
         isOpen={_roomId === "privacyPolicy"}
         onChangeIsOpen={onChangeIsOpenPrivacyPolicy}
       />
-      <ModalEvent2024SpringJoin
-        inviterId={inviterId}
-        isOpen={isOpenEventJoin}
-        onChangeIsOpen={onChangeIsOpenEventJoin}
-      />
+      {isLogin && (
+        <ModalEvent2024SpringJoin
+          inviterId={inviterId}
+          isOpen={isOpenEventJoin}
+          onChangeIsOpen={onChangeIsOpenEventJoin}
+        />
+      )}
     </>
   );
 };
