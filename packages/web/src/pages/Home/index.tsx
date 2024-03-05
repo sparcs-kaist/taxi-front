@@ -1,8 +1,6 @@
 import { useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 
-import { useIsLogin } from "@/hooks/useFetchRecoilState";
-
 import Footer from "@/components/Footer";
 import {
   ModalEvent2024SpringJoin,
