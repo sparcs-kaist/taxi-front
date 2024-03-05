@@ -32,7 +32,6 @@ const Home = () => {
   const onChangeIsOpenPrivacyPolicy = () => history.replace("/home");
   const onChangeIsOpenEventJoin = () => history.replace("/home");
   const isLogin = useIsLogin();
-  console.log(isLogin);
 
   const roomId =
     _roomId === "privacyPolicy" ? null : isOpenEventJoin ? null : _roomId;

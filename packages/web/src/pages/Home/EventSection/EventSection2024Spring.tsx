@@ -21,7 +21,8 @@ const EventSection2024Spring = () => {
     background: eventTheme.black,
   };
 
-  const { isEligible } = useValueRecoilState("event2024SpringInfo") || {};
+  const { isEligible, isAgreeOnTermsOfEvent } =
+    useValueRecoilState("event2024SpringInfo") || {};
 
   return (
     <>
@@ -68,45 +69,47 @@ const EventSection2024Spring = () => {
                 {getDday("2024-03-18")}
               </div>
             </div>
-            <div
-              css={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "15px",
-                paddingBottom: "15px",
-              }}
-            >
-              <CreditAmountContainer />
-              <div css={{ display: "flex", gap: "15px" }}>
-                <Link
-                  to="/event/2024spring"
-                  css={{ width: 0, flexGrow: 1, textDecoration: "none" }}
-                >
-                  <EventButton
-                    title="이벤트 안내"
-                    css={{ background: eventTheme.blue_button }}
-                  />
-                </Link>
-                <Link
-                  to="/event/2024spring-missions"
-                  css={{ width: 0, flexGrow: 1, textDecoration: "none" }}
-                >
-                  <EventButton
-                    title="퀘스트"
-                    css={{ background: eventTheme.purple_button }}
-                  />
-                </Link>
-                <Link
-                  to="/event/2024spring-leaderboard"
-                  css={{ width: 0, flexGrow: 1, textDecoration: "none" }}
-                >
-                  <EventButton
-                    title="새터반 순위"
-                    css={{ background: eventTheme.orange_button }}
-                  />
-                </Link>
+            {isAgreeOnTermsOfEvent && (
+              <div
+                css={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "15px",
+                  paddingBottom: "15px",
+                }}
+              >
+                <CreditAmountContainer />
+                <div css={{ display: "flex", gap: "15px" }}>
+                  <Link
+                    to="/event/2024spring"
+                    css={{ width: 0, flexGrow: 1, textDecoration: "none" }}
+                  >
+                    <EventButton
+                      title="이벤트 안내"
+                      css={{ background: eventTheme.blue_button }}
+                    />
+                  </Link>
+                  <Link
+                    to="/event/2024spring-missions"
+                    css={{ width: 0, flexGrow: 1, textDecoration: "none" }}
+                  >
+                    <EventButton
+                      title="퀘스트"
+                      css={{ background: eventTheme.purple_button }}
+                    />
+                  </Link>
+                  <Link
+                    to="/event/2024spring-leaderboard"
+                    css={{ width: 0, flexGrow: 1, textDecoration: "none" }}
+                  >
+                    <EventButton
+                      title="새터반 순위"
+                      css={{ background: eventTheme.orange_button }}
+                    />
+                  </Link>
+                </div>
               </div>
-            </div>
+            )}
             <SuggestJoinEventContainer />
           </AdaptiveDiv>
         </div>
