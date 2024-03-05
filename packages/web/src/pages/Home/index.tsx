@@ -31,7 +31,6 @@ const Home = () => {
   const isOpenEventJoin = inviterId ? true : _roomId == "startEvent";
   const onChangeIsOpenPrivacyPolicy = () => history.replace("/home");
   const onChangeIsOpenEventJoin = () => history.replace("/home");
-  const isLogin = useIsLogin();
 
   const roomId =
     _roomId === "privacyPolicy" ? null : isOpenEventJoin ? null : _roomId;
@@ -50,20 +49,18 @@ const Home = () => {
     <>
       <InfoSection />
       <div css={{ marginTop: "-10px" }} />
-      {isLogin && <EventSection />}
+      <EventSection />
       <RoomSection roomId={roomId} />
       <Footer />
       <ModalPrivacyPolicy
         isOpen={_roomId === "privacyPolicy"}
         onChangeIsOpen={onChangeIsOpenPrivacyPolicy}
       />
-      {isLogin && (
-        <ModalEvent2024SpringJoin
-          inviterId={inviterId}
-          isOpen={isOpenEventJoin}
-          onChangeIsOpen={onChangeIsOpenEventJoin}
-        />
-      )}
+      <ModalEvent2024SpringJoin
+        inviterId={inviterId}
+        isOpen={isOpenEventJoin}
+        onChangeIsOpen={onChangeIsOpenEventJoin}
+      />
     </>
   );
 };
