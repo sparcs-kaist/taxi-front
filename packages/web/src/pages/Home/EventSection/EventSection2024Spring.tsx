@@ -69,47 +69,45 @@ const EventSection2024Spring = () => {
                 {getDday("2024-03-18")}
               </div>
             </div>
-            {isAgreeOnTermsOfEvent && (
-              <div
-                css={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "15px",
-                  paddingBottom: "15px",
-                }}
-              >
-                <CreditAmountContainer />
-                <div css={{ display: "flex", gap: "15px" }}>
-                  <Link
-                    to="/event/2024spring"
-                    css={{ width: 0, flexGrow: 1, textDecoration: "none" }}
-                  >
-                    <EventButton
-                      title="이벤트 안내"
-                      css={{ background: eventTheme.blue_button }}
-                    />
-                  </Link>
-                  <Link
-                    to="/event/2024spring-missions"
-                    css={{ width: 0, flexGrow: 1, textDecoration: "none" }}
-                  >
-                    <EventButton
-                      title="퀘스트"
-                      css={{ background: eventTheme.purple_button }}
-                    />
-                  </Link>
-                  <Link
-                    to="/event/2024spring-leaderboard"
-                    css={{ width: 0, flexGrow: 1, textDecoration: "none" }}
-                  >
-                    <EventButton
-                      title="새터반 순위"
-                      css={{ background: eventTheme.orange_button }}
-                    />
-                  </Link>
-                </div>
+            <div
+              css={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "15px",
+                paddingBottom: "15px",
+              }}
+            >
+              {isAgreeOnTermsOfEvent && <CreditAmountContainer />}
+              <div css={{ display: "flex", gap: "15px" }}>
+                <Link
+                  to="/event/2024spring"
+                  css={{ width: 0, flexGrow: 1, textDecoration: "none" }}
+                >
+                  <EventButton
+                    title="이벤트 안내"
+                    css={{ background: eventTheme.blue_button }}
+                  />
+                </Link>
+                <Link
+                  to="/event/2024spring-missions"
+                  css={{ width: 0, flexGrow: 1, textDecoration: "none" }}
+                >
+                  <EventButton
+                    title="퀘스트"
+                    css={{ background: eventTheme.purple_button }}
+                  />
+                </Link>
+                <Link
+                  to="/event/2024spring-leaderboard"
+                  css={{ width: 0, flexGrow: 1, textDecoration: "none" }}
+                >
+                  <EventButton
+                    title="새터반 순위"
+                    css={{ background: eventTheme.orange_button }}
+                  />
+                </Link>
               </div>
-            )}
+            </div>
             <SuggestJoinEventContainer />
           </AdaptiveDiv>
         </div>
