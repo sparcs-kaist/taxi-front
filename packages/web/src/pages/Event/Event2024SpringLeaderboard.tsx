@@ -152,6 +152,7 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
         css={{
           ...theme.font16,
           ...theme.ellipsis,
+          minWidth: "78px",
           ...styleText(isMe ? -1 : rank),
         }}
       >
@@ -183,7 +184,7 @@ const LeaderboardItem = ({ value, rank, isMe }: LeaderboardItemProps) => {
             overflow: "hidden",
             whiteSpace: "nowrap",
             textOverflow: "ellipsis",
-            maxWidth: "130px",
+            maxWidth: "100px",
             color: theme.white,
             ...eventTheme.font10,
           }}

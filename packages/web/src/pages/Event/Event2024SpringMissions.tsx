@@ -151,7 +151,8 @@ export const MissionContainer = ({ quest }: MissionContainerProps) => {
 };
 
 const Event2024SpringMissions = () => {
-  const { quests } = useValueRecoilState("event2024SpringInfo") || {};
+  const { isAgreeOnTermsOfEvent, quests } =
+    useValueRecoilState("event2024SpringInfo") || {};
   useEventBackgroundEffect();
 
   return (
@@ -161,7 +162,7 @@ const Event2024SpringMissions = () => {
       </HeaderWithBackButton>
       <AdaptiveDiv type="center">
         <div css={{ height: "30px" }} />
-        <CreditAmountContainer />
+        {isAgreeOnTermsOfEvent && <CreditAmountContainer />}
         <SuggestJoinEventContainer />
         {quests?.map((quest) => (
           <MissionContainer key={quest.id} quest={quest} />
