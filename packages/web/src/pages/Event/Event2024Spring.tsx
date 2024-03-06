@@ -368,8 +368,8 @@ const Event2024Spring = () => {
                 width: "100%",
               }}
             >
-              <img src={GoldPrize} alt="prize" css={{ width: "144px" }} />
-              <img src={SilverPrize} alt="prize" css={{ width: "144px" }} />
+              <img src={GoldPrize} alt="prize" css={{ width: "45%" }} />
+              <img src={SilverPrize} alt="prize" css={{ width: "45%" }} />
             </div>
           </div>
           <Link
@@ -383,7 +383,14 @@ const Event2024Spring = () => {
           </Link>
         </EventStep>
         <EventStep step="EVENT" title="인스타그램 공유이벤트">
-          <Link to="/" css={{ textDecoration: "none", width: "100%" }}>
+          <Link
+            to={{
+              pathname:
+                "https://www.instagram.com/p/C34dMLKpuFw/?igsh=d24yMDZlcWtvczlp",
+            }}
+            target="_blank"
+            css={{ textDecoration: "none", width: "100%" }}
+          >
             <EventButton
               title="인스타그램 게시물 보러가기"
               css={{ background: eventTheme.instagram_button }}

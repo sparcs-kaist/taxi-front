@@ -21,7 +21,8 @@ const EventSection2024Spring = () => {
     background: eventTheme.black,
   };
 
-  const { isEligible } = useValueRecoilState("event2024SpringInfo") || {};
+  const { isEligible, isAgreeOnTermsOfEvent } =
+    useValueRecoilState("event2024SpringInfo") || {};
 
   return (
     <>
@@ -76,7 +77,7 @@ const EventSection2024Spring = () => {
                 paddingBottom: "15px",
               }}
             >
-              <CreditAmountContainer />
+              {isAgreeOnTermsOfEvent && <CreditAmountContainer />}
               <div css={{ display: "flex", gap: "15px" }}>
                 <Link
                   to="/event/2024spring"
