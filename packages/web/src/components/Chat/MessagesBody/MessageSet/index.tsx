@@ -101,6 +101,9 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
     alignItems: "flex-end",
     gap: "4px",
   };
+  const styleHover = {
+    cursor: "pointer",
+  };
   const styleChat = useCallback(
     (type: (UserChat | BotChat)["type"]) => ({
       maxWidth: "max(75%, 210px)",
@@ -144,13 +147,20 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
       <div css={style}>
         <div css={styleProfileSection}>
           {authorId !== userOid && (
-            <div css={styleProfile} onClick={onClickReport}>
+            <>
               {authorId === "bot" ? (
-                <TaxiIcon css={{ width: "100%", height: "100%" }} />
+                <div css={styleProfile}>
+                  <TaxiIcon css={{ width: "100%", height: "100%" }} />
+                </div>
               ) : (
-                <ProfileImage url={authorProfileUrl} />
+                <div
+                  css={{ ...styleProfile, ...styleHover }}
+                  onClick={onClickReport}
+                >
+                  <ProfileImage url={authorProfileUrl} />
+                </div>
               )}
-            </div>
+            </>
           )}
         </div>
         <div css={styleMessageSection}>
