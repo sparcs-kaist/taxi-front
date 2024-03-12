@@ -1,9 +1,10 @@
-import { memo, useCallback } from "react";
+import { memo, useCallback, useState } from "react";
 
 import type { BotChat, LayoutType, UserChat } from "@/types/chat";
 
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
+import { ModalChatReport } from "@/components/ModalPopup";
 import ProfileImage from "@/components/User/ProfileImage";
 
 import MessageAccount from "./MessageAccount";
@@ -58,7 +59,11 @@ type MessageSetProps = {
 };
 
 const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
+  const [isOpenReport, setIsOpenReport] = useState<boolean>(false);
   const { oid: userOid } = useValueRecoilState("loginInfo") || {};
+
+  const onClickReport = useCallback(() => setIsOpenReport(true), []);
+
   const authorId = chats?.[0]?.authorId;
   const authorProfileUrl =
     "authorProfileUrl" in chats?.[0] ? chats?.[0].authorProfileUrl : "";
@@ -135,48 +140,50 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
   };
 
   return (
-    <div css={style}>
-      <div css={styleProfileSection}>
-        {authorId !== userOid && (
-          <div
-            css={styleProfile}
-            onClick={() => {
-              /* @fixme @todo */
-            }}
-          >
-            {authorId === "bot" ? (
-              <TaxiIcon css={{ width: "100%", height: "100%" }} />
-            ) : (
-              <ProfileImage url={authorProfileUrl} />
-            )}
-          </div>
-        )}
-      </div>
-      <div css={styleMessageSection}>
-        {authorId !== userOid && (
-          <div css={styleName} className="selectable">
-            {authorName}
-          </div>
-        )}
-        {chats.map((chat, index) => (
-          <div key={getChatUniquewKey(chat)} css={styleMessageWrap}>
-            <div css={styleChat(chat.type)}>
-              <MessageBody
-                type={chat.type}
-                content={chat.content}
-                roomInfo={roomInfo}
-                color={authorId === userOid ? theme.white : theme.black}
-              />
+    <>
+      <div css={style}>
+        <div css={styleProfileSection}>
+          {authorId !== userOid && (
+            <div css={styleProfile} onClick={onClickReport}>
+              {authorId === "bot" ? (
+                <TaxiIcon css={{ width: "100%", height: "100%" }} />
+              ) : (
+                <ProfileImage url={authorProfileUrl} />
+              )}
             </div>
-            {index === chats.length - 1 && (
-              <div css={styleTime} className="selectable">
-                {dayjs(chat.time).format("H시 mm분")}
+          )}
+        </div>
+        <div css={styleMessageSection}>
+          {authorId !== userOid && (
+            <div css={styleName} className="selectable">
+              {authorName}
+            </div>
+          )}
+          {chats.map((chat, index) => (
+            <div key={getChatUniquewKey(chat)} css={styleMessageWrap}>
+              <div css={styleChat(chat.type)}>
+                <MessageBody
+                  type={chat.type}
+                  content={chat.content}
+                  roomInfo={roomInfo}
+                  color={authorId === userOid ? theme.white : theme.black}
+                />
               </div>
-            )}
-          </div>
-        ))}
+              {index === chats.length - 1 && (
+                <div css={styleTime} className="selectable">
+                  {dayjs(chat.time).format("H시 mm분")}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+      <ModalChatReport
+        roomInfo={roomInfo}
+        isOpen={isOpenReport}
+        onChangeIsOpen={setIsOpenReport}
+      />
+    </>
   );
 };
 
