@@ -71,7 +71,7 @@ const ButtonProfileImage = () => {
         },
       });
       if (data.url) {
-        const res = await axiosOri({
+        await axiosOri({
           url: data.url,
           method: "put",
           headers: {
@@ -79,16 +79,14 @@ const ButtonProfileImage = () => {
           },
           data: image,
         });
-        if (res.status === 200) {
-          const data2 = await axios({
-            url: "/users/editProfileImg/done",
-            method: "get",
-          });
-          if (data2?.result) {
-            fetchLoginInfo();
-            setProfileAlert("SUCCESS");
-            return;
-          }
+        const data2 = await axios({
+          url: "/users/editProfileImg/done",
+          method: "get",
+        });
+        if (data2?.result) {
+          fetchLoginInfo();
+          setProfileAlert("SUCCESS");
+          return;
         }
       }
       setProfileAlert("FAIL");

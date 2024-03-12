@@ -50,14 +50,12 @@ export default (
           });
           if (!url || !id) throw new Error();
 
-          const { status: s3Status } = await axiosOri({
+          await axiosOri({
             url,
             method: "put",
             data: file,
             headers: { "Content-Type": file.type },
           });
-
-          if (s3Status !== 204) throw new Error();
 
           const { result } = await axios({
             url: "chats/uploadChatImg/done",
