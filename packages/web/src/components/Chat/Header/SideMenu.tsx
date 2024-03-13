@@ -1,6 +1,7 @@
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 
 import useIsTimeOver from "@/hooks/useIsTimeOver";
+import { useAxios } from "@/hooks/useTaxiAPI";
 
 import DottedLine from "@/components/DottedLine";
 import {
@@ -26,6 +27,7 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import PeopleAltRoundedIcon from "@mui/icons-material/PeopleAltRounded";
 import ReportGmailerrorredRoundedIcon from "@mui/icons-material/ReportGmailerrorredRounded";
 import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
+import WalletRoundedIcon from "@mui/icons-material/WalletRounded";
 
 type SideMenuButtonProps = {
   type: "share" | "report" | "taxi";
@@ -72,6 +74,8 @@ const SideMenuButton = ({ type, onClick }: SideMenuButtonProps) => {
 };
 
 const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
+  const axios = useAxios();
+
   const setAlert = useSetRecoilState(alertAtom);
   const [isOpenShare, setIsOpenShare] = useState<boolean>(false);
   const [isOpenCallTaxi, setIsOpenCallTaxi] = useState<boolean>(false);
@@ -89,6 +93,21 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
   );
   const onClickCallTaxi = useCallback(() => setIsOpenCallTaxi(true), []);
   const onClickReport = useCallback(() => setIsOpenReport(true), []);
+
+  const [taxiFare, setTaxiFare] = useState<number>(0);
+  const getTaxiFare = useCallback(async () => {
+    await axios({
+      url: "/fare/getTaxiFare",
+      method: "get",
+      data: { from: roomInfo.from._id, to: roomInfo.to._id, time: new Date() },
+      onSuccess: (data) => setTaxiFare(data),
+      onError: () => setAlert("택시비를 가져오는데 실패했습니다."),
+    });
+  }, []);
+
+  useEffect(() => {
+    getTaxiFare();
+  }, []);
 
   const styleBackground = {
     position: "absolute" as any,
@@ -186,6 +205,18 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
               {roomInfo.part.map((item) => (
                 <User key={item._id} value={item} isDeparted={isDeparted} />
               ))}
+            </div>
+          </div>
+          <DottedLine />
+          <div css={styleInfoSection}>
+            <div css={{ display: "flex", gap: "8px" }}>
+              <WalletRoundedIcon style={styleIcon} />
+              <div css={{ ...styleInfo }}>
+                예상 택시비 : {taxiFare}원 / {roomInfo.part.length}명 ={" "}
+                <span css={theme.font14_bold}>
+                  인당 {taxiFare / roomInfo.part.length}원
+                </span>
+              </div>
             </div>
           </div>
           <DottedLine />
