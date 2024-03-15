@@ -99,7 +99,7 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
     await axios({
       url: "/fare/getTaxiFare",
       method: "get",
-      data: { from: roomInfo.from._id, to: roomInfo.to._id, time: new Date() },
+      data: { from: roomInfo.from._id, to: roomInfo.to._id, time: roomInfo.time },
       onSuccess: (data) => setTaxiFare(data),
       onError: () => setAlert("택시비를 가져오는데 실패했습니다."),
     });
