@@ -190,6 +190,7 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
         roomInfo={roomInfo}
         isOpen={isOpenReport}
         onChangeIsOpen={setIsOpenReport}
+        userOid={authorId}
       />
     </>
   );
