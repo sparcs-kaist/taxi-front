@@ -1,0 +1,14 @@
+.Toastify__toast {
+  padding: 0;
+}
+.Toastify__toast-body {
+  padding: 0;
+}
+.Toastify__close-button {
+  display: none;
+}
+.Toastify__progress-bar {
+  height: "5px";
+  bottom: 0;
+  top: 0;
+}

@@ -12,17 +12,23 @@ RUN apt-get -qq update; \
     nvm use --delete-prefix default
 ENV PATH /root/.nvm/versions/node/$NODE_VERSION/bin:$PATH
 
+# Install base dependencies
+RUN npm install --global pnpm@8.6.6 serve@14.1.2 react-inject-env@2.1.0
+
+# Copy lockfile and prefetch depdendencies
+COPY pnpm-lock.yaml .
+RUN pnpm fetch
+
 # Copy repository
 COPY . .
 
-# Install requirements
-RUN npm install --global pnpm@8.6.6 serve@14.1.2; \
-    pnpm install; \
-    pnpm install react-inject-env@2.1.0 --save
-
 # Build
-RUN pnpm run build; \
-    chmod 711 /root
+RUN pnpm --filter @taxi/web... install --offline; \
+    pnpm --filter @taxi/web... build
+
+# Move built files to root
+RUN mv /root/packages/web/build .
+RUN chmod 711 /root
 
 # Set default environment variables
 ENV REACT_APP_BACK_URL=https://taxi.sparcs.org/api \
