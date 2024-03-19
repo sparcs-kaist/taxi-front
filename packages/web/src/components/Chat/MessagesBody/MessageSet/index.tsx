@@ -103,9 +103,7 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
     alignItems: "flex-end",
     gap: "4px",
   };
-  const styleHover = {
-    cursor: "pointer",
-  };
+
   const styleChat = useCallback(
     (type: (UserChat | BotChat)["type"]) => ({
       maxWidth: "max(75%, 210px)",
@@ -150,7 +148,7 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
         <div css={styleProfileSection}>
           {authorId !== userOid && (
             <div
-              css={{ ...styleProfile, ...(!isBot && styleHover) }}
+              css={{ ...styleProfile, cursor: !isBot ? "pointer" : undefined }}
               onClick={() => !isBot && onClickProfileImage()}
             >
               {isBot ? (
