@@ -1,5 +1,4 @@
 [[redirects]]
-from = "/*"
-to = "/"
-force = true
-status = 404
+  from = "/*"
+  to = "/index.html"
+  status = 200
