@@ -62,7 +62,7 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
   const [isOpenReport, setIsOpenReport] = useState<boolean>(false);
   const { oid: userOid } = useValueRecoilState("loginInfo") || {};
 
-  const onClickReport = useCallback(() => setIsOpenReport(true), []);
+  const onClickProfileImage = useCallback(() => setIsOpenReport(true), []);
 
   const authorId = chats?.[0]?.authorId;
   const authorProfileUrl =
@@ -151,7 +151,7 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
           {authorId !== userOid && (
             <div
               css={{ ...styleProfile, ...(!isBot && styleHover) }}
-              onClick={() => !isBot && onClickReport()}
+              onClick={() => !isBot && onClickProfileImage()}
             >
               {isBot ? (
                 <TaxiIcon css={{ width: "100%", height: "100%" }} />
