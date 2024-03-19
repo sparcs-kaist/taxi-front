@@ -50,6 +50,12 @@ importers:
 
   packages/app:
     dependencies:
+      '@react-native-firebase/app':
+        specifier: ^19.0.1
+        version: 19.0.1(expo@49.0.21)(react-native@0.72.6)(react@18.2.0)
+      '@react-native-firebase/messaging':
+        specifier: ^19.0.1
+        version: 19.0.1(@react-native-firebase/app@19.0.1)(expo@49.0.21)
       '@react-navigation/bottom-tabs':
         specifier: ^6.5.11
         version: 6.5.11(@react-navigation/native@6.1.9)(react-native-safe-area-context@4.8.2)(react-native-screens@3.29.0)(react-native@0.72.6)(react@18.2.0)
@@ -4398,6 +4404,36 @@ packages:
       - utf-8-validate
     dev: false
 
+  /@react-native-firebase/app@19.0.1(expo@49.0.21)(react-native@0.72.6)(react@18.2.0):
+    resolution: {integrity: sha512-opwy3mQfu0Vg7Fz07EzNCuRI6Wr8U3n6wp0IIwDbNg5zJWQN7ALa9OSN1SA16RhPepIXO1fFWbwmRsL2nOgrIw==}
+    peerDependencies:
+      expo: '>=47.0.0'
+      react: '*'
+      react-native: '*'
+    peerDependenciesMeta:
+      expo:
+        optional: true
+    dependencies:
+      expo: 49.0.21(@babel/core@7.23.7)
+      opencollective-postinstall: 2.0.3
+      react: 18.2.0
+      react-native: 0.72.6(@babel/core@7.23.7)(@babel/preset-env@7.23.7)(react@18.2.0)
+      superstruct: 0.6.2
+    dev: false
+
+  /@react-native-firebase/messaging@19.0.1(@react-native-firebase/app@19.0.1)(expo@49.0.21):
+    resolution: {integrity: sha512-aoSDHghthkUYFzGMlrwuRh/mIhJcNTPyMUNGdAW04lOY2gGeHYEyPGMXLAUDa9N7wC5wyVKNZl+1072l/VHjKA==}
+    peerDependencies:
+      '@react-native-firebase/app': 19.0.1
+      expo: '>=47.0.0'
+    peerDependenciesMeta:
+      expo:
+        optional: true
+    dependencies:
+      '@react-native-firebase/app': 19.0.1(expo@49.0.21)(react-native@0.72.6)(react@18.2.0)
+      expo: 49.0.21(@babel/core@7.23.7)
+    dev: false
+
   /@react-native/assets-registry@0.72.0:
     resolution: {integrity: sha512-Im93xRJuHHxb1wniGhBMsxLwcfzdYreSZVQGDoMJgkd6+Iky61LInGEHnQCTN0fKNYF1Dvcofb4uMmE1RQHXHQ==}
     dev: false
@@ -7186,6 +7222,16 @@ packages:
       wrap-ansi: 7.0.0
     dev: false
 
+  /clone-deep@2.0.2:
+    resolution: {integrity: sha512-SZegPTKjCgpQH63E+eN6mVEEPdQBOUzjyJm5Pora4lrwWRFS8I0QAxV/KD6vV/i0WuijHZWQC1fMsPEdxfdVCQ==}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      for-own: 1.0.0
+      is-plain-object: 2.0.4
+      kind-of: 6.0.3
+      shallow-clone: 1.0.0
+    dev: false
+
   /clone-deep@4.0.1:
     resolution: {integrity: sha512-neHB9xuzh/wk0dIHweyAXv2aPGZIVk3pLMe+/RNzINf17fe0OG96QroktYAUm7SM1PBnzTabaLboqqxDyMU+SQ==}
     engines: {node: '>=6'}
@@ -9015,6 +9061,23 @@ packages:
       is-callable: 1.2.7
     dev: true
 
+  /for-in@0.1.8:
+    resolution: {integrity: sha512-F0to7vbBSHP8E3l6dCjxNOLuSFAACIxFy3UehTUlG7svlXi37HHsDkyVcHo0Pq8QwrE+pXvWSVX3ZT1T9wAZ9g==}
+    engines: {node: '>=0.10.0'}
+    dev: false
+
+  /for-in@1.0.2:
+    resolution: {integrity: sha512-7EwmXrOjyL+ChxMhmG5lnW9MPt1aIeZEwKhQzoBUdTV0N3zuwWDZYVJatDvZ2OyzPUvdIAZDsCetk3coyMfcnQ==}
+    engines: {node: '>=0.10.0'}
+    dev: false
+
+  /for-own@1.0.0:
+    resolution: {integrity: sha512-0OABksIGrxKK8K4kynWkQ7y1zounQxP+CWnyclVwj81KW3vlLlGUx57DKGcP/LH216GzqnstnPocF16Nxs0Ycg==}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      for-in: 1.0.2
+    dev: false
+
   /foreground-child@3.1.1:
     resolution: {integrity: sha512-TMKDUnIte6bfb5nWv7V/caI169OHgvwjb7V4WkeUvbQQdjr5rWKqHFiKWb/fcOwB+CzBT+qbWjvj+DVwRskpIg==}
     engines: {node: '>=14'}
@@ -9821,6 +9884,11 @@ packages:
     engines: {node: '>=8'}
     hasBin: true
 
+  /is-extendable@0.1.1:
+    resolution: {integrity: sha512-5BMULNob1vgFX6EjQw5izWDxrecWK9AM72rugNr0TFldMOi0fj6Jk+zeKIt0xGj4cEfQIJth4w3OKWOJ4f+AFw==}
+    engines: {node: '>=0.10.0'}
+    dev: false
+
   /is-extglob@1.0.0:
     resolution: {integrity: sha512-7Q+VbVafe6x2T+Tu6NcOf6sRklazEPmBoB3IWk3WdGZM2iGUwU/Oe3Wtq5lSEkDTTlpp8yx+5t4pzO/i9Ty1ww==}
     engines: {node: '>=0.10.0'}
@@ -10447,6 +10515,11 @@ packages:
     dependencies:
       json-buffer: 3.0.1
     dev: true
+
+  /kind-of@5.1.0:
+    resolution: {integrity: sha512-NGEErnH6F2vUuXDh+OlbcKW7/wOcfdRHaZ7VWtqCztfHri/++YKmP51OdWeGPuqCOba6kk2OTe5d02VmTB80Pw==}
+    engines: {node: '>=0.10.0'}
+    dev: false
 
   /kind-of@6.0.3:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
@@ -11280,6 +11353,14 @@ packages:
       minipass: 3.3.6
       yallist: 4.0.0
 
+  /mixin-object@2.0.1:
+    resolution: {integrity: sha512-ALGF1Jt9ouehcaXaHhn6t1yGWRqGaHkPFndtFVHfZXOvkIZ/yoGaSi0AHVTafb3ZBGg4dr/bDwnaEKqCXzchMA==}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      for-in: 0.1.8
+      is-extendable: 0.1.1
+    dev: false
+
   /mkdirp-classic@0.5.3:
     resolution: {integrity: sha512-gKLcREMhtuZRwRAfqP3RFW+TK4JqApVBtOIftVgjuABpAtpxhPGaDcfvbhNvD0B8iD1oUr/txX35NjcaY6Ns/A==}
     dev: true
@@ -11609,6 +11690,11 @@ packages:
       define-lazy-prop: 2.0.0
       is-docker: 2.2.1
       is-wsl: 2.2.0
+
+  /opencollective-postinstall@2.0.3:
+    resolution: {integrity: sha512-8AV/sCtuzUeTo8gQK5qDZzARrulB3egtLzFgteqB2tcT4Mw7B8Kt7JcDHmltjz6FOAHsvTevk70gZEbhM4ZS9Q==}
+    hasBin: true
+    dev: false
 
   /optionator@0.9.3:
     resolution: {integrity: sha512-JjCoypp+jKn1ttEFExxhetCKeJt9zhAgAve5FXHixTvFDW/5aEktX9bufBKLRRMdU7bNtpLfcGu94B3cdEJgjg==}
@@ -13630,6 +13716,15 @@ packages:
   /setprototypeof@1.2.0:
     resolution: {integrity: sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==}
 
+  /shallow-clone@1.0.0:
+    resolution: {integrity: sha512-oeXreoKR/SyNJtRJMAKPDSvd28OqEwG4eR/xc856cRGBII7gX9lvAqDxusPm0846z/w/hWYjI1NpKwJ00NHzRA==}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      is-extendable: 0.1.1
+      kind-of: 5.1.0
+      mixin-object: 2.0.1
+    dev: false
+
   /shallow-clone@3.0.1:
     resolution: {integrity: sha512-/6KqX+GVUdqPuPPd2LxDDxzX6CAbjJehAAOKlNpqqUpAqPM6HeL8f+o3a+JsyGjn2lv0WY8UsTgUJjU9Ok55NA==}
     engines: {node: '>=8'}
@@ -14085,6 +14180,13 @@ packages:
 
   /sudo-prompt@9.2.1:
     resolution: {integrity: sha512-Mu7R0g4ig9TUuGSxJavny5Rv0egCEtpZRNMrZaYS1vxkiIxGiGUwoezU3LazIQ+KE04hTrTfNPgxU5gzi7F5Pw==}
+    dev: false
+
+  /superstruct@0.6.2:
+    resolution: {integrity: sha512-lvA97MFAJng3rfjcafT/zGTSWm6Tbpk++DP6It4Qg7oNaeM+2tdJMuVgGje21/bIpBEs6iQql1PJH6dKTjl4Ig==}
+    dependencies:
+      clone-deep: 2.0.2
+      kind-of: 6.0.3
     dev: false
 
   /supports-color@5.5.0:

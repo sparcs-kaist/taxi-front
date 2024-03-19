@@ -19,12 +19,16 @@ export default ({ config }: ConfigContext): Partial<ExpoConfig> => ({
   assetBundlePatterns: ["**/*"],
   ios: {
     supportsTablet: true,
+    bundleIdentifier: "org.sparcs.taxi-app",
+    googleServicesFile: "./config/GoogleService-Info.plist",
   },
   android: {
     adaptiveIcon: {
       foregroundImage: "./assets/adaptive-icon.png",
       backgroundColor: "#ffffff",
     },
+    package: "org.sparcs.taxi_app",
+    googleServicesFile: "./config/google-services.json",
   },
   web: {
     favicon: "./assets/favicon.png",
