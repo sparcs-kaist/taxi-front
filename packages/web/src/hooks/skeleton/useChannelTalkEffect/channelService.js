@@ -1,5 +1,6 @@
 /** {@link https://developers.channel.io/docs/web-installation} */
 
+
 class ChannelService {
   constructor() {
     this.loadScript();
