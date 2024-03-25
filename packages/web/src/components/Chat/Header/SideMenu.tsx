@@ -99,9 +99,14 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
     await axios({
       url: "/fare/getTaxiFare",
       method: "get",
-      data: { from: roomInfo.from._id, to: roomInfo.to._id, time: roomInfo.time },
-      onSuccess: (data) => setTaxiFare(data),
-      onError: () => setAlert("택시비를 가져오는데 실패했습니다."),
+      params: {
+        from: roomInfo.from._id.toString(),
+        to: roomInfo.to._id.toString(),
+        time: roomInfo.time,
+      },
+      onSuccess: (data) => setTaxiFare(data.fare),
+      onError: (status) =>
+        status === 503 ? null : setAlert("택시비를 가져오는데 실패했습니다."), // dev에서 테스트하는 경우, 알림창을 띄우지 않음
     });
   }, []);
 
@@ -211,12 +216,7 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
           <div css={styleInfoSection}>
             <div css={{ display: "flex", gap: "8px" }}>
               <WalletRoundedIcon style={styleIcon} />
-              <div css={{ ...styleInfo }}>
-                예상 택시비 : {taxiFare}원 / {roomInfo.part.length}명 ={" "}
-                <span css={theme.font14_bold}>
-                  인당 {taxiFare / roomInfo.part.length}원
-                </span>
-              </div>
+              <div css={{ ...styleInfo }}>예상 택시비 : {taxiFare}원</div>
             </div>
           </div>
           <DottedLine />
