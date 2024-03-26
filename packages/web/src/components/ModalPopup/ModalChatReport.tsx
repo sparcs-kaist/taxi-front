@@ -24,14 +24,17 @@ const ModalChatReport = ({
 }: ModalChatReportProps) => {
   const [reportedId, setReportedId] =
     useState<Nullable<Report["reportedId"]>>();
+  const [isSelected, setIsSelected] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   useEffect(() => {
     if (userOid && roomInfo.part.find((user) => user._id === userOid)) {
       setReportedId(userOid);
+      setIsSelected(true);
       setIsSubmitted(false);
     } else {
       setReportedId(undefined);
+      setIsSelected(false);
       setIsSubmitted(false);
     }
   }, [roomInfo, userOid, modalProps.isOpen]);
@@ -53,17 +56,19 @@ const ModalChatReport = ({
         <ReportGmailerrorredRoundedIcon style={styleIcon} />
         신고하기
       </div>
-      {!reportedId ? (
+      {!reportedId || !isSelected ? (
         <BodyChatReportSelectUser
           roomInfo={roomInfo}
+          reportedId={reportedId}
           setReportedId={setReportedId}
+          setIsSelected={setIsSelected}
           onChangeIsOpen={modalProps?.onChangeIsOpen}
         />
       ) : !isSubmitted ? (
         <BodyChatReportSelectType
           roomInfo={roomInfo}
           reportedId={reportedId}
-          clearReportedId={() => setReportedId(undefined)}
+          setIsSelected={setIsSelected}
           setIsSubmitted={setIsSubmitted}
         />
       ) : (

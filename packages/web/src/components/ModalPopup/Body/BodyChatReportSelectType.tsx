@@ -32,7 +32,7 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 type BodyChatReportSelectTypeProps = {
   roomInfo: Room;
   reportedId: Report["reportedId"];
-  clearReportedId: () => void;
+  setIsSelected: Dispatch<SetStateAction<boolean>>;
   setIsSubmitted: Dispatch<SetStateAction<boolean>>;
 };
 
@@ -45,7 +45,7 @@ const selectOptions = [
 const BodyChatReportSelectType = ({
   roomInfo,
   reportedId,
-  clearReportedId,
+  setIsSelected,
   setIsSubmitted,
 }: BodyChatReportSelectTypeProps) => {
   const axios = useAxios();
@@ -228,7 +228,7 @@ const BodyChatReportSelectType = ({
             borderRadius: "8px",
             ...theme.font14,
           }}
-          onClick={clearReportedId}
+          onClick={() => setIsSelected(false)}
         >
           이전
         </Button>
