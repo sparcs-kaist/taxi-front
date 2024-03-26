@@ -45,8 +45,9 @@ const BodyText = ({ sendMessage }: BodyTextProps) => {
   const [isMessageValidState, setIsMessageValidState] =
     useState<boolean>(false);
   const getIsMessageValid = useCallback(
-    (message: string): boolean =>
-      regExpTest.chatMsg(message) && !isSendingMessage,
+    (message: string): boolean => {
+      return regExpTest.chatMsg(message) && regExpTest.chatMsgLength(message) && !isSendingMessage
+    },
     [isSendingMessage]
   );
   useEffect(
