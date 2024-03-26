@@ -52,7 +52,7 @@ const Mypage = () => {
     if (channeltalk === "true") {
       channelService.showMessenger();
     }
-  }, []);
+  }, [search]);
 
   const onClickProfileModify = useCallback(
     () => setIsOpenProfileModify(true),
