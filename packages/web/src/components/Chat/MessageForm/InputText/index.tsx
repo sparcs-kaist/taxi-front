@@ -69,7 +69,11 @@ const InputText = ({
           />
         </div>
         <div style={{ flex: 1 }}>
-          <BodyText sendMessage={sendMessage} onTextChange={setChatMsgLength} />
+          <BodyText
+            sendMessage={sendMessage}
+            onTextChange={setChatMsgLength}
+            maxChatMsgLength={maxChatMsgLength}
+          />
         </div>
       </div>
     ),
