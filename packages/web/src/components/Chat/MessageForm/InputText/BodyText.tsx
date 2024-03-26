@@ -10,9 +10,10 @@ import theme from "@/tools/theme";
 
 type BodyTextProps = {
   sendMessage: ReturnType<typeof useSendMessage>;
+  onTextChange: (msgLength: number) => void; // 글자 수를 부모에게 전달하여 circular progressbar에 사용
 };
 
-const BodyText = ({ sendMessage }: BodyTextProps) => {
+const BodyText = ({ sendMessage, onTextChange }: BodyTextProps) => {
   const wrapRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>();
   const [height, setHeight] = useState<CSS["height"]>("32px");
@@ -46,7 +47,11 @@ const BodyText = ({ sendMessage }: BodyTextProps) => {
     useState<boolean>(false);
   const getIsMessageValid = useCallback(
     (message: string): boolean => {
-      return regExpTest.chatMsg(message) && regExpTest.chatMsgLength(message) && !isSendingMessage
+      return (
+        regExpTest.chatMsg(message) &&
+        regExpTest.chatMsgLength(message) &&
+        !isSendingMessage
+      );
     },
     [isSendingMessage]
   );
@@ -82,6 +87,8 @@ const BodyText = ({ sendMessage }: BodyTextProps) => {
       if (!textareaRef.current) return;
       if (isSendingMessage) refreshTextArea();
       setIsMessageValidState(getIsMessageValid(textareaRef.current.value));
+
+      onTextChange(textareaRef.current.value.length);
 
       if (isEnterPressed.current && !isShiftPressed.current) {
         onSend();
