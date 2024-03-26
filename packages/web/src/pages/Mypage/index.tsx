@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import useChannelTalkEffect from "@/hooks/skeleton/useChannelTalkEffect";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
@@ -63,6 +64,9 @@ const Mypage = () => {
   );
   const onClickEventPolicy = useCallback(() => setIsOpenEventPolicy(true), []);
   const onClickMembers = useCallback(() => setOpenIsMembers(true), []);
+  const onClickWithdraw = useCallback(() => {
+    useChannelTalkEffect().openWithdraw();
+  }, []);
 
   const styleProfImg = {
     width: "50px",
@@ -194,9 +198,14 @@ const Mypage = () => {
             {t("credit")}
           </Menu>
           {userId && (
-            <LinkLogout>
-              <Menu icon="logout">{t("logout")}</Menu>
-            </LinkLogout>
+            <>
+              <Menu icon="withdraw" onClick={onClickWithdraw}>
+                {t("withdraw")}
+              </Menu>
+              <LinkLogout>
+                <Menu icon="logout">{t("logout")}</Menu>
+              </LinkLogout>
+            </>
           )}
         </div>
       </WhiteContainer>

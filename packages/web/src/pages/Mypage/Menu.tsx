@@ -12,6 +12,7 @@ import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
 import HelpOutlineRoundedIcon from "@mui/icons-material/HelpOutlineRounded";
 import KeyboardArrowLeftRoundedIcon from "@mui/icons-material/KeyboardArrowLeftRounded";
 import LanguageRoundedIcon from "@mui/icons-material/LanguageRounded";
+import PersonRemoveRoundedIcon from "@mui/icons-material/PersonRemoveRounded";
 import PortraitRoundedIcon from "@mui/icons-material/PortraitRounded";
 import StarRoundedIcon from "@mui/icons-material/StarRounded";
 
@@ -46,6 +47,8 @@ const getIcon = (icon: string) => {
       return <AlarmOffRoundedIcon style={styleIcon} />;
     case "logout":
       return <ExitToAppRoundedIcon style={styleIcon} />;
+    case "withdraw":
+      return <PersonRemoveRoundedIcon style={styleIcon} />;
     case "beta":
       return <StarRoundedIcon style={styleIcon} />;
   }
