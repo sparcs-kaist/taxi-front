@@ -34,7 +34,14 @@ const InputText = ({
           alignItems: "center",
         }}
       >
-        <div style={{ width: "20px", height: "20px", marginLeft: "5px" }}>
+        <div
+          style={{
+            width: "28px",
+            height: "28px",
+            marginLeft: "0px",
+            position: "relative",
+          }}
+        >
           <CircularProgressbar
             value={chatMsgLength}
             maxValue={maxChatMsgLength}

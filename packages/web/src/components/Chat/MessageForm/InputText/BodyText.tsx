@@ -93,7 +93,12 @@ const BodyText = ({
       if (isSendingMessage) refreshTextArea();
       setIsMessageValidState(getIsMessageValid(textareaRef.current.value));
 
-      onTextChange(textareaRef.current.value.length);
+      onTextChange(
+        textareaRef.current.value.length > 140
+          ? 140
+          : textareaRef.current.value.length
+      );
+      // 키보드를 쭉 눌러서 입력하면, max + 1번째 글자에 oninput이 먼저 호출된 후에 입력이 막혀서 숫자가 max + 1로 뜰 때가 있습니다.. 우선 이렇게 막아두겠습니다
 
       if (isEnterPressed.current && !isShiftPressed.current) {
         onSend();
@@ -123,6 +128,7 @@ const BodyText = ({
     if (textareaRef.current) wrapRef.current.removeChild(textareaRef.current);
     const textarea = document.createElement("textarea");
     textarea.oninput = onChange;
+    textarea.maxLength = maxChatMsgLength;
     textarea.addEventListener("keydown", onKeyDown);
     textarea.addEventListener("keyup", onKeyUp);
     textarea.placeholder = "채팅을 입력해주세요";
