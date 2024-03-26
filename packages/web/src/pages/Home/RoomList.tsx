@@ -7,6 +7,8 @@ import Empty from "@/components/Empty";
 import Pagination, { PAGE_MAX_ITEMS } from "@/components/Pagination";
 import Room from "@/components/Room";
 
+import NewRoom from "./NewRoom";
+
 type RoomListProps = {
   rooms: Nullable<Array<any>>;
 };
@@ -16,37 +18,76 @@ const RoomList = (props: RoomListProps) => {
   const currentPage = usePageFromSearchParams(totalPages);
   const [localRooms, setLocalRooms] = useState(props.rooms);
 
-  // calculates the difference between two arrays location of the difference. Only works when before is subset of after
-  const calculateDiffAndLocation = (before: Array<any>, after: Array<any>) => {
-    let beforeIndex = 0;
-    let afterIndex = 0;
-    let diffs: {
-      diff: any;
-      location: number;
-    }[] = [];
-    while (beforeIndex < before.length && afterIndex < after.length) {
-      if (before[beforeIndex] !== after[afterIndex]) {
-        diffs.push({
-          diff: after[afterIndex],
-          location: afterIndex,
-        });
-      } else {
-        beforeIndex++;
+  const [state, setState] = useState<
+    "default" | "additionAnimate" | "addition" | "deletionAnimate" | "deletion"
+  >("default");
+
+  const animateDeletion = () => {
+    const deletionRooms = localRooms?.map((localRoom) => {
+      if (!props.rooms?.find((room) => room._id === localRoom._id)) {
+        return { ...localRoom, animating: true, type: "deletion" };
       }
-      afterIndex++;
-    }
-    if (beforeIndex < before.length) {
-      return null;
-    }
-    return diffs;
+      return localRoom;
+    });
+    setLocalRooms(deletionRooms);
+
+    const timer = setTimeout(() => {
+      setState("deletion");
+    }, 500);
+    return () => clearTimeout(timer);
+  };
+
+  const deletion = () => {
+    setLocalRooms(localRooms?.filter((room) => room.type !== "deletion"));
+    setState("additionAnimate");
+  };
+
+  const animateAddition = () => {
+    let additionRooms = props.rooms?.map((room, index) => {
+      if (!localRooms?.find((localRoom) => localRoom._id === room._id)) {
+        return { ...room, animating: true, type: "addition" };
+      }
+      return room;
+    });
+    setLocalRooms(additionRooms);
+    const timer = setTimeout(() => {
+      setState("addition");
+    }, 500);
+    return () => clearTimeout(timer);
+  };
+
+  const addition = () => {
+    setLocalRooms(props.rooms);
+    setState("default");
   };
 
   useEffect(() => {
-    if (props.rooms && localRooms && props.rooms.length !== localRooms.length) {
-      const diffs = calculateDiffAndLocation(localRooms, props.rooms);
-      if (diffs) {
-        setLocalRooms(props.rooms);
-      }
+    switch (state) {
+      case "deletionAnimate":
+        animateDeletion();
+        break;
+      case "deletion":
+        deletion();
+        break;
+      case "additionAnimate":
+        animateAddition();
+        break;
+      case "addition":
+        addition();
+        break;
+      default:
+        break;
+    }
+  }, [state]);
+
+  useEffect(() => {
+    if (
+      props.rooms &&
+      localRooms?.length &&
+      (props.rooms.length !== localRooms.length ||
+        JSON.stringify(props.rooms) !== JSON.stringify(localRooms.length))
+    ) {
+      setState("deletionAnimate");
     } else {
       setLocalRooms(props.rooms);
     }
@@ -54,9 +95,9 @@ const RoomList = (props: RoomListProps) => {
 
   return (
     <>
-      {props.rooms?.length ? (
+      {localRooms?.length ? (
         <>
-          {props.rooms
+          {localRooms
             ?.slice(
               PAGE_MAX_ITEMS * (currentPage - 1),
               PAGE_MAX_ITEMS * currentPage
@@ -68,10 +109,14 @@ const RoomList = (props: RoomListProps) => {
                 replace
                 style={{ textDecoration: "none" }}
               >
-                <Room data={room} marginBottom="15px" />
+                {room.animating ? (
+                  <NewRoom room={room} marginBottom="15px" type={room.type} />
+                ) : (
+                  <Room data={room} marginBottom="15px" />
+                )}
               </Link>
             ))}
-          {props.rooms.length > PAGE_MAX_ITEMS && (
+          {localRooms.length > PAGE_MAX_ITEMS && (
             <Pagination
               totalPages={totalPages}
               currentPage={currentPage}
