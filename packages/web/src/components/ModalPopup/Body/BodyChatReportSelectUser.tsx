@@ -29,6 +29,7 @@ const BodyChatReportSelectUser = ({
   setIsSelected,
   onChangeIsOpen,
 }: BodyChatReportSelectUserProps) => {
+  const { oid: userOid } = useValueRecoilState("loginInfo") || {};
   const isDeparted = useIsTimeOver(dayServerToClient(roomInfo.time)); // 방 출발 여부
 
   const styleText = {
@@ -83,26 +84,31 @@ const BodyChatReportSelectUser = ({
       <div css={styleText}>신고할 사용자를 선택해주세요.</div>
       <DottedLine />
       <div css={styleUsers}>
-        {roomInfo.part.map((user) => (
-          <div
-            key={user._id}
-            css={styleUser}
-            onClick={() => setReportedId(user._id)}
-          >
-            <div
-              css={{
-                ...styleCheckBox,
-                background:
-                  reportedId === user._id ? theme.purple : theme.purple_light,
-              }}
-            >
-              {reportedId === user._id && (
-                <CheckRoundedIcon style={styleCheckBoxIcon} />
-              )}
-            </div>
-            <User value={user} isDeparted={isDeparted} />
-          </div>
-        ))}
+        {roomInfo.part.map(
+          (user) =>
+            user._id !== userOid && (
+              <div
+                key={user._id}
+                css={styleUser}
+                onClick={() => setReportedId(user._id)}
+              >
+                <div
+                  css={{
+                    ...styleCheckBox,
+                    background:
+                      reportedId === user._id
+                        ? theme.purple
+                        : theme.purple_light,
+                  }}
+                >
+                  {reportedId === user._id && (
+                    <CheckRoundedIcon style={styleCheckBoxIcon} />
+                  )}
+                </div>
+                <User value={user} isDeparted={isDeparted} />
+              </div>
+            )
+        )}
       </div>
       <div css={styleButtons}>
         <Button
