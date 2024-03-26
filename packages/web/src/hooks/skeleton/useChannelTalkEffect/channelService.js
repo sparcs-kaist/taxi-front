@@ -48,6 +48,9 @@ class ChannelService {
   shutdown() {
     window.ChannelIO("shutdown");
   }
+  showMessenger() {
+    window.ChannelIO("showMessenger");
+  }
 }
 
 export default new ChannelService();
