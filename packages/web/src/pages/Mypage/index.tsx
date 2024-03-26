@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import useChannelTalkEffect from "@/hooks/skeleton/useChannelTalkEffect";
+import channelService from "@/hooks/skeleton/useChannelTalkEffect/channelService";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
@@ -65,7 +65,11 @@ const Mypage = () => {
   const onClickEventPolicy = useCallback(() => setIsOpenEventPolicy(true), []);
   const onClickMembers = useCallback(() => setOpenIsMembers(true), []);
   const onClickWithdraw = useCallback(() => {
-    useChannelTalkEffect().openWithdraw();
+    channelService.openChat({
+      chatId: undefined,
+      message:
+        "스팍스 택시 서비스의 계정 탈퇴를 신청하고 싶습니다.\n신청 사유는 다음과 같습니다:\n",
+    });
   }, []);
 
   const styleProfImg = {

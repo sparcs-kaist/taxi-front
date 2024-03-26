@@ -36,15 +36,4 @@ export default () => {
       });
     }
   }, [pathname, error]);
-
-  const openWithdraw = () => {
-    if (channelTalkPluginKey) {
-      ChannelService.openChat({
-        chatId: undefined,
-        message:
-          "스팍스 택시 서비스의 계정 탈퇴를 신청하고 싶습니다.\n신청 사유는 다음과 같습니다: ",
-      });
-    }
-  };
-  return { openWithdraw };
 };
