@@ -1,6 +1,8 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 
+import channelService from "@/hooks/skeleton/useChannelTalkEffect/channelService";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
@@ -42,6 +44,15 @@ const Mypage = () => {
   const [isOpenPrivacyPolicy, setIsOpenPrivacyPolicy] = useState(false);
   const [isOpenEventPolicy, setIsOpenEventPolicy] = useState(false);
   const [isOpenMembers, setOpenIsMembers] = useState(false);
+
+  const { search } = useLocation();
+
+  useEffect(() => {
+    const channeltalk = new URLSearchParams(search).get("channeltalk");
+    if (channeltalk === "true") {
+      channelService.showMessenger();
+    }
+  }, [search]);
 
   const onClickProfileModify = useCallback(
     () => setIsOpenProfileModify(true),
