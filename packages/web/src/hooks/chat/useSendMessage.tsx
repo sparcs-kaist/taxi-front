@@ -26,7 +26,7 @@ export default (
         if (["text", "account"].includes(type)) {
           // 메시지가 정규식 검사에서 통과하지 못했다면 전송을 막습니다.
           if (!text) throw new Error();
-          if (type === "text" && !regExpTest.chatMsg(text)) throw new Error();
+          if (type === "text" && !regExpTest.chatMsg(text) && !regExpTest.chatMsgLength(text)) throw new Error();
           if (type === "account" && !regExpTest.account(text))
             throw new Error();
 

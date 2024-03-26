@@ -10,9 +10,15 @@ import theme from "@/tools/theme";
 
 type BodyTextProps = {
   sendMessage: ReturnType<typeof useSendMessage>;
+  onTextChange: (msgLength: number) => void; // 글자 수를 부모에게 전달하여 circular progressbar에 사용
+  maxChatMsgLength: number; // 채팅 입력 최대 길이입니다.
 };
 
-const BodyText = ({ sendMessage }: BodyTextProps) => {
+const BodyText = ({
+  sendMessage,
+  onTextChange,
+  maxChatMsgLength,
+}: BodyTextProps) => {
   const wrapRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>();
   const [height, setHeight] = useState<CSS["height"]>("32px");
@@ -45,8 +51,13 @@ const BodyText = ({ sendMessage }: BodyTextProps) => {
   const [isMessageValidState, setIsMessageValidState] =
     useState<boolean>(false);
   const getIsMessageValid = useCallback(
-    (message: string): boolean =>
-      regExpTest.chatMsg(message) && !isSendingMessage,
+    (message: string): boolean => {
+      return (
+        regExpTest.chatMsg(message) &&
+        regExpTest.chatMsgLength(message) &&
+        !isSendingMessage
+      );
+    },
     [isSendingMessage]
   );
   useEffect(
@@ -82,6 +93,13 @@ const BodyText = ({ sendMessage }: BodyTextProps) => {
       if (isSendingMessage) refreshTextArea();
       setIsMessageValidState(getIsMessageValid(textareaRef.current.value));
 
+      onTextChange(
+        textareaRef.current.value.length > 140
+          ? 140
+          : textareaRef.current.value.length
+      );
+      // 키보드를 쭉 눌러서 입력하면, max + 1번째 글자에 oninput이 먼저 호출된 후에 입력이 막혀서 숫자가 max + 1로 뜰 때가 있습니다.. 우선 이렇게 막아두겠습니다
+
       if (isEnterPressed.current && !isShiftPressed.current) {
         onSend();
         return;
@@ -110,6 +128,7 @@ const BodyText = ({ sendMessage }: BodyTextProps) => {
     if (textareaRef.current) wrapRef.current.removeChild(textareaRef.current);
     const textarea = document.createElement("textarea");
     textarea.oninput = onChange;
+    textarea.maxLength = maxChatMsgLength;
     textarea.addEventListener("keydown", onKeyDown);
     textarea.addEventListener("keyup", onKeyUp);
     textarea.placeholder = "채팅을 입력해주세요";
