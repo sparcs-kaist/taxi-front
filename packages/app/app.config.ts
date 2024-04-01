@@ -18,9 +18,6 @@ export default ({ config }: ConfigContext): Partial<ExpoConfig> => ({
   },
   assetBundlePatterns: ["**/*"],
   plugins: [
-    "@react-native-firebase/app",
-    "@react-native-firebase/crashlytics",
-    "@react-native-firebase/messaging",
     [
       "expo-build-properties",
       {
@@ -29,11 +26,14 @@ export default ({ config }: ConfigContext): Partial<ExpoConfig> => ({
         },
       },
     ],
+    "@react-native-firebase/app",
+    "@react-native-firebase/crashlytics",
+    "@react-native-firebase/messaging",
   ],
   ios: {
     supportsTablet: true,
     bundleIdentifier: "org.sparcs.taxi-app",
-    googleServicesFile: "./config/GoogleService-Info.plist",
+    googleServicesFile: "./GoogleService-Info.plist",
   },
   android: {
     adaptiveIcon: {
@@ -41,7 +41,7 @@ export default ({ config }: ConfigContext): Partial<ExpoConfig> => ({
       backgroundColor: "#ffffff",
     },
     package: "org.sparcs.taxi_app",
-    googleServicesFile: "./config/google-services.json",
+    googleServicesFile: "./google-services.json",
   },
   web: {
     favicon: "./assets/favicon.png",
