@@ -37,4 +37,12 @@ export default ({ config }: ConfigContext): Partial<ExpoConfig> => ({
       ? `http://${ip.v4.sync()}:3000`
       : "https://taxi.sparcs.org",
   },
+  plugins: [
+    [
+      "expo-secure-store",
+      {
+        faceIDPermission: "Allow Taxi to access your Face ID biometric data.",
+      },
+    ],
+  ],
 });
