@@ -209,7 +209,7 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
       {isLogin || isRoomFull || isDepart ? (
         <Button
           type="purple"
-          disabled={isRoomFull || isDepart || isMaxPart}
+          disabled={isRoomFull || (isDepart && !isAlreadyPart) || isMaxPart}
           css={{
             padding: "10px 0 9px",
             borderRadius: "8px",
@@ -217,10 +217,10 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
           }}
           onClick={requestJoin}
         >
-          {isAlreadyPart
-            ? "참여 중인 방 - 바로가기"
-            : isDepart
+          {isDepart
             ? "출발 시각이 현재 이전인 방은 참여할 수 없습니다"
+            : isAlreadyPart
+            ? "참여 중인 방 - 바로가기"
             : isRoomFull
             ? "남은 인원이 0명인 방은 참여할 수 없습니다"
             : isMaxPart
