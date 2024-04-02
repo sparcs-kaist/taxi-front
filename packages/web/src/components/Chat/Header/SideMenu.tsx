@@ -105,8 +105,7 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
         time: roomInfo.time,
       },
       onSuccess: (data) => setTaxiFare(data.fare),
-      onError: (status) =>
-        status === 503 ? null : setAlert("택시비를 가져오는데 실패했습니다."), // dev에서 테스트하는 경우, 알림창을 띄우지 않음
+      onError: (status) => {},
     });
   }, []);
 
@@ -216,7 +215,9 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
           <div css={styleInfoSection}>
             <div css={{ display: "flex", gap: "8px" }}>
               <WalletRoundedIcon style={styleIcon} />
-              <div css={{ ...styleInfo }}>예상 택시비 : {taxiFare}원</div>
+              <div css={{ ...styleInfo }}>
+                예상 택시비 : {taxiFare.toLocaleString("ko-KR")}원
+              </div>
             </div>
           </div>
           <DottedLine />

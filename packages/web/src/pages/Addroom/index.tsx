@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 
@@ -19,6 +19,7 @@ import {
   OptionName,
   OptionPlace,
   OptionTime,
+  TaxiFare,
 } from "@/components/ModalRoomOptions";
 import Title from "@/components/Title";
 import WhiteContainerSuggestLogin from "@/components/WhiteContainer/WhiteContainerSuggestLogin";
@@ -67,6 +68,25 @@ const AddRoom = () => {
   const [isOpenModalEventAbuseWarning, setIsOpenModalEventAbuseWarning] =
     useState<boolean>(false);
   //#endregion
+
+  const [taxiFare, setTaxiFare] = useState<number>(0);
+
+  const getTaxiFare = useCallback(async () => {
+    await axios({
+      url: "/fare/getTaxiFare",
+      method: "get",
+      params: {
+        from: valuePlace[0].toString(),
+        to: valuePlace[1].toString(),
+        time: calculatedTime!.toISOString(),
+      },
+      onSuccess: (data) => setTaxiFare(data.fare),
+      onError: (status) => {},
+    });
+  }, []);
+  useEffect(() => {
+    getTaxiFare();
+  }, [valuePlace, calculatedTime]);
 
   useEffect(() => {
     const expirationDate = new Date();
@@ -186,6 +206,7 @@ const AddRoom = () => {
               />
               <OptionTime value={valueTime} handler={setTime} page="add" />
               <OptionMaxPeople value={valueMaxPeople} handler={setMaxPeople} />
+              <TaxiFare value={taxiFare} roomLength={valueMaxPeople} />
               <Button
                 type="purple"
                 disabled={validatedMsg ? true : false}
