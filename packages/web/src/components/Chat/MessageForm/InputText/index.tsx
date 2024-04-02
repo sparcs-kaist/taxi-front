@@ -45,8 +45,7 @@ const InputText = ({
           <CircularProgressbar
             value={chatMsgLength}
             maxValue={maxChatMsgLength}
-            text={`${chatMsgLength}`}
-            strokeWidth={20}
+            strokeWidth={10}
             styles={buildStyles({
               // Rotation of path and trail, in number of turns (0-1)
               rotation: 0.25,
