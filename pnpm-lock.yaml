@@ -50,6 +50,9 @@ importers:
 
   packages/app:
     dependencies:
+      '@react-native-cookies/cookies':
+        specifier: ^6.2.1
+        version: 6.2.1(react-native@0.72.6)
       '@react-navigation/bottom-tabs':
         specifier: ^6.5.11
         version: 6.5.11(@react-navigation/native@6.1.9)(react-native-safe-area-context@4.8.2)(react-native-screens@3.29.0)(react-native@0.72.6)(react@18.2.0)
@@ -62,6 +65,9 @@ importers:
       expo:
         specifier: ~49.0.15
         version: 49.0.21(@babel/core@7.23.7)
+      expo-secure-store:
+        specifier: ~12.3.1
+        version: 12.3.1(expo@49.0.21)
       expo-status-bar:
         specifier: ~1.6.0
         version: 1.6.0
@@ -4398,6 +4404,15 @@ packages:
       - utf-8-validate
     dev: false
 
+  /@react-native-cookies/cookies@6.2.1(react-native@0.72.6):
+    resolution: {integrity: sha512-D17wCA0DXJkGJIxkL74Qs9sZ3sA+c+kCoGmXVknW7bVw/W+Vv1m/7mWTNi9DLBZSRddhzYw8SU0aJapIaM/g5w==}
+    peerDependencies:
+      react-native: '>= 0.60.2'
+    dependencies:
+      invariant: 2.2.4
+      react-native: 0.72.6(@babel/core@7.23.7)(@babel/preset-env@7.23.7)(react@18.2.0)
+    dev: false
+
   /@react-native/assets-registry@0.72.0:
     resolution: {integrity: sha512-Im93xRJuHHxb1wniGhBMsxLwcfzdYreSZVQGDoMJgkd6+Iky61LInGEHnQCTN0fKNYF1Dvcofb4uMmE1RQHXHQ==}
     dev: false
@@ -8604,6 +8619,14 @@ packages:
     dependencies:
       compare-versions: 3.6.0
       invariant: 2.2.4
+    dev: false
+
+  /expo-secure-store@12.3.1(expo@49.0.21):
+    resolution: {integrity: sha512-XLIgWDiIuiR0c+AA4NCWWibAMHCZUyRcy+lQBU49U6rvG+xmd3YrBJfQjfqAPyLroEqnLPGTWUX57GyRsfDOQw==}
+    peerDependencies:
+      expo: '*'
+    dependencies:
+      expo: 49.0.21(@babel/core@7.23.7)
     dev: false
 
   /expo-status-bar@1.6.0:
