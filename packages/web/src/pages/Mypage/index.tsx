@@ -78,7 +78,7 @@ const Mypage = () => {
     channelService.openChat({
       chatId: undefined,
       message:
-        "스팍스 택시 서비스의 계정 탈퇴를 신청하고 싶습니다.\n신청 사유는 다음과 같습니다:\n",
+        "SPARCS Taxi 서비스의 계정 탈퇴를 신청하고 싶습니다.\n신청 사유는 다음과 같습니다:\n",
     });
   }, []);
 
@@ -213,12 +213,12 @@ const Mypage = () => {
           </Menu>
           {userId && (
             <>
-              <Menu icon="withdraw" onClick={onClickWithdraw}>
-                {t("withdraw")}
-              </Menu>
               <LinkLogout>
                 <Menu icon="logout">{t("logout")}</Menu>
               </LinkLogout>
+              <Menu icon="withdraw" onClick={onClickWithdraw}>
+                {t("withdraw")}
+              </Menu>
             </>
           )}
         </div>
