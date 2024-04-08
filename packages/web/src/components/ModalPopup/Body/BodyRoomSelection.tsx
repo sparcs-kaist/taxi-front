@@ -130,6 +130,7 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
       history.push(`/myroom/${roomInfo._id}`);
       return;
     }
+    // 여기부터는 이미 참여 중인 방이 아닌 경우의 로직입니다.
     if (onCall.current) return;
     onCall.current = true;
     await axios({
@@ -217,7 +218,7 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
           }}
           onClick={requestJoin}
         >
-          {isDepart
+          {isDepart && !isAlreadyPart
             ? "출발 시각이 현재 이전인 방은 참여할 수 없습니다"
             : isAlreadyPart
             ? "이미 참여 중입니다 : 바로가기"
