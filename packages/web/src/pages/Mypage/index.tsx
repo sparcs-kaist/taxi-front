@@ -75,11 +75,9 @@ const Mypage = () => {
   const onClickEventPolicy = useCallback(() => setIsOpenEventPolicy(true), []);
   const onClickMembers = useCallback(() => setOpenIsMembers(true), []);
   const onClickWithdraw = useCallback(() => {
-    channelService.openChat({
-      chatId: undefined,
-      message:
-        "SPARCS Taxi 서비스의 계정 탈퇴를 신청하고 싶습니다.\n신청 사유는 다음과 같습니다:\n",
-    });
+    channelService.openChat(
+      "SPARCS Taxi 서비스의 계정 탈퇴를 신청하고 싶습니다.\n신청 사유는 다음과 같습니다:\n"
+    );
   }, []);
 
   const styleProfImg = {
