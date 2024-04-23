@@ -11,7 +11,6 @@ import {
 
 import type { Report } from "@/types/report";
 
-import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import useIsTimeOver from "@/hooks/useIsTimeOver";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
@@ -32,7 +31,7 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 type BodyChatReportSelectTypeProps = {
   roomInfo: Room;
   reportedId: Report["reportedId"];
-  clearReportedId: () => void;
+  setIsSelected: Dispatch<SetStateAction<boolean>>;
   setIsSubmitted: Dispatch<SetStateAction<boolean>>;
 };
 
@@ -45,12 +44,11 @@ const selectOptions = [
 const BodyChatReportSelectType = ({
   roomInfo,
   reportedId,
-  clearReportedId,
+  setIsSelected,
   setIsSubmitted,
 }: BodyChatReportSelectTypeProps) => {
   const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
-  const { oid: userOid } = useValueRecoilState("loginInfo") || {};
   const wrapRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [height, setHeight] = useState<CSSProperties["height"]>("28px");
@@ -76,10 +74,8 @@ const BodyChatReportSelectType = ({
         ? "기타 사유를 입력해주세요."
         : type === "etc-reason" && !regExpTest.reportMsg(etcDetail)
         ? "기타 사유는 1500자 까지 입력이 허용됩니다."
-        : userOid === reportedUser?._id
-        ? "나 자신은 신고할 수 없습니다."
         : null,
-    [type, etcDetail, isDeparted, userOid, reportedUser]
+    [type, etcDetail, isDeparted, reportedUser]
   );
 
   const resizeEvent = useCallback(() => {
@@ -228,7 +224,7 @@ const BodyChatReportSelectType = ({
             borderRadius: "8px",
             ...theme.font14,
           }}
-          onClick={clearReportedId}
+          onClick={() => setIsSelected(false)}
         >
           이전
         </Button>
