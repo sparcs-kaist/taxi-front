@@ -1,7 +1,8 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 
 import type { Report } from "@/types/report";
 
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import useIsTimeOver from "@/hooks/useIsTimeOver";
 
 import Button from "@/components/Button";
@@ -15,17 +16,20 @@ import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 
 type BodyChatReportSelectUserProps = {
   roomInfo: Room;
+  reportedId: Nullable<Report["reportedId"]>;
   setReportedId: Dispatch<SetStateAction<Nullable<Report["reportedId"]>>>;
+  setIsSelected: Dispatch<SetStateAction<boolean>>;
   onChangeIsOpen?: (isOpen: boolean) => void;
 };
 
 const BodyChatReportSelectUser = ({
   roomInfo,
+  reportedId,
   setReportedId,
+  setIsSelected,
   onChangeIsOpen,
 }: BodyChatReportSelectUserProps) => {
-  const [selectedUser, setSelectedUser] =
-    useState<Nullable<Report["reportedId"]>>(null);
+  const { oid: userOid } = useValueRecoilState("loginInfo") || {};
   const isDeparted = useIsTimeOver(dayServerToClient(roomInfo.time)); // 방 출발 여부
 
   const styleText = {
@@ -80,26 +84,31 @@ const BodyChatReportSelectUser = ({
       <div css={styleText}>신고할 사용자를 선택해주세요.</div>
       <DottedLine />
       <div css={styleUsers}>
-        {roomInfo.part.map((user) => (
-          <div
-            key={user._id}
-            css={styleUser}
-            onClick={() => setSelectedUser(user._id)}
-          >
-            <div
-              css={{
-                ...styleCheckBox,
-                background:
-                  selectedUser === user._id ? theme.purple : theme.purple_light,
-              }}
-            >
-              {selectedUser === user._id && (
-                <CheckRoundedIcon style={styleCheckBoxIcon} />
-              )}
-            </div>
-            <User value={user} isDeparted={isDeparted} />
-          </div>
-        ))}
+        {roomInfo.part.map(
+          (user) =>
+            user._id !== userOid && (
+              <div
+                key={user._id}
+                css={styleUser}
+                onClick={() => setReportedId(user._id)}
+              >
+                <div
+                  css={{
+                    ...styleCheckBox,
+                    background:
+                      reportedId === user._id
+                        ? theme.purple
+                        : theme.purple_light,
+                  }}
+                >
+                  {reportedId === user._id && (
+                    <CheckRoundedIcon style={styleCheckBoxIcon} />
+                  )}
+                </div>
+                <User value={user} isDeparted={isDeparted} />
+              </div>
+            )
+        )}
       </div>
       <div css={styleButtons}>
         <Button
@@ -122,8 +131,8 @@ const BodyChatReportSelectUser = ({
             borderRadius: "8px",
             ...theme.font14_bold,
           }}
-          onClick={() => setReportedId(selectedUser)}
-          disabled={!selectedUser}
+          onClick={() => setIsSelected(true)}
+          disabled={!reportedId}
         >
           다음
         </Button>
