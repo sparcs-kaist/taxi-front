@@ -70,6 +70,7 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
   const authorName = "authorName" in chats?.[0] ? chats?.[0].authorName : "";
 
   const isBot = authorId === "bot";
+  const isAlone = roomInfo.part.length === 1;
 
   const style = {
     position: "relative" as any,
@@ -148,8 +149,11 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
         <div css={styleProfileSection}>
           {authorId !== userOid && (
             <div
-              css={{ ...styleProfile, cursor: !isBot ? "pointer" : undefined }}
-              onClick={() => !isBot && onClickProfileImage()}
+              css={{
+                ...styleProfile,
+                cursor: !isBot && !isAlone ? "pointer" : undefined,
+              }}
+              onClick={() => !isBot && !isAlone && onClickProfileImage()}
             >
               {isBot ? (
                 <TaxiIcon css={{ width: "100%", height: "100%" }} />
