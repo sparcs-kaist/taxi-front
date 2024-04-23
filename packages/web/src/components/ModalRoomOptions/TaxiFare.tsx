@@ -6,12 +6,12 @@ import theme from "@/tools/theme";
 
 import WalletRoundedIcon from "@mui/icons-material/WalletRounded";
 
-type ButtonProps = {
+type FareProps = {
   value: number;
   roomLength: number;
 };
 
-const TaxiFare = (props: ButtonProps) => {
+const TaxiFare = (props: FareProps) => {
   const style = {
     display: "flex",
     alignItems: "center",
@@ -30,7 +30,7 @@ const TaxiFare = (props: ButtonProps) => {
       <div style={style}>
         <WalletRoundedIcon style={styleIcon} />
         <div css={{ ...styleName }}>
-          예상 택시비 : {props.value.toLocaleString("ko-KR")}원 /{" "}
+          예상 최소 택시비 : {props.value.toLocaleString("ko-KR")}원 /{" "}
           {props.roomLength}명 = {""}
           <span css={theme.font14_bold}>
             인당 {(props.value / props.roomLength).toLocaleString("ko-KR")}원

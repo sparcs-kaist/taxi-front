@@ -71,7 +71,7 @@ const AddRoom = () => {
 
   const [taxiFare, setTaxiFare] = useState<number>(0);
 
-  const getTaxiFare = useCallback(async () => {
+  const getTaxiFare = async () => {
     await axios({
       url: "/fare/getTaxiFare",
       method: "get",
@@ -83,7 +83,8 @@ const AddRoom = () => {
       onSuccess: (data) => setTaxiFare(data.fare),
       onError: (status) => {},
     });
-  }, []);
+  };
+
   useEffect(() => {
     getTaxiFare();
   }, [valuePlace, calculatedTime]);

@@ -95,7 +95,7 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
   const onClickReport = useCallback(() => setIsOpenReport(true), []);
 
   const [taxiFare, setTaxiFare] = useState<number>(0);
-  const getTaxiFare = useCallback(async () => {
+  const getTaxiFare = async () => {
     await axios({
       url: "/fare/getTaxiFare",
       method: "get",
@@ -107,7 +107,7 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
       onSuccess: (data) => setTaxiFare(data.fare),
       onError: (status) => {},
     });
-  }, []);
+  };
 
   useEffect(() => {
     getTaxiFare();
