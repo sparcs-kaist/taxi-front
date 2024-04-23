@@ -233,10 +233,10 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
             }명`}</p>
             <p css={theme.font14_bold}>
               &nbsp;
-              {`= 인당 ${(
+              {`= 인당 ${Math.floor(
                 taxiFare /
-                (roomInfo?.part?.length +
-                  (isAlreadyPart || isDepart || isRoomFull ? 0 : 1))
+                  (roomInfo?.part?.length +
+                    (isAlreadyPart || isDepart || isRoomFull ? 0 : 1))
               ).toLocaleString("ko-KR")}원`}
             </p>
           </div>

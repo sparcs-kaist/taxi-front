@@ -33,7 +33,9 @@ const TaxiFare = (props: FareProps) => {
           예상 최소 택시비 : {props.value.toLocaleString("ko-KR")}원 /{" "}
           {props.roomLength}명 = {""}
           <span css={theme.font14_bold}>
-            인당 {(props.value / props.roomLength).toLocaleString("ko-KR")}원
+            인당{" "}
+            {Math.floor(props.value / props.roomLength).toLocaleString("ko-KR")}
+            원
           </span>{" "}
         </div>
       </div>
