@@ -77,7 +77,7 @@ const InputText = ({
           <BodyText
             sendMessage={sendMessage}
             onTextChange={setChatMsgLength}
-            maxChatMsgLength={maxChatMsgLength}
+            maxChatLength={maxChatMsgLength}
           />
         </div>
       </div>

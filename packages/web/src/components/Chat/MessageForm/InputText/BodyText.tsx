@@ -11,13 +11,13 @@ import theme from "@/tools/theme";
 type BodyTextProps = {
   sendMessage: ReturnType<typeof useSendMessage>;
   onTextChange: (msgLength: number) => void; // 글자 수를 부모에게 전달하여 circular progressbar에 사용
-  maxChatMsgLength: number; // 채팅 입력 최대 길이입니다.
+  maxChatLength: number;
 };
 
 const BodyText = ({
   sendMessage,
   onTextChange,
-  maxChatMsgLength,
+  maxChatLength,
 }: BodyTextProps) => {
   const wrapRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>();
@@ -93,10 +93,10 @@ const BodyText = ({
       if (isSendingMessage) refreshTextArea();
       setIsMessageValidState(getIsMessageValid(textareaRef.current.value));
 
-      if (textareaRef.current.value.length > maxChatMsgLength) {
+      if (!regExpTest.chatMsgLength(textareaRef.current.value)) {
         textareaRef.current.value = textareaRef.current.value.substring(
           0,
-          maxChatMsgLength
+          maxChatLength
         );
       }
 
