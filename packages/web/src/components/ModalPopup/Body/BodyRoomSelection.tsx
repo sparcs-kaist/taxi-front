@@ -210,7 +210,7 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
       {isLogin || isRoomFull || isDepart ? (
         <Button
           type="purple"
-          disabled={isRoomFull || (isDepart && !isAlreadyPart) || isMaxPart}
+          disabled={(isRoomFull || isDepart || isMaxPart) && !isAlreadyPart}
           css={{
             padding: "10px 0 9px",
             borderRadius: "8px",
