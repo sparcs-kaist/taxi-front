@@ -47,7 +47,7 @@ const getIcon = (icon: string) => {
       return <AlarmOffRoundedIcon style={styleIcon} />;
     case "logout":
       return <ExitToAppRoundedIcon style={styleIcon} />;
-    case "withdraw":
+    case "cancel_account":
       return <PersonRemoveRoundedIcon style={styleIcon} />;
     case "beta":
       return <StarRoundedIcon style={styleIcon} />;

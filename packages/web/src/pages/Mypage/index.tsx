@@ -25,7 +25,7 @@ import WhiteContainerSuggestLogin from "@/components/WhiteContainer/WhiteContain
 
 import Menu from "./Menu";
 
-import { eventMode, isDev } from "@/tools/loadenv";
+import { deviceType, eventMode, isDev } from "@/tools/loadenv";
 import theme from "@/tools/theme";
 import { isNotificationOn } from "@/tools/trans";
 
@@ -74,7 +74,7 @@ const Mypage = () => {
   );
   const onClickEventPolicy = useCallback(() => setIsOpenEventPolicy(true), []);
   const onClickMembers = useCallback(() => setOpenIsMembers(true), []);
-  const onClickWithdraw = useCallback(() => {
+  const onClickCancelAccount = useCallback(() => {
     channelService.openChat(
       "SPARCS Taxi 서비스의 계정 탈퇴를 신청하고 싶습니다.\n신청 사유는 다음과 같습니다:\n"
     );
@@ -210,14 +210,14 @@ const Mypage = () => {
             {t("credit")}
           </Menu>
           {userId && (
-            <>
-              <LinkLogout>
-                <Menu icon="logout">{t("logout")}</Menu>
-              </LinkLogout>
-              <Menu icon="withdraw" onClick={onClickWithdraw}>
-                {t("withdraw")}
-              </Menu>
-            </>
+            <LinkLogout>
+              <Menu icon="logout">{t("logout")}</Menu>
+            </LinkLogout>
+          )}
+          {userId && deviceType.startsWith("app/") && (
+            <Menu icon="cancel_account" onClick={onClickCancelAccount}>
+              {t("cancel_account")}
+            </Menu>
           )}
         </div>
       </WhiteContainer>
