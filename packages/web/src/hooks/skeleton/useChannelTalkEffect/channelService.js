@@ -42,6 +42,9 @@ class ChannelService {
   updateUser(options) {
     window.ChannelIO("updateUser", options);
   }
+  openChat(message) {
+    window.ChannelIO("openChat", undefined, message);
+  }
   shutdown() {
     window.ChannelIO("shutdown");
   }
