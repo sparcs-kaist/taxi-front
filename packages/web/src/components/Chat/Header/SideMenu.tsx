@@ -90,6 +90,8 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
   const onClickCallTaxi = useCallback(() => setIsOpenCallTaxi(true), []);
   const onClickReport = useCallback(() => setIsOpenReport(true), []);
 
+  const isAlone = roomInfo.part.length === 1;
+
   const styleBackground = {
     position: "absolute" as any,
     top: 0,
@@ -192,8 +194,12 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
           <SideMenuButton type="share" onClick={onClikcShare} />
           <DottedLine />
           <SideMenuButton type="taxi" onClick={onClickCallTaxi} />
-          <DottedLine />
-          <SideMenuButton type="report" onClick={onClickReport} />
+          {!isAlone && (
+            <>
+              <DottedLine />
+              <SideMenuButton type="report" onClick={onClickReport} />
+            </>
+          )}
         </div>
         <DottedLine />
         <div css={styleNameSection} onClick={onClickCancel}>
