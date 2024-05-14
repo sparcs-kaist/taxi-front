@@ -110,7 +110,6 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
   const myRooms = useValueRecoilState("myRooms");
   const fetchMyRooms = useFetchRecoilState("myRooms");
   const setAlert = useSetRecoilState(alertAtom);
-  const myOngoingRoom = myRooms?.ongoing.slice() ?? []; // InfoSection의 sortedMyRoom에서 정렬만 뺐습니다.
 
   const isLogin = useIsLogin() && !!loginInfo?.id; // 로그인 여부
   const isRoomFull = roomInfo && roomInfo.part.length >= roomInfo.maxPartLength; // 방이 꽉 찼는지 여부
@@ -125,11 +124,13 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
     isLogin && myRooms && myRooms.ongoing.length >= MAX_PARTICIPATION; // 최대 참여 가능한 방 개수를 초과했는지 여부
   const isDepart = useIsTimeOver(dayServerToClient(roomInfo.time)); // 방 출발 여부
 
+  const myOngoingRoom = myRooms?.ongoing.slice() ?? []; // InfoSection의 sortedMyRoom에서 정렬만 뺐습니다.
   const notPaid = myOngoingRoom.find(
     (room) =>
-      room.part.find((item) => item._id === loginInfo?.oid).isSettlement ===
-        "send-required" && room.isDeparted
+      room.part.find((item: any) => item._id === loginInfo?.oid)
+        .isSettlement === "send-required" && room.isDeparted
   ); // 다른 사람이 정산을 올렸으나 내가 아직 송금하지 않은 방이 있는지 여부 (추가 입장 제한에 사용)
+  // item : any 가 좋은 방법인지 모르겠습니다
 
   const requestJoin = useCallback(async () => {
     if (isAlreadyPart) {
@@ -218,7 +219,7 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
         <Button
           type="purple"
           disabled={
-            notPaid || ((isRoomFull || isDepart || isMaxPart) && !isAlreadyPart)
+            (notPaid || isRoomFull || isDepart || isMaxPart) && !isAlreadyPart
           }
           css={{
             padding: "10px 0 9px",
@@ -227,10 +228,10 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
           }}
           onClick={requestJoin}
         >
-          {notPaid
-            ? "결제자에게 송금이 완료되지 않은 방이 있습니다."
-            : isAlreadyPart
+          {isAlreadyPart
             ? "이미 참여 중입니다 : 바로가기"
+            : notPaid
+            ? "결제자에게 송금이 완료되지 않은 방이 있습니다"
             : isDepart
             ? "출발 시각이 현재 이전인 방은 참여할 수 없습니다"
             : isRoomFull
