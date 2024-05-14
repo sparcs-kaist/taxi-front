@@ -47,9 +47,9 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
 
   const [roomInfo, setRoomInfo] = useState<Nullable<any>>(null);
 
-  // 5분 간격으로 allRoms(요일 별 출발하는 방)을 갱신합니다.
+  // 10초 간격으로 allRoms(요일 별 출발하는 방)을 갱신합니다.
   useEffect(() => {
-    const interval = setInterval(fetchAllRooms, 1000 * 60 * 5);
+    const interval = setInterval(fetchAllRooms, 1000 * 10);
     return () => clearInterval(interval);
   }, []);
 

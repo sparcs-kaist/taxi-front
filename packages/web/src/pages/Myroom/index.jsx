@@ -2,8 +2,13 @@ import { useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 
 import useButterflyState from "@/hooks/useButterflyState";
-import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import {
+  useFetchRecoilState,
+  useIsLogin,
+  useValueRecoilState,
+} from "@/hooks/useFetchRecoilState";
 import usePageFromSearchParams from "@/hooks/usePageFromSearchParams";
+import useRoomListAnimationState from "@/hooks/useRoomListAnimationState";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import { PAGE_MAX_ITEMS } from "@/components/Pagination";
@@ -20,9 +25,21 @@ const Myroom = () => {
   const { roomId } = useParams();
   const butterflyState = useButterflyState();
   const myRooms = useValueRecoilState("myRooms");
+  const fetchMyRooms = useFetchRecoilState("myRooms");
   const totalPages = Math.ceil((myRooms?.done?.length ?? 0) / PAGE_MAX_ITEMS);
   const currentPage = usePageFromSearchParams(totalPages);
   const isLogin = useIsLogin();
+
+  const { localRooms: ongoing } = useRoomListAnimationState(myRooms?.ongoing);
+  const { localRooms: done } = useRoomListAnimationState(myRooms?.done);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchMyRooms();
+    }, 1000 * 10);
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     if (butterflyState === "fold" && roomId) {
@@ -40,15 +57,15 @@ const Myroom = () => {
   ) : butterflyState === "fold" ? (
     <R1Myroom
       roomId={roomId}
-      ongoing={myRooms?.ongoing}
-      done={myRooms?.done}
+      ongoing={ongoing}
+      done={done}
       donePageInfo={{ totalPages, currentPage }}
     />
   ) : (
     <R2Myroom
       roomId={roomId}
-      ongoing={myRooms?.ongoing}
-      done={myRooms?.done}
+      ongoing={ongoing}
+      done={done}
       donePageInfo={{ totalPages, currentPage }}
     />
   );
