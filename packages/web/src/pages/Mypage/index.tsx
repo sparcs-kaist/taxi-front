@@ -1,6 +1,8 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 
+import channelService from "@/hooks/skeleton/useChannelTalkEffect/channelService";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
@@ -23,7 +25,7 @@ import WhiteContainerSuggestLogin from "@/components/WhiteContainer/WhiteContain
 
 import Menu from "./Menu";
 
-import { eventMode, isDev } from "@/tools/loadenv";
+import { deviceType, eventMode, isDev } from "@/tools/loadenv";
 import theme from "@/tools/theme";
 import { isNotificationOn } from "@/tools/trans";
 
@@ -42,6 +44,15 @@ const Mypage = () => {
   const [isOpenPrivacyPolicy, setIsOpenPrivacyPolicy] = useState(false);
   const [isOpenEventPolicy, setIsOpenEventPolicy] = useState(false);
   const [isOpenMembers, setOpenIsMembers] = useState(false);
+
+  const { search } = useLocation();
+
+  useEffect(() => {
+    const channeltalk = new URLSearchParams(search).get("channeltalk");
+    if (channeltalk === "true") {
+      channelService.showMessenger();
+    }
+  }, [search]);
 
   const onClickProfileModify = useCallback(
     () => setIsOpenProfileModify(true),
@@ -63,6 +74,11 @@ const Mypage = () => {
   );
   const onClickEventPolicy = useCallback(() => setIsOpenEventPolicy(true), []);
   const onClickMembers = useCallback(() => setOpenIsMembers(true), []);
+  const onClickCancelAccount = useCallback(() => {
+    channelService.openChat(
+      "SPARCS Taxi 서비스의 계정 탈퇴를 신청하고 싶습니다.\n신청 사유는 다음과 같습니다:\n"
+    );
+  }, []);
 
   const styleProfImg = {
     width: "50px",
@@ -197,6 +213,11 @@ const Mypage = () => {
             <LinkLogout>
               <Menu icon="logout">{t("logout")}</Menu>
             </LinkLogout>
+          )}
+          {userId && deviceType.startsWith("app/") && (
+            <Menu icon="cancel_account" onClick={onClickCancelAccount}>
+              {t("cancel_account")}
+            </Menu>
           )}
         </div>
       </WhiteContainer>
