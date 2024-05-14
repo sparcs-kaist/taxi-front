@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Empty from "@/components/Empty";
 import Pagination, { PAGE_MAX_ITEMS } from "@/components/Pagination";
-import Room from "@/components/Room";
 import AnimatedRoom from "@/components/Room/AnimatedRoom";
 import Title from "@/components/Title";
 
