@@ -125,6 +125,12 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
   const isDepart = useIsTimeOver(dayServerToClient(roomInfo.time)); // 방 출발 여부
 
   const requestJoin = useCallback(async () => {
+    if (isAlreadyPart) {
+      // 이미 참여 중인 방에서 버튼을 누르면 API 호출 관련 로직을 건너뛰고 해당 방으로 이동합니다.
+      history.push(`/myroom/${roomInfo._id}`);
+      return;
+    }
+    // 여기부터는 이미 참여 중인 방이 아닌 경우의 로직입니다.
     if (onCall.current) return;
     onCall.current = true;
     await axios({
@@ -204,7 +210,7 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
       {isLogin || isRoomFull || isDepart ? (
         <Button
           type="purple"
-          disabled={isRoomFull || isDepart || isAlreadyPart || isMaxPart}
+          disabled={(isRoomFull || isDepart || isMaxPart) && !isAlreadyPart}
           css={{
             padding: "10px 0 9px",
             borderRadius: "8px",
@@ -212,10 +218,10 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
           }}
           onClick={requestJoin}
         >
-          {isAlreadyPart
-            ? "이미 참여 중입니다"
-            : isDepart
+          {isDepart && !isAlreadyPart
             ? "출발 시각이 현재 이전인 방은 참여할 수 없습니다"
+            : isAlreadyPart
+            ? "이미 참여 중입니다 : 바로가기"
             : isRoomFull
             ? "남은 인원이 0명인 방은 참여할 수 없습니다"
             : isMaxPart
