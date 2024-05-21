@@ -7,6 +7,7 @@ import DottedLine from "@/components/DottedLine";
 import Empty from "@/components/Empty";
 import Pagination, { PAGE_MAX_ITEMS } from "@/components/Pagination";
 import Room from "@/components/Room";
+import AnimatedRoom from "@/components/Room/AnimatedRoom";
 import Title from "@/components/Title";
 import WhiteContainer from "@/components/WhiteContainer";
 
@@ -60,11 +61,12 @@ const R2Myroom = (props) => {
                     currentId={props.roomId}
                     id={item._id}
                   >
-                    <Room
+                    <AnimatedRoom
                       data={item}
                       selected={props.roomId === item._id}
                       theme="purple"
                       marginTop="15px"
+                      type={item.type}
                     />
                   </LinkRoom>
                 ))
@@ -91,11 +93,12 @@ const R2Myroom = (props) => {
                         currentId={props.roomId}
                         id={item._id}
                       >
-                        <Room
+                        <AnimatedRoom
                           data={item}
                           selected={props.roomId === item._id}
                           theme="purple"
                           marginTop="15px"
+                          type={item.type}
                         />
                       </LinkRoom>
                     ))}
