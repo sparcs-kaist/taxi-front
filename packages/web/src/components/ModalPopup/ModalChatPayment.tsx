@@ -65,7 +65,7 @@ const ModalChatPayment = ({
     if (isRequesting.current) return;
     isRequesting.current = true;
     await axios({
-      url: "/rooms/commitSettlement",
+      url: "/rooms/commitPayment",
       method: "post",
       data: { roomId: roomInfo._id },
       onSuccess: () => {
