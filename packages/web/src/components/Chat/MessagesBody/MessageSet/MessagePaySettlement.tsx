@@ -19,7 +19,7 @@ const MessagePaySettlement = ({ type, color }: MessagePaySettlementProps) => (
     }}
     className="selectable"
   >
-    {type === "payment" ? (
+    {type === "settlement" ? (
       <>
         <CreditCardRoundedIcon style={{ fontSize: "18px" }} />
         제가 택시비를 결제했어요 !
