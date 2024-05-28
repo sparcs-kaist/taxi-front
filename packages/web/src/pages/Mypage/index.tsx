@@ -52,6 +52,10 @@ const Mypage = () => {
     if (channeltalk === "true") {
       channelService.showMessenger();
     }
+    const report = new URLSearchParams(search).get("report");
+    if (report === "true") {
+      setIsOpenReport(true);
+    }
   }, [search]);
 
   const onClickProfileModify = useCallback(
