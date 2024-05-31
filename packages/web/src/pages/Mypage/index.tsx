@@ -9,6 +9,7 @@ import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Footer from "@/components/Footer";
 import LinkLogout from "@/components/Link/LinkLogout";
 import {
+  ModalAccountCancelProcess,
   ModalCredit,
   ModalEvent2023FallJoin,
   ModalEvent2024SpringJoin,
@@ -44,6 +45,8 @@ const Mypage = () => {
   const [isOpenPrivacyPolicy, setIsOpenPrivacyPolicy] = useState(false);
   const [isOpenEventPolicy, setIsOpenEventPolicy] = useState(false);
   const [isOpenMembers, setOpenIsMembers] = useState(false);
+  const [isOpenAccountCancelProcess, setIsOpenAccountCancelProcess] =
+    useState(false);
 
   const { search } = useLocation();
 
@@ -51,6 +54,12 @@ const Mypage = () => {
     const channeltalk = new URLSearchParams(search).get("channeltalk");
     if (channeltalk === "true") {
       channelService.showMessenger();
+    }
+    const accountCancelProcess = new URLSearchParams(search).get(
+      "accountCancelProcess"
+    );
+    if (accountCancelProcess === "true") {
+      setIsOpenAccountCancelProcess(true);
     }
   }, [search]);
 
@@ -241,6 +250,10 @@ const Mypage = () => {
           />
         ) : null)}
       <ModalCredit isOpen={isOpenMembers} onChangeIsOpen={setOpenIsMembers} />
+      <ModalAccountCancelProcess
+        isOpen={isOpenAccountCancelProcess}
+        onChangeIsOpen={setIsOpenAccountCancelProcess}
+      />
     </AdaptiveDiv>
   );
 };
