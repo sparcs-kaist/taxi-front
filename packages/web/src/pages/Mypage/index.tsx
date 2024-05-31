@@ -223,7 +223,7 @@ const Mypage = () => {
               <Menu icon="logout">{t("logout")}</Menu>
             </LinkLogout>
           )}
-          {userId && deviceType.startsWith("app/") && (
+          {userId && deviceType === "app/android" && (
             <Menu icon="cancel_account" onClick={onClickCancelAccount}>
               {t("cancel_account")}
             </Menu>
