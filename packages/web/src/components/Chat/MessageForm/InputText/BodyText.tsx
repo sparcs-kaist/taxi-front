@@ -10,9 +10,15 @@ import theme from "@/tools/theme";
 
 type BodyTextProps = {
   sendMessage: ReturnType<typeof useSendMessage>;
+  onTextChange: (msgLength: number) => void; // 글자 수를 부모에게 전달하여 circular progressbar에 사용
+  maxChatLength: number;
 };
 
-const BodyText = ({ sendMessage }: BodyTextProps) => {
+const BodyText = ({
+  sendMessage,
+  onTextChange,
+  maxChatLength,
+}: BodyTextProps) => {
   const wrapRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>();
   const [height, setHeight] = useState<CSS["height"]>("32px");
@@ -45,8 +51,13 @@ const BodyText = ({ sendMessage }: BodyTextProps) => {
   const [isMessageValidState, setIsMessageValidState] =
     useState<boolean>(false);
   const getIsMessageValid = useCallback(
-    (message: string): boolean =>
-      regExpTest.chatMsg(message) && !isSendingMessage,
+    (message: string): boolean => {
+      return (
+        regExpTest.chatMsg(message) &&
+        regExpTest.chatMsgLength(message) &&
+        !isSendingMessage
+      );
+    },
     [isSendingMessage]
   );
   useEffect(
@@ -82,6 +93,15 @@ const BodyText = ({ sendMessage }: BodyTextProps) => {
       if (isSendingMessage) refreshTextArea();
       setIsMessageValidState(getIsMessageValid(textareaRef.current.value));
 
+      if (!regExpTest.chatMsgLength(textareaRef.current.value)) {
+        textareaRef.current.value = textareaRef.current.value.substring(
+          0,
+          maxChatLength
+        );
+      }
+
+      onTextChange(textareaRef.current.value.length);
+
       if (isEnterPressed.current && !isShiftPressed.current) {
         onSend();
         return;
@@ -110,6 +130,7 @@ const BodyText = ({ sendMessage }: BodyTextProps) => {
     if (textareaRef.current) wrapRef.current.removeChild(textareaRef.current);
     const textarea = document.createElement("textarea");
     textarea.oninput = onChange;
+    // textarea.maxLength = maxChatMsgLength;
     textarea.addEventListener("keydown", onKeyDown);
     textarea.addEventListener("keyup", onKeyUp);
     textarea.placeholder = "채팅을 입력해주세요";
