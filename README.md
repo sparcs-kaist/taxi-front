@@ -1,5 +1,7 @@
 # SPARCS Taxi
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/60672e1f-5076-4f27-8f4a-7c1407cbeffa/deploy-status)](https://app.netlify.com/sites/taxi-dev-preview/deploys)
+
 KAIST Taxi Party Matching Web Service
 
 ## About
@@ -38,7 +40,6 @@ $ pnpm install
 See [notion page](https://www.notion.so/sparcs/Environment-Variables-1b404bd385fa495bac6d5517b57d72bf).
 Refer to [.env.example](.env.example) and write your own `.env`.
 
-
 ## Development
 
 Run scoped scripts
@@ -48,6 +49,7 @@ pnpm <scope> <script>
 ```
 
 Valid scopes are:
+
 - `web`: Corresponds to `@taxi/web`
 - ~~`app`: (intended) Corresponds to `@taxi/app`~~
 - ~~`core`: (intended) Corresponds to `@taxi/core`~~
@@ -55,11 +57,13 @@ Valid scopes are:
 ### Examples
 
 Run `web` development server
+
 ```bash
 pnpm web start
 ```
 
 Install new dependency to `app`
+
 ```bash
 pnpm app install <package_name>
 ```
