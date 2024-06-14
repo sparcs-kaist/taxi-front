@@ -17,14 +17,31 @@ export default ({ config }: ConfigContext): Partial<ExpoConfig> => ({
     backgroundColor: "#ffffff",
   },
   assetBundlePatterns: ["**/*"],
+  plugins: [
+    [
+      "expo-build-properties",
+      {
+        ios: {
+          useFrameworks: "static",
+        },
+      },
+    ],
+    "@react-native-firebase/app",
+    "@react-native-firebase/crashlytics",
+    "@react-native-firebase/messaging",
+  ],
   ios: {
     supportsTablet: true,
+    bundleIdentifier: "org.sparcs.taxi-app",
+    googleServicesFile: "./GoogleService-Info.plist",
   },
   android: {
     adaptiveIcon: {
       foregroundImage: "./assets/adaptive-icon.png",
       backgroundColor: "#ffffff",
     },
+    package: "org.sparcs.taxi_app",
+    googleServicesFile: "./google-services.json",
   },
   web: {
     favicon: "./assets/favicon.png",
