@@ -3,6 +3,7 @@
 
 const chatMsg = (x) => RegExp("^\\s{0,}\\S{1}[\\s\\S]{0,}$").test(x);
 const chatMsgLength = (x) => RegExp("^[\\s\\S]{1,140}$").test(x);
+// chatMsgLength 수정 시, packages/web/components/Chat/MessageForm/InputText/BodyText.tsx의 maxChatMsgLength 도 수정해 주세요
 
 const nickname = (x) => {
   return RegExp("^[A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ0-9-_ ]{3,25}$").test(x);

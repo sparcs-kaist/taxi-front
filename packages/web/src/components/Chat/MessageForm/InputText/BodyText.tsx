@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 
 import useSendMessage from "@/hooks/chat/useSendMessage";
 
@@ -10,21 +11,18 @@ import theme from "@/tools/theme";
 
 type BodyTextProps = {
   sendMessage: ReturnType<typeof useSendMessage>;
-  onTextChange: (msgLength: number) => void; // 글자 수를 부모에게 전달하여 circular progressbar에 사용
-  maxChatLength: number;
 };
 
-const BodyText = ({
-  sendMessage,
-  onTextChange,
-  maxChatLength,
-}: BodyTextProps) => {
+const BodyText = ({ sendMessage }: BodyTextProps) => {
   const wrapRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>();
   const [height, setHeight] = useState<CSS["height"]>("32px");
   const [isSendingMessage, setIsSendingMessage] = useState<boolean>(false);
   const isEnterPressed = useRef<boolean>(false);
   const isShiftPressed = useRef<boolean>(false);
+
+  const [chatMsgLength, setChatMsgLength] = useState(0);
+  const maxChatMsgLength = 140;
 
   /* form height handler */
   const resizeEvent = useCallback(() => {
@@ -92,15 +90,14 @@ const BodyText = ({
       if (!textareaRef.current) return;
       if (isSendingMessage) refreshTextArea();
       setIsMessageValidState(getIsMessageValid(textareaRef.current.value));
+      setChatMsgLength(textareaRef.current.value.length);
 
-      if (!regExpTest.chatMsgLength(textareaRef.current.value)) {
+      if (textareaRef.current.value.length > maxChatMsgLength) {
         textareaRef.current.value = textareaRef.current.value.substring(
           0,
-          maxChatLength
+          maxChatMsgLength
         );
       }
-
-      onTextChange(textareaRef.current.value.length);
 
       if (isEnterPressed.current && !isShiftPressed.current) {
         onSend();
@@ -130,7 +127,6 @@ const BodyText = ({
     if (textareaRef.current) wrapRef.current.removeChild(textareaRef.current);
     const textarea = document.createElement("textarea");
     textarea.oninput = onChange;
-    // textarea.maxLength = maxChatMsgLength;
     textarea.addEventListener("keydown", onKeyDown);
     textarea.addEventListener("keyup", onKeyUp);
     textarea.placeholder = "채팅을 입력해주세요";
@@ -149,7 +145,8 @@ const BodyText = ({
         & > textarea {
           ${[
             css`
-              width: calc(100% - 30px);
+              width: calc(100% - 60px);
+              margin-left: 30px;
               height: 100%;
               background: none;
               border: none;
@@ -164,6 +161,47 @@ const BodyText = ({
         }
       `}
     >
+      <div
+        css={{
+          position: "absolute" as any,
+          width: "28px",
+          height: "28px",
+          bottom: "2px",
+          left: "2px",
+        }}
+      >
+        <CircularProgressbar
+          value={chatMsgLength}
+          maxValue={maxChatMsgLength}
+          strokeWidth={10}
+          styles={buildStyles({
+            // Rotation of path and trail, in number of turns (0-1)
+            rotation: 0.25,
+
+            // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+            strokeLinecap: "butt",
+
+            // Text size
+            textSize: "28px",
+
+            // How long animation takes to go from one chatMsgLength to another, in seconds
+            pathTransitionDuration: 0.2,
+
+            // Can specify path transition in more detail, or remove it entirely
+            // pathTransition: 'none',
+
+            // Colors
+            pathColor: `${
+              chatMsgLength < maxChatMsgLength
+                ? `rgba(110, 54, 120)`
+                : `rgba(180, 0, 0)`
+            }`,
+            textColor: "#000000",
+            trailColor: "#d6d6d6",
+            backgroundColor: "#3e98c7",
+          })}
+        />
+      </div>
       <ButtonSend
         onClick={onSend}
         status={
