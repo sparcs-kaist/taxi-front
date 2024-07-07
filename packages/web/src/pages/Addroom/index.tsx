@@ -69,7 +69,10 @@ const AddRoom = () => {
     useState<boolean>(false);
   //#endregion
 
-  const myOngoingRoom = myRooms?.ongoing.slice() ?? []; // InfoSection의 sortedMyRoom에서 정렬만 뺐습니다.
+  const myOngoingRoom = useMemo(() => {
+    return myRooms?.ongoing.slice() ?? [];
+  }, [myRooms]); // infoSection의 sortedMyRoom에서 정렬만 뺀 코드를, useMemo로 감싼 형태입니다.
+
   const notPaid = myOngoingRoom.find(
     (room) =>
       room.part.find((item: any) => item._id === loginInfo?.oid)

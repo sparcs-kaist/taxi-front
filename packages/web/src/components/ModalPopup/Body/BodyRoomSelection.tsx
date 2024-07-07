@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 
@@ -124,7 +124,10 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
     isLogin && myRooms && myRooms.ongoing.length >= MAX_PARTICIPATION; // 최대 참여 가능한 방 개수를 초과했는지 여부
   const isDepart = useIsTimeOver(dayServerToClient(roomInfo.time)); // 방 출발 여부
 
-  const myOngoingRoom = myRooms?.ongoing.slice() ?? []; // InfoSection의 sortedMyRoom에서 정렬만 뺐습니다.
+  const myOngoingRoom = useMemo(() => {
+    return myRooms?.ongoing.slice() ?? [];
+  }, [myRooms]); // infoSection의 sortedMyRoom에서 정렬만 뺀 코드를, useMemo로 감싼 형태입니다.
+
   const notPaid = myOngoingRoom.find(
     (room) =>
       room.part.find((item: any) => item._id === loginInfo?.oid)
