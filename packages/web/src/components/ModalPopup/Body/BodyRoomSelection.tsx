@@ -124,15 +124,15 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
     isLogin && myRooms && myRooms.ongoing.length >= MAX_PARTICIPATION; // 최대 참여 가능한 방 개수를 초과했는지 여부
   const isDepart = useIsTimeOver(dayServerToClient(roomInfo.time)); // 방 출발 여부
 
-  const myOngoingRoom = useMemo(() => {
-    return myRooms?.ongoing.slice() ?? [];
-  }, [myRooms]); // infoSection의 sortedMyRoom에서 정렬만 뺀 코드를, useMemo로 감싼 형태입니다.
-
-  const notPaid = myOngoingRoom.find(
-    (room) =>
-      room.part.find((item: any) => item._id === loginInfo?.oid)
-        .isSettlement === "send-required" && room.isDeparted
-  ); // 다른 사람이 정산을 올렸으나 내가 아직 송금하지 않은 방이 있는지 여부 (추가 입장 제한에 사용)
+  const notPaid = useMemo(() => {
+    const myOngoingRoom = myRooms?.ongoing.slice() ?? [];
+    const notPaid = myOngoingRoom.find(
+      (room) =>
+        room.part.find((item: any) => item._id === loginInfo?.oid)
+          .isSettlement === "send-required" && room.isDeparted
+    ); // 다른 사람이 정산을 올렸으나 내가 아직 송금하지 않은 방이 있는지 여부 (추가 입장 제한에 사용)
+    return notPaid;
+  }, [myRooms]); // myOngoingRoom은 infoSection의 sortedMyRoom에서 정렬만 뺀 코드입니다. useMemo로 감싼 형태입니다.
   // item : any 가 좋은 방법인지 모르겠습니다
 
   const requestJoin = useCallback(async () => {
