@@ -112,6 +112,7 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
   useEffect(() => {
     getTaxiFare();
   }, []);
+  const isAlone = roomInfo.part.length === 1;
 
   const styleBackground = {
     position: "absolute" as any,
@@ -224,8 +225,12 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
           <SideMenuButton type="share" onClick={onClikcShare} />
           <DottedLine />
           <SideMenuButton type="taxi" onClick={onClickCallTaxi} />
-          <DottedLine />
-          <SideMenuButton type="report" onClick={onClickReport} />
+          {!isAlone && (
+            <>
+              <DottedLine />
+              <SideMenuButton type="report" onClick={onClickReport} />
+            </>
+          )}
         </div>
         <DottedLine />
         <div css={styleNameSection} onClick={onClickCancel}>

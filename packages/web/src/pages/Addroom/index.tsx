@@ -41,6 +41,7 @@ const AddRoom = () => {
   const [cookies, setCookies] = useCookies(["defaultFromTo"]);
 
   const onCall = useRef(false);
+  const loginInfo = useValueRecoilState("loginInfo");
   const today = getToday();
   const today10 = getToday10();
   const [valueName, setName] = useState("");
@@ -88,6 +89,17 @@ const AddRoom = () => {
   useEffect(() => {
     getTaxiFare();
   }, [valuePlace, calculatedTime]);
+  const notPaid = useMemo(() => {
+    const myOngoingRoom = myRooms?.ongoing.slice() ?? [];
+    const notPaid = myOngoingRoom.find(
+      (room) =>
+        room.part.find((item: any) => item._id === loginInfo?.oid)
+          .isSettlement === "send-required" && room.isDeparted
+    ); // 다른 사람이 정산을 올렸으나 내가 아직 송금하지 않은 방이 있는지 여부 (추가 입장 제한에 사용)
+    return notPaid;
+  }, [myRooms]); // myOngoingRoom은 infoSection의 sortedMyRoom에서 정렬만 뺀 코드입니다. useMemo로 감싼 형태입니다.
+  // item : any 가 좋은 방법인지 모르겠습니다
+
 
   useEffect(() => {
     const expirationDate = new Date();
@@ -112,7 +124,9 @@ const AddRoom = () => {
   }, [valueDate, valueTime]);
 
   let validatedMsg = null;
-  if (!valuePlace.every((x: Nullable<string>) => !!x)) {
+  if (notPaid) {
+    validatedMsg = "결제자에게 송금이 완료되지 않은 방이 있습니다";
+  } else if (!valuePlace.every((x: Nullable<string>) => !!x)) {
     validatedMsg = "출발지와 도착지를 선택해 주세요";
   } else if (valuePlace[0] === valuePlace[1]) {
     validatedMsg = "출발지와 도착지는 달라야 합니다";

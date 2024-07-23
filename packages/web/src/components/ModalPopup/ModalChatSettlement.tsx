@@ -46,7 +46,7 @@ const ModalChatSettlement = ({
     if (isRequesting.current || !isValidAccount) return;
     isRequesting.current = true;
     axios({
-      url: "/rooms/commitPayment",
+      url: "/rooms/commitSettlement",
       method: "post",
       data: { roomId: roomInfo._id },
       onSuccess: async () => {
