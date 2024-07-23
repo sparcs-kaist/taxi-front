@@ -19,6 +19,7 @@ import {
   OptionName,
   OptionPlace,
   OptionTime,
+  TaxiFare,
 } from "@/components/ModalRoomOptions";
 import Title from "@/components/Title";
 import WhiteContainerSuggestLogin from "@/components/WhiteContainer/WhiteContainerSuggestLogin";
@@ -69,6 +70,25 @@ const AddRoom = () => {
     useState<boolean>(false);
   //#endregion
 
+  const [taxiFare, setTaxiFare] = useState<number>(0);
+
+  const getTaxiFare = async () => {
+    await axios({
+      url: "/fare/getTaxiFare",
+      method: "get",
+      params: {
+        from: valuePlace[0].toString(),
+        to: valuePlace[1].toString(),
+        time: calculatedTime!.toISOString(),
+      },
+      onSuccess: (data) => setTaxiFare(data.fare),
+      onError: (status) => {},
+    });
+  };
+
+  useEffect(() => {
+    getTaxiFare();
+  }, [valuePlace, calculatedTime]);
   const notPaid = useMemo(() => {
     const myOngoingRoom = myRooms?.ongoing.slice() ?? [];
     const notPaid = myOngoingRoom.find(
@@ -79,6 +99,7 @@ const AddRoom = () => {
     return notPaid;
   }, [myRooms]); // myOngoingRoom은 infoSection의 sortedMyRoom에서 정렬만 뺀 코드입니다. useMemo로 감싼 형태입니다.
   // item : any 가 좋은 방법인지 모르겠습니다
+
 
   useEffect(() => {
     const expirationDate = new Date();
@@ -200,6 +221,7 @@ const AddRoom = () => {
               />
               <OptionTime value={valueTime} handler={setTime} page="add" />
               <OptionMaxPeople value={valueMaxPeople} handler={setMaxPeople} />
+              <TaxiFare value={taxiFare} roomLength={valueMaxPeople} />
               <Button
                 type="purple"
                 disabled={validatedMsg ? true : false}
