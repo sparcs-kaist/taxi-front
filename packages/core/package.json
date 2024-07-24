@@ -1,0 +1,27 @@
+{
+  "name": "@taxi/core",
+  "version": "0.1.0",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "start": "tsup --watch",
+    "typecheck": "tsc",
+    "build": "tsup",
+    "clean": "rm -rf dist"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "peerDependenciesMeta": {
+    "react-native": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "tsc-alias": "^1.8.7",
+    "tsup": "^8.0.1"
+  }
+}
