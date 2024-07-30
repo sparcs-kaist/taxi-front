@@ -53,7 +53,7 @@ const routeProps = [
     exact: true,
   },
   {
-    path: ["/mypage", "/mypage?report=true"],
+    path: ["/mypage", "/mypage/:options"],
     component: lazy(() => import("@/pages/Mypage")),
     exact: true,
   },

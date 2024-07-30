@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import channelService from "@/hooks/skeleton/useChannelTalkEffect/channelService";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
@@ -45,18 +45,18 @@ const Mypage = () => {
   const [isOpenEventPolicy, setIsOpenEventPolicy] = useState(false);
   const [isOpenMembers, setOpenIsMembers] = useState(false);
 
-  const { search } = useLocation();
+  const { options } = useParams<{
+    options: string;
+  }>();
 
   useEffect(() => {
-    const channeltalk = new URLSearchParams(search).get("channeltalk");
-    if (channeltalk === "true") {
-      channelService.showMessenger();
-    }
-    const report = new URLSearchParams(search).get("report");
-    if (report === "true") {
+    if (options === "report") {
       setIsOpenReport(true);
     }
-  }, [search]);
+    if (options === "channeltalk") {
+      channelService.showMessenger();
+    }
+  }, [options]);
 
   const onClickProfileModify = useCallback(
     () => setIsOpenProfileModify(true),
