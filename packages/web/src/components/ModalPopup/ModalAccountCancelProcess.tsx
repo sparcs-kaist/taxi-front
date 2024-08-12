@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import Modal from "@/components/Modal";
 
 import BodyAccountCancelProcess from "./Body/BodyAccountCancelProcess";
@@ -15,6 +17,7 @@ const ModalAccountCancelProcess = ({
   isOpen,
   onChangeIsOpen,
 }: PopupAccountCancelProcessProps) => {
+  const { t } = useTranslation("mypage");
   const styleTop: CSS = {
     display: "flex",
     alignItems: "center",
@@ -32,7 +35,7 @@ const ModalAccountCancelProcess = ({
     >
       <div style={styleTop}>
         <TaxiLogo style={{ height: "27px" }} />
-        회원 탈퇴 절차
+        {t("cancel_account")}
       </div>
       <BodyAccountCancelProcess />
     </Modal>

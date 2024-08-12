@@ -83,11 +83,10 @@ const Mypage = () => {
   );
   const onClickEventPolicy = useCallback(() => setIsOpenEventPolicy(true), []);
   const onClickMembers = useCallback(() => setOpenIsMembers(true), []);
-  const onClickCancelAccount = useCallback(() => {
-    channelService.openChat(
-      "SPARCS Taxi 서비스의 계정 탈퇴를 신청하고 싶습니다.\n신청 사유는 다음과 같습니다:\n"
-    );
-  }, []);
+  const onClickCancelAccount = useCallback(
+    () => setIsOpenAccountCancelProcess(true),
+    []
+  );
 
   const styleProfImg = {
     width: "50px",
@@ -217,6 +216,9 @@ const Mypage = () => {
             ) : null)}
           <Menu icon="credit" onClick={onClickMembers}>
             {t("credit")}
+          </Menu>
+          <Menu icon="credit" onClick={onClickCancelAccount}>
+            {t("cancel_account")}
           </Menu>
           {userId && (
             <LinkLogout>
