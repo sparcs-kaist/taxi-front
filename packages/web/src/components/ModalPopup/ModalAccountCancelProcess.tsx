@@ -1,5 +1,7 @@
 import { useTranslation } from "react-i18next";
 
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+
 import Modal from "@/components/Modal";
 
 import BodyAccountCancelProcess from "./Body/BodyAccountCancelProcess";
@@ -18,6 +20,11 @@ const ModalAccountCancelProcess = ({
   onChangeIsOpen,
 }: PopupAccountCancelProcessProps) => {
   const { t } = useTranslation("mypage");
+
+  const myRooms = useValueRecoilState("myRooms");
+  const myOngoingRoom = myRooms?.ongoing.slice() ?? [];
+  const roomCompleted = myOngoingRoom.length === 0;
+
   const styleTop: CSS = {
     display: "flex",
     alignItems: "center",
@@ -37,7 +44,7 @@ const ModalAccountCancelProcess = ({
         <TaxiLogo style={{ height: "27px" }} />
         {t("cancel_account")}
       </div>
-      <BodyAccountCancelProcess />
+      <BodyAccountCancelProcess roomCompleted={roomCompleted} />
     </Modal>
   );
 };

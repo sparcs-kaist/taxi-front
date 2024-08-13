@@ -1,6 +1,15 @@
 import theme from "@/tools/theme";
 
-const BodyAccountCancelProcess = () => {
+type BodyAccountCancelProcessProps = {
+  roomCompleted: boolean;
+};
+
+const BodyAccountCancelProcess = ({
+  roomCompleted,
+}: BodyAccountCancelProcessProps) => {
+  const isCancelAvailable = roomCompleted;
+  // 탈퇴 불가 조건이 추가되면 props 부분 손보고, 최종 조건을 여기에 반영해 주세요
+
   const styleBox = {
     padding: "0 24px 0 16px",
     borderRadius: "10px",
@@ -22,12 +31,19 @@ const BodyAccountCancelProcess = () => {
   return (
     <div style={styleBox}>
       <div style={styleSection} />
-      <div style={styleContent}>탈퇴 관련 안내 사항</div>
-      <div style={styleSection}>탈퇴가 불가능한 경우 뜨는 섹션</div>
-      <div style={styleContent}>
-        - 탈퇴 불가능 사유
-        <br />- 나열하기
-      </div>
+      <div style={styleContent}>(탈퇴 관련 안내 사항)</div>
+      {!isCancelAvailable && (
+        <>
+          <div style={styleSection}>
+            아래의 사항을 확인하신 후에 탈퇴가 가능합니다.
+          </div>
+          {!roomCompleted && (
+            <div style={styleContent}>
+              - 참여 중인 모든 방에 대하여 정산 또는 송금을 완료해 주세요.
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 };

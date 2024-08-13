@@ -29,7 +29,7 @@ const Tag = (props) => {
     flexGrow: "0",
     flexShrink: "0",
   };
-  const paid = props.users.find((user) => user.isSettlement === "paid");
+  const paid = props.users.find((user) => user && user.isSettlement === "paid");
   let isDone = null;
   // let person = null;
 
@@ -51,6 +51,8 @@ const Tag = (props) => {
     isDone = <div>송금 완료</div>;
   } else if (props.isSettlementForMe === "send-required") {
     isDone = <div style={{ color: theme.purple }}>송금 미완료</div>;
+  } else {
+    return <div></div>;
   }
 
   // if (paid.length === 0) {
@@ -80,10 +82,11 @@ const Room = (props) => {
 
   const users = props.data?.part || [];
   const loginInfo = useRecoilValue(loginInfoAtom);
-  const isSettlementForMe = useMemo(
-    () => users.find((user) => user._id === loginInfo.oid)?.isSettlement,
-    [loginInfo?.oid, JSON.stringify(users)]
-  );
+  const isSettlementForMe = useMemo(() => {
+    const me = users.find((user) => user && user._id === loginInfo.oid);
+    return me !== undefined ? me.isSettlement : "";
+  }, [loginInfo?.oid, JSON.stringify(users)]);
+  // users.find(user) => 어쩌고 에서 탈퇴한 user가 있으면 통째로 null로 들어옴.
   const styleBox = {
     position: "relative",
     background: props.theme === "purple" ? theme.purple_light : theme.white,
