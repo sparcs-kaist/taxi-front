@@ -17,6 +17,9 @@
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/stack": "^6.3.20",
+    "@tamagui/colors": "^1.108.3",
+    "@tamagui/config": "^1.108.3",
+    "@tamagui/theme-builder": "^1.108.3",
     "expo": "~49.0.15",
     "expo-build-properties": "^0.8.3",
     "expo-dev-client": "~2.4.13",
@@ -33,7 +36,8 @@
     "shallow-equal": "^3.1.0",
     "tamagui": "^1.102.2",
     "url-pattern": "^1.0.3",
-    "uuid": "3.4.0"
+    "uuid": "3.4.0",
+    "v3": "link:@tamagui/config/v3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
