@@ -19,6 +19,7 @@
     "@react-navigation/stack": "^6.3.20",
     "@tamagui/colors": "^1.108.3",
     "@tamagui/config": "^1.108.3",
+    "@tamagui/lucide-icons": "^1.108.3",
     "@tamagui/theme-builder": "^1.108.3",
     "expo": "~49.0.15",
     "expo-build-properties": "^0.8.3",
