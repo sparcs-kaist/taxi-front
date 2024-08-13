@@ -111,7 +111,7 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
 
   useEffect(() => {
     getTaxiFare();
-  }, []);
+  }, [roomInfo._id]);
   const isAlone = roomInfo.part.length === 1;
 
   const styleBackground = {
