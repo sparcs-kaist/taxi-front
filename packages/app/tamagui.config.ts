@@ -1,4 +1,3 @@
-import { config } from "@tamagui/config/v3";
 import { createFont, createTamagui, createTokens } from "tamagui";
 
 import { themes } from "./themas";
@@ -54,6 +53,23 @@ export const SpoqaFont = createFont({
   },
 });
 
+const size = {
+  0: 0,
+  1: 5,
+  2: 10,
+  true: 10,
+};
+
+export const tokens = createTokens({
+  size,
+  space: { ...size, "-1": -5, "-2": -10 },
+  radius: { 0: 0, 1: 3 },
+  zIndex: { 0: 0, 1: 100, 2: 200 },
+  color: {
+    white: "#fff",
+    black: "#000",
+  },
+});
 const appConfig = createTamagui({
   fonts: {
     // for tamagui, heading and body are assumed
@@ -61,6 +77,7 @@ const appConfig = createTamagui({
     body: SpoqaFont,
   },
   themes: themes,
+  tokens,
 });
 export type AppConfig = typeof appConfig;
 declare module "tamagui" {

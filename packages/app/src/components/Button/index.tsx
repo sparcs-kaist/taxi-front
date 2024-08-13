@@ -1,38 +1,22 @@
-import React from "react";
-import { Text, TouchableOpacity } from "react-native";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import type { ButtonProps } from "components/Cards";
+import { Button } from "tamagui";
 
-import { TaxiButtonProps, TaxiIconButtonProps } from "../../types";
-
-import { colorScheme, layoutScheme, styles } from "../../statics/theme";
-
-const TaxiButton = ({ label, width, onPress }: TaxiButtonProps) => {
+const TaxiButton = ({ label, width, onPress }: ButtonProps) => {
   return (
-    <TouchableOpacity
-      style={styles.buttonContainer}
+    <Button
+      margin={16}
+      paddingHorizontal={24}
+      paddingVertical={16}
+      alignItems="center"
+      justifyContent="center"
+      borderRadius={12}
+      backgroundColor="$deepPurple600"
+      color="$white0"
       onPress={onPress}
-      activeOpacity={0.8}
     >
-      <Text style={{ ...styles.titleText, color: colorScheme.white }}>
-        {label}
-      </Text>
-    </TouchableOpacity>
+      {label}
+    </Button>
   );
 };
-const TaxiIconButton = ({ icon, onPress }: TaxiIconButtonProps) => {
-  return (
-    <TouchableOpacity
-      style={{
-        padding: layoutScheme.iconButtonPadding,
-        height: layoutScheme.iconButtonSize,
-        width: layoutScheme.iconButtonSize,
-      }}
-      onPress={onPress}
-      activeOpacity={0.8}
-      children={
-        <MaterialIcons name="close" size={24} color={colorScheme.tintGray500} />
-      }
-    />
-  );
-};
-export { TaxiButton, TaxiIconButton };
+
+export { TaxiButton };

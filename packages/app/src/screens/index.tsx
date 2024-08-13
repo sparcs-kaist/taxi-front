@@ -1,7 +1,7 @@
 import type { RootStackParamList } from "@/navigation/types";
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
-import { TamaguiProvider, createTamagui } from "tamagui";
+import { TamaguiProvider } from "tamagui";
 
 import appConfig from "../../tamagui.config";
 import { Chatting } from "./Chatting";

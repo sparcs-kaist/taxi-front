@@ -1,6 +1,5 @@
-import { Text, XStack } from "tamagui";
-
-import TaxiLeadingIcon from "@/components/LeadingIcon";
+import { ArrowRight } from "@tamagui/lucide-icons";
+import { Button, Text, XStack } from "tamagui";
 
 export type PathProps = {
   from: string;
@@ -11,7 +10,7 @@ const Path = ({ from, to }: PathProps) => {
   return (
     <XStack>
       <Text>{from}</Text>
-      <TaxiLeadingIcon name="arrow-right-alt" />
+      <Button icon={ArrowRight} />
       <Text>{to}</Text>
     </XStack>
   );

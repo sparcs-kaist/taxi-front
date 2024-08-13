@@ -1,5 +1,5 @@
-import { TaxiIconButton } from "components/Button";
-import { Text, View } from "tamagui";
+import { Cross } from "@tamagui/lucide-icons";
+import { Button, Text, View } from "tamagui";
 
 import type { CardProps } from "./index";
 
@@ -31,7 +31,7 @@ const CardOnlyText = ({ title, subtitle, onPress }: CardProps) => {
         </Text>
       </View>
       <View position="absolute" right={0}>
-        <TaxiIconButton icon="close" onPress={() => onPress} />
+        <Button icon={Cross} size={24} color="$color4" />
       </View>
     </View>
   );

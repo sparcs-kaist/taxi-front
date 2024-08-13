@@ -1,9 +1,8 @@
-import { Image, Text, View } from "tamagui";
-import { XStack } from "tamagui";
+import { Cross } from "@tamagui/lucide-icons";
+import { Button, Image, Text, View } from "tamagui";
 
-import { TaxiButton, TaxiIconButton } from "../Button";
+import { TaxiButton } from "../Button";
 import type { CardProps } from "./index";
-import { colorScheme, layoutScheme, styles } from "./index";
 
 const CardCenterImage = ({
   title,
@@ -40,7 +39,7 @@ const CardCenterImage = ({
           </Text>
         </View>
         <View position="absolute" top={0} right={0}>
-          <TaxiIconButton icon="close" onPress={() => onPress} />
+          <Button icon={Cross} size={24} color="$color4" />
         </View>
       </View>
       <Image
@@ -50,11 +49,8 @@ const CardCenterImage = ({
         source={{ uri: imageUrl }}
       />
       <View
-        padding={16}
         borderRadius={12}
         backgroundColor="$background0"
-        flexDirection="column"
-        gap={8}
         width={327}
         justifyContent="center"
         borderTopLeftRadius={0}

@@ -23,7 +23,7 @@ const CardLeadingIcon = ({
       alignItems="center"
       backgroundColor="$background0"
     >
-      <TaxiLeadingIcon name={leadingIcon!} />
+      <TaxiLeadingIcon />
       <View
         flexDirection="column"
         justifyContent="center"

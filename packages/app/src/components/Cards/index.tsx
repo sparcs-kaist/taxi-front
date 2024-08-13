@@ -1,5 +1,3 @@
-import { StyleSheet } from "react-native";
-
 import CardCenterImage from "./CardCenterImage";
 import CardLeadingIcon from "./CardLeadingIcon";
 import CardOnlyText from "./CardOnlyText";
@@ -98,71 +96,5 @@ const Card = ({
     return <></>;
   }
 };
-
-export const layoutScheme = {
-  borderRadius: 12,
-  paddingHorizontal: 24,
-  paddingVertical: 16,
-  chipPaddingHorizontal: 8,
-  chipPaddingVertical: 6,
-  chipBorderRadius: 6,
-  gap: 8,
-  cardWidth: 327,
-  cardImageHeight: 128,
-  leadingIconContainerSize: 40,
-  leadingIconContainerPadding: 8,
-  iconSize: 24,
-  iconButtonPadding: 12,
-  iconButtonSize: 48,
-};
-
-export const colorScheme = {
-  primary: "#5E35B1",
-  secondary: "#c717fc",
-  tintGray900: "#212121",
-  tintGray700: "#606061",
-  tintGray500: "#9D9C9E",
-  tintGray300: "#DFDEE0",
-  tintGray100: "#F3F3F5",
-  background: "#FFFFFF",
-  white: "#FFFFFF",
-};
-
-export const styles = StyleSheet.create({
-  cardRoomContainer: {
-    padding: layoutScheme.paddingVertical,
-    borderRadius: layoutScheme.borderRadius,
-    backgroundColor: colorScheme.background,
-    flexDirection: "column",
-    gap: layoutScheme.gap,
-    width: layoutScheme.cardWidth,
-  },
-  buttonContainer: {
-    color: colorScheme.white,
-    backgroundColor: colorScheme.primary,
-    paddingHorizontal: layoutScheme.paddingHorizontal,
-    paddingVertical: layoutScheme.paddingVertical,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: layoutScheme.borderRadius,
-  },
-  titleText: {
-    color: colorScheme.tintGray900,
-    fontSize: 16,
-    lineHeight: 19,
-    fontWeight: "700",
-  },
-  subtitleText: {
-    color: colorScheme.tintGray700,
-    fontSize: 14,
-    lineHeight: 17,
-    fontWeight: "400",
-  },
-  smallText: {
-    color: colorScheme.tintGray500,
-    fontSize: 12,
-    lineHeight: 14,
-  },
-});
 
 export default Card;

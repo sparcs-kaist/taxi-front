@@ -1,28 +1,16 @@
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { Plus } from "@tamagui/lucide-icons";
 import { View } from "tamagui";
 
-import { colorScheme, layoutScheme } from "../../statics/theme";
-
-type TaxiLeadingIconProps = {
-  name: string;
-};
-const TaxiLeadingIcon = ({ name }: TaxiLeadingIconProps) => {
+const TaxiLeadingIcon = () => {
   return (
     <View
-      style={{
-        padding: layoutScheme.leadingIconContainerPadding,
-        height: layoutScheme.leadingIconContainerSize,
-        width: layoutScheme.leadingIconContainerSize,
-        backgroundColor: colorScheme.tintGray100,
-        justifyContent: "center",
-        borderRadius: layoutScheme.leadingIconContainerSize,
-      }}
+      height={40}
+      width={40}
+      backgroundColor="$color2"
+      justifyContent="center"
+      borderRadius={40}
     >
-      <MaterialIcons
-        name={name}
-        size={layoutScheme.iconSize}
-        color={colorScheme.tintGray500}
-      />
+      <Plus size={24} color="$color6" />
     </View>
   );
 };

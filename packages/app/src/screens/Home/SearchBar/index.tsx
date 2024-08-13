@@ -1,6 +1,5 @@
-import { Text, XStack, YStack } from "tamagui";
-
-import TaxiLeadingIcon from "@/components/LeadingIcon";
+import { ArrowRightLeft, Search, X } from "@tamagui/lucide-icons";
+import { Button, Text, XStack, YStack } from "tamagui";
 
 import Path from "./Path";
 
@@ -15,7 +14,7 @@ export type SearchBarProps = {
 const SearchBar = ({ location, searchConditions }: SearchBarProps) => {
   return (
     <XStack>
-      <TaxiLeadingIcon name={location ? "sync-alt" : "search"} />
+      <Button icon={location ? ArrowRightLeft : Search} />
       <YStack>
         {location && <Path from={location!.from} to={location!.to} />}
         {location && searchConditions && searchConditions.length > 0 && (
@@ -23,7 +22,7 @@ const SearchBar = ({ location, searchConditions }: SearchBarProps) => {
         )}
         {!location && <Text>어디로 갈까요?</Text>}
       </YStack>
-      {location ? <TaxiLeadingIcon name="close" /> : <></>}
+      {location && <Button icon={X} />}
     </XStack>
   );
 };
