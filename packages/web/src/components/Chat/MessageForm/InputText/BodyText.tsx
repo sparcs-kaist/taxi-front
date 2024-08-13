@@ -80,6 +80,7 @@ const BodyText = ({ sendMessage }: BodyTextProps) => {
       setIsSendingMessage(true);
       const result = await sendMessage("text", { text: message });
       if (!result) textareaRef.current.value = message;
+      setChatMsgLength(0);
       setIsSendingMessage(false);
     }
   };
