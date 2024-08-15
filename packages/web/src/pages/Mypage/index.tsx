@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 
 import channelService from "@/hooks/skeleton/useChannelTalkEffect/channelService";
-import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Footer from "@/components/Footer";
@@ -190,6 +190,11 @@ const Mypage = () => {
       <WhiteContainer>
         <div css={{ display: "grid", rowGap: "16px" }}>
           {userId && (
+            <Menu icon="credit" onClick={onClickCancelAccount}>
+              {t("cancel_account")}
+            </Menu>
+          )}
+          {userId && (
             <Menu icon="report" onClick={onClickReport}>
               {t("report_record")}
             </Menu>
@@ -216,9 +221,6 @@ const Mypage = () => {
             ) : null)}
           <Menu icon="credit" onClick={onClickMembers}>
             {t("credit")}
-          </Menu>
-          <Menu icon="credit" onClick={onClickCancelAccount}>
-            {t("cancel_account")}
           </Menu>
           {userId && (
             <LinkLogout>

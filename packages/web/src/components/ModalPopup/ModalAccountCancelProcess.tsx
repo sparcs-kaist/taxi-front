@@ -2,12 +2,17 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import { useAxios } from "@/hooks/useTaxiAPI";
 
 import Modal from "@/components/Modal";
 
 import Button from "../Button";
+import { useOnClickLogout } from "../Link/LinkLogout";
 import BodyAccountCancelProcess from "./Body/BodyAccountCancelProcess";
 import BodyAccountCancelProcess2nd from "./Body/BodyAccountCancelProcess2nd";
+
+import alertAtom from "@/atoms/alert";
+import { useSetRecoilState } from "recoil";
 
 import theme from "@/tools/theme";
 
@@ -22,8 +27,12 @@ const ModalAccountCancelProcess = ({
   isOpen,
   onChangeIsOpen = () => {},
 }: PopupAccountCancelProcessProps) => {
+  const axios = useAxios();
   const { t } = useTranslation("mypage");
+  const setAlert = useSetRecoilState(alertAtom);
+  const onClickLogout = useOnClickLogout();
 
+  const { id: userId } = useValueRecoilState("loginInfo") || {};
   const myRooms = useValueRecoilState("myRooms");
   const myOngoingRoom = myRooms?.ongoing.slice() ?? [];
   const roomCompleted = myOngoingRoom.length === 0;
@@ -47,8 +56,18 @@ const ModalAccountCancelProcess = ({
     onChangeIsOpen(false);
   };
 
-  const onCancel = () => {
-    alert("탈퇴 기능 넣어야 함");
+  const onCancel = async () => {
+    const response = await axios({
+      url: "/users/delete",
+      method: "delete",
+      data: { userId },
+      onSuccess: () => {
+        setAlert("회원 탈퇴가 완료되었습니다.");
+        onClickLogout();
+      },
+      onError: () => setAlert("회원 탈퇴에 실패하였습니다."),
+    });
+    if (response.status === 200) onClickLogout();
   };
 
   return (
