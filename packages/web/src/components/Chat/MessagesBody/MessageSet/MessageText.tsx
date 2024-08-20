@@ -12,7 +12,7 @@ const MessageText = ({ text, color }: MessageTextProps) => (
       color,
       wordBreak: "break-all",
       ...theme.font14,
-      whiteSpace: "pre-line",
+      whiteSpace: "break-spaces",
     }}
     className="selectable"
   >
