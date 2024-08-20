@@ -100,7 +100,6 @@ const AddRoom = () => {
   }, [myRooms]); // myOngoingRoom은 infoSection의 sortedMyRoom에서 정렬만 뺀 코드입니다. useMemo로 감싼 형태입니다.
   // item : any 가 좋은 방법인지 모르겠습니다
 
-
   useEffect(() => {
     const expirationDate = new Date();
     expirationDate.setFullYear(expirationDate.getFullYear() + 10);
@@ -221,7 +220,9 @@ const AddRoom = () => {
               />
               <OptionTime value={valueTime} handler={setTime} page="add" />
               <OptionMaxPeople value={valueMaxPeople} handler={setMaxPeople} />
-              <TaxiFare value={taxiFare} roomLength={valueMaxPeople} />
+              {taxiFare !== 0 ? (
+                <TaxiFare value={taxiFare} roomLength={valueMaxPeople} />
+              ) : null}
               <Button
                 type="purple"
                 disabled={validatedMsg ? true : false}
