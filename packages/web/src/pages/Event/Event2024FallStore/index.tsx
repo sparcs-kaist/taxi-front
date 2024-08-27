@@ -19,9 +19,9 @@ import theme from "@/tools/theme";
 
 const Event2024FallStore = () => {
   const [itemListToken, fetchItemList] = useDateToken();
-  const { items } = useQuery.get("/events/2023fall/items/list", {}, [
+  const { items } = useQuery.get("/events/2024fall/items/list", {}, [
     itemListToken,
-  ])[1] || { items: [] }; // ToDo : 2023fall 엔드포인트
+  ])[1] || { items: [] };
   const getItemFilteredList = useCallback(
     (types: number[]) =>
       items.filter(

@@ -1,4 +1,3 @@
-// ToDo : 2023fall 을 그대로 복사해 온 값입니다.
 import { Quest, QuestId } from "@/types/event2024fall";
 
 import { atom } from "recoil";

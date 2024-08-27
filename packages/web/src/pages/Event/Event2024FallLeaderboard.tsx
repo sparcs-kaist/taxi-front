@@ -226,10 +226,10 @@ const Event2024FallLeaderboard = () => {
     totalUserAmount,
     totalTicket1Amount,
     totalTicket2Amount,
-  } = useQuery.get("/events/2023fall/public-notice/leaderboard")[1] || {
+  } = useQuery.get("/events/2024fall/public-notice/leaderboard")[1] || {
     leaderboard: [],
     rank: 0,
-  }; // ToDo : 2023fall 엔드포인트
+  };
   const { ticket1Amount, ticket2Amount } =
     useValueRecoilState("event2024FallInfo") || {};
   const { nickname, profileImgUrl } = useValueRecoilState("loginInfo") || {};

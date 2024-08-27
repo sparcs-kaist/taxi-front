@@ -31,7 +31,7 @@ export const useEvent2024FallQuestComplete = () => {
         ].includes(id)
       ) {
         axios({
-          url: `/events/2023fall/quests/complete/${id}`, // ToDo : 2023fall 엔드포인트
+          url: `/events/2024fall/quests/complete/${id}`,
           method: "post",
           onSuccess: () => fetchEvent2024FallInfo(),
         });

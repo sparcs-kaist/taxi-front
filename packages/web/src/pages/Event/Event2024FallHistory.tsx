@@ -73,7 +73,7 @@ const HistoryItem = ({
 
 const HistorySection = () => {
   const { transactions } =
-    useQuery.get("/events/2023fall/transactions")[1] || {}; // ToDo : 2023fall 엔드포인트
+    useQuery.get("/events/2024fall/transactions")[1] || {};
   const purchaseHistory = useMemo(
     () =>
       (transactions || []).sort((x: Transaction, y: Transaction) =>

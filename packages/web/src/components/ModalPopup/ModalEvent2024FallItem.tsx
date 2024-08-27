@@ -52,7 +52,7 @@ const ModalEvent2024FallItem = ({
     if (isRequesting.current) return;
     isRequesting.current = true;
     await axios({
-      url: `/events/2023fall/items/purchase/${itemInfo._id}`, // ToDo : 2023fall 엔드포인트
+      url: `/events/2024fall/items/purchase/${itemInfo._id}`,
       method: "post",
       onSuccess: ({ reward }) => {
         fetchEvent2024FallInfo();

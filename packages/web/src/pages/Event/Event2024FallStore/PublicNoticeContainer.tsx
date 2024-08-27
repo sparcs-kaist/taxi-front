@@ -21,8 +21,8 @@ type Transaction = {
 
 const PublicNoticeContainer = () => {
   const { transactions }: { transactions: Array<Transaction> } = useQuery.get(
-    "/events/2023fall/public-notice/recentTransactions"
-  )[1] || { transactions: [] }; // ToDo : 2023fall 엔드포인트
+    "/events/2024fall/public-notice/recentTransactions"
+  )[1] || { transactions: [] };
   const notices = useMemo(() => {
     const publicNotices = transactions
       .sort((a, b) => dayjs(b.createAt).diff(a.createAt))
