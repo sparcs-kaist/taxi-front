@@ -33,6 +33,11 @@ const routeProps = [
     exact: true,
   },
   {
+    path: "/event/2024fall-invite/:eventStatusId",
+    component: lazy(() => import("@/pages/Home")),
+    exact: true,
+  }, // 무한로딩 이슈..
+  {
     path: "/event/:eventName",
     component: lazy(() => import("@/pages/Event")),
     exact: true,
