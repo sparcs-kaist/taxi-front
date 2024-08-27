@@ -8,6 +8,7 @@ import {
 import {
   useFetchEvent2024FallInfo,
   useSetEvent2024FallInfo,
+  useValueEvent2024FallInfo,
 } from "./useFetchEvent2024FallInfo";
 import {
   useFetchEvent2024SpringInfo,
@@ -76,7 +77,7 @@ const _useValueRecoilState = (atomName: AtomName) => {
     case "event2024SpringInfo":
       return useValueEvent2024SpringInfo();
     case "event2024FallInfo":
-      return useSetEvent2024FallInfo();
+      return useValueEvent2024FallInfo();
   }
 };
 export const useValueRecoilState =

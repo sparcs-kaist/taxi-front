@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { useEvent2024FallQuestComplete } from "@/hooks/event/useEvent2024FallQuestComplete";
 import {
@@ -13,6 +13,8 @@ import DottedLine from "@/components/DottedLine";
 import Input from "@/components/Input";
 import Modal from "@/components/Modal";
 
+import ProfileImage from "../User/ProfileImage";
+
 import alertAtom from "@/atoms/alert";
 import { useSetRecoilState } from "recoil";
 
@@ -21,19 +23,24 @@ import theme from "@/tools/theme";
 
 import FestivalRoundedIcon from "@mui/icons-material/FestivalRounded";
 
-type ModalEvent2023FallJoinProps = Parameters<typeof Modal>[0];
+type ModalEvent2024FallJoinProps = Parameters<typeof Modal>[0] & {
+  inviterId?: string;
+};
 
-const ModalEvent2023FallJoin = (modalProps: ModalEvent2023FallJoinProps) => {
+const ModalEvent2024FallJoin = ({
+  inviterId,
+  ...modalProps
+}: ModalEvent2024FallJoinProps) => {
   const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
   const isLogin = useIsLogin();
   const { phoneNumber: phoneNumberFromLoginInfo } =
     useValueRecoilState("loginInfo") || {};
   const { isAgreeOnTermsOfEvent } =
-    useValueRecoilState("event2023FallInfo") || {};
+    useValueRecoilState("event2024FallInfo") || {};
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
-  //#region event2023Fall
-  const event2023FallQuestComplete = useEvent2024FallQuestComplete();
+  //#region event2024fall
+  const event2024FallQuestComplete = useEvent2024FallQuestComplete();
   //#endregion
 
   const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -42,23 +49,47 @@ const ModalEvent2023FallJoin = (modalProps: ModalEvent2023FallJoinProps) => {
     [phoneNumber]
   );
 
+  const [inviterInfo, setInvitorInfo] = useState<{
+    profileImageUrl: string;
+    nickname: string;
+  }>();
+
+  const getInvitorInfo = useCallback(
+    () =>
+      axios({
+        url: `/events/2024fall/invite/search/${inviterId}`,
+        method: "get",
+        onSuccess: (data) => {
+          setInvitorInfo(data);
+        },
+        onError: () => setAlert("올바르지 않은 추천인입니다."),
+      }), // ToDo : 추천인 엔드포인트 점검
+    [inviterId]
+  );
+
+  const isInvited = !!inviterId;
+
+  useEffect(() => {
+    if (!isAgreeOnTermsOfEvent && isInvited) getInvitorInfo();
+  }, [inviterId]);
+
   const onClickJoin = useCallback(
     () =>
       axios({
-        url: "/events/2023fall/global-state/create",
+        url: "/events/2024fall/globalState/create",
         method: "post",
-        data: { phoneNumber },
+        data: { phoneNumber, inviter: inviterId },
         onSuccess: () => {
           fetchLoginInfo();
-          //#region event2023Fall
-          event2023FallQuestComplete("firstLogin");
+          //#region event2024fall
+          event2024FallQuestComplete("firstLogin");
           //#endregion
           modalProps.onChangeIsOpen?.(false);
         },
         onError: () => setAlert("이벤트 참여에 실패하였습니다."),
       }),
-    [phoneNumber, setPhoneNumber, event2023FallQuestComplete]
-  );
+    [phoneNumber, setPhoneNumber, event2024FallQuestComplete]
+  ); // ToDo : 엔드포인트 점검
 
   const styleTitle = {
     ...theme.font18,
@@ -84,11 +115,12 @@ const ModalEvent2023FallJoin = (modalProps: ModalEvent2023FallJoinProps) => {
     ...theme.font14,
   } as const;
 
+  // ToDo : 글 작성
   return (
     <Modal padding="16px 12px 12px" {...modalProps}>
       <div css={styleTitle}>
         <FestivalRoundedIcon style={styleIcon} />
-        한가위 송편 이벤트
+        2024 추석 이벤트 이름 지어줘
       </div>
       <div css={styleText}>
         • 택시 동승을 하지 않는 사용자는{" "}
@@ -124,6 +156,16 @@ const ModalEvent2023FallJoin = (modalProps: ModalEvent2023FallJoinProps) => {
         <b css={{ color: theme.red_text }}>
           입력해주신 연락처는 이후 수정이 불가능합니다.
         </b>
+      </div>
+      <div css={{ height: "12px" }} />
+      <div css={styleText}>
+        •{" "}
+        <b css={{ color: theme.red_text }}>
+          추천인 이벤트 참여를 위해서는 추천인이 발송한 링크로 이벤트에 참여해야
+          합니다.
+        </b>{" "}
+        추천인을 통해 이벤트에 참여할 시, 참가자와 추천인 모두에게 700
+        송편코인이 지급됩니다.
       </div>
       <div css={{ height: "12px" }} />
       <div css={styleText}>
@@ -185,8 +227,29 @@ const ModalEvent2023FallJoin = (modalProps: ModalEvent2023FallJoinProps) => {
             </Button>
           </>
         ))}
+      {isInvited && inviterInfo && (
+        <div css={styleInputWrap}>
+          추천인
+          <div
+            css={{
+              width: "24px",
+              height: "24px",
+              margin: "0px 10px",
+              borderRadius: "12px",
+              overflow: "hidden",
+              boxShadow: theme.shadow,
+              flexShrink: 0,
+            }}
+          >
+            <ProfileImage url={inviterInfo?.profileImageUrl} />
+          </div>
+          <span css={{ width: "100%", ...theme.ellipsis }}>
+            {inviterInfo?.nickname}
+          </span>
+        </div>
+      )}
     </Modal>
   );
 };
 
-export default ModalEvent2023FallJoin;
+export default ModalEvent2024FallJoin;

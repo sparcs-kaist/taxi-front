@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 
-import { useEvent2024SpringQuestComplete } from "@/hooks/event/useEvent2024SpringQuestComplete";
+import { useEvent2024FallQuestComplete } from "@/hooks/event/useEvent2024FallQuestComplete";
 import {
   useFetchRecoilState,
   useIsLogin,
@@ -64,8 +64,8 @@ const AddRoom = () => {
   const isLogin = useIsLogin();
   const myRooms = useValueRecoilState("myRooms");
   const fetchMyRooms = useFetchRecoilState("myRooms");
-  //#region event2024Spring
-  const event2024SpringQuestComplete = useEvent2024SpringQuestComplete();
+  //#region event2024fall
+  const event2024FallQuestComplete = useEvent2024FallQuestComplete();
   const [isOpenModalEventAbuseWarning, setIsOpenModalEventAbuseWarning] =
     useState<boolean>(false);
   //#endregion
@@ -141,10 +141,10 @@ const AddRoom = () => {
     if (!onCall.current) {
       onCall.current = true;
 
-      // #region event2024Spring
+      // #region event2024fall
       let isAgreeOnTermsOfEvent = false;
       await axios({
-        url: "/events/2024spring/globalState",
+        url: "/events/2024fall/globalState",
         method: "get",
         onSuccess: (data) => {
           if (data.isAgreeOnTermsOfEvent) {
@@ -191,8 +191,8 @@ const AddRoom = () => {
         },
         onSuccess: () => {
           fetchMyRooms();
-          //#region event2024Spring
-          event2024SpringQuestComplete("firstRoomCreation");
+          //#region event2024fall
+          event2024FallQuestComplete("firstRoomCreation");
           //#endregion
           history.push("/myroom");
         },
@@ -271,8 +271,8 @@ const AddRoom = () => {
               },
               onSuccess: () => {
                 fetchMyRooms();
-                //#region event2024spring
-                event2024SpringQuestComplete("firstRoomCreation");
+                //#region event2024fall
+                event2024FallQuestComplete("firstRoomCreation");
                 //#endregion
                 history.push("/myroom");
               },

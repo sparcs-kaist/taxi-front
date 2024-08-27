@@ -19,7 +19,7 @@ export const useFetchEvent2024FallInfo = () => {
   return useCallback((onError?: AxiosOption["onError"]) => {
     if (eventMode === "2024fall") {
       axios({
-        url: "/events/2024fall/global-state/",
+        url: "/events/2024fall/globalState/",
         method: "get",
         onSuccess: (data) => setEvent2024FallInfo(data),
         onError: onError,

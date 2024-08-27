@@ -3,9 +3,9 @@ import { useMemo, useState } from "react";
 import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import Button from "@/components/Button";
-import LinkEvent2023FallInstagramStoryShare from "@/components/Link/LinkEvent2023FallInstagramStoryShare";
+import LinkEvent2024FallInstagramStoryShare from "@/components/Link/LinkEvent2024FallInstagramStoryShare";
 import {
-  ModalEvent2023FallJoin,
+  ModalEvent2024FallJoin,
   ModalNotification,
 } from "@/components/ModalPopup";
 import WhiteContainer from "@/components/WhiteContainer";
@@ -16,7 +16,7 @@ import theme from "@/tools/theme";
 const WhiteContainerSuggestJoinEvent = () => {
   const isLogin = useIsLogin();
   const { isAgreeOnTermsOfEvent, completedQuests } =
-    useValueRecoilState("event2023FallInfo") || {};
+    useValueRecoilState("event2024FallInfo") || {};
 
   const randomToken = useMemo(() => !!Math.floor(Math.random() * 2), []);
   const [isOpenJoin, setIsOpenJoin] = useState<boolean>(false);
@@ -82,11 +82,11 @@ const WhiteContainerSuggestJoinEvent = () => {
             추석에 맞춰 쏟아지는 혜택들. 나만 알 순 없죠. 인스타그램 친구들에게
             스토리로 공유해보아요.
           </div>
-          <LinkEvent2023FallInstagramStoryShare type="eventSharingOnInstagram">
+          <LinkEvent2024FallInstagramStoryShare type="eventSharingOnInstagram">
             <Button type="purple" css={styleButton}>
               인스타그램 스토리에 공유하고 송편 100개 얻기
             </Button>
-          </LinkEvent2023FallInstagramStoryShare>
+          </LinkEvent2024FallInstagramStoryShare>
         </WhiteContainer>
       ) : completedQuests && !completedQuests.includes("adPushAgreement") ? (
         <WhiteContainer>
@@ -107,7 +107,7 @@ const WhiteContainerSuggestJoinEvent = () => {
           </Button>
         </WhiteContainer>
       ) : null}
-      <ModalEvent2023FallJoin
+      <ModalEvent2024FallJoin
         isOpen={isOpenJoin}
         onChangeIsOpen={setIsOpenJoin}
       />

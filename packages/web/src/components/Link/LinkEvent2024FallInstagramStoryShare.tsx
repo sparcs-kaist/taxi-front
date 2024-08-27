@@ -36,7 +36,7 @@ const LinkEvent2024FallInstagramStoryShare = ({
     useValueRecoilState("event2024FallInfo") || {};
   const [isOpenJoin, setIsOpenJoin] = useState<boolean>(false);
 
-  //#region event2024Fall
+  //#region event2024fall
   const event2024FallQuestComplete = useEvent2024FallQuestComplete();
   //#endregion
 

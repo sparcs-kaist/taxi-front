@@ -3,7 +3,7 @@ import { useHistory, useParams } from "react-router-dom";
 
 import Footer from "@/components/Footer";
 import {
-  ModalEvent2024SpringJoin,
+  ModalEvent2024FallJoin, // ModalEvent2024SpringJoin,
   ModalPrivacyPolicy,
 } from "@/components/ModalPopup";
 
@@ -54,7 +54,7 @@ const Home = () => {
         isOpen={_roomId === "privacyPolicy"}
         onChangeIsOpen={onChangeIsOpenPrivacyPolicy}
       />
-      <ModalEvent2024SpringJoin
+      <ModalEvent2024FallJoin
         inviterId={inviterId}
         isOpen={isOpenEventJoin}
         onChangeIsOpen={onChangeIsOpenEventJoin}

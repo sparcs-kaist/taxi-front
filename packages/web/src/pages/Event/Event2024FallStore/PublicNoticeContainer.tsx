@@ -21,7 +21,7 @@ type Transaction = {
 
 const PublicNoticeContainer = () => {
   const { transactions }: { transactions: Array<Transaction> } = useQuery.get(
-    "/events/2024fall/public-notice/recentTransactions"
+    "/events/2024fall/publicNotice/recentTransactions"
   )[1] || { transactions: [] };
   const notices = useMemo(() => {
     const publicNotices = transactions

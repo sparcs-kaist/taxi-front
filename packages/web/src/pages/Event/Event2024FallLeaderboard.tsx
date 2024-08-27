@@ -226,7 +226,7 @@ const Event2024FallLeaderboard = () => {
     totalUserAmount,
     totalTicket1Amount,
     totalTicket2Amount,
-  } = useQuery.get("/events/2024fall/public-notice/leaderboard")[1] || {
+  } = useQuery.get("/events/2024fall/publicNotice/leaderboard")[1] || {
     leaderboard: [],
     rank: 0,
   };
