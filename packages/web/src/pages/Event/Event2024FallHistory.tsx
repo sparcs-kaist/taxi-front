@@ -205,7 +205,7 @@ const Event2024FallHistory = () => {
           </>
         )}
       </AdaptiveDiv>
-      <Footer type="event-2023fall" />
+      <Footer type="event-2024fall" />
     </>
   );
 };

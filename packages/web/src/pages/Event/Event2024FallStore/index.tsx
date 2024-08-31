@@ -75,7 +75,7 @@ const Event2024FallStore = () => {
         </Title>
         <ItemListSection items={itemTypeZeros} fetchItems={fetchItemList} />
       </AdaptiveDiv>
-      <Footer type="event-2023fall" />
+      <Footer type="event-2024fall" />
     </>
   );
 };

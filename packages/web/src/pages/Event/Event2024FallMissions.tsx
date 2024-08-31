@@ -158,7 +158,7 @@ const Event2024FallMissions = () => {
         {quests?.map((quest) => (
           <MissionContainer key={quest.id} quest={quest} />
         ))}
-        <Footer type="event-2023fall" />
+        <Footer type="event-2024fall" />
       </AdaptiveDiv>
     </>
   );

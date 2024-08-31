@@ -293,7 +293,7 @@ const Event2024Fall = () => {
           </div>
         </AdaptiveDiv>
       </div>
-      <Footer type="event-2023fall" />
+      <Footer type="event-2024fall" />
     </>
   );
 }; // ToDo : 2023fall footer 수정

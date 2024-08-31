@@ -370,7 +370,7 @@ const Event2024FallLeaderboard = () => {
           <Empty type="mobile">리더보드가 비어있습니다.</Empty>
         )}
       </AdaptiveDiv>
-      <Footer type="event-2023fall" />
+      <Footer type="event-2024fall" />
     </>
   );
 }; // ToDo : 2023fall 문구 및 footer
