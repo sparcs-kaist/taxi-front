@@ -5,7 +5,6 @@ import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
 import Footer from "@/components/Footer";
 import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
-import LinkEvent2024FallInstagramStoryShare from "@/components/Link/LinkEvent2024FallInstagramStoryShare";
 import WhiteContainer from "@/components/WhiteContainer";
 
 import theme from "@/tools/theme";
@@ -265,7 +264,7 @@ const Event2024Fall = () => {
           </div>
           <div css={{ height: "16px" }} />
           <MainSection5 css={{ width: "159px", maxWidth: "100%" }} />
-          <LinkEvent2024FallInstagramStoryShare type="eventSharingOnInstagram">
+          {/* <LinkEvent2024FallInstagramStoryShare type="eventSharingOnInstagram">
             <Button
               type="purple_inset"
               css={{
@@ -276,7 +275,7 @@ const Event2024Fall = () => {
             >
               인스타그램에 공유하기
             </Button>
-          </LinkEvent2024FallInstagramStoryShare>
+          </LinkEvent2024FallInstagramStoryShare> */}
         </AdaptiveDiv>
       </div>
       <div

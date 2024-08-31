@@ -1,11 +1,4 @@
-import {
-  Dispatch,
-  SetStateAction,
-  memo,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 
 import type { EventItem } from "@/types/event2024fall";
 
@@ -32,12 +25,10 @@ const Background = () => (
 
 type ModalEvent2024FallRandomBoxProps = {
   item?: EventItem;
-  setShareItem?: Dispatch<SetStateAction<Nullable<EventItem>>>;
 } & Parameters<typeof Modal>[0];
 
 const ModalEvent2024FallRandomBox = ({
   item,
-  setShareItem,
   ...modalProps
 }: ModalEvent2024FallRandomBoxProps) => {
   const [isBoxOpend, setIsBoxOpend] = useState<boolean>(false);
@@ -47,10 +38,9 @@ const ModalEvent2024FallRandomBox = ({
 
   const onChangeIsOpen = useCallback(
     (isOpen: boolean) => {
-      if (!isOpen && item) setShareItem?.(item);
       modalProps?.onChangeIsOpen?.(isOpen);
     },
-    [item, setShareItem, modalProps]
+    [item, modalProps]
   );
 
   useEffect(() => {

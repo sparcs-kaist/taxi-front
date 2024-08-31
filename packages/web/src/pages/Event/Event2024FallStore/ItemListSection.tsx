@@ -7,7 +7,6 @@ import {
   ModalEvent2024FallItem,
   ModalEvent2024FallRandomBox,
 } from "@/components/ModalPopup";
-import { ModalEvent2024FallItemInstagram } from "@/components/ModalPopup";
 import WhiteContainer from "@/components/WhiteContainer";
 
 import theme from "@/tools/theme";
@@ -23,7 +22,6 @@ type EventItemComponentProps = {
 const EventItemContainer = ({ value, fetchItems }: EventItemComponentProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [rewardItem, setRewardItem] = useState<Nullable<EventItem>>(null);
-  const [shareItem, setShareItem] = useState<Nullable<EventItem>>(null);
 
   return (
     <WhiteContainer
@@ -91,7 +89,6 @@ const EventItemContainer = ({ value, fetchItems }: EventItemComponentProps) => {
         itemInfo={value}
         fetchItems={fetchItems}
         setRewardItem={setRewardItem}
-        setShareItem={setShareItem}
         isOpen={isOpen}
         onChangeIsOpen={setIsOpen}
       />
@@ -100,14 +97,8 @@ const EventItemContainer = ({ value, fetchItems }: EventItemComponentProps) => {
           isOpen={!!rewardItem}
           onChangeIsOpen={() => setRewardItem(null)}
           item={rewardItem || undefined}
-          setShareItem={setShareItem}
         />
       )}
-      <ModalEvent2024FallItemInstagram
-        isOpen={!!shareItem}
-        onChangeIsOpen={() => setShareItem(null)}
-        item={shareItem || undefined}
-      />
     </WhiteContainer>
   );
 };

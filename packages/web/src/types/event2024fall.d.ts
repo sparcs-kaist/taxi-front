@@ -1,15 +1,15 @@
 export type QuestId =
   | "firstLogin"
-  | "payingAndSending"
   | "firstRoomCreation"
   | "roomSharing"
-  | "paying"
-  | "sending"
+  | "fareSettlement"
+  | "farePayment"
   | "nicknameChanging"
   | "accountChanging"
   | "adPushAgreement"
-  | "eventSharingOnInstagram"
-  | "purchaseSharingOnInstagram";
+  | "eventSharing"
+  | "dailyAttendance"
+  | "itemPurchase";
 
 export type Quest = {
   description: string;
