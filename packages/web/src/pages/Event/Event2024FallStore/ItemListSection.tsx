@@ -14,7 +14,6 @@ import theme from "@/tools/theme";
 
 // ToDo : 2023fall 이미지
 import { ReactComponent as CreditIcon } from "@/static/events/2023fallCredit.svg";
-import { ReactComponent as SoldOutIcon } from "@/static/events/2023fallStoreSoldOut.svg";
 
 type EventItemComponentProps = {
   value: EventItem;
@@ -25,7 +24,6 @@ const EventItemContainer = ({ value, fetchItems }: EventItemComponentProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [rewardItem, setRewardItem] = useState<Nullable<EventItem>>(null);
   const [shareItem, setShareItem] = useState<Nullable<EventItem>>(null);
-  const isSoldOut = value.stock <= 0;
 
   return (
     <WhiteContainer
@@ -39,7 +37,7 @@ const EventItemContainer = ({ value, fetchItems }: EventItemComponentProps) => {
         flexDirection: "column",
         alignItems: "left",
         gap: "8px",
-        background: isSoldOut ? theme.gray_background : theme.white,
+        // background: isSoldOut ? theme.gray_background : theme.white,
         ...theme.font14,
         ...theme.cursor(),
       }}
@@ -64,23 +62,11 @@ const EventItemContainer = ({ value, fetchItems }: EventItemComponentProps) => {
           src={value.imageUrl}
           alt={value.name}
         />
-        {isSoldOut && (
-          <div
-            css={{
-              background: theme.black_40,
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-            }}
-          />
-        )}
       </div>
       <div
         css={{
           ...theme.font14_bold,
-          color: isSoldOut ? theme.gray_text : theme.black,
+          // color: isSoldOut ? theme.gray_text : theme.black,
         }}
       >
         {value.name}
@@ -95,24 +81,12 @@ const EventItemContainer = ({ value, fetchItems }: EventItemComponentProps) => {
         <div
           css={{
             ...theme.font14,
-            color: isSoldOut ? theme.gray_text : theme.black,
+            // color: isSoldOut ? theme.gray_text : theme.black,
           }}
         >
           {value.price}
         </div>
       </div>
-      {isSoldOut && (
-        <SoldOutIcon
-          css={{
-            position: "absolute",
-            right: "-10px",
-            bottom: "-10px",
-            width: "100px",
-            height: "100px",
-            opacity: 0.5,
-          }}
-        />
-      )}
       <ModalEvent2024FallItem
         itemInfo={value}
         fetchItems={fetchItems}

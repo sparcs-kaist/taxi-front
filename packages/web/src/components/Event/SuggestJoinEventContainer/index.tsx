@@ -15,7 +15,7 @@ import theme from "@/tools/theme";
 const SuggestJoinEventContainer = () => {
   const isLogin = useIsLogin();
   const { isAgreeOnTermsOfEvent, completedQuests } =
-    useValueRecoilState("event2024FallInfo") || {};
+    useValueRecoilState("event2024SpringInfo") || {};
 
   const [isOpenJoin, setIsOpenJoin] = useState<boolean>(false);
   const [isOpenNotification, setIsOpenNotification] = useState<boolean>(false);

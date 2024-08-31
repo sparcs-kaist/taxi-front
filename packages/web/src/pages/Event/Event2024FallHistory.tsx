@@ -77,7 +77,7 @@ const HistorySection = () => {
   const purchaseHistory = useMemo(
     () =>
       (transactions || []).sort((x: Transaction, y: Transaction) =>
-        dayjs(y.createAt).diff(dayjs(x.createAt))
+        dayjs(y.createdAt).diff(dayjs(x.createdAt))
       ),
     [transactions]
   ) as Array<Transaction>;
@@ -94,26 +94,24 @@ const HistorySection = () => {
       </Title>
       {purchaseHistory.length > 0 ? (
         purchaseHistory.map(
-          ({ _id, type, comment, createAt, questId, item }: Transaction) => {
-            if (type === "get") {
+          ({ comment, createdAt, questId, item }: Transaction) => {
+            if (questId) {
               const quest = quests?.find((quest) => quest.id === questId);
               return (
                 <HistoryItem
-                  key={_id}
                   imageUrl={quest?.imageUrl || ""}
                   title={quest?.name || ""}
                   description={comment}
-                  date={createAt}
+                  date={createdAt}
                 />
               );
-            } else if (type === "use") {
+            } else if (item) {
               return (
                 <HistoryItem
-                  key={_id}
                   imageUrl={item.imageUrl}
                   title={item.name}
                   description={comment}
-                  date={createAt}
+                  date={createdAt}
                 />
               );
             } else {

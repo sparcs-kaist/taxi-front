@@ -19,7 +19,7 @@ import theme from "@/tools/theme";
 
 const Event2024FallStore = () => {
   const [itemListToken, fetchItemList] = useDateToken();
-  const { items } = useQuery.get("/events/2024fall/items/list", {}, [
+  const { items } = useQuery.get("/events/2024fall/items", {}, [
     itemListToken,
   ])[1] || { items: [] };
   const getItemFilteredList = useCallback(

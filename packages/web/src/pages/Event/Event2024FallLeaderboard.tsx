@@ -230,8 +230,10 @@ const Event2024FallLeaderboard = () => {
     leaderboard: [],
     rank: 0,
   };
-  const { ticket1Amount, ticket2Amount } =
-    useValueRecoilState("event2024FallInfo") || {};
+  const { ticket1Amount, ticket2Amount } = {
+    ticket1Amount: 0,
+    ticket2Amount: 0,
+  }; // TODO: FIXME
   const { nickname, profileImgUrl } = useValueRecoilState("loginInfo") || {};
   const myLeaderboardInfo = useMemo<Nullable<LeaderboardElem>>(() => {
     if (!nickname || !profileImgUrl || !probability) return null;

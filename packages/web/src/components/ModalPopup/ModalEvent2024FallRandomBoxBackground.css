@@ -1,5 +1,5 @@
-.c2023fallevent-before,
-.c2023fallevent-after {
+.c2024fallevent-before,
+.c2024fallevent-after {
   position: absolute;
   width: 8px;
   height: 8px;
@@ -30,17 +30,17 @@
     181px -128.66667px #1e00ff, 90px -123.66667px #c800ff,
     189px 70.33333px #00ffc8, -18px -383.66667px #00ff33,
     100px -6.66667px #ff008c;
-  animation: 2s c2023fallevent-bang ease-out infinite backwards,
-    1s c2023fallevent-gravity ease-in infinite backwards,
-    5s c2023fallevent-position linear infinite backwards;
+  animation: 2s c2024fallevent-bang ease-out infinite backwards,
+    1s c2024fallevent-gravity ease-in infinite backwards,
+    5s c2024fallevent-position linear infinite backwards;
 }
 
-.c2023fallevent-after {
+.c2024fallevent-after {
   animation-delay: 2s, 3s, 15s;
   animation-duration: 2s, 3s, 15s;
 }
 
-@keyframes c2023fallevent-bang {
+@keyframes c2024fallevent-bang {
   from {
     box-shadow: 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white,
       0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white,
@@ -54,7 +54,7 @@
   }
 }
 
-@keyframes c2023fallevent-gravity {
+@keyframes c2024fallevent-gravity {
   from {
     transform: translateY(0);
     opacity: 1;
@@ -65,7 +65,7 @@
   }
 }
 
-@keyframes c2023fallevent-position {
+@keyframes c2024fallevent-position {
   0%,
   19.9% {
     margin-top: 10%;

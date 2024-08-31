@@ -16,7 +16,6 @@ import theme from "@/tools/theme";
 // ToDo : 2023fall 이미지
 import { ReactComponent as CreditIcon } from "@/static/events/2023fallCredit.svg";
 import { ReactComponent as MissionCompleteIcon } from "@/static/events/2023fallMissionComplete.svg";
-import { ReactComponent as Ticket1Icon } from "@/static/events/2023fallTicket1.svg";
 
 type MissionContainerProps = {
   quest: Quest;
@@ -25,7 +24,8 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
   const { completedQuests } = useValueRecoilState("event2024FallInfo") || {};
   const [isDone, questCompletedCnt] = useMemo(() => {
     const cnt =
-      completedQuests?.filter((questId) => questId === quest?.id).length || 0;
+      completedQuests?.filter(({ questId }) => questId === quest.id).length ??
+      0;
     const isDone = quest.maxCount ? cnt >= quest.maxCount : false;
     return [isDone, cnt];
   }, [quest, completedQuests]);
@@ -131,22 +131,10 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
         {!isDone && (
           <>
             <div css={styleRewardText}>달성 시에</div>
-            {quest.reward.credit ? (
-              <CreditIcon
-                css={{ width: "27px", height: "16px", marginTop: "-2px" }}
-              />
-            ) : (
-              <Ticket1Icon
-                css={{
-                  width: "27px",
-                  height: "27px",
-                  marginTop: "-6px",
-                }}
-              />
-            )}
-            <div css={styleRewardText}>
-              X {quest.reward.credit + (quest.reward.ticket1 || 0)} 획득
-            </div>
+            <CreditIcon
+              css={{ width: "27px", height: "16px", marginTop: "-2px" }}
+            />
+            <div css={styleRewardText}>X {quest.reward.credit} 획득</div>
           </>
         )}
       </div>

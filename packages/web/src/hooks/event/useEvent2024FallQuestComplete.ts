@@ -18,18 +18,12 @@ export const useEvent2024FallQuestComplete = () => {
     (id: QuestId) => {
       if (!completedQuests || !quests) return;
       const questMaxCount =
-        quests?.find((quest) => quest.id === id)?.maxCount || 0;
+        quests.find((quest) => quest.id === id)?.maxCount ?? 0;
       const questCompletedCount = completedQuests?.filter(
-        (questId) => questId === id
+        ({ questId }) => questId === id
       ).length;
-      if (questCompletedCount >= questMaxCount) return;
-      if (
-        [
-          "roomSharing",
-          "eventSharingOnInstagram",
-          "purchaseSharingOnInstagram",
-        ].includes(id)
-      ) {
+      if (questMaxCount > 0 && questCompletedCount >= questMaxCount) return;
+      if (["roomSharing", "dailyAttendance"].includes(id)) {
         axios({
           url: `/events/2024fall/quests/complete/${id}`,
           method: "post",

@@ -2,13 +2,17 @@ import { Quest, QuestId } from "@/types/event2024fall";
 
 import { atom } from "recoil";
 
+type CompletedQuest = {
+  questId: QuestId;
+  completedAt: Date;
+};
+
 export type Event2024FallInfoType = Nullable<{
   isAgreeOnTermsOfEvent: boolean;
-  completedQuests: QuestId[];
+  isBanned: boolean;
   creditAmount: number;
-  ticket1Amount: number;
-  ticket2Amount: number;
   quests: Quest[];
+  completedQuests: CompletedQuest[];
 }>;
 
 const event2024FallInfoAtom = atom<Event2024FallInfoType>({

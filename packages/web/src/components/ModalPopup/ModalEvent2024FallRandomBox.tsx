@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 
-import type { EventItem } from "@/types/event2023fall";
+import type { EventItem } from "@/types/event2024fall";
 
 import { useDelay, useDelayBoolean } from "@/hooks/useDelay";
 
@@ -17,7 +17,7 @@ import BodyRandomBox from "@/components/Event/BodyRandomBox";
 import Loading from "@/components/Loading";
 import Modal from "@/components/Modal";
 
-import "./ModalEvent2023FallRandomBoxBackground.css";
+import "./ModalEvent2024FallRandomBoxBackground.css";
 
 import theme from "@/tools/theme";
 
@@ -25,21 +25,21 @@ import HelpCenterRoundedIcon from "@mui/icons-material/HelpCenterRounded";
 
 const Background = () => (
   <div css={{ position: "absolute", top: "20%", left: 0, bottom: 0, right: 0 }}>
-    <div className="c2023fallevent-before"></div>
-    <div className="c2023fallevent-after"></div>
+    <div className="c2024fallevent-before"></div>
+    <div className="c2024fallevent-after"></div>
   </div>
 );
 
-type ModalEvent2023FallRandomBoxProps = {
+type ModalEvent2024FallRandomBoxProps = {
   item?: EventItem;
   setShareItem?: Dispatch<SetStateAction<Nullable<EventItem>>>;
 } & Parameters<typeof Modal>[0];
 
-const ModalEvent2023FallRandomBox = ({
+const ModalEvent2024FallRandomBox = ({
   item,
   setShareItem,
   ...modalProps
-}: ModalEvent2023FallRandomBoxProps) => {
+}: ModalEvent2024FallRandomBoxProps) => {
   const [isBoxOpend, setIsBoxOpend] = useState<boolean>(false);
   const isDisplayRandomBox = !useDelayBoolean(!modalProps.isOpen, 500);
   const isDisplayItemName = useDelay<boolean>(isBoxOpend, !isBoxOpend, 6000);
@@ -128,4 +128,4 @@ const ModalEvent2023FallRandomBox = ({
   );
 };
 
-export default memo(ModalEvent2023FallRandomBox);
+export default memo(ModalEvent2024FallRandomBox);
