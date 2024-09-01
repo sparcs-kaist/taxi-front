@@ -20,6 +20,7 @@ import { ReactComponent as MissionCompleteIcon } from "@/static/events/2023fallM
 type MissionContainerProps = {
   quest: Quest;
 };
+
 const MissionContainer = ({ quest }: MissionContainerProps) => {
   const { completedQuests } = useValueRecoilState("event2024FallInfo") || {};
   const [isDone, questCompletedCnt] = useMemo(() => {
@@ -125,7 +126,8 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
       </div>
       <div css={styleReward}>
         <div css={styleRewardText}>
-          달성 {questCompletedCnt}번 / 최대 {quest.maxCount}번
+          달성 {questCompletedCnt}번 /{" "}
+          {quest.maxCount > 0 ? `최대 ${quest.maxCount}번` : "무제한"}
         </div>
         <div css={{ flexGrow: 1 }} />
         {!isDone && (

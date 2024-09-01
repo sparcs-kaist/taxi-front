@@ -3,7 +3,7 @@ import { useHistory, useParams } from "react-router-dom";
 
 import Footer from "@/components/Footer";
 import {
-  ModalEvent2024FallJoin, // ModalEvent2024SpringJoin,
+  ModalEvent2024FallJoin,
   ModalPrivacyPolicy,
 } from "@/components/ModalPopup";
 
