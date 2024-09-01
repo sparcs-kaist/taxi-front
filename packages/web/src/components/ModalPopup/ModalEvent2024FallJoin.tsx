@@ -49,28 +49,22 @@ const ModalEvent2024FallJoin = ({
     [phoneNumber]
   );
 
-  const [inviterInfo, setInvitorInfo] = useState<{
+  const [inviterInfo, setInviterInfo] = useState<{
     profileImageUrl: string;
     nickname: string;
   }>();
-
-  const getInvitorInfo = useCallback(
-    () =>
-      axios({
-        url: `/events/2024fall/invite/search/${inviterId}`,
-        method: "get",
-        onSuccess: (data) => {
-          setInvitorInfo(data);
-        },
-        onError: () => setAlert("올바르지 않은 추천인입니다."),
-      }), // ToDo : 추천인 엔드포인트 점검
-    [inviterId]
-  );
-
   const isInvited = !!inviterId;
 
   useEffect(() => {
-    if (!isAgreeOnTermsOfEvent && isInvited) getInvitorInfo();
+    if (isAgreeOnTermsOfEvent || !isInvited) return;
+    axios({
+      url: `/events/2024fall/invites/search/${inviterId}`,
+      method: "get",
+      onSuccess: (data) => {
+        setInviterInfo(data);
+      },
+      onError: () => setAlert("올바르지 않은 추천인입니다."),
+    });
   }, [inviterId]);
 
   const onClickJoin = useCallback(
@@ -89,7 +83,7 @@ const ModalEvent2024FallJoin = ({
         onError: () => setAlert("이벤트 참여에 실패하였습니다."),
       }),
     [phoneNumber, setPhoneNumber, event2024FallQuestComplete]
-  ); // ToDo : 엔드포인트 점검
+  );
 
   const styleTitle = {
     ...theme.font18,

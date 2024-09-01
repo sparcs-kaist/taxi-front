@@ -23,20 +23,10 @@ const routeProps = [
     exact: true,
   },
   {
-    path: ["/home", "/home/:roomId", "/home/startEvent/:inviterId"],
+    path: ["/home", "/home/:roomId", "/home/eventJoin/:inviterId"],
     component: lazy(() => import("@/pages/Home")),
     exact: true,
   },
-  {
-    path: "/event/2024spring-invite/:eventStatusId",
-    component: lazy(() => import("@/pages/Home")),
-    exact: true,
-  },
-  {
-    path: "/event/2024fall-invite/:eventStatusId",
-    component: lazy(() => import("@/pages/Home")),
-    exact: true,
-  }, // 무한로딩 이슈..
   {
     path: "/event/:eventName",
     component: lazy(() => import("@/pages/Event")),
