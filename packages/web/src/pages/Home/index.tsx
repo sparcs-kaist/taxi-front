@@ -1,9 +1,8 @@
-import { useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 
 import Footer from "@/components/Footer";
 import {
-  ModalEvent2024SpringJoin,
+  ModalEvent2024FallJoin,
   ModalPrivacyPolicy,
 } from "@/components/ModalPopup";
 
@@ -11,37 +10,20 @@ import EventSection from "./EventSection";
 import InfoSection from "./InfoSection";
 import RoomSection from "./RoomSection";
 
-import { getDynamicLink } from "@/tools/trans";
-
 const Home = () => {
   const history = useHistory();
 
-  const {
-    roomId: _roomId,
-    inviterId,
-    eventStatusId,
-  } = useParams<{
-    roomId: string;
-    inviterId: string;
-    eventStatusId: string;
+  const { roomId: _roomId, inviterId } = useParams<{
+    roomId?: string;
+    inviterId?: string;
   }>();
 
-  const isOpenEventJoin = inviterId ? true : _roomId == "startEvent";
+  const isOpenEventJoin = inviterId ? true : _roomId === "eventJoin";
   const onChangeIsOpenPrivacyPolicy = () => history.replace("/home");
   const onChangeIsOpenEventJoin = () => history.replace("/home");
 
   const roomId =
     _roomId === "privacyPolicy" ? null : isOpenEventJoin ? null : _roomId;
-
-  useEffect(() => {
-    if (!eventStatusId) return;
-    const redirectPath = window.location.pathname.replace(
-      "/event/2024spring-invite",
-      "/home/startEvent"
-    );
-    const dynamicLink = getDynamicLink(redirectPath);
-    window.location.href = dynamicLink;
-  }, [eventStatusId]);
 
   return (
     <>
@@ -54,7 +36,7 @@ const Home = () => {
         isOpen={_roomId === "privacyPolicy"}
         onChangeIsOpen={onChangeIsOpenPrivacyPolicy}
       />
-      <ModalEvent2024SpringJoin
+      <ModalEvent2024FallJoin
         inviterId={inviterId}
         isOpen={isOpenEventJoin}
         onChangeIsOpen={onChangeIsOpenEventJoin}
