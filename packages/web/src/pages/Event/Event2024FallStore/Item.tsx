@@ -275,10 +275,10 @@ const Event2024FallStoreItem = ({ itemId }: Event2024FallStoreItemProps) => {
         ? [true, "이벤트 기간이 아닙니다"]
         : !event2024FallInfo || !isLogin
         ? [true, "로그인 후 구매가 가능합니다"]
-        : event2024FallInfo.creditAmount < item?.price
+        : event2024FallInfo.creditAmount < (item?.price * purchaseAmount || 0)
         ? [true, "송편코인이 부족합니다"]
         : [false, "응모권 구매하기"],
-    [eventMode, event2024FallInfo, item]
+    [eventMode, event2024FallInfo, item, purchaseAmount]
   );
 
   const onClickOk = useCallback(async () => {
@@ -355,7 +355,7 @@ const Event2024FallStoreItem = ({ itemId }: Event2024FallStoreItemProps) => {
                 ...theme.font14,
               }}
             >
-              <b>경품 수량</b>: {amount}개
+              <b>경품 수량</b>: {item?.realStock || 0}개
             </div>
             <div
               css={{

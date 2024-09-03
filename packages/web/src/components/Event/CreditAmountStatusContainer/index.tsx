@@ -20,8 +20,7 @@ const CreditAmountStatusContainer = ({
   type = "credit",
   ...whiteContainerProps
 }: CreditAmountStatusContainerProps) => {
-  const { creditAmount, ticket1Amount, ticket2Amount } =
-    useValueRecoilState("event2023FallInfo") || {};
+  const { creditAmount } = useValueRecoilState("event2024FallInfo") || {};
 
   return (
     <WhiteContainer
@@ -37,13 +36,13 @@ const CreditAmountStatusContainer = ({
       <div css={{ color: theme.white, ...theme.font16_bold, flexGrow: 1 }}>
         {type === "credit" ? "내가 모은 송편" : "일반 / 고급 응모권"}
       </div>
-      {type === "credit" ? (
-        <>
-          <CreditIcon css={{ width: "27px", height: "16px" }} />
-          <div css={{ color: theme.white, ...theme.font16_bold }}>
-            {creditAmount || 0}
-          </div>
-        </>
+      <>
+        <CreditIcon css={{ width: "27px", height: "16px" }} />
+        <div css={{ color: theme.white, ...theme.font16_bold }}>
+          {creditAmount || 0}
+        </div>
+      </>
+      {/* {type === "credit" ? (
       ) : (
         <>
           <Ticket1Icon
@@ -70,7 +69,7 @@ const CreditAmountStatusContainer = ({
             {ticket2Amount || 0}
           </div>
         </>
-      )}
+      )} */}
     </WhiteContainer>
   );
 };
