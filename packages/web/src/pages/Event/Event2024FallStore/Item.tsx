@@ -231,6 +231,16 @@ const Event2024FallStoreItem = ({ itemId }: Event2024FallStoreItemProps) => {
     useState<boolean>(false);
   const setAlert = useSetRecoilState(alertAtom);
   const axios = useAxios();
+  const changePurchaseAmountHandler = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = e.target.valueAsNumber;
+    if (value < 1 || isNaN(value)) {
+      setPurchaseAmount(1);
+    } else {
+      setPurchaseAmount(value);
+    }
+  };
 
   const { leaderboard, totalAmount, totalUser, amount, probability, rank } =
     useQuery.get(`/events/2024fall/items/leaderboard/${itemId}`, null, [
@@ -389,7 +399,7 @@ const Event2024FallStoreItem = ({ itemId }: Event2024FallStoreItemProps) => {
               />
               구매 수량:
               <input
-                onChange={(e) => setPurchaseAmount(e.target.valueAsNumber)}
+                onChange={changePurchaseAmountHandler}
                 type="number"
                 style={{
                   ...theme.font14,
