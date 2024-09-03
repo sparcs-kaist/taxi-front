@@ -63,6 +63,7 @@ type LeaderboardElem = {
   profileImageUrl: string;
   amount: number;
   probability: number;
+  rank: number;
 };
 
 type LeaderboardItemProps = {
@@ -155,7 +156,7 @@ const LeaderboardItem = ({
         ...styleContainer(isMe ? -1 : rank),
       }}
     >
-      {rank + 1}
+      {rank}
       <div
         css={{
           width: "30px",
@@ -264,6 +265,7 @@ const Event2024FallStoreItem = ({ itemId }: Event2024FallStoreItemProps) => {
       profileImageUrl: profileImgUrl,
       amount: amount || 0,
       probability,
+      rank,
     };
   }, [nickname, profileImgUrl, probability]);
 
@@ -350,14 +352,14 @@ const Event2024FallStoreItem = ({ itemId }: Event2024FallStoreItemProps) => {
           >
             <div
               css={{
-                ...theme.font16,
+                ...theme.font14,
               }}
             >
               <b>경품 수량</b>: {amount}개
             </div>
             <div
               css={{
-                ...theme.font16,
+                ...theme.font14,
               }}
             >
               <b>발급한 사용자 수</b>
@@ -365,7 +367,7 @@ const Event2024FallStoreItem = ({ itemId }: Event2024FallStoreItemProps) => {
             </div>
             <div
               css={{
-                ...theme.font16,
+                ...theme.font14,
               }}
             >
               <b>발급된 총 응모권 수</b>
@@ -386,7 +388,7 @@ const Event2024FallStoreItem = ({ itemId }: Event2024FallStoreItemProps) => {
             </div>
             <div
               css={{
-                ...theme.font16_bold,
+                ...theme.font14_bold,
                 display: "flex",
                 alignItems: "center",
               }}
@@ -438,7 +440,7 @@ const Event2024FallStoreItem = ({ itemId }: Event2024FallStoreItemProps) => {
             {leaderboard.map((elem: LeaderboardElem, index: number) => (
               <LeaderboardItem
                 key={index}
-                rank={index}
+                rank={elem.rank}
                 value={elem}
                 isMe={index === rank - 1}
               />
@@ -450,10 +452,16 @@ const Event2024FallStoreItem = ({ itemId }: Event2024FallStoreItemProps) => {
               css={{
                 color: theme.purple_disabled,
                 ...theme.font12,
-                marginTop: "10px",
+                marginTop: "20px",
               }}
             >
-              • 경고문구 {/*ToDo 문구 추가*/}
+              • 리더보드에 표시되는 확률은 이상적인 가정 하에 계산된{" "}
+              <b>상품에 당첨될 확률</b>의 근삿값으로, 실제 확률과 다를 수
+              있습니다. <br />
+              <br />• 확률의 총 합이 100%가 아닌 이유는 여러 사람이 상품에
+              당첨될 수 있기 때문으로, 잘못된 계산이 아닙니다.
+              <br />
+              <br />• 확률은 다른 사용자의 참여에 따라 계속 변동될 수 있습니다.
             </div>
           </>
         ) : (
