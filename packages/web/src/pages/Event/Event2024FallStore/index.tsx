@@ -29,7 +29,7 @@ const Event2024FallStore = () => {
       ),
     [items]
   );
-  const [itemTypeZeros, itemTypeOnes] = useMemo(
+  const [itemTypeZeros, _] = useMemo(
     () => [getItemFilteredList([0, 3]), getItemFilteredList([1, 2])],
     [getItemFilteredList]
   );

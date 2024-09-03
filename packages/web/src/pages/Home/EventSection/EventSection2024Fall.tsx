@@ -1,4 +1,4 @@
-import { ReactElement, useCallback, useEffect, useState } from "react";
+import { ReactElement } from "react";
 import { Link } from "react-router-dom";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
@@ -67,25 +67,14 @@ const ButtonContainer = ({
 };
 
 const EventSection2024Fall = () => {
-  const [amountType, setAmountType] = useState<"credit" | "ticket">("credit");
-  const changeAmountType = useCallback(
-    () => setAmountType((prev) => (prev === "credit" ? "ticket" : "credit")),
-    []
-  );
-  useEffect(() => {
-    const interval = setInterval(changeAmountType, 3000);
-    return () => clearInterval(interval);
-  });
-
   return (
     <AdaptiveDiv type="center">
       <Title icon="festival" isHeader>
         한가위 송편 이벤트
       </Title>
       <CreditAmountStatusContainer
-        type={amountType}
+        type={"credit"}
         css={{ ...theme.cursor() }}
-        onClick={changeAmountType}
       />
       <div css={{ display: "flex", gap: "15px" }}>
         <Link to="/event/2024fall" css={{ width: 0, flexGrow: 1 }}>

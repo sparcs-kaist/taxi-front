@@ -54,7 +54,7 @@ const LeaderboardTopBar = () => (
         flexShrink: 0,
       }}
     />
-    <span css={{ width: "56px" }}>추첨 확률</span>
+    <span css={{ width: "56px" }}>당첨 확률</span>
   </div>
 );
 
@@ -409,7 +409,7 @@ const Event2024FallStoreItem = ({ itemId }: Event2024FallStoreItemProps) => {
             <Button
               type="purple"
               css={{
-                width: "80%",
+                width: "100%",
                 padding: "10px 0 9px",
                 borderRadius: "8px",
                 alignSelf: "center",
@@ -436,6 +436,15 @@ const Event2024FallStoreItem = ({ itemId }: Event2024FallStoreItemProps) => {
             {rank > 20 && myLeaderboardInfo && (
               <LeaderboardItem rank={rank - 1} value={myLeaderboardInfo} isMe />
             )}
+            <div
+              css={{
+                color: theme.purple_disabled,
+                ...theme.font12,
+                marginTop: "10px",
+              }}
+            >
+              • 경고문구 {/*ToDo 문구 추가*/}
+            </div>
           </>
         ) : (
           <Empty type="mobile">리더보드가 비어있습니다.</Empty>
