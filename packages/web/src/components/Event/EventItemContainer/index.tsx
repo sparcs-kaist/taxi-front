@@ -32,7 +32,6 @@ const EventItemContainer = ({
     if (value.itemType === 3) {
       // setIsOpen(true);
     } else {
-      // setIsOpen(true);
       history.push(`/event/2024fall-store/item/${value._id}`);
     }
   };
@@ -99,7 +98,7 @@ const EventItemContainer = ({
           {value.price}
         </div>
       </div>
-      <ModalEvent2024FallItem
+      {/* <ModalEvent2024FallItem
         itemInfo={value}
         fetchItems={fetchItems}
         setRewardItem={setRewardItem}
@@ -112,7 +111,7 @@ const EventItemContainer = ({
           onChangeIsOpen={() => setRewardItem(null)}
           item={rewardItem || undefined}
         />
-      )}
+      )} */}
     </WhiteContainer>
   );
 };

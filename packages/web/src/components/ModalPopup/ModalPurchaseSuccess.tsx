@@ -31,7 +31,7 @@ const ModalPurchaseSuccess = ({
     <Modal
       isOpen={isOpen}
       onChangeIsOpen={onChangeIsOpen}
-      padding="16px 20px 20px"
+      padding="12px 10px 10px"
     >
       <div css={styleTitle}>
         <WbIncandescentIcon css={styleLogo} />
@@ -55,8 +55,8 @@ const ModalPurchaseSuccess = ({
           <Button
             css={{
               width: "100%",
-              height: "40px",
-              ...theme.font16,
+              height: "35px",
+              ...theme.font16_bold,
               ...theme.cursor(),
               textAlign: "center",
               borderRadius: "6px",
