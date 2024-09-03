@@ -28,7 +28,7 @@ const routeProps = [
     exact: true,
   },
   {
-    path: "/event/:eventName",
+    path: ["/event/:eventName", "/event/:eventName/item/:itemId"],
     component: lazy(() => import("@/pages/Event")),
     exact: true,
   },

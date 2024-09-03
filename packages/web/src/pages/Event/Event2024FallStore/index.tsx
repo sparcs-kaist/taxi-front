@@ -39,16 +39,11 @@ const Event2024FallStore = () => {
       <HeaderWithLeftNav
         value="store"
         options={[
-          { value: "store", label: "달토끼 상점", to: "/event/2024fall-store" },
+          { value: "store", label: "뽑기장", to: "/event/2024fall-store" },
           {
             value: "history",
             label: "구매 이력",
             to: "/event/2024fall-history",
-          },
-          {
-            value: "leaderboard",
-            label: "리더보드",
-            to: "/event/2024fall-leaderboard",
           },
         ]}
       />
@@ -66,12 +61,8 @@ const Event2024FallStore = () => {
         </div>
         <PublicNoticeContainer />
         <div css={{ marginTop: "-15px" }} />
-        <Title icon="ticket" isHeader>
-          응모권
-        </Title>
-        <ItemListSection items={itemTypeOnes} fetchItems={fetchItemList} />
         <Title icon="shop" isHeader>
-          아이템
+          경품 응모권
         </Title>
         <ItemListSection items={itemTypeZeros} fetchItems={fetchItemList} />
       </AdaptiveDiv>
