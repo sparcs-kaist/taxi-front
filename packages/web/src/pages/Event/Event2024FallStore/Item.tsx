@@ -425,7 +425,7 @@ const Event2024FallStoreItem = ({ itemId }: Event2024FallStoreItemProps) => {
                 padding: "10px 0 9px",
                 borderRadius: "8px",
                 alignSelf: "center",
-                marginTop: "10px",
+                marginTop: "10%",
                 ...theme.font14_bold,
               }}
               onClick={onClickOk}
