@@ -80,7 +80,7 @@ const EventSection2024Fall = () => {
   return (
     <AdaptiveDiv type="center">
       <Title icon="festival" isHeader>
-        한가위 송편 이벤트
+        추석 이벤트
       </Title>
       <CreditAmountStatusContainer
         type={amountType}
@@ -102,28 +102,32 @@ const EventSection2024Fall = () => {
             <BackgroundMain css={{ width: "100%", height: "100%" }} />
           </ButtonContainer>
         </Link>
-        <Link to="/event/2024fall-missions" css={{ width: 0, flexGrow: 1 }}>
+        <div css={{ width: 0, flexGrow: 1, opacity: 0.5 }}>
+          {/* <Link to="/event/2024fall-missions"> */}
           <ButtonContainer
             title="퀘스트"
-            description={<>이지피지하게 달성하고 달달한 송편 받기</>}
+            description={<>이지피지하게 달성하고 송편코인 받기</>}
           >
             <BackgroundMission css={{ width: "100%", height: "100%" }} />
           </ButtonContainer>
-        </Link>
-        <Link to="/event/2024fall-store" css={{ width: 0, flexGrow: 1 }}>
+          {/* </Link> */}
+        </div>
+        <div css={{ width: 0, flexGrow: 1, opacity: 0.5 }}>
+          {/* <Link to="/event/2024fall-store" > */}
           <ButtonContainer
-            title="달토끼 상점"
+            title="뽑기장"
             description={
               <>
-                귀여운 달토끼가
+                응모권을 사서
                 <br />
-                상점 주인?
+                상품 추첨에 참여하기
               </>
             }
           >
             <BackgroundStore css={{ width: "100%", height: "100%" }} />
           </ButtonContainer>
-        </Link>
+          {/* </Link> */}
+        </div>
       </div>
       <WhiteContainerSuggestJoinEvent />
     </AdaptiveDiv>
