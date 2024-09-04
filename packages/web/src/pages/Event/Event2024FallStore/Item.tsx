@@ -275,6 +275,8 @@ const Event2024FallStoreItem = ({ itemId }: Event2024FallStoreItemProps) => {
         ? [true, "이벤트 기간이 아닙니다"]
         : !event2024FallInfo || !isLogin
         ? [true, "로그인 후 구매가 가능합니다"]
+        : event2024FallInfo.isAgreeOnTermsOfEvent
+        ? [true, "이벤트 참여 동의가 필요합니다"]
         : event2024FallInfo.creditAmount < (item?.price * purchaseAmount || 0)
         ? [true, "송편코인이 부족합니다"]
         : [false, "응모권 구매하기"],
@@ -290,7 +292,7 @@ const Event2024FallStoreItem = ({ itemId }: Event2024FallStoreItemProps) => {
       data: {
         amount: purchaseAmount,
       },
-      onSuccess: ({ reward }) => {
+      onSuccess: () => {
         fetchEvent2024FallInfo();
         setPurchaseAmount(1);
         setIsOpenPurchaseSuccess(true);
@@ -338,8 +340,8 @@ const Event2024FallStoreItem = ({ itemId }: Event2024FallStoreItemProps) => {
           )}
           <WhiteContainer
             css={{
-              width: "calc(50% - 24px)",
-              flexBasis: "calc(50% - 24px)",
+              width: "calc(50% - 8px)",
+              flexBasis: "calc(50% - 8px)",
               boxSizing: "border-box",
               minWidth: "100px",
               padding: "12px 12px 0px 12px",

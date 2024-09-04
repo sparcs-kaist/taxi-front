@@ -1,12 +1,12 @@
-// import { useState } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-import type { EventItem } from "@/types/event2024fall";
+import type { EventItem, RandomBoxResult } from "@/types/event2024fall";
 
-// import {
-//   ModalEvent2024FallItem,
-//   ModalEvent2024FallRandomBox,
-// } from "@/components/ModalPopup";
+import {
+  ModalEvent2024FallItem,
+  ModalEvent2024FallRandomBox,
+} from "@/components/ModalPopup";
 import WhiteContainer from "@/components/WhiteContainer";
 
 import theme from "@/tools/theme";
@@ -26,13 +26,15 @@ const EventItemContainer = ({
   clickable,
 }: EventItemComponentProps) => {
   const history = useHistory();
-  // const [isOpen, setIsOpen] = useState<boolean>(false);
-  // const [rewardItem, setRewardItem] = useState<Nullable<EventItem>>(null);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [randomBoxResult, setRandomBoxResult] =
+    useState<Nullable<RandomBoxResult>>(null);
   const onClickHandler = () => {
-    if (value.itemType === 3) {
-      // setIsOpen(true);
-    } else {
+    if (value.itemType !== 3) {
       history.push(`/event/2024fall-store/item/${value._id}`);
+    } else {
+      // setRewardItem(value);
+      setIsOpen(true);
     }
   };
 
@@ -77,7 +79,6 @@ const EventItemContainer = ({
       <div
         css={{
           ...theme.font14_bold,
-          // color: isSoldOut ? theme.gray_text : theme.black,
         }}
       >
         {value.name}
@@ -92,26 +93,25 @@ const EventItemContainer = ({
         <div
           css={{
             ...theme.font14,
-            // color: isSoldOut ? theme.gray_text : theme.black,
           }}
         >
           {value.price}
         </div>
       </div>
-      {/* <ModalEvent2024FallItem
+      <ModalEvent2024FallItem
         itemInfo={value}
         fetchItems={fetchItems}
-        setRewardItem={setRewardItem}
+        setRandomboxResult={setRandomBoxResult}
         isOpen={isOpen}
         onChangeIsOpen={setIsOpen}
       />
       {value.itemType === 3 && (
         <ModalEvent2024FallRandomBox
-          isOpen={!!rewardItem}
-          onChangeIsOpen={() => setRewardItem(null)}
-          item={rewardItem || undefined}
+          isOpen={!!randomBoxResult}
+          onChangeIsOpen={() => setRandomBoxResult(null)}
+          randomBoxResult={randomBoxResult || undefined}
         />
-      )} */}
+      )}
     </WhiteContainer>
   );
 };

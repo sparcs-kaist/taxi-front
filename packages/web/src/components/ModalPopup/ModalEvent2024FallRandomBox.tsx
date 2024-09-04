@@ -1,6 +1,6 @@
 import { memo, useCallback, useEffect, useState } from "react";
 
-import type { EventItem } from "@/types/event2024fall";
+import type { RandomBoxResult } from "@/types/event2024fall";
 
 import { useDelay, useDelayBoolean } from "@/hooks/useDelay";
 
@@ -14,6 +14,8 @@ import "./ModalEvent2024FallRandomBoxBackground.css";
 
 import theme from "@/tools/theme";
 
+import JackpotFailImage from "@/static/events/2024fallJackpotFail.png";
+import JackpotSuccessImage from "@/static/events/2024fallJackpotSuccess.png";
 import HelpCenterRoundedIcon from "@mui/icons-material/HelpCenterRounded";
 
 const Background = () => (
@@ -24,23 +26,23 @@ const Background = () => (
 );
 
 type ModalEvent2024FallRandomBoxProps = {
-  item?: EventItem;
+  randomBoxResult?: RandomBoxResult;
 } & Parameters<typeof Modal>[0];
 
 const ModalEvent2024FallRandomBox = ({
-  item,
+  randomBoxResult,
   ...modalProps
 }: ModalEvent2024FallRandomBoxProps) => {
   const [isBoxOpend, setIsBoxOpend] = useState<boolean>(false);
   const isDisplayRandomBox = !useDelayBoolean(!modalProps.isOpen, 500);
-  const isDisplayItemName = useDelay<boolean>(isBoxOpend, !isBoxOpend, 6000);
+  const isDisplayResult = useDelay<boolean>(isBoxOpend, !isBoxOpend, 6000);
   const onClickOk = useCallback(() => setIsBoxOpend(true), []);
 
   const onChangeIsOpen = useCallback(
     (isOpen: boolean) => {
       modalProps?.onChangeIsOpen?.(isOpen);
     },
-    [item, modalProps]
+    [randomBoxResult, modalProps]
   );
 
   useEffect(() => {
@@ -82,7 +84,9 @@ const ModalEvent2024FallRandomBox = ({
       <DottedLine />
       {isDisplayRandomBox ? (
         <BodyRandomBox
-          itemImageUrl={item?.imageUrl}
+          itemImageUrl={
+            randomBoxResult?.isJackpot ? JackpotSuccessImage : JackpotFailImage
+          }
           isBoxOpend={isBoxOpend}
           onClickBox={onClickOk}
         />
@@ -91,15 +95,29 @@ const ModalEvent2024FallRandomBox = ({
           <Loading />
         </div>
       )}
-      {isDisplayItemName && (
+      {isDisplayResult && (
         <div css={styleText}>
-          축하합니다! 랜덤박스에서{" "}
-          <b>
-            {'"'}
-            {item?.name || ""}
-            {'"'}
-          </b>
-          을(를) 획득하였습니다
+          {randomBoxResult?.isJackpot ? (
+            <>
+              축하합니다!{" "}
+              <b>
+                {'"'}
+                {randomBoxResult?.amount || ""}
+                {'"'}
+              </b>
+              개를 베팅하여 대박을 터뜨렸습니다
+            </>
+          ) : (
+            <>
+              저런..!{" "}
+              <b>
+                {'"'}
+                {randomBoxResult?.amount || ""}
+                {'"'}
+              </b>
+              개를 베팅하였지만 쪽박을 찼습니다
+            </>
+          )}
         </div>
       )}
       <Button
@@ -109,10 +127,10 @@ const ModalEvent2024FallRandomBox = ({
           borderRadius: "8px",
           ...theme.font14_bold,
         }}
-        disabled={isDisplayItemName ? false : isBoxOpend}
-        onClick={isDisplayItemName ? () => onChangeIsOpen(false) : onClickOk}
+        disabled={isDisplayResult ? false : isBoxOpend}
+        onClick={isDisplayResult ? () => onChangeIsOpen(false) : onClickOk}
       >
-        {isDisplayItemName ? "확인" : "박스 열기"}
+        {isDisplayResult ? "확인" : "박스 열기"}
       </Button>
     </Modal>
   );

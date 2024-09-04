@@ -56,7 +56,7 @@ const ModalPurchaseSuccess = ({
             css={{
               width: "100%",
               height: "35px",
-              ...theme.font16_bold,
+              ...theme.font14_bold,
               ...theme.cursor(),
               textAlign: "center",
               borderRadius: "6px",
