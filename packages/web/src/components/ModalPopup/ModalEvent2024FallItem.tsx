@@ -46,7 +46,6 @@ const ModalEvent2024FallItem = ({
   setShareItem,
   ...modalProps
 }: ModalEvent2024FallItemProps) => {
-  const fetchEvent2024FallInfo = useFetchRecoilState("event2024FallInfo");
   const event2024FallInfo = useValueRecoilState("event2024FallInfo");
   const isLogin = useIsLogin();
 
@@ -80,7 +79,6 @@ const ModalEvent2024FallItem = ({
       method: "post",
       data: { amount: bettingAmount / 100 },
       onSuccess: (result) => {
-        fetchEvent2024FallInfo();
         fetchItems?.();
         modalProps.onChangeIsOpen?.(false);
         if (itemInfo.itemType === 3) {
@@ -92,13 +90,7 @@ const ModalEvent2024FallItem = ({
       onError: () => setAlert("구매를 실패하였습니다."),
     });
     isRequesting.current = false;
-  }, [
-    itemInfo._id,
-    fetchItems,
-    modalProps.onChangeIsOpen,
-    fetchEvent2024FallInfo,
-    bettingAmount,
-  ]);
+  }, [itemInfo._id, fetchItems, modalProps.onChangeIsOpen, bettingAmount]);
 
   const [isDisabled, buttonText] = useMemo(
     () =>
@@ -106,6 +98,8 @@ const ModalEvent2024FallItem = ({
         ? [true, "이벤트 기간이 아닙니다"]
         : !event2024FallInfo || !isLogin
         ? [true, "로그인 후 구매가 가능합니다"]
+        : event2024FallInfo.isAgreeOnTermsOfEvent === false
+        ? [true, "이벤트 참여 동의가 필요합니다"]
         : event2024FallInfo.creditAmount < bettingAmount
         ? [true, "송편코인이 부족합니다"]
         : [false, "구매하기"],

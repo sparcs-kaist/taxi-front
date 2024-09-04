@@ -3,6 +3,8 @@ import { useHistory } from "react-router-dom";
 
 import type { EventItem, RandomBoxResult } from "@/types/event2024fall";
 
+import { useFetchRecoilState } from "@/hooks/useFetchRecoilState";
+
 import {
   ModalEvent2024FallItem,
   ModalEvent2024FallRandomBox,
@@ -25,6 +27,7 @@ const EventItemContainer = ({
   fetchItems,
   clickable,
 }: EventItemComponentProps) => {
+  const fetchEvent2024FallInfo = useFetchRecoilState("event2024FallInfo");
   const history = useHistory();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [randomBoxResult, setRandomBoxResult] =
@@ -108,7 +111,10 @@ const EventItemContainer = ({
       {value.itemType === 3 && (
         <ModalEvent2024FallRandomBox
           isOpen={!!randomBoxResult}
-          onChangeIsOpen={() => setRandomBoxResult(null)}
+          onChangeIsOpen={() => {
+            setRandomBoxResult(null);
+            fetchEvent2024FallInfo();
+          }}
           randomBoxResult={randomBoxResult || undefined}
         />
       )}
