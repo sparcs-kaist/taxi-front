@@ -27,7 +27,6 @@ import theme from "@/tools/theme";
 
 // ToDo : 2023fall 이미지
 import { ReactComponent as TicketIcon } from "@/static/events/2024fallTicket.svg";
-import { ReactComponent as TicketIconTilted } from "@/static/events/2024fallTicketTilted.svg";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const LeaderboardTopBar = () => (
@@ -44,7 +43,7 @@ const LeaderboardTopBar = () => (
   >
     <span>순위</span>
     <span css={{ marginLeft: "16px" }}>닉네임</span>
-    <TicketIconTilted
+    <TicketIcon
       css={{
         marginLeft: "auto",
         width: "30px",
@@ -52,6 +51,7 @@ const LeaderboardTopBar = () => (
         marginTop: "-4px",
         marginBottom: "-4px",
         flexShrink: 0,
+        transform: "rotate(-30deg)",
       }}
     />
     <span css={{ width: "56px" }}>당첨 확률</span>
@@ -298,7 +298,7 @@ const Event2024FallStoreItem = ({ itemId }: Event2024FallStoreItemProps) => {
       onError: () => setAlert("구매를 실패하였습니다."),
     });
     isRequesting.current = false;
-  }, [item?._id, fetchEvent2024FallInfo]);
+  }, [item?._id, fetchEvent2024FallInfo, purchaseAmount]);
 
   // fetchItems,
   return (
@@ -342,7 +342,7 @@ const Event2024FallStoreItem = ({ itemId }: Event2024FallStoreItemProps) => {
               flexBasis: "calc(50% - 24px)",
               boxSizing: "border-box",
               minWidth: "100px",
-              padding: "12px",
+              padding: "12px 12px 0px 12px",
               display: "flex",
               flexDirection: "column",
               alignItems: "left",
@@ -425,6 +425,7 @@ const Event2024FallStoreItem = ({ itemId }: Event2024FallStoreItemProps) => {
                 padding: "10px 0 9px",
                 borderRadius: "8px",
                 alignSelf: "center",
+                marginTop: "10px",
                 ...theme.font14_bold,
               }}
               onClick={onClickOk}
