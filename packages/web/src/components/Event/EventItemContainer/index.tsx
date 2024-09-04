@@ -1,12 +1,12 @@
-import { useState } from "react";
+// import { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import type { EventItem } from "@/types/event2024fall";
 
-import {
-  ModalEvent2024FallItem,
-  ModalEvent2024FallRandomBox,
-} from "@/components/ModalPopup";
+// import {
+//   ModalEvent2024FallItem,
+//   ModalEvent2024FallRandomBox,
+// } from "@/components/ModalPopup";
 import WhiteContainer from "@/components/WhiteContainer";
 
 import theme from "@/tools/theme";
@@ -26,8 +26,8 @@ const EventItemContainer = ({
   clickable,
 }: EventItemComponentProps) => {
   const history = useHistory();
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [rewardItem, setRewardItem] = useState<Nullable<EventItem>>(null);
+  // const [isOpen, setIsOpen] = useState<boolean>(false);
+  // const [rewardItem, setRewardItem] = useState<Nullable<EventItem>>(null);
   const onClickHandler = () => {
     if (value.itemType === 3) {
       // setIsOpen(true);
