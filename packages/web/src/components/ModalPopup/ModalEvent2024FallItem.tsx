@@ -10,11 +10,7 @@ import {
 import type { EventItem, RandomBoxResult } from "@/types/event2024fall";
 
 import { useDelayBoolean } from "@/hooks/useDelay";
-import {
-  useFetchRecoilState,
-  useIsLogin,
-  useValueRecoilState,
-} from "@/hooks/useFetchRecoilState";
+import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
 import Button from "@/components/Button";
