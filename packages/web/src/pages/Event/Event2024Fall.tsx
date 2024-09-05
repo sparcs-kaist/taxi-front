@@ -1,5 +1,4 @@
 import { memo } from "react";
-import { Link } from "react-router-dom";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
@@ -9,20 +8,16 @@ import WhiteContainer from "@/components/WhiteContainer";
 
 import theme from "@/tools/theme";
 
-// ToDo : 2023fall 이미지들
 import { ReactComponent as TaxiLogoIcon } from "@/static/assets/sparcsLogos/TaxiLogo.svg";
-import { ReactComponent as MainSection1 } from "@/static/events/2023fallMainSection1.svg";
 import { ReactComponent as MissionCompleteIcon } from "@/static/events/2023fallMissionComplete.svg";
+import { ReactComponent as MainSection1 } from "@/static/events/2024fallMainSection1.svg";
 import { ReactComponent as MainSection2 } from "@/static/events/2024fallMainSection2.svg";
 import { ReactComponent as MainSection4 } from "@/static/events/2024fallMainSection4.svg";
-// import { ReactComponent as MainSection5 } from "@/static/events/2023fallMainSection5.svg";
-// import { ReactComponent as MainSection5Background } from "@/static/events/2023fallMainSection5Background.svg";
 import { ReactComponent as MainSection6 } from "@/static/events/2024fallMainSection6.svg";
 import { ReactComponent as MainStep2 } from "@/static/events/2024fallMainStep2.svg";
 import { ReactComponent as MainStep3 } from "@/static/events/2024fallMainStep3.svg";
 import { ReactComponent as MainTitle } from "@/static/events/2024fallMainTitle.svg";
 
-// ToDo : 2023fall 문구 (일정만 반영함)
 const Event2024Fall = () => (
   <>
     <HeaderWithBackButton>
@@ -41,16 +36,15 @@ const Event2024Fall = () => (
       />
       <MainTitle
         css={{ width: "218px", maxWidth: "100%", marginTop: "12px" }}
-      />{" "}
-      {/* ToDo : 위 아래가 잘려 보이는 버그 */}
+      />
       <div
         css={{ ...theme.font16_bold, color: theme.purple, marginTop: "16px" }}
       >
-        2024.9.7. ~ 9.23.
+        2024.9.7.(토) ~ 9.23.(월)
       </div>
       <MainSection1 css={{ width: "100%" }} />
     </AdaptiveDiv>
-    <div css={{ background: theme.purple }}>
+    <div css={{ background: theme.purple, height: "253px" }}>
       <AdaptiveDiv type="center">
         <MainSection2 css={{ width: "100%" }} />
       </AdaptiveDiv>
@@ -77,7 +71,7 @@ const Event2024Fall = () => (
           >
             Taxi 퀘스트 달성하고
             <br />
-            송편을 모아보세요!
+            송편코인을 모아보세요!
           </div>
           <div css={{ height: "16px" }} />
           <MissionCompleteIcon css={{ width: "192px", maxWidth: "100%" }} />
@@ -88,9 +82,9 @@ const Event2024Fall = () => (
               color: theme.gray_text,
             }}
           >
-            Taxi 웹사이트와 앱에서 퀘스트 내용 확인
+            Taxi 웹 사이트와 앱에서 퀘스트 내용 확인
             <br />
-            이벤트 기간 내 첫 로그인 시 송편 코인 지급!
+            이벤트 참여 동의만 해도 송편코인 200개 지급
           </div>
           <div css={{ height: "16px" }} />
           {/* <Link to="/event/2024fall-missions" css={{ textDecoration: "none" }}> */}
@@ -126,9 +120,9 @@ const Event2024Fall = () => (
               color: theme.black,
             }}
           >
-            달토끼 상점에서
+            응모권 교환소에서
             <br />
-            아이템을 구매해보세요!
+            경품 응모권을 구매해 보세요!
           </div>
           <div css={{ height: "16px" }} />
           <MainStep2 css={{ width: "100%" }} />
@@ -139,9 +133,9 @@ const Event2024Fall = () => (
               color: theme.gray_text,
             }}
           >
-            경품 응모권은 경품마다 별개로 모아지며,
+            응모권은 경품마다 별개로 발급되며 중복 구매 가능
             <br />
-            중복하여 구매할 수 있습니다.
+            경품 추첨 결과는 9월 30일에 발표
           </div>
           <div css={{ height: "16px" }} />
           {/* <Link to="/event/2024fall-store" css={{ textDecoration: "none" }}> */}
@@ -177,12 +171,12 @@ const Event2024Fall = () => (
               color: theme.black,
             }}
           >
-            경품 응모권 리더보드
+            경품 당첨 확률
             <br />
-            확인하기!
+            리더보드를 확인하세요!
           </div>
           <div css={{ height: "16px" }} />
-          <MainStep3 css={{ width: "216px", maxWidth: "100%" }} />
+          <MainStep3 css={{ width: "233px", maxWidth: "100%" }} />
           <div css={{ height: "16px" }} />
           <div
             css={{
@@ -190,8 +184,8 @@ const Event2024Fall = () => (
               color: theme.gray_text,
             }}
           >
-            응모권 개수가 많을 수록 당첨 확률이 상승합니다.
-            <br />위 사진은 실데이터가 아닌 예시입니다.
+            응모권 개수가 많을수록 당첨 확률이 상승함
+            <br />위 이미지는 예시이므로 실제 데이터와 다를 수 있음
           </div>
           <div css={{ height: "16px" }} />
           {/* <Link
@@ -219,9 +213,9 @@ const Event2024Fall = () => (
         <div css={{ color: theme.white, ...theme.font14_bold }}>EVENT</div>
         <div css={{ height: "16px" }} />
         <div css={{ color: theme.white, ...theme.font20 }}>
-          지금 스토리 공유하고
+          인스타그램 스토리 공유하고
           <br />
-          인스타 공유 이벤트에 참여하세요!
+          공유 이벤트에 참여하세요!
         </div>
         <div css={{ height: "16px" }} />
         <MainSection4 css={{ width: "334px", maxWidth: "100%" }} />
@@ -229,7 +223,7 @@ const Event2024Fall = () => (
         <div css={{ color: theme.gray_line, ...theme.font14 }}>
           추첨 결과는 인스타그램, Ara, Taxi 홈페이지에 발표
           <br />
-          추첨된 아이템 실물 상품으로 교환
+          실물 상품 또는 기프티콘으로 지급
         </div>
       </AdaptiveDiv>
     </div>
@@ -249,6 +243,6 @@ const Event2024Fall = () => (
     </div>
     <Footer type="event-2024fall" />
   </>
-); // ToDo : 2023fall footer 수정
+);
 
 export default memo(Event2024Fall);
