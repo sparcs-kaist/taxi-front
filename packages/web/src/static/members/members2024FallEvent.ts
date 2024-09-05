@@ -11,13 +11,17 @@ const members: Members = [
   },
   {
     position: "🖥️ Back-end Developer",
-    list: [{ name: "김민찬", id: "static", period: "2024" }],
+    list: [
+      { name: "김민찬", id: "static", period: "2024" },
+      { name: "박태현", id: "source", period: "2024" },
+    ],
   },
   {
     position: "⚙️ Front-end Developer",
     list: [
       { name: "권진현", id: "daystar", period: "2024" },
       { name: "황민성", id: "minseong", period: "2024" },
+      { name: "김효경", id: "diana", period: "2024" },
     ],
   },
   {
