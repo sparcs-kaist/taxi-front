@@ -18,6 +18,9 @@ import { ReactComponent as MainStep2 } from "@/static/events/2024fallMainStep2.s
 import { ReactComponent as MainStep3 } from "@/static/events/2024fallMainStep3.svg";
 import { ReactComponent as MainTitle } from "@/static/events/2024fallMainTitle.svg";
 
+const EVENT_INSTAGRAM_URL =
+  "https://www.instagram.com/p/C_H7YTfPEGZ/?igsh=MXh3MWc0NnJsZml3MQ==";
+
 const Event2024Fall = () => (
   <>
     <HeaderWithBackButton>
@@ -208,7 +211,13 @@ const Event2024Fall = () => (
         </WhiteContainer>
       </AdaptiveDiv>
     </div>
-    <div css={{ background: "linear-gradient(to top, #797F6C, #203F76)" }}>
+    <div
+      css={{
+        background: "linear-gradient(to top, #797F6C, #203F76)",
+        ...theme.cursor(),
+      }}
+      onClick={() => window.open(EVENT_INSTAGRAM_URL, "_blank")}
+    >
       <AdaptiveDiv type="center" css={{ padding: "16px", textAlign: "center" }}>
         <div css={{ color: theme.white, ...theme.font14_bold }}>EVENT</div>
         <div css={{ height: "16px" }} />
