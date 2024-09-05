@@ -214,6 +214,7 @@ const Event2024Fall = () => (
     <div
       css={{
         background: "linear-gradient(to top, #797F6C, #203F76)",
+        pointerEvents: "none",
         ...theme.cursor(),
       }}
       onClick={() => window.open(EVENT_INSTAGRAM_URL, "_blank")}
@@ -230,9 +231,11 @@ const Event2024Fall = () => (
         <MainSection4 css={{ width: "334px", maxWidth: "100%" }} />
         <div css={{ height: "16px" }} />
         <div css={{ color: theme.gray_line, ...theme.font14 }}>
-          추첨 결과는 인스타그램, Ara, Taxi 홈페이지에 발표
+          {/* 추첨 결과는 인스타그램, Ara, Taxi 홈페이지에 발표
           <br />
           실물 상품 또는 기프티콘으로 지급
+          <br /> */}
+          인스타그램 게시물은 9월 6일 정오에 업로드 예정
         </div>
       </AdaptiveDiv>
     </div>
