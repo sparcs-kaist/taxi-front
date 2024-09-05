@@ -23,12 +23,7 @@ const routeProps = [
     exact: true,
   },
   {
-    path: ["/home", "/home/:roomId", "/home/startEvent/:inviterId"],
-    component: lazy(() => import("@/pages/Home")),
-    exact: true,
-  },
-  {
-    path: "/event/2024spring-invite/:eventStatusId",
+    path: ["/home", "/home/:roomId", "/home/eventJoin/:inviterId"],
     component: lazy(() => import("@/pages/Home")),
     exact: true,
   },
