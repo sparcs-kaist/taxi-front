@@ -353,7 +353,8 @@ const Event2024FallStoreItem = ({ itemId }: Event2024FallStoreItemProps) => {
               display: "flex",
               flexDirection: "column",
               alignItems: "left",
-              gap: "12px",
+              justifyContent: "space-between",
+              // gap: "12px",
               ...theme.font14,
             }}
           >
@@ -432,7 +433,7 @@ const Event2024FallStoreItem = ({ itemId }: Event2024FallStoreItemProps) => {
                 padding: "10px 0 9px",
                 borderRadius: "8px",
                 alignSelf: "center",
-                marginTop: "10%",
+                // marginTop: "10%",
                 ...theme.font14_bold,
               }}
               onClick={onClickOk}
