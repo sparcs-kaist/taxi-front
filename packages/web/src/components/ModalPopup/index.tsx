@@ -16,6 +16,7 @@ export { default as ModalEvent2024FallDailyAttendance } from "./ModalEvent2024Fa
 export { default as ModalEvent2024FallItem } from "./ModalEvent2024FallItem";
 export { default as ModalEvent2024FallJoin } from "./ModalEvent2024FallJoin";
 export { default as ModalEvent2024FallRandomBox } from "./ModalEvent2024FallRandomBox";
+export { default as ModalEvent2024FallShare } from "./ModalEvent2024FallShare";
 
 export { default as ModalMypageModify } from "./ModalMypageModify";
 export { default as ModalNotification } from "./ModalNotification";
