@@ -93,9 +93,9 @@ const ModalEvent2024FallItem = ({
       eventMode !== "2024fall"
         ? [true, "이벤트 기간이 아닙니다"]
         : !event2024FallInfo || !isLogin
-        ? [true, "로그인 후 구매가 가능합니다"]
+        ? [true, "로그인해야 합니다"]
         : event2024FallInfo.isAgreeOnTermsOfEvent === false
-        ? [true, "이벤트 참여 동의가 필요합니다"]
+        ? [true, "이벤트에 참여해야 합니다"]
         : event2024FallInfo.creditAmount < bettingAmount
         ? [true, "송편코인이 부족합니다"]
         : [false, "구매하기"],

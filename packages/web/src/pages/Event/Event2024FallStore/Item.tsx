@@ -274,9 +274,9 @@ const Event2024FallStoreItem = ({ itemId }: Event2024FallStoreItemProps) => {
       eventMode !== "2024fall"
         ? [true, "이벤트 기간이 아닙니다"]
         : !event2024FallInfo || !isLogin
-        ? [true, "로그인 후 구매가 가능합니다"]
+        ? [true, "로그인해야 합니다"]
         : event2024FallInfo.isAgreeOnTermsOfEvent === false
-        ? [true, "참여약관 동의가 필요합니다"]
+        ? [true, "이벤트에 참여해야 합니다"]
         : event2024FallInfo.creditAmount < (item?.price * purchaseAmount || 0)
         ? [true, "송편코인이 부족합니다"]
         : [false, "응모권 구매하기"],
