@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
@@ -36,21 +36,16 @@ const Event2024Fall = () => {
     useValueRecoilState("event2024FallInfo") || {};
   const axios = useAxios();
 
-  const getInviteUrl = useCallback(
-    () =>
+  useEffect(() => {
+    if (isAgreeOnTermsOfEvent)
       axios({
         url: `/events/2024fall/invites/create`,
         method: "post",
         onSuccess: ({ inviteUrl }) => {
           setInviteUrl(inviteUrl);
         },
-        onError: () => setAlert("공유 링크를 생성하지 못했습니다."),
-      }),
-    [isAgreeOnTermsOfEvent]
-  );
-
-  useEffect(() => {
-    if (isAgreeOnTermsOfEvent) getInviteUrl();
+        onError: () => setAlert("초대 링크를 생성하지 못했습니다."),
+      });
   }, [isAgreeOnTermsOfEvent]);
 
   return (
@@ -271,7 +266,7 @@ const Event2024Fall = () => {
                 color: theme.gray_text,
               }}
             >
-              나의 링크로 친구가 이벤트에 참여하면
+              나의 초대 링크로 친구가 이벤트에 참여하면
               <br />
               친구와 나 모두 송편코인 700개 획득!
             </div>
