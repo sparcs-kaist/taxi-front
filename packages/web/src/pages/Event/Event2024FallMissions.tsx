@@ -7,13 +7,13 @@ import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import CreditAmountStatusContainer from "@/components/Event/CreditAmountStatusContainer";
 import WhiteContainerSuggestJoinEvent from "@/components/Event/WhiteContainerSuggestJoinEvent";
+import WhiteContainerSuggestShareEvent from "@/components/Event/WhiteContainerSuggestShareEvent";
 import Footer from "@/components/Footer";
 import HeaderWithLeftNav from "@/components/Header/HeaderWithLeftNav";
 import WhiteContainer from "@/components/WhiteContainer";
 
 import theme from "@/tools/theme";
 
-// ToDo : 2023fall 이미지
 import { ReactComponent as CreditIcon } from "@/static/events/2023fallCredit.svg";
 import { ReactComponent as MissionCompleteIcon } from "@/static/events/2023fallMissionComplete.svg";
 
@@ -165,6 +165,7 @@ const Event2024FallMissions = () => {
         <div css={{ height: "30px" }} />
         <CreditAmountStatusContainer />
         <WhiteContainerSuggestJoinEvent />
+        <WhiteContainerSuggestShareEvent />
         {quests?.map((quest) => (
           <MissionContainer key={quest.id} quest={quest} />
         ))}
@@ -172,6 +173,6 @@ const Event2024FallMissions = () => {
       </AdaptiveDiv>
     </>
   );
-}; // ToDo : 2023fall 문구 및 footer
+};
 
 export default memo(Event2024FallMissions);
