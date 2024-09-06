@@ -58,11 +58,6 @@ const Event2024Fall = () => {
       <HeaderWithBackButton>
         <div css={{ color: theme.purple, ...theme.font18 }}>이벤트 안내</div>
       </HeaderWithBackButton>
-      <ModalEvent2024FallShare
-        isOpen={isOpenShare}
-        onChangeIsOpen={setIsOpenShare}
-        inviteUrl={inviteUrl || ""}
-      />
       <AdaptiveDiv
         type="center"
         css={{
@@ -299,6 +294,11 @@ const Event2024Fall = () => {
               이벤트 공유하기
             </Button>
           </WhiteContainer>
+          <ModalEvent2024FallShare
+            isOpen={isOpenShare}
+            onChangeIsOpen={setIsOpenShare}
+            inviteUrl={inviteUrl || ""}
+          />
         </AdaptiveDiv>
       </div>
       <div

@@ -9,6 +9,7 @@ import { ReactComponent as CreditIcon } from "@/static/events/2023fallCredit.svg
 import { ReactComponent as Ticket1Icon } from "@/static/events/2023fallTicket1.svg";
 // ToDo : 2023fall 이미지
 import { ReactComponent as Ticket2Icon } from "@/static/events/2023fallTicket2.svg";
+
 // ToDo : 2023fall 이미지
 
 type CreditAmountStatusContainerProps = {
@@ -34,7 +35,7 @@ const CreditAmountStatusContainer = ({
       {...whiteContainerProps}
     >
       <div css={{ color: theme.white, ...theme.font16_bold, flexGrow: 1 }}>
-        {type === "credit" ? "내가 모은 송편" : "일반 / 고급 응모권"}
+        {type === "credit" ? "내가 모은 송편코인" : "일반 / 고급 응모권"}
       </div>
       {type === "credit" ? (
         <>
