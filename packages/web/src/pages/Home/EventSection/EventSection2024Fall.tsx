@@ -71,7 +71,7 @@ const EventSection2024Fall = () => {
       <Title icon="festival" isHeader>
         추석 이벤트
       </Title>
-      <CreditAmountStatusContainer type={"credit"} />
+      <CreditAmountStatusContainer />
       <div css={{ display: "flex", gap: "15px" }}>
         <Link to="/event/2024fall" css={{ width: 0, flexGrow: 1 }}>
           <ButtonContainer
