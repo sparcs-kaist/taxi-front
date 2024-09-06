@@ -13,6 +13,7 @@ import DottedLine from "@/components/DottedLine";
 import Input from "@/components/Input";
 import Modal from "@/components/Modal";
 
+import LinkLogin from "../Link/LinkLogin";
 import ProfileImage from "../User/ProfileImage";
 
 import alertAtom from "@/atoms/alert";
@@ -108,7 +109,7 @@ const ModalEvent2024FallJoin = ({
     margin: "0 8px",
   };
   const styleInputWrap = {
-    margin: "12px 8px",
+    margin: "0 8px 12px",
     display: "flex",
     alignItems: "center",
     color: theme.gray_text,
@@ -116,7 +117,6 @@ const ModalEvent2024FallJoin = ({
     ...theme.font14,
   } as const;
 
-  // ToDo : 글 작성
   return (
     <Modal padding="16px 12px 12px" {...modalProps}>
       <div css={styleTitle}>
@@ -144,18 +144,18 @@ const ModalEvent2024FallJoin = ({
         위 경우, SPARCS Taxi팀 서비스 관리자는 서비스 부정 이용을 방지하기 위해
         택시 탑승을 인증할 수 있는{" "}
         <b css={{ color: theme.black }}>영수증 또는 카카오T 이용기록</b>을
-        요청할 수 있습니다. 또한, 본 서비스를 부정 이용하는 사용자에게는 택시
+        요청할 수 있습니다. 또한, 본 서비스를 부정 이용하는 사용자에게는 Taxi
         서비스 이용 제한 및 법적 조치를 취할 수 있습니다.
       </div>
       <div css={{ height: "12px" }} />
       <div css={styleText}>
         •{" "}
         <b css={{ color: theme.red_text }}>
-          입력해주신 연락처로 이벤트 상품을 전달해드립니다.
+          입력하신 연락처로 이벤트 상품을 전달해 드립니다.
         </b>{" "}
         또한, 서비스 신고 대응 및 본인 확인을 위해 사용될 수 있습니다.{" "}
         <b css={{ color: theme.red_text }}>
-          입력해주신 연락처는 이후 수정이 불가능합니다.
+          입력하신 연락처는 이후 수정이 불가능합니다.
         </b>
       </div>
       <div css={{ height: "12px" }} />
@@ -165,19 +165,20 @@ const ModalEvent2024FallJoin = ({
           추천인 이벤트 참여를 위해서는 추천인이 발송한 링크로 이벤트에 참여해야
           합니다.
         </b>{" "}
-        추천인을 통해 이벤트에 참여할 시, 참가자와 추천인 모두에게 700
-        송편코인이 지급됩니다.
+        추천인을 통해 이벤트에 참여할 시, 참가자와 추천인 모두에게 송편코인
+        700개가 지급됩니다.
       </div>
       <div css={{ height: "12px" }} />
       <div css={styleText}>
         • 본 약관은 동의 이후에도 {'"'}마이페이지{">"}추석 이벤트 참여 약관{'"'}
         에서 다시 확인하실 수 있습니다.{" "}
       </div>
-      {isLogin &&
-        (isAgreeOnTermsOfEvent ? (
+      <div css={{ height: "12px" }} />
+      <DottedLine />
+      <div css={{ height: "12px" }} />
+      {isLogin ? (
+        isAgreeOnTermsOfEvent ? (
           <>
-            <div css={{ height: "12px" }} />
-            <DottedLine />
             <div css={styleInputWrap}>
               전화번호
               <Input
@@ -200,8 +201,6 @@ const ModalEvent2024FallJoin = ({
           </>
         ) : (
           <>
-            <div css={{ height: "12px" }} />
-            <DottedLine />
             <div css={styleInputWrap}>
               전화번호
               <Input
@@ -211,6 +210,27 @@ const ModalEvent2024FallJoin = ({
                 css={{ width: "100%", marginLeft: "10px" }}
               />
             </div>
+            {isInvited && inviterInfo && (
+              <div css={styleInputWrap}>
+                추천인
+                <div
+                  css={{
+                    width: "24px",
+                    height: "24px",
+                    margin: "0px 10px",
+                    borderRadius: "12px",
+                    overflow: "hidden",
+                    boxShadow: theme.shadow,
+                    flexShrink: 0,
+                  }}
+                >
+                  <ProfileImage url={inviterInfo?.profileImageUrl} />
+                </div>
+                <span css={{ width: "100%", ...theme.ellipsis }}>
+                  {inviterInfo?.nickname}
+                </span>
+              </div>
+            )}
             <Button
               type="purple_inset"
               css={{
@@ -227,27 +247,21 @@ const ModalEvent2024FallJoin = ({
                 : "동의 후 이벤트 참여하기"}
             </Button>
           </>
-        ))}
-      {isInvited && inviterInfo && (
-        <div css={styleInputWrap}>
-          추천인
-          <div
+        )
+      ) : (
+        <LinkLogin>
+          <Button
+            type="purple_inset"
             css={{
-              width: "24px",
-              height: "24px",
-              margin: "0px 10px",
-              borderRadius: "12px",
-              overflow: "hidden",
-              boxShadow: theme.shadow,
-              flexShrink: 0,
+              width: "100%",
+              padding: "10px 0 9px",
+              borderRadius: "8px",
+              ...theme.font14_bold,
             }}
           >
-            <ProfileImage url={inviterInfo?.profileImageUrl} />
-          </div>
-          <span css={{ width: "100%", ...theme.ellipsis }}>
-            {inviterInfo?.nickname}
-          </span>
-        </div>
+            로그인 후 이벤트 참여하기
+          </Button>
+        </LinkLogin>
       )}
     </Modal>
   );
