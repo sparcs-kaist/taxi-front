@@ -349,12 +349,11 @@ const Event2024FallStoreItem = ({ itemId }: Event2024FallStoreItemProps) => {
               flexBasis: "calc(50% - 8px)",
               boxSizing: "border-box",
               minWidth: "100px",
-              padding: "12px 12px 5px 12px",
+              padding: "18px 12px 10px 12px",
               display: "flex",
               flexDirection: "column",
               alignItems: "left",
               justifyContent: "space-between",
-              // gap: "12px",
               ...theme.font14,
             }}
           >
@@ -363,7 +362,8 @@ const Event2024FallStoreItem = ({ itemId }: Event2024FallStoreItemProps) => {
                 ...theme.font14,
               }}
             >
-              <b>경품 수량</b>: {item?.realStock || 0}개
+              <b>경품 수량</b>
+              <br />: {item?.realStock || 0}개
             </div>
             <div
               css={{
