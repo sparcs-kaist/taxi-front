@@ -12,7 +12,7 @@ import { useSetRecoilState } from "recoil";
 
 import theme from "@/tools/theme";
 
-const WhiteContainerShareEvent = () => {
+const WhiteContainerSuggestShareEvent = () => {
   const isLogin = useIsLogin();
   const { isAgreeOnTermsOfEvent } =
     useValueRecoilState("event2024FallInfo") || {};
@@ -83,4 +83,4 @@ const WhiteContainerShareEvent = () => {
   );
 };
 
-export default WhiteContainerShareEvent;
+export default WhiteContainerSuggestShareEvent;

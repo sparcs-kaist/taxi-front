@@ -6,8 +6,8 @@ import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import CreditAmountStatusContainer from "@/components/Event/CreditAmountStatusContainer";
-import WhiteContainerShareEvent from "@/components/Event/WhiteContainerShareEvent";
 import WhiteContainerSuggestJoinEvent from "@/components/Event/WhiteContainerSuggestJoinEvent";
+import WhiteContainerSuggestShareEvent from "@/components/Event/WhiteContainerSuggestShareEvent";
 import Footer from "@/components/Footer";
 import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
 import WhiteContainer from "@/components/WhiteContainer";
@@ -158,7 +158,7 @@ const Event2024FallMissions = () => {
         <div css={{ height: "30px" }} />
         <CreditAmountStatusContainer />
         <WhiteContainerSuggestJoinEvent />
-        <WhiteContainerShareEvent />
+        <WhiteContainerSuggestShareEvent />
         {quests?.map((quest) => (
           <MissionContainer key={quest.id} quest={quest} />
         ))}
@@ -166,6 +166,6 @@ const Event2024FallMissions = () => {
       </AdaptiveDiv>
     </>
   );
-}; // ToDo : 2023fall 문구 및 footer
+};
 
 export default memo(Event2024FallMissions);
