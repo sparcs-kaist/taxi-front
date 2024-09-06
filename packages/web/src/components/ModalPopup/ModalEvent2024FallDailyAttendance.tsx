@@ -68,9 +68,10 @@ const ModalEvent2024FallDailyAttendance = ({
       padding="16px 12px 12px"
       isOpen={isOpen}
       onChangeIsOpen={onChangeIsOpen}
+      css={{ display: "flex", flexDirection: "column" }}
     >
       <DailyAttendance
-        css={{ height: "100%", width: "100%", margin: "0 0 16px" }}
+        css={{ width: "92%", height: "200px", margin: "0 4%" }}
       />
       <CreditAmountStatusContainer />
       <DateSection value={valueDate} handler={setDate} />

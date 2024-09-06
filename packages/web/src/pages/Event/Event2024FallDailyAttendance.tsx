@@ -48,7 +48,10 @@ const Event2024FallMissions = () => {
           },
         ]}
       />
-      <AdaptiveDiv type="center">
+      <AdaptiveDiv
+        type="center"
+        css={{ display: "flex", flexDirection: "column" }}
+      >
         <DailyAttendance css={{ width: "100%" }} />
         <CreditAmountStatusContainer />
         <DateSection value={valueDate} handler={setDate} />
