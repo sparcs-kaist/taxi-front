@@ -1,12 +1,9 @@
-import { memo, useMemo, useState } from "react";
-
-import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import { memo, useState } from "react";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
 import CreditAmountStatusContainer from "@/components/Event/CreditAmountStatusContainer";
 import DailyAttendanceCalendar from "@/components/Event/DailyAttendanceCalendar";
-import WhiteContainerSuggestJoinEvent from "@/components/Event/WhiteContainerSuggestJoinEvent";
 import Footer from "@/components/Footer";
 import HeaderWithLeftNav from "@/components/Header/HeaderWithLeftNav";
 import WhiteContainer from "@/components/WhiteContainer";
@@ -52,7 +49,7 @@ const Event2024FallMissions = () => {
         ]}
       />
       <AdaptiveDiv type="center">
-        <DailyAttendance css={{ height: "100%", width: "100%" }} />
+        <DailyAttendance css={{ width: "100%" }} />
         <CreditAmountStatusContainer />
         <DateSection value={valueDate} handler={setDate} />
         <Button
