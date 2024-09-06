@@ -1,4 +1,4 @@
-import { ReactNode, useMemo } from "react";
+import { ReactNode, useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 import { useEvent2024FallEffect } from "@/hooks/event/useEvent2024FallEffect";
@@ -17,7 +17,10 @@ import {
 
 import HeaderBar from "@/components/Header/HeaderBar";
 import Loading from "@/components/Loading";
-import { ModalTerms } from "@/components/ModalPopup";
+import {
+  ModalEvent2024FallDailyAttendance,
+  ModalTerms,
+} from "@/components/ModalPopup";
 import Error from "@/pages/Error";
 
 import Navigation from "./Navigation";
@@ -27,6 +30,7 @@ import errorAtom from "@/atoms/error";
 import { useRecoilValue } from "recoil";
 
 import { deviceType } from "@/tools/loadenv";
+import moment, { getToday } from "@/tools/moment";
 
 type ContainerProps = {
   children: ReactNode;
@@ -64,6 +68,31 @@ const Skeleton = ({ children }: SkeletonProps) => {
     [pathname]
   );
 
+  const today = getToday();
+  // const today = moment("2024-09-10", "YYYY-MM-DD"); // FIXME: 배포 전에 수정
+  const { isAgreeOnTermsOfEvent = false, completedQuests = [] } =
+    useValueRecoilState("event2024FallInfo") || {};
+
+  // console.log("isAgreeOnTermsOfEvent =====>", isAgreeOnTermsOfEvent);
+  // console.log("completedQuests =====>", completedQuests);
+
+  const todayInitial = completedQuests?.filter(
+    ({ questId, completedAt }) =>
+      questId === "dailyAttendance" && moment(completedAt).isSame(today, "day")
+  );
+
+  // console.log("todayInitial =====>", todayInitial);
+
+  const [dailyAttendanceOpened, setDailyAttendanceOpened] =
+    useState<boolean>(false);
+
+  useEffect(() => {
+    setDailyAttendanceOpened(
+      isAgreeOnTermsOfEvent && todayInitial.length === 0
+    );
+    console.log("dailyAttendanceOpened =====>", dailyAttendanceOpened);
+  }, [isAgreeOnTermsOfEvent, todayInitial]);
+
   //#region event2024Fall
   useEvent2024FallEffect();
   //#endregion
@@ -92,6 +121,11 @@ const Skeleton = ({ children }: SkeletonProps) => {
           )}
           {children}
           <ModalTerms isOpen={!!userId && !isAgreeOnTermsOfService} />
+          <ModalEvent2024FallDailyAttendance
+            isOpen={dailyAttendanceOpened}
+            onChangeIsOpen={setDailyAttendanceOpened}
+          />
+
           {isDisplayNavigation && (
             <div
               css={{

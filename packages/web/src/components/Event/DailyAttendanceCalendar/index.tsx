@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo } from "react";
 
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
@@ -27,8 +27,6 @@ const getCalendarDates = () => {
     },
     [] as string[]
   );
-
-  console.log(completedDates);
 
   const calendar = [];
 
@@ -110,8 +108,8 @@ const Date = ({ index, date, available, checked }: DateProps) => {
   };
   const styleCompleteIcon: React.CSSProperties = {
     position: "absolute",
-    height: "31px",
-    width: "31px",
+    height: "34px",
+    width: "34px",
   };
 
   if (!date) return <div style={style} />;
