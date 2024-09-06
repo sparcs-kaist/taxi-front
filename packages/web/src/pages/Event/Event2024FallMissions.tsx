@@ -14,7 +14,6 @@ import WhiteContainer from "@/components/WhiteContainer";
 
 import theme from "@/tools/theme";
 
-// ToDo : 2023fall 이미지
 import { ReactComponent as CreditIcon } from "@/static/events/2023fallCredit.svg";
 import { ReactComponent as MissionCompleteIcon } from "@/static/events/2023fallMissionComplete.svg";
 

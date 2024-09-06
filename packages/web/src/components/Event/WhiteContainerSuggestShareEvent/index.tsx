@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
@@ -31,21 +31,16 @@ const WhiteContainerSuggestShareEvent = () => {
     ...theme.font14_bold,
   };
 
-  const getInviteUrl = useCallback(
-    () =>
+  useEffect(() => {
+    if (isAgreeOnTermsOfEvent)
       axios({
         url: `/events/2024fall/invites/create`,
         method: "post",
         onSuccess: ({ inviteUrl }) => {
           setInviteUrl(inviteUrl);
         },
-        onError: () => setAlert("공유 링크를 생성하지 못했습니다."),
-      }),
-    [isAgreeOnTermsOfEvent]
-  );
-
-  useEffect(() => {
-    if (isAgreeOnTermsOfEvent) getInviteUrl();
+        onError: () => setAlert("초대 링크를 생성하지 못했습니다."),
+      });
   }, [isAgreeOnTermsOfEvent]);
 
   return (
@@ -56,8 +51,8 @@ const WhiteContainerSuggestShareEvent = () => {
             <b>🎊 이벤트 공유하기</b>
           </div>
           <div css={styleText}>
-            이벤트를 공유하여 친구가 이벤트에 참여하면, 친구와 함께 700
-            송편코인을 받을 수 있어요!
+            이벤트를 공유하여 친구가 이벤트에 참여하면, 친구와 함께 송편코인
+            700개를 받을 수 있어요!
           </div>
           <Button
             type="purple"
