@@ -7,13 +7,13 @@ import theme from "@/tools/theme";
 
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 
-type BodyChatReportSelectUserProps = {
+type BodyEvent2024FallAbuseWarningProps = {
   onChangeIsOpen?: (isOpen: boolean) => void;
 };
 
-const BodyChatReportSelectUser = ({
+const BodyEvent2024FallAbuseWarning = ({
   onChangeIsOpen,
-}: BodyChatReportSelectUserProps) => {
+}: BodyEvent2024FallAbuseWarningProps) => {
   const styleText = {
     ...theme.font12,
     color: theme.gray_text,
@@ -71,13 +71,15 @@ const BodyChatReportSelectUser = ({
       </div>
       <div css={styleText}>
         • 실제로 택시에 탑승하지 않으신 경우,{" "}
-        <b css={{ color: theme.black }}>획득한 넙죽코인이 모두 회수</b>되고
+        <b css={{ color: theme.black }}>
+          획득한 송편코인과 경품 응모권이 모두 회수되고
+        </b>{" "}
         추가적인 <b css={{ color: theme.black }}>이벤트 참여가 제한</b>될 수
         있습니다.
       </div>
       <div css={styleText}>
-        • 자세한 이벤트 약관은 {'"'}마이페이지{">"}새터반 택시대제전 이벤트 참여
-        약관{'"'}에서 확인하실 수 있습니다.{" "}
+        • 자세한 이벤트 약관은 {'"'}마이 페이지{">"}추석 이벤트 참여 약관{'"'}
+        에서 확인하실 수 있습니다.{" "}
       </div>
       <div css={styleText}>그래도 방을 생성할까요?</div>
       <DottedLine />
@@ -127,4 +129,4 @@ const BodyChatReportSelectUser = ({
   );
 };
 
-export default BodyChatReportSelectUser;
+export default BodyEvent2024FallAbuseWarning;

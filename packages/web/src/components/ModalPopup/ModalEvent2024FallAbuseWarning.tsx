@@ -1,19 +1,19 @@
 import Modal from "@/components/Modal";
 
-import BodyEvent2024AbuseWarning from "./Body/BodyEvent2024SpringAbuseWarning";
+import BodyEvent2024FallAbuseWarning from "./Body/BodyEvent2024FallAbuseWarning";
 
 import theme from "@/tools/theme";
 
 import ReportGmailerrorredRoundedIcon from "@mui/icons-material/ReportGmailerrorredRounded";
 
-type ModalEvent2024SpringAbuseWarningProps = Omit<
+type ModalEvent2024FallAbuseWarningProps = Omit<
   Parameters<typeof Modal>[0],
   "padding" | "children" | "onEnter"
 >;
 
-const ModalEvent2024SpringAbuseWarning = ({
+const ModalEvent2024FallAbuseWarning = ({
   ...modalProps
-}: ModalEvent2024SpringAbuseWarningProps) => {
+}: ModalEvent2024FallAbuseWarningProps) => {
   const styleTitle = {
     ...theme.font18,
     display: "flex",
@@ -31,9 +31,11 @@ const ModalEvent2024SpringAbuseWarning = ({
         <ReportGmailerrorredRoundedIcon style={styleIcon} />
         경고
       </div>
-      <BodyEvent2024AbuseWarning onChangeIsOpen={modalProps?.onChangeIsOpen} />
+      <BodyEvent2024FallAbuseWarning
+        onChangeIsOpen={modalProps?.onChangeIsOpen}
+      />
     </Modal>
   );
 };
 
-export default ModalEvent2024SpringAbuseWarning;
+export default ModalEvent2024FallAbuseWarning;
