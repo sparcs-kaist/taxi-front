@@ -308,7 +308,11 @@ const Event2024FallStoreItem = ({ itemId }: Event2024FallStoreItemProps) => {
       <HeaderWithLeftNav
         value="store"
         options={[
-          { value: "store", label: "뽑기장", to: "/event/2024fall-store" },
+          {
+            value: "store",
+            label: "응모권 교환소",
+            to: "/event/2024fall-store",
+          },
           {
             value: "history",
             label: "구매 이력",
@@ -478,6 +482,6 @@ const Event2024FallStoreItem = ({ itemId }: Event2024FallStoreItemProps) => {
       <Footer type="event-2024fall" />
     </>
   );
-}; // ToDo : 2023fall 문구 및 footer
+};
 
 export default Event2024FallStoreItem;

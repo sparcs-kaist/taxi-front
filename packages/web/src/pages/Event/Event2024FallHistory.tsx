@@ -133,7 +133,11 @@ const Event2024FallHistory = () => {
       <HeaderWithLeftNav
         value="history"
         options={[
-          { value: "store", label: "뽑기장", to: "/event/2024fall-store" },
+          {
+            value: "store",
+            label: "응모권 교환소",
+            to: "/event/2024fall-store",
+          },
           {
             value: "history",
             label: "구매 이력",
