@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useMemo, useState } from "react";
+import { ReactNode, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 import { useEvent2024FallEffect } from "@/hooks/event/useEvent2024FallEffect";
@@ -30,7 +30,6 @@ import errorAtom from "@/atoms/error";
 import { useRecoilValue } from "recoil";
 
 import { deviceType } from "@/tools/loadenv";
-import moment, { getToday } from "@/tools/moment";
 
 type ContainerProps = {
   children: ReactNode;
