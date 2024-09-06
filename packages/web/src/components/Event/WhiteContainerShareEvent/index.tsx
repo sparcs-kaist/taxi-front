@@ -4,11 +4,7 @@ import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
 import Button from "@/components/Button";
-import {
-  ModalEvent2024FallJoin,
-  ModalEvent2024FallShare,
-  ModalNotification,
-} from "@/components/ModalPopup";
+import { ModalEvent2024FallShare } from "@/components/ModalPopup";
 import WhiteContainer from "@/components/WhiteContainer";
 
 import alertAtom from "@/atoms/alert";
