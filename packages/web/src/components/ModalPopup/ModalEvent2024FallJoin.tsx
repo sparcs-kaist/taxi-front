@@ -114,7 +114,7 @@ const ModalEvent2024FallJoin = ({
     <Modal padding="16px 12px 12px" {...modalProps}>
       <div css={styleTitle}>
         <FestivalRoundedIcon style={styleIcon} />
-        2024 추석 이벤트 이름 지어줘
+        Taxi 추석 이벤트
       </div>
       <div css={styleText}>
         • 택시 동승을 하지 않는 사용자는{" "}
@@ -163,8 +163,8 @@ const ModalEvent2024FallJoin = ({
       </div>
       <div css={{ height: "12px" }} />
       <div css={styleText}>
-        • 본 약관은 동의 이후에도 {'"'}마이페이지{">"}한가위 송편 이벤트 참여
-        약관{'"'}에서 다시 확인하실 수 있습니다.{" "}
+        • 본 약관은 동의 이후에도 {'"'}마이페이지{">"}추석 이벤트 참여 약관{'"'}
+        에서 다시 확인하실 수 있습니다.{" "}
       </div>
       {isLogin &&
         (isAgreeOnTermsOfEvent ? (
