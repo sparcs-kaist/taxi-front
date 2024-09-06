@@ -1,4 +1,5 @@
 import { memo, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
@@ -26,7 +27,7 @@ import { ReactComponent as MainStep3 } from "@/static/events/2024fallMainStep3.s
 import { ReactComponent as MainTitle } from "@/static/events/2024fallMainTitle.svg";
 
 const EVENT_INSTAGRAM_URL =
-  "https://www.instagram.com/p/C_H7YTfPEGZ/?igsh=MXh3MWc0NnJsZml3MQ==";
+  "https://www.instagram.com/p/C_j1gibhTOa/?igsh=eWoyMnhweGNzeWR2";
 
 const Event2024Fall = () => {
   const [isOpenShare, setIsOpenShare] = useState<boolean>(false);
@@ -117,19 +118,21 @@ const Event2024Fall = () => {
               이벤트 참여 동의만 해도 송편코인 200개 지급
             </div>
             <div css={{ height: "16px" }} />
-            {/* <Link to="/event/2024fall-missions" css={{ textDecoration: "none" }}> */}
-            <Button
-              disabled
-              type="purple_inset"
-              css={{
-                padding: "14px 0 13px",
-                borderRadius: "12px",
-                ...theme.font14_bold,
-              }}
+            <Link
+              to="/event/2024fall-missions"
+              css={{ textDecoration: "none" }}
             >
-              이벤트 시작 후 확인해 보세요!
-            </Button>
-            {/* </Link> */}
+              <Button
+                type="purple_inset"
+                css={{
+                  padding: "14px 0 13px",
+                  borderRadius: "12px",
+                  ...theme.font14_bold,
+                }}
+              >
+                퀘스트 바로가기
+              </Button>
+            </Link>
           </WhiteContainer>
           <div css={{ height: "16px" }} />
           <WhiteContainer
@@ -168,19 +171,18 @@ const Event2024Fall = () => {
               경품 추첨 결과는 9월 30일에 발표
             </div>
             <div css={{ height: "16px" }} />
-            {/* <Link to="/event/2024fall-store" css={{ textDecoration: "none" }}> */}
-            <Button
-              disabled
-              type="purple_inset"
-              css={{
-                padding: "14px 0 13px",
-                borderRadius: "12px",
-                ...theme.font14_bold,
-              }}
-            >
-              이벤트 시작 후 확인해 보세요!
-            </Button>
-            {/* </Link> */}
+            <Link to="/event/2024fall-store" css={{ textDecoration: "none" }}>
+              <Button
+                type="purple_inset"
+                css={{
+                  padding: "14px 0 13px",
+                  borderRadius: "12px",
+                  ...theme.font14_bold,
+                }}
+              >
+                교환소 구경하기
+              </Button>
+            </Link>
           </WhiteContainer>
           <div css={{ height: "16px" }} />
           <WhiteContainer
@@ -218,23 +220,18 @@ const Event2024Fall = () => {
               <br />위 이미지는 실제와 다를 수 있음
             </div>
             <div css={{ height: "16px" }} />
-            {/* <Link
-            to="/event/2024fall-leaderboard"
-            css={{ textDecoration: "none" }}
-          > */}
-            <Button
-              disabled
-              type="purple_inset"
-              css={{
-                padding: "14px 0 13px",
-                borderRadius: "12px",
-                ...theme.font14_bold,
-              }}
-            >
-              {/* 응모권 순위 확인하기 */}
-              이벤트 시작 후 확인해 보세요!
-            </Button>
-            {/* </Link> */}
+            <Link to="/event/2024fall-store" css={{ textDecoration: "none" }}>
+              <Button
+                type="purple_inset"
+                css={{
+                  padding: "14px 0 13px",
+                  borderRadius: "12px",
+                  ...theme.font14_bold,
+                }}
+              >
+                응모권 리더보드 확인하기
+              </Button>
+            </Link>
           </WhiteContainer>
           <div css={{ height: "16px" }} />
           <WhiteContainer
@@ -299,7 +296,6 @@ const Event2024Fall = () => {
       <div
         css={{
           background: "linear-gradient(to top, #797F6C, #203F76)",
-          pointerEvents: "none",
           ...theme.cursor(),
         }}
         onClick={() => window.open(EVENT_INSTAGRAM_URL, "_blank")}
@@ -319,11 +315,9 @@ const Event2024Fall = () => {
           <MainSection4 css={{ width: "334px", maxWidth: "100%" }} />
           <div css={{ height: "16px" }} />
           <div css={{ color: theme.gray_line, ...theme.font14 }}>
-            {/* 추첨 결과는 인스타그램, Ara, Taxi 홈페이지에 발표
-          <br />
-          실물 상품 또는 기프티콘으로 지급
-          <br /> */}
-            인스타그램 게시물은 9월 6일 정오에 업로드 예정
+            이 영역을 누르면 인스타그램 게시물로 이동
+            <br />
+            추첨 결과는 인스타그램, Ara, Taxi 홈페이지에 발표
           </div>
         </AdaptiveDiv>
       </div>
