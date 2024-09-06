@@ -1,7 +1,7 @@
 import { useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useEvent2024SpringQuestComplete } from "@/hooks/event/useEvent2024SpringQuestComplete";
+import { useEvent2024FallQuestComplete } from "@/hooks/event/useEvent2024FallQuestComplete";
 import {
   useFetchRecoilState,
   useValueRecoilState,
@@ -65,8 +65,8 @@ const ModalNotification = ({
   const notificationOptions = useValueRecoilState("notificationOptions");
   const fetchNotificationOptions = useFetchRecoilState("notificationOptions");
   const isAxiosCalled = useRef(false);
-  //#region event2024Spring
-  const event2024SpringQuestComplete = useEvent2024SpringQuestComplete();
+  //#region event2024Fall
+  const event2024FallQuestComplete = useEvent2024FallQuestComplete();
   //#endregion
 
   const styleTitle = {
@@ -113,12 +113,12 @@ const ModalNotification = ({
       fetchNotificationOptions();
       isAxiosCalled.current = false;
 
-      //#region event2024Spring
+      //#region event2024Fall
       if (optionName === "advertisement" && value)
-        event2024SpringQuestComplete("adPushAgreement");
+        event2024FallQuestComplete("adPushAgreement");
       //#endregion
     },
-    [deviceToken, event2024SpringQuestComplete]
+    [deviceToken]
   );
   const onChangeNotificationAll = useCallback(
     async (value: boolean) => {
@@ -149,11 +149,11 @@ const ModalNotification = ({
       fetchNotificationOptions();
       isAxiosCalled.current = false;
 
-      //#region event2024Spring
-      if (value) event2024SpringQuestComplete("adPushAgreement");
+      //#region event2024Fall
+      if (value) event2024FallQuestComplete("adPushAgreement");
       //#endregion
     },
-    [deviceToken, event2024SpringQuestComplete]
+    [deviceToken]
   );
   const onChangeNotificationChatting = useCallback(
     onChangeNotificationOption("chatting"),
