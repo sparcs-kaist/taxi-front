@@ -9,6 +9,7 @@ import { ReactComponent as CreditIcon } from "@/static/events/2023fallCredit.svg
 import { ReactComponent as Ticket1Icon } from "@/static/events/2023fallTicket1.svg";
 // ToDo : 2023fall 이미지
 import { ReactComponent as Ticket2Icon } from "@/static/events/2023fallTicket2.svg";
+
 // ToDo : 2023fall 이미지
 
 type CreditAmountStatusContainerProps = {

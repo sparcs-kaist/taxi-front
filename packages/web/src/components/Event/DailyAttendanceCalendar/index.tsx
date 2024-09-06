@@ -1,14 +1,13 @@
-import PropTypes from "prop-types";
-import { PureComponent, memo, useState } from "react";
+import { memo, useState } from "react";
+
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import MiniCircle from "@/components/MiniCircle";
 
 import moment, { getToday } from "@/tools/moment";
 import theme from "@/tools/theme";
 
-import TodayRoundedIcon from "@mui/icons-material/TodayRounded";
-import UnfoldLessRoundedIcon from "@mui/icons-material/UnfoldLessRounded";
-import UnfoldMoreRoundedIcon from "@mui/icons-material/UnfoldMoreRounded";
+import { ReactComponent as MissionCompleteIcon } from "@/static/events/2023fallMissionComplete.svg";
 
 const getCalendarDates = () => {
   const startDate = moment("2024-09-06", "YYYY-MM-DD");
@@ -18,6 +17,18 @@ const getCalendarDates = () => {
   // const today = moment("2024-09-10", "YYYY-MM-DD"); // FIXME: 배포 전에 수정
   const date = startDate.clone();
   date.subtract(date.day(), "day");
+  const event2024FallInfo = useValueRecoilState("event2024FallInfo");
+  const completedDates = event2024FallInfo?.completedQuests.reduce(
+    (acc, { questId, completedAt }) => {
+      if (questId === "dailyAttendance" && completedAt) {
+        acc.push(moment(completedAt).format("YYYY-MM-DD"));
+      }
+      return acc;
+    },
+    [] as string[]
+  );
+
+  console.log(completedDates);
 
   const calendar = [];
 
@@ -28,9 +39,16 @@ const getCalendarDates = () => {
       let checked = false;
       if (date.isAfter(startDate) && date.isBefore(today)) {
         available = "past";
+      } else if (date.isSame(today)) {
+        available = "today";
       } else if (date.isBefore(endDate) && date.isAfter(startDate, "day")) {
         available = true;
       }
+
+      if (completedDates?.includes(date.format("YYYY-MM-DD"))) {
+        checked = true;
+      }
+
       week.push({
         year: date.year(),
         month: date.month() + 1,
@@ -49,28 +67,27 @@ const getCalendarDates = () => {
 };
 type DateProps = {
   index: number;
-  year: any;
-  month: any;
-  date: any;
-  available: any;
-  handler: (year: any, month: any, date: any) => {};
+  year: number;
+  month: number;
+  date: number;
+  available: string | boolean | null;
+  checked: boolean;
 };
 
-const Date = (props: DateProps) => {
+const Date = ({ index, date, available, checked }: DateProps) => {
   const style = {
     width: "calc((100% - 36px) / 7)",
     aspectRatio: "1 / 1",
     height: "100%",
   };
-  const styleBox = {
+  const styleBox: React.CSSProperties = {
     ...style,
     borderRadius: "6px",
     position: "relative",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    background: props.available ? theme.white : theme.gray_background,
-    // background-image: ;
+    background: available ? theme.white : theme.gray_background,
     transitionDuration: theme.duration,
   };
   const styleDate = {
@@ -78,29 +95,35 @@ const Date = (props: DateProps) => {
     letterSpacing: undefined,
     marginTop: "3px",
     color:
-      props.available === "past" || !props.available
+      available === "past" || !available
         ? theme.gray_line
-        : props.index === 0
+        : index === 0
         ? theme.red_text
-        : props.index === 6
+        : index === 6
         ? theme.blue_text
         : theme.black,
   };
-  const styleToday = {
+  const styleToday: React.CSSProperties = {
     position: "absolute",
     top: "calc(50% + 8px)",
     left: "calc(50% - 2px)",
   };
+  const styleCompleteIcon: React.CSSProperties = {
+    position: "absolute",
+    height: "31px",
+    width: "31px",
+  };
 
-  if (!props.date) return <div style={style} />;
+  if (!date) return <div style={style} />;
   return (
     <div style={styleBox}>
-      <div style={styleDate}>{props.date}</div>
-      {props.available === "startDate" && (
+      <div style={styleDate}>{date}</div>
+      {available === "today" && (
         <div style={styleToday}>
           <MiniCircle type="date" />
         </div>
       )}
+      {checked && <MissionCompleteIcon style={styleCompleteIcon} />}
     </div>
   );
 };
@@ -109,20 +132,18 @@ const MemoizedDate = memo(Date);
 const DailyAttendanceCalendar = () => {
   const dateInfo = getCalendarDates();
 
-  console.log(dateInfo);
-
-  const styleMonth = {
+  const styleMonth: React.CSSProperties = {
     display: "flex",
     flexDirection: "column",
     rowGap: "6px",
     marginBottom: "5px",
   };
-  const styleDay = {
+  const styleDay: React.CSSProperties = {
     display: "flex",
     margin: "12px 0 8px",
     columnGap: "6px",
   };
-  const styleDayItem = {
+  const styleDayItem: React.CSSProperties = {
     width: "calc((100% - 36px) / 7)",
     fontSize: "10px",
     height: "12px",
@@ -178,6 +199,7 @@ const DailyAttendanceCalendar = () => {
                   month={item.month}
                   date={item.date}
                   available={item.available}
+                  checked={item.checked}
                 />
               ))}
             </div>

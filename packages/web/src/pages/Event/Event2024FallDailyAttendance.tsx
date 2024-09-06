@@ -14,9 +14,6 @@ import WhiteContainer from "@/components/WhiteContainer";
 import { getToday } from "@/tools/moment";
 import theme from "@/tools/theme";
 
-// ToDo : 2023fall 이미지
-import { ReactComponent as CreditIcon } from "@/static/events/2023fallCredit.svg";
-import { ReactComponent as MissionCompleteIcon } from "@/static/events/2023fallMissionComplete.svg";
 import { ReactComponent as DailyAttendance } from "@/static/events/2024fallDailyAttendance.svg";
 
 type DateSectionProps = {
@@ -27,10 +24,7 @@ type DateSectionProps = {
 const DateSection = (props: DateSectionProps) => {
   return (
     <WhiteContainer css={{ padding: "10px 15px" }}>
-      <DailyAttendanceCalendar
-        selectedDate={props.value}
-        handler={(x: number, y: number, z: number) => props.handler([x, y, z])}
-      />
+      <DailyAttendanceCalendar />
     </WhiteContainer>
   );
 };
@@ -78,6 +72,6 @@ const Event2024FallMissions = () => {
       </AdaptiveDiv>
     </>
   );
-}; // ToDo : 2023fall 문구 및 footer
+};
 
 export default memo(Event2024FallMissions);
