@@ -9,7 +9,7 @@ import CreditAmountStatusContainer from "@/components/Event/CreditAmountStatusCo
 import WhiteContainerSuggestJoinEvent from "@/components/Event/WhiteContainerSuggestJoinEvent";
 import WhiteContainerSuggestShareEvent from "@/components/Event/WhiteContainerSuggestShareEvent";
 import Footer from "@/components/Footer";
-import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
+import HeaderWithLeftNav from "@/components/Header/HeaderWithLeftNav";
 import WhiteContainer from "@/components/WhiteContainer";
 
 import theme from "@/tools/theme";
@@ -150,9 +150,17 @@ const Event2024FallMissions = () => {
 
   return (
     <>
-      <HeaderWithBackButton>
-        <div css={{ color: theme.purple, ...theme.font18 }}>퀘스트</div>
-      </HeaderWithBackButton>
+      <HeaderWithLeftNav
+        value="quests"
+        options={[
+          { value: "quests", label: "퀘스트", to: "/event/2024fall-missions" },
+          {
+            value: "daily-attendance",
+            label: "출석 체크",
+            to: "/event/2024fall-daily-attendance",
+          },
+        ]}
+      />
       <AdaptiveDiv type="center">
         <div css={{ height: "30px" }} />
         <CreditAmountStatusContainer />
