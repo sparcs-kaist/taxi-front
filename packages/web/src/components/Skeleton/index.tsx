@@ -68,30 +68,8 @@ const Skeleton = ({ children }: SkeletonProps) => {
     [pathname]
   );
 
-  const today = getToday();
-  // const today = moment("2024-09-10", "YYYY-MM-DD"); // FIXME: 배포 전에 수정
-  const { isAgreeOnTermsOfEvent = false, completedQuests = [] } =
-    useValueRecoilState("event2024FallInfo") || {};
-
-  // console.log("isAgreeOnTermsOfEvent =====>", isAgreeOnTermsOfEvent);
-  // console.log("completedQuests =====>", completedQuests);
-
-  const todayInitial = completedQuests?.filter(
-    ({ questId, completedAt }) =>
-      questId === "dailyAttendance" && moment(completedAt).isSame(today, "day")
-  );
-
-  // console.log("todayInitial =====>", todayInitial);
-
   const [dailyAttendanceOpened, setDailyAttendanceOpened] =
     useState<boolean>(false);
-
-  useEffect(() => {
-    setDailyAttendanceOpened(
-      isAgreeOnTermsOfEvent && todayInitial.length === 0
-    );
-    console.log("dailyAttendanceOpened =====>", dailyAttendanceOpened);
-  }, [isAgreeOnTermsOfEvent, todayInitial]);
 
   //#region event2024Fall
   useEvent2024FallEffect();

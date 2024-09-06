@@ -1,14 +1,11 @@
-import { memo, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
+import { useEvent2024FallQuestComplete } from "@/hooks/event/useEvent2024FallQuestComplete";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
-import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
 import CreditAmountStatusContainer from "@/components/Event/CreditAmountStatusContainer";
 import DailyAttendanceCalendar from "@/components/Event/DailyAttendanceCalendar";
-import WhiteContainerSuggestJoinEvent from "@/components/Event/WhiteContainerSuggestJoinEvent";
-import Footer from "@/components/Footer";
-import HeaderWithLeftNav from "@/components/Header/HeaderWithLeftNav";
 import Modal from "@/components/Modal";
 import WhiteContainer from "@/components/WhiteContainer";
 
@@ -46,6 +43,25 @@ const ModalEvent2024FallDailyAttendance = ({
     today.month() + 1,
     today.date(),
   ]);
+
+  const event2024FallQuestComplete = useEvent2024FallQuestComplete();
+
+  const { isAgreeOnTermsOfEvent = false, completedQuests = [] } =
+    useValueRecoilState("event2024FallInfo") || {};
+
+  const todayInitial = completedQuests?.filter(
+    ({ questId, completedAt }) =>
+      questId === "dailyAttendance" && moment(completedAt).isSame(today, "day")
+  );
+
+  useEffect(() => {
+    const modalOpened = isAgreeOnTermsOfEvent && todayInitial.length === 0;
+
+    if (onChangeIsOpen && modalOpened) {
+      onChangeIsOpen(modalOpened); // 모달 열기 상태 변경
+      event2024FallQuestComplete("dailyAttendance");
+    }
+  }, [isAgreeOnTermsOfEvent, todayInitial.length]);
 
   return (
     <Modal

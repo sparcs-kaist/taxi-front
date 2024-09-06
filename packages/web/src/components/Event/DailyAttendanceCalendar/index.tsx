@@ -35,10 +35,10 @@ const getCalendarDates = () => {
     for (let i = 0; i < 7; i++) {
       let available = null;
       let checked = false;
-      if (date.isAfter(startDate) && date.isBefore(today)) {
-        available = "past";
-      } else if (date.isSame(today)) {
+      if (date.isSame(today)) {
         available = "today";
+      } else if (date.isAfter(startDate) && date.isBefore(today)) {
+        available = "past";
       } else if (date.isBefore(endDate) && date.isAfter(startDate, "day")) {
         available = true;
       }
