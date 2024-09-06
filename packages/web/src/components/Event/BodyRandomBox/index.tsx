@@ -14,12 +14,14 @@ type BodyRandomBoxProps = {
   isBoxOpend: boolean;
   onClickBox?: () => void;
   itemImageUrl?: string;
+  nonClick?: boolean;
 };
 
 const BodyRandomBox = ({
   isBoxOpend,
   onClickBox,
   itemImageUrl,
+  nonClick,
 }: BodyRandomBoxProps) => {
   const bodyRef = useRef<HTMLDivElement>(null);
   const getBodyWidth = useCallback(() => bodyRef.current?.clientWidth || 0, []);
@@ -81,7 +83,7 @@ const BodyRandomBox = ({
           height: `${boxSize}px`,
           aspectRatio: 1,
           margin: `0 auto`,
-          ...theme.cursor(isBoxOpend),
+          ...theme.cursor(isBoxOpend || nonClick),
           transform: `scale(${
             (boxSize / 500) * 0.8
           }) translateX(-160px) translateY(-70px)`,

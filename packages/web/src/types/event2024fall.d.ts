@@ -31,6 +31,11 @@ export type EventItem = {
   itemType: number;
 };
 
+export type RandomBoxResult = {
+  isJackpot: boolean;
+  amount: number;
+};
+
 export type Transaction = {
   type: "get" | "use";
   amount: number;

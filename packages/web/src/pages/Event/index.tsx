@@ -11,15 +11,21 @@ import Event2023SpringGuide from "./Event2023SpringGuide";
 import Event2024Fall from "./Event2024Fall";
 import Event2024FallDailyAttendance from "./Event2024FallDailyAttendance";
 import Event2024FallHistory from "./Event2024FallHistory";
-import Event2024FallLeaderboard from "./Event2024FallLeaderboard";
 import Event2024FallMissions from "./Event2024FallMissions";
 import Event2024FallStore from "./Event2024FallStore";
+import Item from "./Event2024FallStore/Item";
 import Event2024Spring from "./Event2024Spring";
 import Event2024SpringLeaderboard from "./Event2024SpringLeaderboard";
 import Event2024SpringMissions from "./Event2024SpringMissions";
 
 const Event = () => {
-  const { eventName } = useParams() as { eventName: string };
+  const { eventName, itemId } = useParams() as {
+    eventName: string;
+    itemId: string;
+  };
+  if (eventName === "2024fall-store" && itemId) {
+    return <Item itemId={itemId} />;
+  }
 
   switch (eventName) {
     case "2022beta":
@@ -50,8 +56,6 @@ const Event = () => {
       return <Event2024FallStore />;
     case "2024fall-history":
       return <Event2024FallHistory />;
-    case "2024fall-leaderboard":
-      return <Event2024FallLeaderboard />;
     case "2024fall-missions":
       return <Event2024FallMissions />;
     case "2024fall-daily-attendance":
