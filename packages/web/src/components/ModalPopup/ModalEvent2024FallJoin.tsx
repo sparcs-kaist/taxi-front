@@ -25,6 +25,7 @@ import FestivalRoundedIcon from "@mui/icons-material/FestivalRounded";
 
 type ModalEvent2024FallJoinProps = Parameters<typeof Modal>[0] & {
   inviterId?: string;
+  defaultPhoneNumber?: string;
 };
 
 const ModalEvent2024FallJoin = ({
@@ -43,7 +44,9 @@ const ModalEvent2024FallJoin = ({
   const event2024FallQuestComplete = useEvent2024FallQuestComplete();
   //#endregion
 
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>(
+    phoneNumberFromLoginInfo || ""
+  );
   const isValidPhoneNumber = useMemo(
     () => regExpTest.phoneNumber(phoneNumber),
     [phoneNumber]
@@ -54,6 +57,10 @@ const ModalEvent2024FallJoin = ({
     nickname: string;
   }>();
   const isInvited = !!inviterId;
+
+  useEffect(() => {
+    setPhoneNumber(phoneNumberFromLoginInfo || "");
+  }, [modalProps.isOpen]);
 
   useEffect(() => {
     if (isAgreeOnTermsOfEvent || !isInvited) return;
