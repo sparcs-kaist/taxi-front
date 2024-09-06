@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import CreditAmountStatusContainer from "@/components/Event/CreditAmountStatusContainer";
-// import WhiteContainerSuggestJoinEvent from "@/components/Event/WhiteContainerSuggestJoinEvent";
+import WhiteContainerSuggestJoinEvent from "@/components/Event/WhiteContainerSuggestJoinEvent";
 import Title from "@/components/Title";
 import WhiteContainer from "@/components/WhiteContainer";
 
@@ -80,41 +80,41 @@ const EventSection2024Fall = () => {
               <>
                 2024/09/07 - 09/23
                 <br />
-                진행 예정!
+                절찬리 진행 중!
               </>
             }
           >
             <BackgroundMain css={{ width: "100%", height: "100%" }} />
           </ButtonContainer>
         </Link>
-        <div css={{ width: 0, flexGrow: 1, opacity: 0.5 }}>
-          {/* <Link to="/event/2024fall-missions"> */}
-          <ButtonContainer
-            title="퀘스트"
-            description={<>이지피지하게 달성하고 송편코인 받기</>}
-          >
-            <BackgroundMission css={{ width: "100%", height: "100%" }} />
-          </ButtonContainer>
-          {/* </Link> */}
+        <div css={{ width: 0, flexGrow: 1 }}>
+          <Link to="/event/2024fall-missions">
+            <ButtonContainer
+              title="퀘스트"
+              description={<>이지피지하게 달성하고 송편코인 받기</>}
+            >
+              <BackgroundMission css={{ width: "100%", height: "100%" }} />
+            </ButtonContainer>
+          </Link>
         </div>
-        <div css={{ width: 0, flexGrow: 1, opacity: 0.5 }}>
-          {/* <Link to="/event/2024fall-store" > */}
-          <ButtonContainer
-            title="응모권 교환소"
-            description={
-              <>
-                응모권 구매해서
-                <br />
-                경품 추첨에 참여하기
-              </>
-            }
-          >
-            <BackgroundStore css={{ width: "100%", height: "100%" }} />
-          </ButtonContainer>
-          {/* </Link> */}
+        <div css={{ width: 0, flexGrow: 1 }}>
+          <Link to="/event/2024fall-store">
+            <ButtonContainer
+              title="응모권 교환소"
+              description={
+                <>
+                  응모권 구매해서
+                  <br />
+                  경품 추첨에 참여하기
+                </>
+              }
+            >
+              <BackgroundStore css={{ width: "100%", height: "100%" }} />
+            </ButtonContainer>
+          </Link>
         </div>
       </div>
-      {/* <WhiteContainerSuggestJoinEvent /> */}
+      <WhiteContainerSuggestJoinEvent />
     </AdaptiveDiv>
   );
 };
