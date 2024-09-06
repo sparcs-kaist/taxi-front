@@ -20,12 +20,14 @@ type EventItemComponentProps = {
   value: EventItem;
   fetchItems?: () => void;
   clickable?: boolean;
+  showDescription?: boolean;
 };
 
 const EventItemContainer = ({
   value,
   fetchItems,
   clickable,
+  showDescription,
 }: EventItemComponentProps) => {
   const fetchEvent2024FallInfo = useFetchRecoilState("event2024FallInfo");
   const history = useHistory();
@@ -86,6 +88,15 @@ const EventItemContainer = ({
       >
         {value.name}
       </div>
+      {showDescription && (
+        <div
+          css={{
+            ...theme.font12,
+          }}
+        >
+          {value.description}
+        </div>
+      )}
       <div
         css={{
           display: "flex",

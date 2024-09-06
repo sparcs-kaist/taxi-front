@@ -340,6 +340,7 @@ const Event2024FallStoreItem = ({ itemId }: Event2024FallStoreItemProps) => {
               key={itemId}
               value={item}
               fetchItems={() => {}}
+              showDescription
             />
           )}
           <WhiteContainer
