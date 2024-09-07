@@ -1,44 +1,17 @@
 import { css, keyframes } from "@emotion/react";
 import { useMemo } from "react";
 
-import useQuery from "@/hooks/useTaxiAPI";
-
 import WhiteContainer from "@/components/WhiteContainer";
 
-import dayjs, {
-  dayDifference2str,
-  dayNowServer,
-  dayServerToClient,
-} from "@/tools/day";
 import theme from "@/tools/theme";
 
 import CampaignRoundedIcon from "@mui/icons-material/CampaignRounded";
 
-type Transaction = {
-  text: string;
-  createAt: Date;
-};
-
 const PublicNoticeContainer = () => {
-  const { transactions }: { transactions: Array<Transaction> } = useQuery.get(
-    "/events/2024fall/publicNotice/recentTransactions"
-  )[1] || { transactions: [] };
-  const notices = useMemo(() => {
-    const publicNotices = transactions
-      .sort((a, b) => dayjs(b.createAt).diff(a.createAt))
-      .map(
-        ({ text, createAt }) =>
-          `[${dayDifference2str(
-            dayServerToClient(createAt),
-            dayNowServer()
-          )}] ${text}`
-      );
-    return [
-      "[공지] 아이템이 조기 소진될 경우 9월 30일(토), 10월 5일(목)에 추가 입고될 예정입니다.",
-      ...publicNotices,
-      "[공지] 이벤트가 종료되면 아이템을 구매할 수 없습니다. 종료 전에 송편을 모두 소진해주세요.",
-    ];
-  }, [transactions]);
+  const notices = [
+    "[공지] 이벤트가 종료되면 응모권과 랜덤박스를 구매할 수 없습니다. 종료 전에 송편코인을 모두 소진해 주세요.",
+    "[공지] 랜덤박스는 경품 응모권이 아닙니다. 일정 확률로 송편코인을 얻거나 잃을 수 있는 특수 아이템입니다.",
+  ];
   const animationDuration = useMemo(
     () => notices.reduce((acc, text) => acc + text.length, 0) * 0.2,
     [notices]

@@ -12,9 +12,12 @@ export { default as ModalEvent2023FallRandomBox } from "./ModalEvent2023FallRand
 export { default as ModalEvent2024SpringAbuseWarning } from "./ModalEvent2024SpringAbuseWarning";
 export { default as ModalEvent2024SpringJoin } from "./ModalEvent2024SpringJoin";
 export { default as ModalEvent2024SpringShare } from "./ModalEvent2024SpringShare";
+export { default as ModalEvent2024FallAbuseWarning } from "./ModalEvent2024FallAbuseWarning";
+export { default as ModalEvent2024FallDailyAttendance } from "./ModalEvent2024FallDailyAttendance";
 export { default as ModalEvent2024FallItem } from "./ModalEvent2024FallItem";
 export { default as ModalEvent2024FallJoin } from "./ModalEvent2024FallJoin";
 export { default as ModalEvent2024FallRandomBox } from "./ModalEvent2024FallRandomBox";
+export { default as ModalEvent2024FallShare } from "./ModalEvent2024FallShare";
 
 export { default as ModalMypageModify } from "./ModalMypageModify";
 export { default as ModalNotification } from "./ModalNotification";

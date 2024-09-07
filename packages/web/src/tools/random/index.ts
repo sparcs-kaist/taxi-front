@@ -13,7 +13,6 @@ export const randomTaxiSloganGenerator = randomGenerator(taxiSlogans);
 export const randomEvent2023FallStoreSpeechGenerator = randomGenerator(
   event2023FallStoreSpeeches
 );
-
 export const randomEvent2024FallStoreSpeechGenerator = randomGenerator(
   event2024FallStoreSpeeches
 );

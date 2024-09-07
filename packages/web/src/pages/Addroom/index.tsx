@@ -12,7 +12,7 @@ import { useAxios } from "@/hooks/useTaxiAPI";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
-import { ModalEvent2024SpringAbuseWarning } from "@/components/ModalPopup";
+import { ModalEvent2024FallAbuseWarning } from "@/components/ModalPopup";
 import {
   OptionDate,
   OptionMaxPeople,
@@ -253,8 +253,8 @@ const AddRoom = () => {
           )}
         </AdaptiveDiv>
       </div>
-      {/* #region event2024Spring */}
-      <ModalEvent2024SpringAbuseWarning
+      {/* #region event2024Fall */}
+      <ModalEvent2024FallAbuseWarning
         isOpen={isOpenModalEventAbuseWarning}
         onChangeIsOpen={async (data) => {
           if (data === true) {
