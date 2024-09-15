@@ -37,6 +37,9 @@ const ModalEvent2024FallDailyAttendance = ({
   onChangeIsOpen,
 }: ModalEvent2024FallDailyAttendanceProps) => {
   const today = getToday();
+  // const today = moment("2024-09-23", "YYYY-MM-DD"); // FIXME: 배포 전에 수정
+  const endDate = moment("2024-09-24", "YYYY-MM-DD");
+  const isEventDay = today.isBefore(endDate);
 
   const [valueDate, setDate] = useState<Array<Nullable<number>>>([
     today.year(),
@@ -55,7 +58,8 @@ const ModalEvent2024FallDailyAttendance = ({
   );
 
   useEffect(() => {
-    const modalOpened = isAgreeOnTermsOfEvent && todayInitial.length === 0;
+    const modalOpened =
+      isEventDay && isAgreeOnTermsOfEvent && todayInitial.length === 0;
 
     if (onChangeIsOpen && modalOpened) {
       onChangeIsOpen(modalOpened); // 모달 열기 상태 변경
