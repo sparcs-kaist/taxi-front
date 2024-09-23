@@ -14,6 +14,7 @@ import WhiteContainer from "@/components/WhiteContainer";
 import alertAtom from "@/atoms/alert";
 import { useSetRecoilState } from "recoil";
 
+import moment, { getToday } from "@/tools/moment";
 import theme from "@/tools/theme";
 
 import { ReactComponent as TaxiLogoIcon } from "@/static/assets/sparcsLogos/TaxiLogo.svg";
@@ -37,8 +38,13 @@ const Event2024Fall = () => {
     useValueRecoilState("event2024FallInfo") || {};
   const axios = useAxios();
 
+  const today = getToday();
+  const startDate = moment("2024-09-06", "YYYY-MM-DD");
+  const endDate = moment("2024-09-24", "YYYY-MM-DD");
+  const isEventDay = today.isBefore(endDate) && today.isAfter(startDate, "day");
+
   useEffect(() => {
-    if (isAgreeOnTermsOfEvent)
+    if (isAgreeOnTermsOfEvent && isEventDay)
       axios({
         url: `/events/2024fall/invites/create`,
         method: "post",
@@ -277,10 +283,13 @@ const Event2024Fall = () => {
               }}
               onClick={() => {
                 if (inviteUrl) setIsOpenShare(true);
-                else
+                else if (isEventDay) {
                   setAlert(
                     "이벤트를 공유하기 위해서는 이벤트에 참여해야 합니다."
                   );
+                } else {
+                  setAlert("이벤트 기간이 아닙니다. ");
+                }
               }}
             >
               이벤트 공유하기

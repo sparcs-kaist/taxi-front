@@ -89,7 +89,9 @@ const ModalEvent2024FallDailyAttendance = ({
           ...theme.font16_bold,
         }}
       >
-        오늘자 출석이 완료되었습니다.
+        {isEventDay
+          ? "오늘자 출석이 완료되었습니다. "
+          : "이벤트 기간이 아닙니다. "}
       </Button>
     </Modal>
   );
