@@ -8,7 +8,7 @@ import Footer from "@/components/Footer";
 import HeaderWithLeftNav from "@/components/Header/HeaderWithLeftNav";
 import WhiteContainer from "@/components/WhiteContainer";
 
-import { getToday } from "@/tools/moment";
+import moment, { getToday } from "@/tools/moment";
 import theme from "@/tools/theme";
 
 import { ReactComponent as DailyAttendance } from "@/static/events/2024fallDailyAttendance.svg";
@@ -28,6 +28,8 @@ const DateSection = (props: DateSectionProps) => {
 
 const Event2024FallMissions = () => {
   const today = getToday();
+  const endDate = moment("2024-09-24", "YYYY-MM-DD");
+  const isEventDay = today.isBefore(endDate);
 
   const [valueDate, setDate] = useState<Array<Nullable<number>>>([
     today.year(),
@@ -65,7 +67,9 @@ const Event2024FallMissions = () => {
             ...theme.font16_bold,
           }}
         >
-          오늘자 출석이 완료되었습니다.
+          {isEventDay
+            ? "오늘자 출석이 완료되었습니다. "
+            : "이벤트 기간이 아닙니다. "}
         </Button>
 
         <Footer type="event-2024fall" />

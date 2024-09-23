@@ -10,6 +10,7 @@ import WhiteContainer from "@/components/WhiteContainer";
 import alertAtom from "@/atoms/alert";
 import { useSetRecoilState } from "recoil";
 
+import moment, { getToday } from "@/tools/moment";
 import theme from "@/tools/theme";
 
 const WhiteContainerSuggestShareEvent = () => {
@@ -20,6 +21,11 @@ const WhiteContainerSuggestShareEvent = () => {
   const [isOpenShare, setIsOpenShare] = useState<boolean>(false);
   const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
+
+  const today = getToday();
+  const startDate = moment("2024-09-06", "YYYY-MM-DD");
+  const endDate = moment("2024-09-24", "YYYY-MM-DD");
+  const isEventDay = today.isBefore(endDate) && today.isAfter(startDate, "day");
 
   const styleText = {
     ...theme.font14,
@@ -32,7 +38,7 @@ const WhiteContainerSuggestShareEvent = () => {
   };
 
   useEffect(() => {
-    if (isAgreeOnTermsOfEvent)
+    if (isAgreeOnTermsOfEvent && isEventDay)
       axios({
         url: `/events/2024fall/invites/create`,
         method: "post",
@@ -59,10 +65,13 @@ const WhiteContainerSuggestShareEvent = () => {
             css={styleButton}
             onClick={() => {
               if (inviteUrl) setIsOpenShare(true);
-              else
+              else if (isEventDay) {
                 setAlert(
                   "이벤트를 공유하기 위해서는 이벤트에 참여해야 합니다."
                 );
+              } else {
+                setAlert("이벤트 기간이 아닙니다.");
+              }
             }}
           >
             이벤트 공유하기
