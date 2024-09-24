@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 
@@ -236,22 +236,24 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
             </InfoSection>
           </div>
         </div>
-        <InfoSection title="참여 시 예상 택시비" alignDirection="left">
-          <div css={{ display: "flex", justifyContent: "start" }}>
-            <p css={theme.font14}>{`${taxiFare.toLocaleString("ko-KR")}원 / ${
-              roomInfo?.part?.length +
-              (isAlreadyPart || isDepart || isRoomFull ? 0 : 1)
-            }명`}</p>
-            <p css={theme.font14_bold}>
-              &nbsp;
-              {`= 인당 ${Math.floor(
-                taxiFare /
-                  (roomInfo?.part?.length +
-                    (isAlreadyPart || isDepart || isRoomFull ? 0 : 1))
-              ).toLocaleString("ko-KR")}원`}
-            </p>
-          </div>
-        </InfoSection>
+        {taxiFare !== 0 ? (
+          <InfoSection title="참여 시 예상 택시비" alignDirection="left">
+            <div css={{ display: "flex", justifyContent: "start" }}>
+              <p css={theme.font14}>{`${taxiFare.toLocaleString("ko-KR")}원 / ${
+                roomInfo?.part?.length +
+                (isAlreadyPart || isDepart || isRoomFull ? 0 : 1)
+              }명`}</p>
+              <p css={theme.font14_bold}>
+                &nbsp;
+                {`= 인당 ${Math.floor(
+                  taxiFare /
+                    (roomInfo?.part?.length +
+                      (isAlreadyPart || isDepart || isRoomFull ? 0 : 1))
+                ).toLocaleString("ko-KR")}원`}
+              </p>
+            </div>
+          </InfoSection>
+        ) : null}
       </div>
       {isLogin || isRoomFull || isDepart ? (
         <Button

@@ -1,19 +1,19 @@
 import Modal from "@/components/Modal";
 
-import BodyEvent2024AbuseWarning from "./Body/BodyEvent2024AbuseWarning";
+import BodyEvent2024AbuseWarning from "./Body/BodyEvent2024SpringAbuseWarning";
 
 import theme from "@/tools/theme";
 
 import ReportGmailerrorredRoundedIcon from "@mui/icons-material/ReportGmailerrorredRounded";
 
-type ModalEvent2024AbuseWarningProps = Omit<
+type ModalEvent2024SpringAbuseWarningProps = Omit<
   Parameters<typeof Modal>[0],
   "padding" | "children" | "onEnter"
 >;
 
-const ModalChatReport = ({
+const ModalEvent2024SpringAbuseWarning = ({
   ...modalProps
-}: ModalEvent2024AbuseWarningProps) => {
+}: ModalEvent2024SpringAbuseWarningProps) => {
   const styleTitle = {
     ...theme.font18,
     display: "flex",
@@ -36,4 +36,4 @@ const ModalChatReport = ({
   );
 };
 
-export default ModalChatReport;
+export default ModalEvent2024SpringAbuseWarning;

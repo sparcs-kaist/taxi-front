@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 
-import { useEvent2024SpringQuestComplete } from "@/hooks/event/useEvent2024SpringQuestComplete";
+import { useEvent2024FallQuestComplete } from "@/hooks/event/useEvent2024FallQuestComplete";
 import {
   useFetchRecoilState,
   useIsLogin,
@@ -12,7 +12,7 @@ import { useAxios } from "@/hooks/useTaxiAPI";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
-import { ModalEvent2024SpringAbuseWarning } from "@/components/ModalPopup";
+import { ModalEvent2024FallAbuseWarning } from "@/components/ModalPopup";
 import {
   OptionDate,
   OptionMaxPeople,
@@ -64,8 +64,8 @@ const AddRoom = () => {
   const isLogin = useIsLogin();
   const myRooms = useValueRecoilState("myRooms");
   const fetchMyRooms = useFetchRecoilState("myRooms");
-  //#region event2024Spring
-  const event2024SpringQuestComplete = useEvent2024SpringQuestComplete();
+  //#region event2024fall
+  const event2024FallQuestComplete = useEvent2024FallQuestComplete();
   const [isOpenModalEventAbuseWarning, setIsOpenModalEventAbuseWarning] =
     useState<boolean>(false);
   //#endregion
@@ -99,7 +99,6 @@ const AddRoom = () => {
     return notPaid;
   }, [myRooms]); // myOngoingRoom은 infoSection의 sortedMyRoom에서 정렬만 뺀 코드입니다. useMemo로 감싼 형태입니다.
   // item : any 가 좋은 방법인지 모르겠습니다
-
 
   useEffect(() => {
     const expirationDate = new Date();
@@ -142,10 +141,10 @@ const AddRoom = () => {
     if (!onCall.current) {
       onCall.current = true;
 
-      // #region event2024Spring
+      // #region event2024fall
       let isAgreeOnTermsOfEvent = false;
       await axios({
-        url: "/events/2024spring/globalState",
+        url: "/events/2024fall/globalState",
         method: "get",
         onSuccess: (data) => {
           if (data.isAgreeOnTermsOfEvent) {
@@ -192,8 +191,8 @@ const AddRoom = () => {
         },
         onSuccess: () => {
           fetchMyRooms();
-          //#region event2024Spring
-          event2024SpringQuestComplete("firstRoomCreation");
+          //#region event2024fall
+          event2024FallQuestComplete("firstRoomCreation");
           //#endregion
           history.push("/myroom");
         },
@@ -221,7 +220,9 @@ const AddRoom = () => {
               />
               <OptionTime value={valueTime} handler={setTime} page="add" />
               <OptionMaxPeople value={valueMaxPeople} handler={setMaxPeople} />
-              <TaxiFare value={taxiFare} roomLength={valueMaxPeople} />
+              {taxiFare !== 0 ? (
+                <TaxiFare value={taxiFare} roomLength={valueMaxPeople} />
+              ) : null}
               <Button
                 type="purple"
                 disabled={validatedMsg ? true : false}
@@ -252,8 +253,8 @@ const AddRoom = () => {
           )}
         </AdaptiveDiv>
       </div>
-      {/* #region event2024Spring */}
-      <ModalEvent2024SpringAbuseWarning
+      {/* #region event2024Fall */}
+      <ModalEvent2024FallAbuseWarning
         isOpen={isOpenModalEventAbuseWarning}
         onChangeIsOpen={async (data) => {
           if (data === true) {
@@ -270,8 +271,8 @@ const AddRoom = () => {
               },
               onSuccess: () => {
                 fetchMyRooms();
-                //#region event2024spring
-                event2024SpringQuestComplete("firstRoomCreation");
+                //#region event2024fall
+                event2024FallQuestComplete("firstRoomCreation");
                 //#endregion
                 history.push("/myroom");
               },

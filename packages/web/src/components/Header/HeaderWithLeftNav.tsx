@@ -53,7 +53,7 @@ const HeaderWithLeftNav = ({ value, options = [] }: HeaderWithLeftNavProps) => (
     <div css={{ display: "flex", gap: "16px" }}>
       <div css={{ flexGrow: 1 }} />
       {options.map(({ value: _value, label, to }) => (
-        <Link key={label} to={to} css={{ textDecoration: "none" }} replace>
+        <Link key={label} to={to} css={{ textDecoration: "none" }}>
           <ButtonNav key={label} selected={_value === value}>
             {label}
           </ButtonNav>

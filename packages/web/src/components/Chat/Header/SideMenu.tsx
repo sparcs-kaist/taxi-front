@@ -111,7 +111,7 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
 
   useEffect(() => {
     getTaxiFare();
-  }, []);
+  }, [roomInfo._id]);
   const isAlone = roomInfo.part.length === 1;
 
   const styleBackground = {
@@ -213,15 +213,19 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
             </div>
           </div>
           <DottedLine />
-          <div css={styleInfoSection}>
-            <div css={{ display: "flex", gap: "8px" }}>
-              <WalletRoundedIcon style={styleIcon} />
-              <div css={{ ...styleInfo }}>
-                예상 택시비 : {taxiFare.toLocaleString("ko-KR")}원
+          {taxiFare !== 0 ? (
+            <>
+              <div css={styleInfoSection}>
+                <div css={{ display: "flex", gap: "8px" }}>
+                  <WalletRoundedIcon style={styleIcon} />
+                  <div css={{ ...styleInfo }}>
+                    예상 택시비 : {taxiFare.toLocaleString("ko-KR")}원
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <DottedLine />
+              <DottedLine />
+            </>
+          ) : null}
           <SideMenuButton type="share" onClick={onClikcShare} />
           <DottedLine />
           <SideMenuButton type="taxi" onClick={onClickCallTaxi} />
