@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { useEvent2024FallQuestComplete } from "@/hooks/event/useEvent2024FallQuestComplete";
 import {
   useFetchRecoilState,
   useIsLogin,
@@ -41,9 +40,6 @@ const ModalEvent2024FallJoin = ({
   const { isAgreeOnTermsOfEvent } =
     useValueRecoilState("event2024FallInfo") || {};
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
-  //#region event2024fall
-  const event2024FallQuestComplete = useEvent2024FallQuestComplete();
-  //#endregion
 
   const [phoneNumber, setPhoneNumber] = useState<string>(
     phoneNumberFromLoginInfo || ""
@@ -83,14 +79,11 @@ const ModalEvent2024FallJoin = ({
         data: { phoneNumber, inviter: inviterId },
         onSuccess: () => {
           fetchLoginInfo();
-          //#region event2024fall
-          event2024FallQuestComplete("firstLogin");
-          //#endregion
           modalProps.onChangeIsOpen?.(false);
         },
         onError: () => setAlert("이벤트 참여에 실패하였습니다."),
       }),
-    [phoneNumber, setPhoneNumber, event2024FallQuestComplete]
+    [phoneNumber, setPhoneNumber]
   );
 
   const styleTitle = {

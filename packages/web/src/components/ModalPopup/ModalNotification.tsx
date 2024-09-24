@@ -1,7 +1,6 @@
 import { useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useEvent2024FallQuestComplete } from "@/hooks/event/useEvent2024FallQuestComplete";
 import {
   useFetchRecoilState,
   useValueRecoilState,
@@ -65,9 +64,6 @@ const ModalNotification = ({
   const notificationOptions = useValueRecoilState("notificationOptions");
   const fetchNotificationOptions = useFetchRecoilState("notificationOptions");
   const isAxiosCalled = useRef(false);
-  //#region event2024Fall
-  const event2024FallQuestComplete = useEvent2024FallQuestComplete();
-  //#endregion
 
   const styleTitle = {
     ...theme.font18,
@@ -112,11 +108,6 @@ const ModalNotification = ({
       });
       fetchNotificationOptions();
       isAxiosCalled.current = false;
-
-      //#region event2024Fall
-      if (optionName === "advertisement" && value)
-        event2024FallQuestComplete("adPushAgreement");
-      //#endregion
     },
     [deviceToken]
   );
@@ -148,10 +139,6 @@ const ModalNotification = ({
       });
       fetchNotificationOptions();
       isAxiosCalled.current = false;
-
-      //#region event2024Fall
-      if (value) event2024FallQuestComplete("adPushAgreement");
-      //#endregion
     },
     [deviceToken]
   );

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 
-import { useEvent2024FallQuestComplete } from "@/hooks/event/useEvent2024FallQuestComplete";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import Button from "@/components/Button";
@@ -47,8 +46,6 @@ const ModalEvent2024FallDailyAttendance = ({
     today.date(),
   ]);
 
-  const event2024FallQuestComplete = useEvent2024FallQuestComplete();
-
   const { isAgreeOnTermsOfEvent = false, completedQuests = [] } =
     useValueRecoilState("event2024FallInfo") || {};
 
@@ -63,7 +60,6 @@ const ModalEvent2024FallDailyAttendance = ({
 
     if (onChangeIsOpen && modalOpened) {
       onChangeIsOpen(modalOpened); // 모달 열기 상태 변경
-      event2024FallQuestComplete("dailyAttendance");
     }
   }, [isAgreeOnTermsOfEvent, todayInitial.length]);
 
