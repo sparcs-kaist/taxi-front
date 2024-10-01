@@ -11,7 +11,7 @@ type LinkPaymentProps = {
 
 const bankName2Code = (name: Nullable<string>): Nullable<string> => {
   if (!name) return undefined;
-  const bankName2CodeMap = [
+  const bankName2CodeMap = new Map([
     ["농협", "011"],
     ["국민", "004"],
     ["카카오", "090"],
@@ -36,10 +36,8 @@ const bankName2Code = (name: Nullable<string>): Nullable<string> => {
     ["제주", "035"],
     ["산업", "002"],
     ["산림", "064"],
-  ];
-  return (
-    bankName2CodeMap.find((item) => name.includes(item[0]))?.[1] || undefined
-  );
+  ]);
+  return bankName2CodeMap.get(name);
 };
 
 const LinkPayment = ({ children, account, type, amount }: LinkPaymentProps) => {
