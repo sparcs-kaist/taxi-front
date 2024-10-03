@@ -2,7 +2,6 @@ import axiosOri from "axios";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useEvent2024FallQuestComplete } from "@/hooks/event/useEvent2024FallQuestComplete";
 import {
   useFetchRecoilState,
   useValueRecoilState,
@@ -144,9 +143,6 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
 
   const loginInfo = useValueRecoilState("loginInfo");
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
-  //#region event2024Fall
-  const event2024FallQuestComplete = useEvent2024FallQuestComplete();
-  //#endregion
   const setAlert = useSetRecoilState(alertAtom);
 
   useEffect(() => {
@@ -169,9 +165,6 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         method: "post",
         data: { nickname },
         onError: () => setAlert(t("page_modify.nickname_failed")),
-        //#region event2024Fall
-        onSuccess: () => event2024FallQuestComplete("nicknameChanging"), // event2024Fall
-        //#endregion
       });
     }
     if (account !== loginInfo?.account) {
@@ -181,9 +174,6 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         method: "post",
         data: { account },
         onError: () => setAlert(t("page_modify.account_failed")),
-        //#region event2024Fall
-        onSuccess: () => event2024FallQuestComplete("accountChanging"), // event2024Fall
-        //#endregion
       });
     }
     if (isNeedToUpdateLoginInfo) {
