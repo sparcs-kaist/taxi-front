@@ -58,8 +58,8 @@ const ModalAccountCancelProcess = ({
 
   const onCancel = async () => {
     const response = await axios({
-      url: "/users/delete",
-      method: "delete",
+      url: "/users/withdraw",
+      method: "post",
       data: { userId },
       onSuccess: () => {
         setAlert("회원 탈퇴가 완료되었습니다.");
