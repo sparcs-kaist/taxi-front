@@ -31,7 +31,15 @@ const BodyAccountCancelProcess = ({
   return (
     <div style={styleBox}>
       <div style={styleSection} />
-      <div style={styleContent}>(탈퇴 관련 안내 사항)</div>
+      <div style={styleContent}>
+        지금까지 Taxi 서비스를 이용해 주셔서 감사합니다. <br />
+        탈퇴 후에는 복구가 어려우며, &&&&(정해야 함)&&&& 같은 아이디로 다시
+        가입이 불가능하오니, 탈퇴 전에 해야 하는 일이 있다면 반드시 확인해
+        주시기를 바랍니다.
+        <br />
+        개인정보 처리 방침에 따라, 개인정보는 탈퇴 후 &&&&(정해야 함)&&&& 5년간
+        보관 후 삭제됩니다.
+      </div>
       {!isCancelAvailable && (
         <>
           <div style={styleSection}>
