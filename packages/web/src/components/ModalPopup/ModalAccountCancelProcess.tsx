@@ -38,6 +38,8 @@ const ModalAccountCancelProcess = ({
   const myOngoingRoom = myRooms?.ongoing.slice() ?? [];
   const roomCompleted = myOngoingRoom.length === 0;
 
+  const isEligible = roomCompleted; // 탈퇴 가능 여부 가능한 거 전부 반영
+
   const isLogin = useIsLogin();
   const [page, setPage] = useState<1 | 2>(1);
 
@@ -116,13 +118,13 @@ const ModalAccountCancelProcess = ({
                 취소
               </Button>
               <Button
-                type="purple_inset"
+                type={isEligible ? "purple_inset" : "gray"}
                 css={{
                   padding: "9px 24px 10px",
                   borderRadius: "8px",
                   ...theme.font14_bold,
                 }}
-                onClick={() => setPage(2)}
+                onClick={() => (isEligible ? setPage(2) : {})}
               >
                 다음
               </Button>
