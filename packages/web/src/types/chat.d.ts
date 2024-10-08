@@ -11,9 +11,9 @@ type CommonChat = {
 
 export type UserChat = {
   type: "text" | "s3img" | "payment" | "settlement" | "account";
-  authorId: string;
-  authorName: string;
-  authorProfileUrl: string;
+  authorId?: string;
+  authorName?: string;
+  authorProfileUrl?: string;
 } & CommonChat;
 export type GeneralChat = {
   type: "in" | "out";
