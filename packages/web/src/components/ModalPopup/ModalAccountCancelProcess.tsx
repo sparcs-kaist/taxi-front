@@ -17,6 +17,7 @@ import { useSetRecoilState } from "recoil";
 import theme from "@/tools/theme";
 
 import { ReactComponent as TaxiLogo } from "@/static/assets/sparcsLogos/TaxiLogo.svg";
+import { autocompleteClasses } from "@mui/material";
 
 type PopupAccountCancelProcessProps = {
   isOpen: boolean;
@@ -76,6 +77,12 @@ const ModalAccountCancelProcess = ({
       onChangeIsOpen={onChangeIsOpen}
       width={theme.modal_width_large}
       padding="16px"
+      css={{
+        // alert modal의 2배 이하로.
+        maxWidth:
+          String(Number(theme.modal_width_alert.split("px")[0]) * 2) + "px",
+        margin: "auto",
+      }}
     >
       <div style={styleTop}>
         <TaxiLogo style={{ height: "27px" }} />
