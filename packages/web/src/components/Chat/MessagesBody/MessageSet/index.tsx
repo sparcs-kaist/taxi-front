@@ -166,7 +166,7 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
         <div css={styleMessageSection}>
           {authorId !== userOid && (
             <div css={styleName} className="selectable">
-              {authorName ? authorName : "탈퇴한 사용자"}
+              {authorName}
             </div>
           )}
           {chats.map((chat, index) => (

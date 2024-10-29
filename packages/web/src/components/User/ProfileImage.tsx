@@ -5,14 +5,14 @@ import theme from "@/tools/theme";
 import defaultImg from "@/static/assets/profileImgOnError.png";
 
 type ProfileImageProps = {
-  url?: string;
+  url: string;
 };
 
 const ProfileImage = ({ url }: ProfileImageProps) => {
-  const [src, setSrc] = useState(url ? url : defaultImg);
+  const [src, setSrc] = useState(url);
 
   useEffect(() => {
-    setSrc(url ? url : defaultImg);
+    setSrc(url);
   }, [url]);
 
   return (
