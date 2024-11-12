@@ -191,11 +191,6 @@ const Mypage = () => {
       <WhiteContainer>
         <div css={{ display: "grid", rowGap: "16px" }}>
           {userId && (
-            <Menu icon="credit" onClick={onClickCancelAccount}>
-              {t("cancel_account")}
-            </Menu>
-          )}
-          {userId && (
             <Menu icon="report" onClick={onClickReport}>
               {t("report_record")}
             </Menu>
@@ -232,10 +227,16 @@ const Mypage = () => {
               <Menu icon="logout">{t("logout")}</Menu>
             </LinkLogout>
           )}
-          {userId && deviceType === "app/android" && (
-            <Menu icon="cancel_account" onClick={onClickCancelAccount}>
-              {t("cancel_account")}
-            </Menu>
+        </div>
+      </WhiteContainer>
+      <WhiteContainer>
+        <div css={{ display: "grid", rowGap: "16px" }}>
+          {userId && (
+            <div css={{ color: theme.red_text }}>
+              <Menu icon="cancel_account" onClick={onClickCancelAccount}>
+                {t("cancel_account")}
+              </Menu>
+            </div>
           )}
         </div>
       </WhiteContainer>
