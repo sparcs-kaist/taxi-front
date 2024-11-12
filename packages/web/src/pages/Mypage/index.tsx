@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 
 import channelService from "@/hooks/skeleton/useChannelTalkEffect/channelService";
-import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Footer from "@/components/Footer";
