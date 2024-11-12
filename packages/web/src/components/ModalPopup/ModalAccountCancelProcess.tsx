@@ -17,7 +17,6 @@ import { useSetRecoilState } from "recoil";
 import theme from "@/tools/theme";
 
 import { ReactComponent as TaxiLogo } from "@/static/assets/sparcsLogos/TaxiLogo.svg";
-import { autocompleteClasses } from "@mui/material";
 
 type PopupAccountCancelProcessProps = {
   isOpen: boolean;

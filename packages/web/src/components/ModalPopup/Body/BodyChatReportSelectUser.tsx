@@ -12,7 +12,6 @@ import User from "@/components/User";
 import { dayServerToClient } from "@/tools/day";
 import theme from "@/tools/theme";
 
-import { TheaterComedySharp } from "@mui/icons-material";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 
