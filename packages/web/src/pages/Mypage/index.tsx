@@ -27,7 +27,7 @@ import WhiteContainerSuggestLogin from "@/components/WhiteContainer/WhiteContain
 
 import Menu from "./Menu";
 
-import { deviceType, eventMode, isDev } from "@/tools/loadenv";
+import { eventMode, isDev } from "@/tools/loadenv";
 import theme from "@/tools/theme";
 import { isNotificationOn } from "@/tools/trans";
 
