@@ -160,7 +160,10 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
               {isBot ? (
                 <TaxiIcon css={{ width: "100%", height: "100%" }} />
               ) : (
-                <ProfileImage url={authorProfileUrl} />
+                <ProfileImage
+                  url={authorProfileUrl}
+                  withdraw={authorIsWithdrew}
+                />
               )}
             </div>
           )}

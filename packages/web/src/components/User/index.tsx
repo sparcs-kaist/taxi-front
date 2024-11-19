@@ -27,7 +27,7 @@ const User = ({ value, isDeparted }: UserProps) => {
           background: theme.gray_line,
         }}
       >
-        <ProfileImage url={value.profileImageUrl} />
+        <ProfileImage url={value.profileImageUrl} withdraw={value.withdraw} />
       </div>
       <div
         css={{
