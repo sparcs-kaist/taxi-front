@@ -117,10 +117,11 @@ const ModalAccountCancelProcess = ({
                 취소
               </Button>
               <Button
-                type={isEligible ? "purple_inset" : "gray"}
+                type={isEligible ? "purple_inset" : "purple"}
                 css={{
                   padding: "9px 24px 10px",
                   borderRadius: "8px",
+                  backgroundColor: theme.purple_disabled,
                   ...theme.font14_bold,
                 }}
                 onClick={() => (isEligible ? setPage(2) : {})}
