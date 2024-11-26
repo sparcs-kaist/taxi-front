@@ -11,7 +11,7 @@ import dayjs, { dayNowClient, syncDayWithServer } from "@/tools/day";
 
 export type AxiosOption = {
   url: string;
-  method: "get" | "post" | "delete";
+  method: "get" | "post";
   data?: any;
   params?: any;
   onError?: (error: unknown) => void;

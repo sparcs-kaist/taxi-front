@@ -15,7 +15,7 @@ const ProfileImage = ({ url, withdraw = false }: ProfileImageProps) => {
 
   useEffect(() => {
     setSrc(withdraw ? withdrawImg : url);
-  }, [url]);
+  }, [url, withdraw]);
 
   return (
     <div
@@ -36,7 +36,7 @@ const ProfileImage = ({ url, withdraw = false }: ProfileImageProps) => {
           height: "100%",
           objectFit: "cover",
         }}
-        alt={`/profile-img/${withdraw ? "withdrawImg" : url}`}
+        alt="profile-img"
         onError={() => setSrc(defaultImg)}
       />
     </div>

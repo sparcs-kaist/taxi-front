@@ -84,7 +84,7 @@ const Mypage = () => {
   );
   const onClickEventPolicy = useCallback(() => setIsOpenEventPolicy(true), []);
   const onClickMembers = useCallback(() => setOpenIsMembers(true), []);
-  const onClickCancelAccount = useCallback(
+  const onClickWithdrawAccount = useCallback(
     () => setIsOpenAccountCancelProcess(true),
     []
   );
@@ -229,17 +229,17 @@ const Mypage = () => {
           )}
         </div>
       </WhiteContainer>
-      <WhiteContainer>
-        <div css={{ display: "grid", rowGap: "16px" }}>
-          {userId && (
+      {userId && (
+        <WhiteContainer>
+          <div css={{ display: "grid", rowGap: "16px" }}>
             <div css={{ color: theme.red_text }}>
-              <Menu icon="cancel_account" onClick={onClickCancelAccount}>
+              <Menu icon="cancel_account" onClick={onClickWithdrawAccount}>
                 {t("cancel_account")}
               </Menu>
             </div>
-          )}
-        </div>
-      </WhiteContainer>
+          </div>
+        </WhiteContainer>
+      )}
       <Footer type="only-logo" />
       <ModalPrivacyPolicy
         isOpen={isOpenPrivacyPolicy}

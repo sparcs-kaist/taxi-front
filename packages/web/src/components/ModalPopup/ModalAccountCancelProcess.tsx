@@ -37,7 +37,7 @@ const ModalAccountCancelProcess = ({
   const myOngoingRoom = myRooms?.ongoing.slice() ?? [];
   const roomCompleted = myOngoingRoom.length === 0;
 
-  const isEligible = roomCompleted; // 탈퇴 가능 여부 가능한 거 전부 반영
+  const isEligible = roomCompleted; // TODO : 탈퇴 불가 조건이 추가될 경우, 수정 필요
 
   const isLogin = useIsLogin();
   const [page, setPage] = useState<1 | 2>(1);

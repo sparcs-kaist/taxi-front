@@ -27,7 +27,7 @@ const User = ({ value, isDeparted }: UserProps) => {
           background: theme.gray_line,
         }}
       >
-        <ProfileImage url={value.profileImageUrl} withdraw={value.withdraw} />
+        <ProfileImage url={value.profileImageUrl} withdraw={isWithdrew} />
       </div>
       <div
         css={{
@@ -47,11 +47,7 @@ const User = ({ value, isDeparted }: UserProps) => {
         {isDeparted && !isSettlement && (
           <span style={theme.font8}>{" (미정산)"}</span>
         )}
-        {isWithdrew && (
-          <span style={theme.font8} css={{ textDecoration: undefined }}>
-            {" (탈퇴)"}
-          </span>
-        )}
+        {isWithdrew && <span style={theme.font8}>{" (탈퇴)"}</span>}
       </div>
     </div>
   );

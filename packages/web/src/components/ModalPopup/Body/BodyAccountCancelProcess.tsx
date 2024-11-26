@@ -8,7 +8,7 @@ const BodyAccountCancelProcess = ({
   roomCompleted,
 }: BodyAccountCancelProcessProps) => {
   const isCancelAvailable = roomCompleted;
-  // 탈퇴 불가 조건이 추가되면 props 부분 손보고, 최종 조건을 여기에 반영해 주세요
+  // TODO : 탈퇴 불가 조건이 추가되면 props 부분 손보고, 최종 조건을 여기에 반영해 주세요
 
   const styleBox = {
     padding: "0 24px 0 16px",
