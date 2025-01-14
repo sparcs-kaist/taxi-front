@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 
 import Date from "./Date";
 
-import { getToday10 } from "@/tools/moment";
+import { getToday } from "@/tools/moment";
 import theme from "@/tools/theme";
 
 const getWeekDates = () => {
-  const today = getToday10();
+  const today = getToday();
   const date = today.clone().subtract(1, "day");
 
   return Array.apply(null, Array(8)).map((_, index) => {
