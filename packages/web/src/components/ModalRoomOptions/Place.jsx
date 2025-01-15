@@ -16,6 +16,8 @@ import Picker from "./Picker";
 import theme from "@/tools/theme";
 import { getLocationName } from "@/tools/trans";
 
+import { WrapText } from "@mui/icons-material";
+
 const PopupInput = (props) => {
   const [value, setValue] = useState({
     place: props.value ?? props.placeOptions?.[0]?.name ?? "",
@@ -213,6 +215,46 @@ const Place = (props) => {
         handler={(x) => props.handler([props.value[0], x])}
         placeOptions={taxiLocationsWithName}
       />
+      <div
+        css={{
+          display: "flex",
+          flexDirection: "row",
+          gap: "8px",
+        }}
+      >
+        <Button
+          type="purple_inset"
+          disabled={false}
+          css={{
+            padding: "6px 0",
+            borderRadius: "12px",
+            width: "100px",
+            ...theme.font12,
+          }}
+          onClick={() => {}}
+          className="scroll-to-button"
+        >
+          즐겨찾는 경로
+          <br />
+          불러오기
+        </Button>
+        <Button
+          type="purple_inset"
+          disabled={false}
+          css={{
+            padding: "6px 0",
+            borderRadius: "12px",
+            width: "100px",
+            ...theme.font12,
+          }}
+          onClick={() => {}}
+          className="scroll-to-button"
+        >
+          즐겨찾는 경로로
+          <br />
+          저장하기
+        </Button>
+      </div>
     </WhiteContainer>
   );
 };
