@@ -2,7 +2,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 
-import { useEvent2024FallQuestComplete } from "@/hooks/event/useEvent2024FallQuestComplete";
 import {
   useFetchRecoilState,
   useIsLogin,
@@ -12,7 +11,6 @@ import { useAxios } from "@/hooks/useTaxiAPI";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
-import { ModalEvent2024FallAbuseWarning } from "@/components/ModalPopup";
 import {
   OptionDate,
   OptionMaxPeople,
@@ -64,11 +62,6 @@ const AddRoom = () => {
   const isLogin = useIsLogin();
   const myRooms = useValueRecoilState("myRooms");
   const fetchMyRooms = useFetchRecoilState("myRooms");
-  //#region event2024fall
-  const event2024FallQuestComplete = useEvent2024FallQuestComplete();
-  const [isOpenModalEventAbuseWarning, setIsOpenModalEventAbuseWarning] =
-    useState<boolean>(false);
-  //#endregion
 
   const [taxiFare, setTaxiFare] = useState<number>(0);
 
@@ -140,44 +133,6 @@ const AddRoom = () => {
   const onClickAdd = async () => {
     if (!onCall.current) {
       onCall.current = true;
-
-      // #region event2024fall
-      let isAgreeOnTermsOfEvent = false;
-      await axios({
-        url: "/events/2024fall/globalState",
-        method: "get",
-        onSuccess: (data) => {
-          if (data.isAgreeOnTermsOfEvent) {
-            isAgreeOnTermsOfEvent = data.isAgreeOnTermsOfEvent;
-          }
-        },
-        onError: () => {},
-      });
-      if (isAgreeOnTermsOfEvent) {
-        let isFalse = false;
-        await axios({
-          url: "/rooms/create/test",
-          method: "post",
-          data: {
-            from: valuePlace[0],
-            to: valuePlace[1],
-            time: calculatedTime!.toISOString(),
-            maxPartLength: valueMaxPeople,
-          },
-          onSuccess: (data) => {
-            if (data!.result === false) {
-              setIsOpenModalEventAbuseWarning(true);
-              onCall.current = false;
-              isFalse = true;
-              return;
-            }
-          },
-          onError: () => {},
-        });
-        if (isFalse) return;
-      }
-      // #endregion
-
       // FIXME: "/rooms/create" API가 myRoom을 반환하도록 수정
       await axios({
         url: "/rooms/create",
@@ -191,9 +146,6 @@ const AddRoom = () => {
         },
         onSuccess: () => {
           fetchMyRooms();
-          //#region event2024fall
-          event2024FallQuestComplete("firstRoomCreation");
-          //#endregion
           history.push("/myroom");
         },
         onError: () => setAlert("방 개설에 실패하였습니다."),
@@ -253,37 +205,6 @@ const AddRoom = () => {
           )}
         </AdaptiveDiv>
       </div>
-      {/* #region event2024Fall */}
-      <ModalEvent2024FallAbuseWarning
-        isOpen={isOpenModalEventAbuseWarning}
-        onChangeIsOpen={async (data) => {
-          if (data === true) {
-            setIsOpenModalEventAbuseWarning(data);
-            await axios({
-              url: "/rooms/create",
-              method: "post",
-              data: {
-                name: valueName || randomRoomName,
-                from: valuePlace[0],
-                to: valuePlace[1],
-                time: calculatedTime!.toISOString(),
-                maxPartLength: valueMaxPeople,
-              },
-              onSuccess: () => {
-                fetchMyRooms();
-                //#region event2024fall
-                event2024FallQuestComplete("firstRoomCreation");
-                //#endregion
-                history.push("/myroom");
-              },
-              onError: () => setAlert("방 개설에 실패하였습니다."),
-            });
-          } else if (data === false) {
-            setIsOpenModalEventAbuseWarning(data);
-          }
-        }}
-      />
-      {/* #endregion */}
     </>
   ) : (
     <FullParticipation />
