@@ -13,6 +13,7 @@ import { dayServerToClient } from "@/tools/day";
 import theme from "@/tools/theme";
 
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
+import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 
 type BodyChatReportSelectUserProps = {
   roomInfo: Room;
@@ -76,12 +77,14 @@ const BodyChatReportSelectUser = ({
   return (
     <>
       <div css={styleText}>
-        택시 동승 후 송금을 하지 않았거나, 부적절한 언어 또는 상업적 광고의
-        채팅, 기타 규정 위반 등의 행위를 목격하셨다면 해당 사용자를
-        신고해주세요. SPARCS Taxi팀은 안전하고 청결한 택시 동승을 위해 최선을
-        다할 것 입니다.
+        택시 동승 후 송금을 하지 않았거나, 부적절한 언어 또는 상업적 광고, 기타
+        규정 위반 등의 행위를 목격하셨다면 해당 사용자를 신고해주세요. SPARCS
+        Taxi팀은 안전하고 쾌적한 택시 동승을 위해 최선을 다할 것 입니다.
       </div>
-      <div css={styleText}>신고할 사용자를 선택해주세요.</div>
+      <div css={styleText}>
+        신고할 사용자를 선택해주세요. 단, 탈퇴한 사용자에 대한 신고는 채널톡
+        문의하기를 이용해 주세요.
+      </div>
       <DottedLine />
       <div css={styleUsers}>
         {roomInfo.part.map(
@@ -90,7 +93,9 @@ const BodyChatReportSelectUser = ({
               <div
                 key={user._id}
                 css={styleUser}
-                onClick={() => setReportedId(user._id)}
+                onClick={
+                  user.withdraw ? () => {} : () => setReportedId(user._id)
+                }
               >
                 <div
                   css={{
@@ -101,8 +106,17 @@ const BodyChatReportSelectUser = ({
                         : theme.purple_light,
                   }}
                 >
-                  {reportedId === user._id && (
-                    <CheckRoundedIcon style={styleCheckBoxIcon} />
+                  {user.withdraw ? (
+                    <ClearRoundedIcon
+                      style={{
+                        ...styleCheckBoxIcon,
+                        fill: theme.gray_line,
+                      }}
+                    />
+                  ) : (
+                    reportedId === user._id && (
+                      <CheckRoundedIcon style={styleCheckBoxIcon} />
+                    )
                   )}
                 </div>
                 <User value={user} isDeparted={isDeparted} />

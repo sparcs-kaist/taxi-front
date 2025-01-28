@@ -7,6 +7,8 @@ type UserProps = { value: User; isDeparted?: boolean };
 const User = ({ value, isDeparted }: UserProps) => {
   const isSettlement =
     value?.isSettlement === "paid" || value?.isSettlement === "sent";
+  const isWithdrew = value?.withdraw;
+
   return (
     <div
       css={{
@@ -25,7 +27,7 @@ const User = ({ value, isDeparted }: UserProps) => {
           background: theme.gray_line,
         }}
       >
-        <ProfileImage url={value.profileImageUrl} />
+        <ProfileImage url={value.profileImageUrl} withdraw={isWithdrew} />
       </div>
       <div
         css={{
@@ -39,10 +41,13 @@ const User = ({ value, isDeparted }: UserProps) => {
           ...theme.ellipsis,
         }}
       >
-        {value.nickname}
+        <span css={{ textDecoration: isWithdrew ? "line-through" : undefined }}>
+          {value.nickname}
+        </span>
         {isDeparted && !isSettlement && (
-          <span style={theme.font8}>(미정산)</span>
+          <span style={theme.font8}>{" (미정산)"}</span>
         )}
+        {isWithdrew && <span style={theme.font8}>{" (탈퇴)"}</span>}
       </div>
     </div>
   );

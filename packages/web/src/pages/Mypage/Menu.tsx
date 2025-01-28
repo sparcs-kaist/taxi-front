@@ -7,12 +7,12 @@ import theme from "@/tools/theme";
 import AlarmOffRoundedIcon from "@mui/icons-material/AlarmOffRounded";
 import AlarmOnRoundedIcon from "@mui/icons-material/AlarmOnRounded";
 import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
+import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
 import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
 import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
 import HelpOutlineRoundedIcon from "@mui/icons-material/HelpOutlineRounded";
 import KeyboardArrowLeftRoundedIcon from "@mui/icons-material/KeyboardArrowLeftRounded";
 import LanguageRoundedIcon from "@mui/icons-material/LanguageRounded";
-import PersonRemoveRoundedIcon from "@mui/icons-material/PersonRemoveRounded";
 import PortraitRoundedIcon from "@mui/icons-material/PortraitRounded";
 import StarRoundedIcon from "@mui/icons-material/StarRounded";
 
@@ -48,7 +48,7 @@ const getIcon = (icon: string) => {
     case "logout":
       return <ExitToAppRoundedIcon style={styleIcon} />;
     case "cancel_account":
-      return <PersonRemoveRoundedIcon style={styleIcon} />;
+      return <DirectionsRunIcon style={styleIcon} />;
     case "beta":
       return <StarRoundedIcon style={styleIcon} />;
   }

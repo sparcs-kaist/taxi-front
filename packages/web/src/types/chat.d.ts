@@ -14,6 +14,7 @@ export type UserChat = {
   authorId: string;
   authorName: string;
   authorProfileUrl: string;
+  authorIsWithdrew: boolean;
 } & CommonChat;
 export type GeneralChat = {
   type: "in" | "out";
