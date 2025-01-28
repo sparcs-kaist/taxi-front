@@ -121,7 +121,9 @@ const ModalAccountCancelProcess = ({
                 css={{
                   padding: "9px 24px 10px",
                   borderRadius: "8px",
-                  backgroundColor: theme.purple_disabled,
+                  backgroundColor: isEligible
+                    ? theme.purple
+                    : theme.purple_disabled,
                   ...theme.font14_bold,
                 }}
                 onClick={() => (isEligible ? setPage(2) : {})}
