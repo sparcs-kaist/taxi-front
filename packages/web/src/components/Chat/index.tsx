@@ -1,9 +1,10 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 
 import type { Chats, LayoutType } from "@/types/chat";
 
 import useBodyScrollControllerEffect from "@/hooks/chat/useBodyScrollControllerEffect";
+import useReadChat from "@/hooks/chat/useReadChat";
 import useSendMessage from "@/hooks/chat/useSendMessage";
 import useSocketChatEffect from "@/hooks/chat/useSocketChatEffect";
 import useDateToken from "@/hooks/useDateToken";
@@ -55,6 +56,9 @@ const Chat = ({ roomId, layoutType }: ChatProps) => {
 
   // 전체화면 챗에서는 body의 스크롤을 막습니다.
   useDisableScrollEffect(layoutType === "fullchat");
+
+  // 채팅 읽은 시간 업데이트
+  useReadChat(roomId);
 
   return (
     <Container layoutType={layoutType}>
