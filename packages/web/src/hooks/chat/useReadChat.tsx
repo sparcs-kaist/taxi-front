@@ -2,7 +2,14 @@ import { useCallback, useEffect } from "react";
 
 import { useAxios } from "@/hooks/useTaxiAPI";
 
-export default (roomId: string) => {
+/**
+ * 채팅 읽음 상태를 관리하는 Hook
+ *
+ * @param {string} roomId - 채팅방의 ID
+ * @param {boolean} [shouldRunEffect=false] - 화면이 활성화될 때 읽은 시간을 업데이트할지 여부
+ * @returns {Function} - 채팅 읽기 요청을 실행하는 함수
+ */
+export default (roomId: string, shouldRunEffect = false) => {
   const axios = useAxios();
 
   const handleRead = useCallback(async () => {
@@ -21,9 +28,11 @@ export default (roomId: string) => {
     handleRead().catch((error) => console.error("handleRead 에러:", error));
   };
 
+  // 화면이 활성화 될 때 읽은 시간 업데이트
   useEffect(() => {
-    // 맨 처음 마운트될 때 읽은 시간 업데이트 하는 함수 호출
-    syncWrapper();
+    if (!shouldRunEffect) return;
+
+    syncWrapper(); // 맨 처음 컴포넌트가 마운트될 때 읽은 시간 업데이트 하는 함수 호출
     window.addEventListener("focus", syncWrapper);
 
     return () => {

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 
 import type { Chats, LayoutType } from "@/types/chat";
@@ -58,7 +58,7 @@ const Chat = ({ roomId, layoutType }: ChatProps) => {
   useDisableScrollEffect(layoutType === "fullchat");
 
   // 채팅 읽은 시간 업데이트
-  useReadChat(roomId);
+  useReadChat(roomId, true);
 
   return (
     <Container layoutType={layoutType}>

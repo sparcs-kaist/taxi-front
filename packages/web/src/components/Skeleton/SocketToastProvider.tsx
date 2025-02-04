@@ -11,7 +11,7 @@ import {
 import { ioServer } from "@/tools/loadenv";
 
 export type SocketChatEventListner = (chats: Array<Chat>) => void;
-export type SocketRoomEventListner = (targetRoomId: string) => void;
+export type SocketRoomEventListner = (updatedRoomId: string) => void;
 export type SocketVoidEventListner = () => void;
 
 let isSocketReady: boolean = false;

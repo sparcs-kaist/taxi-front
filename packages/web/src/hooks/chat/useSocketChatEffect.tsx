@@ -135,10 +135,10 @@ export default (
             );
           }
         },
-        updateListener: (targetRoomId: string) => {
+        updateListener: (updatedRoomId: string) => {
           if (isExpired) return;
 
-          if (roomId === targetRoomId) fetchRoomInfo();
+          if (roomId === updatedRoomId) fetchRoomInfo();
         },
       });
 
