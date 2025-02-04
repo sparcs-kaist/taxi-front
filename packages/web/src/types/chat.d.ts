@@ -7,6 +7,7 @@ type CommonChat = {
   content: string;
   time: Date; // UTC 시각
   isValid: boolean;
+  unreadUsers?: number; // 채팅을 읽지 않은 사람 수
 };
 
 export type UserChat = {

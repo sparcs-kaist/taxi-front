@@ -72,6 +72,8 @@ export default (
           );
         },
         pushBackListener: (chats: Array<Chat>) => {
+          // console.log("chats ====>", chats);
+
           chats = chats.filter((chat) => chat.roomId === roomId);
           if (isExpired || chats.length <= 0) return;
 
@@ -134,6 +136,20 @@ export default (
               () => {}
             );
           }
+        },
+        updateListener: (targetRoomId: string) => {
+          // TODO: targetRoomId 변수명 변경
+          if (isExpired) return;
+          // console.log("roomId ====>", roomId);
+          // console.log("targetRoomId ====>", targetRoomId);
+
+          if (roomId === targetRoomId) fetchRoomInfo();
+          // console.log("=== update listener 작동 시작");
+          // chats.forEach((chat) => {
+          //   if (chat.roomId === roomId) {
+          //     fetchRoomInfo();
+          //   }
+          // });
         },
       });
 

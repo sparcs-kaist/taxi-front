@@ -184,6 +184,13 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
                   {dayjs(chat.time).format("H시 mm분")}
                 </div>
               )}
+              {chat.unreadUsers !== undefined && chat.unreadUsers > 0 && (
+                <div>
+                  {chat.unreadUsers === roomInfo.part.length
+                    ? chat.unreadUsers - 1
+                    : chat.unreadUsers}
+                </div>
+              )}
             </div>
           ))}
         </div>

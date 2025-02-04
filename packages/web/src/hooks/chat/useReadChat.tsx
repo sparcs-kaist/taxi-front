@@ -23,7 +23,7 @@ export default (roomId: string) => {
   };
 
   useEffect(() => {
-    console.log("=== useEffect 작동 ===");
+    // console.log("=== useEffect 작동 ===");
 
     // 맨 처음 마운트될 때 읽은 시간 업데이트 하는 함수 호출
     syncWrapper();
@@ -33,4 +33,6 @@ export default (roomId: string) => {
       window.removeEventListener("focus", syncWrapper);
     };
   }, [roomId]);
+
+  return handleRead;
 };
