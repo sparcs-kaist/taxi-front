@@ -27,12 +27,16 @@ import WhiteContainerSuggestLogin from "@/components/WhiteContainer/WhiteContain
 
 import Menu from "./Menu";
 
+import alertAtom from "@/atoms/alert";
+import { useSetRecoilState } from "recoil";
+
 import { eventMode, isDev } from "@/tools/loadenv";
 import theme from "@/tools/theme";
 import { isNotificationOn } from "@/tools/trans";
 
 const Mypage = () => {
   const { t, i18n } = useTranslation("mypage");
+  const setAlert = useSetRecoilState(alertAtom);
   const loginInfo = useValueRecoilState("loginInfo");
   const notificationOptions = useValueRecoilState("notificationOptions");
   const { id: userId } = loginInfo || {};
@@ -55,6 +59,10 @@ const Mypage = () => {
     const channeltalk = new URLSearchParams(search).get("channeltalk");
     if (channeltalk === "true") {
       channelService.showMessenger();
+    }
+    const withdraw = new URLSearchParams(search).get("withdraw");
+    if (withdraw === "true") {
+      setAlert("탈퇴가 완료되었습니다.");
     }
     const accountCancelProcess = new URLSearchParams(search).get(
       "accountCancelProcess"

@@ -64,7 +64,6 @@ const ModalAccountCancelProcess = ({
       method: "post",
       data: { userId },
       onSuccess: ({ ssoLogoutUrl }) => {
-        setAlert("회원 탈퇴가 완료되었습니다.");
         window.location.href = ssoLogoutUrl;
       },
       onError: () => setAlert("회원 탈퇴에 실패하였습니다."),
