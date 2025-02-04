@@ -31,8 +31,6 @@ export default (_chats: Chats, layoutType: LayoutType, roomInfo: Room) => {
     });
     readAtList.sort();
 
-    console.log("readAtList =====>", readAtList);
-
     const popQueue = () => {
       if (chatsCache) {
         list.push(
@@ -62,12 +60,10 @@ export default (_chats: Chats, layoutType: LayoutType, roomInfo: Room) => {
       }
 
       const currentMoment = moment(item.time);
-      // console.log("time =====>", item.time)
       // Chat의 time에 따라 안 읽은 사람 수 증가시키기
       while (readAtList.length > 0 && item.time > readAtList[0]) {
         readAtList.shift();
         unreadUsersCache++;
-        console.log("unreadUsersCache =====>", unreadUsersCache);
       }
 
       if (!momentCache) {

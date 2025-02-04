@@ -12,9 +12,8 @@ export default (roomId: string) => {
         method: "post",
         data: { roomId },
       });
-      console.log("채팅을 읽음");
     } catch (error) {
-      console.error("API 요청 중 오류 발생: ", error);
+      console.error('"/chats/read" API 요청 중 오류 발생: ', error);
     }
   }, [axios, roomId]);
 
@@ -23,8 +22,6 @@ export default (roomId: string) => {
   };
 
   useEffect(() => {
-    // console.log("=== useEffect 작동 ===");
-
     // 맨 처음 마운트될 때 읽은 시간 업데이트 하는 함수 호출
     syncWrapper();
     window.addEventListener("focus", syncWrapper);
