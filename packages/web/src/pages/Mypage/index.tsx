@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 import channelService from "@/hooks/skeleton/useChannelTalkEffect/channelService";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
@@ -54,15 +54,19 @@ const Mypage = () => {
     useState(false);
 
   const { search } = useLocation();
+  const history = useHistory();
 
   useEffect(() => {
-    const channeltalk = new URLSearchParams(search).get("channeltalk");
+    const searchParams = new URLSearchParams(search);
+    const channeltalk = searchParams.get("channeltalk");
     if (channeltalk === "true") {
       channelService.showMessenger();
     }
-    const withdraw = new URLSearchParams(search).get("withdraw");
+    const withdraw = searchParams.get("withdraw");
     if (withdraw === "true") {
       setAlert("탈퇴가 완료되었습니다.");
+      searchParams.delete("withdraw");
+      history.replace({ search: searchParams.toString() });
     }
     const accountCancelProcess = new URLSearchParams(search).get(
       "accountCancelProcess"
