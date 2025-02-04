@@ -136,11 +136,21 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
     }),
     [userOid, authorId, layoutType]
   );
+  const styleMessageDetail = {
+    display: "flex",
+    flexDirection: "column" as any,
+    alignItems: userOid === authorId ? "flex-end" : "flex-start",
+    marginBottom: "2px",
+    gap: "1px",
+  };
   const styleTime = {
     ...theme.font8,
     color: theme.gray_text,
-    marginBottom: "1px",
     minWidth: "fit-content",
+  };
+  const styleUnreadUsers = {
+    ...theme.font8_medium,
+    color: theme.purple_dark,
   };
 
   return (
@@ -179,18 +189,20 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
                   color={authorId === userOid ? theme.white : theme.black}
                 />
               </div>
-              {index === chats.length - 1 && (
-                <div css={styleTime} className="selectable">
-                  {dayjs(chat.time).format("H시 mm분")}
-                </div>
-              )}
-              {chat.unreadUsers !== undefined && chat.unreadUsers > 0 && (
-                <div>
-                  {chat.unreadUsers === roomInfo.part.length
-                    ? chat.unreadUsers - 1
-                    : chat.unreadUsers}
-                </div>
-              )}
+              <div css={styleMessageDetail}>
+                {chat.unreadUsers !== undefined && chat.unreadUsers > 0 && (
+                  <div css={styleUnreadUsers}>
+                    {chat.unreadUsers === roomInfo.part.length
+                      ? chat.unreadUsers - 1
+                      : chat.unreadUsers}
+                  </div>
+                )}
+                {index === chats.length - 1 && (
+                  <div css={styleTime} className="selectable">
+                    {dayjs(chat.time).format("H시 mm분")}
+                  </div>
+                )}
+              </div>
             </div>
           ))}
         </div>
