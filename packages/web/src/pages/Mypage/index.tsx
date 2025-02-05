@@ -9,7 +9,7 @@ import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Footer from "@/components/Footer";
 import LinkLogout from "@/components/Link/LinkLogout";
 import {
-  ModalAccountCancelProcess,
+  ModalAccountWithdrawProcess,
   ModalCredit,
   ModalEvent2023FallJoin,
   ModalEvent2024FallJoin,
@@ -245,8 +245,8 @@ const Mypage = () => {
         <WhiteContainer>
           <div css={{ display: "grid", rowGap: "16px" }}>
             <div css={{ color: theme.red_text }}>
-              <Menu icon="cancel_account" onClick={onClickWithdrawAccount}>
-                {t("cancel_account")}
+              <Menu icon="withdraw_account" onClick={onClickWithdrawAccount}>
+                {t("withdraw_account")}
               </Menu>
             </div>
           </div>
@@ -277,7 +277,7 @@ const Mypage = () => {
           />
         ) : null)}
       <ModalCredit isOpen={isOpenMembers} onChangeIsOpen={setOpenIsMembers} />
-      <ModalAccountCancelProcess
+      <ModalAccountWithdrawProcess
         isOpen={isOpenAccountCancelProcess}
         onChangeIsOpen={setIsOpenAccountCancelProcess}
       />

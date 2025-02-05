@@ -23,7 +23,7 @@ type PopupAccountCancelProcessProps = {
   onChangeIsOpen: (isOpen: boolean) => void;
 };
 
-const ModalAccountCancelProcess = ({
+const ModalAccountWithdrawProcess = ({
   isOpen,
   onChangeIsOpen = () => {},
 }: PopupAccountCancelProcessProps) => {
@@ -86,7 +86,7 @@ const ModalAccountCancelProcess = ({
     >
       <div style={styleTop}>
         <TaxiLogo style={{ height: "27px" }} />
-        {t("cancel_account")}
+        {t("withdraw_account")}
       </div>
       {page === 1 ? (
         <BodyAccountCancelProcess roomCompleted={roomCompleted} />
@@ -213,4 +213,4 @@ const ModalAccountCancelProcess = ({
   );
 };
 
-export default ModalAccountCancelProcess;
+export default ModalAccountWithdrawProcess;
