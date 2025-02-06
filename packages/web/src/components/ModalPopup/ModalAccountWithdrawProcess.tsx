@@ -66,8 +66,9 @@ const ModalAccountWithdrawProcess = ({
         url: "/users/withdraw",
         method: "post",
         data: { userId },
-        onSuccess: ({ ssoLogoutUrl }) => {
-          if (deviceType.startsWith("app/")) sendAuthLogoutEventToFlutter();
+        onSuccess: async ({ ssoLogoutUrl }) => {
+          if (deviceType.startsWith("app/"))
+            await sendAuthLogoutEventToFlutter();
           window.location.href = ssoLogoutUrl;
         },
         onError: () => {
@@ -77,7 +78,7 @@ const ModalAccountWithdrawProcess = ({
     } catch (error) {
       setAlert("회원 탈퇴에 실패하였습니다.");
     }
-  }, [axios, userId, setAlert]);
+  }, [userId, setAlert]);
 
   return (
     <Modal
