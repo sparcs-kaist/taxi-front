@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
@@ -14,6 +14,8 @@ import BodyAccountWithdrawProcess2nd from "./Body/BodyAccountWithdrawProcess2nd"
 import alertAtom from "@/atoms/alert";
 import { useSetRecoilState } from "recoil";
 
+import { deviceType } from "@/tools/loadenv";
+import { sendAuthLogoutEventToFlutter } from "@/tools/sendEventToFlutter";
 import theme from "@/tools/theme";
 
 import { ReactComponent as TaxiLogo } from "@/static/assets/sparcsLogos/TaxiLogo.svg";
@@ -58,18 +60,24 @@ const ModalAccountWithdrawProcess = ({
     onChangeIsOpen(false);
   };
 
-  const onCancel = async () => {
-    const response = await axios({
-      url: "/users/withdraw",
-      method: "post",
-      data: { userId },
-      onSuccess: ({ ssoLogoutUrl }) => {
-        window.location.href = ssoLogoutUrl;
-      },
-      onError: () => setAlert("회원 탈퇴에 실패하였습니다."),
-    });
-    if (response.status === 200) onClickLogout();
-  };
+  const onWithdraw = useCallback(async () => {
+    try {
+      await axios({
+        url: "/users/withdraw",
+        method: "post",
+        data: { userId },
+        onSuccess: ({ ssoLogoutUrl }) => {
+          if (deviceType.startsWith("app/")) sendAuthLogoutEventToFlutter();
+          window.location.href = ssoLogoutUrl;
+        },
+        onError: () => {
+          setAlert("회원 탈퇴에 실패하였습니다.");
+        },
+      });
+    } catch (error) {
+      setAlert("회원 탈퇴에 실패하였습니다.");
+    }
+  }, [axios, userId, setAlert]);
 
   return (
     <Modal
@@ -151,7 +159,7 @@ const ModalAccountWithdrawProcess = ({
                   backgroundColor: "hsl(0, 80%, 60%)",
                   ...theme.font14_bold,
                 }}
-                onClick={onCancel}
+                onClick={onWithdraw}
               >
                 탈퇴
               </Button>
