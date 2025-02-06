@@ -7,7 +7,6 @@ import { useAxios } from "@/hooks/useTaxiAPI";
 import Modal from "@/components/Modal";
 
 import Button from "../Button";
-import { useOnClickLogout } from "../Link/LinkLogout";
 import BodyAccountWithdrawProcess from "./Body/BodyAccountWithdrawProcess";
 import BodyAccountWithdrawProcess2nd from "./Body/BodyAccountWithdrawProcess2nd";
 
@@ -32,7 +31,6 @@ const ModalAccountWithdrawProcess = ({
   const axios = useAxios();
   const { t } = useTranslation("mypage");
   const setAlert = useSetRecoilState(alertAtom);
-  const onClickLogout = useOnClickLogout();
 
   const { id: userId } = useValueRecoilState("loginInfo") || {};
   const myRooms = useValueRecoilState("myRooms");
