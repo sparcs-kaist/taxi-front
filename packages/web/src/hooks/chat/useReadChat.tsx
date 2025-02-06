@@ -24,21 +24,21 @@ export default (roomId: string, shouldRunEffect = false) => {
     }
   }, [axios, roomId]);
 
-  const syncWrapper = () => {
-    handleRead().catch((error) => console.error("handleRead 에러:", error));
-  };
-
   // 화면이 활성화 될 때 읽은 시간 업데이트
   useEffect(() => {
     if (!shouldRunEffect) return;
 
-    syncWrapper(); // 맨 처음 컴포넌트가 마운트될 때 읽은 시간 업데이트 하는 함수 호출
-    window.addEventListener("focus", syncWrapper);
+    // ✅ 즉시 실행 (첫 마운트 시)
+    handleRead();
+
+    // ✅ 윈도우 포커스 이벤트 리스너 추가
+    const onFocus = () => handleRead();
+    window.addEventListener("focus", onFocus);
 
     return () => {
-      window.removeEventListener("focus", syncWrapper);
+      window.removeEventListener("focus", onFocus);
     };
-  }, [roomId]);
+  }, [roomId, shouldRunEffect, handleRead]);
 
   return handleRead;
 };
