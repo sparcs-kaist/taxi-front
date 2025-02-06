@@ -15,7 +15,7 @@ const BodyAccountWithdrawProcess = ({
     borderRadius: "10px",
     overflow: "auto",
     minHeight: "270px",
-    height: "calc(100vh - 360px)",
+    maxHeight: "calc(100vh - 360px)",
     background: theme.gray_background,
     boxShadow: theme.shadow_gray_button_inset,
   };
@@ -57,6 +57,7 @@ const BodyAccountWithdrawProcess = ({
           )}
         </>
       )}
+      <br />
     </div>
   );
 };

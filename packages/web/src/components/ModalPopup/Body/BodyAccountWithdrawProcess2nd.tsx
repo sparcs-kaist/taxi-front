@@ -6,7 +6,7 @@ const BodyAccountWithdrawProcess2nd = () => {
     borderRadius: "10px",
     overflow: "auto",
     minHeight: "270px",
-    height: "calc(100vh - 360px)",
+    maxHeight: "calc(100vh - 360px)",
     background: theme.gray_background,
     boxShadow: theme.shadow_gray_button_inset,
   };
@@ -23,6 +23,7 @@ const BodyAccountWithdrawProcess2nd = () => {
     <div style={styleBox}>
       <div style={styleSection}>정말 탈퇴하시겠습니까?</div>
       <div style={styleContent}>탈퇴 후에는 복구가 어렵습니다.</div>
+      <br />
     </div>
   );
 };
