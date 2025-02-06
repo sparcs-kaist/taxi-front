@@ -1,12 +1,12 @@
 import theme from "@/tools/theme";
 
-type BodyAccountCancelProcessProps = {
+type BodyAccountWithdrawProcessProps = {
   roomCompleted: boolean;
 };
 
-const BodyAccountCancelProcess = ({
+const BodyAccountWithdrawProcess = ({
   roomCompleted,
-}: BodyAccountCancelProcessProps) => {
+}: BodyAccountWithdrawProcessProps) => {
   const isCancelAvailable = roomCompleted;
   // TODO : 탈퇴 불가 조건이 추가되면 props 부분 손보고, 최종 조건을 여기에 반영해 주세요
 
@@ -61,4 +61,4 @@ const BodyAccountCancelProcess = ({
   );
 };
 
-export default BodyAccountCancelProcess;
+export default BodyAccountWithdrawProcess;

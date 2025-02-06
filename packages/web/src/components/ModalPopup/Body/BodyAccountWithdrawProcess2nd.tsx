@@ -1,6 +1,6 @@
 import theme from "@/tools/theme";
 
-const BodyAccountCancelProcess2nd = () => {
+const BodyAccountWithdrawProcess2nd = () => {
   const styleBox = {
     padding: "0 24px 0 16px",
     borderRadius: "10px",
@@ -27,4 +27,4 @@ const BodyAccountCancelProcess2nd = () => {
   );
 };
 
-export default BodyAccountCancelProcess2nd;
+export default BodyAccountWithdrawProcess2nd;

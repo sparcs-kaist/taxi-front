@@ -8,8 +8,8 @@ import Modal from "@/components/Modal";
 
 import Button from "../Button";
 import { useOnClickLogout } from "../Link/LinkLogout";
-import BodyAccountCancelProcess from "./Body/BodyAccountCancelProcess";
-import BodyAccountCancelProcess2nd from "./Body/BodyAccountCancelProcess2nd";
+import BodyAccountWithdrawProcess from "./Body/BodyAccountWithdrawProcess";
+import BodyAccountWithdrawProcess2nd from "./Body/BodyAccountWithdrawProcess2nd";
 
 import alertAtom from "@/atoms/alert";
 import { useSetRecoilState } from "recoil";
@@ -89,9 +89,9 @@ const ModalAccountWithdrawProcess = ({
         {t("withdraw_account")}
       </div>
       {page === 1 ? (
-        <BodyAccountCancelProcess roomCompleted={roomCompleted} />
+        <BodyAccountWithdrawProcess roomCompleted={roomCompleted} />
       ) : (
-        <BodyAccountCancelProcess2nd />
+        <BodyAccountWithdrawProcess2nd />
       )}
       <div
         css={{
