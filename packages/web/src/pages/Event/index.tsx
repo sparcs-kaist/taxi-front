@@ -17,6 +17,10 @@ import Item from "./Event2024FallStore/Item";
 import Event2024Spring from "./Event2024Spring";
 import Event2024SpringLeaderboard from "./Event2024SpringLeaderboard";
 import Event2024SpringMissions from "./Event2024SpringMissions";
+import Event2025Spring from "@/pages/Event/Event2025Spring";
+import Event2025SpringMissions from "@/pages/Event/Event2025SpringMissions";
+import Event2025SpringHistory from "@/pages/Event/Event2025SpringHistory";
+import Event2025SpringStore from "@/pages/Event/Event2025SpringStore";
 
 const Event = () => {
   const { eventName, itemId } = useParams() as {
@@ -60,8 +64,16 @@ const Event = () => {
       return <Event2024FallMissions />;
     case "2024fall-daily-attendance":
       return <Event2024FallDailyAttendance />;
+    case "2025spring":
+      return <Event2025Spring />;
+    case "2025spring-store":
+      return <Event2025SpringStore />;
+    case "2025spring-history":
+      return <Event2025SpringHistory />;
+    case "2025spring-missions":
+      return <Event2025SpringMissions />;
     default:
-      return <Event2024Fall />;
+      return <Event2025Spring />;
   }
 };
 

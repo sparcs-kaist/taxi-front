@@ -4,7 +4,7 @@ import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import Button from "@/components/Button";
 import {
-  ModalEvent2024FallJoin,
+  ModalEvent2025SpringJoin,
   ModalNotification,
 } from "@/components/ModalPopup";
 import WhiteContainer from "@/components/WhiteContainer";
@@ -14,7 +14,7 @@ import theme from "@/tools/theme";
 const WhiteContainerSuggestJoinEvent = () => {
   const isLogin = useIsLogin();
   const { isAgreeOnTermsOfEvent, completedQuests } =
-    useValueRecoilState("event2024FallInfo") || {};
+    useValueRecoilState("event2025SpringInfo") || {};
   const isAdPushAgreementCompleted = completedQuests?.some(
     ({ questId }) => questId === "adPushAgreement"
   );
@@ -70,7 +70,7 @@ const WhiteContainerSuggestJoinEvent = () => {
           </Button>
         </WhiteContainer>
       ) : null}
-      <ModalEvent2024FallJoin
+      <ModalEvent2025SpringJoin
         isOpen={isOpenJoin}
         onChangeIsOpen={setIsOpenJoin}
       />

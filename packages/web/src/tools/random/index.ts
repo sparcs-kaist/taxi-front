@@ -1,5 +1,6 @@
 import event2023FallStoreSpeeches from "./event2023FallStoreSpeeches";
 import event2024FallStoreSpeeches from "./event2024FallStoreSpeeches";
+import event2025SpringStoreSpeeches from "@/tools/random/event2025SpringStoreSpeeches";
 import roomNames from "./roomNames";
 import suggestRoomShareTexts from "./suggestRoomShareTexts";
 import taxiSlogans from "./taxiSlogans";
@@ -15,6 +16,9 @@ export const randomEvent2023FallStoreSpeechGenerator = randomGenerator(
 );
 export const randomEvent2024FallStoreSpeechGenerator = randomGenerator(
   event2024FallStoreSpeeches
+);
+export const randomEvent2025SpringStoreSpeechGenerator = randomGenerator(
+  event2025SpringStoreSpeeches
 );
 
 export const randomSuggestRoomShareTextGenerator = (seed: string) => {

@@ -14,7 +14,7 @@ type FooterProps = {
     | "full"
     | "event-2023fall"
     | "event-2024spring"
-    | "event-2024fall";
+    | "event-2024fall" | "event-2025spring";
   children?: ReactNode;
 };
 
@@ -137,6 +137,34 @@ const Footer = ({ type = "full", children }: FooterProps) => {
           />
         </>
       )}
+      {type === "event-2025spring" && (
+        <>
+          <ModalPrivacyPolicy
+            isOpen={isOpenPrivacyPolicy}
+            onChangeIsOpen={setIsOpenPrivacyPolicy}
+          />
+          <ModalCredit
+            defaultSelectedCatagory="2025SpringEvent"
+            isOpen={isOpenCredit}
+            onChangeIsOpen={setIsOpenCredit}
+          />
+          <a className="popup-channeltalk">
+            <ButtonAboveFooter text="채널톡 문의하기" />
+          </a>
+          <ButtonAboveFooter
+            text="개인정보 처리방침"
+            onClick={onClickPrivacyPolicy}
+          />
+          <Link to="/event/2023spring-guide" css={{ textDecoration: "none" }}>
+            <ButtonAboveFooter text="택시 살펴보기" />
+          </Link>
+          <ButtonAboveFooter
+            text="{봄 이벤트}를 만든 사람들"
+            onClick={onClickCredit}
+          />
+        </>
+      )}
+      {/*TODO: change to real event name*/}
       {type !== "event-2024spring" && (
         <div css={{ padding: "6px" }}>
           <a href="https://sparcs.org/" target="_blank" rel="noreferrer">
