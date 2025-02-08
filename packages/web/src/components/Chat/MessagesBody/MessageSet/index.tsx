@@ -68,6 +68,8 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
   const authorProfileUrl =
     "authorProfileUrl" in chats?.[0] ? chats?.[0].authorProfileUrl : "";
   const authorName = "authorName" in chats?.[0] ? chats?.[0].authorName : "";
+  const authorIsWithdrew =
+    "authorIsWithdrew" in chats?.[0] ? chats?.[0].authorIsWithdrew : false;
 
   const isBot = authorId === "bot";
   const isAlone = roomInfo.part.length === 1;
@@ -158,17 +160,26 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
               {isBot ? (
                 <TaxiIcon css={{ width: "100%", height: "100%" }} />
               ) : (
-                <ProfileImage url={authorProfileUrl} />
+                <ProfileImage
+                  url={authorProfileUrl}
+                  withdraw={authorIsWithdrew}
+                />
               )}
             </div>
           )}
         </div>
         <div css={styleMessageSection}>
-          {authorId !== userOid && (
-            <div css={styleName} className="selectable">
-              {authorName}
-            </div>
-          )}
+          {authorId !== userOid &&
+            (authorIsWithdrew ? (
+              <div css={{ ...styleName, color: theme.gray_text }}>
+                <del>{authorName}</del>
+                {" (탈퇴)"}
+              </div>
+            ) : (
+              <div css={styleName} className="selectable">
+                {authorName}
+              </div>
+            ))}
           {chats.map((chat, index) => (
             <div key={getChatUniquewKey(chat)} css={styleMessageWrap}>
               <div css={styleChat(chat.type)}>

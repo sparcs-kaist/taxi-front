@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 import channelService from "@/hooks/skeleton/useChannelTalkEffect/channelService";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
@@ -9,7 +9,7 @@ import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Footer from "@/components/Footer";
 import LinkLogout from "@/components/Link/LinkLogout";
 import {
-  ModalAccountCancelProcess,
+  ModalAccountWithdrawProcess,
   ModalCredit,
   ModalEvent2023FallJoin,
   ModalEvent2024FallJoin,
@@ -27,12 +27,16 @@ import WhiteContainerSuggestLogin from "@/components/WhiteContainer/WhiteContain
 
 import Menu from "./Menu";
 
-import { deviceType, eventMode, isDev } from "@/tools/loadenv";
+import alertAtom from "@/atoms/alert";
+import { useSetRecoilState } from "recoil";
+
+import { eventMode, isDev } from "@/tools/loadenv";
 import theme from "@/tools/theme";
 import { isNotificationOn } from "@/tools/trans";
 
 const Mypage = () => {
   const { t, i18n } = useTranslation("mypage");
+  const setAlert = useSetRecoilState(alertAtom);
   const loginInfo = useValueRecoilState("loginInfo");
   const notificationOptions = useValueRecoilState("notificationOptions");
   const { id: userId } = loginInfo || {};
@@ -50,11 +54,19 @@ const Mypage = () => {
     useState(false);
 
   const { search } = useLocation();
+  const history = useHistory();
 
   useEffect(() => {
-    const channeltalk = new URLSearchParams(search).get("channeltalk");
+    const searchParams = new URLSearchParams(search);
+    const channeltalk = searchParams.get("channeltalk");
     if (channeltalk === "true") {
       channelService.showMessenger();
+    }
+    const withdraw = searchParams.get("withdraw");
+    if (withdraw === "true") {
+      setAlert("탈퇴가 완료되었습니다.");
+      searchParams.delete("withdraw");
+      history.replace({ search: searchParams.toString() });
     }
     const accountCancelProcess = new URLSearchParams(search).get(
       "accountCancelProcess"
@@ -84,11 +96,10 @@ const Mypage = () => {
   );
   const onClickEventPolicy = useCallback(() => setIsOpenEventPolicy(true), []);
   const onClickMembers = useCallback(() => setOpenIsMembers(true), []);
-  const onClickCancelAccount = useCallback(() => {
-    channelService.openChat(
-      "SPARCS Taxi 서비스의 계정 탈퇴를 신청하고 싶습니다.\n신청 사유는 다음과 같습니다:\n"
-    );
-  }, []);
+  const onClickWithdrawAccount = useCallback(
+    () => setIsOpenAccountCancelProcess(true),
+    []
+  );
 
   const styleProfImg = {
     width: "50px",
@@ -228,13 +239,19 @@ const Mypage = () => {
               <Menu icon="logout">{t("logout")}</Menu>
             </LinkLogout>
           )}
-          {userId && deviceType === "app/android" && (
-            <Menu icon="cancel_account" onClick={onClickCancelAccount}>
-              {t("cancel_account")}
-            </Menu>
-          )}
         </div>
       </WhiteContainer>
+      {userId && (
+        <WhiteContainer>
+          <div css={{ display: "grid", rowGap: "16px" }}>
+            <div css={{ color: theme.red_text }}>
+              <Menu icon="withdraw_account" onClick={onClickWithdrawAccount}>
+                {t("withdraw_account")}
+              </Menu>
+            </div>
+          </div>
+        </WhiteContainer>
+      )}
       <Footer type="only-logo" />
       <ModalPrivacyPolicy
         isOpen={isOpenPrivacyPolicy}
@@ -260,7 +277,7 @@ const Mypage = () => {
           />
         ) : null)}
       <ModalCredit isOpen={isOpenMembers} onChangeIsOpen={setOpenIsMembers} />
-      <ModalAccountCancelProcess
+      <ModalAccountWithdrawProcess
         isOpen={isOpenAccountCancelProcess}
         onChangeIsOpen={setIsOpenAccountCancelProcess}
       />
