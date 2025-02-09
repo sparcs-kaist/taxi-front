@@ -15,10 +15,10 @@ type ModalEvent2025SpringShareProps = {
 };
 
 const ModalEvent2025SpringShare = ({
-                                   isOpen,
-                                   onChangeIsOpen,
-                                   inviteUrl,
-                                 }: ModalEvent2025SpringShareProps) => {
+  isOpen,
+  onChangeIsOpen,
+  inviteUrl,
+}: ModalEvent2025SpringShareProps) => {
   const styleTitle = {
     ...theme.font18,
     display: "flex",

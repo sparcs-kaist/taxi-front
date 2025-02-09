@@ -12,8 +12,8 @@ type ModalEvent2025SpringAbuseWarningProps = Omit<
 >;
 
 const ModalEvent2025SpringAbuseWarning = ({
-                                          ...modalProps
-                                        }: ModalEvent2025SpringAbuseWarningProps) => {
+  ...modalProps
+}: ModalEvent2025SpringAbuseWarningProps) => {
   const styleTitle = {
     ...theme.font18,
     display: "flex",

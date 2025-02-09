@@ -1,9 +1,10 @@
 import event2023FallStoreSpeeches from "./event2023FallStoreSpeeches";
 import event2024FallStoreSpeeches from "./event2024FallStoreSpeeches";
-import event2025SpringStoreSpeeches from "@/tools/random/event2025SpringStoreSpeeches";
 import roomNames from "./roomNames";
 import suggestRoomShareTexts from "./suggestRoomShareTexts";
 import taxiSlogans from "./taxiSlogans";
+
+import event2025SpringStoreSpeeches from "@/tools/random/event2025SpringStoreSpeeches";
 
 const randomGenerator = (array: Array<string>) => () =>
   array[Math.floor(Math.random() * array.length)];

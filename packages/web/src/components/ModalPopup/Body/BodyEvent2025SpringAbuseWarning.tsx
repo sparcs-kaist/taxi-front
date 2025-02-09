@@ -12,8 +12,8 @@ type BodyEvent2025SpringAbuseWarningProps = {
 };
 
 const BodyEvent2025SpringAbuseWarning = ({
-                                         onChangeIsOpen,
-                                       }: BodyEvent2025SpringAbuseWarningProps) => {
+  onChangeIsOpen,
+}: BodyEvent2025SpringAbuseWarningProps) => {
   const styleText = {
     ...theme.font12,
     color: theme.gray_text,

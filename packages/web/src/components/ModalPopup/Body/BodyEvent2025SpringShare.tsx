@@ -19,9 +19,9 @@ export type BodyEvent2025SpringShareProps = {
 };
 
 const BodyEvent2025SpringShare = ({
-                                  height,
-                                  inviteUrl,
-                                }: BodyEvent2025SpringShareProps) => {
+  height,
+  inviteUrl,
+}: BodyEvent2025SpringShareProps) => {
   const [isCopied, setIsCopied] = useState(false);
   const onCopy = useCallback(() => setIsCopied(true), [setIsCopied]);
 
@@ -34,10 +34,10 @@ const BodyEvent2025SpringShare = ({
 
   const styleWrapper = height
     ? {
-      height,
-      display: "flex",
-      flexDirection: "column" as any,
-    }
+        height,
+        display: "flex",
+        flexDirection: "column" as any,
+      }
     : {};
 
   const styleGuide = {

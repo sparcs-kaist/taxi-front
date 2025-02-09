@@ -24,11 +24,11 @@ type HistoryItemProps = {
 };
 
 const HistoryItem = ({
-                       imageUrl,
-                       title,
-                       description,
-                       date,
-                     }: HistoryItemProps) => (
+  imageUrl,
+  title,
+  description,
+  date,
+}: HistoryItemProps) => (
   <WhiteContainer
     css={{
       padding: "12px",
@@ -72,7 +72,7 @@ const HistoryItem = ({
 
 const HistorySection = () => {
   const { transactions } =
-  useQuery.get("/events/2025spring/transactions")[1] || {};
+    useQuery.get("/events/2025spring/transactions")[1] || {};
   const purchaseHistory = useMemo(
     () =>
       (transactions || []).sort((x: Transaction, y: Transaction) =>

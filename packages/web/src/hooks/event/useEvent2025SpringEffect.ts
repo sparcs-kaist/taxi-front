@@ -6,7 +6,7 @@ import toast from "@/tools/toast";
 
 export const useEvent2025SpringEffect = () => {
   const { completedQuests, quests } =
-  useValueRecoilState("event2025SpringInfo") || {};
+    useValueRecoilState("event2025SpringInfo") || {};
 
   const prevCompletedQuestsRef = useRef<number>();
 

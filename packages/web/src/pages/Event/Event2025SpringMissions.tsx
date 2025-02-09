@@ -153,12 +153,17 @@ const Event2025SpringMissions = () => {
       <HeaderWithLeftNav
         value="quests"
         options={[
-          { value: "quests", label: "퀘스트", to: "/event/2025spring-missions" },
           {
-            value: "daily-attendance",
-            label: "출석 체크",
-            to: "/event/2025spring-daily-attendance",
+            value: "quests",
+            label: "퀘스트",
+            to: "/event/2025spring-missions",
           },
+          // {
+          //   value: "daily-attendance",
+          //   label: "출석 체크",
+          //   to: "/event/2025spring-daily-attendance",
+          // },
+          // TODO: add if use attendance
         ]}
       />
       <AdaptiveDiv type="center">

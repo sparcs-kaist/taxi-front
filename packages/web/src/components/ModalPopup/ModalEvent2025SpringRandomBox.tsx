@@ -31,9 +31,9 @@ type ModalEvent2025SpringRandomBoxProps = {
 } & Parameters<typeof Modal>[0];
 
 const ModalEvent2025SpringRandomBox = ({
-                                       randomBoxResult,
-                                       ...modalProps
-                                     }: ModalEvent2025SpringRandomBoxProps) => {
+  randomBoxResult,
+  ...modalProps
+}: ModalEvent2025SpringRandomBoxProps) => {
   const [isBoxOpend, setIsBoxOpend] = useState<boolean>(false);
   const isDisplayRandomBox = !useDelayBoolean(!modalProps.isOpen, 500);
   const isDisplayResult = useDelay<boolean>(isBoxOpend, !isBoxOpend, 6000);

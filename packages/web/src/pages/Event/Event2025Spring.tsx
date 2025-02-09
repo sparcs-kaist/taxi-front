@@ -36,11 +36,11 @@ const Event2025Spring = () => {
   const [inviteUrl, setInviteUrl] = useState<string>("");
   const setAlert = useSetRecoilState(alertAtom);
   const { isAgreeOnTermsOfEvent } =
-  useValueRecoilState("event2025SpringInfo") || {};
+    useValueRecoilState("event2025SpringInfo") || {};
   const axios = useAxios();
 
   const today = getToday();
-  const startDate = moment("2025-09-06", "YYYY-MM-DD");  // EVENT TODO: use real startDate and endDate
+  const startDate = moment("2025-09-06", "YYYY-MM-DD"); // EVENT TODO: use real startDate and endDate
   const endDate = moment("2025-09-24", "YYYY-MM-DD");
   const isEventDay = today.isBefore(endDate) && today.isAfter(startDate, "day");
 

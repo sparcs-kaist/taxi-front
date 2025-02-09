@@ -1,5 +1,10 @@
 import { useParams } from "react-router-dom";
 
+import Event2025Spring from "@/pages/Event/Event2025Spring";
+import Event2025SpringHistory from "@/pages/Event/Event2025SpringHistory";
+import Event2025SpringMissions from "@/pages/Event/Event2025SpringMissions";
+import Event2025SpringStore from "@/pages/Event/Event2025SpringStore";
+
 import Event2022Beta from "./Event2022Beta";
 import Event2023Fall from "./Event2023Fall";
 import Event2023FallHistory from "./Event2023FallHistory";
@@ -17,10 +22,6 @@ import Item from "./Event2024FallStore/Item";
 import Event2024Spring from "./Event2024Spring";
 import Event2024SpringLeaderboard from "./Event2024SpringLeaderboard";
 import Event2024SpringMissions from "./Event2024SpringMissions";
-import Event2025Spring from "@/pages/Event/Event2025Spring";
-import Event2025SpringMissions from "@/pages/Event/Event2025SpringMissions";
-import Event2025SpringHistory from "@/pages/Event/Event2025SpringHistory";
-import Event2025SpringStore from "@/pages/Event/Event2025SpringStore";
 
 const Event = () => {
   const { eventName, itemId } = useParams() as {

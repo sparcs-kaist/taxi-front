@@ -30,16 +30,16 @@ type ModalEvent2025SpringJoinProps = Parameters<typeof Modal>[0] & {
 };
 
 const ModalEvent2025SpringJoin = ({
-                                  inviterId,
-                                  ...modalProps
-                                }: ModalEvent2025SpringJoinProps) => {
+  inviterId,
+  ...modalProps
+}: ModalEvent2025SpringJoinProps) => {
   const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
   const isLogin = useIsLogin();
   const { phoneNumber: phoneNumberFromLoginInfo } =
-  useValueRecoilState("loginInfo") || {};
+    useValueRecoilState("loginInfo") || {};
   const { isAgreeOnTermsOfEvent } =
-  useValueRecoilState("event2025SpringInfo") || {};
+    useValueRecoilState("event2025SpringInfo") || {};
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
   //#region event2025spring
   const event2025SpringQuestComplete = useEvent2025SpringQuestComplete();

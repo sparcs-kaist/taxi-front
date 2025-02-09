@@ -12,7 +12,7 @@ export const useEvent2025SpringQuestComplete = () => {
   const axios = useAxios();
   const fetchEvent2025SpringInfo = useFetchRecoilState("event2025SpringInfo");
   const { completedQuests, quests } =
-  useValueRecoilState("event2025SpringInfo") || {};
+    useValueRecoilState("event2025SpringInfo") || {};
 
   return useCallback(
     (id: QuestId) => {

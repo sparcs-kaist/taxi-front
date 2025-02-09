@@ -133,7 +133,7 @@ const ModalCredit = ({
       },
       {
         key: "2025SpringEvent",
-        name: t("page_credit.category_2024spring_event"),
+        name: t("page_credit.category_2025spring_event"),
         body: <BodyMembers values={members2025SpringEvent} />,
       },
       {

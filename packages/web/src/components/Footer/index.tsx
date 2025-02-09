@@ -14,7 +14,8 @@ type FooterProps = {
     | "full"
     | "event-2023fall"
     | "event-2024spring"
-    | "event-2024fall" | "event-2025spring";
+    | "event-2024fall"
+    | "event-2025spring";
   children?: ReactNode;
 };
 

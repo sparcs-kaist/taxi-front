@@ -1,11 +1,6 @@
 import { useEffect } from "react";
 
 import {
-  useFetchEvent2025SpringInfo,
-  useSetEvent2025SpringInfo,
-  useValueEvent2025SpringInfo,
-} from "./useFetchEvent2025SpringInfo";
-import {
   useFetchEvent2023FallInfo,
   useSetEvent2023FallInfo,
   useValueEvent2023FallInfo,
@@ -20,6 +15,11 @@ import {
   useSetEvent2024SpringInfo,
   useValueEvent2024SpringInfo,
 } from "./useFetchEvent2024SpringInfo";
+import {
+  useFetchEvent2025SpringInfo,
+  useSetEvent2025SpringInfo,
+  useValueEvent2025SpringInfo,
+} from "./useFetchEvent2025SpringInfo";
 import {
   useFetchLoginInfo,
   useSetLoginInfo,
@@ -41,10 +41,10 @@ import {
   useValueTaxiLocations,
 } from "./useFetchTaxiLocations";
 
-import { Event2025SpringInfoType } from "@/atoms/event2025SpringInfo";
 import { Event2023FallInfoType } from "@/atoms/event2023FallInfo";
 import { Event2024FallInfoType } from "@/atoms/event2024FallInfo";
 import { Event2024SpringInfoType } from "@/atoms/event2024SpringInfo";
+import { Event2025SpringInfoType } from "@/atoms/event2025SpringInfo";
 import { LoginInfoType } from "@/atoms/loginInfo";
 import { MyRoomsType } from "@/atoms/myRooms";
 import { notificationOptionsType } from "@/atoms/notificationOptions";
@@ -57,7 +57,8 @@ export type AtomName =
   | "notificationOptions"
   | "event2023FallInfo"
   | "event2024SpringInfo"
-  | "event2024FallInfo" | "event2025SpringInfo";
+  | "event2024FallInfo"
+  | "event2025SpringInfo";
 
 type useValueRecoilStateType = {
   (atomName: "loginInfo"): LoginInfoType;

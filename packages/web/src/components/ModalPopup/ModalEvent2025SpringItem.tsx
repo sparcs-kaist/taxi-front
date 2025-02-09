@@ -36,12 +36,12 @@ type ModalEvent2025SpringItemProps = Parameters<typeof Modal>[0] & {
 };
 
 const ModalEvent2025SpringItem = ({
-                                  itemInfo,
-                                  fetchItems,
-                                  setRandomboxResult,
-                                  setShareItem,
-                                  ...modalProps
-                                }: ModalEvent2025SpringItemProps) => {
+  itemInfo,
+  fetchItems,
+  setRandomboxResult,
+  setShareItem,
+  ...modalProps
+}: ModalEvent2025SpringItemProps) => {
   const event2025SpringInfo = useValueRecoilState("event2025SpringInfo");
   const isLogin = useIsLogin();
 
@@ -93,12 +93,12 @@ const ModalEvent2025SpringItem = ({
       eventMode !== "2025spring"
         ? [true, "이벤트 기간이 아닙니다"]
         : !event2025SpringInfo || !isLogin
-          ? [true, "로그인해야 합니다"]
-          : event2025SpringInfo.isAgreeOnTermsOfEvent === false
-            ? [true, "이벤트에 참여해야 합니다"]
-            : event2025SpringInfo.creditAmount < bettingAmount
-              ? [true, "송편코인이 부족합니다"]
-              : [false, "구매하기"],
+        ? [true, "로그인해야 합니다"]
+        : event2025SpringInfo.isAgreeOnTermsOfEvent === false
+        ? [true, "이벤트에 참여해야 합니다"]
+        : event2025SpringInfo.creditAmount < bettingAmount
+        ? [true, "송편코인이 부족합니다"]
+        : [false, "구매하기"],
     [eventMode, event2025SpringInfo, itemInfo, bettingAmount]
   );
 
