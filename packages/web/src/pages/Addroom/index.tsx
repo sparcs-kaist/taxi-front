@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 
-import { useEvent2024FallQuestComplete } from "@/hooks/event/useEvent2024FallQuestComplete";
+import { useEvent2025SpringQuestComplete } from "@/hooks/event/useEvent2025SpringQuestComplete";
 import {
   useFetchRecoilState,
   useIsLogin,
@@ -12,7 +12,7 @@ import { useAxios } from "@/hooks/useTaxiAPI";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
-import { ModalEvent2024FallAbuseWarning } from "@/components/ModalPopup";
+import { ModalEvent2025SpringAbuseWarning } from "@/components/ModalPopup";
 import {
   OptionDate,
   OptionMaxPeople,
@@ -64,8 +64,8 @@ const AddRoom = () => {
   const isLogin = useIsLogin();
   const myRooms = useValueRecoilState("myRooms");
   const fetchMyRooms = useFetchRecoilState("myRooms");
-  //#region event2024fall
-  const event2024FallQuestComplete = useEvent2024FallQuestComplete();
+  //#region event2025spring
+  const event2025SpringQuestComplete = useEvent2025SpringQuestComplete();
   const [isOpenModalEventAbuseWarning, setIsOpenModalEventAbuseWarning] =
     useState<boolean>(false);
   //#endregion
@@ -141,10 +141,10 @@ const AddRoom = () => {
     if (!onCall.current) {
       onCall.current = true;
 
-      // #region event2024fall
+      // #region event2025spring
       let isAgreeOnTermsOfEvent = false;
       await axios({
-        url: "/events/2024fall/globalState",
+        url: "/events/2025spring/globalState",
         method: "get",
         onSuccess: (data) => {
           if (data.isAgreeOnTermsOfEvent) {
@@ -191,8 +191,8 @@ const AddRoom = () => {
         },
         onSuccess: () => {
           fetchMyRooms();
-          //#region event2024fall
-          event2024FallQuestComplete("firstRoomCreation");
+          //#region event2025Spring
+          event2025SpringQuestComplete("firstRoomCreation");
           //#endregion
           history.push("/myroom");
         },
@@ -253,8 +253,8 @@ const AddRoom = () => {
           )}
         </AdaptiveDiv>
       </div>
-      {/* #region event2024Fall */}
-      <ModalEvent2024FallAbuseWarning
+      {/* #region event2025Spring */}
+      <ModalEvent2025SpringAbuseWarning
         isOpen={isOpenModalEventAbuseWarning}
         onChangeIsOpen={async (data) => {
           if (data === true) {
@@ -271,8 +271,8 @@ const AddRoom = () => {
               },
               onSuccess: () => {
                 fetchMyRooms();
-                //#region event2024fall
-                event2024FallQuestComplete("firstRoomCreation");
+                //#region event2025Spring
+                event2025SpringQuestComplete("firstRoomCreation");
                 //#endregion
                 history.push("/myroom");
               },
