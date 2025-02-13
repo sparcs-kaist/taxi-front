@@ -25,6 +25,7 @@ export default (
   fetchReadAtList: () => void,
   setChats: ReturnType<typeof useStateWithCallbackLazy<Chats>>[1],
   setDisplayNewMessage: (value: boolean) => void,
+  handleRead: () => void,
   chatBodyRef: RefObject<HTMLDivElement>,
   isSendingMessage: MutableRefObject<boolean>
 ) => {
@@ -80,9 +81,12 @@ export default (
           const isNeedToFetch = chats.some((chat) =>
             ["in", "out", "payment", "settlement"].includes(chat.type)
           );
+          // 브라우저 활성화 여부 확인
+          const isWindowFocused = () => document.visibilityState === "visible";
 
           if (isMyMessage) isSendingMessage.current = false;
           if (isNeedToFetch) fetchRoomInfo();
+          if (isWindowFocused()) handleRead();
 
           if (chats.length > 10) {
             axios({

@@ -49,6 +49,9 @@ const Chat = ({ roomId, layoutType }: ChatProps) => {
     );
   }, [roomInfoForReadAt?.part]);
 
+  // 채팅 읽은 시간 업데이트
+  const handleRead = useReadChat(roomId, true);
+
   // socket.io를 통해 채팅 전송 및 수신
   useSocketChatEffect(
     roomInfo,
@@ -56,12 +59,10 @@ const Chat = ({ roomId, layoutType }: ChatProps) => {
     fetchReadAtList,
     setChats,
     setDisplayNewMessage,
+    handleRead,
     messageBodyRef,
     isSendingMessage
   );
-
-  // 채팅 읽은 시간 업데이트
-  useReadChat(roomId, true);
 
   // 채팅의 scroll을 제어
   useBodyScrollControllerEffect(
