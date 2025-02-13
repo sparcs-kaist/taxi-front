@@ -179,41 +179,51 @@ const BodyChatReportSelectType = ({
           <User value={reportedUser} isDeparted={isDeparted} />
         </div>
       )}
-      <div css={styleText}>
-        를 어떤 사유로 신고할까요? 만약 선택지에 원하시는 사유가 없다면
-        &quot;기타 사유&quot; 선택 후 자세히 설명해주세요.
-      </div>
-      <DottedLine />
-      <div css={styleSelectWrap}>
-        사유
-        <Select
-          options={selectOptions}
-          value={type}
-          onChangeValue={setType as (v: string) => void}
-          css={styleSelect}
-        />
-      </div>
-      {type === "etc-reason" && (
-        <div ref={wrapRef} css={styleTextareaWrap}>
-          <EditRoundedIcon style={styleIcon} />
-          <textarea
-            ref={textareaRef}
-            value={etcDetail}
-            onChange={(e) => setEtcDetail(e.target.value)}
-            css={styleTextarea}
-          />
-        </div>
-      )}
-      {inValidMessage && (
-        <div css={{ ...styleText, color: theme.red_text }}>
-          {inValidMessage}
-        </div>
-      )}
-      {!inValidMessage && type === "no-settlement" && (
+      {!reportedUser?.withdraw ? (
         <div css={styleText}>
-          신고하기 시 해당 사용자게에게 방 정보와 함께 송금을 재촉하는 메일이
-          자동으로 보내집니다.
+          를 어떤 사유로 신고할까요? 만약 선택지에 원하시는 사유가 없다면
+          &quot;기타 사유&quot; 선택 후 자세히 설명해주세요.
         </div>
+      ) : (
+        <div css={styleText}>
+          탈퇴한 사용자에 대한 신고는 채널톡 문의하기를 이용해 주세요.
+        </div>
+      )}
+      {!reportedUser?.withdraw && (
+        <>
+          <DottedLine />
+          <div css={styleSelectWrap}>
+            사유
+            <Select
+              options={selectOptions}
+              value={type}
+              onChangeValue={setType as (v: string) => void}
+              css={styleSelect}
+            />
+          </div>
+          {type === "etc-reason" && (
+            <div ref={wrapRef} css={styleTextareaWrap}>
+              <EditRoundedIcon style={styleIcon} />
+              <textarea
+                ref={textareaRef}
+                value={etcDetail}
+                onChange={(e) => setEtcDetail(e.target.value)}
+                css={styleTextarea}
+              />
+            </div>
+          )}
+          {inValidMessage && (
+            <div css={{ ...styleText, color: theme.red_text }}>
+              {inValidMessage}
+            </div>
+          )}
+          {!inValidMessage && type === "no-settlement" && (
+            <div css={styleText}>
+              신고하기 시 해당 사용자에게 방 정보와 함께 송금을 재촉하는 메일이
+              자동으로 보내집니다.
+            </div>
+          )}
+        </>
       )}
       <div css={styleButtons}>
         <Button

@@ -1,7 +1,7 @@
 import { ReactNode, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-import { useEvent2024FallEffect } from "@/hooks/event/useEvent2024FallEffect";
+import { useEvent2025SpringEffect } from "@/hooks/event/useEvent2025SpringEffect";
 import useCSSVariablesEffect from "@/hooks/skeleton/useCSSVariablesEffect";
 import useChannelTalkEffect from "@/hooks/skeleton/useChannelTalkEffect";
 import useFirebaseMessagingEffect from "@/hooks/skeleton/useFirebaseMessagingEffect";
@@ -70,8 +70,8 @@ const Skeleton = ({ children }: SkeletonProps) => {
   const [dailyAttendanceOpened, setDailyAttendanceOpened] =
     useState<boolean>(false);
 
-  //#region event2024Fall
-  useEvent2024FallEffect();
+  //#region event2025Spring
+  useEvent2025SpringEffect();
   //#endregion
   useSyncRecoilStateEffect(); // loginIngo, taxiLocations, myRooms, notificationOptions 초기화 및 동기화
   useI18nextEffect();

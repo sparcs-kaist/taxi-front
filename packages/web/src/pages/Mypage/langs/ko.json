@@ -16,7 +16,7 @@
   "terms_privacy": "개인정보 수집 및 이용",
   "privacy_policy": "개인정보 처리방침",
   "credit": "만든 사람들",
-  "cancel_account": "회원 탈퇴하기",
+  "withdraw_account": "회원 탈퇴하기",
   "logout": "로그아웃",
   "page_modify": {
     "cancel": "취소",
@@ -30,6 +30,7 @@
   },
   "page_credit": {
     "category_all": "전체",
+    "category_2025spring_event": "2025 봄학기 이벤트",
     "category_2024fall_event": "2024 가을학기 추석 이벤트",
     "category_2024spring_event": "2024 봄학기 새터반 택시대제전 이벤트",
     "category_2023fall_event": "2023 가을학기 한가위 송편 이벤트",
