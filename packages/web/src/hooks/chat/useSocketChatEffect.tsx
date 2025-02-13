@@ -86,7 +86,7 @@ export default (
 
           if (isMyMessage) isSendingMessage.current = false;
           if (isNeedToFetch) fetchRoomInfo();
-          if (isWindowFocused()) handleRead();
+          if (isWindowFocused()) handleRead(); // 새로운 메세지에 대한 읽음 처리
 
           if (chats.length > 10) {
             axios({
@@ -140,6 +140,7 @@ export default (
             );
           }
         },
+        //
         updateListener: (updatedRoomId: string) => {
           if (isExpired) return;
 

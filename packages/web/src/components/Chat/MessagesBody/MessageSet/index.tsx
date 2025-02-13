@@ -90,8 +90,6 @@ const MessageSet = ({
         (readAt) => readAt < time
       ).length;
 
-      // console.log("unreadUsersCache =====>", unreadUsersCache);
-      // console.log("time =====>", time);
       return unreadUsersCache === roomInfo.part.length
         ? unreadUsersCache - 1
         : unreadUsersCache;
