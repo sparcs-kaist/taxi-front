@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 
 import type { Chats, LayoutType } from "@/types/chat";
@@ -35,10 +35,25 @@ const Chat = ({ roomId, layoutType }: ChatProps) => {
     roomInfoToken,
   ]);
 
+  // 각 사용자가 언제 마지막으로 채팅을 읽었는지 알려주는 readAtList 조회
+  const [readAtListToken, fetchReadAtList] = useDateToken();
+  const [, roomInfoForReadAt] = useQuery.get(`/rooms/info?id=${roomId}`, {}, [
+    readAtListToken,
+  ]);
+  const [readAtList, setReadAtList] = useState<Date[]>([]);
+
+  useEffect(() => {
+    if (!roomInfoForReadAt?.part) return;
+    setReadAtList(
+      roomInfoForReadAt.part.map((user: { readAt: any }) => user.readAt)
+    );
+  }, [roomInfoForReadAt?.part]);
+
   // socket.io를 통해 채팅 전송 및 수신
   useSocketChatEffect(
     roomInfo,
     fetchRoomInfo,
+    fetchReadAtList,
     setChats,
     setDisplayNewMessage,
     messageBodyRef,
@@ -67,6 +82,7 @@ const Chat = ({ roomId, layoutType }: ChatProps) => {
         layoutType={layoutType}
         roomInfo={roomInfo}
         chats={chats}
+        readAtList={readAtList}
         ref={messageBodyRef}
       />
       <MessageForm

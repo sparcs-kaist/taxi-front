@@ -22,6 +22,7 @@ import {
 export default (
   roomInfo: Nullable<Room>,
   fetchRoomInfo: () => void,
+  fetchReadAtList: () => void,
   setChats: ReturnType<typeof useStateWithCallbackLazy<Chats>>[1],
   setDisplayNewMessage: (value: boolean) => void,
   chatBodyRef: RefObject<HTMLDivElement>,
@@ -138,7 +139,7 @@ export default (
         updateListener: (updatedRoomId: string) => {
           if (isExpired) return;
 
-          if (roomId === updatedRoomId) fetchRoomInfo();
+          if (roomId === updatedRoomId) fetchReadAtList();
         },
       });
 

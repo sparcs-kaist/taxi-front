@@ -57,9 +57,15 @@ type MessageSetProps = {
   chats: Array<UserChat | BotChat>;
   layoutType: LayoutType;
   roomInfo: Room;
+  readAtList: Array<Date>;
 };
 
-const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
+const MessageSet = ({
+  chats,
+  layoutType,
+  roomInfo,
+  readAtList,
+}: MessageSetProps) => {
   const [isOpenReport, setIsOpenReport] = useState<boolean>(false);
   const { oid: userOid } = useValueRecoilState("loginInfo") || {};
 
@@ -72,15 +78,6 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
 
   const isBot = authorId === "bot";
   const isAlone = roomInfo.part.length === 1;
-
-  const readAtList = useMemo(
-    () => roomInfo.part.map((user) => user.readAt),
-    [roomInfo?.part]
-  );
-
-  useEffect(() => {
-    console.log("readAtList =====>", readAtList);
-  }, [readAtList]);
 
   // Chat의 time에 따라 안 읽은 사람 수 설정
   const unreadUsersNum = useCallback(

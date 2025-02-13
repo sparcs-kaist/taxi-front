@@ -14,7 +14,12 @@ import { getChatUniquewKey } from "@/tools/chat/chats";
 import dayjs from "@/tools/day";
 import moment from "@/tools/moment";
 
-export default (_chats: Chats, layoutType: LayoutType, roomInfo: Room) => {
+export default (
+  _chats: Chats,
+  layoutType: LayoutType,
+  roomInfo: Room,
+  readAtList: Array<Date>
+) => {
   const { oid: userOid } = useValueRecoilState("loginInfo") || {};
 
   return useMemo(() => {
@@ -32,6 +37,7 @@ export default (_chats: Chats, layoutType: LayoutType, roomInfo: Room) => {
             chats={chatsCache}
             layoutType={layoutType}
             roomInfo={roomInfo}
+            readAtList={readAtList}
           />
         );
       }
@@ -106,5 +112,5 @@ export default (_chats: Chats, layoutType: LayoutType, roomInfo: Room) => {
     });
     popQueue();
     return list;
-  }, [_chats, layoutType, userOid, roomInfo]);
+  }, [_chats, layoutType, userOid, roomInfo, readAtList]);
 };
