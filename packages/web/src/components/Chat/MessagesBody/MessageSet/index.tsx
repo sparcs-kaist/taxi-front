@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 
 import type { BotChat, LayoutType, UserChat } from "@/types/chat";
 
@@ -14,6 +14,7 @@ import MessageImage from "./MessageImage";
 import MessagePaySettlement from "./MessagePaySettlement";
 import MessageShare from "./MessageShare";
 import MessageText from "./MessageText";
+import UnreadUsers from "./UnreadUsers";
 
 import { getChatUniquewKey } from "@/tools/chat/chats";
 import dayjs from "@/tools/day";
@@ -71,6 +72,35 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
 
   const isBot = authorId === "bot";
   const isAlone = roomInfo.part.length === 1;
+
+  const readAtList = useMemo(
+    () => roomInfo.part.map((user) => user.readAt),
+    [roomInfo?.part]
+  );
+
+  useEffect(() => {
+    console.log("readAtList =====>", readAtList);
+  }, [readAtList]);
+
+  // Chat의 time에 따라 안 읽은 사람 수 설정
+  const unreadUsersNum = useCallback(
+    (time: Date) => {
+      if (!roomInfo?.part || roomInfo.part.length <= 0) {
+        return 0;
+      }
+
+      const unreadUsersCache = readAtList.filter(
+        (readAt) => readAt < time
+      ).length;
+
+      // console.log("unreadUsersCache =====>", unreadUsersCache);
+      // console.log("time =====>", time);
+      return unreadUsersCache === roomInfo.part.length
+        ? unreadUsersCache - 1
+        : unreadUsersCache;
+    },
+    [readAtList]
+  );
 
   const style = {
     position: "relative" as any,
@@ -148,10 +178,6 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
     color: theme.gray_text,
     minWidth: "fit-content",
   };
-  const styleUnreadUsers = {
-    ...theme.font8_medium,
-    color: theme.purple_dark,
-  };
 
   return (
     <>
@@ -190,12 +216,8 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
                 />
               </div>
               <div css={styleMessageDetail}>
-                {chat.unreadUsers !== undefined && chat.unreadUsers > 0 && (
-                  <div css={styleUnreadUsers}>
-                    {chat.unreadUsers === roomInfo.part.length
-                      ? chat.unreadUsers - 1
-                      : chat.unreadUsers}
-                  </div>
+                {unreadUsersNum(chat.time) > 0 && (
+                  <UnreadUsers value={unreadUsersNum(chat.time)} />
                 )}
                 {index === chats.length - 1 && (
                   <div css={styleTime} className="selectable">

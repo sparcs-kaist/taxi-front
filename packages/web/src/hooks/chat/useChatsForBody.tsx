@@ -21,15 +21,8 @@ export default (_chats: Chats, layoutType: LayoutType, roomInfo: Room) => {
     const list: Array<ReactNode> = [];
     let momentCache: any = null; // @fixme, @todo
     let chatsCache: Nullable<Array<UserChat | BotChat>> = null;
-    let unreadUsersCache: number = 0;
     const dateFormat = "YYYY.MM.DD";
     const minFormat = "YYYY.MM.DD HH:mm";
-
-    let readAtList: Array<Date> = [];
-    roomInfo?.part?.forEach((user) => {
-      readAtList.push(user.readAt);
-    });
-    readAtList.sort();
 
     const popQueue = () => {
       if (chatsCache) {
@@ -60,11 +53,6 @@ export default (_chats: Chats, layoutType: LayoutType, roomInfo: Room) => {
       }
 
       const currentMoment = moment(item.time);
-      // Chat의 time에 따라 안 읽은 사람 수 증가시키기
-      while (readAtList.length > 0 && item.time > readAtList[0]) {
-        readAtList.shift();
-        unreadUsersCache++;
-      }
 
       if (!momentCache) {
         momentCache = currentMoment.clone();
@@ -102,7 +90,7 @@ export default (_chats: Chats, layoutType: LayoutType, roomInfo: Room) => {
           item.authorId = "bot";
           item.authorName = "택시 봇";
         }
-        item.unreadUsers = unreadUsersCache;
+
         if (
           chatsCache &&
           (chatsCache[0].authorId !== item.authorId ||

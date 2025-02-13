@@ -45,6 +45,9 @@ const Chat = ({ roomId, layoutType }: ChatProps) => {
     isSendingMessage
   );
 
+  // 채팅 읽은 시간 업데이트
+  useReadChat(roomId, true);
+
   // 채팅의 scroll을 제어
   useBodyScrollControllerEffect(
     roomId,
@@ -56,9 +59,6 @@ const Chat = ({ roomId, layoutType }: ChatProps) => {
 
   // 전체화면 챗에서는 body의 스크롤을 막습니다.
   useDisableScrollEffect(layoutType === "fullchat");
-
-  // 채팅 읽은 시간 업데이트
-  useReadChat(roomId, true);
 
   return (
     <Container layoutType={layoutType}>
