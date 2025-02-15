@@ -36,6 +36,8 @@ const Chat = ({ roomId, layoutType }: ChatProps) => {
   ]);
 
   // 각 사용자가 언제 마지막으로 채팅을 읽었는지 알려주는 readAtList 조회
+  //   r.f. 역시 방 정보를 조회하지만 readAt은 좀 더 자주 업데이트가 필요하기 때문에 roomInfo와 분리
+  //        readAt을 위해 roomInfo 업데이트 시 useSocketChatEffect가 다시 렌더링되어 초기화되는 문제 발생
   const [readAtListToken, fetchReadAtList] = useDateToken();
   const [, roomInfoForReadAt] = useQuery.get(`/rooms/info?id=${roomId}`, {}, [
     readAtListToken,
