@@ -10,10 +10,11 @@ type MessagesBodyProps = {
   layoutType: LayoutType;
   roomInfo: Room;
   chats: Chats;
+  readAtList: Array<Date>;
 };
 
 const MessagesBody = (
-  { layoutType, roomInfo, chats: _chats }: MessagesBodyProps,
+  { layoutType, roomInfo, chats: _chats, readAtList }: MessagesBodyProps,
   ref: ForwardedRef<HTMLDivElement>
 ) => (
   <div
@@ -29,7 +30,7 @@ const MessagesBody = (
     ref={ref}
   >
     {_chats.length <= 0 && <LoadingChats />}
-    {useChatsForBody(_chats, layoutType, roomInfo)}
+    {useChatsForBody(_chats, layoutType, roomInfo, readAtList)}
   </div>
 );
 

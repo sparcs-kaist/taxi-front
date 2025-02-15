@@ -25,6 +25,8 @@ declare global {
     nickname: string;
     profileImageUrl: string;
     isSettlement?: "not-departed" | "paid" | "send-required" | "sent";
+    readAt: Date;
+    withdraw: boolean;
   };
   type Room = {
     _id: string;

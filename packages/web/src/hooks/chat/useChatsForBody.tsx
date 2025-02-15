@@ -14,7 +14,12 @@ import { getChatUniquewKey } from "@/tools/chat/chats";
 import dayjs from "@/tools/day";
 import moment from "@/tools/moment";
 
-export default (_chats: Chats, layoutType: LayoutType, roomInfo: Room) => {
+export default (
+  _chats: Chats,
+  layoutType: LayoutType,
+  roomInfo: Room,
+  readAtList: Array<Date>
+) => {
   const { oid: userOid } = useValueRecoilState("loginInfo") || {};
 
   return useMemo(() => {
@@ -32,6 +37,7 @@ export default (_chats: Chats, layoutType: LayoutType, roomInfo: Room) => {
             chats={chatsCache}
             layoutType={layoutType}
             roomInfo={roomInfo}
+            readAtList={readAtList}
           />
         );
       }
@@ -53,9 +59,10 @@ export default (_chats: Chats, layoutType: LayoutType, roomInfo: Room) => {
       }
 
       const currentMoment = moment(item.time);
+
       if (!momentCache) {
         momentCache = currentMoment.clone();
-        momentCache.subtract(1, "years");
+        momentCache.subtract(1, "years"); // momentCache를 초기화하기 위함
       }
       if (momentCache.format(dateFormat) !== currentMoment.format(dateFormat)) {
         popQueue();
@@ -89,6 +96,7 @@ export default (_chats: Chats, layoutType: LayoutType, roomInfo: Room) => {
           item.authorId = "bot";
           item.authorName = "택시 봇";
         }
+
         if (
           chatsCache &&
           (chatsCache[0].authorId !== item.authorId ||
@@ -104,5 +112,5 @@ export default (_chats: Chats, layoutType: LayoutType, roomInfo: Room) => {
     });
     popQueue();
     return list;
-  }, [_chats, layoutType, userOid, roomInfo]);
+  }, [_chats, layoutType, userOid, roomInfo, readAtList]);
 };

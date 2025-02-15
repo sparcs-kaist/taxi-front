@@ -16,15 +16,15 @@ import theme from "@/tools/theme";
 const WhiteContainerSuggestShareEvent = () => {
   const isLogin = useIsLogin();
   const { isAgreeOnTermsOfEvent } =
-    useValueRecoilState("event2024FallInfo") || {};
+    useValueRecoilState("event2025SpringInfo") || {};
   const [inviteUrl, setInviteUrl] = useState<string>("");
   const [isOpenShare, setIsOpenShare] = useState<boolean>(false);
   const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
 
   const today = getToday();
-  const startDate = moment("2024-09-06", "YYYY-MM-DD");
-  const endDate = moment("2024-09-24", "YYYY-MM-DD");
+  const startDate = moment("2025-02-06", "YYYY-MM-DD"); // event TODO: change date
+  const endDate = moment("2025-03-24", "YYYY-MM-DD");
   const isEventDay = today.isBefore(endDate) && today.isAfter(startDate, "day");
 
   const styleText = {

@@ -6,9 +6,6 @@ import theme from "@/tools/theme";
 
 import { ReactComponent as CreditIcon } from "@/static/events/2023fallCredit.svg";
 
-// import { ReactComponent as Ticket1Icon } from "@/static/events/2023fallTicket1.svg";
-// import { ReactComponent as Ticket2Icon } from "@/static/events/2023fallTicket2.svg";
-
 type CreditAmountStatusContainerProps = {
   type?: "credit" | "ticket";
 } & Parameters<typeof WhiteContainer>[0];
@@ -17,7 +14,7 @@ const CreditAmountStatusContainer = ({
   type = "credit",
   ...whiteContainerProps
 }: CreditAmountStatusContainerProps) => {
-  const { creditAmount } = useValueRecoilState("event2024FallInfo") || {};
+  const { creditAmount } = useValueRecoilState("event2025SpringInfo") || {};
 
   return (
     <WhiteContainer
