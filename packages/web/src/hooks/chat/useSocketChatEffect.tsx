@@ -140,7 +140,6 @@ export default (
             );
           }
         },
-        //
         updateListener: (updatedRoomId: string) => {
           if (isExpired) return;
 
