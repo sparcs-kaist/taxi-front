@@ -10,15 +10,14 @@ import theme from "@/tools/theme";
 import { ReactComponent as MissionCompleteIcon } from "@/static/events/2023fallMissionComplete.svg";
 
 const getCalendarDates = () => {
-  const startDate = moment("2024-09-06", "YYYY-MM-DD");
-  const endDate = moment("2024-09-24", "YYYY-MM-DD");
-  const endDateOfMonth = moment("2024-09-30", "YYYY-MM-DD");
+  const startDate = moment("2025-02-19", "YYYY-MM-DD");
+  const endDate = moment("2025-03-13", "YYYY-MM-DD");
   const today = getToday();
   // const today = moment("2024-09-10", "YYYY-MM-DD"); // FIXME: 배포 전에 수정
   const date = startDate.clone();
   date.subtract(date.day(), "day");
-  const event2024FallInfo = useValueRecoilState("event2024FallInfo");
-  const completedDates = event2024FallInfo?.completedQuests.reduce(
+  const event2025SpringInfo = useValueRecoilState("event2025SpringInfo");
+  const completedDates = event2025SpringInfo?.completedQuests.reduce(
     (acc, { questId, completedAt }) => {
       if (questId === "dailyAttendance" && completedAt) {
         acc.push(moment(completedAt).format("YYYY-MM-DD"));
@@ -58,9 +57,6 @@ const getCalendarDates = () => {
         available,
         checked,
       });
-      if (date.isSame(endDateOfMonth)) {
-        break;
-      }
       date.add(1, "day");
     }
     calendar.push(week);

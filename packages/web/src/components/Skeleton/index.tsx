@@ -18,7 +18,7 @@ import {
 import HeaderBar from "@/components/Header/HeaderBar";
 import Loading from "@/components/Loading";
 import {
-  ModalEvent2024FallDailyAttendance,
+  ModalEvent2025SpringDailyAttendance,
   ModalTerms,
 } from "@/components/ModalPopup";
 import Error from "@/pages/Error";
@@ -98,7 +98,7 @@ const Skeleton = ({ children }: SkeletonProps) => {
           )}
           {children}
           <ModalTerms isOpen={!!userId && !isAgreeOnTermsOfService} />
-          <ModalEvent2024FallDailyAttendance
+          <ModalEvent2025SpringDailyAttendance
             isOpen={dailyAttendanceOpened}
             onChangeIsOpen={setDailyAttendanceOpened}
           />
