@@ -42,8 +42,6 @@ const useAxios = () => {
               `/login?redirect=${encodeURIComponent(currentPath)}`
             )}`
           );
-        } else if (res.status !== 200) {
-          throw new Error("Status is not 200!");
         } else {
           if (onSuccess) onSuccess(res.data);
           return res.data;
