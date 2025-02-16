@@ -15,7 +15,7 @@ import WhiteContainer from "@/components/WhiteContainer";
 import theme from "@/tools/theme";
 
 import { ReactComponent as CreditIcon } from "@/static/events/2023fallCredit.svg";
-import { ReactComponent as MissionCompleteIcon } from "@/static/events/2023fallMissionComplete.svg";
+import { ReactComponent as CoinComplete } from "@/static/events/2024springCoinComplete.svg";
 
 type MissionContainerProps = {
   quest: Quest;
@@ -140,7 +140,7 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
           </>
         )}
       </div>
-      {isDone && <MissionCompleteIcon css={styleStamp} />}
+      {isDone && <CoinComplete css={styleStamp} />}
     </WhiteContainer>
   );
 };
@@ -158,12 +158,11 @@ const Event2025SpringMissions = () => {
             label: "퀘스트",
             to: "/event/2025spring-missions",
           },
-          // {
-          //   value: "daily-attendance",
-          //   label: "출석 체크",
-          //   to: "/event/2025spring-daily-attendance",
-          // },
-          // TODO: add if use attendance
+          {
+            value: "daily-attendance",
+            label: "출석 체크",
+            to: "/event/2025spring-daily-attendance",
+          },
         ]}
       />
       <AdaptiveDiv type="center">

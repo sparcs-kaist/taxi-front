@@ -23,8 +23,8 @@ const WhiteContainerSuggestShareEvent = () => {
   const setAlert = useSetRecoilState(alertAtom);
 
   const today = getToday();
-  const startDate = moment("2025-02-06", "YYYY-MM-DD"); // event TODO: change date
-  const endDate = moment("2025-03-24", "YYYY-MM-DD");
+  const startDate = moment("2025-02-19", "YYYY-MM-DD"); // event TODO: change date
+  const endDate = moment("2025-03-13", "YYYY-MM-DD");
   const isEventDay = today.isBefore(endDate) && today.isAfter(startDate, "day");
 
   const styleText = {
@@ -57,7 +57,7 @@ const WhiteContainerSuggestShareEvent = () => {
             <b>🎊 이벤트 공유하기</b>
           </div>
           <div css={styleText}>
-            이벤트를 공유하여 친구가 이벤트에 참여하면, 친구와 함께 송편코인
+            이벤트를 공유하여 친구가 이벤트에 참여하면, 친구와 함께 넙죽코인
             700개를 받을 수 있어요!
           </div>
           <Button

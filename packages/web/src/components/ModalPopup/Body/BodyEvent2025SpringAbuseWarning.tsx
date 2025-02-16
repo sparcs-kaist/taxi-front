@@ -72,13 +72,13 @@ const BodyEvent2025SpringAbuseWarning = ({
       <div css={styleText}>
         • 실제로 택시에 탑승하지 않으신 경우,{" "}
         <b css={{ color: theme.black }}>
-          획득한 송편코인과 경품 응모권이 모두 회수되고
+          획득한 넙죽코인 경품 응모권이 모두 회수되고
         </b>{" "}
         추가적인 <b css={{ color: theme.black }}>이벤트 참여가 제한</b>될 수
         있습니다.
       </div>
       <div css={styleText}>
-        • 자세한 이벤트 약관은 {'"'}마이 페이지{">"}추석 이벤트 참여 약관{'"'}
+        • 자세한 이벤트 약관은 {'"'}마이 페이지{">"}새학기 이벤트 참여 약관{'"'}
         에서 확인하실 수 있습니다.{" "}
       </div>
       <div css={styleText}>그래도 방을 생성할까요?</div>
