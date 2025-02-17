@@ -8,7 +8,10 @@ import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
 import Footer from "@/components/Footer";
 import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
-import { ModalEvent2025SpringShare } from "@/components/ModalPopup";
+import {
+  ModalEvent2025SpringCoupon,
+  ModalEvent2025SpringShare,
+} from "@/components/ModalPopup";
 import WhiteContainer from "@/components/WhiteContainer";
 
 import alertAtom from "@/atoms/alert";
@@ -29,19 +32,20 @@ import { ReactComponent as MainStep3 } from "@/static/events/2024fallMainStep3.s
 import { ReactComponent as MainTitle } from "@/static/events/2024fallMainTitle.svg";
 
 const EVENT_INSTAGRAM_URL =
-  "https://www.instagram.com/p/C_j1gibhTOa/?igsh=eWoyMnhweGNzeWR2";
+  "https://www.instagram.com/p/C_j1gibhTOa/?igsh=eWoyMnhweGNzeWR2"; // TODO: FIXME
 
 const Event2025Spring = () => {
   const [isOpenShare, setIsOpenShare] = useState<boolean>(false);
   const [inviteUrl, setInviteUrl] = useState<string>("");
+  const [isOpenCoupon, setIsOpenCoupon] = useState<boolean>(false);
   const setAlert = useSetRecoilState(alertAtom);
   const { isAgreeOnTermsOfEvent } =
     useValueRecoilState("event2025SpringInfo") || {};
   const axios = useAxios();
 
   const today = getToday();
-  const startDate = moment("2025-09-06", "YYYY-MM-DD"); // EVENT TODO: use real startDate and endDate
-  const endDate = moment("2025-09-24", "YYYY-MM-DD");
+  const startDate = moment("2025-02-18", "YYYY-MM-DD");
+  const endDate = moment("2025-03-13", "YYYY-MM-DD");
   const isEventDay = today.isBefore(endDate) && today.isAfter(startDate, "day");
 
   useEffect(() => {
@@ -250,7 +254,7 @@ const Event2025Spring = () => {
                 color: theme.purple,
               }}
             >
-              BONUS
+              BONUS 1
             </div>
             <div css={{ height: "16px" }} />
             <div
@@ -289,17 +293,78 @@ const Event2025Spring = () => {
                     "이벤트를 공유하기 위해서는 이벤트에 참여해야 합니다."
                   );
                 } else {
-                  setAlert("이벤트 기간이 아닙니다. ");
+                  setAlert("이벤트 기간이 아닙니다.");
                 }
               }}
             >
               이벤트 공유하기
             </Button>
           </WhiteContainer>
+          <div css={{ height: "16px" }} />
+          <WhiteContainer
+            css={{ margin: 0, padding: "16px", textAlign: "center" }}
+          >
+            <div
+              css={{
+                ...theme.font14_bold,
+                color: theme.purple,
+              }}
+            >
+              BONUS 2
+            </div>
+            <div css={{ height: "16px" }} />
+            <div
+              css={{
+                ...theme.font20,
+                color: theme.black,
+              }}
+            >
+              SPARCS 행사 참여하고
+              <br />
+              넙죽코인 쿠폰 받아가세요!
+            </div>
+            <div css={{ height: "16px" }} />
+            <div
+              css={{
+                ...theme.font14,
+                color: theme.gray_text,
+              }}
+            >
+              해오름식 SPARCS 부스, SPARCS 오픈동방에 참여하면
+              <br />
+              넙죽코인을 얻을 수 있는 쿠폰을 드립니다.
+            </div>
+            <div css={{ height: "16px" }} />
+            <Button
+              type="purple_inset"
+              css={{
+                padding: "14px 0 13px",
+                borderRadius: "12px",
+                ...theme.font14_bold,
+              }}
+              onClick={() => {
+                if (inviteUrl) setIsOpenCoupon(true);
+                else if (isEventDay) {
+                  setAlert(
+                    "쿠폰을 사용하기 위해서는 이벤트에 참여해야 합니다."
+                  );
+                } else {
+                  setAlert("이벤트 기간이 아닙니다.");
+                }
+              }}
+            >
+              쿠폰 사용하기
+            </Button>
+          </WhiteContainer>
           <ModalEvent2025SpringShare
             isOpen={isOpenShare}
             onChangeIsOpen={setIsOpenShare}
             inviteUrl={inviteUrl || ""}
+          />
+          <ModalEvent2025SpringCoupon
+            isOpen={isOpenCoupon}
+            setIsOpen={setIsOpenCoupon}
+            onChangeIsOpen={setIsOpenCoupon}
           />
         </AdaptiveDiv>
       </div>
