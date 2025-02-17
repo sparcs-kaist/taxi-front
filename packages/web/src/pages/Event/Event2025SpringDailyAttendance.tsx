@@ -1,7 +1,6 @@
 import { memo, useState } from "react";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
-import Button from "@/components/Button";
 import CreditAmountStatusContainer from "@/components/Event/CreditAmountStatusContainer";
 import DailyAttendanceCalendar from "@/components/Event/DailyAttendanceCalendar";
 import Footer from "@/components/Footer";
@@ -9,21 +8,20 @@ import HeaderWithLeftNav from "@/components/Header/HeaderWithLeftNav";
 import WhiteContainer from "@/components/WhiteContainer";
 
 import moment, { getToday } from "@/tools/moment";
-import theme from "@/tools/theme";
 
 import { ReactComponent as DailyAttendance } from "@/static/events/2024fallDailyAttendance.svg";
 
 // TODO: 에셋 변경
 
-type DateSectionProps = {
+export type DateSectionProps = {
   value: Array<Nullable<number>>;
   handler: (newValue: Array<number>) => void;
 };
 
-const DateSection = (props: DateSectionProps) => {
+const DateSection = ({ value, handler }: DateSectionProps) => {
   return (
     <WhiteContainer css={{ padding: "10px 15px" }}>
-      <DailyAttendanceCalendar />
+      <DailyAttendanceCalendar value={value} handler={handler} />
     </WhiteContainer>
   );
 };
@@ -35,8 +33,8 @@ const Event2025SpringAttendance = () => {
 
   const [valueDate, setDate] = useState<Array<Nullable<number>>>([
     today.year(),
-    today.month() + 1,
-    today.date(),
+    today.date() === 1 ? 2 : today.month(),
+    today.date() === 1 ? 28 : today.date() - 1, // 3/1 전날은 2/28
   ]);
 
   return (
@@ -63,22 +61,7 @@ const Event2025SpringAttendance = () => {
         <DailyAttendance css={{ width: "100%" }} />
         <CreditAmountStatusContainer />
         <DateSection value={valueDate} handler={setDate} />
-        {isEventDay ? (
-          <Button
-            type="purple"
-            disabled={true}
-            css={{
-              width: "100%",
-              padding: "14px 0 13px",
-              borderRadius: "12px",
-              ...theme.font16_bold,
-            }}
-          >
-            오늘의 출석체크
-          </Button>
-        ) : (
-          "이벤트 기간이 아닙니다."
-        )}
+        {isEventDay ? "" : "이벤트 기간이 아닙니다."}
 
         <Footer type="event-2025spring" />
       </AdaptiveDiv>

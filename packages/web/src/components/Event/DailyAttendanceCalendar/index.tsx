@@ -3,6 +3,7 @@ import { memo } from "react";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import MiniCircle from "@/components/MiniCircle";
+import { DateSectionProps } from "@/pages/Event/Event2025SpringDailyAttendance";
 
 import moment, { getToday } from "@/tools/moment";
 import theme from "@/tools/theme";
@@ -70,9 +71,20 @@ type DateProps = {
   date: number;
   available: string | boolean | null;
   checked: boolean;
+  selected: boolean;
+  handler: (newValue: Array<number>) => void;
 };
 
-const Date = ({ index, date, available, checked }: DateProps) => {
+const Date = ({
+  index,
+  year,
+  month,
+  date,
+  available,
+  checked,
+  selected,
+  handler,
+}: DateProps) => {
   const style = {
     width: "calc((100% - 36px) / 7)",
     aspectRatio: "1 / 1",
@@ -85,21 +97,27 @@ const Date = ({ index, date, available, checked }: DateProps) => {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    background: available ? theme.white : theme.gray_background,
+    background: available
+      ? selected
+        ? theme.purple
+        : theme.white
+      : theme.gray_background,
     transitionDuration: theme.duration,
+    cursor: "pointer",
   };
   const styleDate = {
     ...theme.font12,
     letterSpacing: undefined,
     marginTop: "3px",
-    color:
-      available === "past" || !available
-        ? theme.gray_line
-        : index === 0
-        ? theme.red_text
-        : index === 6
-        ? theme.blue_text
-        : theme.black,
+    color: selected
+      ? theme.white
+      : available === "past" || !available
+      ? theme.gray_line
+      : index === 0
+      ? theme.red_text
+      : index === 6
+      ? theme.blue_text
+      : theme.black,
   };
   const styleToday: React.CSSProperties = {
     position: "absolute",
@@ -114,7 +132,7 @@ const Date = ({ index, date, available, checked }: DateProps) => {
 
   if (!date) return <div style={style} />;
   return (
-    <div style={styleBox}>
+    <div style={styleBox} onClick={() => handler([year, month, date])}>
       <div style={styleDate}>{date}</div>
       {available === "today" && (
         <div style={styleToday}>
@@ -127,7 +145,7 @@ const Date = ({ index, date, available, checked }: DateProps) => {
 };
 const MemoizedDate = memo(Date);
 
-const DailyAttendanceCalendar = () => {
+const DailyAttendanceCalendar = ({ value, handler }: DateSectionProps) => {
   const dateInfo = getCalendarDates();
 
   const styleMonth: React.CSSProperties = {
@@ -198,6 +216,12 @@ const DailyAttendanceCalendar = () => {
                   date={item.date}
                   available={item.available}
                   checked={item.checked}
+                  selected={
+                    value[0] === item.year &&
+                    value[1] === item.month &&
+                    value[2] === item.date
+                  }
+                  handler={handler}
                 />
               ))}
             </div>

@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { CSSProperties } from "react";
 
+import { useEvent2025SpringSubmitAnswer } from "@/hooks/event/useEvent2025SpringSubmitAnswer";
 // import { useEvent2025SpringQuestComplete } from "@/hooks/event/useEvent2025SpringQuestComplete";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import { useQuery } from "@/hooks/useTaxiAPI";
 
 import Button from "@/components/Button";
 import CreditAmountStatusContainer from "@/components/Event/CreditAmountStatusContainer";
@@ -58,10 +60,10 @@ const ModalEvent2025SpringDailyAttendance = ({
     }
   }, [isAgreeOnTermsOfEvent, todayInitial.length]);
 
-  const [selectedChoice, setSelectedChoice] = useState(0);
-  const todayQuestion = "오늘의 질문은 어쩌구저쩌구";
-  const todayChoiceList = ["선택지 1", "선택지 2"];
-  const todayImage = "https://picsum.photos/150/150";
+  const [selectedChoice, setSelectedChoice] = useState("");
+  const [, todayData] = useQuery.get("/events/2025spring/quizzes/today") || {};
+  console.log(todayData);
+
   return (
     <Modal
       padding="16px 12px 12px"
@@ -82,8 +84,9 @@ const ModalEvent2025SpringDailyAttendance = ({
           gap: "12px",
         }}
       >
-        {todayQuestion}
-        <img src={todayImage} style={{ width: "auto" }} />
+        <div>{todayData.quizTitle}</div>
+        <div>{todayData.quizContent}</div>
+        <img src={todayData.quizImage} style={{ width: "auto" }} />
         <div
           css={{
             display: "flex",
@@ -93,9 +96,9 @@ const ModalEvent2025SpringDailyAttendance = ({
           }}
         >
           <div style={styleBox}>
-            {todayChoiceList[0]}
+            {"A"}
             <Button
-              type={selectedChoice === 1 ? "white" : "purple"}
+              type={selectedChoice === "A" ? "white" : "purple"}
               disabled={false}
               css={{
                 width: "100%",
@@ -104,16 +107,17 @@ const ModalEvent2025SpringDailyAttendance = ({
                 ...theme.font16_bold,
               }}
               onClick={() => {
-                setSelectedChoice(1);
+                useEvent2025SpringSubmitAnswer("A");
+                setSelectedChoice("A");
               }}
             >
-              {selectedChoice === 1 ? "선택 완료" : "선택"}
+              {selectedChoice === "A" ? "선택 완료" : "선택"}
             </Button>
           </div>
           <div style={styleBox}>
-            {todayChoiceList[1]}
+            {"B"}
             <Button
-              type={selectedChoice === 2 ? "white" : "purple"}
+              type={selectedChoice === "B" ? "white" : "purple"}
               disabled={false}
               css={{
                 width: "100%",
@@ -122,12 +126,18 @@ const ModalEvent2025SpringDailyAttendance = ({
                 ...theme.font16_bold,
               }}
               onClick={() => {
-                setSelectedChoice(2);
+                useEvent2025SpringSubmitAnswer("B");
+                setSelectedChoice("B");
               }}
             >
-              {selectedChoice === 2 ? "선택 완료" : "선택"}
+              {selectedChoice === "B" ? "선택 완료" : "선택"}
             </Button>
           </div>
+        </div>
+        <div>
+          {selectedChoice === "A" || selectedChoice === "B"
+            ? "출석 완료되었습니다."
+            : ""}
         </div>
       </div>
     </Modal>
