@@ -1,9 +1,10 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 
 import type { Chats, LayoutType } from "@/types/chat";
 
 import useBodyScrollControllerEffect from "@/hooks/chat/useBodyScrollControllerEffect";
+import useReadChat from "@/hooks/chat/useReadChat";
 import useSendMessage from "@/hooks/chat/useSendMessage";
 import useSocketChatEffect from "@/hooks/chat/useSocketChatEffect";
 import useDateToken from "@/hooks/useDateToken";
@@ -34,12 +35,33 @@ const Chat = ({ roomId, layoutType }: ChatProps) => {
     roomInfoToken,
   ]);
 
+  // 각 사용자가 언제 마지막으로 채팅을 읽었는지 알려주는 readAtList 조회
+  //   r.f. 역시 방 정보를 조회하지만 readAt은 좀 더 자주 업데이트가 필요하기 때문에 roomInfo와 분리
+  //        readAt을 위해 roomInfo 업데이트 시 useSocketChatEffect가 다시 렌더링되어 초기화되는 문제 발생
+  const [readAtListToken, fetchReadAtList] = useDateToken();
+  const [, roomInfoForReadAt] = useQuery.get(`/rooms/info?id=${roomId}`, {}, [
+    readAtListToken,
+  ]);
+  const [readAtList, setReadAtList] = useState<Date[]>([]);
+
+  useEffect(() => {
+    if (!roomInfoForReadAt?.part) return;
+    setReadAtList(
+      roomInfoForReadAt.part.map((user: { readAt: any }) => user.readAt)
+    );
+  }, [roomInfoForReadAt?.part]);
+
+  // 채팅 읽은 시간 업데이트
+  const handleRead = useReadChat(roomId, true);
+
   // socket.io를 통해 채팅 전송 및 수신
   useSocketChatEffect(
     roomInfo,
     fetchRoomInfo,
+    fetchReadAtList,
     setChats,
     setDisplayNewMessage,
+    handleRead,
     messageBodyRef,
     isSendingMessage
   );
@@ -63,6 +85,7 @@ const Chat = ({ roomId, layoutType }: ChatProps) => {
         layoutType={layoutType}
         roomInfo={roomInfo}
         chats={chats}
+        readAtList={readAtList}
         ref={messageBodyRef}
       />
       <MessageForm
