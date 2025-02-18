@@ -11,7 +11,7 @@ import theme from "@/tools/theme";
 import { ReactComponent as MissionCompleteIcon } from "@/static/events/2023fallMissionComplete.svg";
 
 const getCalendarDates = () => {
-  const startDate = moment("2025-02-19", "YYYY-MM-DD");
+  const startDate = moment("2025-02-20", "YYYY-MM-DD");
   const endDate = moment("2025-03-13", "YYYY-MM-DD");
   const today = getToday();
   // const today = moment("2024-09-10", "YYYY-MM-DD"); // FIXME: 배포 전에 수정
@@ -103,7 +103,7 @@ const Date = ({
         : theme.white
       : theme.gray_background,
     transitionDuration: theme.duration,
-    cursor: "pointer",
+    cursor: available ? "pointer" : "not-allowed",
   };
   const styleDate = {
     ...theme.font12,
@@ -132,7 +132,11 @@ const Date = ({
 
   if (!date) return <div style={style} />;
   return (
-    <div style={styleBox} onClick={() => handler([year, month, date])}>
+    <div
+      style={styleBox}
+      onClick={() => handler([year, month, date])} // TODO: change to below
+      // onClick={available ? () => handler([year, month, date]) : () => {}}
+    >
       <div style={styleDate}>{date}</div>
       {available === "today" && (
         <div style={styleToday}>

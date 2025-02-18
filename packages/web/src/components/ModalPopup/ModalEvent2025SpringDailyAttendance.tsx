@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { CSSProperties } from "react";
 
+import { useEvent2025SpringCancelAnswer } from "@/hooks/event/useEvent2025SpringCancelAnswer";
+import { useEvent2025SpringQuestComplete } from "@/hooks/event/useEvent2025SpringQuestComplete";
 import { useEvent2025SpringSubmitAnswer } from "@/hooks/event/useEvent2025SpringSubmitAnswer";
-// import { useEvent2025SpringQuestComplete } from "@/hooks/event/useEvent2025SpringQuestComplete";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import { useQuery } from "@/hooks/useTaxiAPI";
 
@@ -40,7 +41,7 @@ const ModalEvent2025SpringDailyAttendance = ({
   const endDate = moment("2025-03-13", "YYYY-MM-DD");
   const isEventDay = today.isBefore(endDate);
 
-  // const event2025SpringQuestComplete = useEvent2025SpringQuestComplete();
+  const event2025SpringQuestComplete = useEvent2025SpringQuestComplete();
 
   const { isAgreeOnTermsOfEvent = false, completedQuests = [] } =
     useValueRecoilState("event2025SpringInfo") || {};
@@ -56,91 +57,109 @@ const ModalEvent2025SpringDailyAttendance = ({
 
     if (onChangeIsOpen && modalOpened) {
       onChangeIsOpen(modalOpened); // 모달 열기 상태 변경
-      // event2025SpringQuestComplete("dailyAttendance");
     }
   }, [isAgreeOnTermsOfEvent, todayInitial.length]);
 
+  const [userError, userData, userIsLoading] =
+    useQuery.get("/events/2025spring/quizzes/todayAnswer", {}) || {};
   const [selectedChoice, setSelectedChoice] = useState("");
-  const [, todayData] = useQuery.get("/events/2025spring/quizzes/today") || {};
-  console.log(todayData);
+  const [error, todayData, isLoading] =
+    useQuery.get("/events/2025spring/quizzes/today", {}) || {};
+
+  const submitAnswer = useEvent2025SpringSubmitAnswer();
+  const cancelAnswer = useEvent2025SpringCancelAnswer();
+
+  const handleClose = async () => {
+    if (selectedChoice !== "") {
+      if (!userError && !userIsLoading) {
+        if (userData.answer !== null) {
+          await cancelAnswer();
+        }
+      }
+      await submitAnswer(selectedChoice);
+      event2025SpringQuestComplete("dailyAttendance");
+    }
+  };
 
   return (
-    <Modal
-      padding="16px 12px 12px"
-      isOpen={isOpen}
-      onChangeIsOpen={onChangeIsOpen}
-      css={{ display: "flex", flexDirection: "column" }}
-    >
-      <DailyAttendance
-        css={{ width: "92%", height: "200px", margin: "0 4%" }}
-      />
-      <CreditAmountStatusContainer />
-      <div
-        css={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: "12px",
-        }}
+    !error &&
+    !isLoading && (
+      <Modal
+        padding="16px 12px 12px"
+        isOpen={isOpen}
+        onChangeIsOpen={onChangeIsOpen}
+        onClose={handleClose}
+        css={{ display: "flex", flexDirection: "column" }}
       >
-        <div>{todayData.quizTitle}</div>
-        <div>{todayData.quizContent}</div>
-        <img src={todayData.quizImage} style={{ width: "auto" }} />
+        <DailyAttendance
+          css={{ width: "92%", height: "200px", margin: "0 4%" }}
+        />
+        <CreditAmountStatusContainer />
         <div
           css={{
             display: "flex",
-            flexDirection: "row",
-            width: "100%",
-            gap: "4px",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "12px",
           }}
         >
-          <div style={styleBox}>
-            {"A"}
-            <Button
-              type={selectedChoice === "A" ? "white" : "purple"}
-              disabled={false}
-              css={{
-                width: "100%",
-                padding: "14px 0 13px",
-                borderRadius: "12px",
-                ...theme.font16_bold,
-              }}
-              onClick={() => {
-                useEvent2025SpringSubmitAnswer("A");
-                setSelectedChoice("A");
-              }}
-            >
-              {selectedChoice === "A" ? "선택 완료" : "선택"}
-            </Button>
+          <div>{todayData.quizTitle}</div>
+          <div>{todayData.quizContent}</div>
+          <img src={todayData.quizImage} style={{ width: "auto" }} />
+          <div
+            css={{
+              display: "flex",
+              flexDirection: "row",
+              width: "100%",
+              gap: "4px",
+            }}
+          >
+            <div style={styleBox}>
+              {"A"}
+              <Button
+                type={selectedChoice === "A" ? "white" : "purple"}
+                disabled={false}
+                css={{
+                  width: "100%",
+                  padding: "14px 0 13px",
+                  borderRadius: "12px",
+                  ...theme.font16_bold,
+                }}
+                onClick={() => {
+                  setSelectedChoice("A");
+                }}
+              >
+                {selectedChoice === "A" ? "선택 완료" : "선택"}
+              </Button>
+            </div>
+            <div style={styleBox}>
+              {"B"}
+              <Button
+                type={selectedChoice === "B" ? "white" : "purple"}
+                disabled={false}
+                css={{
+                  width: "100%",
+                  padding: "14px 0 13px",
+                  borderRadius: "12px",
+                  ...theme.font16_bold,
+                }}
+                onClick={() => {
+                  setSelectedChoice("B");
+                }}
+              >
+                {selectedChoice === "B" ? "선택 완료" : "선택"}
+              </Button>
+            </div>
           </div>
-          <div style={styleBox}>
-            {"B"}
-            <Button
-              type={selectedChoice === "B" ? "white" : "purple"}
-              disabled={false}
-              css={{
-                width: "100%",
-                padding: "14px 0 13px",
-                borderRadius: "12px",
-                ...theme.font16_bold,
-              }}
-              onClick={() => {
-                useEvent2025SpringSubmitAnswer("B");
-                setSelectedChoice("B");
-              }}
-            >
-              {selectedChoice === "B" ? "선택 완료" : "선택"}
-            </Button>
+          <div>
+            {selectedChoice === "A" || selectedChoice === "B"
+              ? "출석 완료되었습니다."
+              : ""}
           </div>
         </div>
-        <div>
-          {selectedChoice === "A" || selectedChoice === "B"
-            ? "출석 완료되었습니다."
-            : ""}
-        </div>
-      </div>
-    </Modal>
+      </Modal>
+    )
   );
 };
 

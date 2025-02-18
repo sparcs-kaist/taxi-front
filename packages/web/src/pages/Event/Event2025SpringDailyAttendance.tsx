@@ -3,6 +3,7 @@ import { memo, useState } from "react";
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import CreditAmountStatusContainer from "@/components/Event/CreditAmountStatusContainer";
 import DailyAttendanceCalendar from "@/components/Event/DailyAttendanceCalendar";
+import DailyAttendanceQuizResult from "@/components/Event/DailyAttendanceQuizResult";
 import Footer from "@/components/Footer";
 import HeaderWithLeftNav from "@/components/Header/HeaderWithLeftNav";
 import WhiteContainer from "@/components/WhiteContainer";
@@ -31,11 +32,7 @@ const Event2025SpringAttendance = () => {
   const endDate = moment("2025-03-13", "YYYY-MM-DD");
   const isEventDay = today.isBefore(endDate);
 
-  const [valueDate, setDate] = useState<Array<Nullable<number>>>([
-    today.year(),
-    today.date() === 1 ? 2 : today.month(),
-    today.date() === 1 ? 28 : today.date() - 1, // 3/1 전날은 2/28
-  ]);
+  const [valueDate, setDate] = useState<Array<number>>([2025, 2, 21]);
 
   return (
     <>
@@ -62,7 +59,11 @@ const Event2025SpringAttendance = () => {
         <CreditAmountStatusContainer />
         <DateSection value={valueDate} handler={setDate} />
         {isEventDay ? "" : "이벤트 기간이 아닙니다."}
-
+        <DailyAttendanceQuizResult
+          year={valueDate[0]}
+          month={valueDate[1]}
+          day={valueDate[2]}
+        />
         <Footer type="event-2025spring" />
       </AdaptiveDiv>
     </>
