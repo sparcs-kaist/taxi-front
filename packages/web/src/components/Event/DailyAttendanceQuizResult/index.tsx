@@ -2,13 +2,17 @@ import { CSSProperties } from "react";
 
 import { useQuery } from "@/hooks/useTaxiAPI";
 
+import Modal from "@/components/Modal";
+
 import moment, { getToday } from "@/tools/moment";
 import theme from "@/tools/theme";
 
-type DateProps = {
+type DateAttendanceModalProps = {
   year: number;
   month: number;
   day: number;
+  isOpen: boolean;
+  onChangeIsOpen?: ((isOpen: boolean) => void) | undefined;
 };
 
 const styleBox: CSSProperties = {
@@ -25,7 +29,13 @@ const styleBox: CSSProperties = {
   whiteSpace: "pre",
 };
 
-const DailyAttendanceQuizResult = ({ year, month, day }: DateProps) => {
+const DailyAttendanceQuizResult = ({
+  year,
+  month,
+  day,
+  isOpen,
+  onChangeIsOpen,
+}: DateAttendanceModalProps) => {
   const today = getToday();
   const selectedDate = moment(`${year}-${month}-${day}`, "YYYY-MM-DD");
   const isPast = selectedDate.isBefore(today);
@@ -44,73 +54,83 @@ const DailyAttendanceQuizResult = ({ year, month, day }: DateProps) => {
   const [todayError, todayData, todayIsLoading] =
     useQuery.get(`/events/2025spring/quizzes/today`, { skip: !isToday }) || {};
 
-  return isToday ? (
-    !todayError && !todayIsLoading && (
-      <div
-        css={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: "12px",
-        }}
-      >
-        {`오늘의 질문`}
-        <div>{todayData.quizTitle}</div>
-        <div>{todayData.quizContent}</div>
-        <img src={todayData.quizImage} style={{ width: "auto" }} />
-        <div
-          css={{
-            display: "flex",
-            flexDirection: "row",
-            width: "100%",
-            gap: "4px",
-          }}
-        >
-          <div style={styleBox}>{todayData.optionA}</div>
-          <div style={styleBox}>{todayData.optionB}</div>
-        </div>
-      </div>
-    )
-  ) : isPast ? (
-    !error &&
-    !isLoading && (
-      <div
-        css={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: "12px",
-        }}
-      >
-        {`${year}년 ${month}월 ${day}일의 질문`}
-        <div>{dateData.quizTitle}</div>
-        <div>{dateData.quizContent}</div>
-        <img src={dateData.quizImage} style={{ width: "auto" }} />
-        <div
-          css={{
-            display: "flex",
-            flexDirection: "row",
-            width: "100%",
-            gap: "4px",
-          }}
-        >
-          <div style={styleBox}>
-            {dateData.optionA}
-            {"\n"}
-            {dateData.pickRatio.A + "%"}
+  return (
+    <Modal
+      padding="16px 12px 12px"
+      isOpen={isOpen}
+      onChangeIsOpen={onChangeIsOpen}
+      css={{ display: "flex", flexDirection: "column" }}
+    >
+      {isToday ? (
+        !todayError &&
+        !todayIsLoading && (
+          <div
+            css={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "12px",
+            }}
+          >
+            {`오늘의 질문`}
+            <div>{todayData.quizTitle}</div>
+            <div>{todayData.quizContent}</div>
+            <img src={todayData.quizImage} style={{ width: "auto" }} />
+            <div
+              css={{
+                display: "flex",
+                flexDirection: "row",
+                width: "100%",
+                gap: "4px",
+              }}
+            >
+              <div style={styleBox}>{todayData.optionA}</div>
+              <div style={styleBox}>{todayData.optionB}</div>
+            </div>
           </div>
-          <div style={styleBox}>
-            {dateData.optionB}
-            {"\n"}
-            {dateData.pickRatio.B + "%"}
+        )
+      ) : isPast ? (
+        !error &&
+        !isLoading && (
+          <div
+            css={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "12px",
+            }}
+          >
+            {`${year}년 ${month}월 ${day}일의 질문`}
+            <div>{dateData.quizTitle}</div>
+            <div>{dateData.quizContent}</div>
+            <img src={dateData.quizImage} style={{ width: "auto" }} />
+            <div
+              css={{
+                display: "flex",
+                flexDirection: "row",
+                width: "100%",
+                gap: "4px",
+              }}
+            >
+              <div style={styleBox}>
+                {dateData.optionA}
+                {"\n"}
+                {dateData.pickRatio.A + "%"}
+              </div>
+              <div style={styleBox}>
+                {dateData.optionB}
+                {"\n"}
+                {dateData.pickRatio.B + "%"}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    )
-  ) : (
-    <div>아직 공개되지 않은 질문입니다.</div>
+        )
+      ) : (
+        <div>아직 공개되지 않은 질문입니다.</div>
+      )}
+    </Modal>
   );
 };
 

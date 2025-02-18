@@ -34,6 +34,8 @@ const Event2025SpringAttendance = () => {
 
   const [valueDate, setDate] = useState<Array<number>>([2025, 2, 21]);
 
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <>
       <HeaderWithLeftNav
@@ -57,12 +59,20 @@ const Event2025SpringAttendance = () => {
       >
         <DailyAttendance css={{ width: "100%" }} />
         <CreditAmountStatusContainer />
-        <DateSection value={valueDate} handler={setDate} />
+        <DateSection
+          value={valueDate}
+          handler={(array: Array<number>) => {
+            setDate(array);
+            setIsOpen(true);
+          }}
+        />
         {isEventDay ? "" : "이벤트 기간이 아닙니다."}
         <DailyAttendanceQuizResult
           year={valueDate[0]}
           month={valueDate[1]}
           day={valueDate[2]}
+          isOpen={isOpen}
+          onChangeIsOpen={setIsOpen}
         />
         <Footer type="event-2025spring" />
       </AdaptiveDiv>
