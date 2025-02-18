@@ -107,7 +107,7 @@ const ModalEvent2025SpringDailyAttendance = ({
             }}
           >
             <div style={styleBox}>
-              {"A"}
+              {todayData.optionA}
               <Button
                 type={selectedChoice === "A" ? "white" : "purple"}
                 disabled={false}
@@ -125,7 +125,7 @@ const ModalEvent2025SpringDailyAttendance = ({
               </Button>
             </div>
             <div style={styleBox}>
-              {"B"}
+              {todayData.optionB}
               <Button
                 type={selectedChoice === "B" ? "white" : "purple"}
                 disabled={false}
