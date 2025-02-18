@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { CSSProperties } from "react";
 
-import { useEvent2025SpringCancelAnswer } from "@/hooks/event/useEvent2025SpringCancelAnswer";
 import { useEvent2025SpringQuestComplete } from "@/hooks/event/useEvent2025SpringQuestComplete";
 import { useEvent2025SpringSubmitAnswer } from "@/hooks/event/useEvent2025SpringSubmitAnswer";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
@@ -60,22 +59,14 @@ const ModalEvent2025SpringDailyAttendance = ({
     }
   }, [isAgreeOnTermsOfEvent, todayInitial.length]);
 
-  const [userError, userData, userIsLoading] =
-    useQuery.get("/events/2025spring/quizzes/todayAnswer", {}) || {};
   const [selectedChoice, setSelectedChoice] = useState("");
   const [error, todayData, isLoading] =
     useQuery.get("/events/2025spring/quizzes/today", {}) || {};
 
   const submitAnswer = useEvent2025SpringSubmitAnswer();
-  const cancelAnswer = useEvent2025SpringCancelAnswer();
 
   const handleClose = async () => {
     if (selectedChoice !== "") {
-      if (!userError && !userIsLoading) {
-        if (userData.answer !== null) {
-          await cancelAnswer();
-        }
-      }
       await submitAnswer(selectedChoice);
       event2025SpringQuestComplete("dailyAttendance");
     }
