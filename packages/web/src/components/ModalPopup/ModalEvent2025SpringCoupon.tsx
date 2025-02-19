@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 
+import { useFetchRecoilState } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
 import Button from "@/components/Button";
@@ -28,7 +29,7 @@ const ModalEvent2025SpringCoupon = ({
 }: ModalEvent2025SpringCouponProps) => {
   const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
-const fetchEvent2025SpringInfo = useFetchRecoilState("event2025SpringInfo");
+  const fetchEvent2025SpringInfo = useFetchRecoilState("event2025SpringInfo");
 
   const styleTitle = {
     ...theme.font18,
