@@ -1,6 +1,4 @@
-import { memo, useCallback, useMemo } from "react";
-
-import type { EventItem } from "@/types/event2025spring";
+import { memo } from "react";
 
 import useDateToken from "@/hooks/useDateToken";
 import useQuery from "@/hooks/useTaxiAPI";
@@ -12,29 +10,25 @@ import HeaderWithLeftNav from "@/components/Header/HeaderWithLeftNav";
 import Title from "@/components/Title";
 
 import ItemListSection from "./ItemListSection";
+import Leaderboard from "./Leaderboard";
 import NPCSection from "./NPCSection";
 import PublicNoticeContainer from "./PublicNoticeContainer";
 
 import theme from "@/tools/theme";
 
-const Event2025SpringStore = () => {
+type Event2025SpringStoreProps = {
+  itemId?: string;
+};
+
+const Event2025SpringStore = ({ itemId }: Event2025SpringStoreProps) => {
   const [itemListToken, fetchItemList] = useDateToken();
   const { items } = useQuery.get("/events/2025spring/items", {}, [
     itemListToken,
   ])[1] || { items: [] };
-  const getItemFilteredList = useCallback(
-    (types: number[]) =>
-      items.filter(
-        (item: EventItem) => types.includes(item.itemType) && !item.isDisabled
-      ),
-    [items]
-  );
-  const [itemTypeZeros, _] = useMemo(
-    () => [getItemFilteredList([0, 3]), getItemFilteredList([1, 2])],
-    [getItemFilteredList]
-  );
 
-  return (
+  return itemId ? (
+    <Leaderboard itemId={itemId} />
+  ) : (
     <>
       <HeaderWithLeftNav
         value="store"
@@ -68,7 +62,7 @@ const Event2025SpringStore = () => {
         <Title icon="shop" isHeader>
           경품 응모권
         </Title>
-        <ItemListSection items={itemTypeZeros} fetchItems={fetchItemList} />
+        <ItemListSection items={items} fetchItems={fetchItemList} />
       </AdaptiveDiv>
       <Footer type="event-2025spring" />
     </>
