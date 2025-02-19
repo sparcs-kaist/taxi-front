@@ -57,6 +57,9 @@ const Event2025SpringAttendance = () => {
       >
         <DailyAttendance css={{ width: "100%" }} />
         <CreditAmountStatusContainer />
+        <div style={{ textAlign: "center" }}>
+          날짜를 클릭하면 그 날의 질문을 볼 수 있어요!
+        </div>
         <DateSection
           value={valueDate}
           handler={(array: Array<number>) => {
@@ -64,14 +67,18 @@ const Event2025SpringAttendance = () => {
             setIsOpen(true);
           }}
         />
-        {isEventDay ? "" : "이벤트 기간이 아닙니다."}
-        <DailyAttendanceQuizResult
-          year={valueDate[0]}
-          month={valueDate[1]}
-          day={valueDate[2]}
-          isOpen={isOpen}
-          onChangeIsOpen={setIsOpen}
-        />
+        {isEventDay ? (
+          <DailyAttendanceQuizResult
+            year={valueDate[0]}
+            month={valueDate[1]}
+            day={valueDate[2]}
+            isOpen={isOpen}
+            onChangeIsOpen={setIsOpen}
+          />
+        ) : (
+          "이벤트 기간이 아닙니다."
+        )}
+
         <Footer type="event-2025spring" />
       </AdaptiveDiv>
     </>

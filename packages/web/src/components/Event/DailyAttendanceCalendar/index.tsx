@@ -97,11 +97,7 @@ const Date = ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    background: available
-      ? selected
-        ? theme.purple
-        : theme.white
-      : theme.gray_background,
+    background: available ? theme.white : theme.gray_background,
     transitionDuration: theme.duration,
     cursor: available ? "pointer" : "not-allowed",
   };
@@ -109,15 +105,14 @@ const Date = ({
     ...theme.font12,
     letterSpacing: undefined,
     marginTop: "3px",
-    color: selected
-      ? theme.white
-      : available === "past" || !available
-      ? theme.gray_line
-      : index === 0
-      ? theme.red_text
-      : index === 6
-      ? theme.blue_text
-      : theme.black,
+    color:
+      available === "past" || !available
+        ? theme.gray_line
+        : index === 0
+        ? theme.red_text
+        : index === 6
+        ? theme.blue_text
+        : theme.black,
   };
   const styleToday: React.CSSProperties = {
     position: "absolute",
@@ -134,8 +129,7 @@ const Date = ({
   return (
     <div
       style={styleBox}
-      onClick={() => handler([year, month, date])} // TODO: change to below
-      // onClick={available ? () => handler([year, month, date]) : () => {}}
+      onClick={available ? () => handler([year, month, date]) : () => {}}
     >
       <div style={styleDate}>{date}</div>
       {available === "today" && (
