@@ -24,6 +24,7 @@ export { default as ModalEvent2025SpringRandomBox } from "./ModalEvent2025Spring
 export { default as ModalEvent2025SpringShare } from "./ModalEvent2025SpringShare";
 export { default as ModalEvent2025SpringAbuseWarning } from "./ModalEvent2025SpringAbuseWarning";
 export { default as ModalEvent2025SpringDailyAttendance } from "./ModalEvent2025SpringDailyAttendance";
+export { default as ModalEvent2025SpringCoupon } from "./ModalEvent2025SpringCoupon";
 
 export { default as ModalMypageModify } from "./ModalMypageModify";
 export { default as ModalNotification } from "./ModalNotification";
