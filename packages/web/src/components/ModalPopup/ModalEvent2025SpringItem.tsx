@@ -24,8 +24,7 @@ import { useSetRecoilState } from "recoil";
 import { eventMode } from "@/tools/loadenv";
 import theme from "@/tools/theme";
 
-import { ReactComponent as CreditIcon } from "@/static/events/2023fallCredit.svg";
-// ToDo : 2023fall 이미지
+import { ReactComponent as CreditIcon } from "@/static/events/2025springCredit.svg";
 import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceWalletRounded";
 
 type ModalEvent2025SpringItemProps = Parameters<typeof Modal>[0] & {

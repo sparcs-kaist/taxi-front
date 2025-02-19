@@ -14,8 +14,8 @@ import WhiteContainer from "@/components/WhiteContainer";
 
 import theme from "@/tools/theme";
 
-import { ReactComponent as CreditIcon } from "@/static/events/2023fallCredit.svg";
-import { ReactComponent as MissionCompleteIcon } from "@/static/events/2023fallMissionComplete.svg";
+import { ReactComponent as CreditIcon } from "@/static/events/2025springCredit.svg";
+import { ReactComponent as MissionCompleteIcon } from "@/static/events/2025springMissionComplete.svg";
 
 type MissionContainerProps = {
   quest: Quest;
