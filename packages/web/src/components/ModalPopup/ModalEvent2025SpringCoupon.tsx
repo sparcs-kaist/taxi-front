@@ -28,6 +28,7 @@ const ModalEvent2025SpringCoupon = ({
 }: ModalEvent2025SpringCouponProps) => {
   const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
+const fetchEvent2025SpringInfo = useFetchRecoilState("event2025SpringInfo");
 
   const styleTitle = {
     ...theme.font18,
