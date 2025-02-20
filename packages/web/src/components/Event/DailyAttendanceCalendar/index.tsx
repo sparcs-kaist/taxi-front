@@ -14,7 +14,6 @@ const getCalendarDates = () => {
   const startDate = moment("2025-02-20", "YYYY-MM-DD");
   const endDate = moment("2025-03-13", "YYYY-MM-DD");
   const today = getToday();
-  // const today = moment("2024-09-10", "YYYY-MM-DD"); // FIXME: 배포 전에 수정
   const date = startDate.clone();
   date.subtract(date.day(), "day");
   const event2025SpringInfo = useValueRecoilState("event2025SpringInfo");

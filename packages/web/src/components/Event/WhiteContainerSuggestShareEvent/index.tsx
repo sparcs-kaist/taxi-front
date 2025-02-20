@@ -23,7 +23,7 @@ const WhiteContainerSuggestShareEvent = () => {
   const setAlert = useSetRecoilState(alertAtom);
 
   const today = getToday();
-  const startDate = moment("2025-02-19", "YYYY-MM-DD"); // event TODO: change date
+  const startDate = moment("2025-02-20", "YYYY-MM-DD");
   const endDate = moment("2025-03-13", "YYYY-MM-DD");
   const isEventDay = today.isBefore(endDate) && today.isAfter(startDate, "day");
 
