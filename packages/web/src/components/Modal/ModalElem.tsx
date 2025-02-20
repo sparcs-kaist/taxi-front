@@ -29,7 +29,6 @@ export type ModalElemProps = {
   backgroundChildren?: ReactNode;
   children?: ReactNode;
   isAlert?: boolean;
-  onClose?: () => void;
 };
 
 const ModalElem = ({
@@ -43,17 +42,16 @@ const ModalElem = ({
   backgroundChildren,
   children,
   isAlert = false,
-  onClose,
 }: ModalElemProps) => {
   const [display, setDisplay] = useState(false);
   const shouldMount = useDelayBoolean(isOpen, theme.duration_num);
   const modalRef = useRef<HTMLDivElement>(null);
   const clickRef = useRef(false);
 
-  const closeHandler = useCallback(() => {
-    onClose?.();
-    onChangeIsOpen?.(false);
-  }, [onClose, onChangeIsOpen]);
+  const closeHandler = useCallback(
+    onChangeIsOpen ? () => onChangeIsOpen(false) : () => {},
+    [onChangeIsOpen]
+  );
   const onMouseDown = useCallback(({ target }: MouseEvent) => {
     if (!modalRef.current?.contains(target as Node)) {
       clickRef.current = true;
