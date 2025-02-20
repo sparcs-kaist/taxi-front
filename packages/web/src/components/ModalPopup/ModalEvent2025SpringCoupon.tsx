@@ -68,6 +68,7 @@ const ModalEvent2025SpringCoupon = ({
       onSuccess: (data) => {
         setAlert(`쿠폰을 사용하여 넙죽코인 ${data.reward}개를 획득하였습니다.`);
         setIsOpen(false);
+        setCouponCode("");
         fetchEvent2025SpringInfo();
       },
       onError: (e: any) => {
