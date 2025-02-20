@@ -119,25 +119,6 @@ const DailyAttendanceQuizResult = ({
   const styleBody = {
     display: "flex",
   };
-  const styleImageWrap = {
-    flexGrow: 0,
-    width: "25%",
-    overflow: "hidden",
-    marginRight: "12px",
-    position: "relative" as const,
-  };
-  const styleImageBorder = {
-    position: "relative" as const,
-    aspectRatio: "1 / 1",
-    border: `1px solid ${theme.gray_line}`,
-    borderRadius: "10px",
-    overflow: "hidden",
-    backgroundColor: theme.white,
-  };
-  const styleImage = {
-    width: "100%",
-    height: "100%",
-  };
   const styleContentBox = {
     width: 0,
     flexGrow: 1,
@@ -183,16 +164,6 @@ const DailyAttendanceQuizResult = ({
                 }}
               />
               <div css={styleBody}>
-                <div css={styleImageWrap}>
-                  <div css={styleImageBorder}>
-                    <img
-                      src={dateData.quizImage}
-                      alt={dateData.quizTitle}
-                      css={styleImage}
-                    />
-                    {/*{<div css={styleBlur} />}*/}
-                  </div>
-                </div>
                 <div css={styleContentBox}>
                   <div css={styleQuizTitle}>{dateData.quizTitle}</div>
                   <div
