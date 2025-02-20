@@ -233,7 +233,7 @@ const Mypage = () => {
               </Menu>
             ) : eventMode === "2025spring" ? (
               <Menu icon="policy" onClick={onClickEventPolicy}>
-                봄 이벤트 참여 약관
+                새학기 이벤트 참여 약관
               </Menu>
             ) : null)}
           <Menu icon="credit" onClick={onClickMembers}>

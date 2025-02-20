@@ -1,4 +1,4 @@
-import { useEvent2024FallQuestComplete } from "@/hooks/event/useEvent2024FallQuestComplete";
+import { useEvent2025SpringQuestComplete } from "@/hooks/event/useEvent2025SpringQuestComplete";
 
 import Modal from "@/components/Modal";
 
@@ -19,8 +19,8 @@ const ModalRoomShare = ({
   onChangeIsOpen,
   roomInfo,
 }: ModalRoomShareProps) => {
-  //#region event2024Fall
-  const event2024FallQuestComplete = useEvent2024FallQuestComplete();
+  //#region event2025Spring
+  const event2025SpringQuestComplete = useEvent2025SpringQuestComplete();
   //#endregion
   const styleTitle = {
     ...theme.font18,
@@ -32,17 +32,17 @@ const ModalRoomShare = ({
     fontSize: "21px",
     margin: "0 4px 0 0",
   };
-  //#region event2024Fall
-  const onChangeIsOpenWithEvent2024Fall = (isOpen: boolean) => {
+  //#region event2025Spring
+  const onChangeIsOpenWithEvent2025Spring = (isOpen: boolean) => {
     onChangeIsOpen?.(isOpen);
-    !isOpen && event2024FallQuestComplete("roomSharing");
+    !isOpen && event2025SpringQuestComplete("roomSharing");
   };
   //#endregion
 
   return (
     <Modal
       isOpen={isOpen}
-      onChangeIsOpen={onChangeIsOpenWithEvent2024Fall}
+      onChangeIsOpen={onChangeIsOpenWithEvent2025Spring}
       padding="16px 12px 12px"
     >
       <div css={styleTitle}>

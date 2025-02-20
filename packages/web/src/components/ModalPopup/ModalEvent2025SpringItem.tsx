@@ -24,8 +24,7 @@ import { useSetRecoilState } from "recoil";
 import { eventMode } from "@/tools/loadenv";
 import theme from "@/tools/theme";
 
-import { ReactComponent as CreditIcon } from "@/static/events/2023fallCredit.svg";
-// ToDo : 2023fall 이미지
+import { ReactComponent as CreditIcon } from "@/static/events/2025springCredit.svg";
 import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceWalletRounded";
 
 type ModalEvent2025SpringItemProps = Parameters<typeof Modal>[0] & {
@@ -97,7 +96,7 @@ const ModalEvent2025SpringItem = ({
         : event2025SpringInfo.isAgreeOnTermsOfEvent === false
         ? [true, "이벤트에 참여해야 합니다"]
         : event2025SpringInfo.creditAmount < bettingAmount
-        ? [true, "송편코인이 부족합니다"]
+        ? [true, "넙죽코인이 부족합니다"]
         : [false, "구매하기"],
     [eventMode, event2025SpringInfo, itemInfo, bettingAmount]
   );

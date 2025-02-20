@@ -121,7 +121,7 @@ const ModalEvent2025SpringJoin = ({
     <Modal padding="16px 12px 12px" {...modalProps}>
       <div css={styleTitle}>
         <FestivalRoundedIcon style={styleIcon} />
-        Taxi 추석 이벤트
+        Taxi 새학기 이벤트
       </div>
       <div css={styleText}>
         • 택시 동승을 하지 않는 사용자는{" "}
@@ -153,7 +153,7 @@ const ModalEvent2025SpringJoin = ({
         <b css={{ color: theme.red_text }}>
           입력하신 연락처로 이벤트 상품을 전달해 드립니다.
         </b>{" "}
-        또한, 서비스 신고 대응 및 본인 확인을 위해 사용될 수 있습니다.{" "}
+        또한, 향후 서비스 신고 대응 및 본인 확인을 위해 사용될 수 있습니다.{" "}
         <b css={{ color: theme.red_text }}>
           입력하신 연락처는 이후 수정이 불가능합니다.
         </b>
@@ -165,13 +165,14 @@ const ModalEvent2025SpringJoin = ({
           추천인 이벤트 참여를 위해서는 추천인이 발송한 링크로 이벤트에 참여해야
           합니다.
         </b>{" "}
-        추천인을 통해 이벤트에 참여할 시, 참가자와 추천인 모두에게 송편코인
+        추천인을 통해 이벤트에 참여할 시, 참가자와 추천인 모두에게 넙죽코인
         700개가 지급됩니다.
       </div>
       <div css={{ height: "12px" }} />
       <div css={styleText}>
-        • 본 약관은 동의 이후에도 {'"'}마이페이지{">"}추석 이벤트 참여 약관{'"'}
-        에서 다시 확인하실 수 있습니다.{" "}
+        • 본 약관은 동의 이후에도 {'"'}마이페이지{">"}새학기 이벤트 참여
+        약관에서 다시 확인하실 수 있습니다. 원활한 이벤트 진행을 위해 이벤트가
+        종료된 후 일정 기간까지 회원 탈퇴가 제한됩니다.
       </div>
       <div css={{ height: "12px" }} />
       <DottedLine />
