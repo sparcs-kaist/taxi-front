@@ -25,8 +25,7 @@ import { useSetRecoilState } from "recoil";
 import { eventMode } from "@/tools/loadenv";
 import theme from "@/tools/theme";
 
-// ToDo : 2024fall 이미지
-import { ReactComponent as TicketIcon } from "@/static/events/2024fallTicket.svg";
+import { ReactComponent as TicketIcon } from "@/static/events/2025springTicket.svg";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const LeaderboardTopBar = () => (
