@@ -69,17 +69,19 @@ const ModalEvent2025SpringDailyAttendance = ({
   const submitAnswer = useEvent2025SpringSubmitAnswer();
   const cancelAnswer = useEvent2025SpringCancelAnswer();
 
-  const handleClose = async () => {
-    if (selectedChoice !== "") {
+  const handleSubmit = async (answer: string) => {
+    setSelectedChoice(answer);
+    if (answer !== "") {
       try {
         await cancelAnswer();
       } catch {
         // do nothing
       }
-      await submitAnswer(selectedChoice);
+      await submitAnswer(answer);
       event2025SpringQuestComplete("dailyAttendance");
     }
   };
+
   const styleBody = {
     display: "flex",
   };
@@ -122,7 +124,6 @@ const ModalEvent2025SpringDailyAttendance = ({
         padding="16px 12px 12px"
         isOpen={isOpen}
         onChangeIsOpen={onChangeIsOpen}
-        onClose={handleClose}
         css={{ display: "flex", flexDirection: "column" }}
       >
         <DailyAttendance
@@ -194,7 +195,7 @@ const ModalEvent2025SpringDailyAttendance = ({
                   ...theme.font16_bold,
                 }}
                 onClick={() => {
-                  setSelectedChoice("A");
+                  handleSubmit("A");
                 }}
               >
                 {selectedChoice === "A" ? "선택 완료" : "선택"}
@@ -212,7 +213,7 @@ const ModalEvent2025SpringDailyAttendance = ({
                   ...theme.font16_bold,
                 }}
                 onClick={() => {
-                  setSelectedChoice("B");
+                  handleSubmit("B");
                 }}
               >
                 {selectedChoice === "B" ? "선택 완료" : "선택"}

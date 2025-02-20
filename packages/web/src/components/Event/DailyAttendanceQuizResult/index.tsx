@@ -1,5 +1,6 @@
-import { CSSProperties, useEffect } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 
+import { useIsLogin } from "@/hooks/useFetchRecoilState";
 import { useQuery } from "@/hooks/useTaxiAPI";
 
 import Modal from "@/components/Modal";
@@ -21,19 +22,21 @@ type DateAttendanceModalProps = {
   onChangeIsOpen?: ((isOpen: boolean) => void) | undefined;
 };
 
-const styleBox: CSSProperties = {
+const styleBox = (selected: boolean): CSSProperties => ({
   display: "flex",
   flexDirection: "column",
   flex: "1",
   alignItems: "center",
   textAlign: "center",
-  background: theme.gray_background,
+  background: selected ? theme.purple : theme.gray_background,
+  color: selected ? theme.white : theme.black,
+  fontWeight: selected ? 700 : 300,
   borderRadius: "12px",
   padding: "12px",
   gap: "12px",
   lineHeight: "30px",
   whiteSpace: "pre",
-};
+});
 
 const DailyAttendanceQuizResult = ({
   year,
@@ -55,11 +58,19 @@ const DailyAttendanceQuizResult = ({
         2,
         "0"
       )}-${`${day}`.padStart(2, "0")}`,
-      { skip: !isPast }
+      { skip: !isPast || isToday }
     ) || {};
   const [todayError, todayData, todayIsLoading] =
     useQuery.get(`/events/2025spring/quizzes/today`, { skip: !isToday }) || {};
+
+  const isLogin = useIsLogin();
+  const [userError, userData, userIsLoading] = useQuery.get(
+    `/events/2025spring/quizzes/answers`,
+    { skip: !isLogin }
+  ) || [true, {}, true];
   const setAlert = useSetRecoilState(alertAtom);
+
+  const [dateSelectedChoice, setDateSelectedChoice] = useState("");
 
   useEffect(() => {
     if (!isPast && !isToday && isOpen) {
@@ -67,6 +78,34 @@ const DailyAttendanceQuizResult = ({
       onChangeIsOpen && onChangeIsOpen(false);
     }
   }, [isPast, isToday, isOpen, setAlert, onChangeIsOpen]);
+
+  useEffect(() => {
+    setDateSelectedChoice("");
+    if (
+      (isPast || isToday) &&
+      !userError &&
+      !userIsLoading &&
+      userData.answers.length !== 0
+    ) {
+      const selectedData = userData.answers.find(
+        (entry: any) =>
+          selectedDate.isSame(entry.quizDate, "year") &&
+          selectedDate.isSame(entry.quizDate, "month") &&
+          selectedDate.isSame(entry.quizDate, "day")
+      );
+      if (selectedData) {
+        setDateSelectedChoice(selectedData.answer);
+      }
+    }
+  }, [
+    isPast,
+    isToday,
+    userError,
+    userIsLoading,
+    userData,
+    selectedDate,
+    dateSelectedChoice,
+  ]);
 
   const styleIcon = {
     fontSize: "20px",
@@ -102,14 +141,6 @@ const DailyAttendanceQuizResult = ({
     width: "100%",
     height: "100%",
   };
-  // const styleBlur = {
-  //   background: theme.black_40,
-  //   position: "absolute" as const,
-  //   top: 0,
-  //   left: 0,
-  //   width: "100%",
-  //   height: "100%",
-  // };
   const styleContentBox = {
     width: 0,
     flexGrow: 1,
@@ -163,7 +194,6 @@ const DailyAttendanceQuizResult = ({
                           alt={todayData.quizTitle}
                           css={styleImage}
                         />
-                        {/*{<div css={styleBlur} />}*/}
                       </div>
                     </div>
                     <div css={styleContentBox}>
@@ -185,8 +215,24 @@ const DailyAttendanceQuizResult = ({
                     gap: "12px",
                   }}
                 >
-                  <div style={styleBox}>{todayData.optionA}</div>
-                  <div style={styleBox}>{todayData.optionB}</div>
+                  <div
+                    style={styleBox(
+                      dateSelectedChoice === ""
+                        ? false
+                        : dateSelectedChoice === "A"
+                    )}
+                  >
+                    {todayData.optionA}
+                  </div>
+                  <div
+                    style={styleBox(
+                      dateSelectedChoice === ""
+                        ? false
+                        : dateSelectedChoice === "B"
+                    )}
+                  >
+                    {todayData.optionB}
+                  </div>
                 </div>
               </div>
             )
@@ -243,15 +289,27 @@ const DailyAttendanceQuizResult = ({
                     gap: "12px",
                   }}
                 >
-                  <div style={styleBox}>
+                  <div
+                    style={styleBox(
+                      dateSelectedChoice === ""
+                        ? false
+                        : dateSelectedChoice === "A"
+                    )}
+                  >
                     {dateData.optionA}
                     {"\n"}
-                    {dateData.pickRatio.A + "%"}
+                    {dateData.pickRatio.A.toFixed(1) + "%"}
                   </div>
-                  <div style={styleBox}>
+                  <div
+                    style={styleBox(
+                      dateSelectedChoice === ""
+                        ? false
+                        : dateSelectedChoice === "B"
+                    )}
+                  >
                     {dateData.optionB}
                     {"\n"}
-                    {dateData.pickRatio.B + "%"}
+                    {dateData.pickRatio.B.toFixed(1) + "%"}
                   </div>
                 </div>
               </div>
