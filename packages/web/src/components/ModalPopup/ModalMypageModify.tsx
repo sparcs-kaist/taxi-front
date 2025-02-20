@@ -2,7 +2,7 @@ import axiosOri from "axios";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useEvent2024FallQuestComplete } from "@/hooks/event/useEvent2024FallQuestComplete";
+import { useEvent2025SpringQuestComplete } from "@/hooks/event/useEvent2025SpringQuestComplete";
 import {
   useFetchRecoilState,
   useValueRecoilState,
@@ -144,8 +144,8 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
 
   const loginInfo = useValueRecoilState("loginInfo");
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
-  //#region event2024Fall
-  const event2024FallQuestComplete = useEvent2024FallQuestComplete();
+  //#region event2025Spring
+  const event2025SpringQuestComplete = useEvent2025SpringQuestComplete();
   //#endregion
   const setAlert = useSetRecoilState(alertAtom);
 
@@ -169,8 +169,8 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         method: "post",
         data: { nickname },
         onError: () => setAlert(t("page_modify.nickname_failed")),
-        //#region event2024Fall
-        onSuccess: () => event2024FallQuestComplete("nicknameChanging"), // event2024Fall
+        //#region event2025Spring
+        onSuccess: () => event2025SpringQuestComplete("nicknameChanging"),
         //#endregion
       });
     }
@@ -181,8 +181,8 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         method: "post",
         data: { account },
         onError: () => setAlert(t("page_modify.account_failed")),
-        //#region event2024Fall
-        onSuccess: () => event2024FallQuestComplete("accountChanging"), // event2024Fall
+        //#region event2025Spring
+        onSuccess: () => event2025SpringQuestComplete("accountChanging"),
         //#endregion
       });
     }
