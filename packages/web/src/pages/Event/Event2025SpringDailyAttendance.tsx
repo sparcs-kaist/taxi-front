@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import CreditAmountStatusContainer from "@/components/Event/CreditAmountStatusContainer";
@@ -6,6 +6,7 @@ import DailyAttendanceCalendar from "@/components/Event/DailyAttendanceCalendar"
 import DailyAttendanceQuizResult from "@/components/Event/DailyAttendanceQuizResult";
 import Footer from "@/components/Footer";
 import HeaderWithLeftNav from "@/components/Header/HeaderWithLeftNav";
+import { ModalEvent2025SpringDailyAttendance } from "@/components/ModalPopup";
 import WhiteContainer from "@/components/WhiteContainer";
 
 import moment, { getToday } from "@/tools/moment";
@@ -26,13 +27,17 @@ const DateSection = ({ value, handler }: DateSectionProps) => {
 };
 
 const Event2025SpringAttendance = () => {
-  const today = getToday();
+  const today = useMemo(() => getToday(), []);
   const endDate = moment("2025-03-13", "YYYY-MM-DD");
   const isEventDay = today.isBefore(endDate);
 
-  const [valueDate, setDate] = useState<Array<number>>([2025, 2, 21]);
+  const [valueDate, setValueDate] = useState<Array<number>>([2025, 2, 21]);
+  const [isToday, setIsToday] = useState(false);
 
   const [isOpen, setIsOpen] = useState(false);
+
+  const [dailyAttendanceOpened, setDailyAttendanceOpened] =
+    useState<boolean>(false);
 
   return (
     <>
@@ -63,18 +68,40 @@ const Event2025SpringAttendance = () => {
         <DateSection
           value={valueDate}
           handler={(array: Array<number>) => {
-            setDate(array);
+            setValueDate(array);
             setIsOpen(true);
+            const newMoment = moment(
+              `${array[0]}-${array[1]}-${array[2]}`,
+              "YYYY-MM-DD"
+            );
+            setIsToday(
+              today.isSame(newMoment, "year") &&
+                today.isSame(newMoment, "month") &&
+                today.isSame(newMoment, "day")
+            );
+            setDailyAttendanceOpened(
+              today.isSame(newMoment, "year") &&
+                today.isSame(newMoment, "month") &&
+                today.isSame(newMoment, "day")
+            );
           }}
         />
         {isEventDay ? (
-          <DailyAttendanceQuizResult
-            year={valueDate[0]}
-            month={valueDate[1]}
-            day={valueDate[2]}
-            isOpen={isOpen}
-            onChangeIsOpen={setIsOpen}
-          />
+          isToday ? (
+            <ModalEvent2025SpringDailyAttendance
+              isOpen={dailyAttendanceOpened}
+              onChangeIsOpen={setDailyAttendanceOpened}
+              forceOpen={true}
+            />
+          ) : (
+            <DailyAttendanceQuizResult
+              year={valueDate[0]}
+              month={valueDate[1]}
+              day={valueDate[2]}
+              isOpen={isOpen}
+              onChangeIsOpen={setIsOpen}
+            />
+          )
         ) : (
           "이벤트 기간이 아닙니다."
         )}

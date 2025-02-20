@@ -60,9 +60,6 @@ const DailyAttendanceQuizResult = ({
       )}-${`${day}`.padStart(2, "0")}`,
       { skip: !isPast || isToday }
     ) || {};
-  const [todayError, todayData, todayIsLoading] =
-    useQuery.get(`/events/2025spring/quizzes/today`, { skip: !isToday }) || {};
-
   const isLogin = useIsLogin();
   const [userError, userData, userIsLoading] = useQuery.get(
     `/events/2025spring/quizzes/answers`,
@@ -155,165 +152,87 @@ const DailyAttendanceQuizResult = ({
     color: theme.black,
   };
   return (
-    (isPast || isToday) && (
+    isPast &&
+    !isToday && (
       <Modal
         padding="16px 12px 12px"
         isOpen={isOpen}
         onChangeIsOpen={onChangeIsOpen}
         css={{ display: "flex", flexDirection: "column" }}
       >
-        {isToday
-          ? !todayError &&
-            !todayIsLoading && (
-              <div>
-                <div css={styleTitle}>
-                  <QuestionMarkIcon style={styleIcon} />
-                  오늘의 밸런스 게임
+        {!error && !isLoading && (
+          <div>
+            <div css={styleTitle}>
+              <QuestionMarkIcon style={styleIcon} />
+              {`${year}년 ${month}월 ${day}일의 밸런스 게임`}
+            </div>
+            <WhiteContainer
+              css={{
+                padding: "12px 12px 12px 20px",
+                backgroundColor: theme.gray_background,
+              }}
+            >
+              <div
+                css={{
+                  position: "absolute",
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  width: "8px",
+                  background: theme.purple,
+                }}
+              />
+              <div css={styleBody}>
+                <div css={styleImageWrap}>
+                  <div css={styleImageBorder}>
+                    <img
+                      src={dateData.quizImage}
+                      alt={dateData.quizTitle}
+                      css={styleImage}
+                    />
+                    {/*{<div css={styleBlur} />}*/}
+                  </div>
                 </div>
-                <WhiteContainer
-                  css={{
-                    padding: "12px 12px 12px 20px",
-                    backgroundColor: theme.gray_background,
-                  }}
-                >
+                <div css={styleContentBox}>
+                  <div css={styleQuizTitle}>{dateData.quizTitle}</div>
                   <div
-                    css={{
-                      position: "absolute",
-                      top: 0,
-                      bottom: 0,
-                      left: 0,
-                      width: "8px",
-                      background: theme.purple,
+                    css={styleDescription}
+                    dangerouslySetInnerHTML={{
+                      __html: dateData.quizContent,
                     }}
                   />
-                  <div css={styleBody}>
-                    <div css={styleImageWrap}>
-                      <div css={styleImageBorder}>
-                        <img
-                          src={todayData.quizImage}
-                          alt={todayData.quizTitle}
-                          css={styleImage}
-                        />
-                      </div>
-                    </div>
-                    <div css={styleContentBox}>
-                      <div css={styleQuizTitle}>{todayData.quizTitle}</div>
-                      <div
-                        css={styleDescription}
-                        dangerouslySetInnerHTML={{
-                          __html: todayData.quizContent,
-                        }}
-                      />
-                    </div>
-                  </div>
-                </WhiteContainer>
-                <div
-                  css={{
-                    display: "flex",
-                    flexDirection: "row",
-                    width: "100%",
-                    gap: "12px",
-                  }}
-                >
-                  <div
-                    style={styleBox(
-                      dateSelectedChoice === ""
-                        ? false
-                        : dateSelectedChoice === "A"
-                    )}
-                  >
-                    {todayData.optionA}
-                  </div>
-                  <div
-                    style={styleBox(
-                      dateSelectedChoice === ""
-                        ? false
-                        : dateSelectedChoice === "B"
-                    )}
-                  >
-                    {todayData.optionB}
-                  </div>
                 </div>
               </div>
-            )
-          : !error &&
-            !isLoading && (
-              <div>
-                <div css={styleTitle}>
-                  <QuestionMarkIcon style={styleIcon} />
-                  {`${year}년 ${month}월 ${day}일의 밸런스 게임`}
-                </div>
-                <WhiteContainer
-                  css={{
-                    padding: "12px 12px 12px 20px",
-                    backgroundColor: theme.gray_background,
-                  }}
-                >
-                  <div
-                    css={{
-                      position: "absolute",
-                      top: 0,
-                      bottom: 0,
-                      left: 0,
-                      width: "8px",
-                      background: theme.purple,
-                    }}
-                  />
-                  <div css={styleBody}>
-                    <div css={styleImageWrap}>
-                      <div css={styleImageBorder}>
-                        <img
-                          src={dateData.quizImage}
-                          alt={dateData.quizTitle}
-                          css={styleImage}
-                        />
-                        {/*{<div css={styleBlur} />}*/}
-                      </div>
-                    </div>
-                    <div css={styleContentBox}>
-                      <div css={styleQuizTitle}>{dateData.quizTitle}</div>
-                      <div
-                        css={styleDescription}
-                        dangerouslySetInnerHTML={{
-                          __html: dateData.quizContent,
-                        }}
-                      />
-                    </div>
-                  </div>
-                </WhiteContainer>
-                <div
-                  css={{
-                    display: "flex",
-                    flexDirection: "row",
-                    width: "100%",
-                    gap: "12px",
-                  }}
-                >
-                  <div
-                    style={styleBox(
-                      dateSelectedChoice === ""
-                        ? false
-                        : dateSelectedChoice === "A"
-                    )}
-                  >
-                    {dateData.optionA}
-                    {"\n"}
-                    {dateData.pickRatio.A.toFixed(1) + "%"}
-                  </div>
-                  <div
-                    style={styleBox(
-                      dateSelectedChoice === ""
-                        ? false
-                        : dateSelectedChoice === "B"
-                    )}
-                  >
-                    {dateData.optionB}
-                    {"\n"}
-                    {dateData.pickRatio.B.toFixed(1) + "%"}
-                  </div>
-                </div>
+            </WhiteContainer>
+            <div
+              css={{
+                display: "flex",
+                flexDirection: "row",
+                width: "100%",
+                gap: "12px",
+              }}
+            >
+              <div
+                style={styleBox(
+                  dateSelectedChoice === "" ? false : dateSelectedChoice === "A"
+                )}
+              >
+                {dateData.optionA}
+                {"\n"}
+                {dateData.pickRatio.A.toFixed(1) + "%"}
               </div>
-            )}
+              <div
+                style={styleBox(
+                  dateSelectedChoice === "" ? false : dateSelectedChoice === "B"
+                )}
+              >
+                {dateData.optionB}
+                {"\n"}
+                {dateData.pickRatio.B.toFixed(1) + "%"}
+              </div>
+            </div>
+          </div>
+        )}
       </Modal>
     )
   );

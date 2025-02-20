@@ -21,6 +21,7 @@ import { ReactComponent as DailyAttendance } from "@/static/events/2025springDai
 interface ModalEvent2025SpringDailyAttendanceProps {
   isOpen: boolean;
   onChangeIsOpen?: ((isOpen: boolean) => void) | undefined;
+  forceOpen?: boolean;
 }
 
 const styleBox: CSSProperties = {
@@ -37,6 +38,7 @@ const styleBox: CSSProperties = {
 const ModalEvent2025SpringDailyAttendance = ({
   isOpen,
   onChangeIsOpen,
+  forceOpen = false,
 }: ModalEvent2025SpringDailyAttendanceProps) => {
   const today = getToday();
   // const today = moment("2024-09-23", "YYYY-MM-DD"); // FIXME: 배포 전에 수정
@@ -52,15 +54,6 @@ const ModalEvent2025SpringDailyAttendance = ({
     ({ questId, completedAt }) =>
       questId === "dailyAttendance" && moment(completedAt).isSame(today, "day")
   );
-
-  useEffect(() => {
-    const modalOpened =
-      isEventDay && isAgreeOnTermsOfEvent && todayInitial.length === 0;
-
-    if (onChangeIsOpen && modalOpened) {
-      onChangeIsOpen(modalOpened); // 모달 열기 상태 변경
-    }
-  }, [isAgreeOnTermsOfEvent, todayInitial.length]);
 
   const [selectedChoice, setSelectedChoice] = useState("");
   const [error, todayData, isLoading] =
@@ -81,6 +74,21 @@ const ModalEvent2025SpringDailyAttendance = ({
       event2025SpringQuestComplete("dailyAttendance");
     }
   };
+
+  useEffect(() => {
+    const now = moment();
+    const isRestrictedTime = now.hour() === 23 && now.minute() >= 55;
+
+    const modalOpened =
+      !isRestrictedTime &&
+      isEventDay &&
+      isAgreeOnTermsOfEvent &&
+      todayInitial.length === 0;
+
+    if (onChangeIsOpen) {
+      onChangeIsOpen(forceOpen && !isRestrictedTime ? true : modalOpened);
+    }
+  }, [isEventDay, isAgreeOnTermsOfEvent, forceOpen]);
 
   const styleBody = {
     display: "flex",
@@ -223,8 +231,11 @@ const ModalEvent2025SpringDailyAttendance = ({
           <div>
             {selectedChoice === "A" || selectedChoice === "B"
               ? "출석 완료되었습니다."
+              : todayInitial.length !== 0
+              ? "이미 출석이 완료되었습니다."
               : ""}
           </div>
+          <div>결과는 매일 0시에 확인할 수 있어요.</div>
         </div>
       </Modal>
     )
