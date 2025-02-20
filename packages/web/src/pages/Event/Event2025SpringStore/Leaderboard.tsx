@@ -279,7 +279,7 @@ const Event2025SpringStoreLeaderboard = ({
         : event2025SpringInfo.isAgreeOnTermsOfEvent === false
         ? [true, "이벤트에 참여해야 합니다"]
         : event2025SpringInfo.creditAmount < (item?.price * purchaseAmount || 0)
-        ? [true, "송편코인이 부족합니다"]
+        ? [true, "넙죽코인이 부족합니다"]
         : [false, "응모권 구매하기"],
     [eventMode, event2025SpringInfo, item, purchaseAmount]
   );
