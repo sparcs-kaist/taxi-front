@@ -165,7 +165,6 @@ const Footer = ({ type = "full", children }: FooterProps) => {
           />
         </>
       )}
-      {/*TODO: change to real event name*/}
       {type !== "event-2024spring" && (
         <div css={{ padding: "6px" }}>
           <a href="https://sparcs.org/" target="_blank" rel="noreferrer">

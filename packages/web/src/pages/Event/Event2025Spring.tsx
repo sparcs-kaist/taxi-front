@@ -44,7 +44,7 @@ const Event2025Spring = () => {
   const axios = useAxios();
 
   const today = getToday();
-  const startDate = moment("2025-02-18", "YYYY-MM-DD");
+  const startDate = moment("2025-02-20", "YYYY-MM-DD");
   const endDate = moment("2025-03-13", "YYYY-MM-DD");
   const isEventDay = today.isBefore(endDate) && today.isAfter(startDate, "day");
 
@@ -181,6 +181,7 @@ const Event2025Spring = () => {
               <br />
               경품 추첨 결과는 3월 19일에 발표
             </div>
+            {/*TODO: 날짜 수정*/}
             <div css={{ height: "16px" }} />
             <Link to="/event/2025spring-store" css={{ textDecoration: "none" }}>
               <Button
