@@ -2,7 +2,7 @@ import { memo, useMemo } from "react";
 
 import type { Quest } from "@/types/event2025spring";
 
-import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import CreditAmountStatusContainer from "@/components/Event/CreditAmountStatusContainer";
@@ -147,23 +147,33 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
 
 const Event2025SpringMissions = () => {
   const { quests } = useValueRecoilState("event2025SpringInfo") || {};
-
+  const isLogin = useIsLogin();
   return (
     <>
       <HeaderWithLeftNav
         value="quests"
-        options={[
-          {
-            value: "quests",
-            label: "퀘스트",
-            to: "/event/2025spring-missions",
-          },
-          {
-            value: "daily-attendance",
-            label: "출석 체크",
-            to: "/event/2025spring-daily-attendance",
-          },
-        ]}
+        options={
+          isLogin
+            ? [
+                {
+                  value: "quests",
+                  label: "퀘스트",
+                  to: "/event/2025spring-missions",
+                },
+                {
+                  value: "daily-attendance",
+                  label: "출석 체크",
+                  to: "/event/2025spring-daily-attendance",
+                },
+              ]
+            : [
+                {
+                  value: "quests",
+                  label: "퀘스트",
+                  to: "/event/2025spring-missions",
+                },
+              ]
+        }
       />
       <AdaptiveDiv type="center">
         <div css={{ height: "30px" }} />

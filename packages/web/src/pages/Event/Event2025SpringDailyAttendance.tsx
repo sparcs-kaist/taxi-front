@@ -1,5 +1,7 @@
 import { memo, useMemo, useState } from "react";
 
+import { useIsLogin } from "@/hooks/useFetchRecoilState";
+
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import CreditAmountStatusContainer from "@/components/Event/CreditAmountStatusContainer";
 import DailyAttendanceCalendar from "@/components/Event/DailyAttendanceCalendar";
@@ -39,22 +41,34 @@ const Event2025SpringAttendance = () => {
   const [dailyAttendanceOpened, setDailyAttendanceOpened] =
     useState<boolean>(false);
 
+  const isLogin = useIsLogin();
+
   return (
     <>
       <HeaderWithLeftNav
         value="daily-attendance"
-        options={[
-          {
-            value: "quests",
-            label: "퀘스트",
-            to: "/event/2025spring-missions",
-          },
-          {
-            value: "daily-attendance",
-            label: "출석 체크",
-            to: "/event/2025spring-daily-attendance",
-          },
-        ]}
+        options={
+          isLogin
+            ? [
+                {
+                  value: "quests",
+                  label: "퀘스트",
+                  to: "/event/2025spring-missions",
+                },
+                {
+                  value: "daily-attendance",
+                  label: "출석 체크",
+                  to: "/event/2025spring-daily-attendance",
+                },
+              ]
+            : [
+                {
+                  value: "quests",
+                  label: "퀘스트",
+                  to: "/event/2025spring-missions",
+                },
+              ]
+        }
       />
       <AdaptiveDiv
         type="center"
