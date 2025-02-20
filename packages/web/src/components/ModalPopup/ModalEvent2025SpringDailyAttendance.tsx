@@ -11,6 +11,8 @@ import Button from "@/components/Button";
 import CreditAmountStatusContainer from "@/components/Event/CreditAmountStatusContainer";
 import Modal from "@/components/Modal";
 
+import WhiteContainer from "../WhiteContainer";
+
 import moment, { getToday } from "@/tools/moment";
 import theme from "@/tools/theme";
 
@@ -78,7 +80,41 @@ const ModalEvent2025SpringDailyAttendance = ({
       event2025SpringQuestComplete("dailyAttendance");
     }
   };
-
+  const styleBody = {
+    display: "flex",
+  };
+  const styleImageWrap = {
+    flexGrow: 0,
+    width: "25%",
+    overflow: "hidden",
+    marginRight: "12px",
+    position: "relative" as const,
+  };
+  const styleImageBorder = {
+    position: "relative" as const,
+    aspectRatio: "1 / 1",
+    border: `1px solid ${theme.gray_line}`,
+    borderRadius: "10px",
+    overflow: "hidden",
+    backgroundColor: theme.white,
+  };
+  const styleImage = {
+    width: "100%",
+    height: "100%",
+  };
+  const styleContentBox = {
+    width: 0,
+    flexGrow: 1,
+  };
+  const styleTitle = {
+    ...theme.font16_bold,
+    color: theme.black,
+    marginBottom: "4px",
+  };
+  const styleDescription = {
+    ...theme.font14,
+    color: theme.black,
+  };
   return (
     !error &&
     !isLoading && (
@@ -99,18 +135,51 @@ const ModalEvent2025SpringDailyAttendance = ({
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            gap: "12px",
+            gap: "8px",
           }}
         >
-          <div>{todayData.quizTitle}</div>
-          <div>{todayData.quizContent}</div>
-          <img src={todayData.quizImage} style={{ width: "auto" }} />
+          <WhiteContainer
+            css={{
+              padding: "12px 12px 12px 20px",
+              backgroundColor: theme.gray_background,
+              width: "85%",
+            }}
+          >
+            <div
+              css={{
+                position: "absolute",
+                top: 0,
+                bottom: 0,
+                left: 0,
+                width: "8px",
+                background: theme.purple,
+              }}
+            />
+            <div css={styleBody}>
+              <div css={styleImageWrap}>
+                <div css={styleImageBorder}>
+                  <img
+                    src={todayData.quizImage}
+                    alt={todayData.quizTitle}
+                    css={styleImage}
+                  />
+                </div>
+              </div>
+              <div css={styleContentBox}>
+                <div css={styleTitle}>{todayData.quizTitle}</div>
+                <div
+                  css={styleDescription}
+                  dangerouslySetInnerHTML={{ __html: todayData.quizContent }}
+                />
+              </div>
+            </div>
+          </WhiteContainer>
           <div
             css={{
               display: "flex",
               flexDirection: "row",
               width: "100%",
-              gap: "4px",
+              gap: "12px",
             }}
           >
             <div style={styleBox}>
