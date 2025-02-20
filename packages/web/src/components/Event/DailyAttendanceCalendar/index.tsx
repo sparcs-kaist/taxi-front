@@ -129,8 +129,8 @@ const Date = ({
   return (
     <div
       style={styleBox}
-      onClick={() => handler([year, month, date])}
-      // onClick={available ? () => handler([year, month, date]) : () => {}}
+      // onClick={() => handler([year, month, date])}
+      onClick={available ? () => handler([year, month, date]) : () => {}}
     >
       <div style={styleDate}>{date}</div>
       {available === "today" && (
