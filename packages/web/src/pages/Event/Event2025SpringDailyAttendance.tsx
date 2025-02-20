@@ -10,7 +10,7 @@ import WhiteContainer from "@/components/WhiteContainer";
 
 import moment, { getToday } from "@/tools/moment";
 
-import { ReactComponent as DailyAttendance } from "@/static/events/2025SpringDailyAttendance.svg";
+import { ReactComponent as DailyAttendance } from "@/static/events/2025springDailyAttendance.svg";
 
 export type DateSectionProps = {
   value: Array<Nullable<number>>;

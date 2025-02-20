@@ -14,7 +14,7 @@ import Modal from "@/components/Modal";
 import moment, { getToday } from "@/tools/moment";
 import theme from "@/tools/theme";
 
-import { ReactComponent as DailyAttendance } from "@/static/events/2025SpringDailyAttendance.svg";
+import { ReactComponent as DailyAttendance } from "@/static/events/2025springDailyAttendance.svg";
 
 interface ModalEvent2025SpringDailyAttendanceProps {
   isOpen: boolean;
