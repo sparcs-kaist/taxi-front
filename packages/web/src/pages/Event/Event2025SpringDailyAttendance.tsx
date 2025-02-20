@@ -57,7 +57,7 @@ const Event2025SpringAttendance = () => {
                 },
                 {
                   value: "daily-attendance",
-                  label: "출석 체크",
+                  label: "밸런스 게임",
                   to: "/event/2025spring-daily-attendance",
                 },
               ]

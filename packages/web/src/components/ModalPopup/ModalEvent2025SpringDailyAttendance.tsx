@@ -139,14 +139,13 @@ const ModalEvent2025SpringDailyAttendance = ({
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            gap: "8px",
           }}
         >
           <WhiteContainer
             css={{
               padding: "12px 12px 12px 20px",
               backgroundColor: theme.gray_background,
-              width: "85%",
+              width: "calc(100% - 32px)",
             }}
           >
             <div
@@ -175,6 +174,7 @@ const ModalEvent2025SpringDailyAttendance = ({
               flexDirection: "row",
               width: "100%",
               gap: "12px",
+              marginBottom: "15px",
             }}
           >
             <div style={styleBox}>
@@ -214,14 +214,21 @@ const ModalEvent2025SpringDailyAttendance = ({
               </Button>
             </div>
           </div>
-          <div>
+          <div
+            css={{
+              ...theme.font14,
+              color: theme.gray_text,
+              textAlign: "center",
+            }}
+          >
             {selectedChoice === "A" || selectedChoice === "B"
-              ? "출석 완료되었습니다."
+              ? "응답 완료되었습니다."
               : todayInitial.length !== 0
               ? "이미 출석이 완료되었습니다."
               : ""}
+            <br />
+            결과는 내일 0시에 확인할 수 있어요.
           </div>
-          <div>결과는 매일 0시에 확인할 수 있어요.</div>
         </div>
       </Modal>
     )
