@@ -62,7 +62,7 @@ const Event2025SpringAttendance = () => {
       >
         <DailyAttendance css={{ width: "100%" }} />
         <CreditAmountStatusContainer />
-        <div style={{ textAlign: "center" }}>
+        <div style={{ textAlign: "center", marginBottom: "8px" }}>
           날짜를 클릭하면 그 날의 질문을 볼 수 있어요!
         </div>
         <DateSection
