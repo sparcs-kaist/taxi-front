@@ -218,7 +218,6 @@ const ModalEvent2025SpringDailyAttendance = ({
             css={{
               ...theme.font14,
               color: theme.gray_text,
-              textAlign: "center",
             }}
           >
             {selectedChoice === "A" || selectedChoice === "B"
@@ -226,7 +225,13 @@ const ModalEvent2025SpringDailyAttendance = ({
               : todayInitial.length !== 0
               ? "이미 출석이 완료되었습니다."
               : ""}
-            <br />
+          </div>
+          <div
+            css={{
+              ...theme.font14,
+              color: theme.gray_text,
+            }}
+          >
             결과는 내일 0시에 확인할 수 있어요.
           </div>
         </div>
