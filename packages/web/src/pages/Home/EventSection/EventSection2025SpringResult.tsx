@@ -21,7 +21,7 @@ const EventSection2025SpringResult = () => {
   return (
     <AdaptiveDiv type="center">
       <Title icon="festival" isHeader>
-        추석 이벤트
+        새학기 이벤트
       </Title>
       <WhiteContainer>
         <div css={styleText}>

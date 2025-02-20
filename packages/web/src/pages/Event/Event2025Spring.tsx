@@ -44,7 +44,7 @@ const Event2025Spring = () => {
   const axios = useAxios();
 
   const today = getToday();
-  const startDate = moment("2025-02-18", "YYYY-MM-DD");
+  const startDate = moment("2025-02-20", "YYYY-MM-DD");
   const endDate = moment("2025-03-13", "YYYY-MM-DD");
   const isEventDay = today.isBefore(endDate) && today.isAfter(startDate, "day");
 
@@ -113,7 +113,7 @@ const Event2025Spring = () => {
             >
               Taxi 퀘스트 달성하고
               <br />
-              송편코인을 모아보세요!
+              넙죽코인을 모아보세요!
             </div>
             <div css={{ height: "16px" }} />
             <MissionCompleteIcon css={{ width: "192px", maxWidth: "100%" }} />
@@ -126,7 +126,7 @@ const Event2025Spring = () => {
             >
               Taxi 웹 사이트와 앱에서 퀘스트 내용 확인
               <br />
-              이벤트 참여 동의만 해도 송편코인 200개 지급
+              이벤트 참여 동의만 해도 넙죽코인 200개 지급
             </div>
             <div css={{ height: "16px" }} />
             <Link
@@ -179,8 +179,9 @@ const Event2025Spring = () => {
             >
               응모권은 경품마다 별개로 발급됨
               <br />
-              경품 추첨 결과는 9월 30일에 발표
+              경품 추첨 결과는 n월 n일에 발표
             </div>
+            {/*TODO: 날짜 수정*/}
             <div css={{ height: "16px" }} />
             <Link to="/event/2025spring-store" css={{ textDecoration: "none" }}>
               <Button
@@ -265,7 +266,7 @@ const Event2025Spring = () => {
             >
               이벤트를 친구에게 공유하고
               <br />
-              친구와 함께 송편코인 받아가세요!
+              친구와 함께 넙죽코인 받아가세요!
             </div>
             <div css={{ height: "16px" }} />
             <div
@@ -276,7 +277,7 @@ const Event2025Spring = () => {
             >
               나의 초대 링크로 친구가 이벤트에 참여하면
               <br />
-              친구와 나 모두 송편코인 700개 획득!
+              친구와 나 모두 넙죽코인 700개 획득!
             </div>
             <div css={{ height: "16px" }} />
             <Button

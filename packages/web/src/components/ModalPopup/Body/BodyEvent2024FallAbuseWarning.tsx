@@ -78,7 +78,7 @@ const BodyEvent2024FallAbuseWarning = ({
         있습니다.
       </div>
       <div css={styleText}>
-        • 자세한 이벤트 약관은 {'"'}마이 페이지{">"}추석 이벤트 참여 약관{'"'}
+        • 자세한 이벤트 약관은 {'"'}마이 페이지{">"}새학기 이벤트 참여 약관{'"'}
         에서 확인하실 수 있습니다.{" "}
       </div>
       <div css={styleText}>그래도 방을 생성할까요?</div>

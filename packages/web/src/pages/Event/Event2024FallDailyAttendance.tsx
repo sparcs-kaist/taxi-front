@@ -21,7 +21,7 @@ type DateSectionProps = {
 const DateSection = (props: DateSectionProps) => {
   return (
     <WhiteContainer css={{ padding: "10px 15px" }}>
-      <DailyAttendanceCalendar />
+      <DailyAttendanceCalendar {...props} />
     </WhiteContainer>
   );
 };

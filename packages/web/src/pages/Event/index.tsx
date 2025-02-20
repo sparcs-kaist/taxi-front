@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 
 import Event2025Spring from "@/pages/Event/Event2025Spring";
+import Event2025SpringDailyAttendance from "@/pages/Event/Event2025SpringDailyAttendance";
 import Event2025SpringHistory from "@/pages/Event/Event2025SpringHistory";
 import Event2025SpringMissions from "@/pages/Event/Event2025SpringMissions";
 import Event2025SpringStore from "@/pages/Event/Event2025SpringStore";
@@ -73,6 +74,8 @@ const Event = () => {
       return <Event2025SpringHistory />;
     case "2025spring-missions":
       return <Event2025SpringMissions />;
+    case "2025spring-daily-attendance":
+      return <Event2025SpringDailyAttendance />;
     default:
       return <Event2025Spring />;
   }

@@ -28,7 +28,7 @@ const CreditAmountStatusContainer = ({
       {...whiteContainerProps}
     >
       <div css={{ color: theme.white, ...theme.font16_bold, flexGrow: 1 }}>
-        {type === "credit" ? "내가 모은 송편코인" : "일반 / 고급 응모권"}
+        {type === "credit" ? "내가 모은 넙죽코인" : "일반 / 고급 응모권"}
       </div>
       <>
         <CreditIcon css={{ width: "27px", height: "16px" }} />

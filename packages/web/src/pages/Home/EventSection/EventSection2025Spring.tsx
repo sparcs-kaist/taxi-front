@@ -20,10 +20,10 @@ type ButtonContainerProps = {
 };
 
 const ButtonContainer = ({
-                           title,
-                           description,
-                           children,
-                         }: ButtonContainerProps) => {
+  title,
+  description,
+  children,
+}: ButtonContainerProps) => {
   return (
     <WhiteContainer
       css={{
@@ -69,7 +69,7 @@ const EventSection2025Spring = () => {
   return (
     <AdaptiveDiv type="center">
       <Title icon="festival" isHeader>
-        추석 이벤트
+        새학기 이벤트
       </Title>
       <CreditAmountStatusContainer />
       <div css={{ display: "flex", gap: "15px" }}>
@@ -78,7 +78,7 @@ const EventSection2025Spring = () => {
             title="이벤트 안내"
             description={
               <>
-                2024/09/07 - 09/23
+                2025/02/21 - 03/13
                 <br />
                 절찬리 진행 중!
               </>
@@ -91,7 +91,7 @@ const EventSection2025Spring = () => {
           <Link to="/event/2025spring-missions">
             <ButtonContainer
               title="퀘스트"
-              description={<>이지피지하게 달성하고 송편코인 받기</>}
+              description={<>이지피지하게 달성하고 넙죽코인 받기</>}
             >
               <BackgroundMission css={{ width: "100%", height: "100%" }} />
             </ButtonContainer>

@@ -160,12 +160,11 @@ const Footer = ({ type = "full", children }: FooterProps) => {
             <ButtonAboveFooter text="택시 살펴보기" />
           </Link>
           <ButtonAboveFooter
-            text="{봄 이벤트}를 만든 사람들"
+            text="새학기 이벤트를 만든 사람들"
             onClick={onClickCredit}
           />
         </>
       )}
-      {/*TODO: change to real event name*/}
       {type !== "event-2024spring" && (
         <div css={{ padding: "6px" }}>
           <a href="https://sparcs.org/" target="_blank" rel="noreferrer">
