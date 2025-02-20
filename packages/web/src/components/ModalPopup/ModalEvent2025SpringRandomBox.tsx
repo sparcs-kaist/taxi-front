@@ -14,7 +14,6 @@ import "./ModalEvent2024FallRandomBoxBackground.css";
 
 import theme from "@/tools/theme";
 
-// using 2024 fall imgs
 import JackpotFailImage from "@/static/events/2024fallJackpotFail.png";
 import JackpotSuccessImage from "@/static/events/2024fallJackpotSuccess.png";
 import HelpCenterRoundedIcon from "@mui/icons-material/HelpCenterRounded";

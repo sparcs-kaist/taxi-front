@@ -4,7 +4,7 @@ import WhiteContainer from "@/components/WhiteContainer";
 
 import theme from "@/tools/theme";
 
-import { ReactComponent as CreditIcon } from "@/static/events/2023fallCredit.svg";
+import { ReactComponent as CreditIcon } from "@/static/events/2025springCredit.svg";
 
 type CreditAmountStatusContainerProps = {
   type?: "credit" | "ticket";

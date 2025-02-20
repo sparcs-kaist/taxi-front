@@ -22,14 +22,14 @@ import theme from "@/tools/theme";
 
 // use previous event icons
 import { ReactComponent as TaxiLogoIcon } from "@/static/assets/sparcsLogos/TaxiLogo.svg";
-import { ReactComponent as MissionCompleteIcon } from "@/static/events/2023fallMissionComplete.svg";
-import { ReactComponent as MainSection1 } from "@/static/events/2024fallMainSection1.svg";
-import { ReactComponent as MainSection2 } from "@/static/events/2024fallMainSection2.svg";
-import { ReactComponent as MainSection4 } from "@/static/events/2024fallMainSection4.svg";
-import { ReactComponent as MainSection6 } from "@/static/events/2024fallMainSection6.svg";
-import { ReactComponent as MainStep2 } from "@/static/events/2024fallMainStep2.svg";
 import { ReactComponent as MainStep3 } from "@/static/events/2024fallMainStep3.svg";
-import { ReactComponent as MainTitle } from "@/static/events/2024fallMainTitle.svg";
+import { ReactComponent as MainSection1 } from "@/static/events/2025springMainSection1.svg";
+import { ReactComponent as MainSection2 } from "@/static/events/2025springMainSection2.svg";
+import { ReactComponent as MainSection4 } from "@/static/events/2025springMainSection4.svg";
+import { ReactComponent as MainSection6 } from "@/static/events/2025springMainSection6.svg";
+import { ReactComponent as MainStep2 } from "@/static/events/2025springMainStep2.svg";
+import { ReactComponent as MainTitle } from "@/static/events/2025springMainTitle.svg";
+import { ReactComponent as MissionCompleteIcon } from "@/static/events/2025springMissionComplete.svg";
 
 const EVENT_INSTAGRAM_URL =
   "https://www.instagram.com/p/C_j1gibhTOa/?igsh=eWoyMnhweGNzeWR2"; // TODO: FIXME
@@ -82,7 +82,7 @@ const Event2025Spring = () => {
         <div
           css={{ ...theme.font16_bold, color: theme.purple, marginTop: "16px" }}
         >
-          2024.9.7.(토) ~ 9.23.(월)
+          2025.2.21.(금) ~ 3.12.(수)
         </div>
         <MainSection1 css={{ width: "100%" }} />
       </AdaptiveDiv>
@@ -124,9 +124,9 @@ const Event2025Spring = () => {
                 color: theme.gray_text,
               }}
             >
-              Taxi 웹 사이트와 앱에서 퀘스트 내용 확인
+              Taxi 웹사이트와 앱에서 퀘스트 내용 확인
               <br />
-              이벤트 참여 동의만 해도 넙죽코인 200개 지급
+              이벤트 참여만 해도 넙죽코인 200개 지급!
             </div>
             <div css={{ height: "16px" }} />
             <Link
@@ -177,9 +177,9 @@ const Event2025Spring = () => {
                 color: theme.gray_text,
               }}
             >
-              응모권은 경품마다 별개로 발급됨
+              응모권은 경품마다 별개로 모아지며 중복 구매 가능
               <br />
-              경품 추첨 결과는 n월 n일에 발표
+              경품 추첨 결과는 3월 19일에 발표
             </div>
             {/*TODO: 날짜 수정*/}
             <div css={{ height: "16px" }} />
@@ -331,9 +331,9 @@ const Event2025Spring = () => {
                 color: theme.gray_text,
               }}
             >
-              해오름식 SPARCS 부스, SPARCS 오픈동방에 참여하면
+              해오름식 SPARCS 부스 또는 SPARCS 오픈동방에 참여하면
               <br />
-              넙죽코인을 얻을 수 있는 쿠폰을 드립니다.
+              넙죽코인을 얻을 수 있는 쿠폰이?!
             </div>
             <div css={{ height: "16px" }} />
             <Button
@@ -372,6 +372,7 @@ const Event2025Spring = () => {
       <div
         css={{
           background: "linear-gradient(to top, #797F6C, #203F76)",
+          pointerEvents: "none", // TODO: 인스타 링크 업데이트 후 삭제
           ...theme.cursor(),
         }}
         onClick={() => window.open(EVENT_INSTAGRAM_URL, "_blank")}
@@ -391,9 +392,9 @@ const Event2025Spring = () => {
           <MainSection4 css={{ width: "334px", maxWidth: "100%" }} />
           <div css={{ height: "16px" }} />
           <div css={{ color: theme.gray_line, ...theme.font14 }}>
-            이 영역을 누르면 인스타그램 게시물로 이동
+            2월 21일 12시에 게시물 업로드 예정
             <br />
-            추첨 결과는 인스타그램, Ara, Taxi 홈페이지에 발표
+            추첨 결과는 3월 19일에 발표
           </div>
         </AdaptiveDiv>
       </div>
@@ -407,7 +408,7 @@ const Event2025Spring = () => {
           <MainSection6 css={{ width: "292px", maxWidth: "100%" }} />
           <div css={{ height: "56px" }} />
           <div css={{ color: theme.gray_text, ...theme.font14 }}>
-            본 이벤트는 현대모비스와 에이핀아이앤씨의 후원으로 진행되었습니다.
+            본 이벤트는 에이핀아이앤씨와 KAIST의 후원으로 진행되었습니다.
           </div>
         </AdaptiveDiv>
       </div>

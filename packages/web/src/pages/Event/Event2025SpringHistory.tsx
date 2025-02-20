@@ -158,7 +158,7 @@ const Event2025SpringHistory = () => {
                 marginBottom: "5px",
               }}
             >
-              <b>📌 결과 발표일 : </b>9월 30일(화)
+              <b>📌 결과 발표일 : </b>3월 19일(수)
             </div>
             <div
               css={{
@@ -184,12 +184,13 @@ const Event2025SpringHistory = () => {
               <b>🎁 지급 방법 :</b> 각 경품별 지급 방법은 아래와 같습니다.
             </div>
             <div css={{ ...theme.font14, marginBottom: "5px" }}>
-              1. 에어팟 3 / 로지텍 K380 : 교양분관 SPARCS 동아리방에서 실물을
-              수령하실 수 있습니다.
+              1. 에어팟 4 / 넙죽이 노트북 파우치 : 교양분관 SPARCS 동아리방에서
+              실물을 수령하실 수 있습니다. 파우치의 경우 이벤트 참여 동의 때
+              입력한 연락처로 사이즈를 확인할 예정입니다.
             </div>
             <div css={{ ...theme.font14, marginBottom: "0" }}>
               2. 그 외 경품 : 이벤트 참여 동의 때 입력한 연락처로 기프티콘을
-              발송해 드립니다.
+              발송해 드립니다. 기프티콘의 유효 기간은 발급일로부터 30일입니다.
             </div>
           </div>
         </WhiteContainer>

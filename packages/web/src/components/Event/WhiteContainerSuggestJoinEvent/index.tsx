@@ -40,8 +40,8 @@ const WhiteContainerSuggestJoinEvent = () => {
             <b>🌟 첫 발걸음</b>
           </div>
           <div css={styleText}>
-            이벤트 참여 동의 이후 퀘스트 달성 및 넙죽이 상점 이용이 가능합니다.
-            많은 혜택과 기회를 놓치지 마세요!
+            이벤트 참여 동의 이후 퀘스트 달성 및 응모권 교환소 이용이
+            가능합니다. 많은 혜택과 기회를 놓치지 마세요!
           </div>
           <Button
             type="purple"
@@ -66,7 +66,7 @@ const WhiteContainerSuggestJoinEvent = () => {
             css={styleButton}
             onClick={() => setIsOpenNotification(true)}
           >
-            광고성 푸시 알림 수신 동의하고 넙죽코인 50개 얻기
+            광고성 푸시 알림 수신 동의하고 넙죽코인 500개 얻기
           </Button>
         </WhiteContainer>
       ) : null}

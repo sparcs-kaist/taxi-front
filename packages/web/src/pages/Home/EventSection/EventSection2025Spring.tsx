@@ -10,8 +10,8 @@ import WhiteContainer from "@/components/WhiteContainer";
 import theme from "@/tools/theme";
 
 import { ReactComponent as BackgroundMain } from "@/static/events/2023fallHomeMain.svg";
-import { ReactComponent as BackgroundMission } from "@/static/events/2023fallHomeMission.svg";
-import { ReactComponent as BackgroundStore } from "@/static/events/2023fallHomeStore.svg";
+import { ReactComponent as BackgroundMission } from "@/static/events/2025springHomeMission.svg";
+import { ReactComponent as BackgroundStore } from "@/static/events/2025springHomeStore.svg";
 
 type ButtonContainerProps = {
   title: string;
@@ -78,7 +78,7 @@ const EventSection2025Spring = () => {
             title="이벤트 안내"
             description={
               <>
-                2025/02/21 - 03/13
+                02/21 - 03/12
                 <br />
                 절찬리 진행 중!
               </>
