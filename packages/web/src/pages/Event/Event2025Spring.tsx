@@ -23,6 +23,7 @@ import theme from "@/tools/theme";
 // use previous event icons
 import { ReactComponent as TaxiLogoIcon } from "@/static/assets/sparcsLogos/TaxiLogo.svg";
 import { ReactComponent as MainStep3 } from "@/static/events/2024fallMainStep3.svg";
+import { ReactComponent as BonusSection2 } from "@/static/events/2025springBonusSection2.svg";
 import { ReactComponent as MainSection1 } from "@/static/events/2025springMainSection1.svg";
 import { ReactComponent as MainSection2 } from "@/static/events/2025springMainSection2.svg";
 import { ReactComponent as MainSection4 } from "@/static/events/2025springMainSection4.svg";
@@ -32,7 +33,7 @@ import { ReactComponent as MainTitle } from "@/static/events/2025springMainTitle
 import { ReactComponent as MissionCompleteIcon } from "@/static/events/2025springMissionComplete.svg";
 
 const EVENT_INSTAGRAM_URL =
-  "https://www.instagram.com/p/C_j1gibhTOa/?igsh=eWoyMnhweGNzeWR2"; // TODO: FIXME
+  "https://www.instagram.com/p/DGUasbrvCsb/?igsh=MzRlODBiNWFlZA==";
 
 const Event2025Spring = () => {
   const [isOpenShare, setIsOpenShare] = useState<boolean>(false);
@@ -181,7 +182,6 @@ const Event2025Spring = () => {
               <br />
               경품 추첨 결과는 3월 19일에 발표
             </div>
-            {/*TODO: 날짜 수정*/}
             <div css={{ height: "16px" }} />
             <Link to="/event/2025spring-store" css={{ textDecoration: "none" }}>
               <Button
@@ -325,6 +325,8 @@ const Event2025Spring = () => {
               넙죽코인 쿠폰 받아가세요!
             </div>
             <div css={{ height: "16px" }} />
+            <BonusSection2 css={{ width: "100%" }} />
+            <div css={{ height: "16px" }} />
             <div
               css={{
                 ...theme.font14,
@@ -372,7 +374,6 @@ const Event2025Spring = () => {
       <div
         css={{
           background: "linear-gradient(to top, #797F6C, #203F76)",
-          pointerEvents: "none", // TODO: 인스타 링크 업데이트 후 삭제
           ...theme.cursor(),
         }}
         onClick={() => window.open(EVENT_INSTAGRAM_URL, "_blank")}
@@ -392,7 +393,7 @@ const Event2025Spring = () => {
           <MainSection4 css={{ width: "334px", maxWidth: "100%" }} />
           <div css={{ height: "16px" }} />
           <div css={{ color: theme.gray_line, ...theme.font14 }}>
-            2월 21일 12시에 게시물 업로드 예정
+            이 영역을 누르면 인스타그램 게시물로 이동
             <br />
             추첨 결과는 3월 19일에 발표
           </div>
