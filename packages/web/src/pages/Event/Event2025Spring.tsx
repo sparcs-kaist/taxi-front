@@ -23,6 +23,7 @@ import theme from "@/tools/theme";
 // use previous event icons
 import { ReactComponent as TaxiLogoIcon } from "@/static/assets/sparcsLogos/TaxiLogo.svg";
 import { ReactComponent as MainStep3 } from "@/static/events/2024fallMainStep3.svg";
+import { ReactComponent as BonusSection2 } from "@/static/events/2025springBonusSection2.svg";
 import { ReactComponent as MainSection1 } from "@/static/events/2025springMainSection1.svg";
 import { ReactComponent as MainSection2 } from "@/static/events/2025springMainSection2.svg";
 import { ReactComponent as MainSection4 } from "@/static/events/2025springMainSection4.svg";
@@ -181,7 +182,6 @@ const Event2025Spring = () => {
               <br />
               경품 추첨 결과는 3월 19일에 발표
             </div>
-            {/*TODO: 날짜 수정*/}
             <div css={{ height: "16px" }} />
             <Link to="/event/2025spring-store" css={{ textDecoration: "none" }}>
               <Button
@@ -324,6 +324,8 @@ const Event2025Spring = () => {
               <br />
               넙죽코인 쿠폰 받아가세요!
             </div>
+            <div css={{ height: "16px" }} />
+            <BonusSection2 css={{ width: "100%" }} />
             <div css={{ height: "16px" }} />
             <div
               css={{
