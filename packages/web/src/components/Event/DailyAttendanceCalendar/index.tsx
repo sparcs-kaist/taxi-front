@@ -8,7 +8,7 @@ import { DateSectionProps } from "@/pages/Event/Event2025SpringDailyAttendance";
 import moment, { getToday } from "@/tools/moment";
 import theme from "@/tools/theme";
 
-import { ReactComponent as MissionCompleteIcon } from "@/static/events/2023fallMissionComplete.svg";
+import { ReactComponent as DailyAttendanceCompleteIcon } from "@/static/events/2025springDailyAttendanceComplete.svg";
 
 const getCalendarDates = () => {
   const startDate = moment("2025-02-20", "YYYY-MM-DD");
@@ -137,7 +137,7 @@ const Date = ({
           <MiniCircle type="date" />
         </div>
       )}
-      {checked && <MissionCompleteIcon style={styleCompleteIcon} />}
+      {checked && <DailyAttendanceCompleteIcon style={styleCompleteIcon} />}
     </div>
   );
 };
