@@ -58,6 +58,7 @@ const LeaderboardTopBar = () => (
 );
 
 type LeaderboardElem = {
+  userId: string;
   nickname: string;
   profileImageUrl: string;
   amount: number;
@@ -244,16 +245,23 @@ const Event2025SpringStoreLeaderboard = ({
     }
   };
 
-  const { leaderboard, totalAmount, totalUser, amount, probability, rank } =
-    useQuery.get(`/events/2025spring/items/leaderboard/${itemId}`, null, [
-      event2025SpringInfo,
-    ])[1] || {
-      leaderboard: [],
-      totalAmount: 0,
-      totalUser: 0,
-      amount: 0,
-      probability: 0,
-    };
+  const {
+    leaderboard,
+    totalAmount,
+    totalUser,
+    amount,
+    probability,
+    rank,
+    userId,
+  } = useQuery.get(`/events/2025spring/items/leaderboard/${itemId}`, null, [
+    event2025SpringInfo,
+  ])[1] || {
+    leaderboard: [],
+    totalAmount: 0,
+    totalUser: 0,
+    amount: 0,
+    probability: 0,
+  };
 
   const { item } = useQuery.get("/events/2025spring/items/" + itemId)[1] || {
     item: null,
@@ -262,6 +270,7 @@ const Event2025SpringStoreLeaderboard = ({
   const myLeaderboardInfo = useMemo<Nullable<LeaderboardElem>>(() => {
     if (!nickname || !profileImgUrl || !probability) return null;
     return {
+      userId,
       nickname,
       profileImageUrl: profileImgUrl,
       amount: amount || 0,
@@ -276,7 +285,7 @@ const Event2025SpringStoreLeaderboard = ({
         ? [true, "이벤트 기간이 아닙니다"]
         : !event2025SpringInfo || !isLogin
         ? [true, "로그인해야 합니다"]
-        : event2025SpringInfo.isAgreeOnTermsOfEvent === false
+        : !event2025SpringInfo.isAgreeOnTermsOfEvent
         ? [true, "이벤트에 참여해야 합니다"]
         : event2025SpringInfo.creditAmount < (item?.price * purchaseAmount || 0)
         ? [true, "넙죽코인이 부족합니다"]
@@ -452,11 +461,11 @@ const Event2025SpringStoreLeaderboard = ({
                 key={index}
                 rank={elem.rank}
                 value={elem}
-                isMe={index === rank - 1}
+                isMe={userId === elem.userId}
               />
             ))}
             {rank > 20 && myLeaderboardInfo && (
-              <LeaderboardItem rank={rank - 1} value={myLeaderboardInfo} isMe />
+              <LeaderboardItem rank={rank} value={myLeaderboardInfo} isMe />
             )}
             <div
               css={{
