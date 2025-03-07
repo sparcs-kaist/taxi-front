@@ -18,7 +18,7 @@ WORKDIR /app
 COPY pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm fetch
 COPY . .
-RUN pnpm --filter-prod @taxi/web... install --offline --frozen-lockfile
+RUN pnpm --filter-prod @taxi/web... install --offline
 RUN pnpm --filter-prod @taxi/web... build
 RUN npx react-inject-env set
 
