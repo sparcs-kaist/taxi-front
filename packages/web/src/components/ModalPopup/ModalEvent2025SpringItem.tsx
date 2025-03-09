@@ -14,6 +14,7 @@ import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
 import Button from "@/components/Button";
+import DottedLine from "@/components/DottedLine";
 import BodyRandomBox from "@/components/Event/BodyRandomBox";
 import Loading from "@/components/Loading";
 import Modal from "@/components/Modal";
@@ -166,6 +167,7 @@ const ModalEvent2025SpringItem = ({
           </div>
         </div>
       )}
+      <DottedLine />
       {itemInfo.itemType === 3 ? (
         isDisplayRandomBox ? (
           <BodyRandomBox isBoxOpend={false} nonClick />
