@@ -14,6 +14,7 @@ import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
 import Button from "@/components/Button";
+import DottedLine from "@/components/DottedLine";
 import BodyRandomBox from "@/components/Event/BodyRandomBox";
 import Loading from "@/components/Loading";
 import Modal from "@/components/Modal";
@@ -54,16 +55,17 @@ const ModalEvent2025SpringItem = ({
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const value = e.target.valueAsNumber;
-    if (value < 100 || isNaN(value)) {
-      setBettingAmount(100);
-    } else {
-      setBettingAmount(value);
-    }
+    setBettingAmount(value);
   };
 
   const onClickOk = useCallback(async () => {
     if (isRequesting.current) return;
     isRequesting.current = true;
+    if (bettingAmount <= 0) {
+      setAlert("올바른 베팅 수량을 입력해주세요.");
+      isRequesting.current = false;
+      return;
+    }
     if (bettingAmount % 100 !== 0) {
       setAlert("베팅 수량은 100의 배수로 입력해주세요.");
       isRequesting.current = false;
@@ -118,6 +120,54 @@ const ModalEvent2025SpringItem = ({
         <AccountBalanceWalletRoundedIcon style={styleIcon} />
         구매하기
       </div>
+      {itemInfo.itemType === 3 && (
+        <div>
+          <div
+            css={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "left",
+              gap: "10px",
+              padding: "16px 4px",
+            }}
+          >
+            <div css={theme.font16_bold}>{itemInfo.name}</div>
+            <div css={theme.font14}>{itemInfo.description}</div>
+          </div>
+          <div
+            css={{
+              ...theme.font16_bold,
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "15px",
+            }}
+          >
+            <CreditIcon
+              css={{ width: "27px", height: "16px", marginRight: "5px" }}
+            />
+            베팅 수량:
+            <input
+              onChange={changeBettingAmountHandler}
+              type="number"
+              step="100"
+              style={{
+                ...theme.font14,
+                width: "60px",
+                borderRadius: "6px",
+                padding: "6px 0",
+                background: theme.purple_light,
+                boxShadow: theme.shadow_purple_input_inset,
+                border: "none",
+                outline: "none",
+                textAlign: "center",
+                marginLeft: "5px",
+              }}
+              value={bettingAmount}
+            />
+          </div>
+        </div>
+      )}
+      <DottedLine />
       {itemInfo.itemType === 3 ? (
         isDisplayRandomBox ? (
           <BodyRandomBox isBoxOpend={false} nonClick />
@@ -137,18 +187,18 @@ const ModalEvent2025SpringItem = ({
           alt={itemInfo.name}
         />
       )}
-      <div
-        css={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "left",
-          gap: "10px",
-          padding: "16px 4px",
-        }}
-      >
-        <div css={theme.font16_bold}>{itemInfo.name}</div>
-        <div css={theme.font14}>{itemInfo.description}</div>
-        {itemInfo.itemType !== 3 && (
+      {itemInfo.itemType !== 3 && (
+        <div
+          css={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "left",
+            gap: "10px",
+            padding: "16px 4px",
+          }}
+        >
+          <div css={theme.font16_bold}>{itemInfo.name}</div>
+          <div css={theme.font14}>{itemInfo.description}</div>
           <div
             css={{
               display: "flex",
@@ -158,39 +208,6 @@ const ModalEvent2025SpringItem = ({
             <CreditIcon css={{ width: "27px", height: "16px" }} />
             <div>{itemInfo.price}</div>
           </div>
-        )}
-      </div>
-      {itemInfo.itemType === 3 && (
-        <div
-          css={{
-            ...theme.font16_bold,
-            display: "flex",
-            alignItems: "center",
-            marginBottom: "15px",
-          }}
-        >
-          <CreditIcon
-            css={{ width: "27px", height: "16px", marginRight: "5px" }}
-          />
-          베팅 수량:
-          <input
-            onChange={changeBettingAmountHandler}
-            type="number"
-            step="100"
-            style={{
-              ...theme.font14,
-              width: "60px",
-              borderRadius: "6px",
-              padding: "6px 0",
-              background: theme.purple_light,
-              boxShadow: theme.shadow_purple_input_inset,
-              border: "none",
-              outline: "none",
-              textAlign: "center",
-              marginLeft: "5px",
-            }}
-            value={bettingAmount}
-          />
         </div>
       )}
 
