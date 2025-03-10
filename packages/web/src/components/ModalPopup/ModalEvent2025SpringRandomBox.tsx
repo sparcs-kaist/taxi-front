@@ -79,7 +79,7 @@ const ModalEvent2025SpringRandomBox = ({
       </div>
       <div css={styleText}>
         <b css={{ color: theme.purple }}>랜덤박스를 획득했어요.</b> <b>상자</b>{" "}
-        또는 <b>열기</b> 버튼을 눌러 상자 안 상품을 확인해세요!
+        또는 <b>열기</b> 버튼을 눌러 상자 안 상품을 확인하세요!
       </div>
       <DottedLine />
       {isDisplayRandomBox ? (
