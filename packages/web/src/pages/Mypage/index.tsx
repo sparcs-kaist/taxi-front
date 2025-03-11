@@ -35,6 +35,8 @@ import { eventMode, isDev } from "@/tools/loadenv";
 import theme from "@/tools/theme";
 import { isNotificationOn } from "@/tools/trans";
 
+import PhoneNumberBadge from "@/components/static/assets/profileImgWithPhoneNumber.png";
+
 const Mypage = () => {
   const { t, i18n } = useTranslation("mypage");
   const setAlert = useSetRecoilState(alertAtom);
@@ -145,7 +147,8 @@ const Mypage = () => {
                 )}
               </div>
               <div css={theme.font16_bold} className="selectable">
-                {loginInfo?.name}
+                {loginInfo?.name} 
+                {loginInfo?.phoneNumber && (<img src={PhoneNumberBadge} />)}
               </div>
             </div>
             <div css={infoTitle}>
@@ -169,6 +172,10 @@ const Mypage = () => {
             <div css={infoType} className="selectable">
               {t("account")}
               <div css={infoContent}>{loginInfo?.account}</div>
+            </div>
+            <div css={infoType} className="selectable">
+              {t("phone_number")}
+              <div css={infoContent}>{loginInfo?.phoneNumber}</div>
             </div>
           </WhiteContainer>
           <WhiteContainer>

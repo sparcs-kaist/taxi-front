@@ -13,6 +13,7 @@ import Button from "@/components/Button";
 import DottedLine from "@/components/DottedLine";
 import Input from "@/components/Input";
 import InputAccount from "@/components/Input/InputAccount";
+import InputPhoneNumber from "@/components/Input/inputPhoneNumber";
 import Modal from "@/components/Modal";
 import ProfileImage from "@/components/User/ProfileImage";
 
@@ -22,6 +23,8 @@ import { useSetRecoilState } from "recoil";
 import { convertImage } from "@/tools/image";
 import regExpTest from "@/tools/regExpTest";
 import theme from "@/tools/theme";
+
+import PhoneNumberBadge from "@/components/static/assets/profileImgWithPhoneNumber.png";
 
 type ModalMypageModifyProps = Omit<
   Parameters<typeof Modal>[0],
@@ -194,7 +197,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         url: "/users/editPhoneNumber",
         method: "post",
         data: { phoneNumber },
-        onError: () => setAlert(t("page_modify.phoneNumber_failed")),
+        onError: () => setAlert(t("page_modify.phone_number_failed")),
         //#region event2025Spring
         onSuccess: () => event2025SpringQuestComplete("accountChanging"),
         //#endregion
@@ -230,7 +233,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
 
   return (
     <Modal padding="32px 10px 10px" onEnter={handleEditProfile} {...modalProps}>
-      <div css={styleName}>{loginInfo?.name}</div>
+      <div css={styleName}>{loginInfo?.name} {loginInfo?.phoneNumber && (<img src={PhoneNumberBadge} />)}</div>
       {loginInfo?.profileImgUrl && (
         <ProfileImageLarge url={loginInfo?.profileImgUrl} />
       )}
@@ -262,8 +265,8 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
           />
         </div>
         <div css={{ ...styleTitle, marginTop: "10px"}}>
-          {t("phonenumber")}
-          <Input
+          {t("phone_number")}
+          <InputPhoneNumber
             value={phoneNumber}
             onChangeValue={setPhoneNumber}
             css={{ width: "100%", marginLeft: "10px" }}
