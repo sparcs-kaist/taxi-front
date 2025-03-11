@@ -141,6 +141,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
 
   const [nickname, setNickname] = useState("");
   const [account, setAccount] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   const loginInfo = useValueRecoilState("loginInfo");
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
@@ -153,6 +154,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
     if (modalProps.isOpen) {
       setNickname(loginInfo?.nickname || "");
       setAccount(loginInfo?.account || "");
+      setPhoneNumber(loginInfo?.phoneNumber || "");
     }
   }, [loginInfo, modalProps.isOpen]);
 
@@ -181,6 +183,18 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         method: "post",
         data: { account },
         onError: () => setAlert(t("page_modify.account_failed")),
+        //#region event2025Spring
+        onSuccess: () => event2025SpringQuestComplete("accountChanging"),
+        //#endregion
+      });
+    }
+    if (phoneNumber !== loginInfo?.phoneNumber) {
+      isNeedToUpdateLoginInfo = true;
+      await axios({
+        url: "/users/editPhoneNumber",
+        method: "post",
+        data: { phoneNumber },
+        onError: () => setAlert(t("page_modify.phoneNumber_failed")),
         //#region event2025Spring
         onSuccess: () => event2025SpringQuestComplete("accountChanging"),
         //#endregion
@@ -244,6 +258,14 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
           <InputAccount
             value={account}
             onChangeValue={setAccount}
+            css={{ width: "100%", marginLeft: "10px" }}
+          />
+        </div>
+        <div css={{ ...styleTitle, marginTop: "10px"}}>
+          {t("phonenumber")}
+          <Input
+            value={phoneNumber}
+            onChangeValue={setPhoneNumber}
             css={{ width: "100%", marginLeft: "10px" }}
           />
         </div>
