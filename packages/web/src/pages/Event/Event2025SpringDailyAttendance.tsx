@@ -30,8 +30,6 @@ const DateSection = ({ value, handler }: DateSectionProps) => {
 
 const Event2025SpringAttendance = () => {
   const today = useMemo(() => getToday(), []);
-  const endDate = moment("2025-03-13", "YYYY-MM-DD");
-  const isEventDay = today.isBefore(endDate);
 
   const [valueDate, setValueDate] = useState<Array<number>>([2025, 2, 21]);
   const [isToday, setIsToday] = useState(false);
@@ -100,24 +98,20 @@ const Event2025SpringAttendance = () => {
             );
           }}
         />
-        {isEventDay ? (
-          isToday ? (
-            <ModalEvent2025SpringDailyAttendance
-              isOpen={dailyAttendanceOpened}
-              onChangeIsOpen={setDailyAttendanceOpened}
-              forceOpen={true}
-            />
-          ) : (
-            <DailyAttendanceQuizResult
-              year={valueDate[0]}
-              month={valueDate[1]}
-              day={valueDate[2]}
-              isOpen={isOpen}
-              onChangeIsOpen={setIsOpen}
-            />
-          )
+        {isToday ? (
+          <ModalEvent2025SpringDailyAttendance
+            isOpen={dailyAttendanceOpened}
+            onChangeIsOpen={setDailyAttendanceOpened}
+            forceOpen={true}
+          />
         ) : (
-          "이벤트 기간이 아닙니다."
+          <DailyAttendanceQuizResult
+            year={valueDate[0]}
+            month={valueDate[1]}
+            day={valueDate[2]}
+            isOpen={isOpen}
+            onChangeIsOpen={setIsOpen}
+          />
         )}
 
         <Footer type="event-2025spring" />
