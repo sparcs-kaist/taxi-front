@@ -37,7 +37,9 @@ const getCalendarDates = () => {
       const isEventDay =
         date.isBefore(endDate) && date.isAfter(startDate, "day");
 
-      if (date.isSame(today)) {
+      if (date.isSame(endDate)) {
+        available = false;
+      } else if (date.isSame(today)) {
         available = "today";
         if (isEventDay) checked = true; // FIXME: 이벤트 완료 API호출은 되지만 UI로는 스탬프가 안 찍히는 버그를 하드 픽스함
       } else if (date.isAfter(startDate) && date.isBefore(today)) {
