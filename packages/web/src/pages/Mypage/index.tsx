@@ -23,6 +23,7 @@ import {
 } from "@/components/ModalPopup";
 import Title from "@/components/Title";
 import ProfileImage from "@/components/User/ProfileImage";
+import BadgeImage from "@/components/User/BadgeImage";
 import WhiteContainer from "@/components/WhiteContainer";
 import WhiteContainerSuggestLogin from "@/components/WhiteContainer/WhiteContainerSuggestLogin";
 
@@ -35,7 +36,6 @@ import { eventMode, isDev } from "@/tools/loadenv";
 import theme from "@/tools/theme";
 import { isNotificationOn } from "@/tools/trans";
 
-import PhoneNumberBadge from "@/components/static/assets/profileImgWithPhoneNumber.png";
 
 const Mypage = () => {
   const { t, i18n } = useTranslation("mypage");
@@ -146,9 +146,12 @@ const Mypage = () => {
                   <ProfileImage url={loginInfo.profileImgUrl} />
                 )}
               </div>
-              <div css={theme.font16_bold} className="selectable">
+              <div 
+                css={theme.font16_bold} 
+                className="selectable"
+              >
                 {loginInfo?.name} 
-                {loginInfo?.phoneNumber && (<img src={PhoneNumberBadge} />)}
+                {loginInfo?.phoneNumber !== undefined && (<BadgeImage show={true} />)}
               </div>
             </div>
             <div css={infoTitle}>

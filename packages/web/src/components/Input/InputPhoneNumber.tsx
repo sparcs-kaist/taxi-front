@@ -8,7 +8,7 @@ type InputProps = {
   className?: string; // for emotion (css props)
 } & HTMLProps<HTMLInputElement>;
 
-const Input = ({
+const InputPhoneNumber = ({
   value,
   onChangeValue,
   className,
@@ -33,4 +33,4 @@ const Input = ({
   />
 );
 
-export default Input;
+export default InputPhoneNumber;

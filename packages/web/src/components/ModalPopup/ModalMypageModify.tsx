@@ -13,9 +13,10 @@ import Button from "@/components/Button";
 import DottedLine from "@/components/DottedLine";
 import Input from "@/components/Input";
 import InputAccount from "@/components/Input/InputAccount";
-import InputPhoneNumber from "@/components/Input/inputPhoneNumber";
+import InputPhoneNumber from "@/components/Input/InputPhoneNumber";
 import Modal from "@/components/Modal";
 import ProfileImage from "@/components/User/ProfileImage";
+import BadgeImage from "@/components/User/BadgeImage";
 
 import alertAtom from "@/atoms/alert";
 import { useSetRecoilState } from "recoil";
@@ -23,8 +24,6 @@ import { useSetRecoilState } from "recoil";
 import { convertImage } from "@/tools/image";
 import regExpTest from "@/tools/regExpTest";
 import theme from "@/tools/theme";
-
-import PhoneNumberBadge from "@/components/static/assets/profileImgWithPhoneNumber.png";
 
 type ModalMypageModifyProps = Omit<
   Parameters<typeof Modal>[0],
@@ -191,16 +190,13 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         //#endregion
       });
     }
-    if (phoneNumber !== loginInfo?.phoneNumber) {
+    if (phoneNumber !== "") {
       isNeedToUpdateLoginInfo = true;
       await axios({
-        url: "/users/editPhoneNumber",
+        url: "/users/createPhoneNumber",
         method: "post",
-        data: { phoneNumber },
+        data: { phonenumber:phoneNumber },
         onError: () => setAlert(t("page_modify.phone_number_failed")),
-        //#region event2025Spring
-        onSuccess: () => event2025SpringQuestComplete("accountChanging"),
-        //#endregion
       });
     }
     if (isNeedToUpdateLoginInfo) {
@@ -233,7 +229,13 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
 
   return (
     <Modal padding="32px 10px 10px" onEnter={handleEditProfile} {...modalProps}>
-      <div css={styleName}>{loginInfo?.name} {loginInfo?.phoneNumber && (<img src={PhoneNumberBadge} />)}</div>
+      <div 
+        css={styleName} 
+        className="selectable"
+      >
+        {loginInfo?.name} 
+        {loginInfo?.phoneNumber !== undefined && (<BadgeImage show={true} />)}
+      </div>
       {loginInfo?.profileImgUrl && (
         <ProfileImageLarge url={loginInfo?.profileImgUrl} />
       )}
@@ -266,11 +268,17 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         </div>
         <div css={{ ...styleTitle, marginTop: "10px"}}>
           {t("phone_number")}
-          <InputPhoneNumber
-            value={phoneNumber}
-            onChangeValue={setPhoneNumber}
-            css={{ width: "100%", marginLeft: "10px" }}
-          />
+          {loginInfo?.phoneNumber !== undefined ? (
+            <div css={{styleContent, marginLeft: "10px" }}>
+              {loginInfo.phoneNumber}
+            </div>
+          ) : (
+            <InputPhoneNumber
+              value={phoneNumber}
+              onChangeValue={setPhoneNumber}
+              css={{ width: "100%", marginLeft: "10px" }}
+            />
+          )}
         </div>
       </div>
       <div css={styleButton}>
@@ -290,7 +298,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
           type="purple_inset"
           disabled={
             !isEditable ||
-            (nickname === loginInfo?.nickname && account === loginInfo?.account)
+            (nickname === loginInfo?.nickname && account === loginInfo?.account && (loginInfo?.phoneNumber !== undefined ? true : phoneNumber === ""))
           }
           css={{
             width: "calc(50% - 5px)",
