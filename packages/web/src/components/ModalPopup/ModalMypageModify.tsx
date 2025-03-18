@@ -9,6 +9,7 @@ import {
 } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
+import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import Button from "@/components/Button";
 import DottedLine from "@/components/DottedLine";
 import Input from "@/components/Input";
@@ -144,6 +145,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
   const [nickname, setNickname] = useState("");
   const [account, setAccount] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [badge, setBadge] = useState<boolean>(false);
 
   const loginInfo = useValueRecoilState("loginInfo");
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
@@ -156,7 +158,8 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
     if (modalProps.isOpen) {
       setNickname(loginInfo?.nickname || "");
       setAccount(loginInfo?.account || "");
-      setPhoneNumber(loginInfo?.phoneNumber || "");
+      setPhoneNumber(loginInfo?.phoneNumber || ""); 
+      setBadge(loginInfo?.badge ?? true); 
     }
   }, [loginInfo, modalProps.isOpen]);
 
@@ -199,6 +202,22 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         onError: () => setAlert(t("page_modify.phone_number_failed")),
       });
     }
+    if (badge == true) {
+      isNeedToUpdateLoginInfo = true;
+      await axios({
+        url: "/users/badge/on",
+        method: "post",
+        onError: () => setAlert(t("page_modify.badge_display_failed")),
+      });
+    }
+    if (badge == false) {
+      isNeedToUpdateLoginInfo = true;
+      await axios({
+        url: "/users/badge/off",
+        method: "post",
+        onError: () => setAlert(t("page_modify.badge_display_failed")),
+      });
+    }
     if (isNeedToUpdateLoginInfo) {
       fetchLoginInfo();
     }
@@ -226,6 +245,23 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
     justifyContent: "space-between",
     marginTop: "24px",
   };
+  const styleCheckBox = {
+    width: "16px",
+    height: "16px",
+    overflow: "hidden",
+    borderRadius: "50%",
+    background: theme.purple_light,
+    boxShadow: theme.shadow_purple_input_inset,
+    transitionDuration: theme.duration,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  };
+  const styleCheckBoxIcon = {
+    width: "14px",
+    height: "14px",
+    fill: theme.white,
+  };
 
   return (
     <Modal padding="32px 10px 10px" onEnter={handleEditProfile} {...modalProps}>
@@ -234,12 +270,36 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         className="selectable"
       >
         {loginInfo?.name} 
-        {loginInfo?.phoneNumber !== undefined && (<BadgeImage show={true} />)}
+        {loginInfo?.phoneNumber !== undefined && (<BadgeImage/>)}
       </div>
       {loginInfo?.profileImgUrl && (
         <ProfileImageLarge url={loginInfo?.profileImgUrl} />
       )}
       <ButtonProfileImage />
+      <div>
+        {loginInfo?.phoneNumber !== undefined && (
+          <div css={{
+            justifyContent: "flex-end", // 오른쪽 정렬
+            ...styleTitle,
+            rowGap: "10px",
+            padding: "0px 20px",
+            marginBottom: "8px",
+            gap:"6px",
+            }}>
+            {t("Badge Display")}
+            <div onClick={() => setBadge(!badge)}>
+              <div
+                css={{
+                  ...styleCheckBox,
+                  background: badge ? theme.purple : theme.purple_light,
+                }}
+              >
+                <CheckRoundedIcon style={styleCheckBoxIcon} />
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
       <DottedLine direction="row" margin="0 2px" />
       <div css={{ rowGap: "10px", padding: "0px 20px" }}>
         <div css={{ ...styleTitle, marginTop: "24px" }}>
@@ -298,7 +358,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
           type="purple_inset"
           disabled={
             !isEditable ||
-            (nickname === loginInfo?.nickname && account === loginInfo?.account && (loginInfo?.phoneNumber !== undefined ? true : phoneNumber === ""))
+            (nickname === loginInfo?.nickname && account === loginInfo?.account && (loginInfo?.phoneNumber !== undefined ? true : phoneNumber === "") && badge === loginInfo?.badge)
           }
           css={{
             width: "calc(50% - 5px)",

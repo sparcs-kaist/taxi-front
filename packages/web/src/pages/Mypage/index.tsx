@@ -151,7 +151,7 @@ const Mypage = () => {
                 className="selectable"
               >
                 {loginInfo?.name} 
-                {loginInfo?.phoneNumber !== undefined && (<BadgeImage show={true} />)}
+                {loginInfo?.phoneNumber !== undefined && (<BadgeImage/>)}
               </div>
             </div>
             <div css={infoTitle}>

@@ -1,13 +1,10 @@
 
 import Badge from "@/static/assets/profileImgWithPhonNumber.png"
+import {useValueRecoilState} from "@/hooks/useFetchRecoilState";
 
-type BadgeImageProps = {
-  show?: boolean; // 탈퇴한 회원 -> 유령 이미지
-};
-
-const BadgeImage = ({ show = true }: BadgeImageProps) => {
-  if (!show) return null;
-
+const BadgeImage = () => {
+  const loginInfo = useValueRecoilState("loginInfo");
+  if (!loginInfo?.badge) return null;
   return (
     <div
       css={{
