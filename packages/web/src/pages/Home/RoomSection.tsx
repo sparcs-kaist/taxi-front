@@ -89,7 +89,8 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
           history.replace("/home");
           setSelectedDate([year, month, date]);
           setInitialLoad(false);
-          if (date === today.date() - 1) {
+          if (date === today.date()) {
+            // today.date()는 오늘 날짜 - 1, 전체 선택 시 date는 어제 날짜
             setInitialLoad(true);
           }
         }}
