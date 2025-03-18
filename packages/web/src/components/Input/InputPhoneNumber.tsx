@@ -13,32 +13,32 @@ const InputPhoneNumber = ({
   className,
   ...inputProps
 }: InputPhoneNumberProps) => {
-  const [part1, setPart1] = useState("");
+
   const [part2, setPart2] = useState("");
   const [part3, setPart3] = useState("");
 
   useEffect(() => {
     const parts = value.split("-");
-    setPart1(parts[0] || "");
     setPart2(parts[1] || "");
     setPart3(parts[2] || "");
   }, [value]);
 
   const handleChange = (
     setter: (val: string) => void,
-    part: "part1" | "part2" | "part3"
+    part: "part2" | "part3"
   ) => (e: React.ChangeEvent<HTMLInputElement>) => {
     let newVal = e.target.value.replace(/\D/g, "");
-    const maxLength = part === "part1" ? 3 : 4;
+    const maxLength = 4;
     newVal = newVal.slice(0, maxLength);
 
     setter(newVal);
     
-    const newPart1 = part === "part1" ? newVal : part1;
+    const newPart1 = "010";
     const newPart2 = part === "part2" ? newVal : part2;
     const newPart3 = part === "part3" ? newVal : part3;
     onChangeValue && onChangeValue([newPart1, newPart2, newPart3].filter(Boolean).join("-"));
   };
+
 
   return (
     <div
@@ -50,31 +50,36 @@ const InputPhoneNumber = ({
         overflow: "hidden",
       }}
     >
+      <div>010 -</div>
       <Input
-        value={part1}
-        onChange={handleChange(setPart1, "part1")}
-        placeholder="010"
-        css={{ flexGrow: 0.75, minWidth: 0 }}
-        inputMode="numeric"
-        pattern="[0-9]*"
-        {...inputProps}
-      />
-      -
-      <Input
+        id="tel2"
         value={part2}
         onChange={handleChange(setPart2, "part2")}
         placeholder="0000"
-        css={{ flexGrow: 1, minWidth: 0 }}
+        css={{ flexGrow: 1, 
+          minWidth: 0 ,
+          textAlign: "center",
+          "::placeholder": {
+            textAlign: "center",
+          },
+        }}
         inputMode="numeric"
         pattern="[0-9]*"
         {...inputProps}
       />
-      -
+      <div>-</div>
       <Input
+        id="tel3"
         value={part3}
         onChange={handleChange(setPart3, "part3")}
         placeholder="0000"
-        css={{ flexGrow: 1, minWidth: 0 }}
+        css={{ flexGrow: 1, 
+          minWidth: 0 ,
+          textAlign: "center",
+          "::placeholder": {
+            textAlign: "center",
+          },
+        }}
         inputMode="numeric"
         pattern="[0-9]*"
         {...inputProps}
