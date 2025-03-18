@@ -71,10 +71,6 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
     });
   }, [roomId, allRooms]);
 
-  useEffect(() => {
-    console.log(initialLoad);
-  }, []);
-
   return (
     <AdaptiveDiv type="center">
       <ModalRoomSelection
@@ -93,6 +89,9 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
           history.replace("/home");
           setSelectedDate([year, month, date]);
           setInitialLoad(false);
+          if (date === today.date() - 1) {
+            setInitialLoad(true);
+          }
         }}
       />
       <RoomList rooms={rooms} initialLoad={initialLoad} />
