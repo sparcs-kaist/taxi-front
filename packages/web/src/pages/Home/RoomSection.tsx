@@ -29,6 +29,7 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
   const [, allRooms] = useQuery.get("/rooms/search?isHome=true", {}, [
     allRoomsToken,
   ]);
+  const [initialLoad, setInitialLoad] = useState(true);
 
   const [selectedDate, setSelectedDate] = useState<[number, number, number]>([
     today.year(),
@@ -70,6 +71,10 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
     });
   }, [roomId, allRooms]);
 
+  useEffect(() => {
+    console.log(initialLoad);
+  }, []);
+
   return (
     <AdaptiveDiv type="center">
       <ModalRoomSelection
@@ -87,9 +92,10 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
         onClick={([year, month, date]) => {
           history.replace("/home");
           setSelectedDate([year, month, date]);
+          setInitialLoad(false);
         }}
       />
-      <RoomList rooms={rooms} />
+      <RoomList rooms={rooms} initialLoad={initialLoad} />
     </AdaptiveDiv>
   );
 };
