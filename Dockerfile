@@ -1,37 +1,38 @@
-ARG FRONT_URL=https://taxi.sparcs.org
-ARG BACK_URL=https://taxi.sparcs.org/api
-ARG OG_IMAGE_URL=https://og-image.taxi.sparcs.org
+#
+# First stage: build the app
+#
+FROM node:16.15.1 AS builder
 
-FROM node:16.15.1-slim AS base
-
-FROM base AS manager
-RUN npm install -g pnpm@latest-8 react-inject-env@2.1.0
-
-FROM manager AS builder
-ARG FRONT_URL
-ARG BACK_URL
-ARG OG_IMAGE_URL
-ENV REACT_APP_FRONT_URL=$FRONT_URL
-ENV REACT_APP_BACK_URL=$BACK_URL
-ENV REACT_APP_OG_URL=$OG_IMAGE_URL
 WORKDIR /app
+
+# Install pnpm
+RUN npm install --global pnpm@8
+
+# pnpm fetch does require only lockfile
 COPY pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm fetch
-COPY . .
-RUN pnpm --filter-prod @taxi/web... install --offline
-RUN pnpm --filter-prod @taxi/web... build
-RUN npx react-inject-env set
 
-FROM nginx:1.27.4 AS production
-ARG FRONT_URL
-ARG BACK_URL
-ARG OG_IMAGE_URL
-ENV REACT_APP_FRONT_URL=$FRONT_URL
-ENV REACT_APP_BACK_URL=$BACK_URL
-ENV REACT_APP_OG_URL=$OG_IMAGE_URL
+COPY . ./
+RUN pnpm --filter-prod @taxi/web... install --offline && \
+    pnpm --filter-prod @taxi/web... build
+
+#
+# Second stage: serve the app
+#
+FROM nginx:1.26.3-alpine
+
+# Set default environment variables
+ENV REACT_APP_BACK_URL=https://taxi.sparcs.org/api \
+    REACT_APP_FRONT_URL=https://taxi.sparcs.org \
+    REACT_APP_OG_URL=https://og-image.taxi.sparcs.org
+
+# Install node & react-inject-env
+RUN apk add --no-cache nodejs npm && \
+    npm install --global react-inject-env@2.1.0
+
 COPY --from=builder /app/packages/web/build /app/build/
 COPY serve /app/serve/
-COPY serve/default.conf.template /etc/nginx/templates/
-RUN chmod +x /app
+RUN chmod +x /app/serve/
 
 EXPOSE 80
+CMD ["sh", "-c", "envsubst '$$REACT_APP_FRONT_URL $$REACT_APP_OG_URL' < /app/serve/default.conf.template > /etc/nginx/conf.d/default.conf && npx react-inject-env set -d /app/build/ && nginx -g 'daemon off;'"]
