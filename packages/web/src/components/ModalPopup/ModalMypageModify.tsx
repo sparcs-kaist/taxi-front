@@ -205,16 +205,18 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
     if (badge == true) {
       isNeedToUpdateLoginInfo = true;
       await axios({
-        url: "/users/badge/on",
+        url: "/users/badge",
         method: "post",
+        data: { badge:"true" },
         onError: () => setAlert(t("page_modify.badge_display_failed")),
       });
     }
     if (badge == false) {
       isNeedToUpdateLoginInfo = true;
       await axios({
-        url: "/users/badge/off",
+        url: "/users/badge",
         method: "post",
+        data: { badge:"false" },
         onError: () => setAlert(t("page_modify.badge_display_failed")),
       });
     }
@@ -328,17 +330,11 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         </div>
         <div css={{ ...styleTitle, marginTop: "10px"}}>
           {t("phone_number")}
-          {loginInfo?.phoneNumber !== undefined ? (
-            <div css={{styleContent, marginLeft: "10px" }}>
-              {loginInfo.phoneNumber}
-            </div>
-          ) : (
             <InputPhoneNumber
               value={phoneNumber}
               onChangeValue={setPhoneNumber}
               css={{ width: "100%", marginLeft: "10px" }}
             />
-          )}
         </div>
       </div>
       <div css={styleButton}>
@@ -358,7 +354,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
           type="purple_inset"
           disabled={
             !isEditable ||
-            (nickname === loginInfo?.nickname && account === loginInfo?.account && (loginInfo?.phoneNumber !== undefined ? true : phoneNumber === "") && badge === loginInfo?.badge)
+            (nickname === loginInfo?.nickname && account === loginInfo?.account && (loginInfo?.phoneNumber !== undefined && loginInfo?.phoneNumber === phoneNumber ? true : phoneNumber === "") && badge === loginInfo?.badge)
           }
           css={{
             width: "calc(50% - 5px)",
