@@ -272,7 +272,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         className="selectable"
       >
         {loginInfo?.name} 
-        {loginInfo?.phoneNumber !== undefined && (<BadgeImage/>)}
+        {loginInfo?.phoneNumber !== undefined && (<BadgeImage badge_live={badge}/>)}
       </div>
       {loginInfo?.profileImgUrl && (
         <ProfileImageLarge url={loginInfo?.profileImgUrl} />
@@ -289,7 +289,11 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
             gap:"6px",
             }}>
             {t("Badge Display")}
-            <div onClick={() => setBadge(!badge)}>
+            <div
+              onClick={() => {
+                setBadge(!badge);
+              }}
+            >
               <div
                 css={{
                   ...styleCheckBox,

@@ -1,28 +1,34 @@
+import { ReactComponent as BadgeIcon } from "@/static/assets/phone_badge_img.svg";
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
-import Badge from "@/static/assets/profileImgWithPhonNumber.png"
-import {useValueRecoilState} from "@/hooks/useFetchRecoilState";
+type BadgeImageProps = {
+  badge_live?: boolean;
+};
 
-const BadgeImage = () => {
+const BadgeImage = ({ badge_live }: BadgeImageProps) => {
   const loginInfo = useValueRecoilState("loginInfo");
-  if (!loginInfo?.badge) return null;
+
+  // badge_live가 지정되지 않은 경우, loginInfo 체크
+  if (badge_live === undefined && !loginInfo?.badge) return null;
+  // badge_live가 false면 보여주지 않음
+  if (badge_live === false) return null;
+
   return (
     <div
       css={{
         display: "inline-block",
-        width: "1em", // 현재 폰트 크기의 1배, 필요하면 0.8em 등으로 조절
+        width: "1em", // 현재 폰트 크기의 1배
         height: "1em",
         marginLeft: "0.25em",
         verticalAlign: "middle",
       }}
     >
-      <img
-        src={Badge}
+      <BadgeIcon
         css={{
           width: "100%",
           height: "100%",
-          objectFit: "contain",
+          fill: "purple",
         }}
-        alt="Badge-img"
       />
     </div>
   );
