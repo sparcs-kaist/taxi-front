@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Input from ".";
 
 type InputPhoneNumberProps = {
-  value: string; 
+  value: string;
   onChangeValue?: (v: string) => void;
-  className?: string; 
-} & Omit<React.ComponentProps<typeof Input>, 'value' | 'onChange'>;
+  className?: string;
+} & Omit<React.ComponentProps<typeof Input>, "value" | "onChange">;
 
 const InputPhoneNumber = ({
   value,
@@ -13,9 +13,11 @@ const InputPhoneNumber = ({
   className,
   ...inputProps
 }: InputPhoneNumberProps) => {
-
   const [part2, setPart2] = useState("");
   const [part3, setPart3] = useState("");
+
+  const inputRef2 = useRef<HTMLInputElement>(null);
+  const inputRef3 = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const parts = value.split("-");
@@ -23,22 +25,23 @@ const InputPhoneNumber = ({
     setPart3(parts[2] || "");
   }, [value]);
 
-  const handleChange = (
-    setter: (val: string) => void,
-    part: "part2" | "part3"
-  ) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    let newVal = e.target.value.replace(/\D/g, "");
-    const maxLength = 4;
-    newVal = newVal.slice(0, maxLength);
-
-    setter(newVal);
-    
-    const newPart1 = "010";
-    const newPart2 = part === "part2" ? newVal : part2;
-    const newPart3 = part === "part3" ? newVal : part3;
-    onChangeValue && onChangeValue([newPart1, newPart2, newPart3].filter(Boolean).join("-"));
+  const handleChangePart2 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let newVal = e.target.value.replace(/\D/g, "").slice(0, 4);
+    setPart2(newVal);
+    // part2가 4자리면 part3로 포커스 이동
+    if (newVal.length === 4) {
+      inputRef3.current?.focus();
+    }
+    onChangeValue &&
+      onChangeValue(["010", newVal, part3].filter(Boolean).join("-"));
   };
 
+  const handleChangePart3 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let newVal = e.target.value.replace(/\D/g, "").slice(0, 4);
+    setPart3(newVal);
+    onChangeValue &&
+      onChangeValue(["010", part2, newVal].filter(Boolean).join("-"));
+  };
 
   return (
     <div
@@ -53,15 +56,15 @@ const InputPhoneNumber = ({
       <div>010 -</div>
       <Input
         id="tel2"
+        ref={inputRef2}
         value={part2}
-        onChange={handleChange(setPart2, "part2")}
+        onChange={handleChangePart2}
         placeholder="0000"
-        css={{ flexGrow: 1, 
-          minWidth: 0 ,
+        css={{
+          flexGrow: 1,
+          minWidth: 0,
           textAlign: "center",
-          "::placeholder": {
-            textAlign: "center",
-          },
+          "::placeholder": { textAlign: "center" },
         }}
         inputMode="numeric"
         pattern="[0-9]*"
@@ -70,15 +73,15 @@ const InputPhoneNumber = ({
       <div>-</div>
       <Input
         id="tel3"
+        ref={inputRef3}
         value={part3}
-        onChange={handleChange(setPart3, "part3")}
+        onChange={handleChangePart3}
         placeholder="0000"
-        css={{ flexGrow: 1, 
-          minWidth: 0 ,
+        css={{
+          flexGrow: 1,
+          minWidth: 0,
           textAlign: "center",
-          "::placeholder": {
-            textAlign: "center",
-          },
+          "::placeholder": { textAlign: "center" },
         }}
         inputMode="numeric"
         pattern="[0-9]*"
