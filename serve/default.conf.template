@@ -3,7 +3,7 @@ server {
     listen [::]:80;
 
     location ~ ^/invite/(?<room_id>[^/]+) {
-        root  /root/serve;
+        root  /app/serve;
         try_files /invite.html =404;
 
         sub_filter '%ROOM_ID%' $room_id;
@@ -13,7 +13,7 @@ server {
     }
 
     location ~ ^/event/2025spring-invite/(?<inviter_id>[^/]+) {
-        root  /root/serve;
+        root  /app/serve;
         try_files /invite-event.html =404;
 
         sub_filter '%INVITER_ID%' $inviter_id;
@@ -23,7 +23,7 @@ server {
     }
 
     location / {
-        root   /root/build;
+        root   /app/build;
         index  index.html index.htm;
         try_files $uri $uri/ /index.html;
 
