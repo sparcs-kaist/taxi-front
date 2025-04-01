@@ -11,12 +11,16 @@ import Modal from "@/components/Modal";
 import FlipButton from "@/components/ModalRoomOptions/FlipButton";
 import WhiteContainer from "@/components/WhiteContainer";
 
+import { ModalFavoriteRoute } from "../ModalPopup";
 import Picker from "./Picker";
 
 import theme from "@/tools/theme";
 import { getLocationName } from "@/tools/trans";
 
-import { WrapText } from "@mui/icons-material";
+import StarIcon from "@mui/icons-material/Star";
+import UnfoldLessRoundedIcon from "@mui/icons-material/UnfoldLessRounded";
+import UnfoldMoreRoundedIcon from "@mui/icons-material/UnfoldMoreRounded";
+import { purple } from "@mui/material/colors";
 
 const PopupInput = (props) => {
   const [value, setValue] = useState({
@@ -163,6 +167,8 @@ const Place = (props) => {
   const [isPopup1, setPopup1] = useState(false);
   const [isPopup2, setPopup2] = useState(false);
   const taxiLocations = useValueRecoilState("taxiLocations");
+  const [isOpenFavorite, setIsOpenFavorite] = useState(false);
+
   const taxiLocationsWithName = useMemo(
     () =>
       taxiLocations.reduce((acc, place) => {
@@ -182,79 +188,86 @@ const Place = (props) => {
     return place && getLocationName(place, "ko");
   };
 
+  const styleArrow = {
+    width: "24px",
+    height: "24px",
+    fill: theme.purple,
+    ...theme.cursor(),
+  };
+
+  const styleFavorite = {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: "8px",
+  };
+
   return (
     <WhiteContainer css={{ padding: "10px" }}>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <PlaceElement
+      <div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            position: "relative",
+          }}
+        >
+          <PlaceElement
+            value={getPlaceName(props.value[0])}
+            onClick={() => setPopup1(true)}
+            type="from"
+          />
+          <DottedLine direction="column" />
+          <FlipButton
+            onClick={() => props.handler([props.value[1], props.value[0]])}
+            disabled={!props.value[0] && !props.value[1]}
+          />
+          <PlaceElement
+            value={getPlaceName(props.value[1])}
+            onClick={() => setPopup2(true)}
+            type="to"
+          />
+        </div>
+        <PopupInput
+          isOpen={isPopup1}
+          onClose={() => setPopup1(false)}
           value={getPlaceName(props.value[0])}
-          onClick={() => setPopup1(true)}
-          type="from"
+          handler={(x) => props.handler([x, props.value[1]])}
+          placeOptions={taxiLocationsWithName}
         />
-        <DottedLine direction="column" />
-        <FlipButton
-          onClick={() => props.handler([props.value[1], props.value[0]])}
-          disabled={!props.value[0] && !props.value[1]}
-        />
-        <PlaceElement
+        <PopupInput
+          isOpen={isPopup2}
+          onClose={() => setPopup2(false)}
           value={getPlaceName(props.value[1])}
-          onClick={() => setPopup2(true)}
-          type="to"
+          handler={(x) => props.handler([props.value[0], x])}
+          placeOptions={taxiLocationsWithName}
         />
       </div>
-      <PopupInput
-        isOpen={isPopup1}
-        onClose={() => setPopup1(false)}
-        value={getPlaceName(props.value[0])}
-        handler={(x) => props.handler([x, props.value[1]])}
-        placeOptions={taxiLocationsWithName}
-      />
-      <PopupInput
-        isOpen={isPopup2}
-        onClose={() => setPopup2(false)}
-        value={getPlaceName(props.value[1])}
-        handler={(x) => props.handler([props.value[0], x])}
-        placeOptions={taxiLocationsWithName}
-      />
-      <div
-        css={{
-          display: "flex",
-          flexDirection: "row",
-          gap: "8px",
-        }}
-      >
-        <Button
-          type="purple_inset"
-          disabled={false}
-          css={{
-            padding: "6px 0",
-            borderRadius: "12px",
-            width: "100px",
-            ...theme.font12,
-          }}
-          onClick={() => {}}
-          className="scroll-to-button"
-        >
+      <div css={styleFavorite}>
+        <StarIcon style={{ fontSize: "16px", color: theme.purple }} />
+        <div css={{ flexShrink: 0, color: theme.purple, ...theme.font14_bold }}>
           즐겨찾는 경로
-          <br />
-          불러오기
-        </Button>
-        <Button
-          type="purple_inset"
-          disabled={false}
-          css={{
-            padding: "6px 0",
-            borderRadius: "12px",
-            width: "100px",
-            ...theme.font12,
-          }}
-          onClick={() => {}}
-          className="scroll-to-button"
-        >
-          즐겨찾는 경로로
-          <br />
-          저장하기
-        </Button>
+        </div>
+        <DottedLine />
+        {isOpenFavorite ? (
+          <UnfoldLessRoundedIcon
+            style={styleArrow}
+            onClick={() => setIsOpenFavorite(false)}
+          />
+        ) : (
+          <UnfoldMoreRoundedIcon
+            style={styleArrow}
+            onClick={() => setIsOpenFavorite(true)}
+          />
+        )}
       </div>
+
+      {isOpenFavorite && (
+        <>
+          즐겨찾기 목록을 <br /> 띄워보아요!
+        </>
+      )}
     </WhiteContainer>
   );
 };
