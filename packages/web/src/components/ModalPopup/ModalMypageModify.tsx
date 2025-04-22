@@ -9,6 +9,7 @@ import {
 } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
+import Tooltip from "@/components/Tooltip";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import Button from "@/components/Button";
 import DottedLine from "@/components/DottedLine";
@@ -25,6 +26,7 @@ import { useSetRecoilState } from "recoil";
 import { convertImage } from "@/tools/image";
 import regExpTest from "@/tools/regExpTest";
 import theme from "@/tools/theme";
+import ToolTip from "../Tooltip";
 
 type ModalMypageModifyProps = Omit<
   Parameters<typeof Modal>[0],
@@ -196,16 +198,16 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
     if (phoneNumber !== "") {
       isNeedToUpdateLoginInfo = true;
       await axios({
-        url: "/users/createPhoneNumber",
+        url: "/users/registerPhoneNumber",
         method: "post",
-        data: { phonenumber:phoneNumber },
+        data: { phoneNumber:phoneNumber },
         onError: () => setAlert(t("page_modify.phone_number_failed")),
       });
     }
     if (badge == true) {
       isNeedToUpdateLoginInfo = true;
       await axios({
-        url: "/users/badge",
+        url: "/users/editbadge",
         method: "post",
         data: { badge:"true" },
         onError: () => setAlert(t("page_modify.badge_display_failed")),
@@ -214,7 +216,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
     if (badge == false) {
       isNeedToUpdateLoginInfo = true;
       await axios({
-        url: "/users/badge",
+        url: "/users/editbadge",
         method: "post",
         data: { badge:"false" },
         onError: () => setAlert(t("page_modify.badge_display_failed")),
@@ -264,6 +266,12 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
     height: "14px",
     fill: theme.white,
   };
+  const styleMarkIcon = {
+    fontSize: "14px",
+    fontWeight: 700,
+    margin: "0 4px 4px 0",
+    color: theme.black,
+  };
 
   return (
     <Modal padding="32px 10px 10px" onEnter={handleEditProfile} {...modalProps}>
@@ -280,18 +288,25 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
       <ButtonProfileImage />
       <div>
         {loginInfo?.phoneNumber !== undefined && (
-          <div css={{
-            justifyContent: "flex-end", // 오른쪽 정렬
-            ...styleTitle,
-            rowGap: "10px",
-            padding: "0px 20px",
-            marginBottom: "8px",
-            gap:"6px",
-            }}>
+          <div
+            css={{
+              justifyContent: "flex-end", // 오른쪽 정렬
+              ...styleTitle,
+              rowGap: "10px",
+              padding: "0px 20px",
+              marginBottom: "8px",
+              gap: "6px",
+            }}
+          >
             {t("Badge Display")}
             <div
               onClick={() => {
                 setBadge(!badge);
+              }}
+              css={{
+                display: "flex",
+                alignItems: "center",
+                gap: "4px",
               }}
             >
               <div
@@ -302,6 +317,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
               >
                 <CheckRoundedIcon style={styleCheckBoxIcon} />
               </div>
+              <Tooltip text="전화번호 입력 시 적용되는 배지입니다." />
             </div>
           </div>
         )}
@@ -364,7 +380,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
           type="purple_inset"
           disabled={
             !isEditable ||
-            ((nickname === loginInfo?.nickname && account === loginInfo?.account && badge === loginInfo?.badge && (loginInfo?.phoneNumber !== undefined ? true : phoneNumber === "")) || phoneNumber.length<13)
+            ((nickname === loginInfo?.nickname && account === loginInfo?.account && badge === loginInfo?.badge && (loginInfo?.phoneNumber !== undefined ? true : phoneNumber === "")) || !(phoneNumber === "" || phoneNumber.length >= 13))
           }
           css={{
             width: "calc(50% - 5px)",
