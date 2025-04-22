@@ -16,6 +16,11 @@ import {
   useValueEvent2024SpringInfo,
 } from "./useFetchEvent2024SpringInfo";
 import {
+  useFetchFavoriteRoutes,
+  useSetFavoriteRoutes,
+  useValueFavoriteRoutes,
+} from "./useFetchFavoriteRoutes";
+import {
   useFetchLoginInfo,
   useSetLoginInfo,
   useValueLoginInfo,
@@ -39,6 +44,7 @@ import {
 import { Event2023FallInfoType } from "@/atoms/event2023FallInfo";
 import { Event2024FallInfoType } from "@/atoms/event2024FallInfo";
 import { Event2024SpringInfoType } from "@/atoms/event2024SpringInfo";
+import { FavoriteRoutesType } from "@/atoms/favoriteRoutes";
 import { LoginInfoType } from "@/atoms/loginInfo";
 import { MyRoomsType } from "@/atoms/myRooms";
 import { notificationOptionsType } from "@/atoms/notificationOptions";
@@ -51,7 +57,8 @@ export type AtomName =
   | "notificationOptions"
   | "event2023FallInfo"
   | "event2024SpringInfo"
-  | "event2024FallInfo";
+  | "event2024FallInfo"
+  | "favoriteRoutes";
 
 type useValueRecoilStateType = {
   (atomName: "loginInfo"): LoginInfoType;
@@ -61,6 +68,7 @@ type useValueRecoilStateType = {
   (atomName: "event2023FallInfo"): Event2023FallInfoType;
   (atomName: "event2024SpringInfo"): Event2024SpringInfoType;
   (atomName: "event2024FallInfo"): Event2024FallInfoType;
+  (atomName: "favoriteRoutes"): FavoriteRoutesType;
 };
 const _useValueRecoilState = (atomName: AtomName) => {
   switch (atomName) {
@@ -78,6 +86,8 @@ const _useValueRecoilState = (atomName: AtomName) => {
       return useValueEvent2024SpringInfo();
     case "event2024FallInfo":
       return useValueEvent2024FallInfo();
+    case "favoriteRoutes":
+      return useValueFavoriteRoutes();
   }
 };
 export const useValueRecoilState =
@@ -99,6 +109,8 @@ export const useSetRecoilState = (atomName: AtomName) => {
       return useSetEvent2024SpringInfo();
     case "event2024FallInfo":
       return useSetEvent2024FallInfo();
+    case "favoriteRoutes":
+      return useSetFavoriteRoutes();
   }
 };
 
@@ -118,6 +130,8 @@ export const useFetchRecoilState = (atomName: AtomName) => {
       return useFetchEvent2024SpringInfo();
     case "event2024FallInfo":
       return useFetchEvent2024FallInfo();
+    case "favoriteRoutes":
+      return useFetchFavoriteRoutes();
   }
 };
 
@@ -152,6 +166,10 @@ export const useSyncRecoilStateEffect = () => {
   // event2024FallInfo 초기화 및 동기화
   const fetchEvent2024FallInfo = useFetchRecoilState("event2024FallInfo");
   useEffect(fetchEvent2024FallInfo, [userId]);
+
+  // favoriteRoutes 초기화 및 동기화
+  const fetchFavoriteRoutes = useFetchRecoilState("favoriteRoutes");
+  useEffect(fetchFavoriteRoutes, [userId]);
 };
 
 export const useIsLogin = (): boolean => {
