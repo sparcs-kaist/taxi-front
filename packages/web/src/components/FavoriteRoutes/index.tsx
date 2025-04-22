@@ -1,20 +1,10 @@
-import { useCallback } from "react";
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
-import useQuery, { useAxios } from "@/hooks/useTaxiAPI";
+import { FavoriteRouteType } from "@/atoms/favoriteRoutes";
 
 import theme from "@/tools/theme";
 
-const { favoriteRoutesList } =
-  useQuery.get("/users/getFavorite", {}, ["favoriteRoutesToken"])[1] || {};
-
 const FavoriteRoutes = () => {
-  const axios = useAxios();
-
-  const getFavoriteRoutes = useCallback(async () => {
-    const { data } = await axios({ url: "/users/getFavorite", method: "get" });
-    return data;
-  }, [axios]);
-
   const styleTop: CSS = {
     display: "flex",
     alignItems: "center",
@@ -22,11 +12,12 @@ const FavoriteRoutes = () => {
     ...theme.font16_bold,
     columnGap: "8px",
   };
+  const favoriteRoutes = useValueRecoilState("favoriteRoutes") || [];
 
   return (
     <div>
       <div style={styleTop}>으하하</div>
-      {favoriteRoutesList.map((route: any) => (
+      {favoriteRoutes.data.map((route: FavoriteRouteType) => (
         <div key={route.from._id}>
           {route.from.koName} - {route.to.koName}
         </div>

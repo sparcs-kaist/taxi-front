@@ -8,7 +8,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 
 export const useValueFavoriteRoutes = () => useRecoilValue(favoriteRoutesAtom);
 export const useSetFavoriteRoutes = () => useSetRecoilState(favoriteRoutesAtom);
-export const useFetchMyRooms = () => {
+export const useFetchFavoriteRoutes = () => {
   const setFavoriteRoutes = useSetFavoriteRoutes();
   const axios = useAxios();
 
@@ -17,7 +17,7 @@ export const useFetchMyRooms = () => {
       axios({
         url: "/users/getFavorite",
         method: "get",
-        onSuccess: (data) => setFavoriteRoutes(data),
+        onSuccess: (data) => setFavoriteRoutes({ data: data }),
         onError: onError,
       });
     },
