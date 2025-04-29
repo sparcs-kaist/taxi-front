@@ -4,11 +4,19 @@ import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import { useFetchFavoriteRoutes } from "@/hooks/useFetchRecoilState/useFetchFavoriteRoutes";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
+import FavoriteRouteItem from "./items/favoriteRouteItem";
+
+import alertAtom from "@/atoms/alert";
 import { FavoriteRouteType } from "@/atoms/favoriteRoutes";
+import { useSetRecoilState } from "recoil";
 
 import theme from "@/tools/theme";
 
-const FavoriteRoutes = () => {
+type favoriteRouteProps = {
+  placeValues: string[]; // [newFrom: string, newTo: string] : 장소 선택 칸에 입력된 두 위치를 상위 컴포넌트에서 state로 관리하며 props로 전달
+};
+
+const FavoriteRoutes = ({ placeValues }: favoriteRouteProps) => {
   const styleTop: CSS = {
     display: "flex",
     alignItems: "center",
@@ -20,6 +28,7 @@ const FavoriteRoutes = () => {
   const isAxiosCalled = useRef(false);
   const axios = useAxios();
   const fetchFavoriteRoutes = useFetchFavoriteRoutes();
+  const setAlert = useSetRecoilState(alertAtom);
 
   const onCreateFavorite = useCallback(
     async (from: string, to: string) => {
@@ -33,6 +42,17 @@ const FavoriteRoutes = () => {
         url: "/users/createFavorite",
         method: "post",
         data,
+        onError: (error: any) => {
+          if (
+            error.response?.status === 400 &&
+            error.response?.data?.error ===
+              "Users/createFavorite: route already exists"
+          ) {
+            setAlert("이미 존재하는 경로입니다.");
+          } else {
+            setAlert("즐겨찾기 추가에 실패하였습니다.");
+          }
+        },
       }).then(() => {
         fetchFavoriteRoutes();
         isAxiosCalled.current = false;
@@ -46,18 +66,13 @@ const FavoriteRoutes = () => {
       <div
         style={styleTop}
         onClick={() => {
-          onCreateFavorite(
-            "67985fcebe99bc902387d0c3",
-            "67985fcebe99bc902387d0c9"
-          );
+          onCreateFavorite(placeValues[0], placeValues[1]);
         }}
       >
-        으하하
+        테스트용 추가 버튼
       </div>
       {favoriteRoutes.data.map((route: FavoriteRouteType) => (
-        <div key={route.from._id}>
-          {route.from.koName} - {route.to.koName}
-        </div>
+        <FavoriteRouteItem key={route._id} {...route}></FavoriteRouteItem>
       ))}
     </div>
   );

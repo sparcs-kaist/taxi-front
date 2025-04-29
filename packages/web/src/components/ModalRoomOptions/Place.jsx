@@ -170,6 +170,16 @@ const Place = (props) => {
   const [isPopup2, setPopup2] = useState(false);
   const taxiLocations = useValueRecoilState("taxiLocations");
   const [isOpenFavorite, setIsOpenFavorite] = useState(false);
+  const [placeValues, setPlaceValues] = useState([null, null]); // FavoriteRoutes에 넘겨주기 위함
+
+  console.log(props);
+
+  useEffect(() => {
+    // FavoriteRoutes에 넘겨주기 위함
+    const placeValues = [props.value[0], props.value[1]];
+    setPlaceValues(placeValues);
+    console.log(placeValues);
+  }, [props.value]);
 
   const taxiLocationsWithName = useMemo(
     () =>
@@ -265,7 +275,7 @@ const Place = (props) => {
         )}
       </div>
 
-      {isOpenFavorite && <FavoriteRoutes />}
+      {isOpenFavorite && <FavoriteRoutes placeValues={placeValues} />}
     </WhiteContainer>
   );
 };
