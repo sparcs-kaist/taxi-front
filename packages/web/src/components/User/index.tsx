@@ -1,3 +1,4 @@
+import BadgeImage from "./BadgeImage";
 import ProfileImage from "./ProfileImage";
 
 import theme from "@/tools/theme";
@@ -49,6 +50,7 @@ const User = ({ value, isDeparted }: UserProps) => {
         )}
         {isWithdrew && <span style={theme.font8}>{" (탈퇴)"}</span>}
       </div>
+      <BadgeImage badge_live={value.badge}/>
     </div>
   );
 };

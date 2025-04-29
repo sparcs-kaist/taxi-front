@@ -14,6 +14,7 @@ import MessageImage from "./MessageImage";
 import MessagePaySettlement from "./MessagePaySettlement";
 import MessageShare from "./MessageShare";
 import MessageText from "./MessageText";
+import BadgeImage from "@/components/User/BadgeImage";
 
 import { getChatUniquewKey } from "@/tools/chat/chats";
 import dayjs from "@/tools/day";
@@ -78,6 +79,10 @@ const MessageSet = ({
     "authorIsWithdrew" in chats?.[0] ? chats?.[0].authorIsWithdrew : false;
 
   const isBot = authorId === "bot";
+  const author = isBot
+  ? undefined
+  : roomInfo.part.find((p) => p._id === authorId);
+  const authorBadge = author?.badge;
   const isAlone = roomInfo.part.length === 1;
 
   // Chat의 time에 따라 안 읽은 사람 수 설정
@@ -210,8 +215,10 @@ const MessageSet = ({
             ) : (
               <div css={styleName} className="selectable">
                 {authorName}
+                <BadgeImage badge_live={!!authorBadge && !isBot}/>
               </div>
             ))}
+
           {chats.map((chat, index) => (
             <div key={getChatUniquewKey(chat)} css={styleMessageWrap}>
               <div css={styleChat(chat.type)}>

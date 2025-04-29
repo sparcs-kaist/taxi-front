@@ -9,7 +9,7 @@ import {
 } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
-import Tooltip from "@/components/Tooltip";
+import BadgeTooltip from "@/components/Tooltip_badge";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import Button from "@/components/Button";
 import DottedLine from "@/components/DottedLine";
@@ -26,7 +26,6 @@ import { useSetRecoilState } from "recoil";
 import { convertImage } from "@/tools/image";
 import regExpTest from "@/tools/regExpTest";
 import theme from "@/tools/theme";
-import ToolTip from "../Tooltip";
 
 type ModalMypageModifyProps = Omit<
   Parameters<typeof Modal>[0],
@@ -160,8 +159,8 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
     if (modalProps.isOpen) {
       setNickname(loginInfo?.nickname || "");
       setAccount(loginInfo?.account || "");
-      setPhoneNumber(loginInfo?.phoneNumber || ""); 
-      setBadge(loginInfo?.badge ?? true); 
+      setPhoneNumber(loginInfo?.phoneNumber || "");
+      setBadge(loginInfo?.badge || false);  
     }
   }, [loginInfo, modalProps.isOpen]);
 
@@ -266,12 +265,6 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
     height: "14px",
     fill: theme.white,
   };
-  const styleMarkIcon = {
-    fontSize: "14px",
-    fontWeight: 700,
-    margin: "0 4px 4px 0",
-    color: theme.black,
-  };
 
   return (
     <Modal padding="32px 10px 10px" onEnter={handleEditProfile} {...modalProps}>
@@ -317,7 +310,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
               >
                 <CheckRoundedIcon style={styleCheckBoxIcon} />
               </div>
-              <Tooltip text="전화번호 입력 시 적용되는 배지입니다." />
+              <BadgeTooltip text="이 배지가 있는 회원분들은 문제가 생길 시 스팍스의 중계를 통해 문제를 해결할 수 있습니다." />
             </div>
           </div>
         )}

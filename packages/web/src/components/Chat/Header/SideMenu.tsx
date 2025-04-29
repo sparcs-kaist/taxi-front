@@ -210,7 +210,7 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
               {roomInfo.part.map((item) => (
                 <User key={item._id} value={item} isDeparted={isDeparted} />
               ))}
-            </div>
+            </div> 
           </div>
           <DottedLine />
           {taxiFare !== 0 ? (
