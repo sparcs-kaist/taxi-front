@@ -61,6 +61,24 @@ const FavoriteRoutes = ({ placeValues }: favoriteRouteProps) => {
     [fetchFavoriteRoutes, isAxiosCalled]
   );
 
+  const onDeleteFavorite = useCallback(
+    async (favoriteRouteId: string) => {
+      if (isAxiosCalled.current) return;
+      isAxiosCalled.current = true;
+      await axios({
+        url: `/users/deleteFavorite/${favoriteRouteId}`,
+        method: "post",
+        onError: (error: any) => {
+          setAlert("즐겨찾기 삭제에 실패하였습니다.");
+        },
+      }).then(() => {
+        fetchFavoriteRoutes();
+        isAxiosCalled.current = false;
+      });
+    },
+    [fetchFavoriteRoutes, isAxiosCalled]
+  );
+
   return (
     <div>
       <div
@@ -72,7 +90,11 @@ const FavoriteRoutes = ({ placeValues }: favoriteRouteProps) => {
         테스트용 추가 버튼
       </div>
       {favoriteRoutes.data.map((route: FavoriteRouteType) => (
-        <FavoriteRouteItem key={route._id} {...route}></FavoriteRouteItem>
+        <FavoriteRouteItem
+          key={route._id}
+          onDelete={onDeleteFavorite}
+          {...route}
+        ></FavoriteRouteItem>
       ))}
     </div>
   );

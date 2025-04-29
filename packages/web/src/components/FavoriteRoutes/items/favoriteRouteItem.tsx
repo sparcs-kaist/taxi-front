@@ -1,7 +1,16 @@
 import { FavoriteRouteType } from "@/atoms/favoriteRoutes";
 
-const FavoriteRouteItem = ({ _id, from, to }: FavoriteRouteType) => (
-  <div key={_id}>
+type FavoriteRouteItemProps = FavoriteRouteType & {
+  onDelete: (id: string) => void;
+};
+
+const FavoriteRouteItem = ({
+  _id,
+  from,
+  to,
+  onDelete,
+}: FavoriteRouteItemProps) => (
+  <div key={_id} onClick={() => onDelete(_id || "")}>
     {from.koName} - {to.koName}
   </div>
 );
