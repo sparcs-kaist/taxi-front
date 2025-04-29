@@ -29,7 +29,6 @@ const Home = () => {
   return (
     <>
       <InfoSection />
-      <div css={{ marginTop: "-10px" }} />
       <NoticeSection />
       <EventSection />
       <RoomSection roomId={roomId} />
