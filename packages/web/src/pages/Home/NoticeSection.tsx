@@ -21,7 +21,8 @@ type NoticeProps = {
 
 const NoticeSection = () => {
   const [recordMap, setRecordMap] = useState<ExtendedRecordMap>();
-  const notion = new NotionAPI();
+  const [detailTitle, setDetailTitle] = useState("");
+  const notion = new NotionAPI({ apiBaseUrl: "/notion" });
   const [error, noticeData, isLoading] = useQuery.get(`/notice/list`);
   const [noticeIndex, setNoticeIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
@@ -29,10 +30,12 @@ const NoticeSection = () => {
   const openNotice = async (idx: number) => {
     if (!noticeData?.notices[idx]) return;
     setNoticeIndex(idx);
-    setRecordMap(undefined); // 로딩 상태 표시
+    setRecordMap(undefined);
+    setDetailTitle("");
     try {
       const pageId = noticeData.notices[idx].notion_url;
       const data = await notion.getPage(pageId);
+      setDetailTitle(noticeData.notices[idx].title);
       setRecordMap(data);
       setIsOpen(true);
     } catch (err) {
@@ -60,7 +63,7 @@ const NoticeSection = () => {
   return (
     !error &&
     !isLoading && (
-      <AdaptiveDiv type="center" style={{ marginTop: "15px" }}>
+      <AdaptiveDiv type="center">
         <Title icon="notice" isHeader>
           공지사항
         </Title>
@@ -72,22 +75,25 @@ const NoticeSection = () => {
             flexDirection: "column",
           }}
         >
-          {noticeData.notices.map((notice: NoticeProps, idx: number) => (
-            <NoticeItem
-              key={notice.title}
-              is_active={notice.is_active}
-              is_pinned={notice.is_pinned}
-              title={notice.title}
-              onClickHandler={() => {
-                openNotice(idx);
-              }}
-            />
-          ))}
+          {noticeData.notices.map(
+            (notice: NoticeProps, idx: number) =>
+              notice.is_active && (
+                <NoticeItem
+                  key={notice.title}
+                  is_pinned={notice.is_pinned}
+                  title={notice.title}
+                  onClickHandler={() => {
+                    openNotice(idx);
+                  }}
+                />
+              )
+          )}
         </div>
         <ModalNoticeDetail
           isOpen={isOpen}
           onChangeIsOpen={setIsOpen}
           recordMap={recordMap}
+          title={detailTitle}
         />
       </AdaptiveDiv>
     )
