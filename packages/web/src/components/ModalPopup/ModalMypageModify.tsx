@@ -19,6 +19,7 @@ import InputPhoneNumber from "@/components/Input/InputPhoneNumber";
 import Modal from "@/components/Modal";
 import ProfileImage from "@/components/User/ProfileImage";
 import BadgeImage from "@/components/User/BadgeImage";
+import PhoneAgreeModal from "@/components/ModalPopup/ModalPhoneAgree";
 
 import alertAtom from "@/atoms/alert";
 import { useSetRecoilState } from "recoil";
@@ -147,6 +148,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
   const [account, setAccount] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [badge, setBadge] = useState<boolean>(false);
+  const [PhoneAgreeModalOpen, setPhoneAgreeModalOpen] = useState(false);
 
   const loginInfo = useValueRecoilState("loginInfo");
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
@@ -194,15 +196,13 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         //#endregion
       });
     }
-    if (phoneNumber !== "") {
-      isNeedToUpdateLoginInfo = true;
-      await axios({
-        url: "/users/registerPhoneNumber",
-        method: "post",
-        data: { phoneNumber:phoneNumber },
-        onError: () => setAlert(t("page_modify.phone_number_failed")),
-      });
+
+    const hadPhone = loginInfo?.phoneNumber !== undefined;
+    if (!hadPhone && phoneNumber) {
+      setPhoneAgreeModalOpen(true);
+      return;
     }
+
     if (badge == true) {
       isNeedToUpdateLoginInfo = true;
       await axios({
@@ -225,6 +225,23 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
       fetchLoginInfo();
     }
     modalProps.onChangeIsOpen?.(false);
+  };
+
+  const handlePhoneNumberYes = async () => {
+    await axios({
+      url: "/users/registerPhoneNumber",
+      method: "post",
+      data: { phoneNumber },
+      onError: () => setAlert(t("page_modify.phone_number_failed")),
+    });
+    fetchLoginInfo();
+    setPhoneAgreeModalOpen(false);
+    modalProps.onChangeIsOpen?.(false);
+  };
+  const handlePhoneNumberNo = () => {
+    setPhoneAgreeModalOpen(false);
+    modalProps.onChangeIsOpen?.(true);
+    setPhoneNumber(loginInfo?.phoneNumber || "");
   };
 
   const styleName = {
@@ -267,6 +284,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
   };
 
   return (
+    <>
     <Modal padding="32px 10px 10px" onEnter={handleEditProfile} {...modalProps}>
       <div 
         css={styleName} 
@@ -387,6 +405,12 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         </Button>
       </div>
     </Modal>
+    <PhoneAgreeModal
+        isOpen={PhoneAgreeModalOpen}
+        onConfirm={handlePhoneNumberYes}
+        onCancel={handlePhoneNumberNo}
+    />
+    </>
   );
 };
 
