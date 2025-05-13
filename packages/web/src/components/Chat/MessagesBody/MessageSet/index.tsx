@@ -5,6 +5,7 @@ import type { BotChat, LayoutType, UserChat } from "@/types/chat";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import { ModalChatReport } from "@/components/ModalPopup";
+import BadgeImage from "@/components/User/BadgeImage";
 import ProfileImage from "@/components/User/ProfileImage";
 
 import MessageAccount from "./MessageAccount";
@@ -14,7 +15,6 @@ import MessageImage from "./MessageImage";
 import MessagePaySettlement from "./MessagePaySettlement";
 import MessageShare from "./MessageShare";
 import MessageText from "./MessageText";
-import BadgeImage from "@/components/User/BadgeImage";
 
 import { getChatUniquewKey } from "@/tools/chat/chats";
 import dayjs from "@/tools/day";
@@ -80,8 +80,8 @@ const MessageSet = ({
 
   const isBot = authorId === "bot";
   const author = isBot
-  ? undefined
-  : roomInfo.part.find((p) => p._id === authorId);
+    ? undefined
+    : roomInfo.part.find((p) => p._id === authorId);
   const authorBadge = author?.badge;
   const isAlone = roomInfo.part.length === 1;
 
@@ -215,7 +215,7 @@ const MessageSet = ({
             ) : (
               <div css={styleName} className="selectable">
                 {authorName}
-                <BadgeImage badge_live={!!authorBadge && !isBot}/>
+                <BadgeImage badge_live={!!authorBadge && !isBot} />
               </div>
             ))}
 

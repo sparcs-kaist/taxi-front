@@ -22,8 +22,8 @@ import {
   ModalTerms,
 } from "@/components/ModalPopup";
 import Title from "@/components/Title";
-import ProfileImage from "@/components/User/ProfileImage";
 import BadgeImage from "@/components/User/BadgeImage";
+import ProfileImage from "@/components/User/ProfileImage";
 import WhiteContainer from "@/components/WhiteContainer";
 import WhiteContainerSuggestLogin from "@/components/WhiteContainer/WhiteContainerSuggestLogin";
 
@@ -35,7 +35,6 @@ import { useSetRecoilState } from "recoil";
 import { eventMode, isDev } from "@/tools/loadenv";
 import theme from "@/tools/theme";
 import { isNotificationOn } from "@/tools/trans";
-
 
 const Mypage = () => {
   const { t, i18n } = useTranslation("mypage");
@@ -146,12 +145,9 @@ const Mypage = () => {
                   <ProfileImage url={loginInfo.profileImgUrl} />
                 )}
               </div>
-              <div 
-                css={theme.font16_bold} 
-                className="selectable"
-              >
-                {loginInfo?.name} 
-                {loginInfo?.phoneNumber !== undefined && (<BadgeImage/>)}
+              <div css={theme.font16_bold} className="selectable">
+                {loginInfo?.name}
+                {loginInfo?.phoneNumber !== undefined && <BadgeImage />}
               </div>
             </div>
             <div css={infoTitle}>

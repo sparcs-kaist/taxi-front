@@ -82,7 +82,7 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
   const [isOpenReport, setIsOpenReport] = useState<boolean>(false);
   const [isOpenCancel, setIsOpenCancel] = useState<boolean>(false);
   const isDeparted = useIsTimeOver(dayServerToClient(roomInfo.time)); // 방 출발 여부
-  
+
   const onClikcShare = useCallback(() => setIsOpenShare(true), []);
   const onClickCancel = useCallback(
     () =>
@@ -210,7 +210,7 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
               {roomInfo.part.map((item) => (
                 <User key={item._id} value={item} isDeparted={isDeparted} />
               ))}
-            </div> 
+            </div>
           </div>
           <DottedLine />
           {taxiFare !== 0 ? (
