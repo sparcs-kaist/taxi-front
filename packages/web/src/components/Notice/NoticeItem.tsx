@@ -13,23 +13,25 @@ type NoticeItemProps = {
 
 const NoticeItem = ({ is_pinned, title, onClickHandler }: NoticeItemProps) => {
   const styleBox = {
-    padding: "24px 0",
-    border: "0.25px solid " + theme.gray_line,
+    padding: "10px 0",
+    border: "0.25px solid " + theme.black,
     borderRadius: "8px",
+    "&:hover": {
+      background: theme.gray_background,
+    },
+  };
+
+  const styleButton = {
+    whiteSpace: "nowrap",
+    alignItems: "center",
+    display: "flex",
+    gap: "8px",
+    marginTop: "0",
   };
 
   return (
-    <div style={styleBox}>
-      <Button
-        onClick={onClickHandler}
-        style={{
-          whiteSpace: "nowrap",
-          alignItems: "center",
-          display: "flex",
-          gap: "8px",
-          marginTop: "0",
-        }}
-      >
+    <div css={styleBox}>
+      <Button onClick={onClickHandler} css={styleButton}>
         {is_pinned ? <NotificationImportantIcon /> : <NotificationsIcon />}
         {title}
       </Button>
