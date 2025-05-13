@@ -49,7 +49,14 @@ const FavoriteRoutes = ({ placeValues }: favoriteRouteProps) => {
               "Users/createFavorite: route already exists"
           ) {
             setAlert("이미 존재하는 경로입니다.");
-          } else {
+          } else if (
+            error.response?.status === 400 &&
+            error.response?.data?.error ===
+              "Users/createFavorite: Location not found"
+          ) {
+            setAlert("올바른 경로를 입력해 주세요.");
+          }
+          {
             setAlert("즐겨찾기 추가에 실패하였습니다.");
           }
         },
