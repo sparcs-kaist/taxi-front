@@ -28,6 +28,12 @@ export default defineConfig(({ mode }) => {
           target: env.REACT_APP_IO_URL ?? "http://localhost:9000",
           ws: true,
         },
+        "/notion": {
+          target: "https://www.notion.so",
+          changeOrigin: true,
+          secure: true,
+          rewrite: (path) => path.replace(/^\/notion/, "/api/v3"),
+        },
       },
     },
   };
