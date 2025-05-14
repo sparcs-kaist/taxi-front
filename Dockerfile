@@ -1,40 +1,38 @@
-FROM nginx:1.24.0
-WORKDIR /root
+#
+# First stage: build the app
+#
+FROM node:16.15.1 AS builder
 
-# Install curl & node & npm (from nvm)
-ENV NODE_VERSION v16.15.0
-RUN apt-get -qq update; \
-    apt-get -qq install curl; \
-    curl https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash; \
-    . /root/.nvm/nvm.sh; \
-    nvm install $NODE_VERSION; \
-    nvm alias default $NODE_VERSION; \
-    nvm use --delete-prefix default
-ENV PATH /root/.nvm/versions/node/$NODE_VERSION/bin:$PATH
+WORKDIR /app
 
-# Install base dependencies
-RUN npm install --global pnpm@8.6.6 serve@14.1.2 react-inject-env@2.1.0
+# Install pnpm
+RUN npm install --global pnpm@8
 
-# Copy lockfile and prefetch depdendencies
-COPY pnpm-lock.yaml .
+# pnpm fetch does require only lockfile
+COPY pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm fetch
 
-# Copy repository
-COPY . .
+COPY . ./
+RUN pnpm --filter-prod @taxi/web... install --offline && \
+    pnpm --filter-prod @taxi/web... build
 
-# Build
-RUN pnpm --filter @taxi/web... install --offline; \
-    pnpm --filter @taxi/web... build
-
-# Move built files to root
-RUN mv /root/packages/web/build .
-RUN chmod 711 /root
+#
+# Second stage: serve the app
+#
+FROM nginx:1.26.3-alpine
 
 # Set default environment variables
 ENV REACT_APP_BACK_URL=https://taxi.sparcs.org/api \
     REACT_APP_FRONT_URL=https://taxi.sparcs.org \
     REACT_APP_OG_URL=https://og-image.taxi.sparcs.org
 
-# Serve with injected environment variables
+# Install node & react-inject-env
+RUN apk add --no-cache nodejs npm && \
+    npm install --global react-inject-env@2.1.0
+
+COPY --from=builder /app/packages/web/build /app/build/
+COPY serve /app/serve/
+RUN chmod +x /app/serve/
+
 EXPOSE 80
-CMD ["sh", "-c", "envsubst '$$REACT_APP_FRONT_URL $$REACT_APP_OG_URL' < serve/default.conf > /etc/nginx/conf.d/default.conf && npx react-inject-env set && nginx -g 'daemon off;'"]
+CMD ["sh", "-c", "envsubst '$$REACT_APP_FRONT_URL $$REACT_APP_OG_URL' < /app/serve/default.conf.template > /etc/nginx/conf.d/default.conf && npx react-inject-env set -d /app/build/ && nginx -g 'daemon off;'"]
