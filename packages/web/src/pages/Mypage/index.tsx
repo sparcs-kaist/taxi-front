@@ -22,6 +22,7 @@ import {
   ModalTerms,
 } from "@/components/ModalPopup";
 import Title from "@/components/Title";
+import BadgeImage from "@/components/User/BadgeImage";
 import ProfileImage from "@/components/User/ProfileImage";
 import WhiteContainer from "@/components/WhiteContainer";
 import WhiteContainerSuggestLogin from "@/components/WhiteContainer/WhiteContainerSuggestLogin";
@@ -146,6 +147,7 @@ const Mypage = () => {
               </div>
               <div css={theme.font16_bold} className="selectable">
                 {loginInfo?.name}
+                {loginInfo?.phoneNumber !== undefined && <BadgeImage />}
               </div>
             </div>
             <div css={infoTitle}>
@@ -169,6 +171,10 @@ const Mypage = () => {
             <div css={infoType} className="selectable">
               {t("account")}
               <div css={infoContent}>{loginInfo?.account}</div>
+            </div>
+            <div css={infoType} className="selectable">
+              {t("phone_number")}
+              <div css={infoContent}>{loginInfo?.phoneNumber}</div>
             </div>
           </WhiteContainer>
           <WhiteContainer>
