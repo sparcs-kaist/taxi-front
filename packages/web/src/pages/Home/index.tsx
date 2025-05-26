@@ -3,6 +3,7 @@ import { useHistory, useParams } from "react-router-dom";
 import Footer from "@/components/Footer";
 import {
   ModalEvent2025SpringJoin,
+  ModalNoticeBadge,
   ModalPrivacyPolicy,
 } from "@/components/ModalPopup";
 
@@ -41,6 +42,7 @@ const Home = () => {
         isOpen={isOpenEventJoin}
         onChangeIsOpen={onChangeIsOpenEventJoin}
       />
+      <ModalNoticeBadge />
     </>
   );
 };

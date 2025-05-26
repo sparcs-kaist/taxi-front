@@ -305,19 +305,16 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
           {loginInfo?.phoneNumber !== undefined && (
             <div
               css={{
-                justifyContent: "flex-end", // 오른쪽 정렬
-                ...styleTitle,
-                rowGap: "10px",
+                justifyContent: "flex-end",
+                gap: "6px",
                 padding: "0px 20px",
                 marginBottom: "8px",
-                gap: "6px",
+                rowGap: "10px",
+                ...styleTitle,
               }}
             >
               {t("Badge Display")}
               <div
-                onClick={() => {
-                  setBadge(!badge);
-                }}
                 css={{
                   display: "flex",
                   alignItems: "center",
@@ -325,6 +322,9 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
                 }}
               >
                 <div
+                  onClick={() => {
+                    setBadge(!badge);
+                  }}
                   css={{
                     ...styleCheckBox,
                     background: badge ? theme.purple : theme.purple_light,

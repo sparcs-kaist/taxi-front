@@ -1,5 +1,8 @@
 import Button from "@/components/Button";
+import DottedLine from "@/components/DottedLine";
 import Modal from "@/components/Modal";
+
+import BadgeImage from "../User/BadgeImage";
 
 import theme from "@/tools/theme";
 
@@ -19,7 +22,7 @@ export default function ConfirmPhoneModal({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    margin: "0 10px 12px",
+    margin: "0 10px 16px",
     letterSpacing: "0.5px",
   };
 
@@ -46,14 +49,28 @@ export default function ConfirmPhoneModal({
     ...theme.font14_bold,
   } as const;
 
+  const styleIcon = {
+    fontSize: "22px",
+    margin: "0 7px 2px 0",
+  };
+
   return (
-    <Modal isOpen={isOpen} padding="30px 0px" onEnter={onConfirm}>
-      <div css={styleTitle}>전화번호 사용 동의</div>
+    <Modal isOpen={isOpen} padding="40px 0px" onEnter={onConfirm}>
+      <div css={styleTitle}>
+        <div css={styleIcon}>
+          <BadgeImage badge_live={true} />
+        </div>
+        전화번호 사용 동의
+      </div>
+      <DottedLine direction="row" margin="0 2px" />
       <div css={styleText}>
         {" "}
         <p css={{ padding: "10px 0" }}>
-          전화번호를 등록하시겠습니까? 전화번호 등록 시, Taxi만의 멋진 배지를
-          드립니다! 배지는 사용자 정보 설정에서 비활성화 하실 수 있습니다.
+          전화번호를 등록하시겠습니까?{" "}
+          <b css={{ color: theme.black }}>
+            전화번호 등록 시, Taxi만의 멋진 배지를 드립니다!{" "}
+          </b>
+          배지는 사용자 정보 설정에서 비활성화 하실 수 있습니다.
         </p>{" "}
         <p css={{ color: theme.red_text }}>
           전화번호는 향후 서비스 신고 대응 및 본인 확인을 위해 사용될 수
