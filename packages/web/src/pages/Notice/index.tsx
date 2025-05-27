@@ -2,25 +2,18 @@ import { NotionAPI } from "notion-client";
 import { ExtendedRecordMap } from "notion-types";
 import { useEffect, useState } from "react";
 import "react-notion-x/src/styles.css";
-import { Link } from "react-router-dom";
 
 import { useQuery } from "@/hooks/useTaxiAPI";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
+import Footer from "@/components/Footer";
+import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
 import ModalNoticeDetail from "@/components/ModalPopup/ModalNoticeDetail";
 import NoticeItem from "@/components/Notice/NoticeItem";
 import Title from "@/components/Title";
+import { NoticeProps } from "@/pages/Home/NoticeSection";
 
-export type NoticeProps = {
-  createdAt: Date;
-  updatedAt: Date;
-  is_active: boolean;
-  is_pinned: boolean;
-  notion_url: string;
-  title: string;
-};
-
-const NoticeSection = () => {
+const Notice = () => {
   const [recordMap, setRecordMap] = useState<ExtendedRecordMap>();
   const [detailTitle, setDetailTitle] = useState("");
   const notion = new NotionAPI({ apiBaseUrl: "/notion" });
@@ -61,47 +54,46 @@ const NoticeSection = () => {
   }, [noticeData, noticeIndex]);
 
   return (
-    !error &&
-    !isLoading && (
-      <AdaptiveDiv type="center">
-        <Link to="/notice" css={{ textDecoration: "none" }}>
-          <Title icon="notice" isHeader>
-            공지사항
-          </Title>
-        </Link>
-
-        <div
-          style={{
-            display: "flex",
-            gap: "8px",
-            whiteSpace: "pre-wrap",
-            flexDirection: "column",
-          }}
-        >
-          {noticeData.notices.map(
-            (notice: NoticeProps, idx: number) =>
-              notice.is_active &&
-              notice.is_pinned && (
-                <NoticeItem
-                  key={notice.title}
-                  is_pinned={notice.is_pinned}
-                  title={notice.title}
-                  onClickHandler={() => {
-                    openNotice(idx);
-                  }}
-                />
-              )
-          )}
-        </div>
-        <ModalNoticeDetail
-          isOpen={isOpen}
-          onChangeIsOpen={setIsOpen}
-          recordMap={recordMap}
-          title={detailTitle}
-        />
-      </AdaptiveDiv>
-    )
+    <div style={{ paddingTop: "10px" }}>
+      <HeaderWithBackButton>
+        <Title>공지사항</Title>
+      </HeaderWithBackButton>
+      {!error && !isLoading && (
+        <AdaptiveDiv type={"center"}>
+          <div
+            style={{
+              display: "flex",
+              gap: "8px",
+              whiteSpace: "pre-wrap",
+              flexDirection: "column",
+              paddingTop: "10px",
+            }}
+          >
+            {noticeData.notices.map(
+              (notice: NoticeProps, idx: number) =>
+                notice.is_active && (
+                  <NoticeItem
+                    key={notice.title}
+                    is_pinned={notice.is_pinned}
+                    title={notice.title}
+                    onClickHandler={() => {
+                      openNotice(idx);
+                    }}
+                  />
+                )
+            )}
+          </div>
+          <ModalNoticeDetail
+            isOpen={isOpen}
+            onChangeIsOpen={setIsOpen}
+            recordMap={recordMap}
+            title={detailTitle}
+          />
+        </AdaptiveDiv>
+      )}
+      <Footer />
+    </div>
   );
 };
 
-export default NoticeSection;
+export default Notice;
