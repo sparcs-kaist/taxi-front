@@ -11,6 +11,7 @@ import usePageFromSearchParams from "@/hooks/usePageFromSearchParams";
 import useRoomListAnimationState from "@/hooks/useRoomListAnimationState";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
+import { ModalNoticeBadge } from "@/components/ModalPopup";
 import { PAGE_MAX_ITEMS } from "@/components/Pagination";
 import Title from "@/components/Title";
 import WhiteContainerSuggestLogin from "@/components/WhiteContainer/WhiteContainerSuggestLogin";
@@ -29,6 +30,7 @@ const Myroom = () => {
   const totalPages = Math.ceil((myRooms?.done?.length ?? 0) / PAGE_MAX_ITEMS);
   const currentPage = usePageFromSearchParams(totalPages);
   const isLogin = useIsLogin();
+  const loginInfo = useValueRecoilState("loginInfo");
 
   const { localRooms: ongoing } = useRoomListAnimationState(myRooms?.ongoing);
   const { localRooms: done } = useRoomListAnimationState(myRooms?.done);
@@ -46,28 +48,33 @@ const Myroom = () => {
       history.replace(`/chatting/${roomId}`);
     }
   }, [butterflyState, roomId]);
+  return (
+    <>
+      {isLogin && loginInfo?.agreeOnTermsOfService && <ModalNoticeBadge />}
 
-  return !isLogin ? (
-    <AdaptiveDiv type="center">
-      <Title icon="myroom" isHeader>
-        내 방 보기
-      </Title>
-      <WhiteContainerSuggestLogin />
-    </AdaptiveDiv>
-  ) : butterflyState === "fold" ? (
-    <R1Myroom
-      roomId={roomId}
-      ongoing={ongoing}
-      done={done}
-      donePageInfo={{ totalPages, currentPage }}
-    />
-  ) : (
-    <R2Myroom
-      roomId={roomId}
-      ongoing={ongoing}
-      done={done}
-      donePageInfo={{ totalPages, currentPage }}
-    />
+      {!isLogin ? (
+        <AdaptiveDiv type="center">
+          <Title icon="myroom" isHeader>
+            내 방 보기
+          </Title>
+          <WhiteContainerSuggestLogin />
+        </AdaptiveDiv>
+      ) : butterflyState === "fold" ? (
+        <R1Myroom
+          roomId={roomId}
+          ongoing={ongoing}
+          done={done}
+          donePageInfo={{ totalPages, currentPage }}
+        />
+      ) : (
+        <R2Myroom
+          roomId={roomId}
+          ongoing={ongoing}
+          done={done}
+          donePageInfo={{ totalPages, currentPage }}
+        />
+      )}
+    </>
   );
 };
 

@@ -286,135 +286,137 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
 
   return (
     <>
-      <Modal
-        padding="32px 10px 10px"
-        onEnter={handleEditProfile}
-        {...modalProps}
-      >
-        <div css={styleName} className="selectable">
-          {loginInfo?.name}
-          {loginInfo?.phoneNumber !== undefined && (
-            <BadgeImage badge_live={badge} />
-          )}
-        </div>
-        {loginInfo?.profileImgUrl && (
-          <ProfileImageLarge url={loginInfo?.profileImgUrl} />
-        )}
-        <ButtonProfileImage />
-        <div>
-          {loginInfo?.phoneNumber !== undefined && (
-            <div
-              css={{
-                justifyContent: "flex-end",
-                gap: "6px",
-                padding: "0px 20px",
-                marginBottom: "8px",
-                rowGap: "10px",
-                ...styleTitle,
-              }}
-            >
-              {t("Badge Display")}
-              <div
-                css={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "4px",
-                }}
-              >
-                <div
-                  onClick={() => {
-                    setBadge(!badge);
-                  }}
-                  css={{
-                    ...styleCheckBox,
-                    background: badge ? theme.purple : theme.purple_light,
-                  }}
-                >
-                  <CheckRoundedIcon style={styleCheckBoxIcon} />
-                </div>
-                <BadgeTooltip text="이 배지가 있는 회원분들은 문제가 생길 시 스팍스의 중계를 통해 문제를 해결할 수 있습니다." />
-              </div>
-            </div>
-          )}
-        </div>
-        <DottedLine direction="row" margin="0 2px" />
-        <div css={{ rowGap: "10px", padding: "0px 20px" }}>
-          <div css={{ ...styleTitle, marginTop: "24px" }}>
-            {t("student_id")}
-            <div css={styleContent}>{loginInfo?.subinfo?.kaist}</div>
-          </div>
-          <div css={{ ...styleTitle, marginTop: "16px" }}>
-            {t("email")}
-            <div css={styleContent}>{loginInfo?.email}</div>
-          </div>
-          <div css={{ ...styleTitle, marginTop: "10px" }}>
-            {t("nickname")}
-            <Input
-              value={nickname}
-              onChangeValue={setNickname}
-              css={{ width: "100%", marginLeft: "10px" }}
-            />
-          </div>
-          <div css={{ ...styleTitle, marginTop: "10px" }}>
-            {t("account")}
-            <InputAccount
-              value={account}
-              onChangeValue={setAccount}
-              css={{ width: "100%", marginLeft: "10px" }}
-            />
-          </div>
-          <div css={{ ...styleTitle, marginTop: "10px" }}>
-            {t("phone_number")}
-            {loginInfo?.phoneNumber !== undefined ? (
-              <div css={{ styleContent, marginLeft: "10px" }}>
-                {loginInfo.phoneNumber}
-              </div>
-            ) : (
-              <InputPhoneNumber
-                value={phoneNumber}
-                onChangeValue={setPhoneNumber}
-                css={{ width: "100%", marginLeft: "10px" }}
-              />
+      {!PhoneAgreeModalOpen && (
+        <Modal
+          padding="32px 10px 10px"
+          onEnter={handleEditProfile}
+          {...modalProps}
+        >
+          <div css={styleName} className="selectable">
+            {loginInfo?.name}
+            {loginInfo?.phoneNumber !== undefined && (
+              <BadgeImage badge_live={badge} />
             )}
           </div>
-        </div>
-        <div css={styleButton}>
-          <Button
-            type="gray"
-            css={{
-              width: "calc(50% - 5px)",
-              padding: "10px 0 9px",
-              borderRadius: "8px",
-              ...theme.font14,
-            }}
-            onClick={() => modalProps.onChangeIsOpen?.(false)}
-          >
-            {t("page_modify.cancel")}
-          </Button>
-          <Button
-            type="purple_inset"
-            disabled={
-              !isEditable ||
-              (nickname === loginInfo?.nickname &&
-                account === loginInfo?.account &&
-                badge === loginInfo?.badge &&
-                (loginInfo?.phoneNumber !== undefined
-                  ? true
-                  : phoneNumber === "")) ||
-              !(phoneNumber === "" || phoneNumber.length >= 13)
-            }
-            css={{
-              width: "calc(50% - 5px)",
-              padding: "10px 0 9px",
-              borderRadius: "8px",
-              ...theme.font14_bold,
-            }}
-            onClick={handleEditProfile}
-          >
-            {t("page_modify.modify")}
-          </Button>
-        </div>
-      </Modal>
+          {loginInfo?.profileImgUrl && (
+            <ProfileImageLarge url={loginInfo?.profileImgUrl} />
+          )}
+          <ButtonProfileImage />
+          <div>
+            {loginInfo?.phoneNumber !== undefined && (
+              <div
+                css={{
+                  justifyContent: "flex-end",
+                  gap: "6px",
+                  padding: "0px 20px",
+                  marginBottom: "8px",
+                  rowGap: "10px",
+                  ...styleTitle,
+                }}
+              >
+                {t("Badge Display")}
+                <div
+                  css={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "4px",
+                  }}
+                >
+                  <div
+                    onClick={() => {
+                      setBadge(!badge);
+                    }}
+                    css={{
+                      ...styleCheckBox,
+                      background: badge ? theme.purple : theme.purple_light,
+                    }}
+                  >
+                    <CheckRoundedIcon style={styleCheckBoxIcon} />
+                  </div>
+                  <BadgeTooltip text="이 배지가 있는 회원분들은 문제가 생길 시 스팍스의 중계를 통해 문제를 해결할 수 있습니다." />
+                </div>
+              </div>
+            )}
+          </div>
+          <DottedLine direction="row" margin="0 2px" />
+          <div css={{ rowGap: "10px", padding: "0px 20px" }}>
+            <div css={{ ...styleTitle, marginTop: "24px" }}>
+              {t("student_id")}
+              <div css={styleContent}>{loginInfo?.subinfo?.kaist}</div>
+            </div>
+            <div css={{ ...styleTitle, marginTop: "16px" }}>
+              {t("email")}
+              <div css={styleContent}>{loginInfo?.email}</div>
+            </div>
+            <div css={{ ...styleTitle, marginTop: "10px" }}>
+              {t("nickname")}
+              <Input
+                value={nickname}
+                onChangeValue={setNickname}
+                css={{ width: "100%", marginLeft: "10px" }}
+              />
+            </div>
+            <div css={{ ...styleTitle, marginTop: "10px" }}>
+              {t("account")}
+              <InputAccount
+                value={account}
+                onChangeValue={setAccount}
+                css={{ width: "100%", marginLeft: "10px" }}
+              />
+            </div>
+            <div css={{ ...styleTitle, marginTop: "10px" }}>
+              {t("phone_number")}
+              {loginInfo?.phoneNumber !== undefined ? (
+                <div css={{ styleContent, marginLeft: "10px" }}>
+                  {loginInfo.phoneNumber}
+                </div>
+              ) : (
+                <InputPhoneNumber
+                  value={phoneNumber}
+                  onChangeValue={setPhoneNumber}
+                  css={{ width: "100%", marginLeft: "10px" }}
+                />
+              )}
+            </div>
+          </div>
+          <div css={styleButton}>
+            <Button
+              type="gray"
+              css={{
+                width: "calc(50% - 5px)",
+                padding: "10px 0 9px",
+                borderRadius: "8px",
+                ...theme.font14,
+              }}
+              onClick={() => modalProps.onChangeIsOpen?.(false)}
+            >
+              {t("page_modify.cancel")}
+            </Button>
+            <Button
+              type="purple_inset"
+              disabled={
+                !isEditable ||
+                (nickname === loginInfo?.nickname &&
+                  account === loginInfo?.account &&
+                  badge === loginInfo?.badge &&
+                  (loginInfo?.phoneNumber !== undefined
+                    ? true
+                    : phoneNumber === "")) ||
+                !(phoneNumber === "" || phoneNumber.length >= 13)
+              }
+              css={{
+                width: "calc(50% - 5px)",
+                padding: "10px 0 9px",
+                borderRadius: "8px",
+                ...theme.font14_bold,
+              }}
+              onClick={handleEditProfile}
+            >
+              {t("page_modify.modify")}
+            </Button>
+          </div>
+        </Modal>
+      )}
       <PhoneAgreeModal
         isOpen={PhoneAgreeModalOpen}
         onConfirm={handlePhoneNumberYes}

@@ -57,7 +57,6 @@ export default function ModalNoticeBadge({}: ModalNoticeBadgeProps) {
 
   const styleButton = {
     flex: 1,
-    margin: "0 4px",
     padding: "10px 0",
     borderRadius: "8px",
     ...theme.font14_bold,
@@ -65,7 +64,7 @@ export default function ModalNoticeBadge({}: ModalNoticeBadgeProps) {
 
   return (
     <Modal
-      padding="30px 10px 14px"
+      padding="16px 10px 10px"
       isOpen={isOpen}
       onChangeIsOpen={(open) => {
         if (!open) handleClose();
@@ -77,19 +76,19 @@ export default function ModalNoticeBadge({}: ModalNoticeBadgeProps) {
         </div>
         Taxi에 배지 기능이 추가되었습니다.
       </div>
-      <DottedLine direction="row" margin="4px 2px" />
+      <DottedLine direction="row" />
       <div css={styleText}>
         • Taxi에 배지 기능이 추가되었습니다!{" "}
         <b css={{ color: theme.black }}>
-          내정보 - 수정하기에서 전화번호 입력 시{" "}
+          내 정보 - 수정하기에서 전화번호 입력 시{" "}
         </b>
         배지를 이름 옆에 켜실 수 있습니다.
       </div>
       <div css={styleText}>
         • Taxi에 전화번호를 입력하고 배지를 받으시면,{" "}
         <b css={{ color: theme.black }}>
-          나중에 Taxi 서비스 이용 중 문제가 생겼을 때 Taxi 팀에서 더욱 빠르게
-          처리해드릴 수 있습니다!{" "}
+          나중에 Taxi 서비스 이용 중 문제가 생겼을 때 Taxi 팀에서 입력하신
+          전화번호를 통해 연락드려 빠르게 처리해드릴 수 있습니다!{" "}
         </b>
       </div>
       <Button type="purple_inset" onClick={mypagego} css={styleButton}>

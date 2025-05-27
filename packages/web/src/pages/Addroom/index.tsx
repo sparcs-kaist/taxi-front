@@ -13,6 +13,7 @@ import { useAxios } from "@/hooks/useTaxiAPI";
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
 import { ModalEvent2025SpringAbuseWarning } from "@/components/ModalPopup";
+import { ModalNoticeBadge } from "@/components/ModalPopup";
 import {
   OptionDate,
   OptionMaxPeople,
@@ -39,7 +40,6 @@ const AddRoom = () => {
   const axios = useAxios();
   const history = useHistory();
   const [cookies, setCookies] = useCookies(["defaultFromTo"]);
-
   const onCall = useRef(false);
   const loginInfo = useValueRecoilState("loginInfo");
   const today = getToday();
@@ -253,6 +253,7 @@ const AddRoom = () => {
           )}
         </AdaptiveDiv>
       </div>
+      {isLogin && loginInfo?.agreeOnTermsOfService && <ModalNoticeBadge />}
       {/* #region event2025Spring */}
       <ModalEvent2025SpringAbuseWarning
         isOpen={isOpenModalEventAbuseWarning}

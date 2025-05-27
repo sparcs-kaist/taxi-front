@@ -21,33 +21,20 @@ export default function ConfirmPhoneModal({
     ...theme.font18,
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
-    margin: "0 10px 16px",
+    margin: "0 8px 12px",
     letterSpacing: "0.5px",
   };
 
   const styleText = {
     ...theme.font14,
     color: theme.black,
-    margin: "12px 8px",
-    padding: "12px 10px",
-  };
-
-  const styleButtonGroup = {
-    display: "flex",
-    justifyContent: "space-between",
-    padding: "0 16px",
-    marginTop: "20px",
-    marginBottom: "10px",
+    margin: "10px 10px 10px",
   };
 
   const styleButton = {
-    flex: 1,
-    margin: "0 4px",
-    padding: "10px 0",
-    borderRadius: "8px",
-    ...theme.font14_bold,
-  } as const;
+    display: "flex",
+    justifyContent: "space-between",
+  };
 
   const styleIcon = {
     fontSize: "22px",
@@ -55,14 +42,21 @@ export default function ConfirmPhoneModal({
   };
 
   return (
-    <Modal isOpen={isOpen} padding="40px 0px" onEnter={onConfirm}>
+    <Modal
+      isOpen={isOpen}
+      padding="16px 10px 10px"
+      onEnter={onConfirm}
+      onChangeIsOpen={(open) => {
+        if (!open) onCancel();
+      }}
+    >
       <div css={styleTitle}>
         <div css={styleIcon}>
           <BadgeImage badge_live={true} />
         </div>
         전화번호 사용 동의
       </div>
-      <DottedLine direction="row" margin="0 2px" />
+      <DottedLine direction="row" />
       <div css={styleText}>
         {" "}
         <p css={{ padding: "10px 0" }}>
@@ -73,16 +67,34 @@ export default function ConfirmPhoneModal({
           배지는 사용자 정보 설정에서 비활성화 하실 수 있습니다.
         </p>{" "}
         <p css={{ color: theme.red_text }}>
-          전화번호는 향후 서비스 신고 대응 및 본인 확인을 위해 사용될 수
-          있습니다. 또한, 입력하신 연락처는 이후 수정이 불가능하니 정확히
-          작성해주시기 바랍니다.
+          전화번호는 스팍스 측에서 향후 서비스 신고 대응 및 본인 확인을 위해
+          연락드릴 때 사용될 수 있습니다. 또한, 입력하신 연락처는 이후 수정이
+          불가능하니 정확히 작성해주시기 바랍니다.
         </p>
       </div>
-      <div css={styleButtonGroup}>
-        <Button type="gray" css={styleButton} onClick={onCancel}>
+      <div css={styleButton}>
+        <Button
+          type="gray"
+          css={{
+            width: "calc(50% - 5px)",
+            padding: "10px 0 9px",
+            borderRadius: "8px",
+            ...theme.font14,
+          }}
+          onClick={onCancel}
+        >
           아니오
         </Button>
-        <Button type="purple_inset" css={styleButton} onClick={onConfirm}>
+        <Button
+          type="purple_inset"
+          css={{
+            width: "calc(50% - 5px)",
+            padding: "10px 0 9px",
+            borderRadius: "8px",
+            ...theme.font14_bold,
+          }}
+          onClick={onConfirm}
+        >
           네
         </Button>
       </div>

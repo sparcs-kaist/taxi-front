@@ -4,6 +4,7 @@ import { useHistory, useLocation } from "react-router-dom";
 
 import channelService from "@/hooks/skeleton/useChannelTalkEffect/channelService";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import { useIsLogin } from "@/hooks/useFetchRecoilState";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Footer from "@/components/Footer";
@@ -16,6 +17,7 @@ import {
   ModalEvent2024SpringJoin,
   ModalEvent2025SpringJoin,
   ModalMypageModify,
+  ModalNoticeBadge,
   ModalNotification,
   ModalPrivacyPolicy,
   ModalReport,
@@ -54,7 +56,7 @@ const Mypage = () => {
   const [isOpenMembers, setOpenIsMembers] = useState(false);
   const [isOpenAccountCancelProcess, setIsOpenAccountCancelProcess] =
     useState(false);
-
+  const isLogin = useIsLogin();
   const { search } = useLocation();
   const history = useHistory();
 
@@ -297,6 +299,7 @@ const Mypage = () => {
         isOpen={isOpenAccountCancelProcess}
         onChangeIsOpen={setIsOpenAccountCancelProcess}
       />
+      {isLogin && loginInfo?.agreeOnTermsOfService && <ModalNoticeBadge />}
     </AdaptiveDiv>
   );
 };
