@@ -8,7 +8,7 @@ import {
   useIsLogin,
   useValueRecoilState,
 } from "@/hooks/useFetchRecoilState";
-import { useAxios, useQuery } from "@/hooks/useTaxiAPI";
+import { useAxios } from "@/hooks/useTaxiAPI";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
@@ -206,7 +206,7 @@ const AddRoom = () => {
           from: valuePlace[0],
           to: valuePlace[1],
           time: calculatedTime!.toISOString(),
-          timeGap: 20,
+          timeGap: 20, // 앞뒤 20분
         },
         onSuccess: async (data) => {
           // 유사한 방들이 존재하지 않을 때

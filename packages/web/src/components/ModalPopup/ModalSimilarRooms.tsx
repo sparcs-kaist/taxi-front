@@ -41,6 +41,10 @@ const ModalSimilarRooms: React.FC<SimilarRoomsModalProps> = ({
     alignItems: "center",
     justifyContent: "center",
   };
+  const styleIcon = {
+    fontSize: "21px",
+    margin: "0 4px 0 0",
+  };
 
   return (
     <Modal
@@ -48,7 +52,11 @@ const ModalSimilarRooms: React.FC<SimilarRoomsModalProps> = ({
       onChangeIsOpen={() => onChangeIsOpen(false)}
       padding="16px 12px 12px"
     >
-      <div css={styleTitle}>{t("유사한 방이 있습니다")}</div>
+      <div css={styleTitle}>
+        {" "}
+        <ShareRoundedIcon style={styleIcon} />
+        {t("유사한 방이 있습니다")}
+      </div>
       <RoomList rooms={rooms} />
       <Button
         css={styleButton}
@@ -57,7 +65,7 @@ const ModalSimilarRooms: React.FC<SimilarRoomsModalProps> = ({
           createNewRoom();
         }}
       >
-        {t("방 만들기")}
+        {t("그냥 방 만들기")}
       </Button>
     </Modal>
   );
