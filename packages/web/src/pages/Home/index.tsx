@@ -8,6 +8,7 @@ import {
 
 import EventSection from "./EventSection";
 import InfoSection from "./InfoSection";
+import NoticeSection from "./NoticeSection";
 import RoomSection from "./RoomSection";
 
 const Home = () => {
@@ -28,7 +29,7 @@ const Home = () => {
   return (
     <>
       <InfoSection />
-      <div css={{ marginTop: "-10px" }} />
+      <NoticeSection />
       <EventSection />
       <RoomSection roomId={roomId} />
       <Footer />
