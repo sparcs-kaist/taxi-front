@@ -8,11 +8,14 @@ import {
   useIsLogin,
   useValueRecoilState,
 } from "@/hooks/useFetchRecoilState";
-import { useAxios } from "@/hooks/useTaxiAPI";
+import { useAxios, useQuery } from "@/hooks/useTaxiAPI";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
-import { ModalEvent2025SpringAbuseWarning } from "@/components/ModalPopup";
+import {
+  ModalEvent2025SpringAbuseWarning,
+  ModalSimilarRooms,
+} from "@/components/ModalPopup";
 import {
   OptionDate,
   OptionMaxPeople,
@@ -71,6 +74,23 @@ const AddRoom = () => {
   //#endregion
 
   const [taxiFare, setTaxiFare] = useState<number>(0);
+
+  const [isSimilarRoomsModalOpen, setIsSimilarRoomsModalOpen] =
+    useState<boolean>(false);
+  const [similarRooms, setSimilarRooms] = useState<Room[]>([]);
+
+  // Function to join an existing similar room
+  // const joinSimilarRoom = async (roomId: string) => {
+  //   await axios({
+  //     url: `/rooms/${roomId}/join`,
+  //     method: "post",
+  //     onSuccess: () => {
+  //       fetchMyRooms();
+  //       history.push("/myroom");
+  //     },
+  //     onError: () => setAlert("방 참여에 실패하였습니다."),
+  //   });
+  // };
 
   const getTaxiFare = async () => {
     await axios({
@@ -153,6 +173,7 @@ const AddRoom = () => {
         },
         onError: () => {},
       });
+
       if (isAgreeOnTermsOfEvent) {
         let isFalse = false;
         await axios({
@@ -178,7 +199,47 @@ const AddRoom = () => {
       }
       // #endregion
 
-      // FIXME: "/rooms/create" API가 myRoom을 반환하도록 수정
+      await axios({
+        url: "/rooms/searchByTimeGap",
+        method: "get",
+        params: {
+          from: valuePlace[0],
+          to: valuePlace[1],
+          time: calculatedTime!.toISOString(),
+          timeGap: 20,
+        },
+        onSuccess: async (data) => {
+          // 유사한 방들이 존재하지 않을 때
+          console.log(typeof data);
+
+          if (data.length === 0) {
+            console.log("유사한 방이 없습니다.");
+            onCall.current = false;
+            await createNewRoom();
+          } else {
+            console.log("유사한 방이 있습니다.");
+            // 검색된 유사한 방들을 상태에 저장
+            setSimilarRooms(data || []);
+            // 유사한 방이 있을 경우에만 모달 열기
+            setIsSimilarRoomsModalOpen(true);
+          }
+        },
+        onError: (e) => {
+          // 검색 실패 시 바로 방 생성 진행
+          // createNewRoom();
+        },
+      });
+
+      onCall.current = false;
+    }
+  };
+
+  const createNewRoom = async () => {
+    console.log("방 개설 API 호출");
+
+    if (!onCall.current) {
+      onCall.current = true;
+
       await axios({
         url: "/rooms/create",
         method: "post",
@@ -198,6 +259,7 @@ const AddRoom = () => {
         },
         onError: () => setAlert("방 개설에 실패하였습니다."),
       });
+
       onCall.current = false;
     }
   };
@@ -282,6 +344,16 @@ const AddRoom = () => {
             setIsOpenModalEventAbuseWarning(data);
           }
         }}
+      />
+
+      {/* Similar rooms modal */}
+      <ModalSimilarRooms
+        isOpen={isSimilarRoomsModalOpen}
+        onChangeIsOpen={(value) => {
+          setIsSimilarRoomsModalOpen(value);
+        }}
+        createNewRoom={createNewRoom}
+        rooms={similarRooms}
       />
       {/* #endregion */}
     </>
