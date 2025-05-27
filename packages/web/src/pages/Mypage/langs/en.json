@@ -26,7 +26,8 @@
     "profile_image_failed": "Failed to change",
     "profile_image_loading": "Chaning...",
     "nickname_failed": "Failed to change nickname",
-    "account_failed": "Failed to change account"
+    "account_failed": "Failed to change account",
+    "phone_number_failed": "Failed to change phone number"
   },
   "page_credit": {
     "category_all": "All",

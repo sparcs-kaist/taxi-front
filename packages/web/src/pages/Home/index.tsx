@@ -1,8 +1,11 @@
 import { useHistory, useParams } from "react-router-dom";
 
+import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
+
 import Footer from "@/components/Footer";
 import {
   ModalEvent2025SpringJoin,
+  ModalNoticeBadge,
   ModalPrivacyPolicy,
 } from "@/components/ModalPopup";
 
@@ -21,6 +24,8 @@ const Home = () => {
   const isOpenEventJoin = inviterId ? true : _roomId === "eventJoin";
   const onChangeIsOpenPrivacyPolicy = () => history.replace("/home");
   const onChangeIsOpenEventJoin = () => history.replace("/home");
+  const isLogin = useIsLogin();
+  const loginInfo = useValueRecoilState("loginInfo");
 
   const roomId =
     _roomId === "privacyPolicy" ? null : isOpenEventJoin ? null : _roomId;
@@ -41,6 +46,7 @@ const Home = () => {
         isOpen={isOpenEventJoin}
         onChangeIsOpen={onChangeIsOpenEventJoin}
       />
+      {isLogin && loginInfo?.agreeOnTermsOfService && <ModalNoticeBadge />}
     </>
   );
 };

@@ -28,6 +28,7 @@ export { default as ModalEvent2025SpringCoupon } from "./ModalEvent2025SpringCou
 
 export { default as ModalMypageModify } from "./ModalMypageModify";
 export { default as ModalNotification } from "./ModalNotification";
+export { default as ModalNoticeBadge } from "./ModalNoticeBadge";
 export { default as ModalPrivacyPolicy } from "./ModalPrivacyPolicy";
 export { default as ModalReport } from "./ModalReport";
 export { default as ModalRoomSelection } from "./ModalRoomSelection";

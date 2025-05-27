@@ -14,6 +14,7 @@ export type LoginInfoType = Nullable<{
   withdraw: boolean;
   phoneNumber?: string;
   account: string;
+  badge: boolean;
   // deviceType: "web" | "app"; // #580 - loadenv의 deviceType을 사용하여야 합니다.
   deviceToken: Nullable<string>;
   accessToken: Nullable<string>;

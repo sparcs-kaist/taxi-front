@@ -20,6 +20,7 @@ const MessageInfScroll = ({ value }: MessageInfScrollProps) => (
     }}
     data-chat-type="infscroll-checkout"
   >
+  
     <MotionPhotosOnIcon
       style={{ fontSize: "18px" }}
       className="MessageForm_rotate_infinite"
