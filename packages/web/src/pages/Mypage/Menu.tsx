@@ -13,7 +13,7 @@ import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
 import HelpOutlineRoundedIcon from "@mui/icons-material/HelpOutlineRounded";
 import KeyboardArrowLeftRoundedIcon from "@mui/icons-material/KeyboardArrowLeftRounded";
 import LanguageRoundedIcon from "@mui/icons-material/LanguageRounded";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import PortraitRoundedIcon from "@mui/icons-material/PortraitRounded";
 import StarRoundedIcon from "@mui/icons-material/StarRounded";
 
@@ -53,7 +53,7 @@ const getIcon = (icon: string) => {
     case "beta":
       return <StarRoundedIcon style={styleIcon} />;
     case "notice":
-      return <NotificationsIcon style={styleIcon} />;
+      return <NotificationsOutlinedIcon style={styleIcon} />;
   }
 };
 
