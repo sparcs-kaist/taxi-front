@@ -1,7 +1,10 @@
 import { ExtendedRecordMap } from "notion-types";
 import { NotionRenderer } from "react-notion-x";
 
+import DottedLine from "@/components/DottedLine";
 import Modal from "@/components/Modal";
+
+import "./ModalNoticeDetailBody.css";
 
 import theme from "@/tools/theme";
 
@@ -22,7 +25,11 @@ const ModalNoticeDetail = ({
     ...theme.font18,
     display: "flex",
     alignItems: "center",
-    margin: "0 8px 12px",
+    padding: "10px 32px 12px 8px",
+  };
+
+  const styleBody = {
+    padding: "10px 0px 10px 0px",
   };
 
   return (
@@ -32,7 +39,15 @@ const ModalNoticeDetail = ({
       css={{ padding: "10px" }}
     >
       <div style={styleTitle}>{title}</div>
-      <div>{recordMap && <NotionRenderer recordMap={recordMap} />}</div>
+      <DottedLine />
+      <div style={styleBody}>
+        {recordMap && (
+          <NotionRenderer
+            recordMap={recordMap}
+            bodyClassName={"less-indent-notion-body"}
+          />
+        )}
+      </div>
     </Modal>
   );
 };
