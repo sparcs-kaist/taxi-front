@@ -27,6 +27,7 @@ declare global {
     isSettlement?: "not-departed" | "paid" | "send-required" | "sent";
     readAt: Date;
     withdraw: boolean;
+    badge: boolean;
   };
   type Room = {
     _id: string;
