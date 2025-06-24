@@ -82,7 +82,7 @@ const MessageSet = ({
   const author = isBot
     ? undefined
     : roomInfo.part.find((p) => p._id === authorId);
-  const authorBadge = author?.badge;
+  const authorBadge = author?.badge || false;
   const isAlone = roomInfo.part.length === 1;
 
   // Chat의 time에 따라 안 읽은 사람 수 설정

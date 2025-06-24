@@ -12,7 +12,7 @@ type BadgeImageProps = {
 const BadgeImage = ({ badge_live }: BadgeImageProps) => {
   const loginInfo = useValueRecoilState("loginInfo");
 
-  if (badge_live === undefined && !loginInfo?.badge) return null;
+  if (badge_live === undefined && !(loginInfo?.badge || false)) return null;
   if (badge_live === false) return null;
 
   return (

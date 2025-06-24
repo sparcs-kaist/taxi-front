@@ -50,7 +50,7 @@ const User = ({ value, isDeparted }: UserProps) => {
         )}
         {isWithdrew && <span style={theme.font8}>{" (탈퇴)"}</span>}
       </div>
-      <BadgeImage badge_live={value.badge} />
+      <BadgeImage badge_live={value.badge || false} />
     </div>
   );
 };
