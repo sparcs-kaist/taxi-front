@@ -12,6 +12,7 @@ import NoticeItem from "@/components/Notice/NoticeItem";
 import Title from "@/components/Title";
 
 export type NoticeProps = {
+  id: string;
   createdAt: Date;
   updatedAt: Date;
   is_active: boolean;
@@ -83,7 +84,7 @@ const NoticeSection = () => {
               notice.is_active &&
               notice.is_pinned && (
                 <NoticeItem
-                  key={notice.title}
+                  key={notice.id}
                   is_pinned={notice.is_pinned}
                   title={notice.title}
                   onClickHandler={() => {
@@ -92,6 +93,9 @@ const NoticeSection = () => {
                 />
               )
           )}
+          {noticeData.notices.filter(
+            (notice: NoticeProps) => notice.is_active && notice.is_pinned
+          ).length === 0 && <div>공지사항이 없습니다.</div>}
         </div>
         <ModalNoticeDetail
           isOpen={isOpen}
