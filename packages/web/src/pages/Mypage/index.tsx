@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useHistory, useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 
 import channelService from "@/hooks/skeleton/useChannelTalkEffect/channelService";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
@@ -216,6 +216,9 @@ const Mypage = () => {
               {t("report_record")}
             </Menu>
           )}
+          <Link to={"/notice"} style={{ textDecoration: "none" }}>
+            <Menu icon="notice">{t("notice")}</Menu>
+          </Link>
           <a className="popup-channeltalk">
             <Menu icon="ask">{t("contact")}</Menu>
           </a>
