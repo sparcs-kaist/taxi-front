@@ -36,7 +36,7 @@ const ModalNoticeDetail = ({
     <Modal
       isOpen={isOpen}
       onChangeIsOpen={onChangeIsOpen}
-      css={{ padding: "10px" }}
+      css={{ padding: "10px", overflowY: "auto", maxHeight: "70vh" }}
     >
       <div style={styleTitle}>{title}</div>
       <DottedLine />

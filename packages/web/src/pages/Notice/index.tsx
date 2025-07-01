@@ -6,6 +6,7 @@ import "react-notion-x/src/styles.css";
 import { useQuery } from "@/hooks/useTaxiAPI";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
+import Empty from "@/components/Empty";
 import Footer from "@/components/Footer";
 import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
 import ModalNoticeDetail from "@/components/ModalPopup/ModalNoticeDetail";
@@ -53,10 +54,6 @@ const Notice = () => {
     fetchData();
   }, [noticeData, noticeIndex]);
 
-  const emptyDiv = {
-    marginTop: "10px",
-  };
-
   return (
     <div style={{ paddingTop: "10px" }}>
       <HeaderWithBackButton>
@@ -88,7 +85,7 @@ const Notice = () => {
             )}
             {noticeData.notices.filter(
               (notice: NoticeProps) => notice.is_active
-            ).length === 0 && <div style={emptyDiv}>공지사항이 없습니다.</div>}
+            ).length === 0 && <Empty type="mobile">공지사항이 없습니다.</Empty>}
           </div>
           <ModalNoticeDetail
             isOpen={isOpen}

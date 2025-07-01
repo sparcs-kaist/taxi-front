@@ -64,7 +64,9 @@ const NoticeSection = () => {
   return (
     !error &&
     !isLoading &&
-    noticeData?.notices.length !== 0 && (
+    noticeData.notices.filter(
+      (notice: NoticeProps) => notice.is_active && notice.is_pinned
+    ).length !== 0 && (
       <AdaptiveDiv type="center">
         <Link to="/notice" css={{ textDecoration: "none" }}>
           <Title icon="notice" isHeader>
@@ -94,9 +96,6 @@ const NoticeSection = () => {
                 />
               )
           )}
-          {noticeData.notices.filter(
-            (notice: NoticeProps) => notice.is_active && notice.is_pinned
-          ).length === 0 && <div>공지사항이 없습니다.</div>}
         </div>
         <ModalNoticeDetail
           isOpen={isOpen}
