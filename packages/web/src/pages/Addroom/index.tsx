@@ -36,6 +36,12 @@ import { randomRoomNameGenerator } from "@/tools/random";
 import regExpTest from "@/tools/regExpTest";
 import theme from "@/tools/theme";
 
+declare global {
+  interface Window {
+    dataLayer: any[];
+  }
+}
+
 const AddRoom = () => {
   const axios = useAxios();
   const history = useHistory();
@@ -198,6 +204,17 @@ const AddRoom = () => {
         },
         onError: () => setAlert("방 개설에 실패하였습니다."),
       });
+
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "create_new_room_click",
+        // 추가 데이터도 여기 넣을 수 있어요
+        roomFrom: valuePlace[0],
+        roomTo: valuePlace[1],
+        roomTime: calculatedTime!.toISOString(),
+      });
+
+      console.log(typeof valuePlace[0]);
       onCall.current = false;
     }
   };
