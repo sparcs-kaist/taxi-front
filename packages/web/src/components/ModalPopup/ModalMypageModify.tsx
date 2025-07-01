@@ -399,10 +399,13 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
                 (nickname === loginInfo?.nickname &&
                   account === loginInfo?.account &&
                   badge === loginInfo?.badge &&
-                  (loginInfo?.phoneNumber !== undefined
-                    ? true
-                    : phoneNumber === "")) ||
-                !(phoneNumber === "" || phoneNumber.length >= 13)
+                  // 기존에 전화번호가 있거나, 없었고 입력란도 빈 상태면 변경 없음
+                  (loginInfo?.phoneNumber !== undefined ||
+                    phoneNumber === "")) ||
+                // 신규 전화번호 입력 중이고, 길이가 13자 미만이면 비활성화
+                (loginInfo?.phoneNumber === undefined &&
+                  phoneNumber !== "" &&
+                  phoneNumber.length < 13)
               }
               css={{
                 width: "calc(50% - 5px)",
