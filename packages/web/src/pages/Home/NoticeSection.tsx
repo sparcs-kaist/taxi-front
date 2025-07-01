@@ -63,7 +63,8 @@ const NoticeSection = () => {
 
   return (
     !error &&
-    !isLoading && (
+    !isLoading &&
+    noticeData?.notices.length !== 0 && (
       <AdaptiveDiv type="center">
         <Link to="/notice" css={{ textDecoration: "none" }}>
           <Title icon="notice" isHeader>
