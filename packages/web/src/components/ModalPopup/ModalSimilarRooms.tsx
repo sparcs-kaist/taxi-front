@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import React from "react";
 
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
@@ -21,12 +21,11 @@ const ModalSimilarRooms: React.FC<SimilarRoomsModalProps> = ({
   rooms,
   createNewRoom,
 }) => {
-  const { t } = useTranslation();
   const styleTitle = {
     ...theme.font18,
     display: "flex",
     alignItems: "center",
-    margin: "0 8px 12px",
+    margin: "0 0 12px",
   };
   const styleButton = {
     width: "100%",
@@ -55,7 +54,7 @@ const ModalSimilarRooms: React.FC<SimilarRoomsModalProps> = ({
       <div css={styleTitle}>
         {" "}
         <ShareRoundedIcon style={styleIcon} />
-        {t("유사한 방이 있습니다")}
+        유사한 방이 있습니다
       </div>
       <RoomList rooms={rooms} />
       <Button
@@ -65,7 +64,7 @@ const ModalSimilarRooms: React.FC<SimilarRoomsModalProps> = ({
           createNewRoom();
         }}
       >
-        {t("그냥 방 만들기")}
+        그냥 방 만들기
       </Button>
     </Modal>
   );
