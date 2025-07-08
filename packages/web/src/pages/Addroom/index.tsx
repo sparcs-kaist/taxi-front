@@ -199,7 +199,6 @@ const AddRoom = () => {
         onError: () => setAlert("방 개설에 실패하였습니다."),
       });
 
-      console.log(typeof valuePlace[0]);
       onCall.current = false;
     }
   };
