@@ -33,10 +33,15 @@ import FullParticipation from "./FullParticipation";
 import alertAtom from "@/atoms/alert";
 import { useSetRecoilState } from "recoil";
 
+import { triggerTags } from "@/tools/gtm";
 import { date2str, getToday, getToday10 } from "@/tools/moment";
 import { randomRoomNameGenerator } from "@/tools/random";
 import regExpTest from "@/tools/regExpTest";
 import theme from "@/tools/theme";
+
+interface CreateRoomParams {
+  wasSimilarRoomsModalOpen: boolean;
+}
 
 const AddRoom = () => {
   const axios = useAxios();
@@ -193,24 +198,26 @@ const AddRoom = () => {
           from: valuePlace[0],
           to: valuePlace[1],
           time: calculatedTime!.toISOString(),
-          timeGap: 20, // 앞뒤 20분
+          timeGap: DEFAULT_TIME_GAP, // 앞뒤 20분
         },
         onSuccess: async (data) => {
           // 유사한 방들이 존재하지 않을 때
           if (data.length === 0) {
             onCall.current = false;
-            await createNewRoom();
+            await createNewRoom({ wasSimilarRoomsModalOpen: false });
           } else {
             // 검색된 유사한 방들을 상태에 저장
             setSimilarRooms(data || []);
             // 유사한 방이 있을 경우에만 모달 열기
             setIsSimilarRoomsModalOpen(true);
+            // gtm 태그 전송
+            triggerTags("open_similar_rooms_list", {});
           }
         },
         onError: async (e) => {
           // 검색 실패 시 바로 방 생성 진행
           onCall.current = false;
-          await createNewRoom();
+          await createNewRoom({ wasSimilarRoomsModalOpen: false });
         },
       });
 
@@ -218,7 +225,11 @@ const AddRoom = () => {
     }
   };
 
-  const createNewRoom = async () => {
+  const DEFAULT_TIME_GAP = 20; // 앞뒤 20분
+
+  const createNewRoom = async ({
+    wasSimilarRoomsModalOpen,
+  }: CreateRoomParams) => {
     if (!onCall.current) {
       onCall.current = true;
 
@@ -240,6 +251,14 @@ const AddRoom = () => {
           history.push("/myroom");
         },
         onError: () => setAlert("방 개설에 실패하였습니다."),
+      });
+
+      // gtm 태그 전송
+      triggerTags("create_new_room", {
+        roomFrom: valuePlace[0],
+        roomTo: valuePlace[1],
+        roomTime: calculatedTime!.toISOString(),
+        wasSimilarRoomsModalOpen: wasSimilarRoomsModalOpen.toString(),
       });
 
       onCall.current = false;

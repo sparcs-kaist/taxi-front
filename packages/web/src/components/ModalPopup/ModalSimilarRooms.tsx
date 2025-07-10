@@ -8,12 +8,42 @@ import theme from "@/tools/theme";
 
 import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
 
+interface CreateRoomParams {
+  wasSimilarRoomsModalOpen: boolean;
+}
+
 interface SimilarRoomsModalProps {
   isOpen: boolean;
   onChangeIsOpen: (isOpen: boolean) => void;
   rooms: Room[];
-  createNewRoom: () => Promise<void>;
+  createNewRoom: ({
+    wasSimilarRoomsModalOpen,
+  }: CreateRoomParams) => Promise<void>;
 }
+
+const styleTitle = {
+  ...theme.font18,
+  display: "flex",
+  alignItems: "center",
+  margin: "0 0 12px",
+};
+const styleButton = {
+  width: "100%",
+  height: "35px",
+  ...theme.font14_bold,
+  ...theme.cursor(),
+  textAlign: "center" as const,
+  borderRadius: "6px",
+  backgroundColor: theme.purple,
+  color: theme.white,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+};
+const styleIcon = {
+  fontSize: "21px",
+  margin: "0 4px 0 0",
+};
 
 const ModalSimilarRooms: React.FC<SimilarRoomsModalProps> = ({
   isOpen,
@@ -21,30 +51,6 @@ const ModalSimilarRooms: React.FC<SimilarRoomsModalProps> = ({
   rooms,
   createNewRoom,
 }) => {
-  const styleTitle = {
-    ...theme.font18,
-    display: "flex",
-    alignItems: "center",
-    margin: "0 0 12px",
-  };
-  const styleButton = {
-    width: "100%",
-    height: "35px",
-    ...theme.font14_bold,
-    ...theme.cursor(),
-    textAlign: "center" as const,
-    borderRadius: "6px",
-    backgroundColor: theme.purple,
-    color: theme.white,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  };
-  const styleIcon = {
-    fontSize: "21px",
-    margin: "0 4px 0 0",
-  };
-
   return (
     <Modal
       isOpen={isOpen}
@@ -61,7 +67,7 @@ const ModalSimilarRooms: React.FC<SimilarRoomsModalProps> = ({
         css={styleButton}
         onClick={() => {
           onChangeIsOpen(false);
-          createNewRoom();
+          createNewRoom({ wasSimilarRoomsModalOpen: true });
         }}
       >
         그냥 방 만들기
