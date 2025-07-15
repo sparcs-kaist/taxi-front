@@ -1,5 +1,3 @@
-import React from "react";
-
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 import RoomList from "@/pages/Home/RoomList";
@@ -15,10 +13,8 @@ interface CreateRoomParams {
 interface SimilarRoomsModalProps {
   isOpen: boolean;
   onChangeIsOpen: (isOpen: boolean) => void;
-  rooms: Room[];
-  createNewRoom: ({
-    wasSimilarRoomsModalOpen,
-  }: CreateRoomParams) => Promise<void>;
+  rooms: any[];
+  createNewRoom: (params: CreateRoomParams) => void;
 }
 
 const styleTitle = {
@@ -45,12 +41,9 @@ const styleIcon = {
   margin: "0 4px 0 0",
 };
 
-const ModalSimilarRooms: React.FC<SimilarRoomsModalProps> = ({
-  isOpen,
-  onChangeIsOpen,
-  rooms,
-  createNewRoom,
-}) => {
+const ModalSimilarRooms = (
+  { isOpen, onChangeIsOpen, rooms, createNewRoom }: SimilarRoomsModalProps
+) => {
   return (
     <Modal
       isOpen={isOpen}
@@ -62,7 +55,7 @@ const ModalSimilarRooms: React.FC<SimilarRoomsModalProps> = ({
         <ShareRoundedIcon style={styleIcon} />
         유사한 방이 있습니다
       </div>
-      <RoomList rooms={rooms} />
+      <RoomList rooms={rooms} initialLoad={false} />
       <Button
         css={styleButton}
         onClick={() => {
