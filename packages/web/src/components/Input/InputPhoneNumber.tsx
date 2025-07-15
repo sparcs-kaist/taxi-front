@@ -27,21 +27,30 @@ const InputPhoneNumber = ({
   }, [value]);
 
   const handleChangePart2 = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let newVal = e.target.value.replace(/\D/g, "").slice(0, 4);
+    const newVal = e.target.value.replace(/\D/g, "").slice(0, 4);
     setPart2(newVal);
+
     // part2가 4자리면 part3로 포커스 이동
     if (newVal.length === 4) {
       inputRef3.current?.focus();
     }
-    onChangeValue &&
-      onChangeValue(["010", newVal, part3].filter(Boolean).join("-"));
+
+    if (newVal === "" && part3 === "") {
+      onChangeValue?.("");
+    } else {
+      onChangeValue?.(["010", newVal, part3].filter(Boolean).join("-"));
+    }
   };
 
   const handleChangePart3 = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let newVal = e.target.value.replace(/\D/g, "").slice(0, 4);
+    const newVal = e.target.value.replace(/\D/g, "").slice(0, 4);
     setPart3(newVal);
-    onChangeValue &&
-      onChangeValue(["010", part2, newVal].filter(Boolean).join("-"));
+
+    if (newVal === "" && part2 === "") {
+      onChangeValue?.("");
+    } else {
+      onChangeValue?.(["010", part2, newVal].filter(Boolean).join("-"));
+    }
   };
 
   return (
