@@ -2,7 +2,7 @@ import EventSection2023Fall from "./EventSection2023Fall";
 import EventSection2023Spring from "./EventSection2023Spring";
 import EventSection2024Fall from "./EventSection2024Fall";
 import EventSection2024Spring from "./EventSection2024Spring";
-import EventSection2025Spring from "@/pages/Home/EventSection/EventSection2025Spring";
+import EventSection2025Spring from "./EventSection2025Spring";
 
 import { eventMode } from "@/tools/loadenv";
 

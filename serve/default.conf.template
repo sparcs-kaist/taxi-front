@@ -3,7 +3,7 @@ server {
     listen [::]:80;
 
     location ~ ^/invite/(?<room_id>[^/]+) {
-        root  /root/serve;
+        root  /app/serve;
         try_files /invite.html =404;
 
         sub_filter '%ROOM_ID%' $room_id;
@@ -13,7 +13,7 @@ server {
     }
 
     location ~ ^/event/2025spring-invite/(?<inviter_id>[^/]+) {
-        root  /root/serve;
+        root  /app/serve;
         try_files /invite-event.html =404;
 
         sub_filter '%INVITER_ID%' $inviter_id;
@@ -22,8 +22,23 @@ server {
         sub_filter_once off;
     }
 
+    location /notion/ {
+        proxy_pass https://www.notion.so/api/v3/;
+        proxy_set_header Host www.notion.so;
+        proxy_ssl_server_name on;
+        proxy_ssl_name www.notion.so;
+
+        add_header 'Access-Control-Allow-Origin' '*';
+        add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+        add_header 'Access-Control-Allow-Headers' '*';
+
+        if ($request_method = 'OPTIONS') {
+            return 204;
+        }
+    }
+
     location / {
-        root   /root/build;
+        root   /app/build;
         index  index.html index.htm;
         try_files $uri $uri/ /index.html;
 
