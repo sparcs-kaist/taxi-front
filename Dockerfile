@@ -1,12 +1,12 @@
 #
 # First stage: build the app
 #
-FROM node:16.15.1 AS builder
+FROM node:22.12.0 AS builder
 
 WORKDIR /app
 
 # Install pnpm
-RUN npm install --global pnpm@8
+RUN npm install --global pnpm@10
 
 # pnpm fetch does require only lockfile
 COPY pnpm-lock.yaml pnpm-workspace.yaml ./
