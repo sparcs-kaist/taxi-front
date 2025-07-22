@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useHistory, useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 
 import channelService from "@/hooks/skeleton/useChannelTalkEffect/channelService";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import { useIsLogin } from "@/hooks/useFetchRecoilState";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Footer from "@/components/Footer";
@@ -16,12 +17,14 @@ import {
   ModalEvent2024SpringJoin,
   ModalEvent2025SpringJoin,
   ModalMypageModify,
+  ModalNoticeBadge,
   ModalNotification,
   ModalPrivacyPolicy,
   ModalReport,
   ModalTerms,
 } from "@/components/ModalPopup";
 import Title from "@/components/Title";
+import BadgeImage from "@/components/User/BadgeImage";
 import ProfileImage from "@/components/User/ProfileImage";
 import WhiteContainer from "@/components/WhiteContainer";
 import WhiteContainerSuggestLogin from "@/components/WhiteContainer/WhiteContainerSuggestLogin";
@@ -53,7 +56,7 @@ const Mypage = () => {
   const [isOpenMembers, setOpenIsMembers] = useState(false);
   const [isOpenAccountCancelProcess, setIsOpenAccountCancelProcess] =
     useState(false);
-
+  const isLogin = useIsLogin();
   const { search } = useLocation();
   const history = useHistory();
 
@@ -146,6 +149,7 @@ const Mypage = () => {
               </div>
               <div css={theme.font16_bold} className="selectable">
                 {loginInfo?.name}
+                {loginInfo?.phoneNumber !== undefined && <BadgeImage />}
               </div>
             </div>
             <div css={infoTitle}>
@@ -169,6 +173,10 @@ const Mypage = () => {
             <div css={infoType} className="selectable">
               {t("account")}
               <div css={infoContent}>{loginInfo?.account}</div>
+            </div>
+            <div css={infoType} className="selectable">
+              {t("phone_number")}
+              <div css={infoContent}>{loginInfo?.phoneNumber}</div>
             </div>
           </WhiteContainer>
           <WhiteContainer>
@@ -208,6 +216,9 @@ const Mypage = () => {
               {t("report_record")}
             </Menu>
           )}
+          <Link to={"/notice"} style={{ textDecoration: "none" }}>
+            <Menu icon="notice">{t("notice")}</Menu>
+          </Link>
           <a className="popup-channeltalk">
             <Menu icon="ask">{t("contact")}</Menu>
           </a>
@@ -291,6 +302,7 @@ const Mypage = () => {
         isOpen={isOpenAccountCancelProcess}
         onChangeIsOpen={setIsOpenAccountCancelProcess}
       />
+      {isLogin && loginInfo?.agreeOnTermsOfService && <ModalNoticeBadge />}
     </AdaptiveDiv>
   );
 };

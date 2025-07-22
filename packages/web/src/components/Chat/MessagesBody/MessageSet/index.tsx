@@ -5,6 +5,7 @@ import type { BotChat, LayoutType, UserChat } from "@/types/chat";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import { ModalChatReport } from "@/components/ModalPopup";
+import BadgeImage from "@/components/User/BadgeImage";
 import ProfileImage from "@/components/User/ProfileImage";
 
 import MessageAccount from "./MessageAccount";
@@ -78,6 +79,10 @@ const MessageSet = ({
     "authorIsWithdrew" in chats?.[0] ? chats?.[0].authorIsWithdrew : false;
 
   const isBot = authorId === "bot";
+  const author = isBot
+    ? undefined
+    : roomInfo.part.find((p) => p._id === authorId);
+  const authorBadge = author?.badge || false;
   const isAlone = roomInfo.part.length === 1;
 
   // Chat의 time에 따라 안 읽은 사람 수 설정
@@ -210,8 +215,10 @@ const MessageSet = ({
             ) : (
               <div css={styleName} className="selectable">
                 {authorName}
+                <BadgeImage badge_live={!!authorBadge && !isBot} />
               </div>
             ))}
+
           {chats.map((chat, index) => (
             <div key={getChatUniquewKey(chat)} css={styleMessageWrap}>
               <div css={styleChat(chat.type)}>
