@@ -74,7 +74,7 @@ const members: Members = [
       { name: "민지연", id: "mingle", period: "2023" }, // 23겨울 (누적 1학기)
       { name: "김현수", id: "default", period: "2023" }, // 23가을 (누적 1학기)
       { name: "박지호", id: "night", period: "2022" }, // 22여름 (누적 1학기)
-      { name: "김민찬", id: "static", period: "2023 ~ 2024" }, // 23가을 ~ 24겨울 (누적 6학기)
+      { name: "김민찬", id: "static", period: "2023 ~ 2025" }, // 23가을 ~ 25여름 (누적 8학기)
       { name: "김건", id: "suwon", period: "2021 ~ 2023" }, // 21봄 ~ 23겨울 (누적 12학기)
       { name: "이채영", id: "stitch", period: "2021" }, // 21봄 ~ 21겨울 (누적 4학기)
     ],
