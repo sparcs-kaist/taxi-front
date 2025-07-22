@@ -55,5 +55,6 @@ declare global {
     };
     env: Env;
     Kakao: any;
+    dataLayer: any[];
   }
 }

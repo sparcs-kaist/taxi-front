@@ -12,7 +12,10 @@ import { useAxios } from "@/hooks/useTaxiAPI";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
-import { ModalEvent2025SpringAbuseWarning } from "@/components/ModalPopup";
+import {
+  ModalEvent2025SpringAbuseWarning,
+  ModalSimilarRooms,
+} from "@/components/ModalPopup";
 import { ModalNoticeBadge } from "@/components/ModalPopup";
 import {
   OptionDate,
@@ -31,10 +34,15 @@ import FullParticipation from "./FullParticipation";
 import alertAtom from "@/atoms/alert";
 import { useSetRecoilState } from "recoil";
 
+import { triggerTags } from "@/tools/gtm";
 import { date2str, getToday, getToday10 } from "@/tools/moment";
 import { randomRoomNameGenerator } from "@/tools/random";
 import regExpTest from "@/tools/regExpTest";
 import theme from "@/tools/theme";
+
+interface CreateRoomParams {
+  wasSimilarRoomsModalOpen: boolean;
+}
 
 const AddRoom = () => {
   const axios = useAxios();
@@ -71,6 +79,10 @@ const AddRoom = () => {
   //#endregion
 
   const [taxiFare, setTaxiFare] = useState<number>(0);
+
+  const [isSimilarRoomsModalOpen, setIsSimilarRoomsModalOpen] =
+    useState<boolean>(false);
+  const [similarRooms, setSimilarRooms] = useState<Room[]>([]);
 
   const getTaxiFare = async () => {
     await axios({
@@ -153,6 +165,7 @@ const AddRoom = () => {
         },
         onError: () => {},
       });
+
       if (isAgreeOnTermsOfEvent) {
         let isFalse = false;
         await axios({
@@ -178,7 +191,48 @@ const AddRoom = () => {
       }
       // #endregion
 
-      // FIXME: "/rooms/create" API가 myRoom을 반환하도록 수정
+      await axios({
+        url: "/rooms/searchByTimeGap",
+        method: "get",
+        params: {
+          from: valuePlace[0],
+          to: valuePlace[1],
+          time: calculatedTime!.toISOString(),
+          timeGap: DEFAULT_TIME_GAP, // 앞뒤 20분
+        },
+        onSuccess: async (data) => {
+          // 유사한 방들이 존재하지 않을 때
+          if (data.length === 0) {
+            onCall.current = false;
+            await createNewRoom({ wasSimilarRoomsModalOpen: false });
+          } else {
+            // 검색된 유사한 방들을 상태에 저장
+            setSimilarRooms(data || []);
+            // 유사한 방이 있을 경우에만 모달 열기
+            setIsSimilarRoomsModalOpen(true);
+            // gtm 태그 전송
+            triggerTags("open_similar_rooms_list", {});
+          }
+        },
+        onError: async (e) => {
+          // 검색 실패 시 바로 방 생성 진행
+          onCall.current = false;
+          await createNewRoom({ wasSimilarRoomsModalOpen: false });
+        },
+      });
+
+      onCall.current = false;
+    }
+  };
+
+  const DEFAULT_TIME_GAP = 20; // 앞뒤 20분
+
+  const createNewRoom = async ({
+    wasSimilarRoomsModalOpen,
+  }: CreateRoomParams) => {
+    if (!onCall.current) {
+      onCall.current = true;
+
       await axios({
         url: "/rooms/create",
         method: "post",
@@ -198,6 +252,15 @@ const AddRoom = () => {
         },
         onError: () => setAlert("방 개설에 실패하였습니다."),
       });
+
+      // gtm 태그 전송
+      triggerTags("create_new_room", {
+        roomFrom: valuePlace[0],
+        roomTo: valuePlace[1],
+        roomTime: calculatedTime!.toISOString(),
+        wasSimilarRoomsModalOpen: wasSimilarRoomsModalOpen.toString(),
+      });
+
       onCall.current = false;
     }
   };
@@ -283,6 +346,16 @@ const AddRoom = () => {
             setIsOpenModalEventAbuseWarning(data);
           }
         }}
+      />
+
+      {/* Similar rooms modal */}
+      <ModalSimilarRooms
+        isOpen={isSimilarRoomsModalOpen}
+        onChangeIsOpen={(value) => {
+          setIsSimilarRoomsModalOpen(value);
+        }}
+        createNewRoom={createNewRoom}
+        rooms={similarRooms}
       />
       {/* #endregion */}
     </>
