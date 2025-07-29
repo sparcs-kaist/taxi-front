@@ -108,7 +108,27 @@ const InfoSection = () => {
               ? `안녕하세요, ${loginInfo?.nickname}님!`
               : "카이스트 구성원 간 택시 동승자 모집 서비스, Taxi 입니다!"}
           </div>
+          <div css={styleTitle}>
+            {isLogin && (
+              <>
+                이번 달,{" "}
+                <span
+                  css={{
+                    ...styleTitle,
+                    padding: "5px 10px 5px",
+                    borderRadius: "8px",
+                    backgroundColor: theme.purple,
+                  }}
+                >
+                  8000원
+                </span>
+                을 절약했어요!
+              </>
+            )}
+          </div>
+
           <div css={styleSubTitle}>{isLogin ? message : randomTaxiSlogan}</div>
+          <div></div>
           {room ? (
             <Link to={`/myroom/${room._id}`} css={{ textDecoration: "none" }}>
               <Room data={room} marginTop="24px" />
