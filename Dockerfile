@@ -6,7 +6,7 @@ FROM node:22.12.0 AS builder
 WORKDIR /app
 
 # Install pnpm
-RUN npm install --global pnpm@10
+RUN npm install --global pnpm@10.13.1
 
 # pnpm fetch does require only lockfile
 COPY pnpm-lock.yaml pnpm-workspace.yaml ./
