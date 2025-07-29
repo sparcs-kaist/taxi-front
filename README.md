@@ -14,9 +14,8 @@ Taxi는 KAIST 구성원들의 택시 동승 인원 모집을 위한 서비스입
 
 ## Prerequisites
 
-- Recommended npm version : 8.5.5 (with node v.16.15.0)
-- Recommended mognoDB version : 5.0.8
-- [Issue with node version](https://github.com/sparcs-kaist/taxi-front/issues/76)
+- Recommended npm version : 10.13.1 (with node v.22.17.1)
+- Recommended mongoDB version : 5.0.8
 
 ## Project Setup
 
