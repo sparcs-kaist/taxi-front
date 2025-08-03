@@ -39,6 +39,7 @@ const RoomList = (props: RoomListProps) => {
                     data={room}
                     marginBottom="15px"
                     type={room.type}
+                    unreadCount={room.unreadCount}
                   />
                 ) : (
                   <Room data={room} marginBottom="15px" />

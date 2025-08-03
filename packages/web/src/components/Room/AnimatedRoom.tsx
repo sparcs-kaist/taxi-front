@@ -10,6 +10,7 @@ type AnimatedRoomProps = {
   marginBottom?: string;
   theme?: string;
   type?: "addition" | "deletion";
+  unreadCount?: number;
 };
 
 const growHeight = keyframes`
@@ -30,15 +31,18 @@ const shrinkHeight = keyframes`
   }
 `;
 
-const AnimatedRoom = ({
-  data,
-  selected = false,
-  onClick = () => {},
-  marginTop = "0px",
-  marginBottom = "0px",
-  theme,
-  type,
-}: AnimatedRoomProps) => {
+const AnimatedRoom = (
+  {
+    data,
+    selected = false,
+    onClick = () => {},
+    marginTop = "0px",
+    marginBottom = "0px",
+    theme,
+    type,
+    unreadCount,
+  }: AnimatedRoomProps
+) => {
   const props = {
     data,
     selected,
@@ -47,6 +51,7 @@ const AnimatedRoom = ({
     marginBottom,
     theme,
     type,
+    unreadCount,
   };
 
   return !data.animating ? (

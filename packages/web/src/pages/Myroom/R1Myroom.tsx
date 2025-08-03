@@ -44,6 +44,7 @@ const R1Myroom = ({
               theme="white"
               marginBottom="15px"
               type={item.type}
+              unreadCount={item.unreadCount}
             />
           </Link>
         ))
@@ -72,6 +73,7 @@ const R1Myroom = ({
                   theme="white"
                   marginTop="15px"
                   type={item.type}
+                  unreadCount={item.unreadCount}
                 />
               </Link>
             ))}

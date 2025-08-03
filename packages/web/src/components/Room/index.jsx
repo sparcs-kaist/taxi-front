@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import DottedLine from "@/components/DottedLine";
+import UnreadBadge from "@/components/UnreadBadge";
 
 import "./index.css";
 
@@ -140,6 +141,7 @@ const Room = (props) => {
           maxPartLength={props.data?.maxPartLength}
           theme={props.theme}
         />
+        <UnreadBadge count={props.unreadCount} />
       </div>
       <DottedLine direction="row" margin="0 12px" />
       <div style={stylePlaceGrid}>
@@ -163,6 +165,7 @@ Room.propTypes = {
   marginTop: PropTypes.string,
   marginBottom: PropTypes.string,
   theme: PropTypes.string,
+  unreadCount: PropTypes.number,
 };
 
 Room.defaultProps = {

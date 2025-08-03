@@ -67,6 +67,7 @@ const R2Myroom = (props) => {
                       theme="purple"
                       marginTop="15px"
                       type={item.type}
+                      unreadCount={item.unreadCount}
                     />
                   </LinkRoom>
                 ))
@@ -99,6 +100,7 @@ const R2Myroom = (props) => {
                           theme="purple"
                           marginTop="15px"
                           type={item.type}
+                          unreadCount={item.unreadCount}
                         />
                       </LinkRoom>
                     ))}
