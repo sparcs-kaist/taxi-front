@@ -2,13 +2,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 
-import {
-  useFetchRecoilState,
-  useIsLogin,
-  useValueRecoilState,
-} from "@/hooks/useFetchRecoilState";
+
+
+import { useFetchRecoilState, useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import useIsTimeOver from "@/hooks/useIsTimeOver";
 import { useAxios } from "@/hooks/useTaxiAPI";
+
+
 
 import Button from "@/components/Button";
 import DottedLine from "@/components/DottedLine";
@@ -17,15 +17,23 @@ import MiniCircle from "@/components/MiniCircle";
 import Users from "@/components/User/Users";
 import { MAX_PARTICIPATION } from "@/pages/Myroom";
 
+
+
 import alertAtom from "@/atoms/alert";
 import { useSetRecoilState } from "recoil";
 
+
+
 import { dayServerToClient } from "@/tools/day";
+import { triggerTag } from "@/tools/gtm";
 import { date2str } from "@/tools/moment";
 import theme from "@/tools/theme";
 import { getLocationName } from "@/tools/trans";
 
+
+
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
+
 
 type PlaceSectionProps = {
   type: "from" | "to";
@@ -38,7 +46,8 @@ type InfoSectionProps = {
 };
 export type BodyRoomSelectionProps = {
   roomInfo: Room;
-};
+  triggerTags?: string;
+}; 
 
 const PlaceSection = ({ type, name }: PlaceSectionProps) => (
   <div
@@ -100,7 +109,9 @@ const InfoSection = ({ title, alignDirection, children }: InfoSectionProps) => (
   </div>
 );
 
-const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
+const BodyRoomSelection = ({ roomInfo, triggerTags }: BodyRoomSelectionProps) => {
+    console.log("triggerTags", triggerTags);
+  
   const { i18n } = useTranslation();
   const axios = useAxios();
   const history = useHistory();
@@ -136,6 +147,7 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
   // item : any 가 좋은 방법인지 모르겠습니다
 
   const requestJoin = useCallback(async () => {
+    console.log(triggerTags);
     if (isAlreadyPart) {
       // 이미 참여 중인 방에서 버튼을 누르면 API 호출 관련 로직을 건너뛰고 해당 방으로 이동합니다.
       history.push(`/myroom/${roomInfo._id}`);
@@ -151,11 +163,19 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
       onSuccess: () => {
         fetchMyRooms();
         history.push(`/myroom/${roomInfo._id}`);
+        console.log("방 참여 성공");
+
+        if(triggerTags) {
+          console.log("triggerTags", triggerTags);
+          for (const i of triggerTags.split(",")) {
+            triggerTag(i);
+          }
+        }
       },
       onError: () => setAlert("방 참여에 실패하였습니다."),
     });
     onCall.current = false;
-  }, [roomInfo?._id, history]);
+  }, [roomInfo?._id, history, triggerTags]);
 
   const [taxiFare, setTaxiFare] = useState<number>(0);
   const getTaxiFare = async () => {

@@ -17,13 +17,13 @@ type HeightFixWrapperProps = {
 type ModalRoomSelectionProps = {
   isOpen: boolean;
   onChangeIsOpen: (isOpen: boolean) => void;
-  roomInfo: Nullable<BodyRoomSelectionProps["roomInfo"]>; // FIXME
+  roomInfo: BodyRoomSelectionProps["roomInfo"] | null;
+  triggerTags?: string;
 };
 
-const HeightFixWrapper = ({
-  children,
-  onChangeHeight,
-}: HeightFixWrapperProps) => {
+const HeightFixWrapper = (
+  { children, onChangeHeight }: HeightFixWrapperProps
+) => {
   const body = useRef<HTMLDivElement>(null);
 
   // resize observer
@@ -44,12 +44,16 @@ const HeightFixWrapper = ({
   );
 };
 
-const ModalRoomSelection = ({
-  isOpen,
-  onChangeIsOpen,
-  roomInfo: _roomInfo,
-}: ModalRoomSelectionProps) => {
+const ModalRoomSelection = (
+  {
+    isOpen,
+    onChangeIsOpen,
+    roomInfo: _roomInfo,
+    triggerTags,
+  }: ModalRoomSelectionProps
+) => {
   const [roomInfo, setRoomInfo] = useState(_roomInfo);
+  const [triggerTagsState, setTriggerTagsState] = useState("");
   const [bodyHeight, setBodyHeight] = useState(0);
   const pages = useMemo(
     () =>
@@ -57,7 +61,12 @@ const ModalRoomSelection = ({
         {
           key: "info",
           name: "방 정보",
-          body: <BodyRoomSelection roomInfo={roomInfo} />,
+          body: (
+            <BodyRoomSelection
+              roomInfo={roomInfo}
+              triggerTags={triggerTagsState}
+            />
+          ),
         },
         {
           key: "share",
@@ -70,7 +79,8 @@ const ModalRoomSelection = ({
 
   useEffect(() => {
     if (_roomInfo) setRoomInfo(_roomInfo);
-  }, [_roomInfo]);
+    if (triggerTags) setTriggerTagsState(triggerTags);
+  }, [_roomInfo, triggerTags]);
 
   const styleTitle = {
     ...theme.font18,
@@ -88,7 +98,10 @@ const ModalRoomSelection = ({
           <div css={styleTitle}>{roomInfo.name}</div>
           {pages && <Navigation pages={pages} />}
           <HeightFixWrapper onChangeHeight={setBodyHeight}>
-            <BodyRoomSelection roomInfo={roomInfo} />
+            <BodyRoomSelection
+              roomInfo={roomInfo}
+              triggerTags={triggerTagsState}
+            />
           </HeightFixWrapper>
         </>
       )}
