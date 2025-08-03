@@ -110,7 +110,6 @@ const InfoSection = ({ title, alignDirection, children }: InfoSectionProps) => (
 );
 
 const BodyRoomSelection = ({ roomInfo, triggerTags }: BodyRoomSelectionProps) => {
-    console.log("triggerTags", triggerTags);
   
   const { i18n } = useTranslation();
   const axios = useAxios();
@@ -147,7 +146,6 @@ const BodyRoomSelection = ({ roomInfo, triggerTags }: BodyRoomSelectionProps) =>
   // item : any 가 좋은 방법인지 모르겠습니다
 
   const requestJoin = useCallback(async () => {
-    console.log(triggerTags);
     if (isAlreadyPart) {
       // 이미 참여 중인 방에서 버튼을 누르면 API 호출 관련 로직을 건너뛰고 해당 방으로 이동합니다.
       history.push(`/myroom/${roomInfo._id}`);
@@ -163,10 +161,8 @@ const BodyRoomSelection = ({ roomInfo, triggerTags }: BodyRoomSelectionProps) =>
       onSuccess: () => {
         fetchMyRooms();
         history.push(`/myroom/${roomInfo._id}`);
-        console.log("방 참여 성공");
 
         if(triggerTags) {
-          console.log("triggerTags", triggerTags);
           for (const i of triggerTags.split(",")) {
             triggerTag(i);
           }

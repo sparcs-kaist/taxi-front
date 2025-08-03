@@ -53,7 +53,6 @@ const ModalRoomSelection = (
   }: ModalRoomSelectionProps
 ) => {
   const [roomInfo, setRoomInfo] = useState(_roomInfo);
-  const [triggerTagsState, setTriggerTagsState] = useState("");
   const [bodyHeight, setBodyHeight] = useState(0);
   const pages = useMemo(
     () =>
@@ -62,10 +61,7 @@ const ModalRoomSelection = (
           key: "info",
           name: "방 정보",
           body: (
-            <BodyRoomSelection
-              roomInfo={roomInfo}
-              triggerTags={triggerTagsState}
-            />
+            <BodyRoomSelection roomInfo={roomInfo} triggerTags={triggerTags} />
           ),
         },
         {
@@ -79,8 +75,7 @@ const ModalRoomSelection = (
 
   useEffect(() => {
     if (_roomInfo) setRoomInfo(_roomInfo);
-    if (triggerTags) setTriggerTagsState(triggerTags);
-  }, [_roomInfo, triggerTags]);
+  }, [_roomInfo]);
 
   const styleTitle = {
     ...theme.font18,
@@ -98,10 +93,7 @@ const ModalRoomSelection = (
           <div css={styleTitle}>{roomInfo.name}</div>
           {pages && <Navigation pages={pages} />}
           <HeightFixWrapper onChangeHeight={setBodyHeight}>
-            <BodyRoomSelection
-              roomInfo={roomInfo}
-              triggerTags={triggerTagsState}
-            />
+            <BodyRoomSelection roomInfo={roomInfo} />
           </HeightFixWrapper>
         </>
       )}
