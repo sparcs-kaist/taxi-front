@@ -58,26 +58,30 @@ const SocketToastProvider = () => {
 
       // 전역적으로 unread count 업데이트 처리
       if (userOid && chats.length > 0) {
-        // 다른 사용자의 메시지인지 확인
-        const otherUserMessages = chats.filter(
-          (chat: Chat) =>
-            chat.authorId !== userOid && ["text", "s3img"].includes(chat.type) // 실제 메시지만 카운트
+        console.log("Received chats via socket:", chats);
+
+        // 방별로 모든 채팅을 그룹화 (내 메시지 포함)
+        const chatsByRoom = chats.reduce(
+          (acc: { [key: string]: Chat[] }, chat: Chat) => {
+            if (!acc[chat.roomId]) acc[chat.roomId] = [];
+            acc[chat.roomId].push(chat);
+            return acc;
+          },
+          {} as { [key: string]: Chat[] }
         );
 
-        if (otherUserMessages.length > 0) {
-          // 방별로 그룹화
-          const messagesByRoom = otherUserMessages.reduce(
-            (acc: { [key: string]: Chat[] }, chat: Chat) => {
-              if (!acc[chat.roomId]) acc[chat.roomId] = [];
-              acc[chat.roomId].push(chat);
-              return acc;
-            },
-            {} as { [key: string]: Chat[] }
+        // 각 방별로 처리
+        Object.entries(chatsByRoom).forEach(([roomId, roomChats]) => {
+          const allChats = roomChats as Chat[];
+
+          // 다른 사용자의 실제 메시지만 필터링
+          const otherUserMessages = allChats.filter(
+            (chat: Chat) =>
+              chat.authorId !== userOid && ["text", "s3img"].includes(chat.type)
           );
 
-          // 각 방의 unread count 업데이트
-          Object.entries(messagesByRoom).forEach(([roomId, roomMessages]) => {
-            const messages = roomMessages as Chat[];
+          // 다른 사용자의 새 메시지가 있을 때만 unread count 업데이트
+          if (otherUserMessages.length > 0) {
             setMyRooms((prevMyRooms) => {
               if (!prevMyRooms) return prevMyRooms;
 
@@ -92,9 +96,13 @@ const SocketToastProvider = () => {
                       ? parseInt(lastReadCountStr, 10)
                       : 0;
 
-                    // 예상 totalCount 계산 (기존 + 새로운 메시지)
+                    // 소켓으로 받은 채팅 데이터를 기반으로 새로운 총 메시지 개수 추정
+                    // 기존 chatNum + 새로 받은 실제 메시지 개수 (내 메시지 포함한 모든 타입)
+                    const actualNewMessages = allChats.filter((chat) =>
+                      ["text", "s3img"].includes(chat.type)
+                    );
                     const estimatedTotalCount =
-                      (room.chatNum || 0) + messages.length;
+                      (room.chatNum || 0) + actualNewMessages.length;
 
                     // unreadCount 재계산
                     const newUnreadCount = Math.max(
@@ -107,9 +115,12 @@ const SocketToastProvider = () => {
                       {
                         previousUnreadCount: room.unreadCount,
                         newUnreadCount,
-                        newMessageCount: messages.length,
+                        newOtherUserMessages: otherUserMessages.length,
+                        newActualMessages: actualNewMessages.length,
+                        currentChatNum: room.chatNum,
                         estimatedTotalCount,
                         lastReadCount,
+                        allSocketChats: allChats.length,
                       }
                     );
 
@@ -127,8 +138,8 @@ const SocketToastProvider = () => {
                 done: updateRoomUnreadCount(prevMyRooms.done),
               };
             });
-          });
-        }
+          }
+        });
       }
 
       // TODO: roomId 다르면 Toast 메시지 띄우기 가능 (라이브러리 조사: React-toastify)
@@ -143,7 +154,7 @@ const SocketToastProvider = () => {
     return () => {
       socket.disconnect();
     };
-  }, [userId, userOid, setMyRooms]);
+  }, [userId, userOid, setMyRooms, fetchMyrooms]);
 
   return null;
 };

@@ -22,20 +22,27 @@ export default (roomId: string, shouldRunEffect = false) => {
         data: { roomId },
       });
 
+      // 최신 chatNum을 API로 가져오기 (타이밍 문제 방지)
       const { totalCount } = await axios({
         url: "/chats/count",
         method: "get",
-        params: { roomId }, // GET 요청이므로 params 사용
+        params: { roomId },
       });
 
-      // 즉시 Recoil 상태 업데이트 - 현재 상태를 가져와서 업데이트
       setMyRooms((prevMyRooms) => {
         if (!prevMyRooms) return prevMyRooms;
+
+        // API에서 가져온 최신 totalCount 사용
+        localStorage.setItem(`lastReadCount_${roomId}`, totalCount.toString());
 
         const updateRoomUnreadCount = (rooms: any[]) =>
           rooms.map((room) => {
             if (room._id === roomId) {
-              return { ...room, unreadCount: 0 }; // 읽었으므로 unreadCount를 0으로 설정
+              return {
+                ...room,
+                unreadCount: 0, // 읽었으므로 unreadCount를 0으로 설정
+                chatNum: totalCount, // 최신 chatNum도 업데이트
+              };
             }
             return room;
           });
@@ -45,9 +52,6 @@ export default (roomId: string, shouldRunEffect = false) => {
           done: updateRoomUnreadCount(prevMyRooms.done),
         };
       });
-
-      // localStorage에 읽은 메시지 개수 저장
-      localStorage.setItem(`lastReadCount_${roomId}`, totalCount.toString());
     } catch (error) {
       console.error('"/chats/read" API 요청 중 오류 발생: ', error);
     }
