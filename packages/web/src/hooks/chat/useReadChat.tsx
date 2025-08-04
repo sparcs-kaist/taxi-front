@@ -1,5 +1,6 @@
 import { useCallback, useEffect } from "react";
 
+import { useSetMyRooms } from "@/hooks/useFetchRecoilState/useFetchMyRooms";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
 /**
@@ -11,6 +12,7 @@ import { useAxios } from "@/hooks/useTaxiAPI";
  */
 export default (roomId: string, shouldRunEffect = false) => {
   const axios = useAxios();
+  const setMyRooms = useSetMyRooms();
 
   const handleRead = useCallback(async () => {
     try {
@@ -28,10 +30,28 @@ export default (roomId: string, shouldRunEffect = false) => {
 
       // localStorage에 읽은 메시지 개수 저장
       localStorage.setItem(`lastReadCount_${roomId}`, totalCount.toString());
+
+      // 즉시 Recoil 상태 업데이트 - 현재 상태를 가져와서 업데이트
+      setMyRooms((prevMyRooms) => {
+        if (!prevMyRooms) return prevMyRooms;
+
+        const updateRoomUnreadCount = (rooms: any[]) =>
+          rooms.map((room) => {
+            if (room._id === roomId) {
+              return { ...room, unreadCount: 0 }; // 읽었으므로 unreadCount를 0으로 설정
+            }
+            return room;
+          });
+
+        return {
+          ongoing: updateRoomUnreadCount(prevMyRooms.ongoing),
+          done: updateRoomUnreadCount(prevMyRooms.done),
+        };
+      });
     } catch (error) {
       console.error('"/chats/read" API 요청 중 오류 발생: ', error);
     }
-  }, [axios, roomId]);
+  }, [axios, roomId, setMyRooms]);
 
   // 화면이 활성화 될 때 읽은 시간 업데이트
   useEffect(() => {
