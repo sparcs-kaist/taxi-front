@@ -28,9 +28,6 @@ export default (roomId: string, shouldRunEffect = false) => {
         params: { roomId }, // GET 요청이므로 params 사용
       });
 
-      // localStorage에 읽은 메시지 개수 저장
-      localStorage.setItem(`lastReadCount_${roomId}`, totalCount.toString());
-
       // 즉시 Recoil 상태 업데이트 - 현재 상태를 가져와서 업데이트
       setMyRooms((prevMyRooms) => {
         if (!prevMyRooms) return prevMyRooms;
@@ -48,6 +45,9 @@ export default (roomId: string, shouldRunEffect = false) => {
           done: updateRoomUnreadCount(prevMyRooms.done),
         };
       });
+
+      // localStorage에 읽은 메시지 개수 저장
+      localStorage.setItem(`lastReadCount_${roomId}`, totalCount.toString());
     } catch (error) {
       console.error('"/chats/read" API 요청 중 오류 발생: ', error);
     }

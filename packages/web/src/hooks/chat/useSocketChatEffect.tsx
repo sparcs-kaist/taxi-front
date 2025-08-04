@@ -4,6 +4,7 @@ import { useStateWithCallbackLazy } from "use-state-with-callback";
 import type { Chat, Chats } from "@/types/chat";
 
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import { useSetMyRooms } from "@/hooks/useFetchRecoilState/useFetchMyRooms";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
 import {
@@ -30,6 +31,7 @@ export default (
   isSendingMessage: MutableRefObject<boolean>
 ) => {
   const axios = useAxios();
+  const setMyRooms = useSetMyRooms();
   const { oid: userOid } = useValueRecoilState("loginInfo") || {};
 
   useEffect(() => {
@@ -87,6 +89,43 @@ export default (
           if (isMyMessage) isSendingMessage.current = false;
           if (isNeedToFetch) fetchRoomInfo();
           if (isWindowFocused()) handleRead(); // 새로운 메세지에 대한 읽음 처리
+
+          // // 다른 사용자의 새 메시지가 도착하면 읽음 처리 및 unread count 조정
+          // // 내 메시지가 아니고, 실제 메시지 타입인 경우
+          // if (!isMyMessage) {
+          //   console.log("New message received in room:", roomId);
+          //   const newMessageCount = chats.filter(chat => 
+          //     chat.authorId !== userOid && 
+          //     ["text", "s3img"].includes(chat.type) // 실제 메시지만 카운트
+          //   ).length;
+            
+          //   if (newMessageCount > 0) {
+          //     // 현재 채팅창이 포커스되어 있으면 즉시 읽음 처리
+          //     if (isWindowFocused()) {
+          //       // 포커스된 상태에서는 전역 업데이트에서 증가된 unreadCount를 0으로 리셋
+          //       setMyRooms((prevMyRooms) => {
+          //         if (!prevMyRooms) return prevMyRooms;
+                  
+          //         const updateRoomUnreadCount = (rooms: any[]) =>
+          //           rooms.map((room) => {
+          //             if (room._id === roomId) {
+          //               return { 
+          //                 ...room, 
+          //                 unreadCount: 0 // 포커스된 상태면 읽음 처리
+          //               };
+          //             }
+          //             return room;
+          //           });
+
+          //         return {
+          //           ongoing: updateRoomUnreadCount(prevMyRooms.ongoing),
+          //           done: updateRoomUnreadCount(prevMyRooms.done),
+          //         };
+          //       });
+          //     }
+          //     // 포커스되지 않은 상태에서는 전역 업데이트(SocketToastProvider)에서 처리됨
+          //   }
+          // }
 
           if (chats.length > 10) {
             axios({

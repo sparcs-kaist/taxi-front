@@ -31,6 +31,7 @@ const updateUnreadCount = async (rooms: Room[], axios: any) => {
         return {
           ...room,
           unreadCount: updatedUnreadCount,
+          chatNum: totalCount,
         };
       } catch (error) {
         console.error(
@@ -41,6 +42,7 @@ const updateUnreadCount = async (rooms: Room[], axios: any) => {
         return {
           ...room,
           unreadCount: 0,
+          chatNum: 0,
         };
       }
     })
