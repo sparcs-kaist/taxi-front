@@ -2,14 +2,15 @@ import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import theme from "@/tools/theme";
 
-import { ReactComponent as BadgeIcon } from "@/static/assets/phone_badge_img.svg";
+import { ReactComponent as BadgeIcon } from "@/static/assets/phone_badge_silver.svg";
 import Tooltip from "@mui/material/Tooltip";
 
 type BadgeImageProps = {
   badge_live?: boolean;
+  badge_size?: string;
 };
 
-const BadgeImage = ({ badge_live }: BadgeImageProps) => {
+const BadgeImage = ({ badge_live, badge_size = "1em" }: BadgeImageProps) => {
   const loginInfo = useValueRecoilState("loginInfo");
 
   if (badge_live === undefined && !(loginInfo?.badge || false)) return null;
@@ -20,8 +21,8 @@ const BadgeImage = ({ badge_live }: BadgeImageProps) => {
       css={{
         position: "relative",
         display: "inline-block",
-        width: "1em",
-        height: "1em",
+        width: badge_size,
+        height: badge_size,
         marginLeft: "0.25em",
         verticalAlign: "middle",
       }}

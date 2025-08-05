@@ -7,6 +7,7 @@ import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
 import LinkLogin from "@/components/Link/LinkLogin";
 import Room from "@/components/Room";
+import BadgeImage from "@/components/User/BadgeImage";
 
 import loginInfoAtom from "@/atoms/loginInfo";
 import { useRecoilValue } from "recoil";
@@ -51,6 +52,7 @@ const InfoSection = () => {
     margin: "0 0 12px",
   };
   const styleSubTitle = { ...theme.font14, color: theme.white };
+  const styleMileage = { ...styleTitle, ...theme.font20 };
 
   const { message, room } = useMemo(() => {
     const sortedMyRoom =
@@ -108,13 +110,13 @@ const InfoSection = () => {
               ? `안녕하세요, ${loginInfo?.nickname}님!`
               : "카이스트 구성원 간 택시 동승자 모집 서비스, Taxi 입니다!"}
           </div>
-          <div css={styleTitle}>
+          <div css={styleMileage}>
             {isLogin && (
               <>
                 이번 달,{" "}
                 <span
                   css={{
-                    ...styleTitle,
+                    ...styleMileage,
                     padding: "5px 10px 5px",
                     borderRadius: "8px",
                     backgroundColor: theme.purple,
@@ -123,6 +125,7 @@ const InfoSection = () => {
                   8000원
                 </span>
                 을 절약했어요!
+                <BadgeImage badge_size="1.5em" />
               </>
             )}
           </div>
