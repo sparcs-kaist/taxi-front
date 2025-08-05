@@ -2,13 +2,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 
-
-
-import { useFetchRecoilState, useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import {
+  useFetchRecoilState,
+  useIsLogin,
+  useValueRecoilState,
+} from "@/hooks/useFetchRecoilState";
 import useIsTimeOver from "@/hooks/useIsTimeOver";
 import { useAxios } from "@/hooks/useTaxiAPI";
-
-
 
 import Button from "@/components/Button";
 import DottedLine from "@/components/DottedLine";
@@ -17,12 +17,8 @@ import MiniCircle from "@/components/MiniCircle";
 import Users from "@/components/User/Users";
 import { MAX_PARTICIPATION } from "@/pages/Myroom";
 
-
-
 import alertAtom from "@/atoms/alert";
 import { useSetRecoilState } from "recoil";
-
-
 
 import { dayServerToClient } from "@/tools/day";
 import { triggerTag } from "@/tools/gtm";
@@ -30,10 +26,7 @@ import { date2str } from "@/tools/moment";
 import theme from "@/tools/theme";
 import { getLocationName } from "@/tools/trans";
 
-
-
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
-
 
 type PlaceSectionProps = {
   type: "from" | "to";
@@ -47,7 +40,7 @@ type InfoSectionProps = {
 export type BodyRoomSelectionProps = {
   roomInfo: Room;
   triggerTags?: string;
-}; 
+};
 
 const PlaceSection = ({ type, name }: PlaceSectionProps) => (
   <div
@@ -109,8 +102,10 @@ const InfoSection = ({ title, alignDirection, children }: InfoSectionProps) => (
   </div>
 );
 
-const BodyRoomSelection = ({ roomInfo, triggerTags }: BodyRoomSelectionProps) => {
-  
+const BodyRoomSelection = ({
+  roomInfo,
+  triggerTags,
+}: BodyRoomSelectionProps) => {
   const { i18n } = useTranslation();
   const axios = useAxios();
   const history = useHistory();
@@ -162,7 +157,7 @@ const BodyRoomSelection = ({ roomInfo, triggerTags }: BodyRoomSelectionProps) =>
         fetchMyRooms();
         history.push(`/myroom/${roomInfo._id}`);
 
-        if(triggerTags) {
+        if (triggerTags) {
           for (const i of triggerTags.split(",")) {
             triggerTag(i);
           }
@@ -287,14 +282,14 @@ const BodyRoomSelection = ({ roomInfo, triggerTags }: BodyRoomSelectionProps) =>
           {isAlreadyPart
             ? "이미 참여 중입니다 : 바로가기"
             : notPaid
-            ? "결제자에게 송금이 완료되지 않은 방이 있습니다"
-            : isDepart
-            ? "출발 시각이 현재 이전인 방은 참여할 수 없습니다"
-            : isRoomFull
-            ? "남은 인원이 0명인 방은 참여할 수 없습니다"
-            : isMaxPart
-            ? "현재 5개의 방에 참여 중입니다"
-            : "참여 신청"}
+              ? "결제자에게 송금이 완료되지 않은 방이 있습니다"
+              : isDepart
+                ? "출발 시각이 현재 이전인 방은 참여할 수 없습니다"
+                : isRoomFull
+                  ? "남은 인원이 0명인 방은 참여할 수 없습니다"
+                  : isMaxPart
+                    ? "현재 5개의 방에 참여 중입니다"
+                    : "참여 신청"}
         </Button>
       ) : (
         <LinkLogin redirect={`/home/${roomInfo?._id}`}>
