@@ -20,6 +20,48 @@ import BackgroundImage from "@/static/assets/BackgroundImage.jpg";
 import BackgroundImageDesktop from "@/static/assets/BackgroundImageDesktop.webp";
 import BackgroundImageMobile from "@/static/assets/BackgroundImageMobile.webp";
 import { ReactComponent as TaxiLogoWhite } from "@/static/assets/sparcsLogos/TaxiLogoWhite.svg";
+import { Padding } from "@mui/icons-material";
+
+interface GaugeProps {
+  value: number;
+  max: number;
+  width?: string;
+  height?: string;
+  bgColor?: string;
+  fillColor?: string;
+}
+
+const Gauge: React.FC<GaugeProps> = ({
+  value,
+  max,
+  width = "100%",
+  height = "8px",
+  bgColor = theme.gray_background,
+  fillColor = theme.purple,
+}) => {
+  const percentage = Math.min(Math.max((value / max) * 100, 0), 100);
+  return (
+    <div
+      css={{
+        width,
+        height,
+        backgroundColor: bgColor,
+        borderRadius: "4px",
+        overflow: "hidden",
+        marginTop: "8px",
+      }}
+    >
+      <div
+        css={{
+          width: `${percentage}%`,
+          height: "100%",
+          backgroundColor: fillColor,
+          transition: "width 0.3s ease",
+        }}
+      />
+    </div>
+  );
+};
 
 const InfoSection = () => {
   const loginInfo = useRecoilValue(loginInfoAtom);
@@ -27,32 +69,8 @@ const InfoSection = () => {
   const myRooms = useValueRecoilState("myRooms");
   const randomTaxiSlogan = useMemo(randomTaxiSloganGenerator, []);
 
-  const styleContainer = {
-    position: "relative" as any,
-    height: "fit-content",
-    width: "100%",
-    paddingTop: "5px",
-    background:
-      "linear-gradient(to right top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.1) 100%)",
-  };
-  const styleImage = {
-    backgroundSize: "cover",
-    zIndex: -1,
-    opacity: 0.8,
-    width: "100%",
-    height: "100%",
-    position: "absolute" as any,
-    inset: "0px",
-    objectFit: "cover" as any,
-  };
-  const styleTitle = {
-    ...theme.font28,
-    wordBreak: "break-all" as any,
-    color: theme.white,
-    margin: "0 0 12px",
-  };
-  const styleSubTitle = { ...theme.font14, color: theme.white };
-  const styleMileage = { ...styleTitle, ...theme.font20 };
+  const savedThisMonth = 8000;
+  const maxMileage = 10000;
 
   const { message, room } = useMemo(() => {
     const sortedMyRoom =
@@ -90,6 +108,37 @@ const InfoSection = () => {
     return { message: "", room: null };
   }, [JSON.stringify(myRooms)]);
 
+  // 스타일 객체
+  const styleContainer = {
+    position: "relative" as any,
+    height: "fit-content",
+    width: "100%",
+    paddingTop: "5px",
+    background:
+      "linear-gradient(to right top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.1) 100%)",
+  };
+  const styleImage = {
+    backgroundSize: "cover",
+    zIndex: -1,
+    opacity: 0.8,
+    width: "100%",
+    height: "100%",
+    position: "absolute" as any,
+    inset: "0px",
+    objectFit: "cover" as any,
+  };
+  const styleTitle = {
+    ...theme.font28,
+    wordBreak: "break-all" as any,
+    color: theme.white,
+    margin: "0 0 12px",
+  };
+  const styleSubTitle = { ...theme.font14, color: theme.white };
+  const styleMileage = {
+    ...styleTitle,
+    ...theme.font20,
+  };
+
   return (
     <div className="info-section" css={styleContainer}>
       <picture>
@@ -110,28 +159,33 @@ const InfoSection = () => {
               ? `안녕하세요, ${loginInfo?.nickname}님!`
               : "카이스트 구성원 간 택시 동승자 모집 서비스, Taxi 입니다!"}
           </div>
-          <div css={styleMileage}>
-            {isLogin && (
-              <>
-                이번 달,{" "}
+          {isLogin && (
+            <>
+              <div css={styleMileage}>
+                이번 달,&nbsp;
                 <span
                   css={{
                     ...styleMileage,
-                    padding: "5px 10px 5px",
+                    padding: "5px 10px",
                     borderRadius: "8px",
                     backgroundColor: theme.purple,
                   }}
                 >
-                  8000원
+                  {savedThisMonth.toLocaleString()}원
                 </span>
-                을 절약했어요!
-                <BadgeImage badge_size="1.5em" />
-              </>
-            )}
-          </div>
-
+                을 절약했어요! <BadgeImage badge_size="1.5em" />
+              </div>
+              <div css={{ margin: "0px 0px 10px" }}>
+                <Gauge
+                  value={savedThisMonth}
+                  max={maxMileage}
+                  width="80%"
+                  height="15px"
+                />
+              </div>
+            </>
+          )}
           <div css={styleSubTitle}>{isLogin ? message : randomTaxiSlogan}</div>
-          <div></div>
           {room ? (
             <Link to={`/myroom/${room._id}`} css={{ textDecoration: "none" }}>
               <Room data={room} marginTop="24px" />
@@ -186,4 +240,5 @@ const InfoSection = () => {
     </div>
   );
 };
+
 export default InfoSection;
