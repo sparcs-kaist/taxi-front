@@ -1,4 +1,6 @@
+import { keyframes } from "@emotion/react";
 import PropTypes from "prop-types";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
@@ -11,7 +13,21 @@ import AnimatedRoom from "@/components/Room/AnimatedRoom";
 import Title from "@/components/Title";
 import WhiteContainer from "@/components/WhiteContainer";
 
+import { sortRoomsByUnreadCount } from "./utils";
+
 import theme from "@/tools/theme";
+
+// 부드러운 이동 애니메이션
+const smoothMove = keyframes`
+  from {
+    transform: translateY(-10px);
+    opacity: 0.8;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+`;
 
 const LinkRoom = (props) => {
   const history = useHistory();
@@ -39,6 +55,58 @@ LinkRoom.propTypes = {
 };
 
 const R2Myroom = (props) => {
+  const [prevRoomOrder, setPrevRoomOrder] = useState([]);
+  const [animatingRooms, setAnimatingRooms] = useState(new Set());
+
+  // 현재 정렬된 방 목록
+  const sortedRooms = useMemo(
+    () => sortRoomsByUnreadCount(props.ongoing),
+    [props.ongoing]
+  );
+  const currentRoomOrder = useMemo(
+    () => sortedRooms.map((room) => room._id),
+    [sortedRooms]
+  );
+
+  // 순서가 변경된 방들을 감지하고 애니메이션 적용
+  useEffect(() => {
+    let timer = null;
+
+    const isOrderChanged =
+      prevRoomOrder.length !== currentRoomOrder.length ||
+      prevRoomOrder.some((roomId, index) => roomId !== currentRoomOrder[index]);
+
+    if (!isOrderChanged) return;
+
+    if (prevRoomOrder.length === 0) {
+      setPrevRoomOrder(currentRoomOrder);
+      return;
+    }
+
+    const changedRooms = new Set();
+    currentRoomOrder.forEach((roomId, index) => {
+      if (prevRoomOrder[index] !== roomId) {
+        changedRooms.add(roomId);
+      }
+    });
+
+    if (changedRooms.size > 0) {
+      setAnimatingRooms(changedRooms);
+
+      timer = setTimeout(() => {
+        setAnimatingRooms(new Set());
+      }, 500);
+
+      setPrevRoomOrder(currentRoomOrder);
+    } else {
+      setPrevRoomOrder(currentRoomOrder);
+    }
+
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [currentRoomOrder]);
+
   return (
     <AdaptiveDiv
       type="butterfly"
@@ -55,22 +123,34 @@ const R2Myroom = (props) => {
               {props.ongoing.length === 0 ? (
                 <Empty type="pc">참여 중인 방이 없습니다</Empty>
               ) : (
-                props.ongoing.map((item) => (
-                  <LinkRoom
-                    key={item._id}
-                    currentId={props.roomId}
-                    id={item._id}
-                  >
-                    <AnimatedRoom
-                      data={item}
-                      selected={props.roomId === item._id}
-                      theme="purple"
-                      marginTop="15px"
-                      type={item.type}
-                      unreadCount={item.unreadCount}
-                    />
-                  </LinkRoom>
-                ))
+                sortedRooms.map((item, index) => {
+                  const shouldAnimate = animatingRooms.has(item._id);
+                  return (
+                    <div
+                      key={item._id}
+                      css={
+                        shouldAnimate
+                          ? {
+                              animation: `${smoothMove} 0.3s ease-out`,
+                              animationDelay: `${index * 0.05}s`,
+                              animationFillMode: "both",
+                            }
+                          : {}
+                      }
+                    >
+                      <LinkRoom currentId={props.roomId} id={item._id}>
+                        <AnimatedRoom
+                          data={item}
+                          selected={props.roomId === item._id}
+                          theme="purple"
+                          marginTop="15px"
+                          type={item.type}
+                          unreadCount={item.unreadCount}
+                        />
+                      </LinkRoom>
+                    </div>
+                  );
+                })
               )}
             </WhiteContainer>
             <WhiteContainer
