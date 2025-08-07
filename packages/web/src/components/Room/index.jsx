@@ -3,7 +3,6 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import DottedLine from "@/components/DottedLine";
-import UnreadBadge from "@/components/UnreadBadge";
 
 import "./index.css";
 
@@ -93,7 +92,10 @@ const Room = (props) => {
     marginBottom: props.marginBottom,
     boxShadow:
       theme.shadow +
-      (props.selected ? `, inset 0 0 0 0.5px ${theme.purple}` : ""),
+      (props.selected ? `, inset 0 0 0 0.5px ${theme.purple}` : "") +
+      (props.unreadCount > 0 && props.unreadCount < 10
+        ? `, inset 0 0 0 2px ${theme.purple}`
+        : ""),
     ...theme.cursor(),
   };
   const styleTop = {
@@ -131,7 +133,11 @@ const Room = (props) => {
   };
 
   return (
-    <div style={styleBox} className="shadow" onClick={props.onClick}>
+    <div
+      style={styleBox}
+      className={`shadow ${props.unreadCount >= 10 ? "rainbow-animation" : ""}`}
+      onClick={props.onClick}
+    >
       <div style={styleTop}>
         <div style={styleName}>{props.data?.name}</div>
         <Tag
@@ -141,7 +147,6 @@ const Room = (props) => {
           maxPartLength={props.data?.maxPartLength}
           theme={props.theme}
         />
-        <UnreadBadge count={props.unreadCount} />
       </div>
       <DottedLine direction="row" margin="0 12px" />
       <div style={stylePlaceGrid}>
