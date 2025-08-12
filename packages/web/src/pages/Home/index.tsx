@@ -1,21 +1,18 @@
 import { useHistory, useLocation, useParams } from "react-router-dom";
 
-
-
 import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
-
-
 import Footer from "@/components/Footer";
-import { ModalEvent2025SpringJoin, ModalNoticeBadge, ModalPrivacyPolicy } from "@/components/ModalPopup";
-
-
+import {
+  ModalEvent2025SpringJoin,
+  ModalNoticeBadge,
+  ModalPrivacyPolicy,
+} from "@/components/ModalPopup";
 
 import EventSection from "./EventSection";
 import InfoSection from "./InfoSection";
 import NoticeSection from "./NoticeSection";
 import RoomSection from "./RoomSection";
-
 
 const Home = () => {
   const history = useHistory();
