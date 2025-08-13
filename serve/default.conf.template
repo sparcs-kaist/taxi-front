@@ -43,6 +43,7 @@ server {
         try_files $uri $uri/ /index.html;
 
         sub_filter '%FRONT_URL%' '${REACT_APP_FRONT_URL}';
+        sub_filter '%REACT_APP_GTM_ID%' '${REACT_APP_GTM_ID}';
         sub_filter_once off;
     }
 }
