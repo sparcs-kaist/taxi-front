@@ -16,24 +16,16 @@ export default (roomId: string, shouldRunEffect = false) => {
 
   const handleRead = useCallback(async () => {
     try {
+      // 서버에 읽음 상태 업데이트
       await axios({
         url: "/chats/read",
         method: "post",
         data: { roomId },
       });
 
-      // 최신 chatNum을 API로 가져오기 (타이밍 문제 방지)
-      const { totalCount } = await axios({
-        url: "/chats/count",
-        method: "get",
-        params: { roomId },
-      });
-
+      // 로컬 상태 업데이트 - unreadCount를 0으로 설정
       setMyRooms((prevMyRooms) => {
         if (!prevMyRooms) return prevMyRooms;
-
-        // API에서 가져온 최신 totalCount 사용
-        localStorage.setItem(`lastReadCount_${roomId}`, totalCount.toString());
 
         const updateRoomUnreadCount = (rooms: any[]) =>
           rooms.map((room) => {
@@ -41,7 +33,6 @@ export default (roomId: string, shouldRunEffect = false) => {
               return {
                 ...room,
                 unreadCount: 0, // 읽었으므로 unreadCount를 0으로 설정
-                chatNum: totalCount, // 최신 chatNum도 업데이트
               };
             }
             return room;

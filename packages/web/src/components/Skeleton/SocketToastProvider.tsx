@@ -11,7 +11,7 @@ import { useSetMyRooms } from "@/hooks/useFetchRecoilState/useFetchMyRooms";
 
 import { ioServer } from "@/tools/loadenv";
 
-export type SocketChatEventListner = (chats: []) => void;
+export type SocketChatEventListner = (chats: Chat[]) => void;
 export type SocketRoomEventListner = (updatedRoomId: string) => void;
 export type SocketVoidEventListner = () => void;
 
@@ -88,46 +88,25 @@ const SocketToastProvider = () => {
               const updateRoomUnreadCount = (rooms: any[]) =>
                 rooms.map((room) => {
                   if (room._id === roomId) {
-                    // localStorage에서 마지막 읽은 개수 가져오기
-                    const lastReadCountKey = `lastReadCount_${roomId}`;
-                    const lastReadCountStr =
-                      localStorage.getItem(lastReadCountKey);
-                    const lastReadCount = lastReadCountStr
-                      ? parseInt(lastReadCountStr, 10)
-                      : 0;
-
-                    // 소켓으로 받은 채팅 데이터를 기반으로 새로운 총 메시지 개수 추정
-                    // 기존 chatNum + 새로 받은 실제 메시지 개수 (내 메시지 포함한 모든 타입)
-                    const actualNewMessages = allChats.filter((chat) =>
-                      ["text", "s3img"].includes(chat.type)
-                    );
-                    const estimatedTotalCount =
-                      (room.chatNum || 0) + actualNewMessages.length;
-
-                    // unreadCount 재계산
-                    const newUnreadCount = Math.max(
-                      0,
-                      estimatedTotalCount - lastReadCount
-                    );
+                    // 서버 기반 unread count 업데이트
+                    // 새로 받은 다른 사용자의 메시지만큼 unread count 증가
+                    const currentUnreadCount = room.unreadCount || 0;
+                    const newUnreadCount =
+                      currentUnreadCount + otherUserMessages.length;
 
                     console.log(
-                      `Global unread count update for room ${roomId}:`,
+                      `Socket unread count update for room ${roomId}:`,
                       {
-                        previousUnreadCount: room.unreadCount,
+                        previousUnreadCount: currentUnreadCount,
                         newUnreadCount,
                         newOtherUserMessages: otherUserMessages.length,
-                        newActualMessages: actualNewMessages.length,
-                        currentChatNum: room.chatNum,
-                        estimatedTotalCount,
-                        lastReadCount,
-                        allSocketChats: allChats.length,
+                        totalSocketChats: allChats.length,
                       }
                     );
 
                     return {
                       ...room,
                       unreadCount: newUnreadCount,
-                      chatNum: estimatedTotalCount,
                     };
                   }
                   return room;
@@ -160,21 +139,19 @@ const SocketToastProvider = () => {
 };
 
 // socket event listener 등록
-const registerSocketEventListener = (
-  {
-    initListener,
-    reconnectListener,
-    pushBackListener,
-    pushFrontListener,
-    updateListener,
-  }: {
-    initListener?: SocketChatEventListner;
-    reconnectListener?: SocketVoidEventListner;
-    pushBackListener?: SocketChatEventListner;
-    pushFrontListener?: SocketChatEventListner;
-    updateListener?: SocketRoomEventListner;
-  }
-) => {
+const registerSocketEventListener = ({
+  initListener,
+  reconnectListener,
+  pushBackListener,
+  pushFrontListener,
+  updateListener,
+}: {
+  initListener?: SocketChatEventListner;
+  reconnectListener?: SocketVoidEventListner;
+  pushBackListener?: SocketChatEventListner;
+  pushFrontListener?: SocketChatEventListner;
+  updateListener?: SocketRoomEventListner;
+}) => {
   initEventListener = initListener;
   reconnectEventListener = reconnectListener;
   pushBackEventListener = pushBackListener;

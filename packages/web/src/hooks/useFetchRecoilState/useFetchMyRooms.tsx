@@ -11,83 +11,18 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 export const useValueMyRooms = () => useRecoilValue(myRoomsAtom);
 export const useSetMyRooms = () => useSetRecoilState(myRoomsAtom);
 
-// unreadCount 업데이트 로직을 위한 유틸리티 함수
-const updateUnreadCount = async (rooms: Room[], axios: any) => {
-  const updatedRooms = await Promise.all(
-    rooms.map(async (room) => {
-      try {
-        // /chats/count API로 현재 총 메시지 개수 가져오기
-        const { totalCount } = await axios({
-          url: "/chats/count",
-          method: "get",
-          params: { roomId: room._id }, // roomId로 수정
-        });
-
-        const updatedUnreadCount = calculateUnreadCount(room, totalCount);
-        console.log(
-          `Updated unreadCount for room ${room._id}:`,
-          updatedUnreadCount
-        );
-        return {
-          ...room,
-          unreadCount: updatedUnreadCount,
-          chatNum: totalCount,
-        };
-      } catch (error) {
-        console.error(
-          `Error updating unread count for room ${room._id}:`,
-          error
-        );
-        // 에러 발생 시 기존 unreadCount 사용
-        return {
-          ...room,
-          unreadCount: 0,
-          chatNum: 0,
-        };
-      }
-    })
-  );
-
-  return updatedRooms;
-};
-
-// unreadCount 계산 함수 - totalCount 기반
-const calculateUnreadCount = (room: any, totalCount?: number) => {
-  try {
-    // localStorage에서 해당 방의 마지막 읽은 메시지 개수 확인
-    const lastReadCountKey = `lastReadCount_${room._id}`;
-    const lastReadCountStr = localStorage.getItem(lastReadCountKey);
-
-    if (!lastReadCountStr) {
-      // 마지막 읽은 개수가 없으면 totalCount을 unread로 간주
-      // 단, 서버에서 제공하는 unreadCount가 있으면 그것을 사용
-      if (typeof room.unreadCount === "number") {
-        return room.unreadCount;
-      }
-      return totalCount || 0;
-    }
-
-    const lastReadCount = parseInt(lastReadCountStr, 10);
-    const currentChatNum = totalCount || room.chatNum || 0;
-
-    // 현재 채팅 개수와 마지막으로 읽은 개수의 차이가 unread 개수
-    const calculatedUnreadCount = currentChatNum - lastReadCount;
-    const finalUnreadCount = Math.max(0, calculatedUnreadCount);
-
-    console.log(`calculateUnreadCount for room ${room._id}:`, {
-      lastReadCount,
-      currentChatNum,
-      calculatedUnreadCount,
-      finalUnreadCount,
-      serverUnreadCount: room.unreadCount,
-    });
-
-    return finalUnreadCount;
-  } catch (error) {
-    console.error("calculateUnreadCount error:", error);
-    // 에러 발생 시 서버 unreadCount 또는 기본값 반환
-    return room.unreadCount || totalCount || 0;
-  }
+// 서버에서 이미 계산된 unreadCount를 사용하는 함수
+const updateUnreadCount = async (
+  rooms: any[],
+  axios: any,
+  userId?: string
+): Promise<any[]> => {
+  // 서버에서 이미 unreadCount가 계산되어 제공되므로 별도 계산 불필요
+  return rooms.map((room) => ({
+    ...room,
+    // 서버에서 제공하는 unreadCount 사용, 없다면 0으로 설정
+    unreadCount: typeof room.unreadCount === "number" ? room.unreadCount : 0,
+  }));
 };
 
 export const useFetchMyRooms = () => {
@@ -103,10 +38,10 @@ export const useFetchMyRooms = () => {
           method: "get",
           onSuccess: async (data) => {
             try {
-              // API 응답 데이터에서 unreadCount 업데이트
+              // 서버에서 이미 unreadCount가 계산되어 제공되므로 그대로 사용
               const [updatedOngoing, updatedDone] = await Promise.all([
-                updateUnreadCount(data.ongoing || [], axios),
-                updateUnreadCount(data.done || [], axios),
+                updateUnreadCount(data.ongoing || [], axios, userId),
+                updateUnreadCount(data.done || [], axios, userId),
               ]);
 
               const updatedData = {
