@@ -92,7 +92,8 @@ const Room = (props) => {
     marginBottom: props.marginBottom,
     boxShadow:
       theme.shadow +
-      (props.selected ? `, inset 0 0 0 0.5px ${theme.purple}` : ""),
+      (props.selected ? `, inset 0 0 0 0.5px ${theme.purple}` : "") +
+      (props.unreadCount > 0 ? `, inset 0 0 0 2px ${theme.purple}` : ""),
     ...theme.cursor(),
   };
   const styleTop = {
@@ -130,7 +131,11 @@ const Room = (props) => {
   };
 
   return (
-    <div style={styleBox} className="shadow" onClick={props.onClick}>
+    <div
+      style={styleBox}
+      className={`shadow ${props.hasImportantMessage ? "rainbow-animation" : ""}`}
+      onClick={props.onClick}
+    >
       <div style={styleTop}>
         <div style={styleName}>{props.data?.name}</div>
         <Tag
@@ -163,6 +168,8 @@ Room.propTypes = {
   marginTop: PropTypes.string,
   marginBottom: PropTypes.string,
   theme: PropTypes.string,
+  unreadCount: PropTypes.number,
+  hasImportantMessage: PropTypes.bool,
 };
 
 Room.defaultProps = {
