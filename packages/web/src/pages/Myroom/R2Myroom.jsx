@@ -146,6 +146,7 @@ const R2Myroom = (props) => {
                           marginTop="15px"
                           type={item.type}
                           unreadCount={item.unreadCount}
+                          hasImportantMessage={item.hasImportantMessage}
                         />
                       </LinkRoom>
                     </div>

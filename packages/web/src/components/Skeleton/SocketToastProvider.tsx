@@ -80,8 +80,17 @@ const SocketToastProvider = () => {
               chat.authorId !== userOid && ["text", "s3img"].includes(chat.type)
           );
 
+          // 중요한 메시지 타입 확인 (정산, 송금, 계좌 전송 메시지)
+          const importantMessages = allChats.filter(
+            (chat: Chat) =>
+              chat.authorId !== userOid &&
+              ["payment", "settlement", "account", "in", "out"].includes(
+                chat.type
+              )
+          );
+
           // 다른 사용자의 새 메시지가 있을 때만 unread count 업데이트
-          if (otherUserMessages.length > 0) {
+          if (otherUserMessages.length > 0 || importantMessages.length > 0) {
             setMyRooms((prevMyRooms) => {
               if (!prevMyRooms) return prevMyRooms;
 
@@ -94,12 +103,19 @@ const SocketToastProvider = () => {
                     const newUnreadCount =
                       currentUnreadCount + otherUserMessages.length;
 
+                    // 중요한 메시지가 있는 경우 hasImportantMessage 플래그 설정
+                    const hasImportantMessage =
+                      importantMessages.length > 0 ||
+                      (room.hasImportantMessage && newUnreadCount > 0);
+
                     console.log(
                       `Socket unread count update for room ${roomId}:`,
                       {
                         previousUnreadCount: currentUnreadCount,
                         newUnreadCount,
                         newOtherUserMessages: otherUserMessages.length,
+                        importantMessages: importantMessages.length,
+                        hasImportantMessage,
                         totalSocketChats: allChats.length,
                       }
                     );
@@ -107,6 +123,7 @@ const SocketToastProvider = () => {
                     return {
                       ...room,
                       unreadCount: newUnreadCount,
+                      hasImportantMessage,
                     };
                   }
                   return room;

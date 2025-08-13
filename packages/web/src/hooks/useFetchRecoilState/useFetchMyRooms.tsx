@@ -11,17 +11,22 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 export const useValueMyRooms = () => useRecoilValue(myRoomsAtom);
 export const useSetMyRooms = () => useSetRecoilState(myRoomsAtom);
 
-// 서버에서 이미 계산된 unreadCount를 사용하는 함수
+// 서버에서 이미 계산된 unreadCount와 hasImportantMessage를 사용하는 함수
 const updateUnreadCount = async (
   rooms: any[],
   axios: any,
   userId?: string
 ): Promise<any[]> => {
-  // 서버에서 이미 unreadCount가 계산되어 제공되므로 별도 계산 불필요
+  // 서버에서 이미 unreadCount와 hasImportantMessage가 계산되어 제공되므로 별도 계산 불필요
   return rooms.map((room) => ({
     ...room,
     // 서버에서 제공하는 unreadCount 사용, 없다면 0으로 설정
     unreadCount: typeof room.unreadCount === "number" ? room.unreadCount : 0,
+    // 서버에서 제공하는 hasImportantMessage 사용, 없다면 false로 설정
+    hasImportantMessage:
+      typeof room.hasImportantMessage === "boolean"
+        ? room.hasImportantMessage
+        : false,
   }));
 };
 

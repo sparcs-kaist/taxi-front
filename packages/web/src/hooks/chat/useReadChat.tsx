@@ -33,6 +33,7 @@ export default (roomId: string, shouldRunEffect = false) => {
               return {
                 ...room,
                 unreadCount: 0, // 읽었으므로 unreadCount를 0으로 설정
+                hasImportantMessage: false, // 읽었으므로 중요 메시지 플래그도 초기화
               };
             }
             return room;

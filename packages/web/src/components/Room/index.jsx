@@ -93,9 +93,7 @@ const Room = (props) => {
     boxShadow:
       theme.shadow +
       (props.selected ? `, inset 0 0 0 0.5px ${theme.purple}` : "") +
-      (props.unreadCount > 0 && props.unreadCount < 10
-        ? `, inset 0 0 0 2px ${theme.purple}`
-        : ""),
+      (props.unreadCount > 0 ? `, inset 0 0 0 2px ${theme.purple}` : ""),
     ...theme.cursor(),
   };
   const styleTop = {
@@ -135,7 +133,7 @@ const Room = (props) => {
   return (
     <div
       style={styleBox}
-      className={`shadow ${props.unreadCount >= 10 ? "rainbow-animation" : ""}`}
+      className={`shadow ${props.hasImportantMessage ? "rainbow-animation" : ""}`}
       onClick={props.onClick}
     >
       <div style={styleTop}>
@@ -171,6 +169,7 @@ Room.propTypes = {
   marginBottom: PropTypes.string,
   theme: PropTypes.string,
   unreadCount: PropTypes.number,
+  hasImportantMessage: PropTypes.bool,
 };
 
 Room.defaultProps = {

@@ -123,6 +123,7 @@ const R1Myroom = ({
                   marginBottom="15px"
                   type={item.type}
                   unreadCount={item.unreadCount}
+                  hasImportantMessage={item.hasImportantMessage}
                 />
               </Link>
             </div>
