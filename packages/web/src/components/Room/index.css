@@ -20,31 +20,42 @@
   opacity: 1;
 }
 
-@keyframes rainbow-border {
-  0% {
-    border-color: #ff0000;
-  }
-  16.66% {
-    border-color: #ff8000;
-  }
-  33.33% {
-    border-color: #ffff00;
-  }
-  50% {
-    border-color: #00ff00;
-  }
-  66.66% {
-    border-color: #0000ff;
-  }
-  83.33% {
-    border-color: #8000ff;
-  }
-  100% {
-    border-color: #ff0000;
-  }
+.rainbow-shadow {
+  animation: rainbow-glow 3s ease-in-out infinite;
 }
 
-.rainbow-animation {
-  animation: rainbow-border 2s linear infinite;
-  border: 3px solid #ff0000;
+@keyframes rainbow-glow {
+  0%,
+  100% {
+    box-shadow:
+      0px 2px 4px rgba(110, 54, 120, 0.2),
+      0px 1px 18px rgba(110, 54, 120, 0.12),
+      0px 6px 10px rgba(110, 54, 120, 0.14),
+      0 0 0 1px rgba(102, 126, 234, 0.6),
+      0 0 20px rgba(102, 126, 234, 0.4);
+  }
+  25% {
+    box-shadow:
+      0px 2px 4px rgba(110, 54, 120, 0.2),
+      0px 1px 18px rgba(110, 54, 120, 0.12),
+      0px 6px 10px rgba(110, 54, 120, 0.14),
+      0 0 0 1px rgba(240, 147, 251, 0.6),
+      0 0 20px rgba(240, 147, 251, 0.4);
+  }
+  50% {
+    box-shadow:
+      0px 2px 4px rgba(110, 54, 120, 0.2),
+      0px 1px 18px rgba(110, 54, 120, 0.12),
+      0px 6px 10px rgba(110, 54, 120, 0.14),
+      0 0 0 1px rgba(245, 87, 108, 0.6),
+      0 0 20px rgba(245, 87, 108, 0.4);
+  }
+  75% {
+    box-shadow:
+      0px 2px 4px rgba(110, 54, 120, 0.2),
+      0px 1px 18px rgba(110, 54, 120, 0.12),
+      0px 6px 10px rgba(110, 54, 120, 0.14),
+      0 0 0 1px rgba(79, 172, 254, 0.6),
+      0 0 20px rgba(79, 172, 254, 0.4);
+  }
 }
