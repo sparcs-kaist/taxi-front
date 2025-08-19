@@ -155,6 +155,7 @@ const R1Myroom = ({
                   marginTop="15px"
                   type={item.type}
                   unreadCount={item.unreadCount}
+                  hasImportantMessage={item.hasImportantMessage}
                 />
               </Link>
             ))}
