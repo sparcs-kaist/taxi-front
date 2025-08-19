@@ -148,6 +148,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
   const [nickname, setNickname] = useState("");
   const [account, setAccount] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [residence, setResidence] = useState("");
   const [badge, setBadge] = useState<boolean>(false);
   const [PhoneAgreeModalOpen, setPhoneAgreeModalOpen] = useState(false);
 
@@ -163,6 +164,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
       setNickname(loginInfo?.nickname || "");
       setAccount(loginInfo?.account || "");
       setPhoneNumber(loginInfo?.phoneNumber || "");
+      setResidence(loginInfo?.residence || "")
       setBadge(loginInfo?.badge || false);
     }
   }, [loginInfo, modalProps.isOpen]);
@@ -220,6 +222,18 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         method: "post",
         data: { badge: "false" },
         onError: () => setAlert(t("page_modify.badge_display_failed")),
+      });
+    }
+    if (residence !== loginInfo?.residence) {
+      isNeedToUpdateLoginInfo = true;
+      await axios({
+        url: "/users/registerResidence",
+        method: "post",
+        data: { residence },
+        onError: () => setAlert(t("page_modify.residence_failed")),
+        //#region event2025Spring
+        onSuccess: () => event2025SpringQuestComplete("accountChanging"),
+        //#endregion
       });
     }
     if (isNeedToUpdateLoginInfo) {
@@ -378,6 +392,14 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
                 />
               )}
             </div>
+            <div css={{ ...styleTitle, marginTop: "10px" }}>
+              {t("residence")}
+              <Input
+                value={residence}
+                onChangeValue={setResidence}
+                css={{ width: "100%", marginLeft: "10px" }}
+              />
+            </div>
           </div>
           <div css={styleButton}>
             <Button
@@ -399,6 +421,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
                 (nickname === loginInfo?.nickname &&
                   account === loginInfo?.account &&
                   badge === loginInfo?.badge &&
+                  residence === loginInfo?.residence &&
                   // 기존에 전화번호가 있거나, 없었고 입력란도 빈 상태면 변경 없음
                   (loginInfo?.phoneNumber !== undefined ||
                     phoneNumber === "")) ||

@@ -13,12 +13,13 @@ export type UserChat = {
   type: "text" | "s3img" | "payment" | "settlement" | "account";
   authorId: string;
   authorName: string;
+  residence: string;
   authorProfileUrl: string;
   authorIsWithdrew: boolean;
 } & CommonChat;
 export type GeneralChat = {
   type: "in" | "out";
-  inOutNames: Array<string>;
+  inOutNames: Array;
 } & CommonChat;
 export type BotChat = {
   type: "share" | "departure" | "arrival";
@@ -38,4 +39,4 @@ export type InfScrollCheckoutChat = {
 };
 export type CheckoutChat = JointCheckoutChat | InfScrollCheckoutChat;
 
-export type Chats = Array<Chat | CheckoutChat>;
+export type Chats = Array;
