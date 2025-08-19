@@ -178,6 +178,10 @@ const Mypage = () => {
               {t("phone_number")}
               <div css={infoContent}>{loginInfo?.phoneNumber}</div>
             </div>
+            <div css={infoType} className="selectable">
+              {t("residence")}
+              <div css={infoContent}>{loginInfo?.residence}</div>
+            </div>
           </WhiteContainer>
           <WhiteContainer>
             <div css={{ display: "grid", rowGap: "16px" }}>
