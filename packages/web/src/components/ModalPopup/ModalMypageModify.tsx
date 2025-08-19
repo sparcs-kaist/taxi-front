@@ -112,10 +112,10 @@ const ButtonProfileImage = () => {
       profileAlert === "SUCCESS"
         ? theme.green_button
         : profileAlert === "FAIL"
-        ? theme.red_button
-        : profileAlert === "LOADING"
-        ? theme.gray_text
-        : theme.purple,
+          ? theme.red_button
+          : profileAlert === "LOADING"
+            ? theme.gray_text
+            : theme.purple,
     width: "fit-content",
     margin: "16px auto",
     cursor: profileAlert ? "default" : "pointer",
@@ -133,10 +133,10 @@ const ButtonProfileImage = () => {
       {profileAlert === "SUCCESS"
         ? t("page_modify.profile_image_success")
         : profileAlert === "FAIL"
-        ? t("page_modify.profile_image_failed")
-        : profileAlert === "LOADING"
-        ? t("page_modify.profile_image_loading")
-        : t("page_modify.profile_image_change")}
+          ? t("page_modify.profile_image_failed")
+          : profileAlert === "LOADING"
+            ? t("page_modify.profile_image_loading")
+            : t("page_modify.profile_image_change")}
     </div>
   );
 };
@@ -333,6 +333,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
                   >
                     <CheckRoundedIcon style={styleCheckBoxIcon} />
                   </div>
+                  <div></div>
                   <BadgeTooltip text="이 배지가 있는 회원분들은 문제가 생길 시 스팍스의 중계를 통해 문제를 해결할 수 있습니다." />
                 </div>
               </div>
