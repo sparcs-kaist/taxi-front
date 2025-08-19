@@ -1,3 +1,20 @@
 .less-indent-notion-body {
-    padding-left: 5px !important;
+  padding-left: 5px !important;
+}
+.less-indent-notion-body img {
+  max-width: 100% !important;
+  height: auto !important;
+  display: block;
+}
+
+.less-indent-notion-body .notion-asset-wrapper,
+.less-indent-notion-body figure,
+.less-indent-notion-body .notion-image {
+  max-width: 100% !important;
+}
+
+.less-indent-notion-body .notion-asset-wrapper {
+  max-height: 60vh;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
