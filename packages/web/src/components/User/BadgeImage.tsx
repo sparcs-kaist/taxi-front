@@ -2,7 +2,9 @@ import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import theme from "@/tools/theme";
 
-import { ReactComponent as BadgeIcon } from "@/static/assets/phone_badge_silver.svg";
+import { ReactComponent as GoldBadgeIcon } from "@/static/assets/phone_badge_gold.svg";
+import { ReactComponent as NormalBadgeIcon } from "@/static/assets/phone_badge_normal.svg";
+import { ReactComponent as SilverBadgeIcon } from "@/static/assets/phone_badge_silver.svg";
 import Tooltip from "@mui/material/Tooltip";
 
 type BadgeImageProps = {
@@ -15,6 +17,19 @@ const BadgeImage = ({ badge_live, badge_size = "1em" }: BadgeImageProps) => {
 
   if (badge_live === undefined && !(loginInfo?.badge || false)) return null;
   if (badge_live === false) return null;
+
+  // tier 값 읽기
+  const tier = loginInfo?.mileage?.tier?.tier;
+
+  // tier에 따라 아이콘 선택
+  let BadgeIcon;
+  if (tier === "gold") {
+    BadgeIcon = GoldBadgeIcon;
+  } else if (tier === "silver") {
+    BadgeIcon = SilverBadgeIcon;
+  } else {
+    BadgeIcon = NormalBadgeIcon;
+  }
 
   return (
     <div
@@ -55,7 +70,7 @@ const BadgeImage = ({ badge_live, badge_size = "1em" }: BadgeImageProps) => {
             css={{
               width: "100%",
               height: "100%",
-              pointerEvents: "auto", // 반드시 필요
+              pointerEvents: "auto",
             }}
           />
         </div>

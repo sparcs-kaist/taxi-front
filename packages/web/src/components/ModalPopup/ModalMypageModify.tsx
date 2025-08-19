@@ -333,6 +333,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
                   >
                     <CheckRoundedIcon style={styleCheckBoxIcon} />
                   </div>
+                  <div></div>
                   <BadgeTooltip text="이 배지가 있는 회원분들은 문제가 생길 시 스팍스의 중계를 통해 문제를 해결할 수 있습니다." />
                 </div>
               </div>

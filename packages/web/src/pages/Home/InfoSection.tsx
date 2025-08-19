@@ -20,7 +20,6 @@ import BackgroundImage from "@/static/assets/BackgroundImage.jpg";
 import BackgroundImageDesktop from "@/static/assets/BackgroundImageDesktop.webp";
 import BackgroundImageMobile from "@/static/assets/BackgroundImageMobile.webp";
 import { ReactComponent as TaxiLogoWhite } from "@/static/assets/sparcsLogos/TaxiLogoWhite.svg";
-import { Padding } from "@mui/icons-material";
 
 interface GaugeProps {
   value: number;
@@ -69,8 +68,8 @@ const InfoSection = () => {
   const myRooms = useValueRecoilState("myRooms");
   const randomTaxiSlogan = useMemo(randomTaxiSloganGenerator, []);
 
-  const savedThisMonth = 8000;
-  const maxMileage = 10000;
+  const activeMilage = loginInfo?.mileage.activeMileage;
+  const tier = loginInfo?.mileage.tier;
 
   const { message, room } = useMemo(() => {
     const sortedMyRoom =
@@ -171,14 +170,14 @@ const InfoSection = () => {
                     backgroundColor: theme.purple,
                   }}
                 >
-                  {savedThisMonth.toLocaleString()}원
+                  {activeMilage?.toLocaleString()}원
                 </span>
                 을 절약했어요! <BadgeImage badge_size="1.5em" />
               </div>
               <div css={{ margin: "0px 0px 10px" }}>
                 <Gauge
-                  value={savedThisMonth}
-                  max={maxMileage}
+                  value={activeMilage ?? 0}
+                  max={tier?.maxMileage ?? 0}
                   width="80%"
                   height="15px"
                 />

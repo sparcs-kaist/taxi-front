@@ -42,6 +42,16 @@ const ModalChatSettlement = ({
   const sendMessage = useSendMessage(roomInfo._id, isRequesting);
   const event2025SpringQuestComplete = useEvent2025SpringQuestComplete();
 
+  const EarnMileageonSettlement = () => {
+    axios({
+      url: "/mileage/transactions",
+      method: "post",
+      data: { type: "earn", amount: 1 },
+      onError: () => {
+        setAlert("마일리지 적립을 실패했습니다.");
+      },
+    });
+  };
   const onClickOk = () => {
     if (isRequesting.current || !isValidAccount) return;
     isRequesting.current = true;
@@ -51,6 +61,7 @@ const ModalChatSettlement = ({
       data: { roomId: roomInfo._id },
       onSuccess: async () => {
         isRequesting.current = false;
+        EarnMileageonSettlement();
         onRecall?.();
         if (account !== "") {
           await sendMessage("account", { text: account });
