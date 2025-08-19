@@ -1,4 +1,6 @@
+import { keyframes } from "@emotion/react";
 import PropTypes from "prop-types";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
@@ -11,7 +13,40 @@ import AnimatedRoom from "@/components/Room/AnimatedRoom";
 import Title from "@/components/Title";
 import WhiteContainer from "@/components/WhiteContainer";
 
+import { sortRoomsByUnreadCount } from "./utils";
+
 import theme from "@/tools/theme";
+
+// 위치 변경 애니메이션 - 더 부드럽고 직관적인 슬라이드 효과
+const smoothMove = keyframes`
+  0% {
+    transform: translateY(-20px) scale(0.95);
+    opacity: 0.7;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  50% {
+    transform: translateY(-5px) scale(1.02);
+    opacity: 0.9;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+`;
+
+// 새로운 위치로 이동하는 애니메이션
+const slideToPosition = keyframes`
+  0% {
+    transform: translateY(-15px);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+`;
 
 const LinkRoom = (props) => {
   const history = useHistory();
@@ -39,6 +74,68 @@ LinkRoom.propTypes = {
 };
 
 const R2Myroom = (props) => {
+  const [prevRoomOrder, setPrevRoomOrder] = useState([]);
+  const [animatingRooms, setAnimatingRooms] = useState(new Set());
+  const timerRef = useRef(null);
+
+  // 현재 정렬된 방 목록
+  const sortedRooms = useMemo(
+    () => sortRoomsByUnreadCount(props.ongoing),
+    [props.ongoing]
+  );
+  const currentRoomOrder = useMemo(
+    () => sortedRooms.map((room) => room._id),
+    [sortedRooms]
+  );
+
+  // 순서가 변경된 방들을 감지하고 애니메이션 적용
+  useEffect(() => {
+    const isOrderChanged =
+      prevRoomOrder.length !== currentRoomOrder.length ||
+      prevRoomOrder.some((roomId, index) => roomId !== currentRoomOrder[index]);
+
+    if (!isOrderChanged) return;
+
+    if (prevRoomOrder.length === 0) {
+      setPrevRoomOrder(currentRoomOrder);
+      return;
+    }
+
+    const changedRooms = new Set();
+    currentRoomOrder.forEach((roomId, index) => {
+      if (prevRoomOrder[index] !== roomId) {
+        changedRooms.add(roomId);
+      }
+    });
+
+    if (changedRooms.size > 0) {
+      setAnimatingRooms(changedRooms);
+
+      // 이전 타이머가 있다면 취소
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+
+      timerRef.current = setTimeout(() => {
+        setAnimatingRooms(new Set());
+        timerRef.current = null;
+      }, 500);
+
+      setPrevRoomOrder(currentRoomOrder);
+    } else {
+      setPrevRoomOrder(currentRoomOrder);
+    }
+  }, [currentRoomOrder, prevRoomOrder]);
+
+  // 컴포넌트 언마운트 시 타이머 정리
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, []);
+
   return (
     <AdaptiveDiv
       type="butterfly"
@@ -55,21 +152,37 @@ const R2Myroom = (props) => {
               {props.ongoing.length === 0 ? (
                 <Empty type="pc">참여 중인 방이 없습니다</Empty>
               ) : (
-                props.ongoing.map((item) => (
-                  <LinkRoom
-                    key={item._id}
-                    currentId={props.roomId}
-                    id={item._id}
-                  >
-                    <AnimatedRoom
-                      data={item}
-                      selected={props.roomId === item._id}
-                      theme="purple"
-                      marginTop="15px"
-                      type={item.type}
-                    />
-                  </LinkRoom>
-                ))
+                sortedRooms.map((item, index) => {
+                  const shouldAnimate = animatingRooms.has(item._id);
+                  console.log(shouldAnimate);
+                  return (
+                    <div
+                      key={item._id}
+                      css={
+                        shouldAnimate
+                          ? {
+                              animation: `${smoothMove} 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)`,
+                              animationDelay: `${index * 0.08}s`,
+                              animationFillMode: "both",
+                              transformOrigin: "center",
+                            }
+                          : {}
+                      }
+                    >
+                      <LinkRoom currentId={props.roomId} id={item._id}>
+                        <AnimatedRoom
+                          data={item}
+                          selected={props.roomId === item._id}
+                          theme="purple"
+                          marginTop="15px"
+                          type={item.type}
+                          unreadCount={item.unreadCount}
+                          hasImportantMessage={item.hasImportantMessage}
+                        />
+                      </LinkRoom>
+                    </div>
+                  );
+                })
               )}
             </WhiteContainer>
             <WhiteContainer
@@ -99,6 +212,8 @@ const R2Myroom = (props) => {
                           theme="purple"
                           marginTop="15px"
                           type={item.type}
+                          unreadCount={item.unreadCount}
+                          hasImportantMessage={item.hasImportantMessage}
                         />
                       </LinkRoom>
                     ))}

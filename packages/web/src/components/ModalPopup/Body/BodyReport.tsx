@@ -49,8 +49,8 @@ const ReportList = (props: BodyReportProps) => {
     return type === "no-settlement"
       ? t("page_report.no_settlement")
       : type === "no-show"
-      ? t("page_report.no_show")
-      : t("page_report.etc_reason");
+        ? t("page_report.no_show")
+        : t("page_report.etc_reason");
   };
   if (!props.selectedReportHistory?.length) {
     return (
