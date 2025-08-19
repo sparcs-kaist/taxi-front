@@ -1,6 +1,6 @@
 import { keyframes } from "@emotion/react";
 import PropTypes from "prop-types";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
@@ -17,13 +17,32 @@ import { sortRoomsByUnreadCount } from "./utils";
 
 import theme from "@/tools/theme";
 
-// 부드러운 이동 애니메이션
+// 위치 변경 애니메이션 - 더 부드럽고 직관적인 슬라이드 효과
 const smoothMove = keyframes`
-  from {
-    transform: translateY(-10px);
+  0% {
+    transform: translateY(-20px) scale(0.95);
+    opacity: 0.7;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  50% {
+    transform: translateY(-5px) scale(1.02);
+    opacity: 0.9;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+`;
+
+// 새로운 위치로 이동하는 애니메이션
+const slideToPosition = keyframes`
+  0% {
+    transform: translateY(-15px);
     opacity: 0.8;
   }
-  to {
+  100% {
     transform: translateY(0);
     opacity: 1;
   }
@@ -57,6 +76,7 @@ LinkRoom.propTypes = {
 const R2Myroom = (props) => {
   const [prevRoomOrder, setPrevRoomOrder] = useState([]);
   const [animatingRooms, setAnimatingRooms] = useState(new Set());
+  const timerRef = useRef(null);
 
   // 현재 정렬된 방 목록
   const sortedRooms = useMemo(
@@ -70,8 +90,6 @@ const R2Myroom = (props) => {
 
   // 순서가 변경된 방들을 감지하고 애니메이션 적용
   useEffect(() => {
-    let timer = null;
-
     const isOrderChanged =
       prevRoomOrder.length !== currentRoomOrder.length ||
       prevRoomOrder.some((roomId, index) => roomId !== currentRoomOrder[index]);
@@ -93,19 +111,30 @@ const R2Myroom = (props) => {
     if (changedRooms.size > 0) {
       setAnimatingRooms(changedRooms);
 
-      timer = setTimeout(() => {
+      // 이전 타이머가 있다면 취소
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+
+      timerRef.current = setTimeout(() => {
         setAnimatingRooms(new Set());
+        timerRef.current = null;
       }, 500);
 
       setPrevRoomOrder(currentRoomOrder);
     } else {
       setPrevRoomOrder(currentRoomOrder);
     }
+  }, [currentRoomOrder, prevRoomOrder]);
 
+  // 컴포넌트 언마운트 시 타이머 정리
+  useEffect(() => {
     return () => {
-      if (timer) clearTimeout(timer);
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
     };
-  }, [currentRoomOrder]);
+  }, []);
 
   return (
     <AdaptiveDiv
@@ -125,15 +154,17 @@ const R2Myroom = (props) => {
               ) : (
                 sortedRooms.map((item, index) => {
                   const shouldAnimate = animatingRooms.has(item._id);
+                  console.log(shouldAnimate);
                   return (
                     <div
                       key={item._id}
                       css={
                         shouldAnimate
                           ? {
-                              animation: `${smoothMove} 0.3s ease-out`,
-                              animationDelay: `${index * 0.05}s`,
+                              animation: `${smoothMove} 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)`,
+                              animationDelay: `${index * 0.08}s`,
                               animationFillMode: "both",
+                              transformOrigin: "center",
                             }
                           : {}
                       }

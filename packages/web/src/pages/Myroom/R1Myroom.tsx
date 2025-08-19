@@ -1,5 +1,5 @@
 import { keyframes } from "@emotion/react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
@@ -10,13 +10,32 @@ import Title from "@/components/Title";
 
 import { sortRoomsByUnreadCount } from "./utils";
 
-// 부드러운 이동 애니메이션
+// 위치 변경 애니메이션 - 더 부드럽고 직관적인 슬라이드 효과
 const smoothMove = keyframes`
-  from {
-    transform: translateY(-10px);
+  0% {
+    transform: translateY(-20px) scale(0.95);
+    opacity: 0.7;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  50% {
+    transform: translateY(-5px) scale(1.02);
+    opacity: 0.9;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+`;
+
+// 새로운 위치로 이동하는 애니메이션
+const slideToPosition = keyframes`
+  0% {
+    transform: translateY(-15px);
     opacity: 0.8;
   }
-  to {
+  100% {
     transform: translateY(0);
     opacity: 1;
   }
@@ -42,6 +61,7 @@ const R1Myroom = ({
 }: R1MyroomProps) => {
   const [prevRoomOrder, setPrevRoomOrder] = useState<string[]>([]);
   const [animatingRooms, setAnimatingRooms] = useState<Set<string>>(new Set());
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   // 현재 정렬된 방 목록
   const sortedRooms = useMemo(() => sortRoomsByUnreadCount(ongoing), [ongoing]);
@@ -52,8 +72,6 @@ const R1Myroom = ({
 
   // 순서가 변경된 방들을 감지하고 애니메이션 적용
   useEffect(() => {
-    let timer = null;
-
     const isOrderChanged =
       prevRoomOrder.length !== currentRoomOrder.length ||
       prevRoomOrder.some((roomId, index) => roomId !== currentRoomOrder[index]);
@@ -75,19 +93,30 @@ const R1Myroom = ({
     if (changedRooms.size > 0) {
       setAnimatingRooms(changedRooms);
 
-      timer = setTimeout(() => {
+      // 이전 타이머가 있다면 취소
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+
+      timerRef.current = setTimeout(() => {
         setAnimatingRooms(new Set());
+        timerRef.current = null;
       }, 500);
 
       setPrevRoomOrder(currentRoomOrder);
     } else {
       setPrevRoomOrder(currentRoomOrder);
     }
+  }, [currentRoomOrder, prevRoomOrder]);
 
+  // 컴포넌트 언마운트 시 타이머 정리
+  useEffect(() => {
     return () => {
-      if (timer) clearTimeout(timer);
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
     };
-  }, [currentRoomOrder]);
+  }, []);
 
   return (
     <AdaptiveDiv type="center">
@@ -105,9 +134,10 @@ const R1Myroom = ({
               css={
                 shouldAnimate
                   ? {
-                      animation: `${smoothMove} 0.3s ease-out`,
-                      animationDelay: `${index * 0.05}s`,
+                      animation: `${smoothMove} 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)`,
+                      animationDelay: `${index * 0.08}s`,
                       animationFillMode: "both",
+                      transformOrigin: "center",
                     }
                   : {}
               }
