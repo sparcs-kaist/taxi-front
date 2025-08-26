@@ -37,7 +37,7 @@ export const getCleanupChats = (chats: Chats): Chats => {
   const keySet = new Set<string>();
   let isAlreadyPushInfscrollChat = false;
 
-  chats.forEach((chat) => {
+  chats.forEach((chat: Chats) => {
     if (chat.type === "infscroll-checkout") {
       if (isAlreadyPushInfscrollChat) return;
       isAlreadyPushInfscrollChat = true;
