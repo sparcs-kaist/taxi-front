@@ -18,14 +18,14 @@ export default (
   _chats: Chats,
   layoutType: LayoutType,
   roomInfo: Room,
-  readAtList: Array<Date>
+  readAtList: Array
 ) => {
   const { oid: userOid } = useValueRecoilState("loginInfo") || {};
 
   return useMemo(() => {
-    const list: Array<ReactNode> = [];
+    const list: Array = [];
     let momentCache: any = null; // @fixme, @todo
-    let chatsCache: Nullable<Array<UserChat | BotChat>> = null;
+    let chatsCache: Nullable = null;
     const dateFormat = "YYYY.MM.DD";
     const minFormat = "YYYY.MM.DD HH:mm";
 
@@ -44,7 +44,7 @@ export default (
       chatsCache = null;
     };
 
-    _chats.forEach((item) => {
+    _chats.forEach((item: Chats) => {
       if ("isSpecialChat" in item) {
         popQueue();
         if (item.type === "joint-checkout") {
