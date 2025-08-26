@@ -19,7 +19,7 @@ const BadgeImage = ({ badge_live, badge_size = "1em" }: BadgeImageProps) => {
   if (badge_live === false) return null;
 
   // tier 값 읽기
-  const tier = loginInfo?.mileage?.tier?.tier;
+  const tier = "gold"; // loginInfo?.mileage?.tier?.tier;
 
   // tier에 따라 아이콘 선택
   let BadgeIcon;
@@ -31,6 +31,11 @@ const BadgeImage = ({ badge_live, badge_size = "1em" }: BadgeImageProps) => {
     BadgeIcon = NormalBadgeIcon;
   }
 
+  // silver만 살짝 키우되 레이아웃은 고정
+  let scale = 1;
+  if (tier === "silver") scale = 1.23; // silver 살짝 크게
+  if (tier === "gold") scale = 1.15; // gold 더 크게
+
   return (
     <div
       css={{
@@ -40,6 +45,8 @@ const BadgeImage = ({ badge_live, badge_size = "1em" }: BadgeImageProps) => {
         height: badge_size,
         marginLeft: "0.25em",
         verticalAlign: "middle",
+        lineHeight: 0,
+        overflow: "visible",
       }}
     >
       <Tooltip
@@ -70,7 +77,10 @@ const BadgeImage = ({ badge_live, badge_size = "1em" }: BadgeImageProps) => {
             css={{
               width: "100%",
               height: "100%",
+              display: "block",
               pointerEvents: "auto",
+              transform: `scale(${scale})`,
+              transformOrigin: "center center",
             }}
           />
         </div>

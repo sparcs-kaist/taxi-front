@@ -68,8 +68,8 @@ const InfoSection = () => {
   const myRooms = useValueRecoilState("myRooms");
   const randomTaxiSlogan = useMemo(randomTaxiSloganGenerator, []);
 
-  const activeMilage = loginInfo?.mileage.activeMileage;
-  const tier = loginInfo?.mileage.tier;
+  const activeMilage = 5000; //loginInfo?.mileage.activeMileage;
+  const tier = { tier: "gold", maxMileage: 10000 }; //loginInfo?.mileage.tier;
 
   const { message, room } = useMemo(() => {
     const sortedMyRoom =

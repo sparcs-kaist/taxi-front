@@ -15,11 +15,11 @@ export type LoginInfoType = Nullable<{
   phoneNumber?: string;
   account: string;
   badge: boolean;
-  mileage: {
-    totalMileage: number;
-    activeMileage: number;
-    tier: { tier: string; maxMileage: number };
-  };
+  //mileage: {
+  //  totalMileage: number;
+  //  activeMileage: number;
+  //  tier: { tier: string; maxMileage: number };
+  //};
   // deviceType: "web" | "app"; // #580 - loadenv의 deviceType을 사용하여야 합니다.
   deviceToken: Nullable<string>;
   accessToken: Nullable<string>;
