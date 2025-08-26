@@ -1,6 +1,13 @@
 import { ReactNode, useMemo } from "react";
 
-import type { BotChat, Chats, LayoutType, UserChat } from "@/types/chat";
+import type {
+  BotChat,
+  Chat,
+  Chats,
+  CheckoutChat,
+  LayoutType,
+  UserChat,
+} from "@/types/chat";
 
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
@@ -44,7 +51,7 @@ export default (
       chatsCache = null;
     };
 
-    _chats.forEach((item: Chats) => {
+    _chats.forEach((item: Chat | CheckoutChat) => {
       if ("isSpecialChat" in item) {
         popQueue();
         if (item.type === "joint-checkout") {

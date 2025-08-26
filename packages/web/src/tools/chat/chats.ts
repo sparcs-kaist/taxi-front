@@ -1,7 +1,8 @@
-import type {
+import {
   BotChat,
   Chat,
   Chats,
+  CheckoutChat,
   InfScrollCheckoutChat,
   JointCheckoutChat,
 } from "@/types/chat";
@@ -37,7 +38,7 @@ export const getCleanupChats = (chats: Chats): Chats => {
   const keySet = new Set<string>();
   let isAlreadyPushInfscrollChat = false;
 
-  chats.forEach((chat: Chats) => {
+  chats.forEach((chat: Chat | CheckoutChat) => {
     if (chat.type === "infscroll-checkout") {
       if (isAlreadyPushInfscrollChat) return;
       isAlreadyPushInfscrollChat = true;

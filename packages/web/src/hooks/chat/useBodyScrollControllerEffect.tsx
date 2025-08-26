@@ -121,7 +121,7 @@ export default (
         isCallingInfScroll.current = true;
         socketReady(() => {
           const cleandChat = chats.filter(
-            (chat: Chats) => !("isSpecialChat" in chat)
+            (chat: Chat) => !("isSpecialChat" in chat)
           ) as Array<Chat>;
           if (!cleandChat?.[0]?.time) return;
           axios({

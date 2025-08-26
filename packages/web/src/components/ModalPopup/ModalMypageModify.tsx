@@ -112,10 +112,10 @@ const ButtonProfileImage = () => {
       profileAlert === "SUCCESS"
         ? theme.green_button
         : profileAlert === "FAIL"
-        ? theme.red_button
-        : profileAlert === "LOADING"
-        ? theme.gray_text
-        : theme.purple,
+          ? theme.red_button
+          : profileAlert === "LOADING"
+            ? theme.gray_text
+            : theme.purple,
     width: "fit-content",
     margin: "16px auto",
     cursor: profileAlert ? "default" : "pointer",
@@ -133,10 +133,10 @@ const ButtonProfileImage = () => {
       {profileAlert === "SUCCESS"
         ? t("page_modify.profile_image_success")
         : profileAlert === "FAIL"
-        ? t("page_modify.profile_image_failed")
-        : profileAlert === "LOADING"
-        ? t("page_modify.profile_image_loading")
-        : t("page_modify.profile_image_change")}
+          ? t("page_modify.profile_image_failed")
+          : profileAlert === "LOADING"
+            ? t("page_modify.profile_image_loading")
+            : t("page_modify.profile_image_change")}
     </div>
   );
 };
@@ -164,7 +164,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
       setNickname(loginInfo?.nickname || "");
       setAccount(loginInfo?.account || "");
       setPhoneNumber(loginInfo?.phoneNumber || "");
-      setResidence(loginInfo?.residence || "")
+      setResidence(loginInfo?.residence || "");
       setBadge(loginInfo?.badge || false);
     }
   }, [loginInfo, modalProps.isOpen]);
