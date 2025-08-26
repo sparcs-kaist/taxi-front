@@ -61,18 +61,6 @@ const ModalChatPayment = ({
     }
   }, [isCopied]);
 
-  const EarnMileageonPayment = () => {
-    axios({
-      url: "/mileage/transactions",
-      method: "post",
-      data: {
-        type: "earn",
-        amount: 1,
-      },
-      onError: () => setAlert("마일리지 적립을 실패했습니다."),
-    });
-  };
-
   const onClickOk = async () => {
     if (isRequesting.current) return;
     isRequesting.current = true;
@@ -85,7 +73,6 @@ const ModalChatPayment = ({
         event2025SpringQuestComplete("farePayment");
         //#endregion
         modalProps.onChangeIsOpen?.(false);
-        EarnMileageonPayment();
         onRecall?.();
       },
       onError: () => setAlert("송금하기를 실패하였습니다."),

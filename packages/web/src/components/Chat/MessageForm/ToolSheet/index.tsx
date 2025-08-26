@@ -10,7 +10,6 @@ import {
 import useAccountFromChats from "@/hooks/chat/useAccountFromChats";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import useIsTimeOver from "@/hooks/useIsTimeOver";
-import { useAxios } from "@/hooks/useTaxiAPI";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import {
@@ -48,7 +47,6 @@ const ToolSheet = ({
   const [isOpenSettlement, setIsOpenSettlement] = useState<boolean>(false);
   const [isOpenPayment, setIsOpenPayment] = useState<boolean>(false);
   const [isOpenSaveAccount, setIsOpenSaveAccount] = useState<boolean>(true);
-  const [mileage, setMileage] = useState<Number>(0);
   const isDepart = useIsTimeOver(
     roomInfo ? dayServerToClient(roomInfo.time) : dayNowClient()
   ); // 방 출발 여부
