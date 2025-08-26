@@ -29,18 +29,6 @@ const smoothMove = keyframes`
   }
 `;
 
-// 새로운 위치로 이동하는 애니메이션
-const slideToPosition = keyframes`
-  0% {
-    transform: translateY(-15px);
-    opacity: 0.8;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-`;
-
 /**
  * @todo
  * - R2Myroom도 props가 같기 때문에 이 타입은 Myroom에서 export한 후 import해서 쓰기
