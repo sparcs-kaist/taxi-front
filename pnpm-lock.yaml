@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '22':
+        specifier: ^0.0.0
+        version: 0.0.0
     devDependencies:
       '@trivago/prettier-plugin-sort-imports':
         specifier: ^4.1.1
@@ -342,6 +346,9 @@ importers:
         version: 3.3.0(rollup@3.29.5)(typescript@5.8.3)(vite@4.5.14(@types/node@20.19.9)(terser@5.43.1))
 
 packages:
+
+  22@0.0.0:
+    resolution: {integrity: sha512-MdBPNDaCFY4fZVpp14n3Mt4isZ2yS1DrIiOig/iMLljr4zDa0g/583xf/lFXNPwhxCfGKYvyWJSrYyS8jNk2mQ==}
 
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
@@ -6430,6 +6437,7 @@ packages:
   metro-react-native-babel-preset@0.76.8:
     resolution: {integrity: sha512-Ptza08GgqzxEdK8apYsjTx2S8WDUlS2ilBlu9DR1CUcHmg4g3kOkFylZroogVAUKtpYQNYwAvdsjmrSdDNtiAg==}
     engines: {node: '>=16'}
+    deprecated: Use @react-native/babel-preset instead
     peerDependencies:
       '@babel/core': '*'
 
@@ -9029,6 +9037,8 @@ packages:
     engines: {node: '>=10'}
 
 snapshots:
+
+  22@0.0.0: {}
 
   '@ampproject/remapping@2.3.0':
     dependencies:
