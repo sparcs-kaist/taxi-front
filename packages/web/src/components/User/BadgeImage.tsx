@@ -19,7 +19,7 @@ const BadgeImage = ({ badge_live, badge_size = "1em" }: BadgeImageProps) => {
   if (badge_live === false) return null;
 
   // tier 값 읽기
-  const tier = "gold"; // loginInfo?.mileage?.tier?.tier;
+  const tier = "gold"; // loginInfo?.badge;
 
   // tier에 따라 아이콘 선택
   let BadgeIcon;

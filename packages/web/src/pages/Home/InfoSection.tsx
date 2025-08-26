@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { forwardRef, useMemo } from "react";
 import { Link } from "react-router-dom";
 
 import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
@@ -20,47 +20,67 @@ import BackgroundImage from "@/static/assets/BackgroundImage.jpg";
 import BackgroundImageDesktop from "@/static/assets/BackgroundImageDesktop.webp";
 import BackgroundImageMobile from "@/static/assets/BackgroundImageMobile.webp";
 import { ReactComponent as TaxiLogoWhite } from "@/static/assets/sparcsLogos/TaxiLogoWhite.svg";
+import Tooltip from "@mui/material/Tooltip";
 
-interface GaugeProps {
+type GaugeProps = {
   value: number;
   max: number;
   width?: string;
   height?: string;
   bgColor?: string;
   fillColor?: string;
-}
+  showLabel?: boolean;
+} & React.HTMLAttributes<HTMLDivElement>;
 
-const Gauge: React.FC<GaugeProps> = ({
-  value,
-  max,
-  width = "100%",
-  height = "8px",
-  bgColor = theme.gray_background,
-  fillColor = theme.purple,
-}) => {
-  const percentage = Math.min(Math.max((value / max) * 100, 0), 100);
+const Gauge = forwardRef<HTMLDivElement, GaugeProps>(function Gauge(
+  {
+    value,
+    max,
+    width = "100%",
+    height = "8px",
+    bgColor = theme.gray_background,
+    fillColor = theme.purple,
+    showLabel = false,
+    ...rest
+  },
+  ref
+) {
+  const ratio = max > 0 ? value / max : 0;
+  const clamped = Math.min(Math.max(ratio, 0), 1);
+
   return (
-    <div
-      css={{
-        width,
-        height,
-        backgroundColor: bgColor,
-        borderRadius: "4px",
-        overflow: "hidden",
-        marginTop: "8px",
-      }}
-    >
+    <div ref={ref} {...rest} css={{ width, display: "inline-block" }}>
       <div
         css={{
-          width: `${percentage}%`,
-          height: "100%",
-          backgroundColor: fillColor,
-          transition: "width 0.3s ease",
+          width: "100%",
+          height,
+          backgroundColor: bgColor,
+          borderRadius: "0",
+          overflow: "hidden",
+          position: "relative",
         }}
-      />
+      >
+        <div
+          css={{
+            position: "absolute",
+            inset: 0,
+            backgroundColor: fillColor,
+            transform: `scaleX(${clamped}) translateZ(0)`,
+            transformOrigin: "left center",
+            transition: "transform 0.3s ease",
+            willChange: "transform",
+            borderRadius: "0",
+          }}
+        />
+      </div>
+      {showLabel && (
+        <div css={{ marginTop: 6, ...theme.font12, color: theme.white }}>
+          {(clamped * 100).toFixed(0)}%
+        </div>
+      )}
     </div>
   );
-};
+});
 
 const InfoSection = () => {
   const loginInfo = useRecoilValue(loginInfoAtom);
@@ -68,7 +88,7 @@ const InfoSection = () => {
   const myRooms = useValueRecoilState("myRooms");
   const randomTaxiSlogan = useMemo(randomTaxiSloganGenerator, []);
 
-  const activeMilage = 5000; //loginInfo?.mileage.activeMileage;
+  const activeMilage = 1000; //loginInfo?.mileage.activeMileage;
   const tier = { tier: "gold", maxMileage: 10000 }; //loginInfo?.mileage.tier;
 
   const { message, room } = useMemo(() => {
@@ -172,15 +192,40 @@ const InfoSection = () => {
                 >
                   {activeMilage?.toLocaleString()}원
                 </span>
-                을 절약했어요! <BadgeImage badge_size="1.5em" />
+                을 절약했어요! <BadgeImage badge_size="1.2em" />
               </div>
               <div css={{ margin: "0px 0px 10px" }}>
-                <Gauge
-                  value={activeMilage ?? 0}
-                  max={tier?.maxMileage ?? 0}
-                  width="80%"
-                  height="15px"
-                />
+                <Tooltip
+                  title={`다음 단계: ${tier?.maxMileage.toLocaleString()}원 필요`}
+                  componentsProps={{
+                    tooltip: {
+                      sx: {
+                        ...theme.font12,
+                        color: theme.white,
+                        padding: "3px 1px 3px",
+                        marginTop: "8px !important",
+                        maxWidth: "280px",
+                        width: "calc(100vw - 40px)",
+                        boxShadow: theme.shadow,
+                        textAlign: "center",
+                        whiteSpace: "normal",
+                        borderRadius: "14px",
+                        cursor: "default",
+                      },
+                    },
+                  }}
+                  enterTouchDelay={0}
+                  leaveTouchDelay={2000}
+                >
+                  <Gauge
+                    value={activeMilage ?? 0}
+                    max={tier?.maxMileage ?? 0}
+                    width="90%"
+                    height="15px"
+                    bgColor={theme.gray_background}
+                    fillColor={theme.purple}
+                  />
+                </Tooltip>
               </div>
             </>
           )}
