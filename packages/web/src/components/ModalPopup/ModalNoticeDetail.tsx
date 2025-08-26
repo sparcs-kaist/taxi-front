@@ -33,7 +33,7 @@ const ModalNoticeDetail = ({
   };
 
   const NotionImage = (props: any) => {
-    const { src, alt } = props; // react-notion-x가 넘겨주는 src/alt
+    const { src, alt, style, ...rest } = props;
     return (
       <div
         style={{
@@ -46,13 +46,18 @@ const ModalNoticeDetail = ({
         <img
           src={src}
           alt={alt ?? ""}
-          style={{ display: "block", maxWidth: "100%", height: "auto" }}
           loading="lazy"
+          {...rest} // ✅ className 등 전달
+          style={{
+            display: "block",
+            maxWidth: "100%",
+            height: "auto",
+            ...(style || {}), // ✅ Notion이 내려주는 style 보존
+          }}
         />
       </div>
     );
   };
-
   return (
     <Modal
       isOpen={isOpen}
@@ -65,8 +70,9 @@ const ModalNoticeDetail = ({
         {recordMap && (
           <NotionRenderer
             recordMap={recordMap}
-            bodyClassName={"less-indent-notion-body"}
+            bodyClassName="less-indent-notion-body"
             components={{ Image: NotionImage }}
+            forceCustomImages
           />
         )}
       </div>
