@@ -29,11 +29,6 @@ const smoothMove = keyframes`
   }
 `;
 
-/**
- * @todo
- * - R2Myroom도 props가 같기 때문에 이 타입은 Myroom에서 export한 후 import해서 쓰기
- * - 전역으로 DB 스키마 타입 추가하기 (현재는 ongoing, done을 Array<any>로 정의)
- */
 type R1MyroomProps = {
   roomId: string;
   ongoing: Array<any>;
@@ -51,12 +46,19 @@ const R1Myroom = ({
   const [animatingRooms, setAnimatingRooms] = useState<Set<string>>(new Set());
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // 현재 정렬된 방 목록
-  const sortedRooms = useMemo(() => sortRoomsByUnreadCount(ongoing), [ongoing]);
-  const currentRoomOrder = useMemo(
-    () => sortedRooms.map((room) => room._id),
-    [sortedRooms]
+  const sortedOngoingRooms = useMemo(
+    () => sortRoomsByUnreadCount(ongoing),
+    [ongoing]
   );
+
+  // 정렬된 과거 방 목록
+  const sortedDoneRooms = useMemo(() => sortRoomsByUnreadCount(done), [done]);
+
+  const currentRoomOrder = useMemo(() => {
+    const ongoingIds = sortedOngoingRooms.map((r) => r._id);
+    const doneIds = sortedDoneRooms.map((r) => r._id);
+    return [...ongoingIds, ...doneIds];
+  }, [sortedOngoingRooms, sortedDoneRooms]);
 
   // 순서가 변경된 방들을 감지하고 애니메이션 적용
   useEffect(() => {
@@ -114,7 +116,7 @@ const R1Myroom = ({
       {ongoing?.length === 0 ? (
         <Empty type="mobile">참여 중인 방이 없습니다</Empty>
       ) : (
-        sortedRooms.map((item, index) => {
+        sortedOngoingRooms.map((item, index) => {
           const shouldAnimate = animatingRooms.has(item._id);
           return (
             <div
@@ -155,28 +157,45 @@ const R1Myroom = ({
         <Empty type="mobile">과거 참여했던 방이 없습니다</Empty>
       ) : (
         <>
-          {done
+          {sortedDoneRooms
             ?.slice(
               PAGE_MAX_ITEMS * (donePageInfo.currentPage - 1),
               PAGE_MAX_ITEMS * donePageInfo.currentPage
             )
-            .map((item) => (
-              <Link
-                key={item._id}
-                to={`/myroom/${item._id}`}
-                style={{ textDecoration: "none" }}
-              >
-                <AnimatedRoom
-                  data={item}
-                  selected={roomId === item._id}
-                  theme="white"
-                  marginTop="15px"
-                  type={item.type}
-                  unreadCount={item.unreadCount}
-                  hasImportantMessage={item.hasImportantMessage}
-                />
-              </Link>
-            ))}
+            .map((item, index) => {
+              const shouldAnimate = animatingRooms.has(item._id);
+              return (
+                <div
+                  key={item._id}
+                  css={
+                    shouldAnimate
+                      ? {
+                          animation: `${smoothMove} 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)`,
+                          animationDelay: `${index * 0.08}s`,
+                          animationFillMode: "both",
+                          transformOrigin: "center",
+                        }
+                      : {}
+                  }
+                >
+                  <Link
+                    key={item._id}
+                    to={`/myroom/${item._id}`}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <AnimatedRoom
+                      data={item}
+                      selected={roomId === item._id}
+                      theme="white"
+                      marginTop="15px"
+                      type={item.type}
+                      unreadCount={item.unreadCount}
+                      hasImportantMessage={item.hasImportantMessage}
+                    />
+                  </Link>
+                </div>
+              );
+            })}
           <Pagination
             totalPages={donePageInfo.totalPages}
             currentPage={donePageInfo.currentPage}

@@ -79,14 +79,22 @@ const R2Myroom = (props) => {
   const timerRef = useRef(null);
 
   // 현재 정렬된 방 목록
-  const sortedRooms = useMemo(
+  const sortedOngoingRooms = useMemo(
     () => sortRoomsByUnreadCount(props.ongoing),
     [props.ongoing]
   );
-  const currentRoomOrder = useMemo(
-    () => sortedRooms.map((room) => room._id),
-    [sortedRooms]
+
+  // 정렬된 과거 방 목록
+  const sortedDoneRooms = useMemo(
+    () => sortRoomsByUnreadCount(props.done),
+    [props.done]
   );
+
+  const currentRoomOrder = useMemo(() => {
+    const ongoingIds = sortedOngoingRooms.map((r) => r._id);
+    const doneIds = sortedDoneRooms.map((r) => r._id);
+    return [...ongoingIds, ...doneIds];
+  }, [sortedOngoingRooms, sortedDoneRooms]);
 
   // 순서가 변경된 방들을 감지하고 애니메이션 적용
   useEffect(() => {
@@ -152,9 +160,8 @@ const R2Myroom = (props) => {
               {props.ongoing.length === 0 ? (
                 <Empty type="pc">참여 중인 방이 없습니다</Empty>
               ) : (
-                sortedRooms.map((item, index) => {
+                sortedOngoingRooms.map((item, index) => {
                   const shouldAnimate = animatingRooms.has(item._id);
-                  console.log(shouldAnimate);
                   return (
                     <div
                       key={item._id}
@@ -195,28 +202,46 @@ const R2Myroom = (props) => {
                 <Empty type="pc">과거 참여했던 방이 없습니다</Empty>
               ) : (
                 <div>
-                  {props.done
+                  {sortedDoneRooms
                     .slice(
                       PAGE_MAX_ITEMS * (props.donePageInfo.currentPage - 1),
                       PAGE_MAX_ITEMS * props.donePageInfo.currentPage
                     )
-                    .map((item) => (
-                      <LinkRoom
-                        key={item._id}
-                        currentId={props.roomId}
-                        id={item._id}
-                      >
-                        <AnimatedRoom
-                          data={item}
-                          selected={props.roomId === item._id}
-                          theme="purple"
-                          marginTop="15px"
-                          type={item.type}
-                          unreadCount={item.unreadCount}
-                          hasImportantMessage={item.hasImportantMessage}
-                        />
-                      </LinkRoom>
-                    ))}
+                    .map((item, index) => {
+                      const shouldAnimate = animatingRooms.has(item._id);
+                      return (
+                        <div
+                          key={item._id}
+                          css={
+                            shouldAnimate
+                              ? {
+                                  animation: `${smoothMove} 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)`,
+                                  animationDelay: `${index * 0.08}s`,
+                                  animationFillMode: "both",
+                                  transformOrigin: "center",
+                                }
+                              : {}
+                          }
+                        >
+                          {" "}
+                          <LinkRoom
+                            key={item._id}
+                            currentId={props.roomId}
+                            id={item._id}
+                          >
+                            <AnimatedRoom
+                              data={item}
+                              selected={props.roomId === item._id}
+                              theme="purple"
+                              marginTop="15px"
+                              type={item.type}
+                              unreadCount={item.unreadCount}
+                              hasImportantMessage={item.hasImportantMessage}
+                            />
+                          </LinkRoom>
+                        </div>
+                      );
+                    })}
                   <Pagination
                     totalPages={props.donePageInfo.totalPages}
                     currentPage={props.donePageInfo.currentPage}
