@@ -18,14 +18,14 @@ export default (
   _chats: Chats,
   layoutType: LayoutType,
   roomInfo: Room,
-  readAtList: Array
+  readAtList: Date[]
 ) => {
   const { oid: userOid } = useValueRecoilState("loginInfo") || {};
 
   return useMemo(() => {
-    const list: Array = [];
+    const list: ReactNode[] = [];
     let momentCache: any = null; // @fixme, @todo
-    let chatsCache: Nullable = null;
+    let chatsCache: (UserChat | BotChat)[] | null = null;
     const dateFormat = "YYYY.MM.DD";
     const minFormat = "YYYY.MM.DD HH:mm";
 
