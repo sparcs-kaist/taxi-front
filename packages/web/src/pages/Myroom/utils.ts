@@ -1,31 +1,36 @@
-// 방 목록 정렬 유틸리티 함수
-export const sortRoomsByUnreadCount = (rooms: Array<any>) => {
+// 안전한 타임스탬프 변환 (없거나 invalid하면 -Infinity 로)
+const toTs = (v: any) => {
+  const t = v ? new Date(v).getTime() : NaN;
+  return Number.isFinite(t) ? t : -Infinity;
+};
+
+// 최신이 위로(내림차순), unread 우선, 동률일 때 madeAt 내림차순
+export const sortRoomsByUnreadCount = (rooms: Array<any> = []) => {
   return [...rooms].sort((a, b) => {
-    // 1. unreadCount가 있는 방들을 최상단으로
-    const aHasUnread = (a.unreadCount || 0) > 0;
-    const bHasUnread = (b.unreadCount || 0) > 0;
+    const aImportant = (a.hasImportantMessage || 0) > 0;
+    const bImportant = (b.hasImportantMessage || 0) > 0;
 
-    if (aHasUnread && !bHasUnread) return -1;
-    if (!aHasUnread && bHasUnread) return 1;
+    if (aImportant !== bImportant) return aImportant ? -1 : 1;
 
-    // 2. 둘 다 unreadCount가 있는 경우, 더 최근에 메시지가 온 방을 위로
-    // (unreadCount가 많다는 것은 더 많은 새 메시지가 있다는 의미이므로 최근 활동이 더 많음)
-    if (aHasUnread && bHasUnread) {
-      // unreadCount가 높은 순으로 정렬 (더 많은 안읽은 메시지 = 더 활발한 채팅)
-      const unreadDiff = (b.unreadCount || 0) - (a.unreadCount || 0);
-      if (unreadDiff !== 0) return unreadDiff;
+    const aUnread = (a.unreadCount || 0) > 0;
+    const bUnread = (b.unreadCount || 0) > 0;
 
-      // unreadCount가 같으면 방 생성시간 기준 최신 순
-      return (
-        new Date(b.madeat || b.time).getTime() -
-        new Date(a.madeat || a.time).getTime()
-      );
-    }
+    // 1) unread 우선
+    if (aUnread !== bUnread) return aUnread ? -1 : 1;
 
-    // 3. 둘 다 unreadCount가 0인 경우, 방 생성시간 기준 최신 순
-    return (
-      new Date(b.madeat || b.time).getTime() -
-      new Date(a.madeat || a.time).getTime()
+    // 2) 최근 활동 시간(time) 내림차순
+    const at = toTs(a.time);
+    const bt = toTs(b.time);
+    if (bt !== at) return bt - at; // desc
+
+    // 3) 동률이면 madeAt 내림차순
+    const ama = toTs(a.madeAt);
+    const bma = toTs(b.madeAt);
+    if (bma !== ama) return bma - ama; // desc
+
+    // 4) 그래도 같으면 _id 로 안정적 정렬 (옵션)
+    return String(b._id ?? b.id ?? "").localeCompare(
+      String(a._id ?? a.id ?? "")
     );
   });
 };

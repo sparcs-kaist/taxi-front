@@ -13,19 +13,19 @@ import { sortRoomsByUnreadCount } from "./utils";
 // 위치 변경 애니메이션 - 더 부드럽고 직관적인 슬라이드 효과
 const smoothMove = keyframes`
   0% {
-    transform: translateY(-20px) scale(0.95);
-    opacity: 0.7;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-  50% {
-    transform: translateY(-5px) scale(1.02);
+    transform: translateY(-6px) scale(0.99);
     opacity: 0.9;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  60% {
+    transform: translateY(-1px) scale(1.005);
+    opacity: 1;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.10);
   }
   100% {
     transform: translateY(0) scale(1);
     opacity: 1;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
   }
 `;
 
@@ -124,8 +124,8 @@ const R1Myroom = ({
               css={
                 shouldAnimate
                   ? {
-                      animation: `${smoothMove} 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)`,
-                      animationDelay: `${index * 0.08}s`,
+                      animation: `${smoothMove} 0.35s cubic-bezier(0.2, 0.6, 0.2, 1)`,
+                      animationDelay: `${index * 0.04}s`,
                       animationFillMode: "both",
                       transformOrigin: "center",
                     }
