@@ -63,8 +63,11 @@ const AnimatedRoom = ({
         animation: `${
           type === "addition" ? growHeight : shrinkHeight
         } 0.5s forwards`,
+        overflow: "hidden",
       }}
-    ></div>
+    >
+      <Room {...props} />
+    </div>
   );
 };
 
