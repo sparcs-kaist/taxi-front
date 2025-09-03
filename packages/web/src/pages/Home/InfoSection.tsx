@@ -201,15 +201,16 @@ const InfoSection = () => {
                     tooltip: {
                       sx: {
                         ...theme.font12,
-                        color: theme.white,
+                        color: theme.black,
                         padding: "3px 1px 3px",
                         marginTop: "8px !important",
                         maxWidth: "280px",
                         width: "calc(100vw - 40px)",
                         boxShadow: theme.shadow,
+                        backgroundColor: "white",
                         textAlign: "center",
                         whiteSpace: "normal",
-                        borderRadius: "14px",
+                        borderRadius: "12px",
                         cursor: "default",
                       },
                     },
@@ -220,7 +221,7 @@ const InfoSection = () => {
                   <Gauge
                     value={activeMilage ?? 0}
                     max={tier?.maxMileage ?? 0}
-                    width="90%"
+                    width="100%"
                     height="15px"
                     bgColor={theme.gray_background}
                     fillColor={theme.purple}

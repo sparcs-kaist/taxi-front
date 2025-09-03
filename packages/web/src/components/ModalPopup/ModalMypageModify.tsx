@@ -150,7 +150,6 @@ const nextBadge = (s: BadgeSetting) =>
   BADGE_ORDER[(BADGE_ORDER.indexOf(s) + 1) % BADGE_ORDER.length];
 
 function mapLoginInfoBadgeToState(raw: any): BadgeSetting {
-  // 백엔드가 boolean/문자열 혼재일 수 있어 호환 처리
   if (raw === true) return "normal";
   if (raw === false || raw === undefined || raw === null) return "none";
   if (raw === "normal" || raw === "silver" || raw === "gold") return raw;
