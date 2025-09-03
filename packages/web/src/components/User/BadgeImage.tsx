@@ -2,28 +2,51 @@ import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import theme from "@/tools/theme";
 
-import { ReactComponent as BadgeIcon } from "@/static/assets/phone_badge_img.svg";
+import { ReactComponent as GoldBadgeIcon } from "@/static/assets/phone_badge_gold.svg";
+import { ReactComponent as NormalBadgeIcon } from "@/static/assets/phone_badge_normal.svg";
+import { ReactComponent as SilverBadgeIcon } from "@/static/assets/phone_badge_silver.svg";
 import Tooltip from "@mui/material/Tooltip";
 
 type BadgeImageProps = {
   badge_live?: boolean;
+  badge_size?: string;
 };
 
-const BadgeImage = ({ badge_live }: BadgeImageProps) => {
+const BadgeImage = ({ badge_live, badge_size = "1em" }: BadgeImageProps) => {
   const loginInfo = useValueRecoilState("loginInfo");
 
   if (badge_live === undefined && !(loginInfo?.badge || false)) return null;
   if (badge_live === false) return null;
+
+  // tier 값 읽기
+  const tier = "gold"; // loginInfo?.badge;
+
+  // tier에 따라 아이콘 선택
+  let BadgeIcon;
+  if (tier === "gold") {
+    BadgeIcon = GoldBadgeIcon;
+  } else if (tier === "silver") {
+    BadgeIcon = SilverBadgeIcon;
+  } else {
+    BadgeIcon = NormalBadgeIcon;
+  }
+
+  // silver만 살짝 키우되 레이아웃은 고정
+  let scale = 1;
+  if (tier === "silver") scale = 1.23; // silver 살짝 크게
+  if (tier === "gold") scale = 1.15; // gold 더 크게
 
   return (
     <div
       css={{
         position: "relative",
         display: "inline-block",
-        width: "1em",
-        height: "1em",
+        width: badge_size,
+        height: badge_size,
         marginLeft: "0.25em",
         verticalAlign: "middle",
+        lineHeight: 0,
+        overflow: "visible",
       }}
     >
       <Tooltip
@@ -54,7 +77,10 @@ const BadgeImage = ({ badge_live }: BadgeImageProps) => {
             css={{
               width: "100%",
               height: "100%",
-              pointerEvents: "auto", // 반드시 필요
+              display: "block",
+              pointerEvents: "auto",
+              transform: `scale(${scale})`,
+              transformOrigin: "center center",
             }}
           />
         </div>

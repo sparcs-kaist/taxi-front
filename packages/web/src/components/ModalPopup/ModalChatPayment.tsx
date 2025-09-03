@@ -208,8 +208,8 @@ const ModalChatPayment = ({
           {settlementStatusForMe === "send-required"
             ? "송금 확인"
             : settlementStatusForMe === "sent"
-            ? "송금 확인 완료"
-            : "송금 확인 불가능"}
+              ? "송금 확인 완료"
+              : "송금 확인 불가능"}
         </Button>
       </div>
     </Modal>
