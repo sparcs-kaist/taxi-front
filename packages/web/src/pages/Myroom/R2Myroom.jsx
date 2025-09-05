@@ -192,7 +192,6 @@ const R2Myroom = (props) => {
                               : {}
                           }
                         >
-                          {" "}
                           <LinkRoom
                             key={item._id}
                             currentId={props.roomId}

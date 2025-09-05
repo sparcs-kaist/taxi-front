@@ -18,11 +18,11 @@ export type SocketVoidEventListner = () => void;
 let isSocketReady: boolean = false;
 let socketReadyQueue: SocketVoidEventListner[] = [];
 
-let initEventListener: SocketChatEventListner | null | undefined = null;
-let reconnectEventListener: SocketVoidEventListner | null | undefined = null;
-let pushBackEventListener: SocketChatEventListner | null | undefined = null;
-let pushFrontEventListener: SocketChatEventListner | null | undefined = null;
-let updateEventListener: SocketRoomEventListner | null | undefined = null;
+let initEventListener: Nullable<SocketChatEventListner> = null;
+let reconnectEventListener: Nullable<SocketVoidEventListner> = null;
+let pushBackEventListener: Nullable<SocketChatEventListner> = null;
+let pushFrontEventListener: Nullable<SocketChatEventListner> = null;
+let updateEventListener: Nullable<SocketRoomEventListner> = null;
 
 const SocketToastProvider = () => {
   const { id: userId, oid: userOid } = useValueRecoilState("loginInfo") || {};
