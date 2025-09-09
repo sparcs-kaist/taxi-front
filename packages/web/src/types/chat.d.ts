@@ -13,7 +13,7 @@ export type UserChat = {
   type: "text" | "s3img" | "payment" | "settlement" | "account";
   authorId: string;
   authorName: string;
-  residence: string;
+  authorResidence?: string;
   authorProfileUrl: string;
   authorIsWithdrew: boolean;
 } & CommonChat;
