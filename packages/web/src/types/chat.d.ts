@@ -19,7 +19,7 @@ export type UserChat = {
 } & CommonChat;
 export type GeneralChat = {
   type: "in" | "out";
-  inOutNames: Array;
+  inOutNames: string[];
 } & CommonChat;
 export type BotChat = {
   type: "share" | "departure" | "arrival";
@@ -39,4 +39,4 @@ export type InfScrollCheckoutChat = {
 };
 export type CheckoutChat = JointCheckoutChat | InfScrollCheckoutChat;
 
-export type Chats = Array;
+export type Chats = (Chat | CheckoutChat)[];
