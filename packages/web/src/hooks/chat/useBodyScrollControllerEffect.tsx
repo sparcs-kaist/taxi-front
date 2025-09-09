@@ -1,6 +1,6 @@
 import { RefObject, useEffect, useLayoutEffect, useRef } from "react";
 
-import type { Chat, Chats } from "@/types/chat";
+import type { Chat, Chats, CheckoutChat } from "@/types/chat";
 
 import { useAxios } from "@/hooks/useTaxiAPI";
 
@@ -121,7 +121,7 @@ export default (
         isCallingInfScroll.current = true;
         socketReady(() => {
           const cleandChat = chats.filter(
-            (chat: Chat) => !("isSpecialChat" in chat)
+            (chat: Chat | CheckoutChat) => !("isSpecialChat" in chat)
           ) as Array<Chat>;
           if (!cleandChat?.[0]?.time) return;
           axios({
