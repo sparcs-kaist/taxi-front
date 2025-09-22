@@ -491,7 +491,7 @@ const Event2025FallStoreLeaderboard = ({
           onChangeIsOpen={setIsOpenPurchaseSuccess}
         />
       </AdaptiveDiv>
-      <Footer type="event-2025Fall" />
+      <Footer type="event-2025fall" />
     </>
   );
 };

@@ -1,6 +1,6 @@
 import { memo } from "react";
 
-import type { EventItem } from "@/types/event2025Fall";
+import type { EventItem } from "@/types/event2025fall";
 
 import Empty from "@/components/Empty";
 import EventItemContainer from "@/components/Event/EventItemContainer";
