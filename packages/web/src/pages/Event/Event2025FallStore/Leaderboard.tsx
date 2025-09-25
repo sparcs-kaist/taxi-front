@@ -25,7 +25,7 @@ import { useSetRecoilState } from "recoil";
 import { eventMode } from "@/tools/loadenv";
 import theme from "@/tools/theme";
 
-import { ReactComponent as TicketIcon } from "@/static/events/2025FallTicket.svg";
+import { ReactComponent as TicketIcon } from "@/static/events/2025SpringTicket.svg";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const LeaderboardTopBar = () => (

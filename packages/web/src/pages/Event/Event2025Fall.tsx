@@ -22,18 +22,20 @@ import theme from "@/tools/theme";
 
 // use previous event icons
 import { ReactComponent as TaxiLogoIcon } from "@/static/assets/sparcsLogos/TaxiLogo.svg";
+// 리더보드 preview
 import { ReactComponent as MainStep3 } from "@/static/events/2024fallMainStep3.svg";
-import { ReactComponent as BonusSection2 } from "@/static/events/2025springBonusSection2.svg";
+// 가장 위 섹션
 import { ReactComponent as MainSection1 } from "@/static/events/2025springMainSection1.svg";
+// 이벤트 참여 방법
 import { ReactComponent as MainSection2 } from "@/static/events/2025springMainSection2.svg";
-import { ReactComponent as MainSection4 } from "@/static/events/2025springMainSection4.svg";
+// 후원사 로고
 import { ReactComponent as MainSection6 } from "@/static/events/2025springMainSection6.svg";
+// 응모권 교환 관련 가격표
 import { ReactComponent as MainStep2 } from "@/static/events/2025springMainStep2.svg";
+// 새학기 이벤트 타이틀
 import { ReactComponent as MainTitle } from "@/static/events/2025springMainTitle.svg";
+// 퀘스트 완료 아이콘
 import { ReactComponent as MissionCompleteIcon } from "@/static/events/2025springMissionComplete.svg";
-
-const EVENT_INSTAGRAM_URL =
-  "https://www.instagram.com/p/DGUasbrvCsb/?igsh=MzRlODBiNWFlZA==";
 
 const Event2025Fall = () => {
   const [isOpenShare, setIsOpenShare] = useState<boolean>(false);
@@ -45,14 +47,14 @@ const Event2025Fall = () => {
   const axios = useAxios();
 
   const today = getToday();
-  const startDate = moment("2025-02-20", "YYYY-MM-DD");
-  const endDate = moment("2025-03-13", "YYYY-MM-DD");
+  const startDate = moment("2025-10-01", "YYYY-MM-DD");
+  const endDate = moment("2025-10-22", "YYYY-MM-DD");
   const isEventDay = today.isBefore(endDate) && today.isAfter(startDate, "day");
 
   useEffect(() => {
     if (isAgreeOnTermsOfEvent && isEventDay)
       axios({
-        url: `/events/2025spring/invites/create`,
+        url: `/events/2025fall/invites/create`,
         method: "post",
         onSuccess: ({ inviteUrl }) => {
           setInviteUrl(inviteUrl);
@@ -114,7 +116,7 @@ const Event2025Fall = () => {
             >
               Taxi 퀘스트 달성하고
               <br />
-              넙죽코인을 모아보세요!
+              응모권을 모아보세요!
             </div>
             <div css={{ height: "16px" }} />
             <MissionCompleteIcon css={{ width: "192px", maxWidth: "100%" }} />
@@ -127,7 +129,7 @@ const Event2025Fall = () => {
             >
               Taxi 웹사이트와 앱에서 퀘스트 내용 확인
               <br />
-              이벤트 참여만 해도 넙죽코인 200개 지급!
+              신규 전화번호 인증만 진행해도 응모권 5개 지급!
             </div>
             <div css={{ height: "16px" }} />
             <Link
@@ -167,7 +169,7 @@ const Event2025Fall = () => {
             >
               응모권 교환소에서
               <br />
-              경품 응모권을 구매해 보세요!
+              경품 응모권을 사용해 보세요!
             </div>
             <div css={{ height: "16px" }} />
             <MainStep2 css={{ width: "100%" }} />
@@ -264,9 +266,9 @@ const Event2025Fall = () => {
                 color: theme.black,
               }}
             >
-              이벤트를 친구에게 공유하고
+              Taxi를 친구에게 공유하고
               <br />
-              친구와 함께 넙죽코인 받아가세요!
+              친구와 함께 응모권 받아가세요!
             </div>
             <div css={{ height: "16px" }} />
             <div
@@ -275,9 +277,9 @@ const Event2025Fall = () => {
                 color: theme.gray_text,
               }}
             >
-              나의 초대 링크로 친구가 이벤트에 참여하면
+              나의 초대 링크로 친구가 Taxi에 가입, 전화번호를 인증 시
               <br />
-              친구와 나 모두 넙죽코인 700개 획득!
+              친구와 나 모두 응모권 10개 획득!
             </div>
             <div css={{ height: "16px" }} />
             <Button
@@ -302,63 +304,7 @@ const Event2025Fall = () => {
             </Button>
           </WhiteContainer>
           <div css={{ height: "16px" }} />
-          <WhiteContainer
-            css={{ margin: 0, padding: "16px", textAlign: "center" }}
-          >
-            <div
-              css={{
-                ...theme.font14_bold,
-                color: theme.purple,
-              }}
-            >
-              BONUS 2
-            </div>
-            <div css={{ height: "16px" }} />
-            <div
-              css={{
-                ...theme.font20,
-                color: theme.black,
-              }}
-            >
-              SPARCS 행사 참여하고
-              <br />
-              넙죽코인 쿠폰 받아가세요!
-            </div>
-            <div css={{ height: "16px" }} />
-            <BonusSection2 css={{ width: "100%" }} />
-            <div css={{ height: "16px" }} />
-            <div
-              css={{
-                ...theme.font14,
-                color: theme.gray_text,
-              }}
-            >
-              해오름식 SPARCS 부스 또는 SPARCS 오픈동방에 참여하면
-              <br />
-              넙죽코인을 얻을 수 있는 쿠폰이?!
-            </div>
-            <div css={{ height: "16px" }} />
-            <Button
-              type="purple_inset"
-              css={{
-                padding: "14px 0 13px",
-                borderRadius: "12px",
-                ...theme.font14_bold,
-              }}
-              onClick={() => {
-                if (inviteUrl) setIsOpenCoupon(true);
-                else if (isEventDay) {
-                  setAlert(
-                    "쿠폰을 사용하기 위해서는 이벤트에 참여해야 합니다."
-                  );
-                } else {
-                  setAlert("이벤트 기간이 아닙니다.");
-                }
-              }}
-            >
-              쿠폰 사용하기
-            </Button>
-          </WhiteContainer>
+
           <ModalEvent2025FallShare
             isOpen={isOpenShare}
             onChangeIsOpen={setIsOpenShare}
@@ -369,34 +315,6 @@ const Event2025Fall = () => {
             setIsOpen={setIsOpenCoupon}
             onChangeIsOpen={setIsOpenCoupon}
           />
-        </AdaptiveDiv>
-      </div>
-      <div
-        css={{
-          background: "linear-gradient(to top, #797F6C, #203F76)",
-          ...theme.cursor(),
-        }}
-        onClick={() => window.open(EVENT_INSTAGRAM_URL, "_blank")}
-      >
-        <AdaptiveDiv
-          type="center"
-          css={{ padding: "16px", textAlign: "center" }}
-        >
-          <div css={{ color: theme.white, ...theme.font14_bold }}>EVENT</div>
-          <div css={{ height: "16px" }} />
-          <div css={{ color: theme.white, ...theme.font20 }}>
-            인스타그램 스토리 공유하고
-            <br />
-            공유 이벤트에 참여하세요!
-          </div>
-          <div css={{ height: "16px" }} />
-          <MainSection4 css={{ width: "334px", maxWidth: "100%" }} />
-          <div css={{ height: "16px" }} />
-          <div css={{ color: theme.gray_line, ...theme.font14 }}>
-            이 영역을 누르면 인스타그램 게시물로 이동
-            <br />
-            추첨 결과는 3월 19일에 발표
-          </div>
         </AdaptiveDiv>
       </div>
       <div
@@ -413,7 +331,7 @@ const Event2025Fall = () => {
           </div>
         </AdaptiveDiv>
       </div>
-      <Footer type="event-2025spring" />
+      <Footer type="event-2025fall" />
     </>
   );
 };
