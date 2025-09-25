@@ -1,6 +1,6 @@
 import { memo, useMemo } from "react";
 
-import type { Transaction } from "@/types/event2025spring";
+import type { Transaction } from "@/types/event2025fall";
 
 import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import useQuery from "@/hooks/useTaxiAPI";

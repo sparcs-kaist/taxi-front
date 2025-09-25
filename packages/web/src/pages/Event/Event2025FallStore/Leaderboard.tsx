@@ -287,7 +287,7 @@ const Event2025FallStoreLeaderboard = ({
         ? [true, "로그인해야 합니다"]
         : !event2025FallInfo.isAgreeOnTermsOfEvent
         ? [true, "이벤트에 참여해야 합니다"]
-        : event2025FallInfo.creditAmount < (item?.price * purchaseAmount || 0)
+        : event2025FallInfo.ticketAmount < (item?.price * purchaseAmount || 0)
         ? [true, "넙죽코인이 부족합니다"]
         : [false, "응모권 구매하기"],
     [eventMode, event2025FallInfo, item, purchaseAmount]

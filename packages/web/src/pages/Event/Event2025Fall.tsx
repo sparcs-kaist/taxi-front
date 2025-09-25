@@ -133,7 +133,7 @@ const Event2025Fall = () => {
             </div>
             <div css={{ height: "16px" }} />
             <Link
-              to="/event/2025spring-missions"
+              to="/event/2025fall-missions"
               css={{ textDecoration: "none" }}
             >
               <Button

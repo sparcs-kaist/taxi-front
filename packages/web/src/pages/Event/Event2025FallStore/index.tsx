@@ -55,12 +55,12 @@ const Event2025FallStore = ({ itemId }: Event2025FallStoreProps) => {
             zIndex: theme.zIndex_nav - 1,
           }}
         >
-          <CreditAmountStatusContainer />
+          <CreditAmountStatusContainer type="ticket" />
         </div>
         <PublicNoticeContainer />
         <div css={{ marginTop: "-15px" }} />
         <Title icon="shop" isHeader>
-          경품 응모권
+          경품 응모
         </Title>
         <ItemListSection items={items} fetchItems={fetchItemList} />
       </AdaptiveDiv>

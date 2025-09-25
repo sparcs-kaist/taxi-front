@@ -158,32 +158,32 @@ const Event2025FallMissions = () => {
                 {
                   value: "quests",
                   label: "퀘스트",
-                  to: "/event/2025spring-missions",
+                  to: "/event/2025fall-missions",
                 },
                 {
                   value: "daily-attendance",
                   label: "밸런스 게임",
-                  to: "/event/2025spring-daily-attendance",
+                  to: "/event/2025fall-daily-attendance",
                 },
               ]
             : [
                 {
                   value: "quests",
                   label: "퀘스트",
-                  to: "/event/2025spring-missions",
+                  to: "/event/2025fall-missions",
                 },
               ]
         }
       />
       <AdaptiveDiv type="center">
         <div css={{ height: "30px" }} />
-        <CreditAmountStatusContainer />
+        <CreditAmountStatusContainer type="ticket" />
         <WhiteContainerSuggestJoinEvent />
         <WhiteContainerSuggestShareEvent />
         {quests?.map((quest) => (
           <MissionContainer key={quest.id} quest={quest} />
         ))}
-        <Footer type="event-2025spring" />
+        <Footer type="event-2025fall" />
       </AdaptiveDiv>
     </>
   );

@@ -88,7 +88,7 @@ const HistorySection = () => {
       <Title icon="ticket" isHeader>
         획득한 응모권
       </Title>
-      <CreditAmountStatusContainer type="ticket" />
+      <CreditAmountStatusContainer type="doubleTicket" />
       <Title icon="shop" isHeader>
         구매 이력
       </Title>

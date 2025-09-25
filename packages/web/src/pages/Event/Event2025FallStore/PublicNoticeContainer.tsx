@@ -9,8 +9,8 @@ import CampaignRoundedIcon from "@mui/icons-material/CampaignRounded";
 
 const PublicNoticeContainer = () => {
   const notices = [
-    "[공지] 이벤트가 종료되면 응모권과 랜덤박스를 구매할 수 없습니다. 종료 전에 넙죽코인을 모두 소진해 주세요.",
-    "[공지] 랜덤박스는 경품 응모권이 아닙니다. 일정 확률로 넙죽코인을 얻거나 잃을 수 있는 특수 아이템입니다.",
+    "[공지] 이벤트가 종료되면 응모권을 사용할 수 없습니다. 종료 전에 응모권을 모두 소진해 주세요.",
+    "[공지] 경품에 응모하는 것은 무조건 당첨을 보장하지 않습니다. 많이 응모할수록 당첨 확률이 높아집니다.",
   ];
   const animationDuration = useMemo(
     () => notices.reduce((acc, text) => acc + text.length, 0) * 0.2,
