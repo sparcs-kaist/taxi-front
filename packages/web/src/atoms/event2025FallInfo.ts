@@ -10,7 +10,7 @@ type CompletedQuest = {
 export type Event2025FallInfoType = Nullable<{
   isAgreeOnTermsOfEvent: boolean;
   isBanned: boolean;
-  ticketAmount: number;
+  creditAmount: number;
   quests: Quest[];
   completedQuests: CompletedQuest[];
 }>;

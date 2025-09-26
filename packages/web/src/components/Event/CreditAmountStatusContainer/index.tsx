@@ -16,10 +16,11 @@ const CreditAmountStatusContainer = ({
   type = "credit",
   ...whiteContainerProps
 }: CreditAmountStatusContainerProps) => {
-  const { creditAmount = 0 } = useValueRecoilState("event2025SpringInfo") || {};
-  const { ticket1Amount = 0, ticket2Amount = 0 } =
+  // 2025 spring과 변수명이 겹쳐 잠시 비활성화.
+  // const { creditAmount } = useValueRecoilState("event2025SpringInfo") || {};
+  const { ticket1Amount, ticket2Amount } =
     useValueRecoilState("event2024SpringInfo") || {};
-  const { ticketAmount = 0 } = useValueRecoilState("event2025FallInfo") || {};
+  const { creditAmount } = useValueRecoilState("event2025FallInfo") || {};
 
   return (
     <WhiteContainer
@@ -57,7 +58,7 @@ const CreditAmountStatusContainer = ({
           <>
             <Ticket2Icon css={{ width: "27px", height: "27px" }} />
             <div css={{ color: theme.white, ...theme.font16_bold }}>
-              {ticketAmount || 0}
+              {creditAmount || 0}
             </div>
           </>
         ) : (

@@ -84,6 +84,8 @@ const ModalEvent2025FallJoin = ({
         onSuccess: () => {
           fetchLoginInfo();
           modalProps.onChangeIsOpen?.(false);
+
+          window.location.reload();
         },
         onError: () => setAlert("이벤트 참여에 실패하였습니다."),
       }),
