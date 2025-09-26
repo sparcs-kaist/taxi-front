@@ -49,13 +49,6 @@ const ModalEvent2025FallItem = ({
   const isDisplayRandomBox = !useDelayBoolean(!modalProps.isOpen, 500);
   const isRequesting = useRef<boolean>(false);
 
-  const changeBettingAmountHandler = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = e.target.valueAsNumber;
-    setBettingAmount(value);
-  };
-
   const onClickOk = useCallback(async () => {
     if (isRequesting.current) return;
     isRequesting.current = true;
@@ -116,53 +109,6 @@ const ModalEvent2025FallItem = ({
         구매하기
       </div>
 
-      {itemInfo.itemType === 3 && (
-        <div>
-          <div
-            css={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "left",
-              gap: "10px",
-              padding: "16px 4px",
-            }}
-          >
-            <div css={theme.font16_bold}>{itemInfo.name}</div>
-            <div css={theme.font14}>{itemInfo.description}</div>
-          </div>
-          <div
-            css={{
-              ...theme.font16_bold,
-              display: "flex",
-              alignItems: "center",
-              marginBottom: "15px",
-            }}
-          >
-            <TicketIcon
-              css={{ width: "27px", height: "27px", marginRight: "5px" }}
-            />
-            베팅 수량:
-            <input
-              onChange={changeBettingAmountHandler}
-              type="number"
-              step="100"
-              style={{
-                ...theme.font14,
-                width: "60px",
-                borderRadius: "6px",
-                padding: "6px 0",
-                background: theme.purple_light,
-                boxShadow: theme.shadow_purple_input_inset,
-                border: "none",
-                outline: "none",
-                textAlign: "center",
-                marginLeft: "5px",
-              }}
-              value={bettingAmount}
-            />
-          </div>
-        </div>
-      )}
       <DottedLine />
       {itemInfo.itemType === 3 ? (
         isDisplayRandomBox ? (
@@ -201,7 +147,9 @@ const ModalEvent2025FallItem = ({
               gap: "4px",
             }}
           >
-            <TicketIcon css={{ width: "27px", height: "27px" }} />
+            <TicketIcon
+              css={{ width: "27px", height: "27px", marginTop: "-5px" }}
+            />
             <div>{itemInfo.price}</div>
           </div>
         </div>

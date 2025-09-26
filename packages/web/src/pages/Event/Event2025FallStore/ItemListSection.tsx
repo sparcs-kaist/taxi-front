@@ -3,7 +3,7 @@ import { memo } from "react";
 import type { EventItem } from "@/types/event2025fall";
 
 import Empty from "@/components/Empty";
-import EventItemContainer from "@/components/Event/EventItemContainer";
+import EventOnlyItemContainer from "@/components/Event/EventOnlyItemContainer";
 
 type ItemListSectionProps = {
   items: Array<EventItem>;
@@ -20,7 +20,7 @@ const ItemListSection = ({ items, fetchItems }: ItemListSectionProps) => {
       }}
     >
       {items.map((item: EventItem) => (
-        <EventItemContainer
+        <EventOnlyItemContainer
           key={item._id}
           value={item}
           fetchItems={fetchItems}

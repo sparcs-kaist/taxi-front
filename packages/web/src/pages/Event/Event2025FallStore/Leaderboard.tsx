@@ -12,7 +12,7 @@ import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
 import Empty from "@/components/Empty";
 import CreditAmountStatusContainer from "@/components/Event/CreditAmountStatusContainer";
-import EventItemContainer from "@/components/Event/EventItemContainer";
+import EventOnlyItemContainer from "@/components/Event/EventOnlyItemContainer";
 import Footer from "@/components/Footer";
 import HeaderWithLeftNav from "@/components/Header/HeaderWithLeftNav";
 import ModalPurchaseSuccess from "@/components/ModalPopup/ModalPurchaseSuccess";
@@ -25,7 +25,7 @@ import { useSetRecoilState } from "recoil";
 import { eventMode } from "@/tools/loadenv";
 import theme from "@/tools/theme";
 
-import { ReactComponent as TicketIcon } from "@/static/events/2025SpringTicket.svg";
+import { ReactComponent as TicketIcon } from "@/static/events/2023fallTicket2.svg";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const LeaderboardTopBar = () => (
@@ -281,14 +281,14 @@ const Event2025FallStoreLeaderboard = ({
 
   const [isDisabled, buttonText] = useMemo(
     () =>
-      eventMode !== "2025Fall"
+      eventMode !== "2025fall"
         ? [true, "이벤트 기간이 아닙니다"]
         : !event2025FallInfo || !isLogin
         ? [true, "로그인해야 합니다"]
         : !event2025FallInfo.isAgreeOnTermsOfEvent
         ? [true, "이벤트에 참여해야 합니다"]
-        : event2025FallInfo.ticketAmount < (item?.price * purchaseAmount || 0)
-        ? [true, "넙죽코인이 부족합니다"]
+        : event2025FallInfo.creditAmount < (item?.price * purchaseAmount || 0)
+        ? [true, "응모권이 부족합니다"]
         : [false, "응모권 구매하기"],
     [eventMode, event2025FallInfo, item, purchaseAmount]
   );
@@ -336,7 +336,7 @@ const Event2025FallStoreLeaderboard = ({
             marginTop: "15px",
           }}
         >
-          <CreditAmountStatusContainer />
+          <CreditAmountStatusContainer type="ticket" />
         </div>
         <div
           css={{
@@ -346,7 +346,7 @@ const Event2025FallStoreLeaderboard = ({
           }}
         >
           {item && (
-            <EventItemContainer
+            <EventOnlyItemContainer
               key={itemId}
               value={item}
               fetchItems={() => {}}
