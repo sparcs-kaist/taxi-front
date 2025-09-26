@@ -92,7 +92,7 @@ const ModalEvent2025FallItem = ({
         ? [true, "로그인해야 합니다"]
         : event2025FallInfo.isAgreeOnTermsOfEvent === false
         ? [true, "이벤트에 참여해야 합니다"]
-        : event2025FallInfo.ticketAmount < bettingAmount
+        : event2025FallInfo.creditAmount < bettingAmount
         ? [true, "응모권이 부족합니다"]
         : [false, "구매하기"],
     [eventMode, event2025FallInfo, itemInfo, bettingAmount]
