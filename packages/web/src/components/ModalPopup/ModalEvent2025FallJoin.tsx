@@ -120,7 +120,7 @@ const ModalEvent2025FallJoin = ({
     <Modal padding="16px 12px 12px" {...modalProps}>
       <div css={styleTitle}>
         <FestivalRoundedIcon style={styleIcon} />
-        Taxi 새학기 이벤트
+        Taxi 뱃지 이벤트
       </div>
       <div css={styleText}>
         • 택시 동승을 하지 않는 사용자는{" "}
