@@ -32,7 +32,7 @@
     <!-- Open Graph : Web -->
     <meta
       property="og:url"
-      content="%FRONT_URL%/event/2025spring-invite/%INVITER_ID%"
+      content="%FRONT_URL%/event/2025fall-invite/%INVITER_ID%"
     />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Taxi 새학기 이벤트 초대 링크" />
@@ -53,7 +53,7 @@
           window["env"]?.REACT_APP_FIREBASE_CONFIG &&
           JSON.parse(window["env"].REACT_APP_FIREBASE_CONFIG);
         const redirectPath = window.location.pathname.replace(
-          "/event/2025spring-invite",
+          "/event/2025fall-invite",
           "/home/eventJoin"
         );
         const getDynamicLink = (to, fallback = true) => {

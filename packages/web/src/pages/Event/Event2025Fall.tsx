@@ -81,7 +81,7 @@ const Event2025Fall = () => {
         <div
           css={{ ...theme.font16_bold, color: theme.purple, marginTop: "16px" }}
         >
-          2025.2.21.(금) ~ 3.12.(수)
+          2025.10.2.(수) ~ 10.22.(수)
         </div>
         <MainSection1 css={{ width: "100%" }} />
       </AdaptiveDiv>

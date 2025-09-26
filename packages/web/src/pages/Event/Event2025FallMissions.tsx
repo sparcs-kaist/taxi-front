@@ -147,7 +147,6 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
 
 const Event2025FallMissions = () => {
   const { quests } = useValueRecoilState("event2025FallInfo") || {};
-  console.log(quests);
   return (
     <>
       <HeaderWithLeftNav

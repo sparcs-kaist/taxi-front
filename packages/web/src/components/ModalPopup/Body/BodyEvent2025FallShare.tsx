@@ -63,7 +63,7 @@ const BodyEvent2025FallShare = ({
       <div css={styleGuide}>
         이벤트를 다른 사람들에게 공유할 수 있습니다. 이 링크를 통해 다른
         사용자가 이벤트에 참여하고 전화번호를 인증하면, 회원님과 새 참여자 모두{" "}
-        <b>응모권 10개를</b>를 획득합니다.
+        <b>응모권 10개</b>를 획득합니다.
       </div>
       <DottedLine />
       <div css={{ flexGrow: 1 }} />
