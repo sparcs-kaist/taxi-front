@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 
-import type { EventItem, RandomBoxResult } from "@/types/event2025spring";
+import type { EventItem } from "@/types/event2025fall";
 
 import { useDelayBoolean } from "@/hooks/useDelay";
 import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
@@ -25,24 +25,22 @@ import { useSetRecoilState } from "recoil";
 import { eventMode } from "@/tools/loadenv";
 import theme from "@/tools/theme";
 
-import { ReactComponent as CreditIcon } from "@/static/events/2025springCredit.svg";
+import { ReactComponent as TicketIcon } from "@/static/events/2023fallTicket2.svg";
 import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceWalletRounded";
 
-type ModalEvent2025SpringItemProps = Parameters<typeof Modal>[0] & {
+type ModalEvent2025FallItemProps = Parameters<typeof Modal>[0] & {
   itemInfo: EventItem;
   fetchItems?: () => void;
-  setRandomboxResult?: Dispatch<SetStateAction<Nullable<RandomBoxResult>>>;
   setShareItem?: Dispatch<SetStateAction<Nullable<EventItem>>>;
 };
 
-const ModalEvent2025SpringItem = ({
+const ModalEvent2025FallItem = ({
   itemInfo,
   fetchItems,
-  setRandomboxResult,
   setShareItem,
   ...modalProps
-}: ModalEvent2025SpringItemProps) => {
-  const event2025SpringInfo = useValueRecoilState("event2025SpringInfo");
+}: ModalEvent2025FallItemProps) => {
+  const event2025FallInfo = useValueRecoilState("event2025FallInfo");
   const isLogin = useIsLogin();
 
   const axios = useAxios();
@@ -61,28 +59,25 @@ const ModalEvent2025SpringItem = ({
   const onClickOk = useCallback(async () => {
     if (isRequesting.current) return;
     isRequesting.current = true;
-    if (bettingAmount <= 0) {
-      setAlert("올바른 베팅 수량을 입력해주세요.");
-      isRequesting.current = false;
-      return;
-    }
-    if (bettingAmount % 100 !== 0) {
-      setAlert("베팅 수량은 100의 배수로 입력해주세요.");
-      isRequesting.current = false;
-      return;
-    }
+    // if (bettingAmount <= 0) {
+    //   setAlert("올바른 베팅 수량을 입력해주세요.");
+    //   isRequesting.current = false;
+    //   return;
+    // }
+    // if (bettingAmount % 100 !== 0) {
+    //   setAlert("베팅 수량은 100의 배수로 입력해주세요.");
+    //   isRequesting.current = false;
+    //   return;
+    // }
+
     await axios({
-      url: `/events/2025spring/items/purchase/${itemInfo._id}`,
+      url: `/events/2025fall/items/purchase/${itemInfo._id}`,
       method: "post",
       data: { amount: bettingAmount / 100 },
       onSuccess: (result) => {
         fetchItems?.();
         modalProps.onChangeIsOpen?.(false);
-        if (itemInfo.itemType === 3) {
-          setRandomboxResult?.({ ...result, amount: bettingAmount });
-        } else {
-          setShareItem?.(itemInfo);
-        }
+        setShareItem?.(itemInfo);
       },
       onError: () => setAlert("구매를 실패하였습니다."),
     });
@@ -91,16 +86,16 @@ const ModalEvent2025SpringItem = ({
 
   const [isDisabled, buttonText] = useMemo(
     () =>
-      eventMode !== "2025spring"
+      eventMode !== "2025fall"
         ? [true, "이벤트 기간이 아닙니다"]
-        : !event2025SpringInfo || !isLogin
+        : !event2025FallInfo || !isLogin
         ? [true, "로그인해야 합니다"]
-        : event2025SpringInfo.isAgreeOnTermsOfEvent === false
+        : event2025FallInfo.isAgreeOnTermsOfEvent === false
         ? [true, "이벤트에 참여해야 합니다"]
-        : event2025SpringInfo.creditAmount < bettingAmount
-        ? [true, "넙죽코인이 부족합니다"]
+        : event2025FallInfo.ticketAmount < bettingAmount
+        ? [true, "응모권이 부족합니다"]
         : [false, "구매하기"],
-    [eventMode, event2025SpringInfo, itemInfo, bettingAmount]
+    [eventMode, event2025FallInfo, itemInfo, bettingAmount]
   );
 
   const styleTitle = {
@@ -120,6 +115,7 @@ const ModalEvent2025SpringItem = ({
         <AccountBalanceWalletRoundedIcon style={styleIcon} />
         구매하기
       </div>
+
       {itemInfo.itemType === 3 && (
         <div>
           <div
@@ -142,8 +138,8 @@ const ModalEvent2025SpringItem = ({
               marginBottom: "15px",
             }}
           >
-            <CreditIcon
-              css={{ width: "27px", height: "16px", marginRight: "5px" }}
+            <TicketIcon
+              css={{ width: "27px", height: "27px", marginRight: "5px" }}
             />
             베팅 수량:
             <input
@@ -205,7 +201,7 @@ const ModalEvent2025SpringItem = ({
               gap: "4px",
             }}
           >
-            <CreditIcon css={{ width: "27px", height: "16px" }} />
+            <TicketIcon css={{ width: "27px", height: "27px" }} />
             <div>{itemInfo.price}</div>
           </div>
         </div>
@@ -247,4 +243,4 @@ const ModalEvent2025SpringItem = ({
   );
 };
 
-export default ModalEvent2025SpringItem;
+export default ModalEvent2025FallItem;

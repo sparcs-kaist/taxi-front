@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { useEvent2025SpringQuestComplete } from "@/hooks/event/useEvent2025SpringQuestComplete";
+import { useEvent2025FallQuestComplete } from "@/hooks/event/useEvent2025FallQuestComplete";
 import {
   useFetchRecoilState,
   useIsLogin,
@@ -24,25 +24,25 @@ import theme from "@/tools/theme";
 
 import FestivalRoundedIcon from "@mui/icons-material/FestivalRounded";
 
-type ModalEvent2025SpringJoinProps = Parameters<typeof Modal>[0] & {
+type ModalEvent2025FallJoinProps = Parameters<typeof Modal>[0] & {
   inviterId?: string;
   defaultPhoneNumber?: string;
 };
 
-const ModalEvent2025SpringJoin = ({
+const ModalEvent2025FallJoin = ({
   inviterId,
   ...modalProps
-}: ModalEvent2025SpringJoinProps) => {
+}: ModalEvent2025FallJoinProps) => {
   const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
   const isLogin = useIsLogin();
   const { phoneNumber: phoneNumberFromLoginInfo } =
     useValueRecoilState("loginInfo") || {};
   const { isAgreeOnTermsOfEvent } =
-    useValueRecoilState("event2025SpringInfo") || {};
+    useValueRecoilState("event2025FallInfo") || {};
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
-  //#region event2025spring
-  const event2025SpringQuestComplete = useEvent2025SpringQuestComplete();
+  //#region event2025fall
+  const event2025FallQuestComplete = useEvent2025FallQuestComplete();
   //#endregion
 
   const [phoneNumber, setPhoneNumber] = useState<string>(
@@ -66,7 +66,7 @@ const ModalEvent2025SpringJoin = ({
   useEffect(() => {
     if (isAgreeOnTermsOfEvent || !isInvited) return;
     axios({
-      url: `/events/2025spring/invites/search/${inviterId}`,
+      url: `/events/2025fall/invites/search/${inviterId}`,
       method: "get",
       onSuccess: (data) => {
         setInviterInfo(data);
@@ -78,19 +78,16 @@ const ModalEvent2025SpringJoin = ({
   const onClickJoin = useCallback(
     () =>
       axios({
-        url: "/events/2025spring/globalState/create",
+        url: "/events/2025fall/globalState/create",
         method: "post",
         data: { phoneNumber, inviter: inviterId },
         onSuccess: () => {
           fetchLoginInfo();
-          //#region event2025spring
-          event2025SpringQuestComplete("firstLogin");
-          //#endregion
           modalProps.onChangeIsOpen?.(false);
         },
         onError: () => setAlert("이벤트 참여에 실패하였습니다."),
       }),
-    [phoneNumber, setPhoneNumber, event2025SpringQuestComplete]
+    [phoneNumber, setPhoneNumber, event2025FallQuestComplete]
   );
 
   const styleTitle = {
@@ -165,8 +162,8 @@ const ModalEvent2025SpringJoin = ({
           추천인 이벤트 참여를 위해서는 추천인이 발송한 링크로 이벤트에 참여해야
           합니다.
         </b>{" "}
-        추천인을 통해 이벤트에 참여할 시, 참가자와 추천인 모두에게 넙죽코인
-        700개가 지급됩니다.
+        추천인을 통해 이벤트에 참여할 시, 참가자와 추천인 모두에게 응모권 10개가
+        지급됩니다.
       </div>
       <div css={{ height: "12px" }} />
       <div css={styleText}>
@@ -268,4 +265,4 @@ const ModalEvent2025SpringJoin = ({
   );
 };
 
-export default ModalEvent2025SpringJoin;
+export default ModalEvent2025FallJoin;

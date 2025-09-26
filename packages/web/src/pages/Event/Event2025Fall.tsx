@@ -8,10 +8,7 @@ import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
 import Footer from "@/components/Footer";
 import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
-import {
-  ModalEvent2025FallCoupon,
-  ModalEvent2025FallShare,
-} from "@/components/ModalPopup";
+import { ModalEvent2025FallShare } from "@/components/ModalPopup";
 import WhiteContainer from "@/components/WhiteContainer";
 
 import alertAtom from "@/atoms/alert";
@@ -40,14 +37,13 @@ import { ReactComponent as MissionCompleteIcon } from "@/static/events/2025sprin
 const Event2025Fall = () => {
   const [isOpenShare, setIsOpenShare] = useState<boolean>(false);
   const [inviteUrl, setInviteUrl] = useState<string>("");
-  const [isOpenCoupon, setIsOpenCoupon] = useState<boolean>(false);
   const setAlert = useSetRecoilState(alertAtom);
   const { isAgreeOnTermsOfEvent } =
     useValueRecoilState("event2025FallInfo") || {};
   const axios = useAxios();
 
   const today = getToday();
-  const startDate = moment("2025-10-01", "YYYY-MM-DD");
+  const startDate = moment("2025-02-22", "YYYY-MM-DD");
   const endDate = moment("2025-10-22", "YYYY-MM-DD");
   const isEventDay = today.isBefore(endDate) && today.isAfter(startDate, "day");
 
@@ -185,7 +181,7 @@ const Event2025Fall = () => {
               경품 추첨 결과는 3월 19일에 발표
             </div>
             <div css={{ height: "16px" }} />
-            <Link to="/event/2025spring-store" css={{ textDecoration: "none" }}>
+            <Link to="/event/2025fall-store" css={{ textDecoration: "none" }}>
               <Button
                 type="purple_inset"
                 css={{
@@ -234,7 +230,7 @@ const Event2025Fall = () => {
               <br />위 이미지는 실제와 다를 수 있음
             </div>
             <div css={{ height: "16px" }} />
-            <Link to="/event/2025spring-store" css={{ textDecoration: "none" }}>
+            <Link to="/event/2025fall-store" css={{ textDecoration: "none" }}>
               <Button
                 type="purple_inset"
                 css={{
@@ -309,11 +305,6 @@ const Event2025Fall = () => {
             isOpen={isOpenShare}
             onChangeIsOpen={setIsOpenShare}
             inviteUrl={inviteUrl || ""}
-          />
-          <ModalEvent2025FallCoupon
-            isOpen={isOpenCoupon}
-            setIsOpen={setIsOpenCoupon}
-            onChangeIsOpen={setIsOpenCoupon}
           />
         </AdaptiveDiv>
       </div>

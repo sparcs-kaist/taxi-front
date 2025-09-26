@@ -72,7 +72,7 @@ const HistoryItem = ({
 
 const HistorySection = () => {
   const { transactions } =
-    useQuery.get("/events/2025spring/transactions")[1] || {};
+    useQuery.get("/events/2025fall/transactions")[1] || {};
   const purchaseHistory = useMemo(
     () =>
       (transactions || []).sort((x: Transaction, y: Transaction) =>
@@ -131,12 +131,12 @@ const Event2025FallHistory = () => {
           {
             value: "store",
             label: "응모권 교환소",
-            to: "/event/2025spring-store",
+            to: "/event/2025fall-store",
           },
           {
             value: "history",
             label: "구매 이력",
-            to: "/event/2025spring-history",
+            to: "/event/2025fall-history",
           },
         ]}
       />
@@ -205,7 +205,7 @@ const Event2025FallHistory = () => {
           </>
         )}
       </AdaptiveDiv>
-      <Footer type="event-2025spring" />
+      <Footer type="event-2025fall" />
     </>
   );
 };

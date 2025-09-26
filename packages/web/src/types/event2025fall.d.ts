@@ -1,15 +1,7 @@
 export type QuestId =
-  | "firstLogin"
-  | "firstRoomCreation"
-  | "roomSharing"
-  | "fareSettlement"
-  | "farePayment"
-  | "nicknameChanging"
-  | "accountChanging"
-  | "adPushAgreement"
-  | "eventSharing"
-  | "dailyAttendance"
-  | "itemPurchase";
+  | "phoneVerification"
+  | "referralInvitedBonus"
+  | "allBadgedSettlement";
 
 export type Quest = {
   description: string;
@@ -29,11 +21,6 @@ export type EventItem = {
   price: number;
   isDisabled: boolean;
   itemType: number;
-};
-
-export type RandomBoxResult = {
-  isJackpot: boolean;
-  amount: number;
 };
 
 export type Transaction = {

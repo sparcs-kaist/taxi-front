@@ -1,6 +1,6 @@
 import { memo, useMemo } from "react";
 
-import type { Quest } from "@/types/event2025spring";
+import type { Quest } from "@/types/event2025fall";
 
 import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
@@ -14,7 +14,7 @@ import WhiteContainer from "@/components/WhiteContainer";
 
 import theme from "@/tools/theme";
 
-import { ReactComponent as CreditIcon } from "@/static/events/2025springCredit.svg";
+import { ReactComponent as TicketIcon } from "@/static/events/2023fallTicket2.svg";
 import { ReactComponent as MissionCompleteIcon } from "@/static/events/2025springMissionComplete.svg";
 
 type MissionContainerProps = {
@@ -133,8 +133,8 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
         {!isDone && (
           <>
             <div css={styleRewardText}>달성 시에</div>
-            <CreditIcon
-              css={{ width: "27px", height: "16px", marginTop: "-2px" }}
+            <TicketIcon
+              css={{ width: "27px", height: "27px", marginTop: "-7px" }}
             />
             <div css={styleRewardText}>X {quest.reward.credit} 획득</div>
           </>
@@ -147,33 +147,18 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
 
 const Event2025FallMissions = () => {
   const { quests } = useValueRecoilState("event2025FallInfo") || {};
-  const isLogin = useIsLogin();
+  console.log(quests);
   return (
     <>
       <HeaderWithLeftNav
         value="quests"
-        options={
-          isLogin
-            ? [
-                {
-                  value: "quests",
-                  label: "퀘스트",
-                  to: "/event/2025fall-missions",
-                },
-                {
-                  value: "daily-attendance",
-                  label: "밸런스 게임",
-                  to: "/event/2025fall-daily-attendance",
-                },
-              ]
-            : [
-                {
-                  value: "quests",
-                  label: "퀘스트",
-                  to: "/event/2025fall-missions",
-                },
-              ]
-        }
+        options={[
+          {
+            value: "quests",
+            label: "퀘스트",
+            to: "/event/2025fall-missions",
+          },
+        ]}
       />
       <AdaptiveDiv type="center">
         <div css={{ height: "30px" }} />

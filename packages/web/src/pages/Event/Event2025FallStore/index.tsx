@@ -22,7 +22,7 @@ type Event2025FallStoreProps = {
 
 const Event2025FallStore = ({ itemId }: Event2025FallStoreProps) => {
   const [itemListToken, fetchItemList] = useDateToken();
-  const { items } = useQuery.get("/events/2025spring/items", {}, [
+  const { items } = useQuery.get("/events/2025fall/items", {}, [
     itemListToken,
   ])[1] || { items: [] };
 
@@ -36,12 +36,12 @@ const Event2025FallStore = ({ itemId }: Event2025FallStoreProps) => {
           {
             value: "store",
             label: "응모권 교환소",
-            to: "/event/2025spring-store",
+            to: "/event/2025fall-store",
           },
           {
             value: "history",
             label: "구매 이력",
-            to: "/event/2025spring-history",
+            to: "/event/2025fall-history",
           },
         ]}
       />
@@ -64,7 +64,7 @@ const Event2025FallStore = ({ itemId }: Event2025FallStoreProps) => {
         </Title>
         <ItemListSection items={items} fetchItems={fetchItemList} />
       </AdaptiveDiv>
-      <Footer type="event-2025spring" />
+      <Footer type="event-2025fall" />
     </>
   );
 };

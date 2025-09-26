@@ -1,24 +1,24 @@
 import Modal from "@/components/Modal";
 
-import BodyEvent2025SpringShare, {
-  BodyEvent2025SpringShareProps,
-} from "./Body/BodyEvent2025SpringShare";
+import BodyEvent2025FallShare, {
+  BodyEvent2025FallShareProps,
+} from "./Body/BodyEvent2025FallShare";
 
 import theme from "@/tools/theme";
 
 import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
 
-type ModalEvent2025SpringShareProps = {
+type ModalEvent2025FallShareProps = {
   isOpen: boolean;
   onChangeIsOpen?: (isOpen: boolean) => void;
-  inviteUrl: BodyEvent2025SpringShareProps["inviteUrl"];
+  inviteUrl: BodyEvent2025FallShareProps["inviteUrl"];
 };
 
-const ModalEvent2025SpringShare = ({
+const ModalEvent2025FallShare = ({
   isOpen,
   onChangeIsOpen,
   inviteUrl,
-}: ModalEvent2025SpringShareProps) => {
+}: ModalEvent2025FallShareProps) => {
   const styleTitle = {
     ...theme.font18,
     display: "flex",
@@ -40,10 +40,10 @@ const ModalEvent2025SpringShare = ({
         <ShareRoundedIcon style={styleIcon} />
         이벤트 공유하기
       </div>
-      <BodyEvent2025SpringShare inviteUrl={inviteUrl} />
+      <BodyEvent2025FallShare inviteUrl={inviteUrl} />
     </Modal>
   );
 };
 
-export default ModalEvent2025SpringShare;
-export { BodyEvent2025SpringShare };
+export default ModalEvent2025FallShare;
+export { BodyEvent2025FallShare };
