@@ -21,16 +21,16 @@ import theme from "@/tools/theme";
 import { ReactComponent as TaxiLogoIcon } from "@/static/assets/sparcsLogos/TaxiLogo.svg";
 // 리더보드 preview
 import { ReactComponent as MainStep3 } from "@/static/events/2024fallMainStep3.svg";
+// 이벤트 참여 방법
+import { ReactComponent as MainSection2 } from "@/static/events/2025FallMainSection2.svg";
+// 후원사 로고
+import { ReactComponent as MainSection6 } from "@/static/events/2025FallMainSection6.svg";
+// 응모권 교환 관련 가격표
+import { ReactComponent as MainStep2 } from "@/static/events/2025FallMainStep2.svg";
+// 새학기 이벤트 타이틀
+import { ReactComponent as MainTitle } from "@/static/events/2025FallMainTitle.svg";
 // 가장 위 섹션
 import { ReactComponent as MainSection1 } from "@/static/events/2025springMainSection1.svg";
-// 이벤트 참여 방법
-import { ReactComponent as MainSection2 } from "@/static/events/2025springMainSection2.svg";
-// 후원사 로고
-import { ReactComponent as MainSection6 } from "@/static/events/2025springMainSection6.svg";
-// 응모권 교환 관련 가격표
-import { ReactComponent as MainStep2 } from "@/static/events/2025springMainStep2.svg";
-// 새학기 이벤트 타이틀
-import { ReactComponent as MainTitle } from "@/static/events/2025springMainTitle.svg";
 // 퀘스트 완료 아이콘
 import { ReactComponent as MissionCompleteIcon } from "@/static/events/2025springMissionComplete.svg";
 
@@ -81,7 +81,7 @@ const Event2025Fall = () => {
         <div
           css={{ ...theme.font16_bold, color: theme.purple, marginTop: "16px" }}
         >
-          2025.10.2.(수) ~ 10.22.(수)
+          2025.10.2.(수) ~ 10.29.(수)
         </div>
         <MainSection1 css={{ width: "100%" }} />
       </AdaptiveDiv>
