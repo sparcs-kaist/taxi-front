@@ -1,9 +1,12 @@
+import moment from "moment";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 import { ModalCallTaxi } from "@/components/ModalPopup";
 
 import Button from "./Button";
 
+import { getToday } from "@/tools/moment";
 import theme from "@/tools/theme";
 
 type MessageDepartureProps = {
@@ -17,6 +20,14 @@ const MessageDeparture = ({
   minutes,
   color,
 }: MessageDepartureProps) => {
+  // 2025 fall event 관련 내용입니다. 이벤트 중이라면 뱃지 이벤트 내용을 출력!
+  // 현재 날짜와 시간을 가져옵니다.
+
+  const today = getToday();
+  const startDate = moment("2025-02-20", "YYYY-MM-DD");
+  const endDate = moment("2025-10-22", "YYYY-MM-DD");
+  const isEventDay = today.isBefore(endDate) && today.isAfter(startDate, "day");
+
   const [isOpenCallTaxi, setIsOpenCallTaxi] = useState<boolean>(false);
   const style = { width: "210px", padding: "10px" };
   const styleText = {
@@ -31,10 +42,22 @@ const MessageDeparture = ({
       <div css={styleText}>
         택시 출발 {minutes}분 전 입니다. 동승자들이 모두 모였다면 택시를 호출한
         후 출발하세요.
-
-        {/* 여기에 뱃지이벤트 관련 내용 삽입 */}
       </div>
       <Button onClick={() => setIsOpenCallTaxi(true)}>택시 호출하기</Button>
+      <div style={{ marginTop: "17px" }}></div>
+      <div css={styleText}>
+        {isEventDay && (
+          <span>
+            {" "}
+            <b>뱃지 이벤트 진행 중!</b> <br></br>
+            모든 동승자들이 전화번호 인증 뱃지를 가지고 있다면 정산 완료 시
+            응모권 3개를 받을 수 있어요.{" "}
+          </span>
+        )}
+      </div>
+      <Link to="/event/2025fall" css={{ textDecoration: "none" }}>
+        <Button>이벤트 바로가기</Button>
+      </Link>
       <ModalCallTaxi
         roomInfo={roomInfo}
         isOpen={isOpenCallTaxi}

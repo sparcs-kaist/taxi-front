@@ -43,7 +43,7 @@ const Event2025Fall = () => {
   const axios = useAxios();
 
   const today = getToday();
-  const startDate = moment("2025-10-022", "YYYY-MM-DD");
+  const startDate = moment("2025-02-22", "YYYY-MM-DD");
   const endDate = moment("2025-10-22", "YYYY-MM-DD");
   const isEventDay = today.isBefore(endDate) && today.isAfter(startDate, "day");
 
@@ -178,7 +178,7 @@ const Event2025Fall = () => {
             >
               응모권은 경품마다 별개로 모아지며 중복 구매 가능
               <br />
-              경품 추첨 결과는 3월 19일에 발표
+              경품 추첨 결과는 11월 4일에 발표
             </div>
             <div css={{ height: "16px" }} />
             <Link to="/event/2025fall-store" css={{ textDecoration: "none" }}>
@@ -318,7 +318,7 @@ const Event2025Fall = () => {
           <MainSection6 css={{ width: "292px", maxWidth: "100%" }} />
           <div css={{ height: "56px" }} />
           <div css={{ color: theme.gray_text, ...theme.font14 }}>
-            본 이벤트는 에이핀아이앤씨와 KAIST의 후원으로 진행되었습니다.
+            본 이벤트는 KAIST의 후원으로 진행되었습니다.
           </div>
         </AdaptiveDiv>
       </div>

@@ -158,7 +158,7 @@ const Event2025FallHistory = () => {
                 marginBottom: "5px",
               }}
             >
-              <b>📌 결과 발표일 : </b>3월 19일(수)
+              <b>📌 결과 발표일 : </b> 11월 4일 (화)
             </div>
             <div
               css={{
@@ -167,8 +167,8 @@ const Event2025FallHistory = () => {
               }}
             >
               <div css={{ ...theme.font14, marginBottom: "5px" }}>
-                1. 당첨되신 모든 경품은 이벤트 종료 후 실물 또는 기프티콘 형태로
-                일괄 지급됩니다.
+                1. 당첨되신 모든 경품은 이벤트 종료 후 기프티콘 형태로 일괄
+                지급됩니다.
               </div>
               <div css={{ ...theme.font14, marginBottom: "0" }}>
                 2. 하나의 경품은 1번만 당첨될 수 있지만, 여러 경품에 동시에
@@ -181,16 +181,10 @@ const Event2025FallHistory = () => {
                 marginBottom: "5px",
               }}
             >
-              <b>🎁 지급 방법 :</b> 각 경품별 지급 방법은 아래와 같습니다.
+              <b>🎁 지급 방법 :</b> 경품 지급 방법은 아래와 같습니다.
             </div>
             <div css={{ ...theme.font14, marginBottom: "5px" }}>
-              1. 에어팟 4 / 넙죽이 노트북 파우치 : 교양분관 SPARCS 동아리방에서
-              실물을 수령하실 수 있습니다. 파우치의 경우 이벤트 참여 동의 때
-              입력한 연락처로 사이즈를 확인할 예정입니다.
-            </div>
-            <div css={{ ...theme.font14, marginBottom: "0" }}>
-              2. 그 외 경품 : 이벤트 참여 동의 때 입력한 연락처로 기프티콘을
-              발송해 드립니다. 기프티콘의 유효 기간은 발급일로부터 30일입니다.
+              이벤트 참여 동의 때 입력한 연락처로 기프티콘을 발송해 드립니다.
             </div>
           </div>
         </WhiteContainer>
