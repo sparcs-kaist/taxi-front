@@ -13,12 +13,15 @@ import theme from "@/tools/theme";
 
 const WhiteContainerSuggestJoinEvent = () => {
   const isLogin = useIsLogin();
-  const { isAgreeOnTermsOfEvent, completedQuests } =
-    useValueRecoilState("event2025FallInfo") || {};
+  // const { isAgreeOnTermsOfEvent, completedQuests } =
+  //   useValueRecoilState("event2025SpringInfo") || {};
   // 2025 Fall Event에서는 광고 동의여부가 사용되지 않습니다.
   // const isAdPushAgreementCompleted = completedQuests?.some(
   //   ({ questId }) => questId === "adPushAgreement"
   // );
+
+  const { isAgreeOnTermsOfEvent } =
+    useValueRecoilState("event2025FallInfo") || {};
 
   const [isOpenJoin, setIsOpenJoin] = useState<boolean>(false);
   const [isOpenNotification, setIsOpenNotification] = useState<boolean>(false);
@@ -52,7 +55,7 @@ const WhiteContainerSuggestJoinEvent = () => {
             이벤트 참여하기
           </Button>
         </WhiteContainer>
-      ) : null }
+      ) : null}
       {/* 2025 Fall Event에서는 광고 동의여부가 사용되지 않습니다.
       // ) : completedQuests && !isAdPushAgreementCompleted ? (
       //   <WhiteContainer>

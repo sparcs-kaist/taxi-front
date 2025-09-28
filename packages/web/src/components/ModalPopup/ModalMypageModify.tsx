@@ -2,7 +2,6 @@ import axiosOri from "axios";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useEvent2025FallQuestComplete } from "@/hooks/event/useEvent2025FallQuestComplete";
 import {
   useFetchRecoilState,
   useValueRecoilState,
@@ -156,7 +155,6 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
   //#region event2025Spring
   // const event2025SpringQuestComplete = useEvent2025SpringQuestComplete();
   //#region event2025Fall
-  const event2025FallQuestComplete = useEvent2025FallQuestComplete();
 
   //#endregion
   const setAlert = useSetRecoilState(alertAtom);

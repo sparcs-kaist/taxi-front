@@ -1,11 +1,4 @@
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction, useCallback, useMemo, useRef } from "react";
 
 import type { EventItem } from "@/types/event2025fall";
 
@@ -45,7 +38,6 @@ const ModalEvent2025FallItem = ({
 
   const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
-  const [bettingAmount, setBettingAmount] = useState<number>(100);
   const isDisplayRandomBox = !useDelayBoolean(!modalProps.isOpen, 500);
   const isRequesting = useRef<boolean>(false);
 
@@ -66,7 +58,7 @@ const ModalEvent2025FallItem = ({
     await axios({
       url: `/events/2025fall/items/purchase/${itemInfo._id}`,
       method: "post",
-      data: { amount: bettingAmount / 100 },
+      data: { amount: 1 },
       onSuccess: (result) => {
         fetchItems?.();
         modalProps.onChangeIsOpen?.(false);
@@ -75,7 +67,7 @@ const ModalEvent2025FallItem = ({
       onError: () => setAlert("구매를 실패하였습니다."),
     });
     isRequesting.current = false;
-  }, [itemInfo._id, fetchItems, modalProps.onChangeIsOpen, bettingAmount]);
+  }, [itemInfo._id, fetchItems, modalProps.onChangeIsOpen, 100]);
 
   const [isDisabled, buttonText] = useMemo(
     () =>
@@ -85,10 +77,10 @@ const ModalEvent2025FallItem = ({
         ? [true, "로그인해야 합니다"]
         : event2025FallInfo.isAgreeOnTermsOfEvent === false
         ? [true, "이벤트에 참여해야 합니다"]
-        : event2025FallInfo.creditAmount < bettingAmount
+        : event2025FallInfo.creditAmount < 100
         ? [true, "응모권이 부족합니다"]
         : [false, "구매하기"],
-    [eventMode, event2025FallInfo, itemInfo, bettingAmount]
+    [eventMode, event2025FallInfo, itemInfo, 100]
   );
 
   const styleTitle = {

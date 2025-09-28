@@ -43,7 +43,7 @@ const Event2025Fall = () => {
   const axios = useAxios();
 
   const today = getToday();
-  const startDate = moment("2025-02-22", "YYYY-MM-DD");
+  const startDate = moment("2025-10-022", "YYYY-MM-DD");
   const endDate = moment("2025-10-22", "YYYY-MM-DD");
   const isEventDay = today.isBefore(endDate) && today.isAfter(startDate, "day");
 

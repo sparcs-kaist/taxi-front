@@ -301,6 +301,11 @@ const Mypage = () => {
             isOpen={isOpenEventPolicy}
             onChangeIsOpen={setIsOpenEventPolicy}
           />
+        ) : eventMode === "2025fall" ? (
+          <ModalEvent2025FallJoin
+            isOpen={isOpenEventPolicy}
+            onChangeIsOpen={setIsOpenEventPolicy}
+          />
         ) : null)}
       <ModalCredit isOpen={isOpenMembers} onChangeIsOpen={setOpenIsMembers} />
       <ModalAccountWithdrawProcess

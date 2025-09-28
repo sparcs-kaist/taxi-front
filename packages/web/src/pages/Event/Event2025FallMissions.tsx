@@ -2,7 +2,7 @@ import { memo, useMemo } from "react";
 
 import type { Quest } from "@/types/event2025fall";
 
-import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import CreditAmountStatusContainer from "@/components/Event/CreditAmountStatusContainer";
