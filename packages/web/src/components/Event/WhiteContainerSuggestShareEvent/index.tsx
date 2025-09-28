@@ -57,8 +57,8 @@ const WhiteContainerSuggestShareEvent = () => {
             <b>🎊 이벤트 공유하기</b>
           </div>
           <div css={styleText}>
-            이벤트를 공유하여 친구가 이벤트에 참여하면, 친구와 함께 응모권
-            10개를 받을 수 있어요!
+            이벤트를 공유하여 친구가 이벤트에 참여하면, 친구와 함께 응모권 3개를
+            받을 수 있어요!
           </div>
           <Button
             type="purple"

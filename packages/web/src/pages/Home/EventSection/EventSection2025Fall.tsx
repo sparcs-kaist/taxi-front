@@ -78,7 +78,7 @@ const EventSection2025Fall = () => {
             title="이벤트 안내"
             description={
               <>
-                10/02 - 10/22
+                10/02 - 10/29
                 <br />
                 절찬리 진행 중!
               </>

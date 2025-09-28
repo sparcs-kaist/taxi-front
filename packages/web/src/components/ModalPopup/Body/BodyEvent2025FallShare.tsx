@@ -63,7 +63,7 @@ const BodyEvent2025FallShare = ({
       <div css={styleGuide}>
         이벤트를 다른 사람들에게 공유할 수 있습니다. 이 링크를 통해 다른
         사용자가 이벤트에 참여하고 전화번호를 인증하면, 회원님과 새 참여자 모두{" "}
-        <b>응모권 10개</b>를 획득합니다.
+        <b>응모권 3개</b>를 획득합니다.
       </div>
       <DottedLine />
       <div css={{ flexGrow: 1 }} />
@@ -74,7 +74,7 @@ const BodyEvent2025FallShare = ({
       <div css={styleButtonSection}>
         <LinkKakaotalkShare
           title={"Taxi 새학기 이벤트"}
-          description={`Taxi 새학기 이벤트에 참여해 보세요! 이 링크로 참여하면 응모권 10개를 획득할 수 있어요!`}
+          description={`Taxi 새학기 이벤트에 참여해 보세요! 이 링크로 참여하면 응모권 3개를 획득할 수 있어요!`}
           imageUrl={
             ogServer
               ? `${ogServer}/eventInvite/${inviteUrl.split("/").pop()}`
