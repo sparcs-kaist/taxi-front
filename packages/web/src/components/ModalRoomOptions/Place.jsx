@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { memo, useEffect, useMemo, useState } from "react";
+import { memo, useEffect, useMemo, useState, useRef } from "react";
 
 import useHoverProps from "@/hooks/theme/useHoverProps";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
@@ -171,7 +171,8 @@ const Place = (props) => {
   const taxiLocations = useValueRecoilState("taxiLocations");
   const [isOpenFavorite, setIsOpenFavorite] = useState(false);
   const [placeValues, setPlaceValues] = useState([null, null]); // FavoriteRoutes에 넘겨주기 위함
-
+  const favoriteRef = useRef(null);
+  
   console.log(props);
 
   useEffect(() => {
@@ -274,14 +275,23 @@ const Place = (props) => {
           />
         )}
       </div>
-
-      {isOpenFavorite && <FavoriteRoutes placeValues={placeValues} />}
+      <div
+        ref={favoriteRef}
+        style={{
+          maxHeight: isOpenFavorite ? favoriteRef.current?.scrollHeight : 0,
+          transition: "max-height 0.3s ease-in-out",
+          overflow: "hidden",
+        }}
+      >
+        <FavoriteRoutes placeValues={placeValues} handler={props.handler} />
+      </div>
     </WhiteContainer>
   );
 };
 Place.propTypes = {
   value: PropTypes.array,
   handler: PropTypes.func,
+  favoriteRoutes: PropTypes.object,
 };
 
 export default memo(Place);

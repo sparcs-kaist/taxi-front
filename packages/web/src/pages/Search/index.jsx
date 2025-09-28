@@ -30,6 +30,8 @@ import moment, { getToday, getToday10 } from "@/tools/moment";
 import regExpTest from "@/tools/regExpTest";
 import theme from "@/tools/theme";
 
+import { useValueFavoriteRoutes } from "@/hooks/useFetchRecoilState/useFetchFavoriteRoutes";
+
 const Search = () => {
   const axios = useAxios();
   const [cookies, setCookie] = useCookies([
@@ -41,6 +43,7 @@ const Search = () => {
   const butterflyState = useButterflyState();
   const today10 = getToday10();
   const setError = useSetRecoilState(errorAtom);
+  const favoriteRoutes = useValueFavoriteRoutes();
 
   const defaultSearchOptions = {
     place: !!cookies?.defaultSearchOptions?.place,
@@ -250,7 +253,7 @@ const Search = () => {
       </div>
       <SelectSearchOptions options={searchOptions} handler={setSearchOptions} />
       {searchOptions.place && (
-        <OptionPlace value={valuePlace} handler={setPlace} />
+        <OptionPlace value={valuePlace} handler={setPlace} favoriteRoutes={favoriteRoutes} />
       )}
       {searchOptions.date && <OptionDate value={valueDate} handler={setDate} />}
       {searchOptions.time && (

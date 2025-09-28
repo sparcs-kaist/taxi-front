@@ -11,19 +11,14 @@ import { FavoriteRouteType } from "@/atoms/favoriteRoutes";
 import { useSetRecoilState } from "recoil";
 
 import theme from "@/tools/theme";
+import Button from "../Button";
 
 type favoriteRouteProps = {
-  placeValues: string[]; // [newFrom: string, newTo: string] : 장소 선택 칸에 입력된 두 위치를 상위 컴포넌트에서 state로 관리하며 props로 전달
+  placeValues: string[];
+  handler: (place: string[]) => void;
 };
 
-const FavoriteRoutes = ({ placeValues }: favoriteRouteProps) => {
-  const styleTop: CSS = {
-    display: "flex",
-    alignItems: "center",
-    margin: "8px 0 16px 8px",
-    ...theme.font16_bold,
-    columnGap: "8px",
-  };
+const FavoriteRoutes = ({ placeValues, handler }: favoriteRouteProps) => {
   const favoriteRoutes = useValueRecoilState("favoriteRoutes") || [];
   const isAxiosCalled = useRef(false);
   const axios = useAxios();
@@ -42,6 +37,9 @@ const FavoriteRoutes = ({ placeValues }: favoriteRouteProps) => {
         url: "/users/createFavorite",
         method: "post",
         data,
+        onSuccess: () => {
+          fetchFavoriteRoutes();
+        },
         onError: (error: any) => {
           if (
             error.response?.status === 400 &&
@@ -55,12 +53,11 @@ const FavoriteRoutes = ({ placeValues }: favoriteRouteProps) => {
               "Users/createFavorite: Location not found"
           ) {
             setAlert("올바른 경로를 입력해 주세요.");
-          }
-          {
+          } else {
             setAlert("즐겨찾기 추가에 실패하였습니다.");
           }
         },
-      }).then(() => {
+        }).then(() => {
         fetchFavoriteRoutes();
         isAxiosCalled.current = false;
       });
@@ -78,7 +75,7 @@ const FavoriteRoutes = ({ placeValues }: favoriteRouteProps) => {
         onError: (error: any) => {
           setAlert("즐겨찾기 삭제에 실패하였습니다.");
         },
-      }).then(() => {
+        }).then(() => {
         fetchFavoriteRoutes();
         isAxiosCalled.current = false;
       });
@@ -88,21 +85,49 @@ const FavoriteRoutes = ({ placeValues }: favoriteRouteProps) => {
 
   return (
     <div>
-      <div
-        style={styleTop}
+      <Button
+        type="purple"
+        css={{
+          width: "100%",
+          padding: "8px 0 7px",
+          borderRadius: "8px",
+          ...theme.font14_bold,
+          marginBottom: "12px",
+          marginTop: "8px"
+        }}
         onClick={() => {
-          onCreateFavorite(placeValues[0], placeValues[1]);
+          if (placeValues[0] && placeValues[1]) {
+            onCreateFavorite(placeValues[0], placeValues[1]);
+          } else {
+            setAlert("출발지와 도착지를 모두 선택해주세요.");
+          }
         }}
       >
-        테스트용 추가 버튼
-      </div>
-      {favoriteRoutes.data.map((route: FavoriteRouteType) => (
-        <FavoriteRouteItem
-          key={route._id}
-          onDelete={onDeleteFavorite}
-          {...route}
-        ></FavoriteRouteItem>
-      ))}
+        현재 경로 추가하기
+      </Button>
+      {favoriteRoutes.data.length > 0 ? (
+        favoriteRoutes.data.map((route: FavoriteRouteType) => (
+          <FavoriteRouteItem
+            key={route._id}
+            _id={route._id}
+            from={route.from}
+            to={route.to}
+            onDelete={onDeleteFavorite}
+            handler={handler}
+          />
+        ))
+      ) : (
+        <div
+          css={{
+            textAlign: "center",
+            padding: "10px",
+            ...theme.font14,
+            color: theme.gray_text,
+          }}
+        >
+          즐겨찾는 경로가 없습니다.
+        </div>
+      )}
     </div>
   );
 };
