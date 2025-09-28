@@ -31,6 +31,8 @@ const MessageDeparture = ({
       <div css={styleText}>
         택시 출발 {minutes}분 전 입니다. 동승자들이 모두 모였다면 택시를 호출한
         후 출발하세요.
+
+        {/* 여기에 뱃지이벤트 관련 내용 삽입 */}
       </div>
       <Button onClick={() => setIsOpenCallTaxi(true)}>택시 호출하기</Button>
       <ModalCallTaxi
