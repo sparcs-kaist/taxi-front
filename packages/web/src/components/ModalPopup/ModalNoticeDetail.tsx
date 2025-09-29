@@ -32,32 +32,6 @@ const ModalNoticeDetail = ({
     padding: "10px 0px 10px 0px",
   };
 
-  const NotionImage = (props: any) => {
-    const { src, alt, style, ...rest } = props;
-    return (
-      <div
-        style={{
-          maxWidth: "100%",
-          maxHeight: "45vh",
-          overflow: "auto",
-          WebkitOverflowScrolling: "touch",
-        }}
-      >
-        <img
-          src={src}
-          alt={alt ?? ""}
-          loading="lazy"
-          {...rest} // ✅ className 등 전달
-          style={{
-            display: "block",
-            maxWidth: "100%",
-            height: "auto",
-            ...(style || {}), // ✅ Notion이 내려주는 style 보존
-          }}
-        />
-      </div>
-    );
-  };
   return (
     <Modal
       isOpen={isOpen}
@@ -70,9 +44,7 @@ const ModalNoticeDetail = ({
         {recordMap && (
           <NotionRenderer
             recordMap={recordMap}
-            bodyClassName="less-indent-notion-body"
-            components={{ Image: NotionImage }}
-            forceCustomImages
+            bodyClassName={"less-indent-notion-body"}
           />
         )}
       </div>
