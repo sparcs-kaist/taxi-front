@@ -31,7 +31,7 @@
     "nickname_failed": "Failed to change nickname",
     "account_failed": "Failed to change account",
     "phone_number_failed": "Failed to change phone number",
-    "page_modify.residence_failed": "Failed to change residence info"
+    "residence_failed": "Failed to change residence info"
   },
   "page_credit": {
     "category_all": "All",

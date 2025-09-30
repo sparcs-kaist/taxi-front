@@ -224,18 +224,29 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         onError: () => setAlert(t("page_modify.badge_display_failed")),
       });
     }
-    if (residence !== loginInfo?.residence) {
+    if (residence.length == 0) {
       isNeedToUpdateLoginInfo = true;
       await axios({
-        url: "/users/registerResidence",
+        url: "/users/deleteResidence",
         method: "post",
-        data: { residence },
         onError: () => setAlert(t("page_modify.residence_failed")),
-        //#region event2025Spring
-        onSuccess: () => event2025SpringQuestComplete("accountChanging"),
-        //#endregion
       });
     }
+    else if (residence.length > 0 && residence.length <= 15) {
+      if (residence !== loginInfo?.residence) {
+        isNeedToUpdateLoginInfo = true;
+        await axios({
+          url: "/users/registerResidence",
+          method: "post",
+          data: { residence },
+          onError: () => setAlert(t("page_modify.residence_failed")),
+        });
+      }
+    }
+    else {
+      setAlert(t("page_modify.residence_failed"))
+    }
+
     if (isNeedToUpdateLoginInfo) {
       fetchLoginInfo();
     }

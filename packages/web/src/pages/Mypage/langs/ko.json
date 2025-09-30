@@ -32,7 +32,7 @@
     "nickname_failed": "닉네임 변경에 실패했습니다",
     "account_failed": "계좌번호 변경에 실패했습니다",
     "phone_number_failed": "전화번호 변경에 실패했습니다",
-    "page_modify.residence_failed": "거주지 정보 변경에 실패했습니다",
+    "residence_failed": "거주지 정보 변경에 실패했습니다",
     "page_modify.badge_display_failed": "배지 표시 변경에 실패했습니다다"
   },
   "page_credit": {
