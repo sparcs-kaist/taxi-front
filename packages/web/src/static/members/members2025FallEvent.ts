@@ -1,7 +1,7 @@
 import { Members } from "@/types/members";
 
 /**
- * TAXI-SPARCS Taxi 2025 새학기 이벤트 기여자
+ * TAXI-SPARCS Taxi 2025 뱃지 이벤트 기여자
  */
 
 const members: Members = [
