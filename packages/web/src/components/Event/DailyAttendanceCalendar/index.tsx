@@ -3,22 +3,21 @@ import { memo } from "react";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import MiniCircle from "@/components/MiniCircle";
+import { DateSectionProps } from "@/pages/Event/Event2025SpringDailyAttendance";
 
 import moment, { getToday } from "@/tools/moment";
 import theme from "@/tools/theme";
 
-import { ReactComponent as MissionCompleteIcon } from "@/static/events/2023fallMissionComplete.svg";
+import { ReactComponent as DailyAttendanceCompleteIcon } from "@/static/events/2025springDailyAttendanceComplete.svg";
 
 const getCalendarDates = () => {
-  const startDate = moment("2024-09-06", "YYYY-MM-DD");
-  const endDate = moment("2024-09-24", "YYYY-MM-DD");
-  const endDateOfMonth = moment("2024-09-30", "YYYY-MM-DD");
+  const startDate = moment("2025-02-20", "YYYY-MM-DD");
+  const endDate = moment("2025-03-13", "YYYY-MM-DD");
   const today = getToday();
-  // const today = moment("2024-09-10", "YYYY-MM-DD"); // FIXME: 배포 전에 수정
   const date = startDate.clone();
   date.subtract(date.day(), "day");
-  const event2024FallInfo = useValueRecoilState("event2024FallInfo");
-  const completedDates = event2024FallInfo?.completedQuests.reduce(
+  const event2025SpringInfo = useValueRecoilState("event2025SpringInfo");
+  const completedDates = event2025SpringInfo?.completedQuests.reduce(
     (acc, { questId, completedAt }) => {
       if (questId === "dailyAttendance" && completedAt) {
         acc.push(moment(completedAt).format("YYYY-MM-DD"));
@@ -38,13 +37,20 @@ const getCalendarDates = () => {
       const isEventDay =
         date.isBefore(endDate) && date.isAfter(startDate, "day");
 
-      if (date.isSame(today)) {
+      available = isEventDay;
+      if (date.isSame(endDate, "date")) {
+        available = false;
+      } else if (date.isSame(today)) {
         available = "today";
         if (isEventDay) checked = true; // FIXME: 이벤트 완료 API호출은 되지만 UI로는 스탬프가 안 찍히는 버그를 하드 픽스함
-      } else if (date.isAfter(startDate) && date.isBefore(today)) {
+      } else if (
+        date.isAfter(startDate) &&
+        date.isBefore(today) &&
+        date.isBefore(endDate)
+      ) {
         available = "past";
-      } else if (isEventDay) {
-        available = true;
+      } else {
+        available = isEventDay;
       }
 
       if (completedDates?.includes(date.format("YYYY-MM-DD"))) {
@@ -58,9 +64,6 @@ const getCalendarDates = () => {
         available,
         checked,
       });
-      if (date.isSame(endDateOfMonth)) {
-        break;
-      }
       date.add(1, "day");
     }
     calendar.push(week);
@@ -74,9 +77,20 @@ type DateProps = {
   date: number;
   available: string | boolean | null;
   checked: boolean;
+  selected: boolean;
+  handler: (newValue: Array<number>) => void;
 };
 
-const Date = ({ index, date, available, checked }: DateProps) => {
+const Date = ({
+  index,
+  year,
+  month,
+  date,
+  available,
+  checked,
+  selected,
+  handler,
+}: DateProps) => {
   const style = {
     width: "calc((100% - 36px) / 7)",
     aspectRatio: "1 / 1",
@@ -91,6 +105,7 @@ const Date = ({ index, date, available, checked }: DateProps) => {
     justifyContent: "center",
     background: available ? theme.white : theme.gray_background,
     transitionDuration: theme.duration,
+    cursor: available ? "pointer" : "not-allowed",
   };
   const styleDate = {
     ...theme.font12,
@@ -118,20 +133,24 @@ const Date = ({ index, date, available, checked }: DateProps) => {
 
   if (!date) return <div style={style} />;
   return (
-    <div style={styleBox}>
+    <div
+      style={styleBox}
+      // onClick={() => handler([year, month, date])}
+      onClick={available ? () => handler([year, month, date]) : () => {}}
+    >
       <div style={styleDate}>{date}</div>
       {available === "today" && (
         <div style={styleToday}>
           <MiniCircle type="date" />
         </div>
       )}
-      {checked && <MissionCompleteIcon style={styleCompleteIcon} />}
+      {checked && <DailyAttendanceCompleteIcon style={styleCompleteIcon} />}
     </div>
   );
 };
 const MemoizedDate = memo(Date);
 
-const DailyAttendanceCalendar = () => {
+const DailyAttendanceCalendar = ({ value, handler }: DateSectionProps) => {
   const dateInfo = getCalendarDates();
 
   const styleMonth: React.CSSProperties = {
@@ -202,6 +221,12 @@ const DailyAttendanceCalendar = () => {
                   date={item.date}
                   available={item.available}
                   checked={item.checked}
+                  selected={
+                    value[0] === item.year &&
+                    value[1] === item.month &&
+                    value[2] === item.date
+                  }
+                  handler={handler}
                 />
               ))}
             </div>

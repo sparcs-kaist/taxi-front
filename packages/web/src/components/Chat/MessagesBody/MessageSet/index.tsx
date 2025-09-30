@@ -5,6 +5,7 @@ import type { BotChat, LayoutType, UserChat } from "@/types/chat";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import { ModalChatReport } from "@/components/ModalPopup";
+import BadgeImage from "@/components/User/BadgeImage";
 import ProfileImage from "@/components/User/ProfileImage";
 
 import MessageAccount from "./MessageAccount";
@@ -56,9 +57,15 @@ type MessageSetProps = {
   chats: Array<UserChat | BotChat>;
   layoutType: LayoutType;
   roomInfo: Room;
+  readAtList: Array<Date>;
 };
 
-const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
+const MessageSet = ({
+  chats,
+  layoutType,
+  roomInfo,
+  readAtList,
+}: MessageSetProps) => {
   const [isOpenReport, setIsOpenReport] = useState<boolean>(false);
   const { oid: userOid } = useValueRecoilState("loginInfo") || {};
 
@@ -68,9 +75,30 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
   const authorProfileUrl =
     "authorProfileUrl" in chats?.[0] ? chats?.[0].authorProfileUrl : "";
   const authorName = "authorName" in chats?.[0] ? chats?.[0].authorName : "";
+  const authorIsWithdrew =
+    "authorIsWithdrew" in chats?.[0] ? chats?.[0].authorIsWithdrew : false;
 
   const isBot = authorId === "bot";
+  const author = isBot
+    ? undefined
+    : roomInfo.part.find((p) => p._id === authorId);
+  const authorBadge = author?.badge || false;
   const isAlone = roomInfo.part.length === 1;
+
+  // Chat의 time에 따라 안 읽은 사람 수 설정
+  const unreadUsersNum = (time: Date) => {
+    if (!roomInfo?.part || roomInfo.part.length <= 0) {
+      return 0;
+    }
+
+    const unreadUsersCache = readAtList.filter(
+      (readAt) => readAt < time
+    ).length;
+
+    return unreadUsersCache === roomInfo.part.length
+      ? unreadUsersCache - 1
+      : unreadUsersCache;
+  };
 
   const style = {
     position: "relative" as any,
@@ -136,10 +164,21 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
     }),
     [userOid, authorId, layoutType]
   );
+
+  const styleMessageDetail = {
+    display: "flex",
+    flexDirection: "column" as any,
+    alignItems: userOid === authorId ? "flex-end" : "flex-start",
+    marginBottom: "2px",
+    gap: "1px",
+  };
+  const styleUnreadUsers = {
+    ...theme.font8_medium,
+    color: theme.purple_dark,
+  };
   const styleTime = {
     ...theme.font8,
     color: theme.gray_text,
-    marginBottom: "1px",
     minWidth: "fit-content",
   };
 
@@ -158,17 +197,28 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
               {isBot ? (
                 <TaxiIcon css={{ width: "100%", height: "100%" }} />
               ) : (
-                <ProfileImage url={authorProfileUrl} />
+                <ProfileImage
+                  url={authorProfileUrl}
+                  withdraw={authorIsWithdrew}
+                />
               )}
             </div>
           )}
         </div>
         <div css={styleMessageSection}>
-          {authorId !== userOid && (
-            <div css={styleName} className="selectable">
-              {authorName}
-            </div>
-          )}
+          {authorId !== userOid &&
+            (authorIsWithdrew ? (
+              <div css={{ ...styleName, color: theme.gray_text }}>
+                <del>{authorName}</del>
+                {" (탈퇴)"}
+              </div>
+            ) : (
+              <div css={styleName} className="selectable">
+                {authorName}
+                <BadgeImage badge_live={!!authorBadge && !isBot} />
+              </div>
+            ))}
+
           {chats.map((chat, index) => (
             <div key={getChatUniquewKey(chat)} css={styleMessageWrap}>
               <div css={styleChat(chat.type)}>
@@ -179,11 +229,16 @@ const MessageSet = ({ chats, layoutType, roomInfo }: MessageSetProps) => {
                   color={authorId === userOid ? theme.white : theme.black}
                 />
               </div>
-              {index === chats.length - 1 && (
-                <div css={styleTime} className="selectable">
-                  {dayjs(chat.time).format("H시 mm분")}
-                </div>
-              )}
+              <div css={styleMessageDetail}>
+                {unreadUsersNum(chat.time) > 0 && (
+                  <div css={styleUnreadUsers}>{unreadUsersNum(chat.time)}</div>
+                )}
+                {index === chats.length - 1 && (
+                  <div css={styleTime} className="selectable">
+                    {dayjs(chat.time).format("H시 mm분")}
+                  </div>
+                )}
+              </div>
             </div>
           ))}
         </div>

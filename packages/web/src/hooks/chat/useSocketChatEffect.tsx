@@ -22,8 +22,10 @@ import {
 export default (
   roomInfo: Nullable<Room>,
   fetchRoomInfo: () => void,
+  fetchReadAtList: () => void,
   setChats: ReturnType<typeof useStateWithCallbackLazy<Chats>>[1],
   setDisplayNewMessage: (value: boolean) => void,
+  handleRead: () => void,
   chatBodyRef: RefObject<HTMLDivElement>,
   isSendingMessage: MutableRefObject<boolean>
 ) => {
@@ -79,9 +81,12 @@ export default (
           const isNeedToFetch = chats.some((chat) =>
             ["in", "out", "payment", "settlement"].includes(chat.type)
           );
+          // 브라우저 활성화 여부 확인
+          const isWindowFocused = () => document.visibilityState === "visible";
 
           if (isMyMessage) isSendingMessage.current = false;
           if (isNeedToFetch) fetchRoomInfo();
+          if (isWindowFocused()) handleRead(); // 새로운 메세지에 대한 읽음 처리
 
           if (chats.length > 10) {
             axios({
@@ -134,6 +139,11 @@ export default (
               () => {}
             );
           }
+        },
+        updateListener: (updatedRoomId: string) => {
+          if (isExpired) return;
+
+          if (roomId === updatedRoomId) fetchReadAtList();
         },
       });
 

@@ -5,10 +5,12 @@ import useRoomListAnimationState from "@/hooks/useRoomListAnimationState";
 
 import Empty from "@/components/Empty";
 import Pagination, { PAGE_MAX_ITEMS } from "@/components/Pagination";
+import Room from "@/components/Room";
 import AnimatedRoom from "@/components/Room/AnimatedRoom";
 
 type RoomListProps = {
   rooms: Nullable<Array<any>>;
+  initialLoad: boolean;
 };
 
 const RoomList = (props: RoomListProps) => {
@@ -32,11 +34,15 @@ const RoomList = (props: RoomListProps) => {
                 replace
                 style={{ textDecoration: "none" }}
               >
-                <AnimatedRoom
-                  data={room}
-                  marginBottom="15px"
-                  type={room.type}
-                />
+                {props.initialLoad ? (
+                  <AnimatedRoom
+                    data={room}
+                    marginBottom="15px"
+                    type={room.type}
+                  />
+                ) : (
+                  <Room data={room} marginBottom="15px" />
+                )}
               </Link>
             ))}
           {localRooms.length > PAGE_MAX_ITEMS && (

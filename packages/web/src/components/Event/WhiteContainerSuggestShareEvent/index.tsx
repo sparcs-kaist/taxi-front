@@ -4,7 +4,7 @@ import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
 import Button from "@/components/Button";
-import { ModalEvent2024FallShare } from "@/components/ModalPopup";
+import { ModalEvent2025SpringShare } from "@/components/ModalPopup";
 import WhiteContainer from "@/components/WhiteContainer";
 
 import alertAtom from "@/atoms/alert";
@@ -16,15 +16,15 @@ import theme from "@/tools/theme";
 const WhiteContainerSuggestShareEvent = () => {
   const isLogin = useIsLogin();
   const { isAgreeOnTermsOfEvent } =
-    useValueRecoilState("event2024FallInfo") || {};
+    useValueRecoilState("event2025SpringInfo") || {};
   const [inviteUrl, setInviteUrl] = useState<string>("");
   const [isOpenShare, setIsOpenShare] = useState<boolean>(false);
   const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
 
   const today = getToday();
-  const startDate = moment("2024-09-06", "YYYY-MM-DD");
-  const endDate = moment("2024-09-24", "YYYY-MM-DD");
+  const startDate = moment("2025-02-20", "YYYY-MM-DD");
+  const endDate = moment("2025-03-13", "YYYY-MM-DD");
   const isEventDay = today.isBefore(endDate) && today.isAfter(startDate, "day");
 
   const styleText = {
@@ -40,7 +40,7 @@ const WhiteContainerSuggestShareEvent = () => {
   useEffect(() => {
     if (isAgreeOnTermsOfEvent && isEventDay)
       axios({
-        url: `/events/2024fall/invites/create`,
+        url: `/events/2025spring/invites/create`,
         method: "post",
         onSuccess: ({ inviteUrl }) => {
           setInviteUrl(inviteUrl);
@@ -57,7 +57,7 @@ const WhiteContainerSuggestShareEvent = () => {
             <b>🎊 이벤트 공유하기</b>
           </div>
           <div css={styleText}>
-            이벤트를 공유하여 친구가 이벤트에 참여하면, 친구와 함께 송편코인
+            이벤트를 공유하여 친구가 이벤트에 참여하면, 친구와 함께 넙죽코인
             700개를 받을 수 있어요!
           </div>
           <Button
@@ -76,7 +76,7 @@ const WhiteContainerSuggestShareEvent = () => {
           >
             이벤트 공유하기
           </Button>
-          <ModalEvent2024FallShare
+          <ModalEvent2025SpringShare
             isOpen={isOpenShare}
             onChangeIsOpen={setIsOpenShare}
             inviteUrl={inviteUrl || ""}

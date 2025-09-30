@@ -31,6 +31,10 @@ const account = (x) => {
   return RegExp("^[A-Za-z가-힣]{2,7} [0-9]{10,14}$|^$").test(x);
 };
 
+const eventCouponCode = (x) => {
+  return RegExp("^[A-Za-z0-9]+$").test(x);
+};
+
 export default {
   chatMsg,
   chatMsgLength,
@@ -40,4 +44,5 @@ export default {
   fromTo,
   reportMsg,
   account,
+  eventCouponCode,
 };

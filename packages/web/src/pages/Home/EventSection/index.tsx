@@ -2,6 +2,7 @@ import EventSection2023Fall from "./EventSection2023Fall";
 import EventSection2023Spring from "./EventSection2023Spring";
 import EventSection2024Fall from "./EventSection2024Fall";
 import EventSection2024Spring from "./EventSection2024Spring";
+import EventSection2025Spring from "./EventSection2025Spring";
 
 import { eventMode } from "@/tools/loadenv";
 
@@ -15,6 +16,8 @@ const EventSection = () => {
       return <EventSection2024Spring />;
     case "2024fall":
       return <EventSection2024Fall />;
+    case "2025spring":
+      return <EventSection2025Spring />;
     default:
       return null;
   }

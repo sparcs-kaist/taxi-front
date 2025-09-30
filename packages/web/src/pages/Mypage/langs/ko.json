@@ -4,11 +4,14 @@
   "my_information": "내 정보",
   "revise": "수정하기",
   "student_id": "학번",
+  "phone_number": "전화번호",
+  "Badge Display": "배지 표시",
   "email": "메일",
   "nickname": "별명",
   "beta_service_guide": "베타 서비스 안내",
   "translation": "한국어 → English",
   "notification": "알림",
+  "notice": "공지사항",
   "report_record": "신고 내역",
   "account": "계좌번호",
   "contact": "채널톡 문의하기",
@@ -16,7 +19,7 @@
   "terms_privacy": "개인정보 수집 및 이용",
   "privacy_policy": "개인정보 처리방침",
   "credit": "만든 사람들",
-  "cancel_account": "회원 탈퇴하기",
+  "withdraw_account": "회원 탈퇴하기",
   "logout": "로그아웃",
   "page_modify": {
     "cancel": "취소",
@@ -26,10 +29,13 @@
     "profile_image_failed": "프로필 사진 변경에 실패했습니다",
     "profile_image_loading": "변경 중입니다...",
     "nickname_failed": "닉네임 변경에 실패했습니다",
-    "account_failed": "계좌번호 변경에 실패했습니다"
+    "account_failed": "계좌번호 변경에 실패했습니다",
+    "phone_number_failed": "전화번호 변경에 실패했습니다",
+    "page_modify.badge_display_failed": "배지 표시 변경에 실패했습니다다"
   },
   "page_credit": {
     "category_all": "전체",
+    "category_2025spring_event": "2025 새학기 이벤트",
     "category_2024fall_event": "2024 가을학기 추석 이벤트",
     "category_2024spring_event": "2024 봄학기 새터반 택시대제전 이벤트",
     "category_2023fall_event": "2023 가을학기 한가위 송편 이벤트",

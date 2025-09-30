@@ -1,13 +1,17 @@
 import { useHistory, useParams } from "react-router-dom";
 
+import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
+
 import Footer from "@/components/Footer";
 import {
-  ModalEvent2024FallJoin,
+  ModalEvent2025SpringJoin,
+  ModalNoticeBadge,
   ModalPrivacyPolicy,
 } from "@/components/ModalPopup";
 
 import EventSection from "./EventSection";
 import InfoSection from "./InfoSection";
+import NoticeSection from "./NoticeSection";
 import RoomSection from "./RoomSection";
 
 const Home = () => {
@@ -21,6 +25,8 @@ const Home = () => {
   const isOpenEventJoin = inviterId ? true : _roomId === "eventJoin";
   const onChangeIsOpenPrivacyPolicy = () => history.replace("/home");
   const onChangeIsOpenEventJoin = () => history.replace("/home");
+  const isLogin = useIsLogin();
+  const loginInfo = useValueRecoilState("loginInfo");
 
   const roomId =
     _roomId === "privacyPolicy" ? null : isOpenEventJoin ? null : _roomId;
@@ -28,7 +34,7 @@ const Home = () => {
   return (
     <>
       <InfoSection />
-      <div css={{ marginTop: "-10px" }} />
+      <NoticeSection />
       <EventSection />
       <RoomSection roomId={roomId} />
       <Footer />
@@ -36,11 +42,12 @@ const Home = () => {
         isOpen={_roomId === "privacyPolicy"}
         onChangeIsOpen={onChangeIsOpenPrivacyPolicy}
       />
-      <ModalEvent2024FallJoin
+      <ModalEvent2025SpringJoin
         inviterId={inviterId}
         isOpen={isOpenEventJoin}
         onChangeIsOpen={onChangeIsOpenEventJoin}
       />
+      {isLogin && loginInfo?.agreeOnTermsOfService && <ModalNoticeBadge />}
     </>
   );
 };

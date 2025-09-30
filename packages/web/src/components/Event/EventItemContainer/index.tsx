@@ -6,15 +6,14 @@ import type { EventItem, RandomBoxResult } from "@/types/event2024fall";
 import { useFetchRecoilState } from "@/hooks/useFetchRecoilState";
 
 import {
-  ModalEvent2024FallItem,
-  ModalEvent2024FallRandomBox,
+  ModalEvent2025SpringItem,
+  ModalEvent2025SpringRandomBox,
 } from "@/components/ModalPopup";
 import WhiteContainer from "@/components/WhiteContainer";
 
 import theme from "@/tools/theme";
 
-// ToDo : 2023fall 이미지
-import { ReactComponent as CreditIcon } from "@/static/events/2023fallCredit.svg";
+import { ReactComponent as CreditIcon } from "@/static/events/2025springCredit.svg";
 
 type EventItemComponentProps = {
   value: EventItem;
@@ -29,14 +28,14 @@ const EventItemContainer = ({
   clickable,
   showDescription,
 }: EventItemComponentProps) => {
-  const fetchEvent2024FallInfo = useFetchRecoilState("event2024FallInfo");
+  const fetchEvent2025SpringInfo = useFetchRecoilState("event2025SpringInfo");
   const history = useHistory();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [randomBoxResult, setRandomBoxResult] =
     useState<Nullable<RandomBoxResult>>(null);
   const onClickHandler = () => {
     if (value.itemType !== 3) {
-      history.push(`/event/2024fall-store/item/${value._id}`);
+      history.push(`/event/2025spring-store/item/${value._id}`);
     } else {
       // setRewardItem(value);
       setIsOpen(true);
@@ -112,7 +111,7 @@ const EventItemContainer = ({
           {value.price}
         </div>
       </div>
-      <ModalEvent2024FallItem
+      <ModalEvent2025SpringItem
         itemInfo={value}
         fetchItems={fetchItems}
         setRandomboxResult={setRandomBoxResult}
@@ -120,11 +119,11 @@ const EventItemContainer = ({
         onChangeIsOpen={setIsOpen}
       />
       {value.itemType === 3 && (
-        <ModalEvent2024FallRandomBox
+        <ModalEvent2025SpringRandomBox
           isOpen={!!randomBoxResult}
           onChangeIsOpen={() => {
             setRandomBoxResult(null);
-            fetchEvent2024FallInfo();
+            fetchEvent2025SpringInfo();
           }}
           randomBoxResult={randomBoxResult || undefined}
         />
