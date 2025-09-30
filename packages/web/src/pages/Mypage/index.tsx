@@ -15,6 +15,7 @@ import {
   ModalEvent2023FallJoin,
   ModalEvent2024FallJoin,
   ModalEvent2024SpringJoin,
+  ModalEvent2025FallJoin,
   ModalEvent2025SpringJoin,
   ModalMypageModify,
   ModalNoticeBadge,
@@ -250,6 +251,10 @@ const Mypage = () => {
               <Menu icon="policy" onClick={onClickEventPolicy}>
                 새학기 이벤트 참여 약관
               </Menu>
+            ) : eventMode === "2025fall" ? (
+              <Menu icon="policy" onClick={onClickEventPolicy}>
+                뱃지 이벤트 참여 약관
+              </Menu>
             ) : null)}
           <Menu icon="credit" onClick={onClickMembers}>
             {t("credit")}
@@ -297,6 +302,11 @@ const Mypage = () => {
           />
         ) : eventMode === "2025spring" ? (
           <ModalEvent2025SpringJoin
+            isOpen={isOpenEventPolicy}
+            onChangeIsOpen={setIsOpenEventPolicy}
+          />
+        ) : eventMode === "2025fall" ? (
+          <ModalEvent2025FallJoin
             isOpen={isOpenEventPolicy}
             onChangeIsOpen={setIsOpenEventPolicy}
           />

@@ -71,6 +71,15 @@ export default function ConfirmPhoneModal({
           연락드릴 때 사용될 수 있습니다. 또한, 입력하신 연락처는 이후 수정이
           불가능하니 정확히 작성해주시기 바랍니다.
         </p>
+        {/* 2025 Fall Event 전화번호 등록 자동 이벤트 참여 */}
+        <p css={{ padding: "10px 0" }}>
+          현재 전화번호 신규 등록 이벤트를 진행하고 있습니다.
+          <b css={{ color: theme.black }}>
+            전화번호를 등록하면 이벤트에 자동으로 참여됩니다.
+          </b>
+          원활한 이벤트 진행을 위해 이벤트가 종료된 후 일정 기간까지 회원 탈퇴가
+          제한됩니다.
+        </p>{" "}
       </div>
       <div css={styleButton}>
         <Button
