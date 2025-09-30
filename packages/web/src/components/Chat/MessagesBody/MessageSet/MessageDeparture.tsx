@@ -25,7 +25,7 @@ const MessageDeparture = ({
 
   const today = getToday();
   const startDate = moment("2025-02-20", "YYYY-MM-DD");
-  const endDate = moment("2025-10-22", "YYYY-MM-DD");
+  const endDate = moment("2025-10-29", "YYYY-MM-DD");
   const isEventDay = today.isBefore(endDate) && today.isAfter(startDate, "day");
 
   const [isOpenCallTaxi, setIsOpenCallTaxi] = useState<boolean>(false);

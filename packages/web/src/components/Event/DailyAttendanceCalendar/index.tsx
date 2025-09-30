@@ -12,7 +12,7 @@ import { ReactComponent as DailyAttendanceCompleteIcon } from "@/static/events/2
 
 const getCalendarDates = () => {
   const startDate = moment("2025-02-20", "YYYY-MM-DD");
-  const endDate = moment("2025-10-22", "YYYY-MM-DD");
+  const endDate = moment("2025-10-29", "YYYY-MM-DD");
   const today = getToday();
   const date = startDate.clone();
   date.subtract(date.day(), "day");
