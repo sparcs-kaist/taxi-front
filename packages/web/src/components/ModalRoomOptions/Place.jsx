@@ -12,17 +12,14 @@ import FlipButton from "@/components/ModalRoomOptions/FlipButton";
 import WhiteContainer from "@/components/WhiteContainer";
 
 import FavoriteRoutes from "../FavoriteRoutes";
-import { ModalFavoriteRoute } from "../ModalPopup";
 import Picker from "./Picker";
 
 import theme from "@/tools/theme";
 import { getLocationName } from "@/tools/trans";
 
-import { Favorite } from "@mui/icons-material";
 import StarIcon from "@mui/icons-material/Star";
 import UnfoldLessRoundedIcon from "@mui/icons-material/UnfoldLessRounded";
 import UnfoldMoreRoundedIcon from "@mui/icons-material/UnfoldMoreRounded";
-import { purple } from "@mui/material/colors";
 
 const PopupInput = (props) => {
   const [value, setValue] = useState({

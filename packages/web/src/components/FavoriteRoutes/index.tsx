@@ -1,9 +1,11 @@
 import { useCallback, useRef } from "react";
 
+import { useIsLogin } from "@/hooks/useFetchRecoilState";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import { useFetchFavoriteRoutes } from "@/hooks/useFetchRecoilState/useFetchFavoriteRoutes";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
+import Button from "../Button";
 import FavoriteRouteItem from "./items/favoriteRouteItem";
 
 import alertAtom from "@/atoms/alert";
@@ -11,7 +13,6 @@ import { FavoriteRouteType } from "@/atoms/favoriteRoutes";
 import { useSetRecoilState } from "recoil";
 
 import theme from "@/tools/theme";
-import Button from "../Button";
 
 type favoriteRouteProps = {
   placeValues: string[];
@@ -20,10 +21,11 @@ type favoriteRouteProps = {
 
 const FavoriteRoutes = ({ placeValues, handler }: favoriteRouteProps) => {
   const favoriteRoutes = useValueRecoilState("favoriteRoutes") || [];
+  const isLogin = useIsLogin();
+  const setAlert = useSetRecoilState(alertAtom);
   const isAxiosCalled = useRef(false);
   const axios = useAxios();
   const fetchFavoriteRoutes = useFetchFavoriteRoutes();
-  const setAlert = useSetRecoilState(alertAtom);
 
   const onCreateFavorite = useCallback(
     async (from: string, to: string) => {
@@ -57,7 +59,7 @@ const FavoriteRoutes = ({ placeValues, handler }: favoriteRouteProps) => {
             setAlert("즐겨찾기 추가에 실패하였습니다.");
           }
         },
-        }).then(() => {
+      }).then(() => {
         fetchFavoriteRoutes();
         isAxiosCalled.current = false;
       });
@@ -75,7 +77,7 @@ const FavoriteRoutes = ({ placeValues, handler }: favoriteRouteProps) => {
         onError: (error: any) => {
           setAlert("즐겨찾기 삭제에 실패하였습니다.");
         },
-        }).then(() => {
+      }).then(() => {
         fetchFavoriteRoutes();
         isAxiosCalled.current = false;
       });
@@ -93,9 +95,13 @@ const FavoriteRoutes = ({ placeValues, handler }: favoriteRouteProps) => {
           borderRadius: "8px",
           ...theme.font14_bold,
           marginBottom: "12px",
-          marginTop: "8px"
+          marginTop: "8px",
         }}
         onClick={() => {
+          if (!isLogin) {
+            setAlert("로그인이 필요합니다.");
+            return;
+          }
           if (placeValues[0] && placeValues[1]) {
             onCreateFavorite(placeValues[0], placeValues[1]);
           } else {
