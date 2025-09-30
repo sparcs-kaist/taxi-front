@@ -153,10 +153,10 @@ const AddRoom = () => {
     if (!onCall.current) {
       onCall.current = true;
 
-      // #region event2025spring
+      // #region event2025fall
       let isAgreeOnTermsOfEvent = false;
       await axios({
-        url: "/events/2025spring/globalState",
+        url: "/events/2025fall/globalState",
         method: "get",
         onSuccess: (data) => {
           if (data.isAgreeOnTermsOfEvent) {

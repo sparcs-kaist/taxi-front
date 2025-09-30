@@ -1,13 +1,12 @@
 import { memo, useMemo } from "react";
 
-import type { Transaction } from "@/types/event2023fall";
+import type { Transaction } from "@/types/event2025fall";
 
 import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import useQuery from "@/hooks/useTaxiAPI";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Empty from "@/components/Empty";
-import CreditAmountStatusContainer from "@/components/Event/CreditAmountStatusContainer";
 import Footer from "@/components/Footer";
 import HeaderWithLeftNav from "@/components/Header/HeaderWithLeftNav";
 import Title from "@/components/Title";
@@ -73,47 +72,41 @@ const HistoryItem = ({
 
 const HistorySection = () => {
   const { transactions } =
-    useQuery.get("/events/2023fall/transactions")[1] || {};
+    useQuery.get("/events/2025fall/transactions")[1] || {};
   const purchaseHistory = useMemo(
     () =>
       (transactions || []).sort((x: Transaction, y: Transaction) =>
-        dayjs(y.createAt).diff(dayjs(x.createAt))
+        dayjs(y.createdAt).diff(dayjs(x.createdAt))
       ),
     [transactions]
   ) as Array<Transaction>;
-  const { quests } = useValueRecoilState("event2023FallInfo") || {};
+  const { quests } = useValueRecoilState("event2025FallInfo") || {};
 
   return (
     <>
-      <Title icon="ticket" isHeader>
-        획득한 응모권
-      </Title>
-      <CreditAmountStatusContainer type="doubleTicket" />
       <Title icon="shop" isHeader>
         구매 이력
       </Title>
       {purchaseHistory.length > 0 ? (
         purchaseHistory.map(
-          ({ _id, type, comment, createAt, questId, item }: Transaction) => {
-            if (type === "get") {
+          ({ comment, createdAt, questId, item }: Transaction) => {
+            if (questId) {
               const quest = quests?.find((quest) => quest.id === questId);
               return (
                 <HistoryItem
-                  key={_id}
                   imageUrl={quest?.imageUrl || ""}
                   title={quest?.name || ""}
                   description={comment}
-                  date={createAt}
+                  date={createdAt}
                 />
               );
-            } else if (type === "use") {
+            } else if (item) {
               return (
                 <HistoryItem
-                  key={_id}
                   imageUrl={item.imageUrl}
                   title={item.name}
                   description={comment}
-                  date={createAt}
+                  date={createdAt}
                 />
               );
             } else {
@@ -128,23 +121,22 @@ const HistorySection = () => {
   );
 };
 
-const Event2023FallHistory = () => {
+const Event2025FallHistory = () => {
   const isLogin = useIsLogin();
   return (
     <>
       <HeaderWithLeftNav
         value="history"
         options={[
-          { value: "store", label: "달토끼 상점", to: "/event/2023fall-store" },
+          {
+            value: "store",
+            label: "응모권 교환소",
+            to: "/event/2025fall-store",
+          },
           {
             value: "history",
             label: "구매 이력",
-            to: "/event/2023fall-history",
-          },
-          {
-            value: "leaderboard",
-            label: "리더보드",
-            to: "/event/2023fall-leaderboard",
+            to: "/event/2025fall-history",
           },
         ]}
       />
@@ -166,7 +158,7 @@ const Event2023FallHistory = () => {
                 marginBottom: "5px",
               }}
             >
-              <b>📌 상품 지급일 : </b>10월 13일(금)
+              <b>📌 결과 발표일 : </b> 11월 4일 (화)
             </div>
             <div
               css={{
@@ -174,8 +166,14 @@ const Event2023FallHistory = () => {
                 marginBottom: "15px",
               }}
             >
-              구매하신 모든 아이템은 이벤트 종료 후 교환권 또는 기프티콘 형태로
-              일괄 지급됩니다.
+              <div css={{ ...theme.font14, marginBottom: "5px" }}>
+                1. 당첨되신 모든 경품은 이벤트 종료 후 기프티콘 형태로 일괄
+                지급됩니다.
+              </div>
+              <div css={{ ...theme.font14, marginBottom: "0" }}>
+                2. 하나의 경품은 1번만 당첨될 수 있지만, 여러 경품에 동시에
+                당첨될 수는 있습니다.
+              </div>
             </div>
             <div
               css={{
@@ -183,16 +181,10 @@ const Event2023FallHistory = () => {
                 marginBottom: "5px",
               }}
             >
-              <b>🎁 지급 방법 :</b> 각 상품 별 지급 방법은 아래와 같습니다.
+              <b>🎁 지급 방법 :</b> 경품 지급 방법은 아래와 같습니다.
             </div>
             <div css={{ ...theme.font14, marginBottom: "5px" }}>
-              1. 북측 매점 교환권 / 교내 엔제리너스 아이스 아메리카노 S: (엔터
-              넣어주세요) 교양분관 SPARCS 동방에서 교환권을 수령하실 수
-              있습니다.
-            </div>
-            <div css={{ ...theme.font14, marginBottom: "5px" }}>
-              2. BBQ 황금올리브+콜라 1.25L / 오색송편: 이벤트 참여 때 등록한
-              연락처로 기프티콘을 발송해 드립니다.
+              이벤트 참여 동의 때 입력한 연락처로 기프티콘을 발송해 드립니다.
             </div>
           </div>
         </WhiteContainer>
@@ -207,9 +199,9 @@ const Event2023FallHistory = () => {
           </>
         )}
       </AdaptiveDiv>
-      <Footer type="event-2023fall" />
+      <Footer type="event-2025fall" />
     </>
   );
 };
 
-export default memo(Event2023FallHistory);
+export default memo(Event2025FallHistory);

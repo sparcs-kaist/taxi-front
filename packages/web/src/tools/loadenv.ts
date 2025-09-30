@@ -11,9 +11,9 @@ export const s3BaseUrl = env.REACT_APP_S3_URL; // required
 export const channelTalkPluginKey = env.REACT_APP_CHANNELTALK_PLUGIN_KEY; // optional
 export const kakaoSDKKey = env.REACT_APP_KAKAO_SDK_KEY; // optional
 export const gaTrackingId = env.REACT_APP_GA_TRACKING_ID; // optional
-export const firebaseConfig: Nullable<FirebaseConfig> =
+export const firebaseConfig: FirebaseConfig | null =
   env.REACT_APP_FIREBASE_CONFIG && JSON.parse(env.REACT_APP_FIREBASE_CONFIG); // optional
-export const eventMode = env.REACT_APP_EVENT_MODE || null; // optional. "2025spring"으로 설정 가능
+export const eventMode = env.REACT_APP_EVENT_MODE || "2025fall"; // optional. "2025fall"으로 설정 가능;
 
 // devicet-type 감지
 const userAgent = navigator.userAgent.toLowerCase();

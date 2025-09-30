@@ -2,7 +2,7 @@ import axiosOri from "axios";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useEvent2025SpringQuestComplete } from "@/hooks/event/useEvent2025SpringQuestComplete";
+import { useEvent2025FallQuestComplete } from "@/hooks/event/useEvent2025FallQuestComplete";
 import {
   useFetchRecoilState,
   useValueRecoilState,
@@ -153,8 +153,12 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
 
   const loginInfo = useValueRecoilState("loginInfo");
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
+  const completeQuest = useEvent2025FallQuestComplete();
+
   //#region event2025Spring
-  const event2025SpringQuestComplete = useEvent2025SpringQuestComplete();
+  // const event2025SpringQuestComplete = useEvent2025SpringQuestComplete();
+  //#region event2025Fall
+
   //#endregion
   const setAlert = useSetRecoilState(alertAtom);
 
@@ -181,7 +185,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         data: { nickname },
         onError: () => setAlert(t("page_modify.nickname_failed")),
         //#region event2025Spring
-        onSuccess: () => event2025SpringQuestComplete("nicknameChanging"),
+        // onSuccess: () => event2025SpringQuestComplete("nicknameChanging"),
         //#endregion
       });
     }
@@ -193,7 +197,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         data: { account },
         onError: () => setAlert(t("page_modify.account_failed")),
         //#region event2025Spring
-        onSuccess: () => event2025SpringQuestComplete("accountChanging"),
+        // onSuccess: () => event2025SpringQuestComplete("accountChanging"),
         //#endregion
       });
     }
@@ -235,6 +239,20 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
       data: { phoneNumber },
       onError: () => setAlert(t("page_modify.phone_number_failed")),
     });
+
+    // 2025 Fall 기간에는 전화번호 등록 시 이벤트 참여가 진행됩니다.
+    await axios({
+      url: "/events/2025fall/globalState/create",
+      method: "post",
+      data: { phoneNumber },
+      onSuccess: () => {
+        fetchLoginInfo();
+        modalProps.onChangeIsOpen?.(false);
+        completeQuest("phoneVerification");
+      },
+      onError: () => setAlert("이벤트 참여에 실패하였습니다."),
+    });
+
     fetchLoginInfo();
     setPhoneAgreeModalOpen(false);
     modalProps.onChangeIsOpen?.(false);
