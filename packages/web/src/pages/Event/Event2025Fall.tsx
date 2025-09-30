@@ -23,8 +23,6 @@ import { ReactComponent as TaxiLogoIcon } from "@/static/assets/sparcsLogos/Taxi
 import { ReactComponent as MainStep3 } from "@/static/events/2024fallMainStep3.svg";
 // 이벤트 참여 방법
 import { ReactComponent as MainSection2 } from "@/static/events/2025FallMainSection2.svg";
-// 후원사 로고
-import { ReactComponent as MainSection6 } from "@/static/events/2025FallMainSection6.svg";
 // 응모권 교환 관련 가격표
 import { ReactComponent as MainStep2 } from "@/static/events/2025FallMainStep2.svg";
 // 뱃지 이벤트 타이틀
@@ -313,15 +311,7 @@ const Event2025Fall = () => {
           padding: "56px 0 16px",
           background: theme.white,
         }}
-      >
-        <AdaptiveDiv type="center" css={{ textAlign: "center" }}>
-          <MainSection6 css={{ width: "292px", maxWidth: "100%" }} />
-          <div css={{ height: "56px" }} />
-          <div css={{ color: theme.gray_text, ...theme.font14 }}>
-            본 이벤트는 KAIST의 후원으로 진행되었습니다.
-          </div>
-        </AdaptiveDiv>
-      </div>
+      ></div>
       <Footer type="event-2025fall" />
     </>
   );
