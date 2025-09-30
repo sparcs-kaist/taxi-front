@@ -19,7 +19,7 @@ const members: Members = [
   },
   {
     position: "🎨 Designer",
-    list: [{ name: "김민찬", id: "static", period: "2025" }],
+    list: [{ name: "강태현", id: "thxx", period: "2025" }],
   },
 ];
 
