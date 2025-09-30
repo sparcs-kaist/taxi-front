@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-import type { EventItem } from "@/types/event2024fall";
+import type { EventItem } from "@/types/event2025fall";
 
 import { ModalEvent2025FallItem } from "@/components/ModalPopup";
 import WhiteContainer from "@/components/WhiteContainer";

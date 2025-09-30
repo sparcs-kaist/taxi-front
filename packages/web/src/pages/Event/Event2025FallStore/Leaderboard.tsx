@@ -253,7 +253,7 @@ const Event2025FallStoreLeaderboard = ({
     probability,
     rank,
     userId,
-  } = useQuery.get(`/events/2025Fall/items/leaderboard/${itemId}`, null, [
+  } = useQuery.get(`/events/2025fall/items/leaderboard/${itemId}`, null, [
     event2025FallInfo,
   ])[1] || {
     leaderboard: [],
@@ -263,7 +263,7 @@ const Event2025FallStoreLeaderboard = ({
     probability: 0,
   };
 
-  const { item } = useQuery.get("/events/2025Fall/items/" + itemId)[1] || {
+  const { item } = useQuery.get("/events/2025fall/items/" + itemId)[1] || {
     item: null,
   };
   const { nickname, profileImgUrl } = useValueRecoilState("loginInfo") || {};
@@ -297,7 +297,7 @@ const Event2025FallStoreLeaderboard = ({
     if (isRequesting.current) return;
     isRequesting.current = true;
     await axios({
-      url: `/events/2025Fall/items/purchase/${item?._id}`,
+      url: `/events/2025fall/items/purchase/${item?._id}`,
       method: "post",
       data: {
         amount: purchaseAmount,
