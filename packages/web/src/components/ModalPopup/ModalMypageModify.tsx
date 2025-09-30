@@ -224,7 +224,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         onError: () => setAlert(t("page_modify.badge_display_failed")),
       });
     }
-    if (residence.length == 0) {
+    if (residence.length === 0) {
       isNeedToUpdateLoginInfo = true;
       await axios({
         url: "/users/deleteResidence",
