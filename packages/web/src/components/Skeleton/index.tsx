@@ -1,7 +1,7 @@
 import { ReactNode, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-import { useEvent2025SpringEffect } from "@/hooks/event/useEvent2025SpringEffect";
+import { useEvent2025FallEffect } from "@/hooks/event/useEvent2025FallEffect";
 import useCSSVariablesEffect from "@/hooks/skeleton/useCSSVariablesEffect";
 import useChannelTalkEffect from "@/hooks/skeleton/useChannelTalkEffect";
 import useFirebaseMessagingEffect from "@/hooks/skeleton/useFirebaseMessagingEffect";
@@ -71,8 +71,9 @@ const Skeleton = ({ children }: SkeletonProps) => {
     useState<boolean>(false);
 
   //#region event2025Spring
-  useEvent2025SpringEffect();
+  // useEvent2025SpringEffect();
   //#endregion
+  useEvent2025FallEffect();
   useSyncRecoilStateEffect(); // loginIngo, taxiLocations, myRooms, notificationOptions 초기화 및 동기화
   useI18nextEffect();
   useScrollRestorationEffect();
