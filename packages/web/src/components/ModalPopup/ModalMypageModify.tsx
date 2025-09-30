@@ -2,6 +2,7 @@ import axiosOri from "axios";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { useEvent2025FallQuestComplete } from "@/hooks/event/useEvent2025FallQuestComplete";
 import {
   useFetchRecoilState,
   useValueRecoilState,
@@ -152,6 +153,8 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
 
   const loginInfo = useValueRecoilState("loginInfo");
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
+  const completeQuest = useEvent2025FallQuestComplete();
+
   //#region event2025Spring
   // const event2025SpringQuestComplete = useEvent2025SpringQuestComplete();
   //#region event2025Fall
@@ -245,6 +248,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
       onSuccess: () => {
         fetchLoginInfo();
         modalProps.onChangeIsOpen?.(false);
+        completeQuest("phoneVerification");
       },
       onError: () => setAlert("이벤트 참여에 실패하였습니다."),
     });
