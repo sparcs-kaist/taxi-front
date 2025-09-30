@@ -27,7 +27,7 @@ import { ReactComponent as MainSection2 } from "@/static/events/2025FallMainSect
 import { ReactComponent as MainSection6 } from "@/static/events/2025FallMainSection6.svg";
 // 응모권 교환 관련 가격표
 import { ReactComponent as MainStep2 } from "@/static/events/2025FallMainStep2.svg";
-// 새학기 이벤트 타이틀
+// 뱃지 이벤트 타이틀
 import { ReactComponent as MainTitle } from "@/static/events/2025FallMainTitle.svg";
 // 가장 위 섹션
 import { ReactComponent as MainSection1 } from "@/static/events/2025springMainSection1.svg";

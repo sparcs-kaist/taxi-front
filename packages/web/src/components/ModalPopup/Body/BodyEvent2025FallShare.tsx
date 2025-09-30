@@ -73,8 +73,8 @@ const BodyEvent2025FallShare = ({
       <div css={{ flexGrow: 1 }} />
       <div css={styleButtonSection}>
         <LinkKakaotalkShare
-          title={"Taxi 새학기 이벤트"}
-          description={`Taxi 새학기 이벤트에 참여해 보세요! 이 링크로 참여하면 응모권 3개를 획득할 수 있어요!`}
+          title={"Taxi 뱃지 이벤트"}
+          description={`Taxi 뱃지 이벤트에 참여해 보세요! 이 링크로 참여하면 응모권 3개를 획득할 수 있어요!`}
           imageUrl={
             ogServer
               ? `${ogServer}/eventInvite/${inviteUrl.split("/").pop()}`
@@ -91,7 +91,7 @@ const BodyEvent2025FallShare = ({
           />
         </LinkKakaotalkShare>
         <LinkCopy
-          value={`🚕 Taxi 새학기 이벤트에 참여해 보세요!\n🚕 참여 링크: ${inviteUrl}`}
+          value={`🚕 Taxi 뱃지 이벤트에 참여해 보세요!\n🚕 참여 링크: ${inviteUrl}`}
           onCopy={onCopy}
         >
           <ButtonShare
