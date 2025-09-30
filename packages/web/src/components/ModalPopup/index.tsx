@@ -35,7 +35,6 @@ export { default as ModalRoomSelection } from "./ModalRoomSelection";
 export { default as ModalRoomShare } from "./ModalRoomShare";
 export { default as ModalTerms } from "./ModalTerms";
 export { default as ModalCallTaxi } from "./ModalCallTaxi";
-export { default as ModalAccountCancelProcess } from "./ModalAccountCancelProcess";
 export { default as ModalFavoriteRoute } from "./ModalFavoriteRoute";
 export { default as ModalAccountWithdrawProcess } from "./ModalAccountWithdrawProcess";
 export { default as ModalSimilarRooms } from "./ModalSimilarRooms";
