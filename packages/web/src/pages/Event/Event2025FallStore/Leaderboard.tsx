@@ -321,12 +321,12 @@ const Event2025FallStoreLeaderboard = ({
           {
             value: "store",
             label: "응모권 교환소",
-            to: "/event/2025Fall-store",
+            to: "/event/2025fall-store",
           },
           {
             value: "history",
             label: "구매 이력",
-            to: "/event/2025Fall-history",
+            to: "/event/2025fall-history",
           },
         ]}
       />
