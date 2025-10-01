@@ -18,6 +18,7 @@ import {
   members2024SpringEvent,
   members2025SpringEvent,
 } from "@/static/members";
+import members2025FallEvent from "@/static/members/members2025FallEvent";
 
 type MemberProps = Members[number]["list"][number];
 
@@ -130,6 +131,11 @@ const ModalCredit = ({
         key: "all",
         name: t("page_credit.category_all"),
         body: <BodyMembers values={members} />,
+      },
+      {
+        key: "2025FallEvent",
+        name: t("page_credit.category_2025fall_event"),
+        body: <BodyMembers values={members2025FallEvent} />,
       },
       {
         key: "2025SpringEvent",

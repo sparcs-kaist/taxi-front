@@ -83,9 +83,8 @@ const ModalEvent2025FallJoin = ({
         data: { phoneNumber, inviter: inviterId },
         onSuccess: () => {
           fetchLoginInfo();
+          event2025FallQuestComplete("phoneVerification");
           modalProps.onChangeIsOpen?.(false);
-
-          window.location.reload();
         },
         onError: () => setAlert("이벤트 참여에 실패하였습니다."),
       }),
@@ -159,6 +158,11 @@ const ModalEvent2025FallJoin = ({
       </div>
       <div css={{ height: "12px" }} />
       <div css={styleText}>
+        • 이벤트 참여를 위해{" "}
+        <b css={{ color: theme.red_text }}>뱃지 기능이 자동으로 켜집니다.</b>{" "}
+      </div>
+      <div css={{ height: "12px" }} />
+      <div css={styleText}>
         •{" "}
         <b css={{ color: theme.red_text }}>
           추천인 이벤트 참여를 위해서는 추천인이 발송한 링크로 이벤트에 참여해야
@@ -169,9 +173,9 @@ const ModalEvent2025FallJoin = ({
       </div>
       <div css={{ height: "12px" }} />
       <div css={styleText}>
-        • 본 약관은 동의 이후에도 {'"'}마이페이지{">"}뱃지 이벤트 참여
-        약관에서 다시 확인하실 수 있습니다. 원활한 이벤트 진행을 위해 이벤트가
-        종료된 후 일정 기간까지 회원 탈퇴가 제한됩니다.
+        • 본 약관은 동의 이후에도 {'"'}마이페이지{">"}뱃지 이벤트 참여 약관에서
+        다시 확인하실 수 있습니다. 원활한 이벤트 진행을 위해 이벤트가 종료된 후
+        일정 기간까지 회원 탈퇴가 제한됩니다.
       </div>
       <div css={{ height: "12px" }} />
       <DottedLine />
