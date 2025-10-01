@@ -29,13 +29,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get tag without 'v' prefix
-        id: tag
-        run: |
-          RAW="${{ github.event.release.tag_name }}"
-          CLEAN="${RAW#v}"
-          echo "tag=$CLEAN" >> "$GITHUB_OUTPUT"
-
       - name: Extract metadata
         uses: docker/metadata-action@v5
         id: meta
@@ -43,7 +36,7 @@ jobs:
           images: ghcr.io/${{ github.repository }}
           tags: |
             type=raw,value=latest
-            type=raw,value=${{ steps.tag.outputs.tag }}
+            type=semver,pattern={{version}}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
