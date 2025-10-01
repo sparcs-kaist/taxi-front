@@ -28,7 +28,7 @@ const BodyPrivacyPolicy = () => {
         &quot;Taxi&quot;)은(는) 「개인정보 보호법」 제30조에 따라 정보주체의
         개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수
         있도록 하기 위하여 다음과 같이 개인정보 처리방침을 수립·공개합니다.
-        <br />○ 이 개인정보처리방침은 2024년 2월 17부터 적용됩니다.
+        <br />○ 이 개인정보처리방침은 2025년 9월 6부터 적용됩니다.
       </div>
       <div style={styleSection}>제1조(개인정보의 처리 목적)</div>
       <div style={styleSection}>
@@ -42,7 +42,8 @@ const BodyPrivacyPolicy = () => {
         1. 홈페이지 회원가입 및 관리
         <br />
         회원 가입의사 확인, 회원제 서비스 제공에 따른 본인 식별·인증, 회원자격
-        유지·관리, 서비스 부정이용 방지 목적으로 개인정보를 처리합니다.
+        유지·관리, 서비스 부정이용 방지, 회원간 분쟁 조정 목적으로 개인정보를
+        처리합니다.
       </div>
       <div style={styleContent}>
         2. 이벤트 관리 및 상품 전달
@@ -73,7 +74,7 @@ const BodyPrivacyPolicy = () => {
         - &lt;이벤트 관리 및 상품 전달&gt;와 관련한 개인정보는 수집.이용에 관한
         동의일로부터&lt;1년&gt;까지 위 이용목적을 위하여 보유.이용됩니다.
         <br />- 보유근거 : 이벤트 참여 의사 확인, 참여자 식별, 상품 전달, 이벤트
-        부정 참여자 연락
+        부정 참여자 연락, 회원간 분쟁 조정을 위한 연락
       </div>
       <div style={styleSection}>제3조(처리하는 개인정보의 항목)</div>
       <div style={styleContent}>
@@ -194,8 +195,8 @@ const BodyPrivacyPolicy = () => {
         피해구제 등을 위하여 아래와 같이 개인정보 보호책임자를 지정하고
         있습니다.
         <br />
-        - 성명 : 김민찬
-        <br />- 연락처 : 010-8608-7057, kmc7468@kaist.ac.kr
+        - 성명 : 강태현
+        <br />- 연락처 : thxx0510@kaist.ac.kr
         <br />② 정보주체께서는 &lt; SPARCS &gt;(&quot;Taxi&quot;) 의 서비스를
         이용하시면서 발생한 모든 개인정보 보호 관련 문의, 불만처리, 피해구제
         등에 관한 사항을 개인정보 보호책임자 및 담당부서로 문의하실 수 있습니다.
@@ -213,8 +214,8 @@ const BodyPrivacyPolicy = () => {
         신속하게 처리되도록 노력하겠습니다.
       </div>
       <div style={styleContent}>
-        - 담당자 : 김민찬
-        <br />- 연락처 : 010-8608-7057, kmc7468@kaist.ac.kr
+        - 담당자 : 강태현
+        <br />- 연락처 : thxx0510@kaist.ac.kr
       </div>
       <div style={styleSection}>
         제10조(정보주체의 권익침해에 대한 구제방법)
@@ -242,7 +243,7 @@ const BodyPrivacyPolicy = () => {
       </div>
       <div style={styleSection}>제11조(개인정보 처리방침 변경)</div>
       <div style={styleSection}>
-        이 개인정보처리방침은 2024년 2월 17부터 적용됩니다.
+        이 개인정보처리방침은 2025년 9월 6부터 적용됩니다.
       </div>
     </div>
   );

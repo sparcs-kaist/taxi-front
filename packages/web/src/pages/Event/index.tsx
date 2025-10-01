@@ -17,6 +17,10 @@ import Item from "./Event2024FallStore/Item";
 import Event2024Spring from "./Event2024Spring";
 import Event2024SpringLeaderboard from "./Event2024SpringLeaderboard";
 import Event2024SpringMissions from "./Event2024SpringMissions";
+import Event2025Fall from "./Event2025Fall";
+import Event2025FallHistory from "./Event2025FallHistory";
+import Event2025FallMissions from "./Event2025FallMissions";
+import Event2025FallStore from "./Event2025FallStore";
 import Event2025Spring from "./Event2025Spring";
 import Event2025SpringDailyAttendance from "./Event2025SpringDailyAttendance";
 import Event2025SpringHistory from "./Event2025SpringHistory";
@@ -65,6 +69,14 @@ const Event = () => {
       return <Event2024FallMissions />;
     case "2024fall-daily-attendance":
       return <Event2024FallDailyAttendance />;
+    case "2025fall":
+      return <Event2025Fall />;
+    case "2025fall-store":
+      return <Event2025FallStore itemId={itemId} />;
+    case "2025fall-history":
+      return <Event2025FallHistory />;
+    case "2025fall-missions":
+      return <Event2025FallMissions />;
     case "2025spring":
       return <Event2025Spring />;
     case "2025spring-store":

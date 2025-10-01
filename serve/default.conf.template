@@ -12,7 +12,7 @@ server {
         sub_filter_once off;
     }
 
-    location ~ ^/event/2025spring-invite/(?<inviter_id>[^/]+) {
+    location ~ ^/event/2025fall-invite/(?<inviter_id>[^/]+) {
         root  /app/serve;
         try_files /invite-event.html =404;
 
