@@ -28,7 +28,7 @@ const BodyPrivacyPolicy = () => {
         &quot;Taxi&quot;)은(는) 「개인정보 보호법」 제30조에 따라 정보주체의
         개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수
         있도록 하기 위하여 다음과 같이 개인정보 처리방침을 수립·공개합니다.
-        <br />○ 이 개인정보처리방침은 2025년 10월 2일부터 적용됩니다.
+        <br />○ 이 개인정보처리방침은 2025년 9월 6부터 적용됩니다.
       </div>
       <div style={styleSection}>제1조(개인정보의 처리 목적)</div>
       <div style={styleSection}>
@@ -243,7 +243,7 @@ const BodyPrivacyPolicy = () => {
       </div>
       <div style={styleSection}>제11조(개인정보 처리방침 변경)</div>
       <div style={styleSection}>
-        이 개인정보처리방침은 2025년 10월 2일부터 적용됩니다.
+        이 개인정보처리방침은 2025년 9월 6부터 적용됩니다.
       </div>
     </div>
   );
