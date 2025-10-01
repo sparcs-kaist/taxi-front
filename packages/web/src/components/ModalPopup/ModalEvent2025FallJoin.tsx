@@ -83,9 +83,8 @@ const ModalEvent2025FallJoin = ({
         data: { phoneNumber, inviter: inviterId },
         onSuccess: () => {
           fetchLoginInfo();
+          event2025FallQuestComplete("phoneVerification");
           modalProps.onChangeIsOpen?.(false);
-
-          window.location.reload();
         },
         onError: () => setAlert("이벤트 참여에 실패하였습니다."),
       }),

@@ -99,10 +99,10 @@ const Skeleton = ({ children }: SkeletonProps) => {
           )}
           {children}
           <ModalTerms isOpen={!!userId && !isAgreeOnTermsOfService} />
-          <ModalEvent2025SpringDailyAttendance
+          {/* <ModalEvent2025SpringDailyAttendance
             isOpen={dailyAttendanceOpened}
             onChangeIsOpen={setDailyAttendanceOpened}
-          />
+          /> */}
 
           {isDisplayNavigation && (
             <div

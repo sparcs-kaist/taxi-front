@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 
+import { useEvent2025FallQuestComplete } from "@/hooks/event/useEvent2025FallQuestComplete";
 import { useEvent2025SpringQuestComplete } from "@/hooks/event/useEvent2025SpringQuestComplete";
 import {
   useFetchRecoilState,
@@ -77,6 +78,7 @@ const AddRoom = () => {
   const [isOpenModalEventAbuseWarning, setIsOpenModalEventAbuseWarning] =
     useState<boolean>(false);
   //#endregion
+  const event2025FallQuestComplete = useEvent2025FallQuestComplete();
 
   const [taxiFare, setTaxiFare] = useState<number>(0);
 
@@ -162,6 +164,7 @@ const AddRoom = () => {
           if (data.isAgreeOnTermsOfEvent) {
             isAgreeOnTermsOfEvent = data.isAgreeOnTermsOfEvent;
           }
+          event2025FallQuestComplete("allBadgedSettlement");
         },
         onError: () => {},
       });
