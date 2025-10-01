@@ -21,6 +21,7 @@ import alertAtom from "@/atoms/alert";
 import { useSetRecoilState } from "recoil";
 
 import { dayServerToClient } from "@/tools/day";
+import { triggerTag } from "@/tools/gtm";
 import { date2str } from "@/tools/moment";
 import theme from "@/tools/theme";
 import { getLocationName } from "@/tools/trans";
@@ -38,6 +39,7 @@ type InfoSectionProps = {
 };
 export type BodyRoomSelectionProps = {
   roomInfo: Room;
+  triggerTags?: string;
 };
 
 const PlaceSection = ({ type, name }: PlaceSectionProps) => (
@@ -100,7 +102,10 @@ const InfoSection = ({ title, alignDirection, children }: InfoSectionProps) => (
   </div>
 );
 
-const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
+const BodyRoomSelection = ({
+  roomInfo,
+  triggerTags,
+}: BodyRoomSelectionProps) => {
   const { i18n } = useTranslation();
   const axios = useAxios();
   const history = useHistory();
@@ -151,11 +156,17 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
       onSuccess: () => {
         fetchMyRooms();
         history.push(`/myroom/${roomInfo._id}`);
+
+        if (triggerTags) {
+          for (const i of triggerTags.split(",")) {
+            triggerTag(i);
+          }
+        }
       },
       onError: () => setAlert("방 참여에 실패하였습니다."),
     });
     onCall.current = false;
-  }, [roomInfo?._id, history]);
+  }, [roomInfo?._id, history, triggerTags]);
 
   const [taxiFare, setTaxiFare] = useState<number>(0);
   const getTaxiFare = async () => {
@@ -271,14 +282,14 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
           {isAlreadyPart
             ? "이미 참여 중입니다 : 바로가기"
             : notPaid
-            ? "결제자에게 송금이 완료되지 않은 방이 있습니다"
-            : isDepart
-            ? "출발 시각이 현재 이전인 방은 참여할 수 없습니다"
-            : isRoomFull
-            ? "남은 인원이 0명인 방은 참여할 수 없습니다"
-            : isMaxPart
-            ? "현재 5개의 방에 참여 중입니다"
-            : "참여 신청"}
+              ? "결제자에게 송금이 완료되지 않은 방이 있습니다"
+              : isDepart
+                ? "출발 시각이 현재 이전인 방은 참여할 수 없습니다"
+                : isRoomFull
+                  ? "남은 인원이 0명인 방은 참여할 수 없습니다"
+                  : isMaxPart
+                    ? "현재 5개의 방에 참여 중입니다"
+                    : "참여 신청"}
         </Button>
       ) : (
         <LinkLogin redirect={`/home/${roomInfo?._id}`}>

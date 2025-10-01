@@ -55,7 +55,11 @@ const ModalSimilarRooms = (
         <ShareRoundedIcon style={styleIcon} />
         유사한 방이 있습니다
       </div>
-      <RoomList rooms={rooms} initialLoad={false} />
+      <RoomList
+        rooms={rooms}
+        initialLoad={false}
+        triggerTags={["real_join_similar_room"]}
+      />
       <Button
         css={styleButton}
         onClick={() => {
