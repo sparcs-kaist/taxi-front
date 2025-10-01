@@ -13,7 +13,7 @@ import { useAxios } from "@/hooks/useTaxiAPI";
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
 import {
-  ModalEvent2025SpringAbuseWarning,
+  ModalEvent2025FallAbuseWarning,
   ModalSimilarRooms,
 } from "@/components/ModalPopup";
 import { ModalNoticeBadge } from "@/components/ModalPopup";
@@ -317,8 +317,7 @@ const AddRoom = () => {
         </AdaptiveDiv>
       </div>
       {isLogin && loginInfo?.agreeOnTermsOfService && <ModalNoticeBadge />}
-      {/* #region event2025Spring */}
-      <ModalEvent2025SpringAbuseWarning
+      <ModalEvent2025FallAbuseWarning
         isOpen={isOpenModalEventAbuseWarning}
         onChangeIsOpen={async (data) => {
           if (data === true) {
@@ -336,7 +335,7 @@ const AddRoom = () => {
               onSuccess: () => {
                 fetchMyRooms();
                 //#region event2025Spring
-                event2025SpringQuestComplete("firstRoomCreation");
+                // event2025SpringQuestComplete("firstRoomCreation");
                 //#endregion
                 history.push("/myroom");
               },
