@@ -184,7 +184,7 @@ const Footer = ({ type = "full", children }: FooterProps) => {
             text="개인정보 처리방침"
             onClick={onClickPrivacyPolicy}
           />
-          <Link to="/event/2025fall-guide" css={{ textDecoration: "none" }}>
+          <Link to="/event/2023spring-guide" css={{ textDecoration: "none" }}>
             <ButtonAboveFooter text="택시 살펴보기" />
           </Link>
           <ButtonAboveFooter
