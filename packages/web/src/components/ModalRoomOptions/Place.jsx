@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { memo, useEffect, useMemo, useState } from "react";
+import { memo, useEffect, useMemo, useState, useRef } from "react";
 
 import useHoverProps from "@/hooks/theme/useHoverProps";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
@@ -11,10 +11,15 @@ import Modal from "@/components/Modal";
 import FlipButton from "@/components/ModalRoomOptions/FlipButton";
 import WhiteContainer from "@/components/WhiteContainer";
 
+import FavoriteRoutes from "../FavoriteRoutes";
 import Picker from "./Picker";
 
 import theme from "@/tools/theme";
 import { getLocationName } from "@/tools/trans";
+
+import StarIcon from "@mui/icons-material/Star";
+import UnfoldLessRoundedIcon from "@mui/icons-material/UnfoldLessRounded";
+import UnfoldMoreRoundedIcon from "@mui/icons-material/UnfoldMoreRounded";
 
 const PopupInput = (props) => {
   const [value, setValue] = useState({
@@ -161,6 +166,19 @@ const Place = (props) => {
   const [isPopup1, setPopup1] = useState(false);
   const [isPopup2, setPopup2] = useState(false);
   const taxiLocations = useValueRecoilState("taxiLocations");
+  const [isOpenFavorite, setIsOpenFavorite] = useState(false);
+  const [placeValues, setPlaceValues] = useState([null, null]); // FavoriteRoutes에 넘겨주기 위함
+  const favoriteRef = useRef(null);
+  
+  console.log(props);
+
+  useEffect(() => {
+    // FavoriteRoutes에 넘겨주기 위함
+    const placeValues = [props.value[0], props.value[1]];
+    setPlaceValues(placeValues);
+    console.log(placeValues);
+  }, [props.value]);
+
   const taxiLocationsWithName = useMemo(
     () =>
       taxiLocations.reduce((acc, place) => {
@@ -180,45 +198,97 @@ const Place = (props) => {
     return place && getLocationName(place, "ko");
   };
 
+  const styleArrow = {
+    width: "24px",
+    height: "24px",
+    fill: theme.purple,
+    ...theme.cursor(),
+  };
+
+  const styleFavorite = {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: "8px",
+  };
+
   return (
     <WhiteContainer css={{ padding: "10px" }}>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <PlaceElement
+      <div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            position: "relative",
+          }}
+        >
+          <PlaceElement
+            value={getPlaceName(props.value[0])}
+            onClick={() => setPopup1(true)}
+            type="from"
+          />
+          <DottedLine direction="column" />
+          <FlipButton
+            onClick={() => props.handler([props.value[1], props.value[0]])}
+            disabled={!props.value[0] && !props.value[1]}
+          />
+          <PlaceElement
+            value={getPlaceName(props.value[1])}
+            onClick={() => setPopup2(true)}
+            type="to"
+          />
+        </div>
+        <PopupInput
+          isOpen={isPopup1}
+          onClose={() => setPopup1(false)}
           value={getPlaceName(props.value[0])}
-          onClick={() => setPopup1(true)}
-          type="from"
+          handler={(x) => props.handler([x, props.value[1]])}
+          placeOptions={taxiLocationsWithName}
         />
-        <DottedLine direction="column" />
-        <FlipButton
-          onClick={() => props.handler([props.value[1], props.value[0]])}
-          disabled={!props.value[0] && !props.value[1]}
-        />
-        <PlaceElement
+        <PopupInput
+          isOpen={isPopup2}
+          onClose={() => setPopup2(false)}
           value={getPlaceName(props.value[1])}
-          onClick={() => setPopup2(true)}
-          type="to"
+          handler={(x) => props.handler([props.value[0], x])}
+          placeOptions={taxiLocationsWithName}
         />
       </div>
-      <PopupInput
-        isOpen={isPopup1}
-        onClose={() => setPopup1(false)}
-        value={getPlaceName(props.value[0])}
-        handler={(x) => props.handler([x, props.value[1]])}
-        placeOptions={taxiLocationsWithName}
-      />
-      <PopupInput
-        isOpen={isPopup2}
-        onClose={() => setPopup2(false)}
-        value={getPlaceName(props.value[1])}
-        handler={(x) => props.handler([props.value[0], x])}
-        placeOptions={taxiLocationsWithName}
-      />
+      <div css={styleFavorite}>
+        <StarIcon style={{ fontSize: "16px", color: theme.purple }} />
+        <div css={{ flexShrink: 0, color: theme.purple, ...theme.font14_bold }}>
+          즐겨찾는 경로
+        </div>
+        <DottedLine />
+        {isOpenFavorite ? (
+          <UnfoldLessRoundedIcon
+            style={styleArrow}
+            onClick={() => setIsOpenFavorite(false)}
+          />
+        ) : (
+          <UnfoldMoreRoundedIcon
+            style={styleArrow}
+            onClick={() => setIsOpenFavorite(true)}
+          />
+        )}
+      </div>
+      <div
+        ref={favoriteRef}
+        style={{
+          maxHeight: isOpenFavorite ? favoriteRef.current?.scrollHeight : 0,
+          transition: "max-height 0.3s ease-in-out",
+          overflow: "hidden",
+        }}
+      >
+        <FavoriteRoutes placeValues={placeValues} handler={props.handler} />
+      </div>
     </WhiteContainer>
   );
 };
 Place.propTypes = {
   value: PropTypes.array,
   handler: PropTypes.func,
+  favoriteRoutes: PropTypes.object,
 };
 
 export default memo(Place);
