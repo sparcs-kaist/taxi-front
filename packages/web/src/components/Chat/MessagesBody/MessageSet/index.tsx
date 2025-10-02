@@ -75,6 +75,7 @@ const MessageSet = ({
   const authorProfileUrl =
     "authorProfileUrl" in chats?.[0] ? chats?.[0].authorProfileUrl : "";
   const authorName = "authorName" in chats?.[0] ? chats?.[0].authorName : "";
+  const authorResidence = "authorResidence" in chats?.[0] ? chats?.[0].authorResidence : "";
   const authorIsWithdrew =
     "authorIsWithdrew" in chats?.[0] ? chats?.[0].authorIsWithdrew : false;
 
@@ -214,7 +215,7 @@ const MessageSet = ({
               </div>
             ) : (
               <div css={styleName} className="selectable">
-                {authorName}
+                {authorName} {isBot || authorResidence === "" ? `` : `(${authorResidence})`}
                 <BadgeImage badge_live={!!authorBadge && !isBot} />
               </div>
             ))}

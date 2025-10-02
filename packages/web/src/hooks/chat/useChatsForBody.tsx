@@ -1,6 +1,13 @@
 import { ReactNode, useMemo } from "react";
 
-import type { BotChat, Chats, LayoutType, UserChat } from "@/types/chat";
+import type {
+  BotChat,
+  Chat,
+  Chats,
+  CheckoutChat,
+  LayoutType,
+  UserChat,
+} from "@/types/chat";
 
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
@@ -18,14 +25,14 @@ export default (
   _chats: Chats,
   layoutType: LayoutType,
   roomInfo: Room,
-  readAtList: Array<Date>
+  readAtList: Date[]
 ) => {
   const { oid: userOid } = useValueRecoilState("loginInfo") || {};
 
   return useMemo(() => {
-    const list: Array<ReactNode> = [];
+    const list: ReactNode[] = [];
     let momentCache: any = null; // @fixme, @todo
-    let chatsCache: Nullable<Array<UserChat | BotChat>> = null;
+    let chatsCache: (UserChat | BotChat)[] | null = null;
     const dateFormat = "YYYY.MM.DD";
     const minFormat = "YYYY.MM.DD HH:mm";
 
@@ -44,7 +51,7 @@ export default (
       chatsCache = null;
     };
 
-    _chats.forEach((item) => {
+    _chats.forEach((item: Chat | CheckoutChat) => {
       if ("isSpecialChat" in item) {
         popQueue();
         if (item.type === "joint-checkout") {
