@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 
+import { useEvent2025FallQuestComplete } from "@/hooks/event/useEvent2025FallQuestComplete";
 import { useEvent2025SpringQuestComplete } from "@/hooks/event/useEvent2025SpringQuestComplete";
 import {
   useFetchRecoilState,
@@ -13,7 +14,7 @@ import { useAxios } from "@/hooks/useTaxiAPI";
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
 import {
-  ModalEvent2025SpringAbuseWarning,
+  ModalEvent2025FallAbuseWarning,
   ModalSimilarRooms,
 } from "@/components/ModalPopup";
 import { ModalNoticeBadge } from "@/components/ModalPopup";
@@ -77,6 +78,7 @@ const AddRoom = () => {
   const [isOpenModalEventAbuseWarning, setIsOpenModalEventAbuseWarning] =
     useState<boolean>(false);
   //#endregion
+  const event2025FallQuestComplete = useEvent2025FallQuestComplete();
 
   const [taxiFare, setTaxiFare] = useState<number>(0);
 
@@ -162,6 +164,7 @@ const AddRoom = () => {
           if (data.isAgreeOnTermsOfEvent) {
             isAgreeOnTermsOfEvent = data.isAgreeOnTermsOfEvent;
           }
+          event2025FallQuestComplete("allBadgedSettlement");
         },
         onError: () => {},
       });
@@ -317,8 +320,7 @@ const AddRoom = () => {
         </AdaptiveDiv>
       </div>
       {isLogin && loginInfo?.agreeOnTermsOfService && <ModalNoticeBadge />}
-      {/* #region event2025Spring */}
-      <ModalEvent2025SpringAbuseWarning
+      <ModalEvent2025FallAbuseWarning
         isOpen={isOpenModalEventAbuseWarning}
         onChangeIsOpen={async (data) => {
           if (data === true) {
@@ -336,7 +338,7 @@ const AddRoom = () => {
               onSuccess: () => {
                 fetchMyRooms();
                 //#region event2025Spring
-                event2025SpringQuestComplete("firstRoomCreation");
+                // event2025SpringQuestComplete("firstRoomCreation");
                 //#endregion
                 history.push("/myroom");
               },

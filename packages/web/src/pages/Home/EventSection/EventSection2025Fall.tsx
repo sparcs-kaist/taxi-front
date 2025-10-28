@@ -10,8 +10,8 @@ import WhiteContainer from "@/components/WhiteContainer";
 import theme from "@/tools/theme";
 
 import { ReactComponent as BackgroundMain } from "@/static/events/2023fallHomeMain.svg";
-import { ReactComponent as BackgroundMission } from "@/static/events/2025springHomeMission.svg";
-import { ReactComponent as BackgroundStore } from "@/static/events/2025springHomeStore.svg";
+import { ReactComponent as BackgroundStore } from "@/static/events/2023fallHomeStore.svg";
+import { ReactComponent as BackgroundMission } from "@/static/events/2025fallHomeMission.svg";
 
 type ButtonContainerProps = {
   title: string;

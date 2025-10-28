@@ -46,7 +46,7 @@ const Mypage = () => {
   const notificationOptions = useValueRecoilState("notificationOptions");
   const { id: userId } = loginInfo || {};
   const { isAgreeOnTermsOfEvent } =
-    (eventMode && useValueRecoilState("event2025SpringInfo")) || {};
+    (eventMode && useValueRecoilState("event2025FallInfo")) || {};
 
   const [isOpenProfileModify, setIsOpenProfileModify] = useState(false);
   const [isOpenNotification, setIsOpenNotification] = useState(false);

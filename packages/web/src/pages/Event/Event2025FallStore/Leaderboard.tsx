@@ -245,6 +245,38 @@ const Event2025FallStoreLeaderboard = ({
     }
   };
 
+  const decreaseAmountHandler = () => {
+    // 수량이 1보다 작아지지 않도록 방지
+    setPurchaseAmount((prevAmount) => Math.max(1, prevAmount - 1));
+  };
+
+  const increaseAmountHandler = () => {
+    setPurchaseAmount((prevAmount) => prevAmount + 1);
+  };
+  const quantityButtonStyle = {
+    width: "30px",
+    backgroundColor: theme.purple,
+    color: "white",
+    height: "30px",
+    borderRadius: "8px",
+    border: "none",
+    alignSelf: "center",
+    ...theme.font14_bold,
+  };
+
+  const quantityInputStyle = {
+    ...theme.font14,
+    width: "41px",
+    borderRadius: "6px",
+    padding: "6px 0",
+    background: theme.purple_light,
+    boxShadow: theme.shadow_purple_input_inset,
+    border: "none",
+    outline: "none",
+    textAlign: "center" as const,
+    margin: "0 5px",
+  };
+
   const {
     leaderboard,
     totalAmount,
@@ -321,12 +353,12 @@ const Event2025FallStoreLeaderboard = ({
           {
             value: "store",
             label: "응모권 교환소",
-            to: "/event/2025Fall-store",
+            to: "/event/2025fall-store",
           },
           {
             value: "history",
             label: "구매 이력",
-            to: "/event/2025Fall-history",
+            to: "/event/2025fall-history",
           },
         ]}
       />
@@ -406,35 +438,56 @@ const Event2025FallStoreLeaderboard = ({
             </div>
             <div
               css={{
-                ...theme.font14_bold,
-                display: "flex",
-                alignItems: "center",
+                ...theme.font14,
               }}
             >
-              <ShoppingCartIcon
+              <div
                 css={{
-                  fontSize: "20px",
-                  marginRight: "2px",
+                  ...theme.font14_bold,
+                  display: "flex",
+                  alignItems: "center",
                 }}
-              />
-              구매 수량:
-              <input
-                onChange={changePurchaseAmountHandler}
-                type="number"
-                style={{
-                  ...theme.font14,
-                  width: "41px",
-                  borderRadius: "6px",
-                  padding: "6px 0",
-                  background: theme.purple_light,
-                  boxShadow: theme.shadow_purple_input_inset,
-                  border: "none",
-                  outline: "none",
-                  textAlign: "center",
-                  marginLeft: "5px",
+              >
+                <ShoppingCartIcon
+                  css={{
+                    fontSize: "16px",
+                    marginRight: "2px",
+                  }}
+                />
+                구매 수량:
+              </div>
+              <div
+                css={{
+                  marginTop: "5px",
                 }}
-                value={purchaseAmount}
-              />
+              >
+                <button
+                  onClick={decreaseAmountHandler}
+                  style={quantityButtonStyle} // 아래 정의된 버튼 스타일
+                >
+                  -
+                </button>
+                <input
+                  onChange={changePurchaseAmountHandler}
+                  type="number"
+                  css={{
+                    "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button":
+                      {
+                        WebkitAppearance: "none",
+                        margin: 0,
+                      },
+                    MozAppearance: "textfield",
+                  }}
+                  style={quantityInputStyle}
+                  value={purchaseAmount}
+                />
+                <button
+                  onClick={increaseAmountHandler}
+                  style={quantityButtonStyle} // 아래 정의된 버튼 스타일
+                >
+                  +
+                </button>
+              </div>
             </div>
             <Button
               type="purple"

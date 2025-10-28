@@ -88,7 +88,7 @@ const Event = () => {
     case "2025spring-daily-attendance":
       return <Event2025SpringDailyAttendance />;
     default:
-      return <Event2025Spring />;
+      return <Event2025Fall />;
   }
 };
 
