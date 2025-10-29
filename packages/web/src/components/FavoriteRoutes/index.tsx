@@ -64,7 +64,7 @@ const FavoriteRoutes = ({ placeValues, handler }: favoriteRouteProps) => {
         isAxiosCalled.current = false;
       });
     },
-    [fetchFavoriteRoutes, isAxiosCalled]
+    [fetchFavoriteRoutes, isAxiosCalled, axios, setAlert]
   );
 
   const onDeleteFavorite = useCallback(
@@ -82,7 +82,7 @@ const FavoriteRoutes = ({ placeValues, handler }: favoriteRouteProps) => {
         isAxiosCalled.current = false;
       });
     },
-    [fetchFavoriteRoutes, isAxiosCalled]
+    [fetchFavoriteRoutes, isAxiosCalled, axios, setAlert]
   );
 
   return (

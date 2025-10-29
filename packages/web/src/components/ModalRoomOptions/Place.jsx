@@ -169,14 +169,11 @@ const Place = (props) => {
   const [isOpenFavorite, setIsOpenFavorite] = useState(false);
   const [placeValues, setPlaceValues] = useState([null, null]); // FavoriteRoutes에 넘겨주기 위함
   const favoriteRef = useRef(null);
-  
-  console.log(props);
 
   useEffect(() => {
     // FavoriteRoutes에 넘겨주기 위함
     const placeValues = [props.value[0], props.value[1]];
     setPlaceValues(placeValues);
-    console.log(placeValues);
   }, [props.value]);
 
   const taxiLocationsWithName = useMemo(

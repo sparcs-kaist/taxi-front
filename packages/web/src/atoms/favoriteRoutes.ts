@@ -12,8 +12,6 @@ export type FavoriteRouteType = {
     enName: string;
     koName: string;
   };
-  createdAt?: string;
-  __v?: string;
 };
 
 export type FavoriteRoutesType = {
