@@ -251,7 +251,10 @@ const Place = (props) => {
           placeOptions={taxiLocationsWithName}
         />
       </div>
-      <div css={styleFavorite}>
+      <div
+        css={{ ...styleFavorite, ...theme.cursor() }}
+        onClick={() => setIsOpenFavorite(!isOpenFavorite)}
+      >
         <StarIcon style={{ fontSize: "16px", color: theme.purple }} />
         <div css={{ flexShrink: 0, color: theme.purple, ...theme.font14_bold }}>
           즐겨찾는 경로
@@ -260,12 +263,10 @@ const Place = (props) => {
         {isOpenFavorite ? (
           <UnfoldLessRoundedIcon
             style={styleArrow}
-            onClick={() => setIsOpenFavorite(false)}
           />
         ) : (
           <UnfoldMoreRoundedIcon
             style={styleArrow}
-            onClick={() => setIsOpenFavorite(true)}
           />
         )}
       </div>

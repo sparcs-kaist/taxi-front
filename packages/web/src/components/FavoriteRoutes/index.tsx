@@ -15,7 +15,7 @@ import { useSetRecoilState } from "recoil";
 import theme from "@/tools/theme";
 
 type favoriteRouteProps = {
-  placeValues: string[];
+  placeValues: (string | null)[];
   handler: (place: string[]) => void;
 };
 
