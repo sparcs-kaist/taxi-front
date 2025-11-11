@@ -235,8 +235,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         method: "post",
         onError: () => setAlert(t("page_modify.residence_failed")),
       });
-    }
-    else if (residence.length > 0 && residence.length <= 15) {
+    } else if (residence.length > 0 && residence.length <= 15) {
       if (residence !== loginInfo?.residence) {
         isNeedToUpdateLoginInfo = true;
         await axios({
@@ -246,9 +245,8 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
           onError: () => setAlert(t("page_modify.residence_failed")),
         });
       }
-    }
-    else {
-      setAlert(t("page_modify.residence_failed"))
+    } else {
+      setAlert(t("page_modify.residence_failed"));
     }
 
     if (isNeedToUpdateLoginInfo) {
