@@ -1,6 +1,6 @@
 import { RefObject, useEffect, useLayoutEffect, useRef } from "react";
 
-import type { Chat, Chats, CheckoutChat } from "@/types/chat";
+import type { Chat, Chats } from "@/types/chat";
 
 import { useAxios } from "@/hooks/useTaxiAPI";
 
