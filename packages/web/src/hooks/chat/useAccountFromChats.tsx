@@ -1,11 +1,11 @@
 import { useMemo } from "react";
 
-import type { Chat, Chats, CheckoutChat } from "@/types/chat";
+import type { Chats } from "@/types/chat";
 
 export default (chats: Chats): string | null => {
   return useMemo(() => {
     const accountChats = chats
-      .filter((chat: Chat | CheckoutChat) => chat.type === "account")
+      .filter((chat) => chat.type === "account")
       .reverse();
     for (const chat of accountChats) {
       if ("content" in chat && chat.content !== "") {
