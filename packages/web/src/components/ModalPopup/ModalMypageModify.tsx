@@ -76,23 +76,23 @@ const ButtonProfileImage = () => {
           type: image.type,
         },
       });
-      if (data.url && data.fields) {
-        const formData = new FormData();
-        for (const key in data.fields) {
-          formData.append(key, data.fields[key]);
-        }
-        formData.append("file", image);
-        const res = await axiosOri.post(data.url, formData);
-        if (res.status === 204) {
-          const data2 = await axios({
-            url: "/users/editProfileImg/done",
-            method: "get",
-          });
-          if (data2?.result) {
-            fetchLoginInfo();
-            setProfileAlert("SUCCESS");
-            return;
-          }
+      if (data.url) {
+        await axiosOri({
+          url: data.url,
+          method: "put",
+          headers: {
+            "Content-Type": image.type,
+          },
+          data: image,
+        });
+        const data2 = await axios({
+          url: "/users/editProfileImg/done",
+          method: "get",
+        });
+        if (data2?.result) {
+          fetchLoginInfo();
+          setProfileAlert("SUCCESS");
+          return;
         }
       }
       setProfileAlert("FAIL");
