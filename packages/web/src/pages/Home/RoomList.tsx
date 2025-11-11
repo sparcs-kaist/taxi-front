@@ -1,24 +1,28 @@
 import { Link } from "react-router-dom";
 
 import usePageFromSearchParams from "@/hooks/usePageFromSearchParams";
+import useRoomListAnimationState from "@/hooks/useRoomListAnimationState";
 
 import Empty from "@/components/Empty";
 import Pagination, { PAGE_MAX_ITEMS } from "@/components/Pagination";
 import Room from "@/components/Room";
+import AnimatedRoom from "@/components/Room/AnimatedRoom";
 
 type RoomListProps = {
   rooms: Nullable<Array<any>>;
+  initialLoad: boolean;
 };
 
 const RoomList = (props: RoomListProps) => {
   const totalPages = Math.ceil((props.rooms ?? []).length / PAGE_MAX_ITEMS);
   const currentPage = usePageFromSearchParams(totalPages);
+  const { localRooms } = useRoomListAnimationState(props.rooms);
 
   return (
     <>
-      {props.rooms?.length ? (
+      {localRooms?.length ? (
         <>
-          {props.rooms
+          {localRooms
             ?.slice(
               PAGE_MAX_ITEMS * (currentPage - 1),
               PAGE_MAX_ITEMS * currentPage
@@ -30,10 +34,18 @@ const RoomList = (props: RoomListProps) => {
                 replace
                 style={{ textDecoration: "none" }}
               >
-                <Room data={room} marginBottom="15px" />
+                {props.initialLoad ? (
+                  <AnimatedRoom
+                    data={room}
+                    marginBottom="15px"
+                    type={room.type}
+                  />
+                ) : (
+                  <Room data={room} marginBottom="15px" />
+                )}
               </Link>
             ))}
-          {props.rooms.length > PAGE_MAX_ITEMS && (
+          {localRooms.length > PAGE_MAX_ITEMS && (
             <Pagination
               totalPages={totalPages}
               currentPage={currentPage}

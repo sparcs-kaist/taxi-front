@@ -14,9 +14,8 @@ Taxi는 KAIST 구성원들의 택시 동승 인원 모집을 위한 서비스입
 
 ## Prerequisites
 
-- Recommended npm version : 8.5.5 (with node v.16.15.0)
-- Recommended mognoDB version : 5.0.8
-- [Issue with node version](https://github.com/sparcs-kaist/taxi-front/issues/76)
+- Recommended pnpm version : 10.13.1 (with node v.22.17.1)
+- Recommended mongoDB version : 5.0.8
 
 ## Project Setup
 
@@ -38,7 +37,6 @@ $ pnpm install
 See [notion page](https://www.notion.so/sparcs/Environment-Variables-1b404bd385fa495bac6d5517b57d72bf).
 Refer to [.env.example](.env.example) and write your own `.env`.
 
-
 ## Development
 
 Run scoped scripts
@@ -48,6 +46,7 @@ pnpm <scope> <script>
 ```
 
 Valid scopes are:
+
 - `web`: Corresponds to `@taxi/web`
 - ~~`app`: (intended) Corresponds to `@taxi/app`~~
 - ~~`core`: (intended) Corresponds to `@taxi/core`~~
@@ -55,11 +54,13 @@ Valid scopes are:
 ### Examples
 
 Run `web` development server
+
 ```bash
 pnpm web start
 ```
 
 Install new dependency to `app`
+
 ```bash
 pnpm app install <package_name>
 ```
@@ -83,6 +84,6 @@ See [contributors](https://github.com/sparcs-kaist/taxi-front/graphs/contributor
 - frontend : https://github.com/sparcs-kaist/taxi-front
 - backend : https://github.com/sparcs-kaist/taxi-back
 - app : https://github.com/sparcs-kaist/taxi-app
-- docker : https://github.com/sparcs-kaist/taxi-docker
+- infra : https://github.com/sparcs-kaist/taxi-infra
+- devcenter : https://github.com/sparcs-kaist/taxi-dc
 - figma : https://www.figma.com/file/li34hP1oStJAzLNjcG5KjN/SPARCS-Taxi?node-id=0%3A1
-- taxiSampleGenerator : https://github.com/sparcs-kaist/taxiSampleGenerator

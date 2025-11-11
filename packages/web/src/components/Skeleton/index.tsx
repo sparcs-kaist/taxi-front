@@ -1,7 +1,7 @@
-import { ReactNode, useMemo } from "react";
+import { ReactNode, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-import { useEvent2024SpringEffect } from "@/hooks/event/useEvent2024SpringEffect";
+import { useEvent2025FallEffect } from "@/hooks/event/useEvent2025FallEffect";
 import useCSSVariablesEffect from "@/hooks/skeleton/useCSSVariablesEffect";
 import useChannelTalkEffect from "@/hooks/skeleton/useChannelTalkEffect";
 import useFirebaseMessagingEffect from "@/hooks/skeleton/useFirebaseMessagingEffect";
@@ -17,7 +17,10 @@ import {
 
 import HeaderBar from "@/components/Header/HeaderBar";
 import Loading from "@/components/Loading";
-import { ModalTerms } from "@/components/ModalPopup";
+import {
+  ModalEvent2025SpringDailyAttendance,
+  ModalTerms,
+} from "@/components/ModalPopup";
 import Error from "@/pages/Error";
 
 import Navigation from "./Navigation";
@@ -64,9 +67,13 @@ const Skeleton = ({ children }: SkeletonProps) => {
     [pathname]
   );
 
-  //#region event2023Fall
-  useEvent2024SpringEffect();
+  const [dailyAttendanceOpened, setDailyAttendanceOpened] =
+    useState<boolean>(false);
+
+  //#region event2025Spring
+  // useEvent2025SpringEffect();
   //#endregion
+  useEvent2025FallEffect();
   useSyncRecoilStateEffect(); // loginIngo, taxiLocations, myRooms, notificationOptions 초기화 및 동기화
   useI18nextEffect();
   useScrollRestorationEffect();
@@ -92,6 +99,11 @@ const Skeleton = ({ children }: SkeletonProps) => {
           )}
           {children}
           <ModalTerms isOpen={!!userId && !isAgreeOnTermsOfService} />
+          <ModalEvent2025SpringDailyAttendance
+            isOpen={dailyAttendanceOpened}
+            onChangeIsOpen={setDailyAttendanceOpened}
+          />
+
           {isDisplayNavigation && (
             <div
               css={{

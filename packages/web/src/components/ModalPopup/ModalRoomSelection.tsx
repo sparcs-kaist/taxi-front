@@ -74,7 +74,7 @@ const ModalRoomSelection = ({
 
   const styleTitle = {
     ...theme.font18,
-    padding: "10px 8px 12px",
+    padding: "10px 32px 12px 8px",
   };
 
   return (

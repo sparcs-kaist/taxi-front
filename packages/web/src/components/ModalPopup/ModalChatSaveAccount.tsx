@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-import { useEvent2024SpringQuestComplete } from "@/hooks/event/useEvent2024SpringQuestComplete";
+import { useEvent2025SpringQuestComplete } from "@/hooks/event/useEvent2025SpringQuestComplete";
 import {
   useFetchRecoilState,
   useValueRecoilState,
@@ -32,8 +32,8 @@ const ModalChatSaveAcount = ({
   const { account: accountOrigin } = useValueRecoilState("loginInfo") || {};
   const [account, setAccount] = useState<string>(accountDefault || "");
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
-  //#region event2024Spring
-  const event2024SpringQuestComplete = useEvent2024SpringQuestComplete();
+  //#region event2025Spring
+  const event2025SpringQuestComplete = useEvent2025SpringQuestComplete();
   //#endregion
 
   useEffect(() => setAccount(accountDefault || ""), [accountDefault]);
@@ -45,14 +45,14 @@ const ModalChatSaveAcount = ({
       method: "post",
       data: { account },
       onSuccess: () => {
-        //#region event2024Spring
-        event2024SpringQuestComplete("accountChanging");
+        //#region event2025Spring
+        event2025SpringQuestComplete("accountChanging");
         //#endregion
         fetchLoginInfo();
       },
       onError: () => setAlert("계좌번호 저장을 실패하였습니다."),
     });
-  }, [account, event2024SpringQuestComplete]);
+  }, [account]);
 
   const styleTitle = {
     ...theme.font18,

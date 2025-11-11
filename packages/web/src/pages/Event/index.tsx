@@ -8,12 +8,33 @@ import Event2023FallMissions from "./Event2023FallMissions";
 import Event2023FallStore from "./Event2023FallStore";
 import Event2023Spring from "./Event2023Spring";
 import Event2023SpringGuide from "./Event2023SpringGuide";
+import Event2024Fall from "./Event2024Fall";
+import Event2024FallDailyAttendance from "./Event2024FallDailyAttendance";
+import Event2024FallHistory from "./Event2024FallHistory";
+import Event2024FallMissions from "./Event2024FallMissions";
+import Event2024FallStore from "./Event2024FallStore";
+import Item from "./Event2024FallStore/Item";
 import Event2024Spring from "./Event2024Spring";
 import Event2024SpringLeaderboard from "./Event2024SpringLeaderboard";
 import Event2024SpringMissions from "./Event2024SpringMissions";
+import Event2025Fall from "./Event2025Fall";
+import Event2025FallHistory from "./Event2025FallHistory";
+import Event2025FallMissions from "./Event2025FallMissions";
+import Event2025FallStore from "./Event2025FallStore";
+import Event2025Spring from "./Event2025Spring";
+import Event2025SpringDailyAttendance from "./Event2025SpringDailyAttendance";
+import Event2025SpringHistory from "./Event2025SpringHistory";
+import Event2025SpringMissions from "./Event2025SpringMissions";
+import Event2025SpringStore from "./Event2025SpringStore";
 
 const Event = () => {
-  const { eventName } = useParams() as { eventName: string };
+  const { eventName, itemId } = useParams() as {
+    eventName: string;
+    itemId: string;
+  };
+  if (eventName === "2024fall-store" && itemId) {
+    return <Item itemId={itemId} />;
+  }
 
   switch (eventName) {
     case "2022beta":
@@ -38,8 +59,36 @@ const Event = () => {
       return <Event2024SpringMissions />;
     case "2024spring-leaderboard":
       return <Event2024SpringLeaderboard />;
+    case "2024fall":
+      return <Event2024Fall />;
+    case "2024fall-store":
+      return <Event2024FallStore />;
+    case "2024fall-history":
+      return <Event2024FallHistory />;
+    case "2024fall-missions":
+      return <Event2024FallMissions />;
+    case "2024fall-daily-attendance":
+      return <Event2024FallDailyAttendance />;
+    case "2025fall":
+      return <Event2025Fall />;
+    case "2025fall-store":
+      return <Event2025FallStore itemId={itemId} />;
+    case "2025fall-history":
+      return <Event2025FallHistory />;
+    case "2025fall-missions":
+      return <Event2025FallMissions />;
+    case "2025spring":
+      return <Event2025Spring />;
+    case "2025spring-store":
+      return <Event2025SpringStore itemId={itemId} />;
+    case "2025spring-history":
+      return <Event2025SpringHistory />;
+    case "2025spring-missions":
+      return <Event2025SpringMissions />;
+    case "2025spring-daily-attendance":
+      return <Event2025SpringDailyAttendance />;
     default:
-      return <Event2024Spring />;
+      return <Event2025Fall />;
   }
 };
 

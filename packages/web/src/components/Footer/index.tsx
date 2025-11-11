@@ -9,7 +9,14 @@ import { ReactComponent as SparcsLogo } from "@/static/assets/sparcsLogos/Sparcs
 import { ReactComponent as SparcsLogoWhite } from "@/static/events/2024SparcsLogoWithTextWhite.svg";
 
 type FooterProps = {
-  type?: "only-logo" | "full" | "event-2023fall" | "event-2024spring";
+  type?:
+    | "only-logo"
+    | "full"
+    | "event-2023fall"
+    | "event-2024spring"
+    | "event-2024fall"
+    | "event-2025spring"
+    | "event-2025fall";
   children?: ReactNode;
 };
 
@@ -103,6 +110,87 @@ const Footer = ({ type = "full", children }: FooterProps) => {
               <SparcsLogoWhite style={{ height: "27px", opacity: 0.632 }} />
             </a>
           </div>
+        </>
+      )}
+      {type === "event-2024fall" && (
+        <>
+          <ModalPrivacyPolicy
+            isOpen={isOpenPrivacyPolicy}
+            onChangeIsOpen={setIsOpenPrivacyPolicy}
+          />
+          <ModalCredit
+            defaultSelectedCatagory="2024FallEvent"
+            isOpen={isOpenCredit}
+            onChangeIsOpen={setIsOpenCredit}
+          />
+          <a className="popup-channeltalk">
+            <ButtonAboveFooter text="채널톡 문의하기" />
+          </a>
+          <ButtonAboveFooter
+            text="개인정보 처리방침"
+            onClick={onClickPrivacyPolicy}
+          />
+          <Link to="/event/2023spring-guide" css={{ textDecoration: "none" }}>
+            <ButtonAboveFooter text="택시 살펴보기" />
+          </Link>
+          <ButtonAboveFooter
+            text="추석 이벤트를 만든 사람들"
+            onClick={onClickCredit}
+          />
+        </>
+      )}
+      {type === "event-2025spring" && (
+        <>
+          <ModalPrivacyPolicy
+            isOpen={isOpenPrivacyPolicy}
+            onChangeIsOpen={setIsOpenPrivacyPolicy}
+          />
+          <ModalCredit
+            defaultSelectedCatagory="2025SpringEvent"
+            isOpen={isOpenCredit}
+            onChangeIsOpen={setIsOpenCredit}
+          />
+          <a className="popup-channeltalk">
+            <ButtonAboveFooter text="채널톡 문의하기" />
+          </a>
+          <ButtonAboveFooter
+            text="개인정보 처리방침"
+            onClick={onClickPrivacyPolicy}
+          />
+          <Link to="/event/2023spring-guide" css={{ textDecoration: "none" }}>
+            <ButtonAboveFooter text="택시 살펴보기" />
+          </Link>
+          <ButtonAboveFooter
+            text="새학기 이벤트를 만든 사람들"
+            onClick={onClickCredit}
+          />
+        </>
+      )}
+      {type === "event-2025fall" && (
+        <>
+          <ModalPrivacyPolicy
+            isOpen={isOpenPrivacyPolicy}
+            onChangeIsOpen={setIsOpenPrivacyPolicy}
+          />
+          <ModalCredit
+            defaultSelectedCatagory="2025FallEvent"
+            isOpen={isOpenCredit}
+            onChangeIsOpen={setIsOpenCredit}
+          />
+          <a className="popup-channeltalk">
+            <ButtonAboveFooter text="채널톡 문의하기" />
+          </a>
+          <ButtonAboveFooter
+            text="개인정보 처리방침"
+            onClick={onClickPrivacyPolicy}
+          />
+          <Link to="/event/2023spring-guide" css={{ textDecoration: "none" }}>
+            <ButtonAboveFooter text="택시 살펴보기" />
+          </Link>
+          <ButtonAboveFooter
+            text="뱃지 이벤트를 만든 사람들"
+            onClick={onClickCredit}
+          />
         </>
       )}
       {type !== "event-2024spring" && (

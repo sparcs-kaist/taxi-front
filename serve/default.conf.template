@@ -1,0 +1,48 @@
+server {
+    listen 80;
+    listen [::]:80;
+
+    location ~ ^/invite/(?<room_id>[^/]+) {
+        root  /app/serve;
+        try_files /invite.html =404;
+
+        sub_filter '%ROOM_ID%' $room_id;
+        sub_filter '%FRONT_URL%' '${REACT_APP_FRONT_URL}';
+        sub_filter '%OG_URL%' '${REACT_APP_OG_URL}';
+        sub_filter_once off;
+    }
+
+    location ~ ^/event/2025fall-invite/(?<inviter_id>[^/]+) {
+        root  /app/serve;
+        try_files /invite-event.html =404;
+
+        sub_filter '%INVITER_ID%' $inviter_id;
+        sub_filter '%FRONT_URL%' '${REACT_APP_FRONT_URL}';
+        sub_filter '%OG_URL%' '${REACT_APP_OG_URL}';
+        sub_filter_once off;
+    }
+
+    location /notion/ {
+        proxy_pass https://www.notion.so/api/v3/;
+        proxy_set_header Host www.notion.so;
+        proxy_ssl_server_name on;
+        proxy_ssl_name www.notion.so;
+
+        add_header 'Access-Control-Allow-Origin' '*';
+        add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+        add_header 'Access-Control-Allow-Headers' '*';
+
+        if ($request_method = 'OPTIONS') {
+            return 204;
+        }
+    }
+
+    location / {
+        root   /app/build;
+        index  index.html index.htm;
+        try_files $uri $uri/ /index.html;
+
+        sub_filter '%FRONT_URL%' '${REACT_APP_FRONT_URL}';
+        sub_filter_once off;
+    }
+}

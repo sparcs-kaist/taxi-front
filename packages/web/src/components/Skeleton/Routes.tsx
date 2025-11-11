@@ -23,17 +23,12 @@ const routeProps = [
     exact: true,
   },
   {
-    path: ["/home", "/home/:roomId", "/home/startEvent/:inviterId"],
+    path: ["/home", "/home/:roomId", "/home/eventJoin/:inviterId"],
     component: lazy(() => import("@/pages/Home")),
     exact: true,
   },
   {
-    path: "/event/2024spring-invite/:eventStatusId",
-    component: lazy(() => import("@/pages/Home")),
-    exact: true,
-  },
-  {
-    path: "/event/:eventName",
+    path: ["/event/:eventName", "/event/:eventName/item/:itemId"],
     component: lazy(() => import("@/pages/Event")),
     exact: true,
   },
@@ -55,6 +50,11 @@ const routeProps = [
   {
     path: "/mypage",
     component: lazy(() => import("@/pages/Mypage")),
+    exact: true,
+  },
+  {
+    path: "/notice",
+    component: lazy(() => import("@/pages/Notice")),
     exact: true,
   },
   {

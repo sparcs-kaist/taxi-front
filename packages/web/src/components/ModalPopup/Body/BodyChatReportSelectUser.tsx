@@ -1,7 +1,8 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 
 import type { Report } from "@/types/report";
 
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import useIsTimeOver from "@/hooks/useIsTimeOver";
 
 import Button from "@/components/Button";
@@ -12,20 +13,24 @@ import { dayServerToClient } from "@/tools/day";
 import theme from "@/tools/theme";
 
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
+import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 
 type BodyChatReportSelectUserProps = {
   roomInfo: Room;
+  reportedId: Nullable<Report["reportedId"]>;
   setReportedId: Dispatch<SetStateAction<Nullable<Report["reportedId"]>>>;
+  setIsSelected: Dispatch<SetStateAction<boolean>>;
   onChangeIsOpen?: (isOpen: boolean) => void;
 };
 
 const BodyChatReportSelectUser = ({
   roomInfo,
+  reportedId,
   setReportedId,
+  setIsSelected,
   onChangeIsOpen,
 }: BodyChatReportSelectUserProps) => {
-  const [selectedUser, setSelectedUser] =
-    useState<Nullable<Report["reportedId"]>>(null);
+  const { oid: userOid } = useValueRecoilState("loginInfo") || {};
   const isDeparted = useIsTimeOver(dayServerToClient(roomInfo.time)); // 방 출발 여부
 
   const styleText = {
@@ -72,34 +77,52 @@ const BodyChatReportSelectUser = ({
   return (
     <>
       <div css={styleText}>
-        택시 동승 후 송금을 하지 않았거나, 부적절한 언어 또는 상업적 광고의
-        채팅, 기타 규정 위반 등의 행위를 목격하셨다면 해당 사용자를
-        신고해주세요. SPARCS Taxi팀은 안전하고 청결한 택시 동승을 위해 최선을
-        다할 것 입니다.
+        택시 동승 후 송금을 하지 않았거나, 부적절한 언어 또는 상업적 광고, 기타
+        규정 위반 등의 행위를 목격하셨다면 해당 사용자를 신고해주세요. SPARCS
+        Taxi팀은 안전하고 쾌적한 택시 동승을 위해 최선을 다할 것 입니다.
       </div>
-      <div css={styleText}>신고할 사용자를 선택해주세요.</div>
+      <div css={styleText}>
+        신고할 사용자를 선택해주세요. 단, 탈퇴한 사용자에 대한 신고는 채널톡
+        문의하기를 이용해 주세요.
+      </div>
       <DottedLine />
       <div css={styleUsers}>
-        {roomInfo.part.map((user) => (
-          <div
-            key={user._id}
-            css={styleUser}
-            onClick={() => setSelectedUser(user._id)}
-          >
-            <div
-              css={{
-                ...styleCheckBox,
-                background:
-                  selectedUser === user._id ? theme.purple : theme.purple_light,
-              }}
-            >
-              {selectedUser === user._id && (
-                <CheckRoundedIcon style={styleCheckBoxIcon} />
-              )}
-            </div>
-            <User value={user} isDeparted={isDeparted} />
-          </div>
-        ))}
+        {roomInfo.part.map(
+          (user) =>
+            user._id !== userOid && (
+              <div
+                key={user._id}
+                css={styleUser}
+                onClick={
+                  user.withdraw ? () => {} : () => setReportedId(user._id)
+                }
+              >
+                <div
+                  css={{
+                    ...styleCheckBox,
+                    background:
+                      reportedId === user._id
+                        ? theme.purple
+                        : theme.purple_light,
+                  }}
+                >
+                  {user.withdraw ? (
+                    <ClearRoundedIcon
+                      style={{
+                        ...styleCheckBoxIcon,
+                        fill: theme.gray_line,
+                      }}
+                    />
+                  ) : (
+                    reportedId === user._id && (
+                      <CheckRoundedIcon style={styleCheckBoxIcon} />
+                    )
+                  )}
+                </div>
+                <User value={user} isDeparted={isDeparted} />
+              </div>
+            )
+        )}
       </div>
       <div css={styleButtons}>
         <Button
@@ -122,8 +145,8 @@ const BodyChatReportSelectUser = ({
             borderRadius: "8px",
             ...theme.font14_bold,
           }}
-          onClick={() => setReportedId(selectedUser)}
-          disabled={!selectedUser}
+          onClick={() => setIsSelected(true)}
+          disabled={!reportedId}
         >
           다음
         </Button>

@@ -1,6 +1,7 @@
 import axiosOri from "axios";
 import { MutableRefObject, useCallback } from "react";
 
+import useReadChat from "@/hooks/chat/useReadChat";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
 import alertAtom from "@/atoms/alert";
@@ -14,6 +15,9 @@ export default (
 ) => {
   const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
+
+  const handleRead = useReadChat(roomId);
+
   return useCallback(
     async (
       type: "text" | "account" | "image",
@@ -26,7 +30,12 @@ export default (
         if (["text", "account"].includes(type)) {
           // 메시지가 정규식 검사에서 통과하지 못했다면 전송을 막습니다.
           if (!text) throw new Error();
-          if (type === "text" && !regExpTest.chatMsg(text)) throw new Error();
+          if (
+            type === "text" &&
+            !regExpTest.chatMsg(text) &&
+            !regExpTest.chatMsgLength(text)
+          )
+            throw new Error();
           if (type === "account" && !regExpTest.account(text))
             throw new Error();
 
@@ -36,7 +45,11 @@ export default (
             method: "post",
             data: { roomId, type, content: text },
           });
-          if (result) return true;
+          if (result) {
+            // 채팅 읽은 시간 업데이트
+            handleRead();
+            return true;
+          }
         }
 
         if (type === "image") {
@@ -62,7 +75,11 @@ export default (
             method: "post",
             data: { id },
           });
-          if (result) return true;
+          if (result) {
+            // 채팅 읽은 시간 업데이트
+            handleRead();
+            return true;
+          }
         }
       } catch (e) {
         console.error(e);

@@ -25,6 +25,9 @@ declare global {
     nickname: string;
     profileImageUrl: string;
     isSettlement?: "not-departed" | "paid" | "send-required" | "sent";
+    readAt: Date;
+    withdraw: boolean;
+    badge: boolean;
   };
   type Room = {
     _id: string;
@@ -52,5 +55,6 @@ declare global {
     };
     env: Env;
     Kakao: any;
+    dataLayer: any[];
   }
 }

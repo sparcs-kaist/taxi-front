@@ -11,7 +11,6 @@ import {
 
 import type { Report } from "@/types/report";
 
-import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import useIsTimeOver from "@/hooks/useIsTimeOver";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
@@ -32,7 +31,7 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 type BodyChatReportSelectTypeProps = {
   roomInfo: Room;
   reportedId: Report["reportedId"];
-  clearReportedId: () => void;
+  setIsSelected: Dispatch<SetStateAction<boolean>>;
   setIsSubmitted: Dispatch<SetStateAction<boolean>>;
 };
 
@@ -45,12 +44,11 @@ const selectOptions = [
 const BodyChatReportSelectType = ({
   roomInfo,
   reportedId,
-  clearReportedId,
+  setIsSelected,
   setIsSubmitted,
 }: BodyChatReportSelectTypeProps) => {
   const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
-  const { oid: userOid } = useValueRecoilState("loginInfo") || {};
   const wrapRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [height, setHeight] = useState<CSSProperties["height"]>("28px");
@@ -76,10 +74,8 @@ const BodyChatReportSelectType = ({
         ? "기타 사유를 입력해주세요."
         : type === "etc-reason" && !regExpTest.reportMsg(etcDetail)
         ? "기타 사유는 1500자 까지 입력이 허용됩니다."
-        : userOid === reportedUser?._id
-        ? "나 자신은 신고할 수 없습니다."
         : null,
-    [type, etcDetail, isDeparted, userOid, reportedUser]
+    [type, etcDetail, isDeparted, reportedUser]
   );
 
   const resizeEvent = useCallback(() => {
@@ -183,41 +179,51 @@ const BodyChatReportSelectType = ({
           <User value={reportedUser} isDeparted={isDeparted} />
         </div>
       )}
-      <div css={styleText}>
-        를 어떤 사유로 신고할까요? 만약 선택지에 원하시는 사유가 없다면
-        &quot;기타 사유&quot; 선택 후 자세히 설명해주세요.
-      </div>
-      <DottedLine />
-      <div css={styleSelectWrap}>
-        사유
-        <Select
-          options={selectOptions}
-          value={type}
-          onChangeValue={setType as (v: string) => void}
-          css={styleSelect}
-        />
-      </div>
-      {type === "etc-reason" && (
-        <div ref={wrapRef} css={styleTextareaWrap}>
-          <EditRoundedIcon style={styleIcon} />
-          <textarea
-            ref={textareaRef}
-            value={etcDetail}
-            onChange={(e) => setEtcDetail(e.target.value)}
-            css={styleTextarea}
-          />
-        </div>
-      )}
-      {inValidMessage && (
-        <div css={{ ...styleText, color: theme.red_text }}>
-          {inValidMessage}
-        </div>
-      )}
-      {!inValidMessage && type === "no-settlement" && (
+      {!reportedUser?.withdraw ? (
         <div css={styleText}>
-          신고하기 시 해당 사용자게에게 방 정보와 함께 송금을 재촉하는 메일이
-          자동으로 보내집니다.
+          를 어떤 사유로 신고할까요? 만약 선택지에 원하시는 사유가 없다면
+          &quot;기타 사유&quot; 선택 후 자세히 설명해주세요.
         </div>
+      ) : (
+        <div css={styleText}>
+          탈퇴한 사용자에 대한 신고는 채널톡 문의하기를 이용해 주세요.
+        </div>
+      )}
+      {!reportedUser?.withdraw && (
+        <>
+          <DottedLine />
+          <div css={styleSelectWrap}>
+            사유
+            <Select
+              options={selectOptions}
+              value={type}
+              onChangeValue={setType as (v: string) => void}
+              css={styleSelect}
+            />
+          </div>
+          {type === "etc-reason" && (
+            <div ref={wrapRef} css={styleTextareaWrap}>
+              <EditRoundedIcon style={styleIcon} />
+              <textarea
+                ref={textareaRef}
+                value={etcDetail}
+                onChange={(e) => setEtcDetail(e.target.value)}
+                css={styleTextarea}
+              />
+            </div>
+          )}
+          {inValidMessage && (
+            <div css={{ ...styleText, color: theme.red_text }}>
+              {inValidMessage}
+            </div>
+          )}
+          {!inValidMessage && type === "no-settlement" && (
+            <div css={styleText}>
+              신고하기 시 해당 사용자에게 방 정보와 함께 송금을 재촉하는 메일이
+              자동으로 보내집니다.
+            </div>
+          )}
+        </>
       )}
       <div css={styleButtons}>
         <Button
@@ -228,7 +234,7 @@ const BodyChatReportSelectType = ({
             borderRadius: "8px",
             ...theme.font14,
           }}
-          onClick={clearReportedId}
+          onClick={() => setIsSelected(false)}
         >
           이전
         </Button>

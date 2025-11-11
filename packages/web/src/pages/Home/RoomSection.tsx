@@ -29,6 +29,7 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
   const [, allRooms] = useQuery.get("/rooms/search?isHome=true", {}, [
     allRoomsToken,
   ]);
+  const [initialLoad, setInitialLoad] = useState(true);
 
   const [selectedDate, setSelectedDate] = useState<[number, number, number]>([
     today.year(),
@@ -47,9 +48,9 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
 
   const [roomInfo, setRoomInfo] = useState<Nullable<any>>(null);
 
-  // 5분 간격으로 allRoms(요일 별 출발하는 방)을 갱신합니다.
+  // 10초 간격으로 allRoms(요일 별 출발하는 방)을 갱신합니다.
   useEffect(() => {
-    const interval = setInterval(fetchAllRooms, 1000 * 60 * 5);
+    const interval = setInterval(fetchAllRooms, 1000 * 10);
     return () => clearInterval(interval);
   }, []);
 
@@ -87,9 +88,14 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
         onClick={([year, month, date]) => {
           history.replace("/home");
           setSelectedDate([year, month, date]);
+          setInitialLoad(false);
+          if (date === today.date()) {
+            // today.date()는 오늘 날짜 - 1, 전체 선택 시 date는 어제 날짜
+            setInitialLoad(true);
+          }
         }}
       />
-      <RoomList rooms={rooms} />
+      <RoomList rooms={rooms} initialLoad={initialLoad} />
     </AdaptiveDiv>
   );
 };

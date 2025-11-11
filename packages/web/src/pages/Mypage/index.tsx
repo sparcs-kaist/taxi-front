@@ -1,27 +1,39 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link, useHistory, useLocation } from "react-router-dom";
 
+import channelService from "@/hooks/skeleton/useChannelTalkEffect/channelService";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import { useIsLogin } from "@/hooks/useFetchRecoilState";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Footer from "@/components/Footer";
 import LinkLogout from "@/components/Link/LinkLogout";
 import {
+  ModalAccountWithdrawProcess,
   ModalCredit,
   ModalEvent2023FallJoin,
+  ModalEvent2024FallJoin,
   ModalEvent2024SpringJoin,
+  ModalEvent2025FallJoin,
+  ModalEvent2025SpringJoin,
   ModalMypageModify,
+  ModalNoticeBadge,
   ModalNotification,
   ModalPrivacyPolicy,
   ModalReport,
   ModalTerms,
 } from "@/components/ModalPopup";
 import Title from "@/components/Title";
+import BadgeImage from "@/components/User/BadgeImage";
 import ProfileImage from "@/components/User/ProfileImage";
 import WhiteContainer from "@/components/WhiteContainer";
 import WhiteContainerSuggestLogin from "@/components/WhiteContainer/WhiteContainerSuggestLogin";
 
 import Menu from "./Menu";
+
+import alertAtom from "@/atoms/alert";
+import { useSetRecoilState } from "recoil";
 
 import { eventMode, isDev } from "@/tools/loadenv";
 import theme from "@/tools/theme";
@@ -29,11 +41,12 @@ import { isNotificationOn } from "@/tools/trans";
 
 const Mypage = () => {
   const { t, i18n } = useTranslation("mypage");
+  const setAlert = useSetRecoilState(alertAtom);
   const loginInfo = useValueRecoilState("loginInfo");
   const notificationOptions = useValueRecoilState("notificationOptions");
   const { id: userId } = loginInfo || {};
   const { isAgreeOnTermsOfEvent } =
-    (eventMode && useValueRecoilState("event2024SpringInfo")) || {};
+    (eventMode && useValueRecoilState("event2025FallInfo")) || {};
 
   const [isOpenProfileModify, setIsOpenProfileModify] = useState(false);
   const [isOpenNotification, setIsOpenNotification] = useState(false);
@@ -42,6 +55,31 @@ const Mypage = () => {
   const [isOpenPrivacyPolicy, setIsOpenPrivacyPolicy] = useState(false);
   const [isOpenEventPolicy, setIsOpenEventPolicy] = useState(false);
   const [isOpenMembers, setOpenIsMembers] = useState(false);
+  const [isOpenAccountCancelProcess, setIsOpenAccountCancelProcess] =
+    useState(false);
+  const isLogin = useIsLogin();
+  const { search } = useLocation();
+  const history = useHistory();
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(search);
+    const channeltalk = searchParams.get("channeltalk");
+    if (channeltalk === "true") {
+      channelService.showMessenger();
+    }
+    const withdraw = searchParams.get("withdraw");
+    if (withdraw === "true") {
+      setAlert("탈퇴가 완료되었습니다.");
+      searchParams.delete("withdraw");
+      history.replace({ search: searchParams.toString() });
+    }
+    const accountCancelProcess = new URLSearchParams(search).get(
+      "accountCancelProcess"
+    );
+    if (accountCancelProcess === "true") {
+      setIsOpenAccountCancelProcess(true);
+    }
+  }, [search]);
 
   const onClickProfileModify = useCallback(
     () => setIsOpenProfileModify(true),
@@ -63,6 +101,10 @@ const Mypage = () => {
   );
   const onClickEventPolicy = useCallback(() => setIsOpenEventPolicy(true), []);
   const onClickMembers = useCallback(() => setOpenIsMembers(true), []);
+  const onClickWithdrawAccount = useCallback(
+    () => setIsOpenAccountCancelProcess(true),
+    []
+  );
 
   const styleProfImg = {
     width: "50px",
@@ -108,6 +150,7 @@ const Mypage = () => {
               </div>
               <div css={theme.font16_bold} className="selectable">
                 {loginInfo?.name}
+                {loginInfo?.phoneNumber !== undefined && <BadgeImage />}
               </div>
             </div>
             <div css={infoTitle}>
@@ -131,6 +174,10 @@ const Mypage = () => {
             <div css={infoType} className="selectable">
               {t("account")}
               <div css={infoContent}>{loginInfo?.account}</div>
+            </div>
+            <div css={infoType} className="selectable">
+              {t("phone_number")}
+              <div css={infoContent}>{loginInfo?.phoneNumber}</div>
             </div>
           </WhiteContainer>
           <WhiteContainer>
@@ -170,6 +217,9 @@ const Mypage = () => {
               {t("report_record")}
             </Menu>
           )}
+          <Link to={"/notice"} style={{ textDecoration: "none" }}>
+            <Menu icon="notice">{t("notice")}</Menu>
+          </Link>
           <a className="popup-channeltalk">
             <Menu icon="ask">{t("contact")}</Menu>
           </a>
@@ -189,6 +239,18 @@ const Mypage = () => {
               <Menu icon="policy" onClick={onClickEventPolicy}>
                 새내기 택시대제전 참여 약관
               </Menu>
+            ) : eventMode === "2024fall" ? (
+              <Menu icon="policy" onClick={onClickEventPolicy}>
+                추석 이벤트 참여 약관
+              </Menu>
+            ) : eventMode === "2025spring" ? (
+              <Menu icon="policy" onClick={onClickEventPolicy}>
+                새학기 이벤트 참여 약관
+              </Menu>
+            ) : eventMode === "2025fall" ? (
+              <Menu icon="policy" onClick={onClickEventPolicy}>
+                뱃지 이벤트 참여 약관
+              </Menu>
             ) : null)}
           <Menu icon="credit" onClick={onClickMembers}>
             {t("credit")}
@@ -200,6 +262,17 @@ const Mypage = () => {
           )}
         </div>
       </WhiteContainer>
+      {userId && (
+        <WhiteContainer>
+          <div css={{ display: "grid", rowGap: "16px" }}>
+            <div css={{ color: theme.red_text }}>
+              <Menu icon="withdraw_account" onClick={onClickWithdrawAccount}>
+                {t("withdraw_account")}
+              </Menu>
+            </div>
+          </div>
+        </WhiteContainer>
+      )}
       <Footer type="only-logo" />
       <ModalPrivacyPolicy
         isOpen={isOpenPrivacyPolicy}
@@ -218,8 +291,28 @@ const Mypage = () => {
             isOpen={isOpenEventPolicy}
             onChangeIsOpen={setIsOpenEventPolicy}
           />
+        ) : eventMode === "2024fall" ? (
+          <ModalEvent2024FallJoin
+            isOpen={isOpenEventPolicy}
+            onChangeIsOpen={setIsOpenEventPolicy}
+          />
+        ) : eventMode === "2025spring" ? (
+          <ModalEvent2025SpringJoin
+            isOpen={isOpenEventPolicy}
+            onChangeIsOpen={setIsOpenEventPolicy}
+          />
+        ) : eventMode === "2025fall" ? (
+          <ModalEvent2025FallJoin
+            isOpen={isOpenEventPolicy}
+            onChangeIsOpen={setIsOpenEventPolicy}
+          />
         ) : null)}
       <ModalCredit isOpen={isOpenMembers} onChangeIsOpen={setOpenIsMembers} />
+      <ModalAccountWithdrawProcess
+        isOpen={isOpenAccountCancelProcess}
+        onChangeIsOpen={setIsOpenAccountCancelProcess}
+      />
+      {isLogin && loginInfo?.agreeOnTermsOfService && <ModalNoticeBadge />}
     </AdaptiveDiv>
   );
 };

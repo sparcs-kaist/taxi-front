@@ -9,6 +9,7 @@
   "beta_service_guide": "Beta service guide",
   "translation": "English → 한국어",
   "notification": "Notification",
+  "notice": "Notice",
   "account": "Account",
   "report_record": "Report Details",
   "contact": "Contact Us",
@@ -16,6 +17,7 @@
   "terms_privacy": "Collection and Use of Personal Information",
   "privacy_policy": "Privacy Policy",
   "credit": "Credit",
+  "withdraw_account": "Cancel Account",
   "logout": "Logout",
   "page_modify": {
     "cancel": "Cancel",
@@ -25,10 +27,14 @@
     "profile_image_failed": "Failed to change",
     "profile_image_loading": "Chaning...",
     "nickname_failed": "Failed to change nickname",
-    "account_failed": "Failed to change account"
+    "account_failed": "Failed to change account",
+    "phone_number_failed": "Failed to change phone number"
   },
   "page_credit": {
     "category_all": "All",
+    "category_2025fall_event": "2025 Fall Badge Event",
+    "category_2025spring_event": "2025 Spring Event",
+    "category_2024fall_event": "2024 Fall Thanksgiving Event",
     "category_2024spring_event": "2024 Spring Freshman Class Taxi Event",
     "category_2023fall_event": "2023 Fall Thanksgiving Event",
     "category_2023spring_event": "2023 Spring Taxi Ride Verification Event"

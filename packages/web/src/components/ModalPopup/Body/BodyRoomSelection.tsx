@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 
@@ -124,7 +124,24 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
     isLogin && myRooms && myRooms.ongoing.length >= MAX_PARTICIPATION; // 최대 참여 가능한 방 개수를 초과했는지 여부
   const isDepart = useIsTimeOver(dayServerToClient(roomInfo.time)); // 방 출발 여부
 
+  const notPaid = useMemo(() => {
+    const myOngoingRoom = myRooms?.ongoing.slice() ?? [];
+    const notPaid = myOngoingRoom.find(
+      (room) =>
+        room.part.find((item: any) => item._id === loginInfo?.oid)
+          .isSettlement === "send-required" && room.isDeparted
+    ); // 다른 사람이 정산을 올렸으나 내가 아직 송금하지 않은 방이 있는지 여부 (추가 입장 제한에 사용)
+    return notPaid;
+  }, [myRooms]); // myOngoingRoom은 infoSection의 sortedMyRoom에서 정렬만 뺀 코드입니다. useMemo로 감싼 형태입니다.
+  // item : any 가 좋은 방법인지 모르겠습니다
+
   const requestJoin = useCallback(async () => {
+    if (isAlreadyPart) {
+      // 이미 참여 중인 방에서 버튼을 누르면 API 호출 관련 로직을 건너뛰고 해당 방으로 이동합니다.
+      history.push(`/myroom/${roomInfo._id}`);
+      return;
+    }
+    // 여기부터는 이미 참여 중인 방이 아닌 경우의 로직입니다.
     if (onCall.current) return;
     onCall.current = true;
     await axios({
@@ -139,6 +156,25 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
     });
     onCall.current = false;
   }, [roomInfo?._id, history]);
+
+  const [taxiFare, setTaxiFare] = useState<number>(0);
+  const getTaxiFare = async () => {
+    await axios({
+      url: "/fare/getTaxiFare",
+      method: "get",
+      params: {
+        from: roomInfo.from._id.toString(),
+        to: roomInfo.to._id.toString(),
+        time: roomInfo.time,
+      },
+      onSuccess: (data) => setTaxiFare(data.fare),
+      onError: (status) => {},
+    });
+  };
+
+  useEffect(() => {
+    getTaxiFare();
+  }, []);
 
   const stylePlace = {
     width: "100%",
@@ -200,11 +236,31 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
             </InfoSection>
           </div>
         </div>
+        {taxiFare !== 0 ? (
+          <InfoSection title="참여 시 예상 택시비" alignDirection="left">
+            <div css={{ display: "flex", justifyContent: "start" }}>
+              <p css={theme.font14}>{`${taxiFare.toLocaleString("ko-KR")}원 / ${
+                roomInfo?.part?.length +
+                (isAlreadyPart || isDepart || isRoomFull ? 0 : 1)
+              }명`}</p>
+              <p css={theme.font14_bold}>
+                &nbsp;
+                {`= 인당 ${Math.floor(
+                  taxiFare /
+                    (roomInfo?.part?.length +
+                      (isAlreadyPart || isDepart || isRoomFull ? 0 : 1))
+                ).toLocaleString("ko-KR")}원`}
+              </p>
+            </div>
+          </InfoSection>
+        ) : null}
       </div>
       {isLogin || isRoomFull || isDepart ? (
         <Button
           type="purple"
-          disabled={isRoomFull || isDepart || isAlreadyPart || isMaxPart}
+          disabled={
+            (notPaid || isRoomFull || isDepart || isMaxPart) && !isAlreadyPart
+          }
           css={{
             padding: "10px 0 9px",
             borderRadius: "8px",
@@ -213,7 +269,9 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
           onClick={requestJoin}
         >
           {isAlreadyPart
-            ? "이미 참여 중입니다"
+            ? "이미 참여 중입니다 : 바로가기"
+            : notPaid
+            ? "결제자에게 송금이 완료되지 않은 방이 있습니다"
             : isDepart
             ? "출발 시각이 현재 이전인 방은 참여할 수 없습니다"
             : isRoomFull

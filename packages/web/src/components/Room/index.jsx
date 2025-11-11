@@ -26,6 +26,8 @@ const Tag = (props) => {
     background:
       props.theme === "purple" ? theme.purple_hover : theme.purple_light,
     boxShadow: theme.shadow_purple_input_inset,
+    flexGrow: "0",
+    flexShrink: "0",
   };
   const paid = props.users.find((user) => user.isSettlement === "paid");
   let isDone = null;
@@ -102,6 +104,8 @@ const Room = (props) => {
   const styleName = {
     ...theme.font12,
     margin: "13px 0 12px",
+    flexShrink: "1",
+    flexGrow: "0",
   };
   const stylePlaceGrid = {
     display: "flex",
