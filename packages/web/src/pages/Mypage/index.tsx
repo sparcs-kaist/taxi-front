@@ -221,7 +221,10 @@ const Mypage = () => {
               {t("report_record")}
             </Menu>
           )}
-          <Link to={"/notice"} style={{ textDecoration: "none" }}>
+          <Link
+            to={"/notice"}
+            style={{ textDecoration: "none", display: "block" }}
+          >
             <Menu icon="notice">{t("notice")}</Menu>
           </Link>
           <a className="popup-channeltalk">
