@@ -18,9 +18,10 @@ import moment, { getToday } from "@/tools/moment";
 
 type RoomSectionProps = {
   roomId: Nullable<string>;
+  triggerTags?: string;
 };
 
-const RoomSection = ({ roomId }: RoomSectionProps) => {
+const RoomSection = ({ roomId, triggerTags }: RoomSectionProps) => {
   const axios = useAxios();
   const history = useHistory();
   const setAlert = useSetRecoilState(alertAtom);
@@ -79,6 +80,7 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
           history.replace("/home" + history.location.search)
         }
         roomInfo={roomInfo}
+        triggerTags={triggerTags}
       />
       <Title icon="taxi" isHeader>
         요일별 출발하는 방
