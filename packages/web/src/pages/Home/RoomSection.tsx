@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { useHistory } from "react-router-dom";
 
+import { Room } from "@/types/room";
+
 import useDateToken from "@/hooks/useDateToken";
 import { useAxios, useQuery } from "@/hooks/useTaxiAPI";
 
@@ -10,9 +12,11 @@ import Title from "@/components/Title";
 
 import RoomList from "./RoomList";
 import SelectDate from "./SelectDate";
+import { homeRoomFilterAtom } from "./index";
 
 import alertAtom from "@/atoms/alert";
-import { useSetRecoilState } from "recoil";
+import favoriteRoutesAtom from "@/atoms/favoriteRoutes";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 import moment, { getToday } from "@/tools/moment";
 
@@ -36,15 +40,38 @@ const RoomSection = ({ roomId }: RoomSectionProps) => {
     today.month(),
     today.date(),
   ]);
+
+  const [showFavoritesOnly] = useRecoilState(homeRoomFilterAtom);
+  const favoriteRoutes = useRecoilValue(favoriteRoutesAtom);
+
+  const favoriteSet = useMemo(() => {
+    if (!favoriteRoutes?.data) return new Set<string>();
+    const set = new Set<string>();
+    favoriteRoutes.data.forEach((route) => {
+      if (route.from._id && route.to._id) {
+        // 정방향, 역방향 경로 모두 저장
+        set.add(`${route.from._id}-${route.to._id}`);
+        set.add(`${route.to._id}-${route.from._id}`);
+      }
+    });
+    return set;
+  }, [favoriteRoutes?.data]);
+
   const rooms = useMemo(() => {
     if (!allRooms) return null;
     const time = moment(selectedDate);
-    return time.date() === today.date()
-      ? allRooms
-      : allRooms?.filter(
-          (room: Room) => moment(room.time).date() === time.date()
-        );
-  }, [allRooms, selectedDate]);
+    const dateFilteredRooms =
+      time.date() === today.date()
+        ? allRooms
+        : allRooms?.filter(
+            (room: Room) => moment(room.time).date() === time.date()
+          );
+
+    if (!showFavoritesOnly || favoriteSet.size === 0) return dateFilteredRooms;
+    return dateFilteredRooms.filter((room: Room) =>
+      favoriteSet.has(`${room.from._id}-${room.to._id}`)
+    );
+  }, [allRooms, selectedDate, showFavoritesOnly, favoriteSet]);
 
   const [roomInfo, setRoomInfo] = useState<Nullable<any>>(null);
 
