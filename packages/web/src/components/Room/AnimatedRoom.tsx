@@ -10,6 +10,8 @@ type AnimatedRoomProps = {
   marginBottom?: string;
   theme?: string;
   type?: "addition" | "deletion";
+  unreadCount?: number;
+  hasImportantMessage?: boolean;
 };
 
 const growHeight = keyframes`
@@ -38,6 +40,8 @@ const AnimatedRoom = ({
   marginBottom = "0px",
   theme,
   type,
+  unreadCount,
+  hasImportantMessage,
 }: AnimatedRoomProps) => {
   const props = {
     data,
@@ -47,6 +51,8 @@ const AnimatedRoom = ({
     marginBottom,
     theme,
     type,
+    unreadCount,
+    hasImportantMessage,
   };
 
   return !data.animating ? (
@@ -57,8 +63,11 @@ const AnimatedRoom = ({
         animation: `${
           type === "addition" ? growHeight : shrinkHeight
         } 0.5s forwards`,
+        overflow: "hidden",
       }}
-    ></div>
+    >
+      <Room {...props} />
+    </div>
   );
 };
 

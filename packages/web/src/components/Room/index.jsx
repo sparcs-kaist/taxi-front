@@ -84,15 +84,20 @@ const Room = (props) => {
     () => users.find((user) => user._id === loginInfo.oid)?.isSettlement,
     [loginInfo?.oid, JSON.stringify(users)]
   );
+  const hasRainbowAnimation = props.hasImportantMessage;
+
   const styleBox = {
     position: "relative",
     background: props.theme === "purple" ? theme.purple_light : theme.white,
     borderRadius: "12px",
     marginTop: props.marginTop,
     marginBottom: props.marginBottom,
-    boxShadow:
-      theme.shadow +
-      (props.selected ? `, inset 0 0 0 0.5px ${theme.purple}` : ""),
+    ...(!hasRainbowAnimation && {
+      boxShadow:
+        theme.shadow +
+        (props.selected ? `, inset 0 0 0 0.5px ${theme.purple}` : "") +
+        (props.unreadCount > 0 ? `, inset 0 0 0 1px ${theme.purple}` : ""),
+    }),
     ...theme.cursor(),
   };
   const styleTop = {
@@ -130,7 +135,11 @@ const Room = (props) => {
   };
 
   return (
-    <div style={styleBox} className="shadow" onClick={props.onClick}>
+    <div
+      style={styleBox}
+      className={`shadow ${hasRainbowAnimation ? "rainbow-shadow" : ""}`}
+      onClick={props.onClick}
+    >
       <div style={styleTop}>
         <div style={styleName}>{props.data?.name}</div>
         <Tag
@@ -163,6 +172,8 @@ Room.propTypes = {
   marginTop: PropTypes.string,
   marginBottom: PropTypes.string,
   theme: PropTypes.string,
+  unreadCount: PropTypes.number,
+  hasImportantMessage: PropTypes.bool,
 };
 
 Room.defaultProps = {

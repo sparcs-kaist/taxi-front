@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
@@ -11,6 +12,9 @@ import AnimatedRoom from "@/components/Room/AnimatedRoom";
 import Title from "@/components/Title";
 import WhiteContainer from "@/components/WhiteContainer";
 
+import { sortRoomsByUnreadCount } from "./utils";
+
+import { smoothMove } from "@/tools/animations";
 import theme from "@/tools/theme";
 
 const LinkRoom = (props) => {
@@ -39,6 +43,76 @@ LinkRoom.propTypes = {
 };
 
 const R2Myroom = (props) => {
+  const [prevRoomOrder, setPrevRoomOrder] = useState([]);
+  const [animatingRooms, setAnimatingRooms] = useState(new Set());
+  const timerRef = useRef(null);
+
+  // 현재 정렬된 방 목록
+  const sortedOngoingRooms = useMemo(
+    () => sortRoomsByUnreadCount(props.ongoing),
+    [props.ongoing]
+  );
+
+  // 정렬된 과거 방 목록
+  const sortedDoneRooms = useMemo(
+    () => sortRoomsByUnreadCount(props.done),
+    [props.done]
+  );
+
+  const currentRoomOrder = useMemo(() => {
+    const ongoingIds = sortedOngoingRooms.map((r) => r._id);
+    const doneIds = sortedDoneRooms.map((r) => r._id);
+    return [...ongoingIds, ...doneIds];
+  }, [sortedOngoingRooms, sortedDoneRooms]);
+
+  // 순서가 변경된 방들을 감지하고 애니메이션 적용
+  useEffect(() => {
+    const isOrderChanged =
+      prevRoomOrder.length !== currentRoomOrder.length ||
+      prevRoomOrder.some((roomId, index) => roomId !== currentRoomOrder[index]);
+
+    if (!isOrderChanged) return;
+
+    if (prevRoomOrder.length === 0) {
+      setPrevRoomOrder(currentRoomOrder);
+      return;
+    }
+
+    const changedRooms = new Set();
+    currentRoomOrder.forEach((roomId, index) => {
+      if (prevRoomOrder[index] !== roomId) {
+        changedRooms.add(roomId);
+      }
+    });
+
+    if (changedRooms.size > 0) {
+      setAnimatingRooms(changedRooms);
+
+      // 이전 타이머가 있다면 취소
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+
+      timerRef.current = setTimeout(() => {
+        setAnimatingRooms(new Set());
+        timerRef.current = null;
+      }, 500);
+
+      setPrevRoomOrder(currentRoomOrder);
+    } else {
+      setPrevRoomOrder(currentRoomOrder);
+    }
+  }, [currentRoomOrder, prevRoomOrder]);
+
+  // 컴포넌트 언마운트 시 타이머 정리
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, []);
+
   return (
     <AdaptiveDiv
       type="butterfly"
@@ -55,21 +129,36 @@ const R2Myroom = (props) => {
               {props.ongoing.length === 0 ? (
                 <Empty type="pc">참여 중인 방이 없습니다</Empty>
               ) : (
-                props.ongoing.map((item) => (
-                  <LinkRoom
-                    key={item._id}
-                    currentId={props.roomId}
-                    id={item._id}
-                  >
-                    <AnimatedRoom
-                      data={item}
-                      selected={props.roomId === item._id}
-                      theme="purple"
-                      marginTop="15px"
-                      type={item.type}
-                    />
-                  </LinkRoom>
-                ))
+                sortedOngoingRooms.map((item, index) => {
+                  const shouldAnimate = animatingRooms.has(item._id);
+                  return (
+                    <div
+                      key={item._id}
+                      css={
+                        shouldAnimate
+                          ? {
+                              animation: `${smoothMove} 0.35s cubic-bezier(0.2, 0.6, 0.2, 1)`,
+                              animationDelay: `${index * 0.04}s`,
+                              animationFillMode: "both",
+                              transformOrigin: "center",
+                            }
+                          : {}
+                      }
+                    >
+                      <LinkRoom currentId={props.roomId} id={item._id}>
+                        <AnimatedRoom
+                          data={item}
+                          selected={props.roomId === item._id}
+                          theme="purple"
+                          marginTop="15px"
+                          type={item.type}
+                          unreadCount={item.unreadCount}
+                          hasImportantMessage={item.hasImportantMessage}
+                        />
+                      </LinkRoom>
+                    </div>
+                  );
+                })
               )}
             </WhiteContainer>
             <WhiteContainer
@@ -82,26 +171,45 @@ const R2Myroom = (props) => {
                 <Empty type="pc">과거 참여했던 방이 없습니다</Empty>
               ) : (
                 <div>
-                  {props.done
+                  {sortedDoneRooms
                     .slice(
                       PAGE_MAX_ITEMS * (props.donePageInfo.currentPage - 1),
                       PAGE_MAX_ITEMS * props.donePageInfo.currentPage
                     )
-                    .map((item) => (
-                      <LinkRoom
-                        key={item._id}
-                        currentId={props.roomId}
-                        id={item._id}
-                      >
-                        <AnimatedRoom
-                          data={item}
-                          selected={props.roomId === item._id}
-                          theme="purple"
-                          marginTop="15px"
-                          type={item.type}
-                        />
-                      </LinkRoom>
-                    ))}
+                    .map((item, index) => {
+                      const shouldAnimate = animatingRooms.has(item._id);
+                      return (
+                        <div
+                          key={item._id}
+                          css={
+                            shouldAnimate
+                              ? {
+                                  animation: `${smoothMove} 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)`,
+                                  animationDelay: `${index * 0.08}s`,
+                                  animationFillMode: "both",
+                                  transformOrigin: "center",
+                                }
+                              : {}
+                          }
+                        >
+                          <LinkRoom
+                            key={item._id}
+                            currentId={props.roomId}
+                            id={item._id}
+                          >
+                            <AnimatedRoom
+                              data={item}
+                              selected={props.roomId === item._id}
+                              theme="purple"
+                              marginTop="15px"
+                              type={item.type}
+                              unreadCount={item.unreadCount}
+                              hasImportantMessage={item.hasImportantMessage}
+                            />
+                          </LinkRoom>
+                        </div>
+                      );
+                    })}
                   <Pagination
                     totalPages={props.donePageInfo.totalPages}
                     currentPage={props.donePageInfo.currentPage}

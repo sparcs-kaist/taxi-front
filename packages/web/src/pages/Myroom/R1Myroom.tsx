@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
@@ -6,11 +7,10 @@ import Pagination, { PAGE_MAX_ITEMS } from "@/components/Pagination";
 import AnimatedRoom from "@/components/Room/AnimatedRoom";
 import Title from "@/components/Title";
 
-/**
- * @todo
- * - R2Myroom도 props가 같기 때문에 이 타입은 Myroom에서 export한 후 import해서 쓰기
- * - 전역으로 DB 스키마 타입 추가하기 (현재는 ongoing, done을 Array<any>로 정의)
- */
+import { sortRoomsByUnreadCount } from "./utils";
+
+import { smoothMove } from "@/tools/animations";
+
 type R1MyroomProps = {
   roomId: string;
   ongoing: Array<any>;
@@ -24,6 +24,72 @@ const R1Myroom = ({
   done = [],
   donePageInfo,
 }: R1MyroomProps) => {
+  const [prevRoomOrder, setPrevRoomOrder] = useState<string[]>([]);
+  const [animatingRooms, setAnimatingRooms] = useState<Set<string>>(new Set());
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const sortedOngoingRooms = useMemo(
+    () => sortRoomsByUnreadCount(ongoing),
+    [ongoing]
+  );
+
+  // 정렬된 과거 방 목록
+  const sortedDoneRooms = useMemo(() => sortRoomsByUnreadCount(done), [done]);
+
+  const currentRoomOrder = useMemo(() => {
+    const ongoingIds = sortedOngoingRooms.map((r) => r._id);
+    const doneIds = sortedDoneRooms.map((r) => r._id);
+    return [...ongoingIds, ...doneIds];
+  }, [sortedOngoingRooms, sortedDoneRooms]);
+
+  // 순서가 변경된 방들을 감지하고 애니메이션 적용
+  useEffect(() => {
+    const isOrderChanged =
+      prevRoomOrder.length !== currentRoomOrder.length ||
+      prevRoomOrder.some((roomId, index) => roomId !== currentRoomOrder[index]);
+
+    if (!isOrderChanged) return;
+
+    if (prevRoomOrder.length === 0) {
+      setPrevRoomOrder(currentRoomOrder);
+      return;
+    }
+
+    const changedRooms = new Set<string>();
+    currentRoomOrder.forEach((roomId, index) => {
+      if (prevRoomOrder[index] !== roomId) {
+        changedRooms.add(roomId);
+      }
+    });
+
+    if (changedRooms.size > 0) {
+      setAnimatingRooms(changedRooms);
+
+      // 이전 타이머가 있다면 취소
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+
+      timerRef.current = setTimeout(() => {
+        setAnimatingRooms(new Set());
+        timerRef.current = null;
+      }, 500);
+
+      setPrevRoomOrder(currentRoomOrder);
+    } else {
+      setPrevRoomOrder(currentRoomOrder);
+    }
+  }, [currentRoomOrder, prevRoomOrder]);
+
+  // 컴포넌트 언마운트 시 타이머 정리
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, []);
+
   return (
     <AdaptiveDiv type="center">
       <Title icon="current" isHeader>
@@ -32,21 +98,39 @@ const R1Myroom = ({
       {ongoing?.length === 0 ? (
         <Empty type="mobile">참여 중인 방이 없습니다</Empty>
       ) : (
-        ongoing.map((item) => (
-          <Link
-            key={item._id}
-            to={`/myroom/${item._id}`}
-            style={{ textDecoration: "none" }}
-          >
-            <AnimatedRoom
-              data={item}
-              selected={roomId === item._id}
-              theme="white"
-              marginBottom="15px"
-              type={item.type}
-            />
-          </Link>
-        ))
+        sortedOngoingRooms.map((item, index) => {
+          const shouldAnimate = animatingRooms.has(item._id);
+          return (
+            <div
+              key={item._id}
+              css={
+                shouldAnimate
+                  ? {
+                      animation: `${smoothMove} 0.35s cubic-bezier(0.2, 0.6, 0.2, 1)`,
+                      animationDelay: `${index * 0.04}s`,
+                      animationFillMode: "both",
+                      transformOrigin: "center",
+                    }
+                  : {}
+              }
+            >
+              <Link
+                to={`/myroom/${item._id}`}
+                style={{ textDecoration: "none" }}
+              >
+                <AnimatedRoom
+                  data={item}
+                  selected={roomId === item._id}
+                  theme="white"
+                  marginBottom="15px"
+                  type={item.type}
+                  unreadCount={item.unreadCount}
+                  hasImportantMessage={item.hasImportantMessage}
+                />
+              </Link>
+            </div>
+          );
+        })
       )}
       <Title icon="past" isHeader>
         과거 참여 방
@@ -55,26 +139,45 @@ const R1Myroom = ({
         <Empty type="mobile">과거 참여했던 방이 없습니다</Empty>
       ) : (
         <>
-          {done
+          {sortedDoneRooms
             ?.slice(
               PAGE_MAX_ITEMS * (donePageInfo.currentPage - 1),
               PAGE_MAX_ITEMS * donePageInfo.currentPage
             )
-            .map((item) => (
-              <Link
-                key={item._id}
-                to={`/myroom/${item._id}`}
-                style={{ textDecoration: "none" }}
-              >
-                <AnimatedRoom
-                  data={item}
-                  selected={roomId === item._id}
-                  theme="white"
-                  marginTop="15px"
-                  type={item.type}
-                />
-              </Link>
-            ))}
+            .map((item, index) => {
+              const shouldAnimate = animatingRooms.has(item._id);
+              return (
+                <div
+                  key={item._id}
+                  css={
+                    shouldAnimate
+                      ? {
+                          animation: `${smoothMove} 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)`,
+                          animationDelay: `${index * 0.08}s`,
+                          animationFillMode: "both",
+                          transformOrigin: "center",
+                        }
+                      : {}
+                  }
+                >
+                  <Link
+                    key={item._id}
+                    to={`/myroom/${item._id}`}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <AnimatedRoom
+                      data={item}
+                      selected={roomId === item._id}
+                      theme="white"
+                      marginTop="15px"
+                      type={item.type}
+                      unreadCount={item.unreadCount}
+                      hasImportantMessage={item.hasImportantMessage}
+                    />
+                  </Link>
+                </div>
+              );
+            })}
           <Pagination
             totalPages={donePageInfo.totalPages}
             currentPage={donePageInfo.currentPage}
