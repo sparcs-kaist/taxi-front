@@ -31,7 +31,6 @@
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-storybook": "^0.6.15",
-    "prettier": "^3.6.2",
     "typescript": "^5.1.6"
   }
 }

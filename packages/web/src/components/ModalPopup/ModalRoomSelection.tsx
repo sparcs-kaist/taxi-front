@@ -17,13 +17,13 @@ type HeightFixWrapperProps = {
 type ModalRoomSelectionProps = {
   isOpen: boolean;
   onChangeIsOpen: (isOpen: boolean) => void;
-  roomInfo: BodyRoomSelectionProps["roomInfo"] | null;
-  triggerTags?: string;
+  roomInfo: Nullable<BodyRoomSelectionProps["roomInfo"]>; // FIXME
 };
 
-const HeightFixWrapper = (
-  { children, onChangeHeight }: HeightFixWrapperProps
-) => {
+const HeightFixWrapper = ({
+  children,
+  onChangeHeight,
+}: HeightFixWrapperProps) => {
   const body = useRef<HTMLDivElement>(null);
 
   // resize observer
@@ -44,14 +44,11 @@ const HeightFixWrapper = (
   );
 };
 
-const ModalRoomSelection = (
-  {
-    isOpen,
-    onChangeIsOpen,
-    roomInfo: _roomInfo,
-    triggerTags,
-  }: ModalRoomSelectionProps
-) => {
+const ModalRoomSelection = ({
+  isOpen,
+  onChangeIsOpen,
+  roomInfo: _roomInfo,
+}: ModalRoomSelectionProps) => {
   const [roomInfo, setRoomInfo] = useState(_roomInfo);
   const [bodyHeight, setBodyHeight] = useState(0);
   const pages = useMemo(
@@ -60,9 +57,7 @@ const ModalRoomSelection = (
         {
           key: "info",
           name: "방 정보",
-          body: (
-            <BodyRoomSelection roomInfo={roomInfo} triggerTags={triggerTags} />
-          ),
+          body: <BodyRoomSelection roomInfo={roomInfo} />,
         },
         {
           key: "share",
