@@ -19,6 +19,7 @@ import {
 } from "@/components/ModalPopup";
 import { ModalNoticeBadge } from "@/components/ModalPopup";
 import {
+  OptionCarrier,
   OptionDate,
   OptionMaxPeople,
   OptionName,
@@ -68,7 +69,7 @@ const AddRoom = () => {
   const [valueTime, setTime] = useState([today10.hour(), today10.minute()]);
   const [calculatedTime, setCalculatedTime] = useState<Date | null>(null);
   const randomRoomName = useMemo(randomRoomNameGenerator, []);
-
+  const [valueHasCarrier, setHasCarrier] = useState(false); // 캐리어 소지 여부
   const setAlert = useSetRecoilState(alertAtom);
   const isLogin = useIsLogin();
   const myRooms = useValueRecoilState("myRooms");
@@ -179,6 +180,7 @@ const AddRoom = () => {
             to: valuePlace[1],
             time: calculatedTime!.toISOString(),
             maxPartLength: valueMaxPeople,
+            withCarrier: valueHasCarrier, // create room 시 캐리어 소지 여부 전달, API 수정 필요
           },
           onSuccess: (data) => {
             if (data!.result === false) {
@@ -245,6 +247,7 @@ const AddRoom = () => {
           to: valuePlace[1],
           time: calculatedTime!.toISOString(),
           maxPartLength: valueMaxPeople,
+          withCarrier: valueHasCarrier, // create room 시 캐리어 소지 여부 전달, API 수정 필요
         },
         onSuccess: () => {
           fetchMyRooms();
@@ -286,6 +289,7 @@ const AddRoom = () => {
               />
               <OptionTime value={valueTime} handler={setTime} page="add" />
               <OptionMaxPeople value={valueMaxPeople} handler={setMaxPeople} />
+              <OptionCarrier value={valueHasCarrier} handler={setHasCarrier} /> {/* 캐리어 소지 여부 옵션 추가 */}
               {taxiFare !== 0 ? (
                 <TaxiFare value={taxiFare} roomLength={valueMaxPeople} />
               ) : null}
@@ -334,6 +338,7 @@ const AddRoom = () => {
                 to: valuePlace[1],
                 time: calculatedTime!.toISOString(),
                 maxPartLength: valueMaxPeople,
+                withCarrier: valueHasCarrier, // create room 시 캐리어 소지 여부 전달, API 수정 필요 (여기는 이벤트 기간에만 뜨는 거라서 사실상 의미 없을 수도...)
               },
               onSuccess: () => {
                 fetchMyRooms();
