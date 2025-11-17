@@ -179,6 +179,10 @@ const Mypage = () => {
               {t("phone_number")}
               <div css={infoContent}>{loginInfo?.phoneNumber}</div>
             </div>
+            <div css={infoType} className="selectable">
+              {t("residence")}
+              <div css={infoContent}>{loginInfo?.residence}</div>
+            </div>
           </WhiteContainer>
           <WhiteContainer>
             <div css={{ display: "grid", rowGap: "16px" }}>
@@ -217,7 +221,10 @@ const Mypage = () => {
               {t("report_record")}
             </Menu>
           )}
-          <Link to={"/notice"} style={{ textDecoration: "none" }}>
+          <Link
+            to={"/notice"}
+            style={{ textDecoration: "none", display: "block" }}
+          >
             <Menu icon="notice">{t("notice")}</Menu>
           </Link>
           <a className="popup-channeltalk">

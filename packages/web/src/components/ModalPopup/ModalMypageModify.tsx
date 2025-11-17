@@ -76,23 +76,23 @@ const ButtonProfileImage = () => {
           type: image.type,
         },
       });
-      if (data.url && data.fields) {
-        const formData = new FormData();
-        for (const key in data.fields) {
-          formData.append(key, data.fields[key]);
-        }
-        formData.append("file", image);
-        const res = await axiosOri.post(data.url, formData);
-        if (res.status === 204) {
-          const data2 = await axios({
-            url: "/users/editProfileImg/done",
-            method: "get",
-          });
-          if (data2?.result) {
-            fetchLoginInfo();
-            setProfileAlert("SUCCESS");
-            return;
-          }
+      if (data.url) {
+        await axiosOri({
+          url: data.url,
+          method: "put",
+          headers: {
+            "Content-Type": image.type,
+          },
+          data: image,
+        });
+        const data2 = await axios({
+          url: "/users/editProfileImg/done",
+          method: "get",
+        });
+        if (data2?.result) {
+          fetchLoginInfo();
+          setProfileAlert("SUCCESS");
+          return;
         }
       }
       setProfileAlert("FAIL");
@@ -112,10 +112,10 @@ const ButtonProfileImage = () => {
       profileAlert === "SUCCESS"
         ? theme.green_button
         : profileAlert === "FAIL"
-        ? theme.red_button
-        : profileAlert === "LOADING"
-        ? theme.gray_text
-        : theme.purple,
+          ? theme.red_button
+          : profileAlert === "LOADING"
+            ? theme.gray_text
+            : theme.purple,
     width: "fit-content",
     margin: "16px auto",
     cursor: profileAlert ? "default" : "pointer",
@@ -133,10 +133,10 @@ const ButtonProfileImage = () => {
       {profileAlert === "SUCCESS"
         ? t("page_modify.profile_image_success")
         : profileAlert === "FAIL"
-        ? t("page_modify.profile_image_failed")
-        : profileAlert === "LOADING"
-        ? t("page_modify.profile_image_loading")
-        : t("page_modify.profile_image_change")}
+          ? t("page_modify.profile_image_failed")
+          : profileAlert === "LOADING"
+            ? t("page_modify.profile_image_loading")
+            : t("page_modify.profile_image_change")}
     </div>
   );
 };
@@ -148,6 +148,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
   const [nickname, setNickname] = useState("");
   const [account, setAccount] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [residence, setResidence] = useState("");
   const [badge, setBadge] = useState<boolean>(false);
   const [PhoneAgreeModalOpen, setPhoneAgreeModalOpen] = useState(false);
 
@@ -167,6 +168,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
       setNickname(loginInfo?.nickname || "");
       setAccount(loginInfo?.account || "");
       setPhoneNumber(loginInfo?.phoneNumber || "");
+      setResidence(loginInfo?.residence || "");
       setBadge(loginInfo?.badge || false);
     }
   }, [loginInfo, modalProps.isOpen]);
@@ -226,6 +228,27 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         onError: () => setAlert(t("page_modify.badge_display_failed")),
       });
     }
+    if (residence.length === 0) {
+      isNeedToUpdateLoginInfo = true;
+      await axios({
+        url: "/users/deleteResidence",
+        method: "post",
+        onError: () => setAlert(t("page_modify.residence_failed")),
+      });
+    } else if (residence.length > 0 && residence.length <= 15) {
+      if (residence !== loginInfo?.residence) {
+        isNeedToUpdateLoginInfo = true;
+        await axios({
+          url: "/users/registerResidence",
+          method: "post",
+          data: { residence },
+          onError: () => setAlert(t("page_modify.residence_failed")),
+        });
+      }
+    } else {
+      setAlert(t("page_modify.residence_failed"));
+    }
+
     if (isNeedToUpdateLoginInfo) {
       fetchLoginInfo();
     }
@@ -396,6 +419,14 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
                 />
               )}
             </div>
+            <div css={{ ...styleTitle, marginTop: "10px" }}>
+              {t("residence")}
+              <Input
+                value={residence}
+                onChangeValue={setResidence}
+                css={{ width: "100%", marginLeft: "10px" }}
+              />
+            </div>
           </div>
           <div css={styleButton}>
             <Button
@@ -417,6 +448,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
                 (nickname === loginInfo?.nickname &&
                   account === loginInfo?.account &&
                   badge === loginInfo?.badge &&
+                  residence === loginInfo?.residence &&
                   // 기존에 전화번호가 있거나, 없었고 입력란도 빈 상태면 변경 없음
                   (loginInfo?.phoneNumber !== undefined ||
                     phoneNumber === "")) ||
