@@ -11,7 +11,6 @@ import AnimatedRoom from "@/components/Room/AnimatedRoom";
 type RoomListProps = {
   rooms: Nullable<Array<any>>;
   initialLoad: boolean;
-  triggerTags?: Nullable<string[]>;
 };
 
 const RoomList = (props: RoomListProps) => {
@@ -31,7 +30,7 @@ const RoomList = (props: RoomListProps) => {
             .map((room) => (
               <Link
                 key={room._id}
-                to={`/home/${room._id}?page=${currentPage}&triggerTags=${props.triggerTags?.join(",")}`}
+                to={`/home/${room._id}?page=${currentPage}`}
                 replace
                 style={{ textDecoration: "none" }}
               >

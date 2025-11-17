@@ -1,4 +1,4 @@
-import { useHistory, useLocation, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
@@ -16,14 +16,11 @@ import RoomSection from "./RoomSection";
 
 const Home = () => {
   const history = useHistory();
-  const location = useLocation();
+
   const { roomId: _roomId, inviterId } = useParams<{
     roomId?: string;
     inviterId?: string;
   }>();
-
-  const searchParams = new URLSearchParams(location.search);
-  const triggerTags = searchParams.get("triggerTags") || "";
 
   const isOpenEventJoin = inviterId ? true : _roomId === "eventJoin";
   const onChangeIsOpenPrivacyPolicy = () => history.replace("/home");
@@ -39,7 +36,7 @@ const Home = () => {
       <InfoSection />
       <NoticeSection />
       <EventSection />
-      <RoomSection roomId={roomId} triggerTags={triggerTags} />
+      <RoomSection roomId={roomId} />
       <Footer />
       <ModalPrivacyPolicy
         isOpen={_roomId === "privacyPolicy"}
