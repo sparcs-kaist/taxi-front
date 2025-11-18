@@ -2,6 +2,10 @@ import { forwardRef, useMemo } from "react";
 import { Link } from "react-router-dom";
 
 import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import {
+  useFetchMileage,
+  useValueMileage,
+} from "@/hooks/useFetchRecoilState/useFetchMileage";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
@@ -87,8 +91,7 @@ const InfoSection = () => {
   const isLogin = useIsLogin();
   const myRooms = useValueRecoilState("myRooms");
   const randomTaxiSlogan = useMemo(randomTaxiSloganGenerator, []);
-
-  const activeMilage = 1000; //loginInfo?.mileage.activeMileage;
+  const activeMileage = useValueMileage();
   const tier = { tier: "gold", maxMileage: 10000 }; //loginInfo?.mileage.tier;
 
   const { message, room } = useMemo(() => {
@@ -190,7 +193,7 @@ const InfoSection = () => {
                     backgroundColor: theme.purple,
                   }}
                 >
-                  {activeMilage?.toLocaleString()}원
+                  {activeMileage?.activeMileage.toLocaleString()}원
                 </span>
                 을 절약했어요! <BadgeImage badge_size="1.2em" />
               </div>
@@ -219,7 +222,7 @@ const InfoSection = () => {
                   leaveTouchDelay={2000}
                 >
                   <Gauge
-                    value={activeMilage ?? 0}
+                    value={activeMileage?.activeMileage ?? 0}
                     max={tier?.maxMileage ?? 0}
                     width="100%"
                     height="15px"
