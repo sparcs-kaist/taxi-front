@@ -11,6 +11,7 @@ import useDateToken from "@/hooks/useDateToken";
 import useDisableScrollEffect from "@/hooks/useDisableScrollEffect";
 import useQuery from "@/hooks/useTaxiAPI";
 
+import ArrivalNotifications from "./ArrivalNotifications";
 import Container from "./Container";
 import Header from "./Header";
 import MessageForm from "./MessageForm";
@@ -81,6 +82,12 @@ const Chat = ({ roomId, layoutType }: ChatProps) => {
   return (
     <Container layoutType={layoutType}>
       <Header layoutType={layoutType} roomInfo={roomInfo} />
+      {roomInfo && (
+        <ArrivalNotifications
+          roomInfo={roomInfo}
+          fetchRoomInfo={fetchRoomInfo}
+        />
+      )}
       <MessagesBody
         layoutType={layoutType}
         roomInfo={roomInfo}

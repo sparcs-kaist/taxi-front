@@ -85,7 +85,32 @@ const Header = ({ layoutType, roomInfo }: HeaderProps) => {
           }
         />
         <div css={styleInfo}>
-          <div css={styleName}>{roomInfo.name}</div>
+          {/* 수정 */}
+          <div css={styleName}>
+            {roomInfo.name}
+            {roomInfo.emojiIdentifier && (
+              <span style={{ marginLeft: "6px" }}>
+                {roomInfo.emojiIdentifier}
+              </span>
+            )}
+          </div>
+          {/* <div css={styleName}>
+            {roomInfo.name}
+            {roomInfo.numericIdentifier && (
+              <span
+                css={{
+                  marginLeft: "8px",
+                  fontSize: "12px",
+                  color:
+                    layoutType === "fullchat"
+                      ? theme.gray_text
+                      : "rgba(255, 255, 255, 0.8)",
+                }}
+              >
+                #{roomInfo.numericIdentifier}
+              </span>
+            )}
+          </div> */}
           <div css={styleFromTo}>
             {roomInfo.from?.koName}&nbsp; → &nbsp;
             {roomInfo.to?.koName}
