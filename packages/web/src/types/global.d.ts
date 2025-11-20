@@ -28,6 +28,7 @@ declare global {
     readAt: Date;
     withdraw: boolean;
     badge: boolean;
+    isArrived?: boolean;
   };
   type Room = {
     _id: string;
@@ -39,6 +40,8 @@ declare global {
     settlementTotal?: number;
     maxPartLength: number;
     part: Array<User>;
+    emojiIdentifier?: string;
+    numericIdentifier?: string;
   };
 
   type ReportResponse = { status: number };
