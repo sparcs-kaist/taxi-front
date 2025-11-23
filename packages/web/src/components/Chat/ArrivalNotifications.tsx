@@ -80,7 +80,8 @@ const ArrivalNotifications = ({
             </span>
           ) : isArrived ? (
             <span css={{ color: theme.purple }}>
-              <b>{arrivedCount}명</b> 도착
+              <b>{arrivedCount}명</b>{" "}
+              {arrivedCount === roomInfo.part.length ? "모두 도착!" : "도착"}
             </span>
           ) : (
             "출발지에 도착하셨나요?"
