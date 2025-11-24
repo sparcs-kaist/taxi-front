@@ -40,7 +40,6 @@ import { randomRoomNameGenerator } from "@/tools/random";
 import regExpTest from "@/tools/regExpTest";
 import theme from "@/tools/theme";
 
-import { useValueFavoriteRoutes } from "@/hooks/useFetchRecoilState/useFetchFavoriteRoutes";
 
 interface CreateRoomParams {
   wasSimilarRoomsModalOpen: boolean;
@@ -50,7 +49,6 @@ const AddRoom = () => {
   const axios = useAxios();
   const history = useHistory();
   const [cookies, setCookies] = useCookies(["defaultFromTo"]);
-  const favoriteRoutes = useValueFavoriteRoutes();
 
   const onCall = useRef(false);
   const loginInfo = useValueRecoilState("loginInfo");
@@ -278,7 +276,7 @@ const AddRoom = () => {
           </Title>
           {isLogin ? (
             <>
-              <OptionPlace value={valuePlace} handler={setPlace} favoriteRoutes={favoriteRoutes} />
+              <OptionPlace value={valuePlace} handler={setPlace} />
               <OptionDate value={valueDate} handler={setDate} />
               <OptionName
                 value={valueName}

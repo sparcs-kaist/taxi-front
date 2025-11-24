@@ -1,8 +1,8 @@
-import PropTypes from "prop-types";
-import { memo, useEffect, useMemo, useState, useRef } from "react";
+import { CSSProperties, memo, useEffect, useMemo, useRef, useState } from "react";
 
 import useHoverProps from "@/hooks/theme/useHoverProps";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import { useValueFavoriteRoutes } from "@/hooks/useFetchRecoilState/useFetchFavoriteRoutes";
 
 import Button from "@/components/Button";
 import DottedLine from "@/components/DottedLine";
@@ -16,12 +16,25 @@ import Picker from "./Picker";
 
 import theme from "@/tools/theme";
 import { getLocationName } from "@/tools/trans";
+import { Location } from "@/types/location";
 
 import StarIcon from "@mui/icons-material/Star";
 import UnfoldLessRoundedIcon from "@mui/icons-material/UnfoldLessRounded";
 import UnfoldMoreRoundedIcon from "@mui/icons-material/UnfoldMoreRounded";
 
-const PopupInput = (props) => {
+type PlaceOption = Location & {
+  name: string;
+};
+
+type PopupInputProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  value?: string;
+  handler: (value: string) => void;
+  placeOptions: PlaceOption[];
+};
+
+const PopupInput = (props: PopupInputProps) => {
   const [value, setValue] = useState({
     place: props.value ?? props.placeOptions?.[0]?.name ?? "",
   });
@@ -30,7 +43,7 @@ const PopupInput = (props) => {
     setValue({
       place: props.value ?? props.placeOptions?.[0]?.name ?? "",
     });
-  }, [props.value]);
+  }, [props.value, props.placeOptions]);
 
   const optionGroup = {
     place: props.placeOptions.map((x) => {
@@ -40,11 +53,11 @@ const PopupInput = (props) => {
 
   const onClick = () => {
     props.handler(
-      props.placeOptions.find((place) => place.name === value.place)._id ?? null
+      props.placeOptions.find((place) => place.name === value.place)?._id ?? ""
     );
     props.onClose();
   };
-  const handler = (_, changedValue) => {
+  const handler = (_: any, changedValue: string) => {
     if (changedValue && value.place !== changedValue)
       setValue({ place: changedValue });
   };
@@ -100,15 +113,14 @@ const PopupInput = (props) => {
     </Modal>
   );
 };
-PopupInput.propTypes = {
-  isOpen: PropTypes.bool,
-  onClose: PropTypes.func,
-  value: PropTypes.string,
-  handler: PropTypes.func,
-  placeOptions: PropTypes.array,
+
+type PlaceElementProps = {
+  value?: string;
+  type: "from" | "to";
+  onClick: () => void;
 };
 
-const PlaceElement = (props) => {
+const PlaceElement = (props: PlaceElementProps) => {
   const [hoverProps, isHover] = useHoverProps();
 
   const style = {
@@ -122,13 +134,13 @@ const PlaceElement = (props) => {
     flexDirection: "column",
     alignItems: "center",
     ...theme.cursor(),
-  };
+  } as CSSProperties;
   const styleType = {
     margin: "5px 0",
     textAlign: "center",
     color: props.value ? theme.gray_text : theme.black,
     ...theme.font12,
-  };
+  } as CSSProperties;
   const styleTextGrid = {
     display: "flex",
     alignItems: "center",
@@ -139,10 +151,10 @@ const PlaceElement = (props) => {
     ...theme.font16_bold,
     textAlign: "center",
     color: props.value ? theme.black : theme.gray_line,
-    wordBreak: "keep-all",
+    wordBreak: "keep-all" as const,
     maxHeight: "100%",
     overflow: "hidden",
-  };
+  } as CSSProperties;
   return (
     <div style={style} onClick={props.onClick} {...hoverProps}>
       <MiniCircle type={props.type} isRequired={!props.value} />
@@ -156,29 +168,42 @@ const PlaceElement = (props) => {
     </div>
   );
 };
-PlaceElement.propTypes = {
-  value: PropTypes.string,
-  type: PropTypes.oneOf(["from", "to"]),
-  onClick: PropTypes.func,
+
+type PlaceProps = {
+  value: [string | undefined, string | undefined]; // Changed from array to tuple for better type safety, allowing undefined
+  handler: (value: [string | undefined, string | undefined]) => void;
 };
 
-const Place = (props) => {
+const Place = (props: PlaceProps) => {
   const [isPopup1, setPopup1] = useState(false);
   const [isPopup2, setPopup2] = useState(false);
-  const taxiLocations = useValueRecoilState("taxiLocations");
+  const taxiLocations = useValueRecoilState("taxiLocations") as Location[];
   const [isOpenFavorite, setIsOpenFavorite] = useState(false);
-  const [placeValues, setPlaceValues] = useState([null, null]); // FavoriteRoutes에 넘겨주기 위함
-  const favoriteRef = useRef(null);
+  const [placeValues, setPlaceValues] = useState<(string | null)[]>([
+    null,
+    null,
+  ]); // FavoriteRoutes에 넘겨주기 위함
+  const favoriteRef = useRef<HTMLDivElement>(null);
+  const favoriteRoutes = useValueFavoriteRoutes();
+  const [maxHeight, setMaxHeight] = useState<number | undefined>(0);
+
+  useEffect(() => {
+    if (isOpenFavorite) {
+      setMaxHeight(favoriteRef.current?.scrollHeight);
+    } else {
+      setMaxHeight(0);
+    }
+  }, [isOpenFavorite, favoriteRoutes]);
 
   useEffect(() => {
     // FavoriteRoutes에 넘겨주기 위함
-    const placeValues = [props.value[0], props.value[1]];
+    const placeValues = [props.value[0] ?? null, props.value[1] ?? null];
     setPlaceValues(placeValues);
   }, [props.value]);
 
   const taxiLocationsWithName = useMemo(
     () =>
-      taxiLocations.reduce((acc, place) => {
+      taxiLocations.reduce<PlaceOption[]>((acc, place) => {
         acc.push({
           ...place,
           name: place.koName,
@@ -188,7 +213,8 @@ const Place = (props) => {
     [taxiLocations]
   );
 
-  const getPlaceName = (placeId) => {
+  const getPlaceName = (placeId?: string) => {
+    if (!placeId) return undefined;
     const place = taxiLocationsWithName.find(
       (location) => location._id === placeId
     );
@@ -210,8 +236,14 @@ const Place = (props) => {
     gap: "8px",
   };
 
+  const handleFavoriteHandler = (place: string[]) => {
+      // FavoriteRoutes handler expects string[], but PlaceProps expects [string | undefined, string | undefined]
+      // Assuming FavoriteRoutes returns valid IDs.
+      props.handler([place[0], place[1]]);
+  }
+
   return (
-    <WhiteContainer css={{ padding: "10px" }}>
+    <WhiteContainer style={{ padding: "10px" }}>
       <div>
         <div
           style={{
@@ -252,7 +284,7 @@ const Place = (props) => {
         />
       </div>
       <div
-        css={{ ...styleFavorite, ...theme.cursor() }}
+        style={{ ...styleFavorite, ...theme.cursor() } as CSSProperties}
         onClick={() => setIsOpenFavorite(!isOpenFavorite)}
       >
         <StarIcon style={{ fontSize: "16px", color: theme.purple }} />
@@ -261,32 +293,23 @@ const Place = (props) => {
         </div>
         <DottedLine />
         {isOpenFavorite ? (
-          <UnfoldLessRoundedIcon
-            style={styleArrow}
-          />
+          <UnfoldLessRoundedIcon style={styleArrow} />
         ) : (
-          <UnfoldMoreRoundedIcon
-            style={styleArrow}
-          />
+          <UnfoldMoreRoundedIcon style={styleArrow} />
         )}
       </div>
       <div
         ref={favoriteRef}
         style={{
-          maxHeight: isOpenFavorite ? favoriteRef.current?.scrollHeight : 0,
+          maxHeight: maxHeight,
           transition: "max-height 0.3s ease-in-out",
           overflow: "hidden",
         }}
       >
-        <FavoriteRoutes placeValues={placeValues} handler={props.handler} />
+        <FavoriteRoutes placeValues={placeValues} handler={handleFavoriteHandler} />
       </div>
     </WhiteContainer>
   );
-};
-Place.propTypes = {
-  value: PropTypes.array,
-  handler: PropTypes.func,
-  favoriteRoutes: PropTypes.object,
 };
 
 export default memo(Place);
