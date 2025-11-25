@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import { useAxios } from "@/hooks/useTaxiAPI";
 
+import Button from "@/components/Button";
 import ModalArrivalStatus from "@/components/ModalPopup/ModalArrivalStatus";
 
 import loginInfoAtom from "@/atoms/loginInfo";
@@ -52,28 +53,39 @@ const ArrivalNotifications = ({
 
   if (!myPart) return null;
 
+  const styleContainer = css`
+    box-sizing: border-box;
+    padding: 10px 20px;
+    background: ${theme.gray_background};
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: ${theme.shadow_3};
+    z-index: ${theme.zIndex_nav - 1};
+  `;
+
+  const styleText = {
+    ...theme.font14,
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+  };
+
+  const styleButton = {
+    display: "flex",
+    alignItems: "center",
+    gap: "4px",
+    padding: "6px 12px",
+    borderRadius: "8px",
+    border: "none",
+    boxShadow: theme.shadow_color_button,
+    ...theme.font12_bold,
+  };
+
   return (
     <>
-      <div
-        css={css`
-          box-sizing: border-box;
-          padding: 10px 20px;
-          background: ${theme.gray_background};
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          box-shadow: ${theme.shadow_3};
-          z-index: ${theme.zIndex_nav - 1};
-        `}
-      >
-        <div
-          css={{
-            ...theme.font14,
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-          }}
-        >
+      <div css={styleContainer}>
+        <div css={styleText}>
           {isSettlementStarted ? (
             <span css={{ color: theme.black }}>
               <b>{arrivedCount}명</b> 도착 완료
@@ -88,54 +100,28 @@ const ArrivalNotifications = ({
           )}
         </div>
         <div css={{ display: "flex", gap: "8px" }}>
-          <button
+          <Button
+            type="white"
             onClick={() => setIsOpenModal(true)}
-            css={css`
-              display: flex;
-              align-items: center;
-              gap: 6px;
-              padding: 6px 12px;
-              border-radius: 8px;
-              border: none;
-              background: ${theme.white};
-              color: ${theme.black};
-              box-shadow: ${theme.shadow_color_button};
-              cursor: pointer;
-              transition: all 0.2s;
-              ${theme.font12_bold}
-
-              &:hover {
-                opacity: 0.9;
-              }
-            `}
+            css={{
+              ...styleButton,
+              color: theme.black,
+            }}
           >
             현황
-          </button>
+          </Button>
           {!isSettlementStarted && (
-            <button
+            <Button
+              type={isArrived ? "purple" : "white"}
               onClick={onClickArrival}
-              css={css`
-                display: flex;
-                align-items: center;
-                gap: 4px;
-                padding: 6px 12px;
-                border-radius: 8px;
-                border: none;
-                background: ${isArrived ? theme.purple : theme.white};
-                color: ${isArrived ? theme.white : theme.black};
-                box-shadow: ${theme.shadow_color_button};
-                cursor: pointer;
-                transition: all 0.2s;
-                ${theme.font12_bold}
-
-                &:hover {
-                  opacity: 0.9;
-                }
-              `}
+              css={{
+                ...styleButton,
+                color: isArrived ? theme.white : theme.black,
+              }}
             >
               <CheckRoundedIcon style={{ fontSize: "16px" }} />
               {isArrived ? "도착 완료" : "도착"}
-            </button>
+            </Button>
           )}
         </div>
       </div>
