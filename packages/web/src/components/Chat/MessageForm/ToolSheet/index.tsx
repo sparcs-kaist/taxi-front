@@ -8,12 +8,13 @@ import {
 } from "react";
 
 import useAccountFromChats from "@/hooks/chat/useAccountFromChats";
+import useSettlementFromChats from "@/hooks/chat/useSettlementFromChats";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import useIsTimeOver from "@/hooks/useIsTimeOver";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import {
-  ModalChatPayement,
+  ModalChatPayment,
   ModalChatSaveAccount,
   ModalChatSettlement,
 } from "@/components/ModalPopup";
@@ -32,6 +33,7 @@ type ToolSheetProps = {
   onChangeIsOpen?: (x: boolean) => void;
   onChangeUploadedImage?: (x: Nullable<File>) => void;
   account: ReturnType<typeof useAccountFromChats>;
+  settlement: ReturnType<typeof useSettlementFromChats>;
 };
 
 const ToolSheet = ({
@@ -40,6 +42,7 @@ const ToolSheet = ({
   onChangeIsOpen,
   onChangeUploadedImage,
   account,
+  settlement,
 }: ToolSheetProps) => {
   const setAlert = useSetRecoilState(alertAtom);
   const { oid: userOid } = useValueRecoilState("loginInfo") || {};
@@ -151,11 +154,12 @@ const ToolSheet = ({
             onRecall={onRecallSettlePayment}
             openSaveAccountModal={openSaveAccountModal}
           />
-          <ModalChatPayement
+          <ModalChatPayment
             isOpen={isOpenPayment}
             onChangeIsOpen={setIsOpenPayment}
             roomInfo={roomInfo}
             account={account}
+            settlement={settlement}
             onRecall={onRecallSettlePayment}
           />
           {accountToSave && (

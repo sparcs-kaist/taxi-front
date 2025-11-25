@@ -1,5 +1,5 @@
 export { default as ModalChatCancel } from "./ModalChatCancel";
-export { default as ModalChatPayement } from "./ModalChatPayment";
+export { default as ModalChatPayment } from "./ModalChatPayment";
 export { default as ModalChatReport } from "./ModalChatReport";
 export { default as ModalChatSaveAccount } from "./ModalChatSaveAccount";
 export { default as ModalChatSettlement } from "./ModalChatSettlement";

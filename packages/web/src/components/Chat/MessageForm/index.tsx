@@ -13,6 +13,7 @@ import "./index.css";
 
 import isVirtualKeyboardDetectedAtom from "@/atoms/isVirtualKeyboardDetected";
 import { useRecoilValue } from "recoil";
+import useSettlementFromChats from "@/hooks/chat/useSettlementFromChats";
 
 import { scrollToBottom } from "@/tools/chat/scroll";
 import theme from "@/tools/theme";
@@ -41,7 +42,7 @@ const MessageForm = ({
   const isVKDetected = useRecoilValue(isVirtualKeyboardDetectedAtom);
   const [uploadedImage, setUploadedImage] = useState<Nullable<File>>(null); // 업로드된 이미지 파일
   const account = useAccountFromChats(chats);
-
+  const settlement = useSettlementFromChats(chats);
   const onClickNewMessage = () => {
     if (!messageBodyRef.current) return;
     scrollToBottom(messageBodyRef.current, true);
@@ -79,6 +80,7 @@ const MessageForm = ({
           onChangeIsOpen={onChangeIsOpenToolSheet}
           onChangeUploadedImage={setUploadedImage}
           account={account}
+          settlement={settlement}
         />
       </div>
       <div css={styleBody}>
