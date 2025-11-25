@@ -10,7 +10,7 @@ importers:
     devDependencies:
       '@trivago/prettier-plugin-sort-imports':
         specifier: ^4.1.1
-        version: 4.3.0(prettier@2.8.8)
+        version: 4.3.0(prettier@3.6.2)
       '@typescript-eslint/eslint-plugin':
         specifier: ^5.37.0
         version: 5.62.0(@typescript-eslint/parser@5.62.0(eslint@7.32.0)(typescript@5.9.2))(eslint@7.32.0)(typescript@5.9.2)
@@ -44,6 +44,9 @@ importers:
       eslint-plugin-storybook:
         specifier: ^0.6.15
         version: 0.6.15(eslint@7.32.0)(typescript@5.9.2)
+      prettier:
+        specifier: ^3.6.2
+        version: 3.6.2
       typescript:
         specifier: ^5.1.6
         version: 5.9.2
@@ -264,7 +267,7 @@ importers:
         version: 0.2.2
       '@trivago/prettier-plugin-sort-imports':
         specifier: ^4.1.1
-        version: 4.3.0(prettier@2.8.8)
+        version: 4.3.0(prettier@3.6.2)
       '@types/eslint':
         specifier: ^8.44.0
         version: 8.56.12
@@ -7064,6 +7067,11 @@ packages:
     engines: {node: '>=10.13.0'}
     hasBin: true
 
+  prettier@3.6.2:
+    resolution: {integrity: sha512-I7AIg5boAr5R0FFtJ6rCfD+LFsWHp81dolrFD8S79U9tb8Az2nGrJncnMSnys+bpQJfRUzqs9hnA81OAA3hCuQ==}
+    engines: {node: '>=14'}
+    hasBin: true
+
   pretty-bytes@5.6.0:
     resolution: {integrity: sha512-FFw039TmrBqFK8ma/7OL3sDz/VytdtJr044/QUJtH0wK9lb9jLq9tJyIxUwtQJHwar2BqtiA4iCWSwo9JLkzFg==}
     engines: {node: '>=6'}
@@ -13636,7 +13644,7 @@ snapshots:
     dependencies:
       '@testing-library/dom': 9.3.4
 
-  '@trivago/prettier-plugin-sort-imports@4.3.0(prettier@2.8.8)':
+  '@trivago/prettier-plugin-sort-imports@4.3.0(prettier@3.6.2)':
     dependencies:
       '@babel/generator': 7.17.7
       '@babel/parser': 7.28.4
@@ -13644,7 +13652,7 @@ snapshots:
       '@babel/types': 7.17.0
       javascript-natural-sort: 0.7.1
       lodash: 4.17.21
-      prettier: 2.8.8
+      prettier: 3.6.2
     transitivePeerDependencies:
       - supports-color
 
@@ -18022,6 +18030,8 @@ snapshots:
   prelude-ls@1.2.1: {}
 
   prettier@2.8.8: {}
+
+  prettier@3.6.2: {}
 
   pretty-bytes@5.6.0: {}
 

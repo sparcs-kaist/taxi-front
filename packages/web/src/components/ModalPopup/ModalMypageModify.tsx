@@ -2,7 +2,7 @@ import axiosOri from "axios";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useEvent2025SpringQuestComplete } from "@/hooks/event/useEvent2025SpringQuestComplete";
+import { useEvent2025FallQuestComplete } from "@/hooks/event/useEvent2025FallQuestComplete";
 import {
   useFetchRecoilState,
   useValueRecoilState,
@@ -76,23 +76,23 @@ const ButtonProfileImage = () => {
           type: image.type,
         },
       });
-      if (data.url && data.fields) {
-        const formData = new FormData();
-        for (const key in data.fields) {
-          formData.append(key, data.fields[key]);
-        }
-        formData.append("file", image);
-        const res = await axiosOri.post(data.url, formData);
-        if (res.status === 204) {
-          const data2 = await axios({
-            url: "/users/editProfileImg/done",
-            method: "get",
-          });
-          if (data2?.result) {
-            fetchLoginInfo();
-            setProfileAlert("SUCCESS");
-            return;
-          }
+      if (data.url) {
+        await axiosOri({
+          url: data.url,
+          method: "put",
+          headers: {
+            "Content-Type": image.type,
+          },
+          data: image,
+        });
+        const data2 = await axios({
+          url: "/users/editProfileImg/done",
+          method: "get",
+        });
+        if (data2?.result) {
+          fetchLoginInfo();
+          setProfileAlert("SUCCESS");
+          return;
         }
       }
       setProfileAlert("FAIL");
@@ -112,10 +112,10 @@ const ButtonProfileImage = () => {
       profileAlert === "SUCCESS"
         ? theme.green_button
         : profileAlert === "FAIL"
-        ? theme.red_button
-        : profileAlert === "LOADING"
-        ? theme.gray_text
-        : theme.purple,
+          ? theme.red_button
+          : profileAlert === "LOADING"
+            ? theme.gray_text
+            : theme.purple,
     width: "fit-content",
     margin: "16px auto",
     cursor: profileAlert ? "default" : "pointer",
@@ -133,10 +133,10 @@ const ButtonProfileImage = () => {
       {profileAlert === "SUCCESS"
         ? t("page_modify.profile_image_success")
         : profileAlert === "FAIL"
-        ? t("page_modify.profile_image_failed")
-        : profileAlert === "LOADING"
-        ? t("page_modify.profile_image_loading")
-        : t("page_modify.profile_image_change")}
+          ? t("page_modify.profile_image_failed")
+          : profileAlert === "LOADING"
+            ? t("page_modify.profile_image_loading")
+            : t("page_modify.profile_image_change")}
     </div>
   );
 };
@@ -148,13 +148,18 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
   const [nickname, setNickname] = useState("");
   const [account, setAccount] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [residence, setResidence] = useState("");
   const [badge, setBadge] = useState<boolean>(false);
   const [PhoneAgreeModalOpen, setPhoneAgreeModalOpen] = useState(false);
 
   const loginInfo = useValueRecoilState("loginInfo");
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
+  const completeQuest = useEvent2025FallQuestComplete();
+
   //#region event2025Spring
-  const event2025SpringQuestComplete = useEvent2025SpringQuestComplete();
+  // const event2025SpringQuestComplete = useEvent2025SpringQuestComplete();
+  //#region event2025Fall
+
   //#endregion
   const setAlert = useSetRecoilState(alertAtom);
 
@@ -163,6 +168,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
       setNickname(loginInfo?.nickname || "");
       setAccount(loginInfo?.account || "");
       setPhoneNumber(loginInfo?.phoneNumber || "");
+      setResidence(loginInfo?.residence || "");
       setBadge(loginInfo?.badge || false);
     }
   }, [loginInfo, modalProps.isOpen]);
@@ -181,7 +187,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         data: { nickname },
         onError: () => setAlert(t("page_modify.nickname_failed")),
         //#region event2025Spring
-        onSuccess: () => event2025SpringQuestComplete("nicknameChanging"),
+        // onSuccess: () => event2025SpringQuestComplete("nicknameChanging"),
         //#endregion
       });
     }
@@ -193,7 +199,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         data: { account },
         onError: () => setAlert(t("page_modify.account_failed")),
         //#region event2025Spring
-        onSuccess: () => event2025SpringQuestComplete("accountChanging"),
+        // onSuccess: () => event2025SpringQuestComplete("accountChanging"),
         //#endregion
       });
     }
@@ -222,6 +228,27 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         onError: () => setAlert(t("page_modify.badge_display_failed")),
       });
     }
+    if (residence.length === 0) {
+      isNeedToUpdateLoginInfo = true;
+      await axios({
+        url: "/users/deleteResidence",
+        method: "post",
+        onError: () => setAlert(t("page_modify.residence_failed")),
+      });
+    } else if (residence.length > 0 && residence.length <= 15) {
+      if (residence !== loginInfo?.residence) {
+        isNeedToUpdateLoginInfo = true;
+        await axios({
+          url: "/users/registerResidence",
+          method: "post",
+          data: { residence },
+          onError: () => setAlert(t("page_modify.residence_failed")),
+        });
+      }
+    } else {
+      setAlert(t("page_modify.residence_failed"));
+    }
+
     if (isNeedToUpdateLoginInfo) {
       fetchLoginInfo();
     }
@@ -235,6 +262,20 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
       data: { phoneNumber },
       onError: () => setAlert(t("page_modify.phone_number_failed")),
     });
+
+    // 2025 Fall 기간에는 전화번호 등록 시 이벤트 참여가 진행됩니다.
+    await axios({
+      url: "/events/2025fall/globalState/create",
+      method: "post",
+      data: { phoneNumber },
+      onSuccess: () => {
+        fetchLoginInfo();
+        modalProps.onChangeIsOpen?.(false);
+        completeQuest("phoneVerification");
+      },
+      onError: () => setAlert("이벤트 참여에 실패하였습니다."),
+    });
+
     fetchLoginInfo();
     setPhoneAgreeModalOpen(false);
     modalProps.onChangeIsOpen?.(false);
@@ -378,6 +419,14 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
                 />
               )}
             </div>
+            <div css={{ ...styleTitle, marginTop: "10px" }}>
+              {t("residence")}
+              <Input
+                value={residence}
+                onChangeValue={setResidence}
+                css={{ width: "100%", marginLeft: "10px" }}
+              />
+            </div>
           </div>
           <div css={styleButton}>
             <Button
@@ -399,6 +448,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
                 (nickname === loginInfo?.nickname &&
                   account === loginInfo?.account &&
                   badge === loginInfo?.badge &&
+                  residence === loginInfo?.residence &&
                   // 기존에 전화번호가 있거나, 없었고 입력란도 빈 상태면 변경 없음
                   (loginInfo?.phoneNumber !== undefined ||
                     phoneNumber === "")) ||

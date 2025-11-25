@@ -6,6 +6,8 @@
   "student_id": "Student ID",
   "email": "E-mail",
   "nickname": "Nickname",
+  "phone_number": "Phone Number",
+  "residence": "Residence",
   "beta_service_guide": "Beta service guide",
   "translation": "English → 한국어",
   "notification": "Notification",
@@ -28,10 +30,12 @@
     "profile_image_loading": "Chaning...",
     "nickname_failed": "Failed to change nickname",
     "account_failed": "Failed to change account",
-    "phone_number_failed": "Failed to change phone number"
+    "phone_number_failed": "Failed to change phone number",
+    "residence_failed": "Failed to change residence info"
   },
   "page_credit": {
     "category_all": "All",
+    "category_2025fall_event": "2025 Fall Badge Event",
     "category_2025spring_event": "2025 Spring Event",
     "category_2024fall_event": "2024 Fall Thanksgiving Event",
     "category_2024spring_event": "2024 Spring Freshman Class Taxi Event",

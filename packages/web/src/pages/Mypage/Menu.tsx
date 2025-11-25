@@ -63,13 +63,15 @@ const Menu = ({ icon, onClick, children }: MenuProps) => {
   const style = {
     display: "flex",
     alignItems: "flex-start",
-    width: "fit-content",
+    justifyContent: "space-between",
+    width: "100%",
     color: isHover ? theme.purple : undefined,
     ...theme.cursor(),
   };
   const styleText = {
     ...theme.font14,
     color: "inherit",
+    display: "flex",
   };
   const styleIcon = useMemo(
     () => ({
@@ -80,8 +82,10 @@ const Menu = ({ icon, onClick, children }: MenuProps) => {
 
   return (
     <div css={style} onClick={onClick} {...hoverProps}>
-      {getIcon(icon)}
-      <div css={styleText}>{children}</div>
+      <div css={styleText}>
+        {getIcon(icon)}
+        {children}
+      </div>
       {isHover && <KeyboardArrowLeftRoundedIcon style={styleIcon} />}
     </div>
   );

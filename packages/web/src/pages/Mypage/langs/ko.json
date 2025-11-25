@@ -5,6 +5,7 @@
   "revise": "수정하기",
   "student_id": "학번",
   "phone_number": "전화번호",
+  "residence": "거주지",
   "Badge Display": "배지 표시",
   "email": "메일",
   "nickname": "별명",
@@ -31,10 +32,12 @@
     "nickname_failed": "닉네임 변경에 실패했습니다",
     "account_failed": "계좌번호 변경에 실패했습니다",
     "phone_number_failed": "전화번호 변경에 실패했습니다",
+    "residence_failed": "거주지 정보 변경에 실패했습니다",
     "page_modify.badge_display_failed": "배지 표시 변경에 실패했습니다다"
   },
   "page_credit": {
     "category_all": "전체",
+    "category_2025fall_event": "2025 뱃지 이벤트",
     "category_2025spring_event": "2025 새학기 이벤트",
     "category_2024fall_event": "2024 가을학기 추석 이벤트",
     "category_2024spring_event": "2024 봄학기 새터반 택시대제전 이벤트",

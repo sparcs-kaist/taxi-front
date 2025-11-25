@@ -1,10 +1,10 @@
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 
 import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import Footer from "@/components/Footer";
 import {
-  ModalEvent2025SpringJoin,
+  ModalEvent2025FallJoin,
   ModalNoticeBadge,
   ModalPrivacyPolicy,
 } from "@/components/ModalPopup";
@@ -23,11 +23,14 @@ export const homeRoomFilterAtom = atom<boolean>({
 
 const Home = () => {
   const history = useHistory();
-
+  const location = useLocation();
   const { roomId: _roomId, inviterId } = useParams<{
     roomId?: string;
     inviterId?: string;
   }>();
+
+  const searchParams = new URLSearchParams(location.search);
+  const triggerTags = searchParams.get("triggerTags") || "";
 
   const isOpenEventJoin = inviterId ? true : _roomId === "eventJoin";
   const onChangeIsOpenPrivacyPolicy = () => history.replace("/home");
@@ -43,13 +46,13 @@ const Home = () => {
       <InfoSection />
       <NoticeSection />
       <EventSection />
-      <RoomSection roomId={roomId} />
+      <RoomSection roomId={roomId} triggerTags={triggerTags} />
       <Footer />
       <ModalPrivacyPolicy
         isOpen={_roomId === "privacyPolicy"}
         onChangeIsOpen={onChangeIsOpenPrivacyPolicy}
       />
-      <ModalEvent2025SpringJoin
+      <ModalEvent2025FallJoin
         inviterId={inviterId}
         isOpen={isOpenEventJoin}
         onChangeIsOpen={onChangeIsOpenEventJoin}
