@@ -26,6 +26,11 @@ import {
   useValueLoginInfo,
 } from "./useFetchLoginInfo";
 import {
+  useFetchMileage,
+  useSetMileage,
+  useValueMileage,
+} from "./useFetchMileage";
+import {
   useFetchMyRooms,
   useSetMyRooms,
   useValueMyRooms,
@@ -46,6 +51,7 @@ import { Event2024FallInfoType } from "@/atoms/event2024FallInfo";
 import { Event2024SpringInfoType } from "@/atoms/event2024SpringInfo";
 import { Event2025SpringInfoType } from "@/atoms/event2025SpringInfo";
 import { LoginInfoType } from "@/atoms/loginInfo";
+import { MileageType } from "@/atoms/mileage";
 import { MyRoomsType } from "@/atoms/myRooms";
 import { notificationOptionsType } from "@/atoms/notificationOptions";
 import { TaxiLocationsType } from "@/atoms/taxiLocations";
@@ -58,7 +64,8 @@ export type AtomName =
   | "event2023FallInfo"
   | "event2024SpringInfo"
   | "event2024FallInfo"
-  | "event2025SpringInfo";
+  | "event2025SpringInfo"
+  | "mileage";
 
 type useValueRecoilStateType = {
   (atomName: "loginInfo"): LoginInfoType;
@@ -69,6 +76,7 @@ type useValueRecoilStateType = {
   (atomName: "event2024SpringInfo"): Event2024SpringInfoType;
   (atomName: "event2024FallInfo"): Event2024FallInfoType;
   (atomName: "event2025SpringInfo"): Event2025SpringInfoType;
+  (atomName: "mileage"): MileageType; // NEW
 };
 const _useValueRecoilState = (atomName: AtomName) => {
   switch (atomName) {
@@ -88,6 +96,8 @@ const _useValueRecoilState = (atomName: AtomName) => {
       return useValueEvent2024FallInfo();
     case "event2025SpringInfo":
       return useValueEvent2025SpringInfo();
+    case "mileage": // NEW
+      return useValueMileage();
   }
 };
 export const useValueRecoilState =
@@ -111,6 +121,8 @@ export const useSetRecoilState = (atomName: AtomName) => {
       return useSetEvent2024FallInfo();
     case "event2025SpringInfo":
       return useSetEvent2025SpringInfo();
+    case "mileage": // NEW
+      return useSetMileage();
   }
 };
 
@@ -132,6 +144,8 @@ export const useFetchRecoilState = (atomName: AtomName) => {
       return useFetchEvent2024FallInfo();
     case "event2025SpringInfo":
       return useFetchEvent2025SpringInfo();
+    case "mileage": // NEW
+      return useFetchMileage();
   }
 };
 
@@ -170,6 +184,10 @@ export const useSyncRecoilStateEffect = () => {
   // event2025SpringInfo 초기화 및 동기화
   const fetchEvent2025SpringInfo = useFetchRecoilState("event2025SpringInfo");
   useEffect(fetchEvent2025SpringInfo, [userId]);
+
+  // mileage 초기화 및 동기화 // NEW
+  const fetchMileage = useFetchRecoilState("mileage");
+  useEffect(fetchMileage, [userId]);
 };
 
 export const useIsLogin = (): boolean => {

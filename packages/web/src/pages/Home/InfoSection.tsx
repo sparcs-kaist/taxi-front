@@ -2,11 +2,10 @@ import { forwardRef, useMemo } from "react";
 import { Link } from "react-router-dom";
 
 import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
-import {
-  useFetchMileage,
-  useValueMileage,
-} from "@/hooks/useFetchRecoilState/useFetchMileage";
 
+// NOTE: useFetchMileage, useValueMileage에 대한 직접적인 import는 제거하고,
+//       통합된 useValueRecoilState를 사용하도록 코드를 정리합니다.
+// import { useFetchMileage, useValueMileage } from "@/hooks/useFetchRecoilState/useFetchMileage";
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
 import LinkLogin from "@/components/Link/LinkLogin";
@@ -91,8 +90,15 @@ const InfoSection = () => {
   const isLogin = useIsLogin();
   const myRooms = useValueRecoilState("myRooms");
   const randomTaxiSlogan = useMemo(randomTaxiSloganGenerator, []);
-  const activeMileage = useValueMileage();
-  const tier = { tier: "gold", maxMileage: 10000 }; //loginInfo?.mileage.tier;
+
+  // [CHANGE] useValueRecoilState를 통해 마일리지 데이터 (MileageSummary | null) 가져오기
+  const mileageData = useValueRecoilState("mileage");
+
+  // [CHANGE] tier 객체를 mileageData를 기반으로 정의 (maxMileage는 예시값 유지)
+  const tier = {
+    tier: mileageData?.tier || "none",
+    maxMileage: 10000, // 백엔드에서 제공되지 않는다면 이 값은 프론트에서 관리 필요
+  };
 
   const { message, room } = useMemo(() => {
     const sortedMyRoom =
@@ -193,13 +199,15 @@ const InfoSection = () => {
                     backgroundColor: theme.purple,
                   }}
                 >
-                  {activeMileage?.activeMileage.toLocaleString()}원
+                  {/* mileageData에서 activeMileage를 안전하게 접근하여 표시 */}
+                  {mileageData?.activeMileage.toLocaleString() ?? "- "}원
                 </span>
                 을 절약했어요! <BadgeImage badge_size="1.2em" />
               </div>
               <div css={{ margin: "0px 0px 10px" }}>
                 <Tooltip
-                  title={`다음 단계: ${tier?.maxMileage.toLocaleString()}원 필요`}
+                  // tier.maxMileage를 사용하여 툴팁 타이틀 설정
+                  title={`다음 단계: ${tier.maxMileage.toLocaleString()}원 필요`}
                   componentsProps={{
                     tooltip: {
                       sx: {
@@ -222,8 +230,10 @@ const InfoSection = () => {
                   leaveTouchDelay={2000}
                 >
                   <Gauge
-                    value={activeMileage?.activeMileage ?? 0}
-                    max={tier?.maxMileage ?? 0}
+                    // mileageData에서 activeMileage를 안전하게 접근
+                    value={mileageData?.activeMileage ?? 0}
+                    // tier.maxMileage를 사용하여 max 값을 설정
+                    max={tier.maxMileage ?? 0}
                     width="100%"
                     height="15px"
                     bgColor={theme.gray_background}
