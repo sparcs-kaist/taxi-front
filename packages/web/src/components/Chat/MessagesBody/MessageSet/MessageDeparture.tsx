@@ -43,6 +43,30 @@ const MessageDeparture = ({
         택시 출발 {minutes}분 전 입니다. 동승자들이 모두 모였다면 택시를 호출한
         후 출발하세요.
       </div>
+      {roomInfo.emojiIdentifier && (
+        <div
+          css={{
+            marginTop: "10px",
+            marginBottom: "10px",
+            padding: "10px",
+            backgroundColor: theme.gray_background,
+            borderRadius: "8px",
+          }}
+        >
+          <div
+            css={{
+              ...theme.font14_bold,
+              marginBottom: "4px",
+              color: theme.black,
+            }}
+          >
+            방 식별자 : {roomInfo.emojiIdentifier}
+          </div>
+          <div css={{ ...theme.font12, color: theme.gray_text }}>
+            탑승 시 방 식별자를 확인해주세요!
+          </div>
+        </div>
+      )}
       <Button onClick={() => setIsOpenCallTaxi(true)}>택시 호출하기</Button>
       <div style={{ marginTop: "17px" }}></div>
       <div css={styleText}>
