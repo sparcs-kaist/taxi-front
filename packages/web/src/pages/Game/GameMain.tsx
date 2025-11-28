@@ -2,7 +2,6 @@ import { memo, useCallback, useState } from "react";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
-import Footer from "@/components/Footer";
 import ItemUseResultModal from "@/components/ModalPopup/ModalGameItemResult";
 import ItemUseModal from "@/components/ModalPopup/ModalGameItemUse";
 import EnhanceResultModal from "@/components/ModalPopup/ModalGameenforce";
