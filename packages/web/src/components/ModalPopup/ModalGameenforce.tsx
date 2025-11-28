@@ -19,8 +19,8 @@ interface EnhanceResultModalProps {
 const EnhanceResultModal = ({
   isOpen,
   onClose,
-  result,
   oldLevel,
+  result,
   newLevel,
 }: EnhanceResultModalProps) => {
   // 결과에 따른 색상 및 텍스트 설정

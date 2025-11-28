@@ -51,16 +51,8 @@ const Game = () => {
 
   // 1. [수정] 초기 데이터 요청 및 스크롤 제어 (마운트 시 1회만 실행)
   useEffect(() => {
-    // 컴포넌트가 마운트될 때 스크롤을 막음
-    document.body.style.overflow = "hidden";
-
     // 서버 데이터 요청 (의존성 배열을 비워서 1회만 실행되게 함)
     fetchMinigameInfo();
-
-    // 컴포넌트가 언마운트될 때 스크롤을 다시 활성화함
-    return () => {
-      document.body.style.overflow = "";
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
