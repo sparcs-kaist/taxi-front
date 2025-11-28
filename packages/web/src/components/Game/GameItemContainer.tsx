@@ -7,7 +7,7 @@ import WhiteContainer from "@/components/WhiteContainer";
 
 import theme from "@/tools/theme";
 
-import { ReactComponent as CreditIcon } from "@/static/events/2025springCredit.svg";
+import coinGif from "@/static/events/2024springCoin.gif";
 
 type GameItemComponentProps = {
   value: GameItem;
@@ -84,7 +84,11 @@ const GameItemContainer = (
           gap: "4px",
         }}
       >
-        <CreditIcon css={{ width: "27px", height: "16px" }} />
+        <img
+          src={coinGif}
+          alt="coin"
+          style={{ width: "16px", height: "16px", objectFit: "contain" }}
+        />
         <div
           css={{
             ...theme.font14,

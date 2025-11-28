@@ -1,15 +1,15 @@
-import { Dispatch, SetStateAction, useCallback, useMemo, useRef } from "react";
+import { useCallback, useMemo, useRef } from "react";
 import { GameItem } from "@/types/game";
 import { useValueRecoilState, useIsLogin } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
 import { useSetRecoilState } from "recoil";
 import alertAtom from "@/atoms/alert";
 import Modal from "@/components/Modal";
-import { ReactComponent as CreditIcon } from "@/static/events/2025springCredit.svg";
+
 import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceWalletRounded";
 import theme from "@/tools/theme";
 import Button from "@/components/Button";
-
+import coinGif from "@/static/events/2024springCoin.gif";
 type ModalGameItemProps = Parameters<typeof Modal>[0] & {
     itemInfo: GameItem;
   };
@@ -82,7 +82,11 @@ const ModalGameItem = ({
                 gap: "4px",
               }}
             >
-              <CreditIcon css={{ width: "27px", height: "16px" }} />
+              <img
+            src={coinGif}
+            alt="coin"
+            style={{ width: "16px", height: "16px", objectFit: "contain" }}
+          />
               <div>{itemInfo.price}</div>
             </div>
           </div>
