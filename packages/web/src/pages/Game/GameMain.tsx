@@ -44,7 +44,7 @@ const GameMain = () => {
   const [usedItemName, setUsedItemName] = useState("");
 
   // 강화 비용 (고정값 혹은 변수)
-  const ENHANCE_COST = 1000;
+  const ENHANCE_COST = 0;
 
   // -----------------------------------------------------------------------
   // 2. useEffect (데이터 동기화 & 429 에러 방지)

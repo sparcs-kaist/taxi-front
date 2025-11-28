@@ -28,7 +28,7 @@ export const useFetchGameInfo = () => {
         axios({
           url: "/miniGame/miniGames/",
           method: "get",
-          onSuccess: (data) => setGameInfo(data),
+          onSuccess: (data) => setGameInfo(data.miniGameStatus),
           onError: onError,
         });
       } else {
@@ -55,7 +55,7 @@ export const useFetchEnforceGameInfo = () => {
         axios({
           url: "/miniGame/miniGames/reinforcement",
           method: "get",
-          onSuccess: (data) => setGameInfo(data),
+          onSuccess: (data) => setGameInfo(data.miniGameStatus),
           onError: onError,
         });
       }
