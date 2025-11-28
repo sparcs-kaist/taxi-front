@@ -16,20 +16,10 @@ type GameItemComponentProps = {
   showDescription?: boolean;
 };
 
-<<<<<<< HEAD
-const GameItemContainer = ({
-  value,
-  fetchItems,
-  clickable,
-  showDescription,
-}: GameItemComponentProps) => {
-//   const fetchGameInfo = useFetchRecoilState("gameInfo");
-=======
 const GameItemContainer = (
   { value, fetchItems, clickable, showDescription }: GameItemComponentProps
 ) => {
   //   const fetchGameInfo = useFetchRecoilState("gameInfo");
->>>>>>> 0b10c507622b0dbbe92ac6e6d1c530e2f3cf2372
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const onClickHandler = () => {
     // TODO: onclick
