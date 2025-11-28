@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, Redirect, Route, Switch, useLocation } from "react-router-dom";
 
 import Footer from "@/components/Footer";
@@ -10,6 +10,9 @@ import GameMain from "./GameMain";
 import Money from "./Money";
 import Store from "./Store";
 
+import { useGetMiniGameInfo, type MiniGameInfo } from "@/hooks/game/useMiniGame";
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+
 import theme from "@/tools/theme";
 
 import coinGif from "@/static/events/2024springCoin.gif";
@@ -17,6 +20,27 @@ import coinGif from "@/static/events/2024springCoin.gif";
 const Game = () => {
   const location = useLocation();
   const currentPath = location.pathname;
+  const getMiniGameInfo = useGetMiniGameInfo();
+  const gameInfo = useValueRecoilState("gameInfo");
+  const [miniGameInfo, setMiniGameInfo] = useState<MiniGameInfo | null>(null);
+
+  // Fetch miniGame info on mount and when gameInfo changes (e.g., after reinforcement)
+  useEffect(() => {
+    getMiniGameInfo(
+      (data) => {
+        const status = data.miniGameStatus || data.newMiniGameStatus;
+        if (status) {
+          setMiniGameInfo(status);
+        }
+      },
+      (error) => {
+        console.error("Failed to fetch miniGame info:", error);
+      }
+    );
+  }, [getMiniGameInfo, gameInfo?.level]); // Refresh when level changes
+
+  // Use miniGame creditAmount if available, otherwise fall back to gameInfo creditAmount
+  const creditAmount = miniGameInfo?.creditAmount ?? gameInfo?.creditAmount ?? 0;
 
   // [변경] 둥근 알약(Pill) 스타일의 탭 디자인
   const getTabStyle = (path: string) => {
@@ -91,7 +115,7 @@ const Game = () => {
                 color: theme.black || "#333",
               }}
             >
-              100,000원
+              {creditAmount.toLocaleString()}원
             </span>
           </div>
         </div>

@@ -1,4 +1,5 @@
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
+import { AxiosError } from "axios";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
@@ -7,12 +8,17 @@ import ItemUseModal from "@/components/ModalPopup/ModalGameItemUse";
 import EnhanceResultModal from "@/components/ModalPopup/ModalGameenforce";
 import WhiteContainer from "@/components/WhiteContainer";
 
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import { useReinforcement, useGetMiniGameInfo } from "@/hooks/game/useMiniGame";
+import { useFetchRecoilState } from "@/hooks/useFetchRecoilState";
+
 import theme from "@/tools/theme";
 
 const GameMain = () => {
   // 1. 강화 관련 상태
   const [isEnhanceModalOpen, setIsEnhanceModalOpen] = useState(false);
   const [isEnhanceSuccess, setIsEnhanceSuccess] = useState(false);
+  const [newLevel, setNewLevel] = useState<number | null>(null);
 
   // 2. 아이템 인벤토리 모달 상태
   const [isItemInventoryOpen, setIsItemInventoryOpen] = useState(false);
@@ -21,19 +27,65 @@ const GameMain = () => {
   const [isItemResultOpen, setIsItemResultOpen] = useState(false);
   const [usedItemName, setUsedItemName] = useState("");
 
+  // API hooks
+  const reinforcement = useReinforcement();
+  const getMiniGameInfo = useGetMiniGameInfo();
+  const fetchGameInfo = useFetchRecoilState("gameInfo");
+  const gameInfo = useValueRecoilState("gameInfo");
+  const currentLevel = gameInfo?.level ?? 1;
+
+  // Fetch miniGame info on mount
+  useEffect(() => {
+    getMiniGameInfo(
+      (data) => {
+        const miniGameStatus = data.miniGameStatus || data.newMiniGameStatus;
+        if (miniGameStatus) {
+          fetchGameInfo();
+        }
+      },
+      (error) => {
+        console.error("Failed to fetch miniGame info:", error);
+      }
+    );
+  }, [getMiniGameInfo, fetchGameInfo]);
+
   // -----------------------------------------------------------------------
   // 핸들러 함수들
   // -----------------------------------------------------------------------
 
   // 강화하기 버튼 클릭
   const handleEnhance = useCallback(() => {
-    // TODO: 실제 서버 통신 로직이 들어갈 곳
-    // 현재는 50% 확률로 성공/실패 시뮬레이션
-    const randomResult = Math.random() < 0.5;
-
-    setIsEnhanceSuccess(randomResult);
-    setIsEnhanceModalOpen(true);
-  }, []);
+    reinforcement(
+      (data) => {
+        // Determine success based on level change
+        const success = data.level > currentLevel;
+        setIsEnhanceSuccess(success);
+        setNewLevel(data.level);
+        setIsEnhanceModalOpen(true);
+        // Refresh game info to update credit amount and level
+        fetchGameInfo();
+        // Also refresh miniGame info to get updated creditAmount
+        getMiniGameInfo(
+          (data) => {
+            const miniGameStatus = data.miniGameStatus || data.newMiniGameStatus;
+            if (miniGameStatus) {
+              // Update will be reflected in parent component
+            }
+          },
+          () => {}
+        );
+      },
+      (error: AxiosError | any) => {
+        console.error("Reinforcement failed:", error);
+        // Show error message to user
+        if (error?.response?.data?.error) {
+          alert(error.response.data.error);
+        } else {
+          alert("강화에 실패했습니다. 다시 시도해주세요.");
+        }
+      }
+    );
+  }, [reinforcement, currentLevel, fetchGameInfo, getMiniGameInfo]);
 
   // 아이템 사용 완료 (ItemUseModal에서 호출됨)
   const handleItemUseComplete = (itemName: string) => {
@@ -81,7 +133,7 @@ const GameMain = () => {
               width: "100%",
             }}
           >
-            +3강: 완전 멋있는 택시
+            +{currentLevel - 1}강: 완전 멋있는 택시
           </div>
 
           {/* 2. 택시 이미지 영역 */}
@@ -159,8 +211,12 @@ const GameMain = () => {
       {/* 1. 강화 결과 모달 */}
       <EnhanceResultModal
         isOpen={isEnhanceModalOpen}
-        onClose={() => setIsEnhanceModalOpen(false)}
+        onClose={() => {
+          setIsEnhanceModalOpen(false);
+          setNewLevel(null);
+        }}
         isSuccess={isEnhanceSuccess}
+        newLevel={newLevel}
       />
 
       {/* 2. 아이템 선택(인벤토리) 모달 */}

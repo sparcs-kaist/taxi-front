@@ -10,13 +10,12 @@ interface EnhanceResultModalProps {
   isOpen: boolean;
   onClose: () => void;
   isSuccess: boolean;
+  newLevel?: number | null;
 }
 
-const EnhanceResultModal = ({
-  isOpen,
-  onClose,
-  isSuccess,
-}: EnhanceResultModalProps) => {
+const EnhanceResultModal = (
+  { isOpen, onClose, isSuccess, newLevel }: EnhanceResultModalProps
+) => {
   const styleTitle = {
     ...theme.font18,
     display: "flex",
@@ -92,12 +91,20 @@ const EnhanceResultModal = ({
         {isSuccess ? (
           <>
             축하합니다! <br />
-            택시가 더욱 강력해졌습니다. (+1강)
+            택시가 더욱 강력해졌습니다.{" "}
+            {newLevel !== undefined ? `(+${(newLevel as number) - 1}강)` : ""}
           </>
         ) : (
           <>
             아쉽네요... <br />
-            강화에 실패하여 재화만 소모되었습니다.
+            {newLevel !== null && newLevel === 1 ? (
+              <>강화에 실패하여 택시가 파괴되었습니다. (1강으로 초기화)</>
+            ) : (
+              <>
+                강화에 실패하여 재화만 소모되었습니다.
+                {newLevel !== null && ` (현재 ${newLevel}강)`}
+              </>
+            )}
           </>
         )}
       </div>
