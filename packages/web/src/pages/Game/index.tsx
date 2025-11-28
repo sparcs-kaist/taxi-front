@@ -1,29 +1,26 @@
-import { memo } from "react";
-import { Link } from "react-router-dom";
-import Button from "@/components/Button";
-import WhiteContainer from "@/components/WhiteContainer";
-import Footer from "@/components/Footer";
-import theme from "@/tools/theme";
-import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
-import AdaptiveDiv from "@/components/AdaptiveDiv";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import Store from "./Store";
+import Money from "./Money";
+import GameMain from "./GameMain";
 
 const Game = () => {
-    return (
-        <>
-          <HeaderWithBackButton>
-            <div css={{ color: theme.purple, ...theme.font18 }}>게임 메인 페이지</div>
-          </HeaderWithBackButton>
-          <AdaptiveDiv
-        type="center"
-        css={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >TAXI</AdaptiveDiv>
-          <Footer type="full" />
-        </>
-      );
+    const { page } = useParams() as {
+      page: string;
     };
 
-    export default memo(Game);
+    useEffect(() => {
+        console.log(page);
+    }, [page]);
+
+    switch (page) {
+        case "store":
+            return <Store />;
+        case "money":
+            return <Money />;
+        default:
+            return <GameMain />;
+    }
+};
+
+export default Game;
