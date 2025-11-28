@@ -1,10 +1,11 @@
 import styled from "@emotion/styled";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import { useAxios } from "@/hooks/useTaxiAPI";
 
 import Footer from "@/components/Footer";
+import { ModalLeaderboard } from "@/components/ModalPopup";
 
 import theme from "@/tools/theme";
 
@@ -16,6 +17,7 @@ import PoliceImg from "@/static/assets/games/police.png";
 import RoadImg from "@/static/assets/games/road.png";
 import TaxiImg from "@/static/assets/games/taxi.png";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
+import EmojiEventsRoundedIcon from "@mui/icons-material/EmojiEventsRounded";
 import LocalTaxiRoundedIcon from "@mui/icons-material/LocalTaxiRounded";
 
 const PageWrapper = styled.div`
@@ -90,10 +92,15 @@ const Canvas = styled.canvas`
   max-height: 60vh;
 `;
 
+const ScoreArea = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+`;
+
 const ScoreBoard = styled.div`
   font-size: 24px;
   font-weight: bold;
-  margin-bottom: 15px;
   color: ${theme.purple};
   ${theme.font20}
 `;
@@ -125,6 +132,23 @@ const Button = styled.button`
     box-shadow: none;
   }
   user-select: none;
+`;
+
+const RankingButton = styled.button`
+  background-color: ${theme.white};
+  color: ${theme.purple};
+  border: 1px solid ${theme.purple};
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  &:hover {
+    background-color: ${theme.purple_light};
+  }
 `;
 
 const GameOverModal = styled.div`
@@ -181,6 +205,7 @@ const TaxiDodgeGame = () => {
   const [gameOver, setGameOver] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
+  const [isRankingOpen, setIsRankingOpen] = useState(false);
 
   const request = useAxios();
 
@@ -554,7 +579,13 @@ const TaxiDodgeGame = () => {
         </HeaderContent>
       </HeaderContainer>
       <ContentWrapper>
-        <ScoreBoard>점수: {score}</ScoreBoard>
+        <ScoreArea>
+          <ScoreBoard css={{ marginRight: "15px" }}>점수: {score}</ScoreBoard>
+          <RankingButton onClick={() => setIsRankingOpen(true)}>
+            <EmojiEventsRoundedIcon style={{ fontSize: "16px" }} />
+            랭킹
+          </RankingButton>
+        </ScoreArea>
         <GameContainer>
           <div style={{ position: "relative" }}>
             <Canvas
@@ -573,7 +604,9 @@ const TaxiDodgeGame = () => {
             )}
             {gameOver && (
               <GameOverModal>
-                <h2 css={{ marginBottom: "10px" }}>게임 종료</h2>
+                <ScoreBoard css={{ marginBottom: "10px" }}>
+                  게임 종료
+                </ScoreBoard>
                 <p>최종 점수: {score}</p>
                 <RestartButton onClick={startGame}>다시하기</RestartButton>
               </GameOverModal>
@@ -600,6 +633,11 @@ const TaxiDodgeGame = () => {
       <div style={{ paddingBottom: "30px" }}>
         <Footer type="only-logo" />
       </div>
+
+      <ModalLeaderboard
+        isOpen={isRankingOpen}
+        onChangeIsOpen={setIsRankingOpen}
+      />
     </PageWrapper>
   );
 };
