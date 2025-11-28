@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link, Redirect, Route, Switch, useLocation } from "react-router-dom";
 
+import Footer from "@/components/Footer";
 import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
 import Title from "@/components/Title";
 
@@ -147,6 +148,7 @@ const Game = () => {
             </Route>
           </Switch>
         </div>
+        <Footer type="game" />
       </div>
     </>
   );
