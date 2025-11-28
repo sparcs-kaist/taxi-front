@@ -622,7 +622,7 @@ const TaxiDodgeGame = () => {
                       게임 종료
                     </ScoreBoard>
                     <p css={{ marginBottom: "5px" }}>최종 점수: {score}</p>
-                    <p>획득한 재화: {score / 10}</p>
+                    <p>획득한 넙죽코인: {score / 10}</p>
                     <RestartButton onClick={startGame}>다시하기</RestartButton>
                   </GameOverModal>
                 )}
