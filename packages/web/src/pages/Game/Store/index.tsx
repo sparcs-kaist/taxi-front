@@ -12,7 +12,7 @@ const Store = () => {
   const items: GameItem[] = [
     {
       _id: "1",
-      name: "하락 방지권",
+      name: "파손 방지권",
       imageUrl: "https://placehold.co/150",
       price: 500,
       description: "강화 시 하락을 방지합니다.",

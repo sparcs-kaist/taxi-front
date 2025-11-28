@@ -6,12 +6,12 @@ import theme from "@/tools/theme";
 // -------------------------------------------------------------------------
 // [Modified] 강화 결과 모달 컴포넌트
 // -------------------------------------------------------------------------
-export type EnhanceResultType = "success" | "fail" | "broken";
+export type EnhanceResultType = "success" | "fail" | "broken" | "burst";
 
 interface EnhanceResultModalProps {
   isOpen: boolean;
   onClose: () => void;
-  result: EnhanceResultType; // 결과 상태 (성공, 실패, 파손)
+  result: EnhanceResultType; // 결과 상태 (성공, 실패, 하락, 파괴)
   oldLevel: number; // 이전 레벨
   newLevel: number; // 새로운 레벨
 }
@@ -29,10 +29,11 @@ const EnhanceResultModal = ({
       case "success":
         return { color: theme.purple, title: "🎉 강화 성공!" };
       case "broken":
-        return { color: theme.red_text || "#FF5252", title: "💥 택시 파손..." };
-      case "fail":
+        return { color: theme.red_text || "#FF5252", title: "💨 택시 손상..." };
+      case "burst":
+        return { color: theme.red_text || "#FF5252", title: "💥 강화 대실패!" };
       default:
-        return { color: theme.gray_text, title: "💨 강화 실패" };
+        return { color: theme.gray_text, title: "😭 강화 실패" };
     }
   };
 
@@ -96,7 +97,11 @@ const EnhanceResultModal = ({
             maxWidth: "80%",
             maxHeight: "80%",
             objectFit: "contain",
-            filter: result === "broken" ? "grayscale(100%)" : "none", // 파손 시 흑백 처리 효과
+            // [수정] broken(하락)이거나 burst(파괴)일 때 흑백 처리
+            filter:
+              result === "broken" || result === "burst"
+                ? "grayscale(100%)"
+                : "none",
           }}
           onError={(e) => {
             (e.target as HTMLElement).style.display = "none";
@@ -121,11 +126,20 @@ const EnhanceResultModal = ({
         )}
         {result === "broken" && (
           <>
-            강화에 대실패하여 택시가 손상되었습니다... <br />
+            강화 실패로 충격을 받아 택시가 손상되었습니다... <br />
             <b>
               +{oldLevel}강 ➔ +{newLevel}강
             </b>
             으로 하락했습니다.
+          </>
+        )}
+        {/* [추가] Burst (파괴/초기화) 문구 */}
+        {result === "burst" && (
+          <>
+            강화 에너지를 견디지 못하고 <br />
+            택시가 <b>파괴</b>되었습니다... 😱 <br />
+            <br />
+            <b>+{oldLevel}강 ➔ 0강 (초기화)</b>
           </>
         )}
       </div>

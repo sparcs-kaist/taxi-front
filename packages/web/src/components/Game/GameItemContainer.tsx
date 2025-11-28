@@ -2,6 +2,9 @@ import { useState } from "react";
 
 import { GameItem } from "@/types/game";
 
+// [추가] Recoil 훅 임포트
+import { useFetchRecoilState } from "@/hooks/useFetchRecoilState";
+
 import ModalGameItem from "@/components/ModalPopup/ModalGameItem";
 import WhiteContainer from "@/components/WhiteContainer";
 
@@ -15,13 +18,28 @@ type GameItemComponentProps = {
   showDescription?: boolean;
 };
 
-const GameItemContainer = (
-  { value, clickable, showDescription }: GameItemComponentProps
-) => {
-  //   const fetchGameInfo = useFetchRecoilState("gameInfo");
+const GameItemContainer = ({
+  value,
+  clickable,
+  showDescription,
+}: GameItemComponentProps) => {
+  // [수정] 주석 해제 및 훅 사용
+  const fetchGameInfo = useFetchRecoilState("gameInfo");
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
   const onClickHandler = () => {
     setIsOpen(true);
+  };
+
+  // [추가] 모달 상태 변경 핸들러
+  const handleModalChange = (open: boolean) => {
+    setIsOpen(open);
+
+    // 모달이 닫힐 때(false) 데이터 새로고침 실행
+    if (!open) {
+      fetchGameInfo();
+    }
   };
 
   return (
@@ -36,7 +54,6 @@ const GameItemContainer = (
         flexDirection: "column",
         alignItems: "left",
         gap: "8px",
-        // background: isSoldOut ? theme.gray_background : theme.white,
         ...theme.font14,
         ...theme.cursor(!clickable),
       }}
@@ -97,10 +114,12 @@ const GameItemContainer = (
           {value.price}
         </div>
       </div>
+
+      {/* [수정] onChangeIsOpen에 커스텀 핸들러 연결 */}
       <ModalGameItem
         itemInfo={value}
         isOpen={isOpen}
-        onChangeIsOpen={setIsOpen}
+        onChangeIsOpen={handleModalChange}
       />
     </WhiteContainer>
   );

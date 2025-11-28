@@ -28,7 +28,7 @@ interface ItemUseModalProps {
 // 아이템 메타 데이터 (표시용 이름, 설명 등)
 const ITEM_META = {
   preventFail: {
-    name: "실패 방지권",
+    name: "파손 방지권",
     desc: "강화 실패 시 등급 하락 방지",
   },
   preventBurst: {

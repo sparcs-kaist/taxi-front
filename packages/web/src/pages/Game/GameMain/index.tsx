@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 
 // Recoil Hooks
 import {
@@ -36,21 +36,25 @@ const GameMain = () => {
   const minigameInfo = useValueRecoilState("gameInfo");
   const fetchMinigameInfo = useFetchRecoilState("gameInfo");
 
-  // 강화 관련 상태 (순환 참조 방지를 위해 위로 올림)
   const [isLoading, setIsLoading] = useState(false);
 
+  // [수정] 여러 아이템을 담기 위해 배열 상태로 변경
+  const [usedItems, setUsedItems] = useState<string[]>([]);
+
+  // [수정] API 호출 함수: 완성된 body 객체를 직접 받도록 변경
   const reinforceClick = useCallback(
-    () =>
+    (requestBody: Record<string, boolean>) =>
       axios({
         url: "/miniGame/miniGames/reinforcement",
         method: "post",
-        data: {},
+        data: requestBody, // { fail: true, burst: true } 등이 들어옴
         onSuccess: () => {
           fetchMinigameInfo();
+          setUsedItems([]); // 성공 시 장착된 아이템 모두 소모(초기화)
         },
         onError: () => {
           setAlert("강화 시도를 실패하였습니다.");
-          setIsLoading(false); // [수정] 에러 시에도 로딩 종료
+          setIsLoading(false);
         },
       }),
     [axios, fetchMinigameInfo, setAlert]
@@ -65,7 +69,9 @@ const GameMain = () => {
 
   const [isItemInventoryOpen, setIsItemInventoryOpen] = useState(false);
   const [isItemResultOpen, setIsItemResultOpen] = useState(false);
-  const [usedItemName, setUsedItemName] = useState("");
+
+  // 방금 추가한 아이템 이름 (결과 모달 표시용)
+  const [lastAddedItem, setLastAddedItem] = useState("");
 
   // -----------------------------------------------------------------------
   // 2. useEffect (데이터 동기화 & 결과 판정)
@@ -76,15 +82,15 @@ const GameMain = () => {
       const newLevel = minigameInfo.level || 0;
       const newAmount = minigameInfo.creditAmount || 0;
 
-      // [핵심 수정] isLoading이 true일 때만 결과를 판정합니다.
-      // 의존성 배열에서 isLoading을 뺐으므로, 이 코드는 '데이터가 변했을 때'만 실행됩니다.
       if (isLoading) {
-        setIsLoading(false); // 로딩 종료
+        setIsLoading(false);
 
         if (newLevel > prevLevel) {
           setEnhanceResult("success");
         } else if (newLevel === prevLevel) {
           setEnhanceResult("fail");
+        } else if (newLevel + 1 < prevLevel) {
+          setEnhanceResult("burst");
         } else {
           setEnhanceResult("broken");
         }
@@ -97,8 +103,6 @@ const GameMain = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [minigameInfo]);
-  // ▲ [중요] isLoading, prevLevel을 의존성에서 제거해야
-  // "강화하기 버튼 클릭 -> 로딩 상태 변경 -> 바로 결과 모달 뜸(버그)" 현상을 막을 수 있습니다.
 
   // -----------------------------------------------------------------------
   // 3. 핸들러 함수 (Logic)
@@ -113,18 +117,45 @@ const GameMain = () => {
 
     setPrevLevel(level);
     setIsEnhanceConfirmOpen(false);
-    setIsLoading(true); // 망치질 시작
+    setIsLoading(true);
 
-    // [1초 딜레이] 망치질 1초 보여주고 -> API 호출
+    // [핵심 로직] 장착된 아이템 배열을 순회하며 Request Body 생성
+    const requestBody: Record<string, boolean> = {};
+
+    if (usedItems.includes("preventFail")) {
+      requestBody.fail = true; // 파손 방지
+    }
+    if (usedItems.includes("preventBurst")) {
+      requestBody.burst = true; // 파괴 방지
+    }
+
+    // 1초 딜레이 후 API 호출
     setTimeout(() => {
-      reinforceClick();
+      reinforceClick(requestBody);
     }, 1000);
   };
 
-  const handleItemUseComplete = (itemName: string) => {
-    setUsedItemName(itemName);
+  const handleItemUseComplete = (itemKey: string) => {
+    // [수정] 이미 장착된 아이템인지 확인 후 추가 (중복 방지)
+    setUsedItems((prev) => {
+      if (prev.includes(itemKey)) return prev;
+      return [...prev, itemKey];
+    });
+
+    setLastAddedItem(itemKey);
     setIsItemInventoryOpen(false);
     setIsItemResultOpen(true);
+  };
+
+  const getDisplayItemName = (key: string) => {
+    if (key === "preventFail") return "파손 방지권";
+    if (key === "preventBurst") return "파괴 방지권";
+    return "";
+  };
+
+  // 아이템 취소 핸들러 (선택 사항 UI)
+  const handleRemoveItem = (itemToRemove: string) => {
+    setUsedItems((prev) => prev.filter((item) => item !== itemToRemove));
   };
 
   // -----------------------------------------------------------------------
@@ -191,6 +222,40 @@ const GameMain = () => {
             />
           </div>
 
+          {/* [수정] 아이템 장착 상태 표시 (배열 순회) */}
+          {usedItems.length > 0 && (
+            <div
+              style={{
+                display: "flex",
+                gap: "8px",
+                flexWrap: "wrap",
+                justifyContent: "center",
+              }}
+            >
+              {usedItems.map((itemKey) => (
+                <div
+                  key={itemKey}
+                  onClick={() => handleRemoveItem(itemKey)} // 클릭 시 장착 해제 기능
+                  style={{
+                    ...theme.font14,
+                    color: theme.purple,
+                    fontWeight: "bold",
+                    backgroundColor: "#F3E5F5",
+                    padding: "8px 12px",
+                    borderRadius: "20px",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "4px",
+                  }}
+                >
+                  ✨ {getDisplayItemName(itemKey)}
+                  <span style={{ fontSize: "12px", opacity: 0.6 }}>✕</span>
+                </div>
+              ))}
+            </div>
+          )}
+
           <div
             style={{
               width: "100%",
@@ -228,7 +293,7 @@ const GameMain = () => {
         </WhiteContainer>
       </AdaptiveDiv>
 
-      {/* 강화 확인 모달 */}
+      {/* 모달 컴포넌트들 */}
       <EnhanceConfirmModal
         isOpen={isEnhanceConfirmOpen}
         onClose={() => setIsEnhanceConfirmOpen(false)}
@@ -237,7 +302,6 @@ const GameMain = () => {
         currentMoney={amount}
       />
 
-      {/* 로딩(망치질) 모달 */}
       <Modal isOpen={isLoading} padding="40px 20px">
         <div style={{ textAlign: "center", color: theme.purple }}>
           <div
@@ -261,7 +325,6 @@ const GameMain = () => {
         </div>
       </Modal>
 
-      {/* 강화 결과 모달 */}
       <EnhanceResultModal
         isOpen={isEnhanceModalOpen}
         onClose={() => setIsEnhanceModalOpen(false)}
@@ -279,7 +342,7 @@ const GameMain = () => {
       <ItemUseResultModal
         isOpen={isItemResultOpen}
         onClose={() => setIsItemResultOpen(false)}
-        itemName={usedItemName}
+        itemName={getDisplayItemName(lastAddedItem)}
       />
     </>
   );
