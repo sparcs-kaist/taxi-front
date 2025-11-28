@@ -39,6 +39,17 @@ const Game = () => {
     );
   }, [getMiniGameInfo, gameInfo?.level]); // Refresh when level changes
 
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때 스크롤을 막음
+    document.body.style.overflow = "hidden";
+
+    // 컴포넌트가 언마운트될 때 스크롤을 다시 활성화함
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
+
+
   // Use miniGame creditAmount if available, otherwise fall back to gameInfo creditAmount
   const creditAmount = miniGameInfo?.creditAmount ?? gameInfo?.creditAmount ?? 0;
 
