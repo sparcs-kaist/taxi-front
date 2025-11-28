@@ -64,8 +64,6 @@ const GameMain = () => {
   const [isItemResultOpen, setIsItemResultOpen] = useState(false);
   const [usedItemName, setUsedItemName] = useState("");
 
-  // 강화 비용 (1000원으로 설정, 필요 시 변경)
-  const ENHANCE_COST = 0;
   // -----------------------------------------------------------------------
   // 2. useEffect (데이터 동기화)
   // -----------------------------------------------------------------------
@@ -106,7 +104,7 @@ const GameMain = () => {
   // 실제 강화 실행 (확인 모달 -> '강화하기' 클릭 시)
   const handleEnhance = () => {
     // 1. 안전장치: 돈 부족 체크
-    if (amount < ENHANCE_COST) {
+    if (amount < level * 100) {
       alert("돈이 부족합니다!");
       setIsEnhanceConfirmOpen(false);
       return;
@@ -237,7 +235,7 @@ const GameMain = () => {
         isOpen={isEnhanceConfirmOpen}
         onClose={() => setIsEnhanceConfirmOpen(false)}
         onConfirm={handleEnhance}
-        cost={ENHANCE_COST}
+        cost={level * 100}
         currentMoney={amount}
       />
 

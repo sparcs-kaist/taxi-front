@@ -39,6 +39,3 @@ export const useFetchGameInfo = () => {
     [userId, axios, setGameInfo]
   ); // 의존성 배열에 userId 추가
 };
-
-export const useValueReinforceInfo = () => useRecoilValue(gameInfoAtom);
-export const useSetReinforceInfo = () => useSetRecoilState(gameInfoAtom);

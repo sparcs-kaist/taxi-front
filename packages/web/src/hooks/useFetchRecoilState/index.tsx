@@ -207,7 +207,6 @@ export const useSyncRecoilStateEffect = () => {
   // gameInfo 초기화 및 동기화
   const fetchGameInfo = useFetchRecoilState("gameInfo");
   useEffect(fetchGameInfo, [userId]);
-
 };
 
 export const useIsLogin = (): boolean => {
