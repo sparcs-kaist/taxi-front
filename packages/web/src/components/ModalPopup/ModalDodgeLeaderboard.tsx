@@ -217,7 +217,9 @@ const ModalDodgeLeaderboard = ({
               value={elem}
               isMe={isMe}
               nickname={isMe ? loginInfo?.nickname : elem.nickname}
-              profileImageUrl={isMe ? loginInfo?.profileImgUrl : undefined}
+              profileImageUrl={
+                isMe ? loginInfo?.profileImgUrl : elem.profileImageUrl
+              }
             />
           );
         })}
