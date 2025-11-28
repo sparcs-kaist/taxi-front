@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import HeaderWithLeftNav from "@/components/Header/HeaderWithLeftNav";
 
 const Money = () => {
@@ -23,6 +24,8 @@ const Money = () => {
           },
         ]}
       />
+
+      <Footer type="game" />
     </>
   );
 };

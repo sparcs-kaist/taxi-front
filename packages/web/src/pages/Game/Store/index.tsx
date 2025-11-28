@@ -1,4 +1,5 @@
 import HeaderWithLeftNav from "@/components/Header/HeaderWithLeftNav";
+import Footer from "@/components/Footer";
 
 const Store = () => {
   return (
@@ -23,6 +24,8 @@ const Store = () => {
           },
         ]}
       />
+      <Footer type="game" />
+      
     </>
   );
 };

@@ -55,6 +55,8 @@ import { LoginInfoType } from "@/atoms/loginInfo";
 import { MyRoomsType } from "@/atoms/myRooms";
 import { notificationOptionsType } from "@/atoms/notificationOptions";
 import { TaxiLocationsType } from "@/atoms/taxiLocations";
+import { GameInfoType } from "@/atoms/gameInfo";
+import { useFetchGameInfo, useSetGameInfo, useValueGameInfo } from "./useFetchGameInfo";
 
 export type AtomName =
   | "loginInfo"
@@ -65,7 +67,8 @@ export type AtomName =
   | "event2024SpringInfo"
   | "event2024FallInfo"
   | "event2025SpringInfo"
-  | "event2025FallInfo";
+  | "event2025FallInfo"
+  | "gameInfo";
 
 type useValueRecoilStateType = {
   (atomName: "loginInfo"): LoginInfoType;
@@ -77,6 +80,7 @@ type useValueRecoilStateType = {
   (atomName: "event2024FallInfo"): Event2024FallInfoType;
   (atomName: "event2025SpringInfo"): Event2025SpringInfoType;
   (atomName: "event2025FallInfo"): Event2025FallInfoType;
+  (atomName: "gameInfo"): GameInfoType;
 };
 const _useValueRecoilState = (atomName: AtomName) => {
   switch (atomName) {
@@ -98,6 +102,8 @@ const _useValueRecoilState = (atomName: AtomName) => {
       return useValueEvent2025SpringInfo();
     case "event2025FallInfo":
       return useValueEvent2025FallInfo();
+      case "gameInfo":
+        return useValueGameInfo();
   }
 };
 export const useValueRecoilState =
@@ -123,6 +129,8 @@ export const useSetRecoilState = (atomName: AtomName) => {
       return useSetEvent2025SpringInfo();
     case "event2025FallInfo":
       return useSetEvent2025FallInfo();
+      case "gameInfo":
+        return useSetGameInfo();
   }
 };
 
@@ -146,6 +154,8 @@ export const useFetchRecoilState = (atomName: AtomName) => {
       return useFetchEvent2025SpringInfo();
     case "event2025FallInfo":
       return useFetchEvent2025FallInfo();
+    case "gameInfo":
+      return useFetchGameInfo();
   }
 };
 
@@ -188,6 +198,10 @@ export const useSyncRecoilStateEffect = () => {
   // event2025FallInfo 초기화 및 동기화
   const fetchEvent2025FallInfo = useFetchRecoilState("event2025FallInfo");
   useEffect(fetchEvent2025FallInfo, [userId]);
+
+  // gameInfo 초기화 및 동기화
+  const fetchGameInfo = useFetchRecoilState("gameInfo");
+  useEffect(fetchGameInfo, [userId]);
 };
 
 export const useIsLogin = (): boolean => {

@@ -1,14 +1,8 @@
 import { memo } from "react";
-import { Link } from "react-router-dom";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
-import Button from "@/components/Button";
 import Footer from "@/components/Footer";
-import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
 import HeaderWithLeftNav from "@/components/Header/HeaderWithLeftNav";
-import WhiteContainer from "@/components/WhiteContainer";
-
-import theme from "@/tools/theme";
 
 const GameMain = () => {
   return (
@@ -43,7 +37,7 @@ const GameMain = () => {
       >
         TAXI
       </AdaptiveDiv>
-      <Footer type="full" />
+      <Footer type="game" />
     </>
   );
 };
