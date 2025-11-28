@@ -1,49 +1,64 @@
-import { memo, useCallback, useState } from "react";
+import { memo, useState } from "react";
 
+// useCallback 제거
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
+import Modal from "@/components/Modal";
 import ItemUseResultModal from "@/components/ModalPopup/ModalGameItemResult";
 import ItemUseModal from "@/components/ModalPopup/ModalGameItemUse";
+// [중요] 파일명과 경로가 정확한지 꼭 확인하세요!
 import EnhanceResultModal from "@/components/ModalPopup/ModalGameenforce";
+import EnhanceConfirmModal from "@/components/ModalPopup/ModalGameenforceconfirm";
 import WhiteContainer from "@/components/WhiteContainer";
 
 import theme from "@/tools/theme";
 
 const GameMain = () => {
   // 1. 강화 관련 상태
+  const [isEnhanceConfirmOpen, setIsEnhanceConfirmOpen] = useState(false);
   const [isEnhanceModalOpen, setIsEnhanceModalOpen] = useState(false);
   const [isEnhanceSuccess, setIsEnhanceSuccess] = useState(false);
 
-  // 2. 아이템 인벤토리 모달 상태
-  const [isItemInventoryOpen, setIsItemInventoryOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  // [수정] 테스트를 위해 초기 자금을 비용보다 많게 설정 (500원)
+  const [currentMoney, setCurrentMoney] = useState(500);
+  const [enhanceCost] = useState(100);
 
-  // 3. 아이템 사용 결과 모달 상태
+  // 2. 아이템 관련 상태
+  const [isItemInventoryOpen, setIsItemInventoryOpen] = useState(false);
   const [isItemResultOpen, setIsItemResultOpen] = useState(false);
   const [usedItemName, setUsedItemName] = useState("");
 
   // -----------------------------------------------------------------------
-  // 핸들러 함수들
+  // 핸들러
   // -----------------------------------------------------------------------
 
-  // 강화하기 버튼 클릭
-  const handleEnhance = useCallback(() => {
-    // TODO: 실제 서버 통신 로직이 들어갈 곳
-    // 현재는 50% 확률로 성공/실패 시뮬레이션
-    const randomResult = Math.random() < 0.5;
+  // 실제 강화 실행 (확인 모달에서 '강화하기' 누른 후 실행됨)
+  const handleEnhance = () => {
+    // 1. 안전장치
+    if (currentMoney < enhanceCost) return;
 
-    setIsEnhanceSuccess(randomResult);
-    setIsEnhanceModalOpen(true);
-  }, []);
+    // 2. 확인 모달 닫기 & 돈 차감
+    setIsEnhanceConfirmOpen(false);
+    setCurrentMoney((prev) => prev - enhanceCost);
 
-  // 아이템 사용 완료 (ItemUseModal에서 호출됨)
+    // 3. 로딩 시작 (강화 연출 시작)
+    setIsLoading(true);
+
+    // 4. [핵심] 1.5초 딜레이 후 결과 판정
+    setTimeout(() => {
+      const isSuccess = Math.random() < 0.5;
+      setIsEnhanceSuccess(isSuccess);
+
+      // 로딩 끝내고 결과 모달 열기
+      setIsLoading(false);
+      setIsEnhanceModalOpen(true);
+    }, 1000);
+  };
+
   const handleItemUseComplete = (itemName: string) => {
     setUsedItemName(itemName);
-
-    // 1. 인벤토리 모달 닫기
     setIsItemInventoryOpen(false);
-
-    // 2. 결과 모달 열기 (자연스러운 전환을 위해 약간의 딜레이를 줄 수도 있음)
-    // setTimeout(() => setIsItemResultOpen(true), 100);
     setIsItemResultOpen(true);
   };
 
@@ -73,7 +88,6 @@ const GameMain = () => {
             alignItems: "center",
           }}
         >
-          {/* 1. 타이틀 영역 */}
           <div
             style={{
               ...theme.font16_bold,
@@ -84,7 +98,6 @@ const GameMain = () => {
             +3강: 완전 멋있는 택시
           </div>
 
-          {/* 2. 택시 이미지 영역 */}
           <div
             style={{
               width: "100%",
@@ -108,13 +121,10 @@ const GameMain = () => {
               }}
               onError={(e) => {
                 (e.target as HTMLElement).style.display = "none";
-                (e.target as HTMLElement).parentElement!.innerText =
-                  "🚖 Taxi Image";
               }}
             />
           </div>
 
-          {/* 3. 액션 버튼 영역 (가로 배치) */}
           <div
             style={{
               width: "100%",
@@ -125,7 +135,11 @@ const GameMain = () => {
           >
             <Button
               type="purple"
-              onClick={handleEnhance}
+              // [Check] 여기서 클릭 시 isEnhanceConfirmOpen이 true가 되는지 확인
+              onClick={() => {
+                console.log("강화 버튼 클릭됨");
+                setIsEnhanceConfirmOpen(true);
+              }}
               css={{
                 flex: 1,
                 padding: "12px 0",
@@ -152,25 +166,42 @@ const GameMain = () => {
         </WhiteContainer>
       </AdaptiveDiv>
 
-      {/* ------------------------------------------------------------------
-          모달 컴포넌트 렌더링 영역
-      ------------------------------------------------------------------ */}
+      {/* 모달 컴포넌트들 
+        Tip: 모달들이 AdaptiveDiv 바깥에 있는 것은 맞습니다.
+      */}
 
-      {/* 1. 강화 결과 모달 */}
+      <EnhanceConfirmModal
+        isOpen={isEnhanceConfirmOpen}
+        onClose={() => setIsEnhanceConfirmOpen(false)}
+        onConfirm={handleEnhance} // 여기서 바로 함수 호출
+        cost={enhanceCost}
+        currentMoney={currentMoney}
+      />
+
+      {/* [NEW] 2. 로딩 모달 (딜레이 동안 보여줄 화면) */}
+      <Modal isOpen={isLoading} padding="40px 20px">
+        <div style={{ textAlign: "center", color: theme.purple }}>
+          {/* 여기에 '망치질하는 GIF'나 '스피너'를 넣으면 더 좋습니다 */}
+          <div style={{ fontSize: "40px", marginBottom: "16px" }}>🔨</div>
+          <div style={{ fontWeight: "bold", fontSize: "16px" }}>
+            강화중입니다...
+          </div>
+        </div>
+      </Modal>
+
+      {/* 3. 강화 결과 모달 */}
       <EnhanceResultModal
         isOpen={isEnhanceModalOpen}
         onClose={() => setIsEnhanceModalOpen(false)}
         isSuccess={isEnhanceSuccess}
       />
 
-      {/* 2. 아이템 선택(인벤토리) 모달 */}
       <ItemUseModal
         isOpen={isItemInventoryOpen}
         onClose={() => setIsItemInventoryOpen(false)}
-        onUse={handleItemUseComplete} // 사용 시 부모 핸들러 호출하여 스위칭
+        onUse={handleItemUseComplete}
       />
 
-      {/* 3. 아이템 사용 결과 모달 */}
       <ItemUseResultModal
         isOpen={isItemResultOpen}
         onClose={() => setIsItemResultOpen(false)}
