@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 import { useEffect, useRef, useState } from "react";
 
+import { useAxios } from "@/hooks/useTaxiAPI";
+
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Title from "@/components/Title";
 
@@ -38,7 +40,7 @@ const ScoreBoard = styled.div`
 
 const Controls = styled.div`
   display: flex;
-  gap: 20px;
+  gap: 140px;
   margin-top: 20px;
   width: 100%;
   max-width: 400px;
@@ -101,6 +103,8 @@ const TaxiDodgeGame = () => {
   const [gameOver, setGameOver] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
 
+  const request = useAxios();
+
   const gameOverRef = useRef(false);
   const taxiX = useRef(175);
   const obstacles = useRef<{ x: number; y: number; speed: number }[]>([]);
@@ -120,6 +124,16 @@ const TaxiDodgeGame = () => {
   const OBSTACLE_SIZE = 30;
   const COIN_SIZE = 30;
   const BASE_TAXI_SPEED = 5;
+
+  useEffect(() => {
+    if (gameOver) {
+      request({
+        url: "/miniGame/update",
+        method: "post",
+        data: { score },
+      });
+    }
+  }, [gameOver, score, request]);
 
   const startGame = () => {
     setGameStarted(true);
@@ -145,14 +159,12 @@ const TaxiDodgeGame = () => {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // 난이도 조절
     const difficultyLevel = 1 + Math.floor(scoreRef.current / 100) * 0.1;
     const currentTaxiSpeed =
       BASE_TAXI_SPEED * (1 + (difficultyLevel - 1) * 0.5);
     const obstacleSpeedBase = 5 * difficultyLevel;
     const obstacleSpawnInterval = 300 / difficultyLevel;
 
-    // 움직임 로직
     if (keysPressed.current.has("ArrowLeft")) {
       taxiX.current = Math.max(0, taxiX.current - currentTaxiSpeed);
     }
@@ -165,7 +177,6 @@ const TaxiDodgeGame = () => {
 
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-    // --- 장애물 ---
     if (timestamp - lastObstacleTime.current > obstacleSpawnInterval) {
       obstacles.current.push({
         x: Math.random() * (CANVAS_WIDTH - OBSTACLE_SIZE),
@@ -190,7 +201,6 @@ const TaxiDodgeGame = () => {
       );
       ctx.fill();
 
-      // 충돌 감지
       if (
         taxiX.current < obs.x + OBSTACLE_SIZE &&
         taxiX.current + TAXI_SIZE > obs.x &&
@@ -211,7 +221,6 @@ const TaxiDodgeGame = () => {
       }
     }
 
-    // --- 코인 ---
     if (timestamp - lastCoinTime.current > 2000) {
       if (Math.random() < 0.8) {
         coins.current.push({
@@ -248,7 +257,6 @@ const TaxiDodgeGame = () => {
       ctx.fillText("C", coin.x + COIN_SIZE / 2, coin.y + COIN_SIZE / 2);
       ctx.fillStyle = "#FFD700";
 
-      // 충돌 감지 (코인)
       if (
         taxiX.current < coin.x + COIN_SIZE &&
         taxiX.current + TAXI_SIZE > coin.x &&
@@ -273,7 +281,6 @@ const TaxiDodgeGame = () => {
       }
     }
 
-    // --- 텍스트 ---
     ctx.font = "bold 20px Arial";
     ctx.textAlign = "center";
     for (let i = floatingTexts.current.length - 1; i >= 0; i--) {
@@ -292,7 +299,6 @@ const TaxiDodgeGame = () => {
 
     if (gameOverRef.current) return;
 
-    // 택시 모양
     ctx.fillStyle = "#FFC107";
     ctx.fillRect(
       taxiX.current,
@@ -304,11 +310,12 @@ const TaxiDodgeGame = () => {
     ctx.fillStyle = "black";
     ctx.fillRect(taxiX.current + 5, CANVAS_HEIGHT - TAXI_SIZE - 5, 10, 5);
     ctx.fillRect(taxiX.current + 25, CANVAS_HEIGHT - TAXI_SIZE - 5, 10, 5);
+    ctx.fillStyle = "white";
+    ctx.fillRect(taxiX.current + 5, CANVAS_HEIGHT - TAXI_SIZE - 25, 30, 10);
 
     animationFrameId.current = requestAnimationFrame(gameLoop);
   };
 
-  // 키보드 컨트롤
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       keysPressed.current.add(e.key);
