@@ -49,24 +49,34 @@ const Game = () => {
     };
   };
 
+  // 1. [수정] 초기 데이터 요청 및 스크롤 제어 (마운트 시 1회만 실행)
   useEffect(() => {
     // 컴포넌트가 마운트될 때 스크롤을 막음
     document.body.style.overflow = "hidden";
-    setAmount(minigameInfo?.creditAmount || 0);
+
+    // 서버 데이터 요청 (의존성 배열을 비워서 1회만 실행되게 함)
     fetchMinigameInfo();
 
     // 컴포넌트가 언마운트될 때 스크롤을 다시 활성화함
     return () => {
       document.body.style.overflow = "";
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // 2. [수정] 데이터 동기화 (Recoil 데이터가 바뀔 때만 실행)
+  useEffect(() => {
+    if (minigameInfo) {
+      setAmount(minigameInfo.creditAmount || 0);
+    }
+  }, [minigameInfo]);
 
   return (
     <>
       {/* 1. 최상단 고정 헤더 */}
       <HeaderWithBackButton>
         {/* 헤더 내부를 Flex로 만들어 좌우 끝으로 배치합니다.
-          width: 100%를 주어야 Title과 Coin이 양옆으로 벌어집니다.
+            width: 100%를 주어야 Title과 Coin이 양옆으로 벌어집니다.
         */}
         <div
           style={{
@@ -103,7 +113,7 @@ const Game = () => {
                 color: theme.black || "#333",
               }}
             >
-              {amount}원
+              {amount.toLocaleString()}원
             </span>
           </div>
         </div>

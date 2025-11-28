@@ -1,10 +1,11 @@
-import { memo, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 
 // Recoil Hooks
 import {
   useFetchRecoilState,
   useValueRecoilState,
 } from "@/hooks/useFetchRecoilState";
+import { useAxios } from "@/hooks/useTaxiAPI";
 
 // Components
 import AdaptiveDiv from "@/components/AdaptiveDiv";
@@ -19,19 +20,34 @@ import EnhanceResultModal, {
 import EnhanceConfirmModal from "@/components/ModalPopup/ModalGameenforceconfirm";
 import WhiteContainer from "@/components/WhiteContainer";
 
+import alertAtom from "@/atoms/alert";
+import { useSetRecoilState } from "recoil";
+
 import theme from "@/tools/theme";
 
 const GameMain = () => {
   // -----------------------------------------------------------------------
   // 1. 상태 관리 (State)
   // -----------------------------------------------------------------------
-
+  const axios = useAxios();
   const [level, setLevel] = useState(0);
   const [amount, setAmount] = useState(0);
-
+  const setAlert = useSetRecoilState(alertAtom);
   const minigameInfo = useValueRecoilState("gameInfo");
   const fetchMinigameInfo = useFetchRecoilState("gameInfo");
-  const fetchEnforce = useFetchRecoilState("reinforceInfo"); // 강화 API 호출 Hook
+  const reinforceClick = useCallback(
+    () =>
+      axios({
+        url: "/miniGame/miniGames/reinforcement",
+        method: "post",
+        data: {},
+        onSuccess: () => {
+          fetchMinigameInfo();
+        },
+        onError: () => setAlert("강화 시도를 실패하였습니다."),
+      }),
+    [axios, fetchMinigameInfo, setAlert]
+  );
 
   // 강화 관련 상태
   const [isEnhanceConfirmOpen, setIsEnhanceConfirmOpen] = useState(false);
@@ -52,13 +68,6 @@ const GameMain = () => {
   // -----------------------------------------------------------------------
   // 2. useEffect (데이터 동기화)
   // -----------------------------------------------------------------------
-
-  // [초기화] 컴포넌트 마운트 시 사용자 ID가 있다면 데이터 요청
-  useEffect(() => {
-    // useFetchRecoilState 내부에서 userId 체크가 되어 있으므로 호출만 하면 됨
-    fetchMinigameInfo();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [minigameInfo]);
 
   // [동기화 & 결과 판정] Recoil 데이터가 변경되면 로컬 state 업데이트 및 결과 확인
   useEffect(() => {
@@ -108,12 +117,7 @@ const GameMain = () => {
     setIsLoading(true);
 
     // 4. API 호출 (결과는 Recoil Atom이 업데이트되면서 위 useEffect에서 처리됨)
-    fetchEnforce((error) => {
-      // 에러 발생 시 처리
-      console.error(error);
-      setIsLoading(false);
-      alert("강화 중 오류가 발생했습니다.");
-    });
+    reinforceClick();
   };
 
   const handleItemUseComplete = (itemName: string) => {
