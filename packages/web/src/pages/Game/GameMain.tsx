@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 
 // Recoil Hooks
 import {
@@ -11,10 +11,11 @@ import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 // Modals
-// 파일 경로와 이름이 실제 프로젝트와 일치하는지 확인해주세요.
 import ItemUseResultModal from "@/components/ModalPopup/ModalGameItemResult";
 import ItemUseModal from "@/components/ModalPopup/ModalGameItemUse";
-import EnhanceResultModal from "@/components/ModalPopup/ModalGameenforce";
+import EnhanceResultModal, {
+  EnhanceResultType,
+} from "@/components/ModalPopup/ModalGameenforce";
 import EnhanceConfirmModal from "@/components/ModalPopup/ModalGameenforceconfirm";
 import WhiteContainer from "@/components/WhiteContainer";
 
@@ -25,44 +26,66 @@ const GameMain = () => {
   // 1. 상태 관리 (State)
   // -----------------------------------------------------------------------
 
-  // 게임 데이터 (서버/Recoil 동기화용)
   const [level, setLevel] = useState(0);
   const [amount, setAmount] = useState(0);
 
   const minigameInfo = useValueRecoilState("gameInfo");
   const fetchMinigameInfo = useFetchRecoilState("gameInfo");
+  const fetchEnforce = useFetchRecoilState("reinforceInfo"); // 강화 API 호출 Hook
 
-  // 강화 관련 모달 상태
+  // 강화 관련 상태
   const [isEnhanceConfirmOpen, setIsEnhanceConfirmOpen] = useState(false);
   const [isEnhanceModalOpen, setIsEnhanceModalOpen] = useState(false);
-  const [isEnhanceSuccess, setIsEnhanceSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // 로딩(망치질) 상태
+
+  // 결과 판정용 상태
+  const [enhanceResult, setEnhanceResult] = useState<EnhanceResultType>("fail");
+  const [prevLevel, setPrevLevel] = useState(0); // 강화 시도 전 레벨 저장
 
   // 아이템 관련 모달 상태
   const [isItemInventoryOpen, setIsItemInventoryOpen] = useState(false);
   const [isItemResultOpen, setIsItemResultOpen] = useState(false);
   const [usedItemName, setUsedItemName] = useState("");
 
-  // 강화 비용 (고정값 혹은 변수)
+  // 강화 비용 (1000원으로 설정, 필요 시 변경)
   const ENHANCE_COST = 0;
-
   // -----------------------------------------------------------------------
-  // 2. useEffect (데이터 동기화 & 429 에러 방지)
+  // 2. useEffect (데이터 동기화)
   // -----------------------------------------------------------------------
 
-  // [수정 1] 컴포넌트 마운트 시 '딱 한 번'만 서버 데이터 요청
+  // [초기화] 컴포넌트 마운트 시 사용자 ID가 있다면 데이터 요청
   useEffect(() => {
+    // useFetchRecoilState 내부에서 userId 체크가 되어 있으므로 호출만 하면 됨
     fetchMinigameInfo();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [minigameInfo]);
 
-  // [수정 2] Recoil 데이터가 변경되었을 때만 로컬 state 업데이트
+  // [동기화 & 결과 판정] Recoil 데이터가 변경되면 로컬 state 업데이트 및 결과 확인
   useEffect(() => {
     if (minigameInfo) {
-      setLevel(minigameInfo.level || 0);
-      setAmount(minigameInfo.creditAmount || 0);
+      const newLevel = minigameInfo.level || 0;
+      const newAmount = minigameInfo.creditAmount || 0;
+
+      // 로딩 중이었다면(=강화 요청을 보낸 상태라면) 결과를 판정합니다.
+      if (isLoading) {
+        setIsLoading(false); // 로딩 종료
+
+        if (newLevel > prevLevel) {
+          setEnhanceResult("success");
+        } else if (newLevel === prevLevel) {
+          setEnhanceResult("fail");
+        } else {
+          setEnhanceResult("broken"); // newLevel < prevLevel
+        }
+
+        setIsEnhanceModalOpen(true); // 결과 모달 열기
+      }
+
+      // 상태 업데이트
+      setLevel(newLevel);
+      setAmount(newAmount);
     }
-  }, []);
+  }, [minigameInfo, isLoading, prevLevel]);
 
   // -----------------------------------------------------------------------
   // 3. 핸들러 함수 (Logic)
@@ -72,39 +95,27 @@ const GameMain = () => {
   const handleEnhance = () => {
     // 1. 안전장치: 돈 부족 체크
     if (amount < ENHANCE_COST) {
-      alert("돈이 부족합니다!"); // 혹은 별도 토스트 메시지
+      alert("돈이 부족합니다!");
       setIsEnhanceConfirmOpen(false);
       return;
     }
 
-    // 2. UI 업데이트: 확인 모달 닫기 & 돈 차감 (낙관적 업데이트)
-    setIsEnhanceConfirmOpen(false);
-    setAmount((prev) => prev - ENHANCE_COST);
+    // 2. 현재 레벨 저장 (결과 비교용)
+    setPrevLevel(level);
 
-    // 3. 로딩 시작 (망치질 연출)
+    // 3. UI 업데이트: 확인 모달 닫기 & 로딩 시작
+    setIsEnhanceConfirmOpen(false);
     setIsLoading(true);
 
-    // 4. 1초 딜레이 후 결과 판정
-    setTimeout(() => {
-      // 성공/실패 확률 계산 (50%)
-      const isSuccess = Math.random() < 0.5;
-      setIsEnhanceSuccess(isSuccess);
-
-      // 성공했다면 레벨도 바로 올려주기 (UI 반응성 향상)
-      if (isSuccess) {
-        setLevel((prev) => prev + 1);
-      }
-
-      // 로딩 끝내고 결과 모달 열기
+    // 4. API 호출 (결과는 Recoil Atom이 업데이트되면서 위 useEffect에서 처리됨)
+    fetchEnforce((error) => {
+      // 에러 발생 시 처리
+      console.error(error);
       setIsLoading(false);
-      setIsEnhanceModalOpen(true);
-
-      // (선택사항) 서버에 최신 데이터 저장/동기화 요청이 필요하다면 여기서 수행
-      // updateServerData(...);
-    }, 1000);
+      alert("강화 중 오류가 발생했습니다.");
+    });
   };
 
-  // 아이템 사용 완료 핸들러
   const handleItemUseComplete = (itemName: string) => {
     setUsedItemName(itemName);
     setIsItemInventoryOpen(false);
@@ -137,7 +148,6 @@ const GameMain = () => {
             alignItems: "center",
           }}
         >
-          {/* 타이틀 & 레벨 표시 */}
           <div
             style={{
               ...theme.font16_bold,
@@ -148,7 +158,6 @@ const GameMain = () => {
             현재 상태: +{level}강
           </div>
 
-          {/* 택시 이미지 영역 */}
           <div
             style={{
               width: "100%",
@@ -177,7 +186,6 @@ const GameMain = () => {
             />
           </div>
 
-          {/* 버튼 영역 */}
           <div
             style={{
               width: "100%",
@@ -215,10 +223,6 @@ const GameMain = () => {
         </WhiteContainer>
       </AdaptiveDiv>
 
-      {/* ------------------------------------------------------------------
-          모달 컴포넌트 렌더링
-      ------------------------------------------------------------------ */}
-
       {/* 1. 강화 확인(Confirm) 모달 */}
       <EnhanceConfirmModal
         isOpen={isEnhanceConfirmOpen}
@@ -252,11 +256,13 @@ const GameMain = () => {
         </div>
       </Modal>
 
-      {/* 3. 강화 결과(Result) 모달 */}
+      {/* 3. 강화 결과(Result) 모달 - 수정됨 */}
       <EnhanceResultModal
         isOpen={isEnhanceModalOpen}
         onClose={() => setIsEnhanceModalOpen(false)}
-        isSuccess={isEnhanceSuccess}
+        result={enhanceResult} // success, fail, broken
+        oldLevel={prevLevel}
+        newLevel={level}
       />
 
       {/* 4. 아이템 인벤토리 모달 */}

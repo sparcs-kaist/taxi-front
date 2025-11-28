@@ -26,9 +26,12 @@ import {
   useValueEvent2025SpringInfo,
 } from "./useFetchEvent2025SpringInfo";
 import {
+  useFetchEnforceGameInfo,
   useFetchGameInfo,
   useSetGameInfo,
-  useValueGameInfo,
+  useSetReinforceInfo,
+  useValueGameInfo, // [추가]
+  useValueReinforceInfo, // [추가]
 } from "./useFetchGameInfo";
 import {
   useFetchLoginInfo,
@@ -72,7 +75,8 @@ export type AtomName =
   | "event2024FallInfo"
   | "event2025SpringInfo"
   | "event2025FallInfo"
-  | "gameInfo";
+  | "gameInfo"
+  | "reinforceInfo";
 
 type useValueRecoilStateType = {
   (atomName: "loginInfo"): LoginInfoType;
@@ -85,7 +89,9 @@ type useValueRecoilStateType = {
   (atomName: "event2025SpringInfo"): Event2025SpringInfoType;
   (atomName: "event2025FallInfo"): Event2025FallInfoType;
   (atomName: "gameInfo"): GameInfoType;
+  (atomName: "reinforceInfo"): GameInfoType;
 };
+
 const _useValueRecoilState = (atomName: AtomName) => {
   switch (atomName) {
     case "loginInfo":
@@ -108,6 +114,8 @@ const _useValueRecoilState = (atomName: AtomName) => {
       return useValueEvent2025FallInfo();
     case "gameInfo":
       return useValueGameInfo();
+    case "reinforceInfo":
+      return useValueReinforceInfo(); // [수정] reinforceInfo 전용 value hook 사용
   }
 };
 export const useValueRecoilState =
@@ -135,6 +143,8 @@ export const useSetRecoilState = (atomName: AtomName) => {
       return useSetEvent2025FallInfo();
     case "gameInfo":
       return useSetGameInfo();
+    case "reinforceInfo":
+      return useSetReinforceInfo(); // [수정] reinforceInfo 전용 set hook 사용
   }
 };
 
@@ -160,6 +170,8 @@ export const useFetchRecoilState = (atomName: AtomName) => {
       return useFetchEvent2025FallInfo();
     case "gameInfo":
       return useFetchGameInfo();
+    case "reinforceInfo":
+      return useFetchEnforceGameInfo(); // [확인] 이미 잘 연결되어 있음
   }
 };
 
@@ -206,6 +218,10 @@ export const useSyncRecoilStateEffect = () => {
   // gameInfo 초기화 및 동기화
   const fetchGameInfo = useFetchRecoilState("gameInfo");
   useEffect(fetchGameInfo, [userId]);
+
+  // reinforceInfo 초기화 및 동기화
+  const fetchReinforceInfo = useFetchRecoilState("reinforceInfo");
+  useEffect(fetchReinforceInfo, [userId]);
 };
 
 export const useIsLogin = (): boolean => {

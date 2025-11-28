@@ -4,25 +4,47 @@ import Modal from "@/components/Modal";
 import theme from "@/tools/theme";
 
 // -------------------------------------------------------------------------
-// [New] 강화 결과 모달 컴포넌트
+// [Modified] 강화 결과 모달 컴포넌트
 // -------------------------------------------------------------------------
+export type EnhanceResultType = "success" | "fail" | "broken";
+
 interface EnhanceResultModalProps {
   isOpen: boolean;
   onClose: () => void;
-  isSuccess: boolean;
-  newLevel?: number | null;
+  result: EnhanceResultType; // 결과 상태 (성공, 실패, 파손)
+  oldLevel: number; // 이전 레벨
+  newLevel: number; // 새로운 레벨
 }
 
-const EnhanceResultModal = (
-  { isOpen, onClose, isSuccess, newLevel }: EnhanceResultModalProps
-) => {
+const EnhanceResultModal = ({
+  isOpen,
+  onClose,
+  result,
+  oldLevel,
+  newLevel,
+}: EnhanceResultModalProps) => {
+  // 결과에 따른 색상 및 텍스트 설정
+  const getResultUI = () => {
+    switch (result) {
+      case "success":
+        return { color: theme.purple, title: "🎉 강화 성공!" };
+      case "broken":
+        return { color: theme.red_text || "#FF5252", title: "💥 택시 파손..." };
+      case "fail":
+      default:
+        return { color: theme.gray_text, title: "💨 강화 실패" };
+    }
+  };
+
+  const { color, title } = getResultUI();
+
   const styleTitle = {
     ...theme.font18,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     marginBottom: "16px",
-    color: isSuccess ? theme.purple : theme.red_text || "#FF5252",
+    color: color,
     fontWeight: "bold",
   };
 
@@ -50,15 +72,13 @@ const EnhanceResultModal = (
       }}
     >
       {/* 1. 결과 타이틀 */}
-      <div css={styleTitle}>
-        {isSuccess ? "🎉 강화 성공!" : "💥 강화 실패..."}
-      </div>
+      <div css={styleTitle}>{title}</div>
 
-      {/* 2. 택시 이미지 영역 (추가됨) */}
+      {/* 2. 택시 이미지 영역 */}
       <div
         style={{
           width: "100%",
-          height: "160px", // 모달 크기를 고려해 200px -> 160px로 조정 (원하시면 200px로 변경 가능)
+          height: "160px",
           backgroundColor: theme.gray_background || "#f5f5f5",
           borderRadius: "12px",
           display: "flex",
@@ -66,45 +86,46 @@ const EnhanceResultModal = (
           alignItems: "center",
           overflow: "hidden",
           boxShadow: "inset 0 0 10px rgba(0,0,0,0.05)",
-          marginBottom: "16px", // 텍스트와의 간격
+          marginBottom: "16px",
         }}
       >
         <img
-          // 나중에 성공/실패에 따라 다른 이미지를 보여주려면 여기서 src를 분기처리 할 수 있습니다.
           src="/assets/images/taxi-placeholder.png"
           alt="Taxi Result"
           style={{
             maxWidth: "80%",
             maxHeight: "80%",
             objectFit: "contain",
+            filter: result === "broken" ? "grayscale(100%)" : "none", // 파손 시 흑백 처리 효과
           }}
           onError={(e) => {
             (e.target as HTMLElement).style.display = "none";
-            (e.target as HTMLElement).parentElement!.innerText =
-              "🚖 Taxi Image";
           }}
         />
       </div>
 
       {/* 3. 결과 텍스트 */}
       <div css={styleText}>
-        {isSuccess ? (
+        {result === "success" && (
           <>
             축하합니다! <br />
-            택시가 더욱 강력해졌습니다.{" "}
-            {newLevel !== undefined ? `(+${(newLevel as number) - 1}강)` : ""}
+            택시가 <b>+{newLevel}강</b>으로 강화되었습니다.
           </>
-        ) : (
+        )}
+        {result === "fail" && (
           <>
             아쉽네요... <br />
-            {newLevel !== null && newLevel === 1 ? (
-              <>강화에 실패하여 택시가 파괴되었습니다. (1강으로 초기화)</>
-            ) : (
-              <>
-                강화에 실패하여 재화만 소모되었습니다.
-                {newLevel !== null && ` (현재 ${newLevel}강)`}
-              </>
-            )}
+            강화에 실패하여 재화만 소모되었습니다. <br />
+            (현재 +{newLevel}강 유지)
+          </>
+        )}
+        {result === "broken" && (
+          <>
+            강화에 대실패하여 택시가 손상되었습니다... <br />
+            <b>
+              +{oldLevel}강 ➔ +{newLevel}강
+            </b>
+            으로 하락했습니다.
           </>
         )}
       </div>
