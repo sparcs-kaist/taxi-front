@@ -14,7 +14,6 @@ interface EnhanceConfirmModalProps {
   currentMoney: number; // (선택사항) 현재 보유 금액 - 부족하면 버튼 비활성화 등의 처리에 사용 가능
 }
 
-<<<<<<< HEAD
 export const EnhanceConfirmModal = ({
   isOpen,
   onClose,
@@ -22,11 +21,6 @@ export const EnhanceConfirmModal = ({
   cost,
   currentMoney,
 }: EnhanceConfirmModalProps) => {
-=======
-export const EnhanceConfirmModal = (
-  { isOpen, onClose, onConfirm, cost, currentMoney }: EnhanceConfirmModalProps
-) => {
->>>>>>> 0b10c507622b0dbbe92ac6e6d1c530e2f3cf2372
   const isNotEnoughMoney = currentMoney < cost; // 돈이 부족한지 체크
 
   const styleTitle = {
