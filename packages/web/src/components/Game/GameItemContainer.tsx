@@ -7,22 +7,21 @@ import WhiteContainer from "@/components/WhiteContainer";
 
 import theme from "@/tools/theme";
 
-import { ReactComponent as CreditIcon } from "@/static/events/2025springCredit.svg";
+import coinGif from "@/static/events/2024springCoin.gif";
 
 type GameItemComponentProps = {
   value: GameItem;
-  fetchItems?: () => void;
   clickable?: boolean;
   showDescription?: boolean;
 };
 
 const GameItemContainer = (
-  { value, fetchItems, clickable, showDescription }: GameItemComponentProps
+  { value, clickable, showDescription }: GameItemComponentProps
 ) => {
   //   const fetchGameInfo = useFetchRecoilState("gameInfo");
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const onClickHandler = () => {
-    // TODO: onclick
+    setIsOpen(true);
   };
 
   return (
@@ -85,7 +84,11 @@ const GameItemContainer = (
           gap: "4px",
         }}
       >
-        <CreditIcon css={{ width: "27px", height: "16px" }} />
+        <img
+          src={coinGif}
+          alt="coin"
+          style={{ width: "16px", height: "16px", objectFit: "contain" }}
+        />
         <div
           css={{
             ...theme.font14,
@@ -96,7 +99,6 @@ const GameItemContainer = (
       </div>
       <ModalGameItem
         itemInfo={value}
-        fetchItems={fetchItems}
         isOpen={isOpen}
         onChangeIsOpen={setIsOpen}
       />

@@ -72,8 +72,7 @@ export type AtomName =
   | "event2024FallInfo"
   | "event2025SpringInfo"
   | "event2025FallInfo"
-  | "gameInfo"
-  | "reinforceInfo";
+  | "gameInfo";
 
 type useValueRecoilStateType = {
   (atomName: "loginInfo"): LoginInfoType;
@@ -86,7 +85,6 @@ type useValueRecoilStateType = {
   (atomName: "event2025SpringInfo"): Event2025SpringInfoType;
   (atomName: "event2025FallInfo"): Event2025FallInfoType;
   (atomName: "gameInfo"): GameInfoType;
-  (atomName: "reinforceInfo"): GameInfoType;
 };
 
 const _useValueRecoilState = (atomName: AtomName) => {
