@@ -1,8 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
+import useCarrier from "@/hooks/useCarrier";
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+
 import Modal from "@/components/Modal";
 import Navigation from "@/components/Navigation";
 
+// ✨ 방금 만든 훅!
 import BodyRoomSelection, {
   BodyRoomSelectionProps,
 } from "./Body/BodyRoomSelection";
@@ -51,13 +55,40 @@ const ModalRoomSelection = ({
 }: ModalRoomSelectionProps) => {
   const [roomInfo, setRoomInfo] = useState(_roomInfo);
   const [bodyHeight, setBodyHeight] = useState(0);
+  const { carrierList, fetchCarrierStatus, toggleCarrier } = useCarrier();
+  const loginInfo = useValueRecoilState("loginInfo"); // 로그인된 내 정보
+
+  useEffect(() => {
+    if (_roomInfo?._id && isOpen) {
+      fetchCarrierStatus(_roomInfo._id);
+    }
+  }, [_roomInfo, isOpen, fetchCarrierStatus]);
+
+  useEffect(() => {
+    if (_roomInfo) setRoomInfo(_roomInfo);
+  }, [_roomInfo]);
+
+  // 내 캐리어 상태 찾기
+  const myCarrierStatus = useMemo(() => {
+    return (
+      carrierList.find((c) => c.userId === loginInfo?.oid)?.hasCarrier || false
+    );
+  }, [carrierList, loginInfo]);
+
+  // 내가 이 방의 참여자인지 확인 (참여자만 토글 가능)
+  const isParticipant = useMemo(() => {
+    return _roomInfo?.part?.some((p: any) => p._id === loginInfo?.oid);
+  }, [_roomInfo, loginInfo]);
+
   const pages = useMemo(
     () =>
       roomInfo && [
         {
           key: "info",
           name: "방 정보",
-          body: <BodyRoomSelection roomInfo={roomInfo} />,
+          body: (
+            <BodyRoomSelection roomInfo={roomInfo} carrierList={carrierList} />
+          ),
         },
         {
           key: "share",
@@ -86,6 +117,7 @@ const ModalRoomSelection = ({
       {roomInfo && (
         <>
           <div css={styleTitle}>{roomInfo.name}</div>
+          
           {pages && <Navigation pages={pages} />}
           <HeightFixWrapper onChangeHeight={setBodyHeight}>
             <BodyRoomSelection roomInfo={roomInfo} />

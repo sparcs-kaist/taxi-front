@@ -247,9 +247,23 @@ const AddRoom = () => {
           to: valuePlace[1],
           time: calculatedTime!.toISOString(),
           maxPartLength: valueMaxPeople,
-          withCarrier: valueHasCarrier, // create room 시 캐리어 소지 여부 전달, API 수정 필요
         },
-        onSuccess: () => {
+        onSuccess: async (data) => {
+          if (data?._id && valueHasCarrier) {
+            try {
+              await axios({
+                url: "/rooms/carrier/toggle",
+                method: "post",
+                data: {
+                  roomId: data._id,
+                  hasCarrier: true,
+                },
+              });
+            } catch (e) {
+              console.error("캐리어 상태 설정 실패:", e);
+            }
+          }
+
           fetchMyRooms();
           //#region event2025Spring
           event2025SpringQuestComplete("firstRoomCreation");
@@ -259,12 +273,13 @@ const AddRoom = () => {
         onError: () => setAlert("방 개설에 실패하였습니다."),
       });
 
-      // gtm 태그 전송
+      // gtm 태그 전송 :
       triggerTags("create_new_room", {
         roomFrom: valuePlace[0],
         roomTo: valuePlace[1],
         roomTime: calculatedTime!.toISOString(),
         wasSimilarRoomsModalOpen: wasSimilarRoomsModalOpen.toString(),
+        // hasCarrier 옵션 추가 하는게 맞나 고민
       });
 
       onCall.current = false;
@@ -289,7 +304,11 @@ const AddRoom = () => {
               />
               <OptionTime value={valueTime} handler={setTime} page="add" />
               <OptionMaxPeople value={valueMaxPeople} handler={setMaxPeople} />
-              <OptionCarrier value={valueHasCarrier} handler={setHasCarrier} /> {/* 캐리어 소지 여부 옵션 추가 */}
+              <OptionCarrier
+                value={valueHasCarrier}
+                handler={setHasCarrier}
+              />{" "}
+              {/* 캐리어 소지 여부 옵션 추가 */}
               {taxiFare !== 0 ? (
                 <TaxiFare value={taxiFare} roomLength={valueMaxPeople} />
               ) : null}
@@ -338,7 +357,6 @@ const AddRoom = () => {
                 to: valuePlace[1],
                 time: calculatedTime!.toISOString(),
                 maxPartLength: valueMaxPeople,
-                withCarrier: valueHasCarrier, // create room 시 캐리어 소지 여부 전달, API 수정 필요 (여기는 이벤트 기간에만 뜨는 거라서 사실상 의미 없을 수도...)
               },
               onSuccess: () => {
                 fetchMyRooms();

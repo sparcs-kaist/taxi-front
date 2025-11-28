@@ -3,7 +3,12 @@ import ProfileImage from "./ProfileImage";
 
 import theme from "@/tools/theme";
 
-type UserProps = { value: User; isDeparted?: boolean };
+import LuggageIcon from "@mui/icons-material/Luggage";
+
+type Participant = User & {
+  withCarrier?: boolean;
+};
+type UserProps = { value: Participant; isDeparted?: boolean };
 
 const User = ({ value, isDeparted }: UserProps) => {
   const isSettlement =
@@ -50,9 +55,23 @@ const User = ({ value, isDeparted }: UserProps) => {
         )}
         {isWithdrew && <span style={theme.font8}>{" (탈퇴)"}</span>}
       </div>
+      {value.withCarrier && (
+        <div
+          css={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "14px", // 아이콘 크기는 적절하게 조절!
+            marginLeft: "2px",
+          }}
+          title="캐리어 소지" // ui 아이콘으로 바꾸기 TODO
+        >
+          <LuggageIcon style={{ fontSize: "14px", color: theme.gray_text }} />
+        </div>
+      )}
+
       <BadgeImage badge_live={value.badge || false} />
     </div>
   );
 };
-
 export default User;

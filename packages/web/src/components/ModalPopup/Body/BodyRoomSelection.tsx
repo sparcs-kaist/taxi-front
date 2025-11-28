@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 
+import { CarrierUser } from "@/hooks/useCarrier";
 import {
   useFetchRecoilState,
   useIsLogin,
@@ -10,6 +11,7 @@ import {
 import useIsTimeOver from "@/hooks/useIsTimeOver";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
+// ✨ 타입 임포트 (경로 확인 필요!)
 import Button from "@/components/Button";
 import DottedLine from "@/components/DottedLine";
 import LinkLogin from "@/components/Link/LinkLogin";
@@ -38,6 +40,7 @@ type InfoSectionProps = {
 };
 export type BodyRoomSelectionProps = {
   roomInfo: Room;
+  carrierList?: CarrierUser[];
 };
 
 const PlaceSection = ({ type, name }: PlaceSectionProps) => (
@@ -100,7 +103,10 @@ const InfoSection = ({ title, alignDirection, children }: InfoSectionProps) => (
   </div>
 );
 
-const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
+const BodyRoomSelection = ({
+  roomInfo,
+  carrierList,
+}: BodyRoomSelectionProps) => {
   const { i18n } = useTranslation();
   const axios = useAxios();
   const history = useHistory();
@@ -134,6 +140,23 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
     return notPaid;
   }, [myRooms]); // myOngoingRoom은 infoSection의 sortedMyRoom에서 정렬만 뺀 코드입니다. useMemo로 감싼 형태입니다.
   // item : any 가 좋은 방법인지 모르겠습니다
+  const participantsWithCarrier = useMemo(() => {
+    if (!roomInfo?.part) return [];
+
+    // carrierList가 아직 로딩 안 됐으면 그냥 원래 정보 리턴
+    if (!carrierList) return roomInfo.part;
+
+    return roomInfo.part.map((user) => {
+      // 해당 유저의 캐리어 정보를 찾아요
+      const carrierInfo = carrierList.find((c) => c.userId === user._id);
+
+      // 기존 유저 정보에 withCarrier 속성을 추가해서 리턴!
+      return {
+        ...user,
+        withCarrier: carrierInfo ? carrierInfo.hasCarrier : false,
+      };
+    });
+  }, [roomInfo.part, carrierList]);
 
   const requestJoin = useCallback(async () => {
     if (isAlreadyPart) {
@@ -220,7 +243,7 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
         <div css={styleMultipleInfo}>
           <div css={{ minWidth: 0 }}>
             <InfoSection title="탑승자" alignDirection="left">
-              <Users values={roomInfo.part} />
+              <Users values={participantsWithCarrier} />
             </InfoSection>
           </div>
           <div css={{ minWidth: "fit-content" }}>
