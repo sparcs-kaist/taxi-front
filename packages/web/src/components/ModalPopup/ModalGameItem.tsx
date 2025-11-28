@@ -12,13 +12,9 @@ import Button from "@/components/Button";
 
 type ModalGameItemProps = Parameters<typeof Modal>[0] & {
     itemInfo: GameItem;
-    fetchItems?: () => void;
-    setShareItem?: Dispatch<SetStateAction<Nullable<GameItem>>>;
   };
 const ModalGameItem = ({
     itemInfo,
-    fetchItems,
-    setShareItem,
     ...modalProps
   }: ModalGameItemProps) => {
     const gameInfo = useValueRecoilState("gameInfo");
@@ -32,18 +28,16 @@ const ModalGameItem = ({
       if (isRequesting.current) return;
       isRequesting.current = true;
       await axios({
-        url: `/events/2025spring/items/purchase/${itemInfo._id}`, // TODO: game
+        url: `/miniGame/miniGames/buy`, // TODO: game
         method: "post",
-        data: { amount: 0 },
+        data: { itemType: itemInfo.itemType },
         onSuccess: (result) => {
-          fetchItems?.();
           modalProps.onChangeIsOpen?.(false);
-            setShareItem?.(itemInfo);
         },
         onError: () => setAlert("구매를 실패하였습니다."),
       });
       isRequesting.current = false;
-    }, [itemInfo._id, fetchItems, modalProps.onChangeIsOpen, 0]);
+    }, [modalProps.onChangeIsOpen, 0]);
   
     const [isDisabled, buttonText] = useMemo(
       () =>

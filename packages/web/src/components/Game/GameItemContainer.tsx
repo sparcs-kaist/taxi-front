@@ -11,18 +11,17 @@ import { ReactComponent as CreditIcon } from "@/static/events/2025springCredit.s
 
 type GameItemComponentProps = {
   value: GameItem;
-  fetchItems?: () => void;
   clickable?: boolean;
   showDescription?: boolean;
 };
 
 const GameItemContainer = (
-  { value, fetchItems, clickable, showDescription }: GameItemComponentProps
+  { value, clickable, showDescription }: GameItemComponentProps
 ) => {
   //   const fetchGameInfo = useFetchRecoilState("gameInfo");
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const onClickHandler = () => {
-    // TODO: onclick
+    setIsOpen(true);
   };
 
   return (
@@ -96,7 +95,6 @@ const GameItemContainer = (
       </div>
       <ModalGameItem
         itemInfo={value}
-        fetchItems={fetchItems}
         isOpen={isOpen}
         onChangeIsOpen={setIsOpen}
       />

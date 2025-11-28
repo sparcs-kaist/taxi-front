@@ -26,6 +26,5 @@ export type GameItem = {
   description: string;
   imageUrl: string;
   price: number;
-  isDisabled: boolean;
-  itemType: number;
+  itemType: string;
 };

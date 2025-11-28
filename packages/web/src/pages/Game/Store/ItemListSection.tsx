@@ -6,11 +6,10 @@ import Empty from "@/components/Empty";
 import GameItemContainer from "@/components/Game/GameItemContainer";
 
 type ItemListSectionProps = {
-  items: Array<GameItem>;
-  fetchItems?: () => void;
+  items: GameItem[];
 };
 
-const ItemListSection = ({ items, fetchItems }: ItemListSectionProps) => {
+const ItemListSection = ({ items }: ItemListSectionProps) => {
   return items.length > 0 ? (
     <div
       css={{
@@ -20,12 +19,7 @@ const ItemListSection = ({ items, fetchItems }: ItemListSectionProps) => {
       }}
     >
       {items.map((item: GameItem) => (
-        <GameItemContainer
-          key={item._id}
-          value={item}
-          fetchItems={fetchItems}
-          clickable
-        />
+        <GameItemContainer key={item._id} value={item} clickable />
       ))}
     </div>
   ) : (

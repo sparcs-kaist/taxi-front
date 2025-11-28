@@ -42,27 +42,3 @@ export const useFetchGameInfo = () => {
 
 export const useValueReinforceInfo = () => useRecoilValue(gameInfoAtom);
 export const useSetReinforceInfo = () => useSetRecoilState(gameInfoAtom);
-
-export const useFetchEnforceGameInfo = () => {
-  const setReinforceInfo = useSetReinforceInfo();
-  const axios = useAxios();
-
-  // [추가] 로그인 정보 가져오기
-  const loginInfo = useValueRecoilState("loginInfo");
-  const userId = loginInfo?.id;
-
-  return useCallback(
-    (onError?: AxiosOption["onError"]) => {
-      // [수정] userId가 있을 때만 API 호출
-      if (userId) {
-        axios({
-          url: "/miniGame/miniGames/reinforcement",
-          method: "get",
-          onSuccess: (data) => setReinforceInfo(data.miniGameStatus),
-          onError: onError,
-        });
-      }
-    },
-    [userId, axios, setReinforceInfo]
-  );
-};
