@@ -18,7 +18,6 @@ import {
 import Title from "@/components/Title";
 import WhiteContainerSuggestLogin from "@/components/WhiteContainer/WhiteContainerSuggestLogin";
 
-// ✨ 로그인 제안 컴포넌트 추가
 import theme from "@/tools/theme";
 
 const fadeInUpKeyframes = `
@@ -28,21 +27,10 @@ const fadeInUpKeyframes = `
   }
 `;
 
+// 요일 목록
+const DAYS = ["일", "월", "화", "수", "목", "금", "토"];
+
 // --- Mock Data (아직 API 없는 부분) ---
-const MOCK_PLACES = ["전체", "본원 정문", "본원 후문", "문지캠", "화암캠"];
-const MOCK_DAYS = ["전체", "월", "화", "수", "목", "금", "토", "일"];
-
-const MOCK_GRAPH_DATA_ALL: TimeSlotData[] = [
-  { time: "18시", value: 30 },
-  { time: "19시", value: 55 },
-  { time: "20시", value: 70 },
-  { time: "21시", value: 90 },
-  { time: "22시", value: 120 },
-  { time: "23시", value: 85 },
-  { time: "00시", value: 40 },
-  { time: "01시", value: 25 },
-];
-
 const MOCK_ACCUMULATED_RIDES: GraphTileData[] = [
   { label: "1월", value: 1200 },
   { label: "2월", value: 2100 },
@@ -73,20 +61,30 @@ const Statistics = () => {
   const { t } = useTranslation("mypage");
   const axios = useAxios();
   const loginInfo = useValueRecoilState("loginInfo");
+  const taxiLocations = useValueRecoilState("taxiLocations"); // ✨ 장소 목록 가져오기
 
   const [activeTab, setActiveTab] = useState<TabType>("all");
   const [period, setPeriod] = useState<Period>("30d");
-  const [graphData, setGraphData] =
-    useState<TimeSlotData[]>(MOCK_GRAPH_DATA_ALL);
 
   // ✨ 실제 데이터 상태
-  const [totalSavings, setTotalSavings] = useState<number>(0); // 전체 누적
-  const [mySavings, setMySavings] = useState<number>(0); // 내 누적
-  const [periodSavings, setPeriodSavings] = useState<number>(0); // 기간별 전체
+  const [totalSavings, setTotalSavings] = useState<number>(0);
+  const [mySavings, setMySavings] = useState<number>(0);
+  const [periodSavings, setPeriodSavings] = useState<number>(0);
+
+  // ✨ 그래프용 상태 (장소별 통계)
+  const [graphPlace, setGraphPlace] = useState("택시승강장"); // 기본값
+  const [graphDay, setGraphDay] = useState(() => {
+    // 오늘 요일 계산 (KST)
+    const now = new Date();
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+    const kstGap = 9 * 60 * 60 * 1000;
+    const today = new Date(utc + kstGap);
+    return DAYS[today.getDay()];
+  });
+  const [graphData, setGraphData] = useState<TimeSlotData[]>([]);
 
   // 1️⃣ 초기 로딩: 전체 누적 & 내 누적 가져오기
   useEffect(() => {
-    // 전체 누적
     axios({
       url: "/statistics/savings/total",
       method: "get",
@@ -94,7 +92,6 @@ const Statistics = () => {
       onError: () => console.error("전체 누적 금액 로딩 실패"),
     });
 
-    // 내 누적 (로그인 된 경우만)
     if (loginInfo?.oid) {
       axios({
         url: "/statistics/users/savings",
@@ -106,16 +103,17 @@ const Statistics = () => {
     }
   }, [axios, loginInfo?.oid]);
 
-  // 2️⃣ 기간 변경 시: 기간별 데이터 가져오기
+  // 2️⃣ 기간 변경 시: 기간별 데이터 가져오기 (DB 집계 기준 '어제'로 수정)
   const fetchPeriodSavings = useCallback(async () => {
     if (period === "total") {
-      // '전체' 기간이면 API 호출 없이 totalSavings 사용
       setPeriodSavings(totalSavings);
       return;
     }
 
-    const endDate = new Date();
-    const startDate = new Date();
+    const today = new Date();
+    const endDate = new Date(today);
+    endDate.setDate(today.getDate() - 1);
+    const startDate = new Date(endDate);
 
     if (period === "7d") startDate.setDate(endDate.getDate() - 7);
     if (period === "30d") startDate.setDate(endDate.getDate() - 30);
@@ -134,10 +132,56 @@ const Statistics = () => {
   }, [axios, period, totalSavings]);
 
   useEffect(() => {
-    // period가 바뀌거나, 초기 로딩으로 totalSavings가 세팅되면 실행
     fetchPeriodSavings();
   }, [fetchPeriodSavings]);
 
+  // 3️⃣ ✨ 그래프 데이터 가져오기 (장소/요일 변경 시)
+  const fetchGraphData = useCallback(async () => {
+    if (!taxiLocations || taxiLocations.length === 0) return;
+
+    // 선택된 장소 이름으로 ID 찾기
+    const location = taxiLocations.find((loc) => loc.koName === graphPlace);
+    if (!location) return;
+
+    // 요일 문자열 -> 숫자 변환
+    const dayIndex = DAYS.indexOf(graphDay);
+    if (dayIndex === -1) return;
+
+    // 기간 설정 (과거 30일)
+    const endDate = new Date();
+    const startDate = new Date();
+    startDate.setDate(endDate.getDate() - 30);
+
+    await axios({
+      url: "/statistics/room-creation/hourly-average",
+      method: "get",
+      params: {
+        locationId: location._id,
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
+        dayOfWeek: dayIndex,
+      },
+      onSuccess: (data) => {
+        // API 응답(intervals)을 그래프 데이터 형식(TimeSlotData)으로 변환
+        // 예: intervals: [{hour: 0, averageRooms: 0.5}, ...]
+        const formattedData = data.intervals.map((interval: any) => ({
+          time: `${interval.hour}시`,
+          value: interval.averageRooms,
+        }));
+        setGraphData(formattedData);
+      },
+      onError: () => console.error("그래프 데이터 로딩 실패"),
+    });
+  }, [axios, taxiLocations, graphPlace, graphDay]);
+
+  // 장소/요일 탭이 활성화되거나 변경될 때 그래프 데이터 갱신
+  useEffect(() => {
+    if (activeTab === "place") {
+      fetchGraphData();
+    }
+  }, [activeTab, fetchGraphData]);
+
+  // --- Helper Functions ---
   const getPeriodLabelPrefix = (p: Period) => {
     switch (p) {
       case "7d":
@@ -151,7 +195,6 @@ const Statistics = () => {
     }
   };
 
-  // 🍗 환산 데이터 생성기 (소수점 1자리)
   const getDynamicContents = (
     amount: number,
     userPrefix: string
@@ -188,6 +231,39 @@ const Statistics = () => {
     ];
   };
 
+  // 내 통계용 콘텐츠 (기간 상관없이 전체 누적)
+  const getMyTotalContents = (
+    amount: number
+  ): Array<{
+    label: string;
+    value: number;
+    prefix?: string;
+    unit?: string;
+    variant: TileVariant;
+  }> => {
+    const timeLabel = "Taxi와 함께한 시간 동안\n";
+    return [
+      {
+        label: `${timeLabel}내가 아낀 금액`,
+        value: parseFloat(amount.toFixed(1)),
+        prefix: "₩",
+        variant: "purple",
+      },
+      {
+        label: `${timeLabel}내가 아낀 치킨`,
+        value: parseFloat((amount / 20000).toFixed(1)),
+        unit: "마리",
+        variant: "orange",
+      },
+      {
+        label: `${timeLabel}내가 아낀 튀소`,
+        value: parseFloat((amount / 3500).toFixed(1)),
+        unit: "개",
+        variant: "yellow",
+      },
+    ];
+  };
+
   const periodButtonStyle = (p: Period) => ({
     flex: 1,
     padding: "8px 0",
@@ -216,18 +292,11 @@ const Statistics = () => {
     boxShadow: activeTab === tab ? "0 2px 8px rgba(0,0,0,0.1)" : "none",
   });
 
+  // ✨ 그래프 필터 변경 핸들러
   const handleGraphFilterChange = (place: string, day: string) => {
-    // TODO: 나중에 API 연동
-    if (place !== "전체") {
-      setGraphData(
-        MOCK_GRAPH_DATA_ALL.map((d) => ({
-          ...d,
-          value: Math.floor(d.value * Math.random()),
-        }))
-      );
-    } else {
-      setGraphData(MOCK_GRAPH_DATA_ALL);
-    }
+    setGraphPlace(place);
+    setGraphDay(day);
+    // 상태가 바뀌면 useEffect(fetchGraphData)가 자동으로 실행됩니다!
   };
 
   const PeriodSelector = () => (
@@ -326,8 +395,10 @@ const Statistics = () => {
 
               <BusyTimeGraph
                 data={graphData}
-                places={MOCK_PLACES}
-                days={MOCK_DAYS}
+                places={taxiLocations.map((loc) => loc.koName)} // ✨ 실제 장소 목록 전달
+                days={DAYS}
+                selectedPlace={graphPlace} // ✨ 상태 전달
+                selectedDay={graphDay} // ✨ 상태 전달
                 onFilterChange={handleGraphFilterChange}
               />
             </div>
@@ -338,7 +409,7 @@ const Statistics = () => {
             <div
               css={{ display: "flex", flexDirection: "column", gap: "32px" }}
             >
-              {/* 1. 기간별 분석 (API 연동됨) */}
+              {/* 1. 기간별 분석 */}
               <div>
                 <div
                   css={{
@@ -427,12 +498,11 @@ const Statistics = () => {
             </div>
           )}
 
-          {/* === C. 내 통계 (API 연동됨) === */}
+          {/* === C. 내 통계 === */}
           {activeTab === "personal" && (
             <div
               css={{ display: "flex", flexDirection: "column", gap: "24px" }}
             >
-              {/* ✨ 로그인 여부 확인 */}
               {loginInfo?.oid ? (
                 <>
                   <div>
@@ -443,11 +513,7 @@ const Statistics = () => {
                         gap: "12px",
                       }}
                     >
-                      {/* ✨ 내 누적 데이터 사용 */}
-                      <DynamicStatTile
-                        data={getDynamicContents(mySavings, "내가")}
-                      />
-                      {/* 동승 팟 수는 아직 API가 없어서 임시 계산 유지 */}
+                      <DynamicStatTile data={getMyTotalContents(mySavings)} />
                       <DynamicStatTile
                         data={[
                           {
@@ -476,7 +542,6 @@ const Statistics = () => {
                   </div>
                 </>
               ) : (
-                // ✨ 로그인이 안 되어 있다면 로그인 제안 컴포넌트 표시
                 <WhiteContainerSuggestLogin />
               )}
             </div>

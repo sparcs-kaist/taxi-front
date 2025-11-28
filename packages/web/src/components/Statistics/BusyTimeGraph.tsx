@@ -9,8 +9,10 @@ export interface TimeSlotData {
 
 interface BusyTimeGraphProps {
   data: TimeSlotData[];
-  places: string[];
-  days: string[];
+  places: string[]; // 장소 이름 목록
+  days: string[]; // 요일 이름 목록
+  selectedPlace: string; // ✨ [추가] 현재 선택된 장소
+  selectedDay: string; // ✨ [추가] 현재 선택된 요일
   onFilterChange: (place: string, day: string) => void;
   className?: string;
   css?: any;
@@ -20,25 +22,16 @@ const BusyTimeGraph = ({
   data,
   places,
   days,
+  selectedPlace, // ✨ props로 받음
+  selectedDay, // ✨ props로 받음
   onFilterChange,
   className,
   css,
 }: BusyTimeGraphProps) => {
-  const getTodayLabel = () => {
-    const now = new Date();
-    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
-    const kstGap = 9 * 60 * 60 * 1000;
-    const today = new Date(utc + kstGap);
-    const dayLabels = ["일", "월", "화", "수", "목", "금", "토"];
-    return dayLabels[today.getDay()];
-  };
+  // ✨ 내부 useState 제거 (부모에서 제어)
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null); // 호버 상태는 UI용이라 유지
 
-  // ✨ 기본값 설정: 장소는 "택시승강장", 요일은 "오늘"
-  const [selectedPlace, setSelectedPlace] = useState("택시승강장");
-  const [selectedDay, setSelectedDay] = useState(getTodayLabel());
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-
-  // ✨ "전체" 옵션 제거 필터링
+  // "전체" 옵션 제거 필터링
   const filteredPlaces = places.filter((p) => p !== "전체");
   const filteredDays = days.filter((d) => d !== "전체");
 
@@ -46,15 +39,11 @@ const BusyTimeGraph = ({
   const maxValue = Math.max(...data.map((d) => d.value), 1);
 
   const handlePlaceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newPlace = e.target.value;
-    setSelectedPlace(newPlace);
-    onFilterChange(newPlace, selectedDay);
+    onFilterChange(e.target.value, selectedDay);
   };
 
   const handleDayChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newDay = e.target.value;
-    setSelectedDay(newDay);
-    onFilterChange(selectedPlace, newDay);
+    onFilterChange(selectedPlace, e.target.value);
   };
 
   const selectContainerStyle = {
@@ -133,7 +122,7 @@ const BusyTimeGraph = ({
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                justifyContent: "flex-end", // 막대는 아래 정렬
+                justifyContent: "flex-end",
                 position: "relative",
                 cursor: "pointer",
               }}
@@ -145,7 +134,7 @@ const BusyTimeGraph = ({
               <div
                 css={{
                   position: "absolute",
-                  bottom: `calc(${heightPercentage}% + 24px)`, // 라벨 높이 고려해서 툴팁 위치 조정
+                  bottom: `calc(${heightPercentage}% + 24px)`,
                   marginBottom: "8px",
                   left: "50%",
                   transform: isHovered
@@ -176,53 +165,41 @@ const BusyTimeGraph = ({
                   },
                 }}
               >
-                {item.value}명
+                {/* 소수점 1자리까지 표시 */}
+                {Number(item.value).toFixed(1)}개
               </div>
 
-              {/* 막대 Wrapper (막대 + 라벨을 감쌈) */}
+              {/* 막대 */}
               <div
                 css={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
                   width: "100%",
-                  height: "100%", // 전체 높이 사용
-                  justifyContent: "flex-end", // 아래 정렬
+                  height: `${Math.max(heightPercentage, 0)}%`,
+                  backgroundColor: isHighlight ? "#7B2C83" : "#A9A0B6",
+                  borderRadius: "4px",
+                  transition:
+                    "height 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.2s",
+                  minHeight: "4px",
+                  marginBottom: "6px",
+                  "&:hover": {
+                    opacity: 0.8,
+                  },
+                }}
+              />
+
+              {/* 시간 라벨 */}
+              <div
+                css={{
+                  fontSize: "10px",
+                  color: theme.gray_text,
+                  fontWeight: 400,
+                  height: "12px",
+                  lineHeight: "12px",
+                  textAlign: "center",
+                  whiteSpace: "nowrap",
+                  opacity: 0.8,
                 }}
               >
-                {/* 실제 막대 */}
-                <div
-                  css={{
-                    width: "100%",
-                    height: `${Math.max(heightPercentage, 0)}%`,
-                    backgroundColor: isHighlight ? "#7B2C83" : "#A9A0B6",
-                    borderRadius: "4px", // 둥근 모서리 살짝 줄임 (좁은 공간 고려)
-                    transition:
-                      "height 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.2s",
-                    minHeight: "4px",
-                    marginBottom: "6px", // 막대와 라벨 사이 간격
-                    "&:hover": {
-                      opacity: 0.8,
-                    },
-                  }}
-                />
-
-                {/* ✨ 시간 인덱스 (라벨) 추가 */}
-                <div
-                  css={{
-                    fontSize: "10px", // 아주 작게
-                    color: theme.gray_text, // 엷은 회색
-                    fontWeight: 400,
-                    height: "12px", // 고정 높이
-                    lineHeight: "12px",
-                    textAlign: "center",
-                    whiteSpace: "nowrap",
-                    opacity: 0.8, // 살짝 투명하게
-                  }}
-                >
-                  {/* 공간이 좁을 수 있으니 숫자만 표시하거나 간략하게 (예: 18시 -> 18) */}
-                  {item.time.replace("시", "")}
-                </div>
+                {item.time.replace("시", "")}
               </div>
             </div>
           );
@@ -231,7 +208,6 @@ const BusyTimeGraph = ({
 
       {/* 2. 제목 & 설명 */}
       <div css={{ textAlign: "center", marginBottom: "32px", width: "100%" }}>
-        {/* ✨ 제목 색상 theme.purple로 고정 */}
         <div
           css={{
             fontSize: "18px",
@@ -255,8 +231,7 @@ const BusyTimeGraph = ({
             lineHeight: "1.4",
           }}
         >
-          학기나 계절 등의 최신 동향을 반영하고자 <br /> 과거 30일을 기반으로
-          조회합니다.
+          학기 / 최신 동향을 반영하고자 과거 30일을 기반으로 조회합니다.
         </div>
       </div>
 
@@ -269,7 +244,6 @@ const BusyTimeGraph = ({
             onChange={handlePlaceChange}
             css={selectStyle}
           >
-            {/* ✨ "전체" 제외한 목록 표시 */}
             {filteredPlaces.map((place) => (
               <option key={place} value={place}>
                 {place}
@@ -284,7 +258,6 @@ const BusyTimeGraph = ({
             onChange={handleDayChange}
             css={selectStyle}
           >
-            {/* ✨ "전체" 제외한 목록 표시 */}
             {filteredDays.map((day) => (
               <option key={day} value={day}>
                 {day}
