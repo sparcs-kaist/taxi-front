@@ -212,7 +212,8 @@ const Footer = ({ type = "full", children }: FooterProps) => {
             <ButtonAboveFooter text="택시 살펴보기" />
           </Link>
           <ButtonAboveFooter text="만든 사람들" onClick={onClickCredit} />
-          <div>이 페이지는 토스뱅크의 후원으로 제작되었습니다.</div>
+          <ButtonAboveFooter text="이 페이지는 토스뱅크의 후원으로 제작되었습니다."></ButtonAboveFooter>
+          {/* TODO: Toss logo */}
         </>
       )}
       {type !== "event-2024spring" && (

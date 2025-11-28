@@ -26,6 +26,11 @@ import {
   useValueEvent2025SpringInfo,
 } from "./useFetchEvent2025SpringInfo";
 import {
+  useFetchGameInfo,
+  useSetGameInfo,
+  useValueGameInfo,
+} from "./useFetchGameInfo";
+import {
   useFetchLoginInfo,
   useSetLoginInfo,
   useValueLoginInfo,
@@ -51,12 +56,11 @@ import { Event2024FallInfoType } from "@/atoms/event2024FallInfo";
 import { Event2024SpringInfoType } from "@/atoms/event2024SpringInfo";
 import { Event2025FallInfoType } from "@/atoms/event2025FallInfo";
 import { Event2025SpringInfoType } from "@/atoms/event2025SpringInfo";
+import { GameInfoType } from "@/atoms/gameInfo";
 import { LoginInfoType } from "@/atoms/loginInfo";
 import { MyRoomsType } from "@/atoms/myRooms";
 import { notificationOptionsType } from "@/atoms/notificationOptions";
 import { TaxiLocationsType } from "@/atoms/taxiLocations";
-import { GameInfoType } from "@/atoms/gameInfo";
-import { useFetchGameInfo, useSetGameInfo, useValueGameInfo } from "./useFetchGameInfo";
 
 export type AtomName =
   | "loginInfo"
@@ -102,8 +106,8 @@ const _useValueRecoilState = (atomName: AtomName) => {
       return useValueEvent2025SpringInfo();
     case "event2025FallInfo":
       return useValueEvent2025FallInfo();
-      case "gameInfo":
-        return useValueGameInfo();
+    case "gameInfo":
+      return useValueGameInfo();
   }
 };
 export const useValueRecoilState =
@@ -129,8 +133,8 @@ export const useSetRecoilState = (atomName: AtomName) => {
       return useSetEvent2025SpringInfo();
     case "event2025FallInfo":
       return useSetEvent2025FallInfo();
-      case "gameInfo":
-        return useSetGameInfo();
+    case "gameInfo":
+      return useSetGameInfo();
   }
 };
 

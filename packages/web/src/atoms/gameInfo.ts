@@ -8,11 +8,10 @@ type CompletedQuest = {
 };
 
 export type GameInfoType = Nullable<{
-  isAgreeOnTermsOfEvent: boolean;
-  isBanned: boolean;
+  level: number;
   creditAmount: number;
-  quests: Quest[];
-  completedQuests: CompletedQuest[];
+  preventFail: number;
+  preventBurst: number;
 }>;
 
 const gameInfoAtom = atom<GameInfoType>({

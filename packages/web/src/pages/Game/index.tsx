@@ -1,5 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, Redirect, Route, Switch, useLocation } from "react-router-dom";
+
+import {
+  useFetchRecoilState,
+  useValueRecoilState,
+} from "@/hooks/useFetchRecoilState";
 
 import Footer from "@/components/Footer";
 import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
@@ -17,6 +22,11 @@ import coinGif from "@/static/events/2024springCoin.gif";
 const Game = () => {
   const location = useLocation();
   const currentPath = location.pathname;
+
+  const [amount, setAmount] = useState(0);
+
+  const minigameInfo = useValueRecoilState("gameInfo");
+  const fetchMinigameInfo = useFetchRecoilState("gameInfo");
 
   // [변경] 둥근 알약(Pill) 스타일의 탭 디자인
   const getTabStyle = (path: string) => {
@@ -42,6 +52,8 @@ const Game = () => {
   useEffect(() => {
     // 컴포넌트가 마운트될 때 스크롤을 막음
     document.body.style.overflow = "hidden";
+    setAmount(minigameInfo?.creditAmount || 0);
+    fetchMinigameInfo();
 
     // 컴포넌트가 언마운트될 때 스크롤을 다시 활성화함
     return () => {
@@ -91,7 +103,7 @@ const Game = () => {
                 color: theme.black || "#333",
               }}
             >
-              100,000원
+              {amount}원
             </span>
           </div>
         </div>
