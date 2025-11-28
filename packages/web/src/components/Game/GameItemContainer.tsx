@@ -27,7 +27,7 @@ const GameItemContainer = ({
   clickable,
   showDescription,
 }: GameItemComponentProps) => {
-  const fetchGameInfo = useFetchRecoilState("gameInfo");
+//   const fetchGameInfo = useFetchRecoilState("gameInfo");
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const onClickHandler = () => {
     // TODO: onclick
