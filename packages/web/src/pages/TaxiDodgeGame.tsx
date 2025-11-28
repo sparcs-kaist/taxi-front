@@ -6,7 +6,7 @@ import { useIsLogin } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
 import Footer from "@/components/Footer";
-import { ModalLeaderboard } from "@/components/ModalPopup";
+import { ModalDodgeLeaderboard } from "@/components/ModalPopup";
 import WhiteContainerSuggestLogin from "@/components/WhiteContainer/WhiteContainerSuggestLogin";
 
 import theme from "@/tools/theme";
@@ -256,12 +256,18 @@ const TaxiDodgeGame = () => {
   }, []);
 
   useEffect(() => {
+    request({
+      url: "/miniGame/miniGames/",
+      method: "get",
+    });
+  }, [request]);
+  useEffect(() => {
     if (gameOver) {
       request({
         url: "/miniGame/miniGames/update",
         method: "post",
         data: {
-          creditAmount: score,
+          score: score,
         },
       });
     }
@@ -615,7 +621,8 @@ const TaxiDodgeGame = () => {
                     <ScoreBoard css={{ marginBottom: "10px" }}>
                       게임 종료
                     </ScoreBoard>
-                    <p>최종 점수: {score}</p>
+                    <p css={{ marginBottom: "5px" }}>최종 점수: {score}</p>
+                    <p>획득한 재화: {score / 10}</p>
                     <RestartButton onClick={startGame}>다시하기</RestartButton>
                   </GameOverModal>
                 )}
@@ -646,7 +653,7 @@ const TaxiDodgeGame = () => {
         <Footer type="only-logo" />
       </div>
 
-      <ModalLeaderboard
+      <ModalDodgeLeaderboard
         isOpen={isRankingOpen}
         onChangeIsOpen={setIsRankingOpen}
       />

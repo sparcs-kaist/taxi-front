@@ -41,4 +41,4 @@ export { default as ModalTerms } from "./ModalTerms";
 export { default as ModalCallTaxi } from "./ModalCallTaxi";
 export { default as ModalAccountWithdrawProcess } from "./ModalAccountWithdrawProcess";
 export { default as ModalSimilarRooms } from "./ModalSimilarRooms";
-export { default as ModalLeaderboard } from "./ModalLeaderboard";
+export { default as ModalDodgeLeaderboard } from "./ModalDodgeLeaderboard";

@@ -1,3 +1,8 @@
+import { useEffect, useState } from "react";
+
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import { useAxios } from "@/hooks/useTaxiAPI";
+
 import Modal from "@/components/Modal";
 import ProfileImage from "@/components/User/ProfileImage";
 
@@ -8,48 +13,18 @@ import EmojiEventsRoundedIcon from "@mui/icons-material/EmojiEventsRounded";
 type LeaderboardElem = {
   userId: string;
   nickname: string;
-  profileImageUrl: string;
-  score: number;
-  rank: number;
+  profileImageUrl?: string;
+  dodgeScore: number;
+  rank?: number;
 };
 
-const MOCK_LEADERBOARD: LeaderboardElem[] = [
-  {
-    userId: "1",
-    nickname: "택시왕",
-    profileImageUrl: "",
-    score: 15000,
-    rank: 1,
-  },
-  {
-    userId: "2",
-    nickname: "베스트드라이버",
-    profileImageUrl: "",
-    score: 12500,
-    rank: 2,
-  },
-  {
-    userId: "3",
-    nickname: "안전운전",
-    profileImageUrl: "",
-    score: 10000,
-    rank: 3,
-  },
-  {
-    userId: "4",
-    nickname: "초보운전",
-    profileImageUrl: "",
-    score: 8000,
-    rank: 4,
-  },
-  {
-    userId: "5",
-    nickname: "스피드레이서",
-    profileImageUrl: "",
-    score: 5000,
-    rank: 5,
-  },
-];
+type LeaderboardResponse = {
+  leaderboard: LeaderboardElem[];
+  userIncludedInTop5?: boolean;
+  userIncludedInTop20?: boolean;
+  myRank?: number;
+  myDodgeScore?: number;
+};
 
 const LeaderboardTopBar = () => (
   <div
@@ -74,10 +49,14 @@ const LeaderboardItem = ({
   value,
   rank,
   isMe = false,
+  nickname,
+  profileImageUrl,
 }: {
   value: LeaderboardElem;
   rank: number;
   isMe?: boolean;
+  nickname?: string;
+  profileImageUrl?: string;
 }) => {
   const styleContainer = (index: number) => {
     switch (index) {
@@ -150,7 +129,7 @@ const LeaderboardItem = ({
           marginLeft: "5px",
         }}
       >
-        <ProfileImage url={value.profileImageUrl} />
+        <ProfileImage url={profileImageUrl || value.profileImageUrl || ""} />
       </div>
       <div
         css={{
@@ -161,7 +140,7 @@ const LeaderboardItem = ({
           color: isMe ? theme.white : theme.black,
         }}
       >
-        {value.nickname}
+        {nickname || value.nickname || "User"}
       </div>
       <div
         css={{
@@ -171,21 +150,47 @@ const LeaderboardItem = ({
           color: isMe ? theme.white : theme.purple,
         }}
       >
-        {value.score.toLocaleString()}
+        {value.dodgeScore.toLocaleString()}
       </div>
     </div>
   );
 };
 
-type ModalLeaderboardProps = {
+type ModalDodgeLeaderboardProps = {
   isOpen: boolean;
   onChangeIsOpen: (isOpen: boolean) => void;
 };
 
-const ModalLeaderboard = ({
+const ModalDodgeLeaderboard = ({
   isOpen,
   onChangeIsOpen,
-}: ModalLeaderboardProps) => {
+}: ModalDodgeLeaderboardProps) => {
+  const axios = useAxios();
+  const loginInfo = useValueRecoilState("loginInfo");
+  const [leaderboard, setLeaderboard] = useState<LeaderboardElem[]>([]);
+  const [myRank, setMyRank] = useState<number | undefined>(undefined);
+  const [myDodgeScore, setMyDodgeScore] = useState<number | undefined>(
+    undefined
+  );
+
+  useEffect(() => {
+    if (isOpen) {
+      axios({
+        url: "/miniGame/miniGames/dodgeLeaderboard",
+        method: "get",
+        onSuccess: (data: LeaderboardResponse) => {
+          setLeaderboard(data.leaderboard);
+          setMyRank(data.myRank);
+          setMyDodgeScore(data.myDodgeScore);
+        },
+      });
+    }
+  }, [isOpen, axios]);
+
+  const isMeInLeaderboard = leaderboard.some(
+    (elem) => elem.userId === loginInfo?.oid
+  );
+
   return (
     <Modal isOpen={isOpen} onChangeIsOpen={onChangeIsOpen} padding="16px 12px">
       <div
@@ -203,12 +208,37 @@ const ModalLeaderboard = ({
       </div>
       <LeaderboardTopBar />
       <div css={{ maxHeight: "400px", overflowY: "auto", marginTop: "8px" }}>
-        {MOCK_LEADERBOARD.map((elem) => (
-          <LeaderboardItem key={elem.rank} rank={elem.rank} value={elem} />
-        ))}
+        {leaderboard.map((elem, index) => {
+          const isMe = elem.userId === loginInfo?.oid;
+          return (
+            <LeaderboardItem
+              key={index}
+              rank={index + 1}
+              value={elem}
+              isMe={isMe}
+              nickname={isMe ? loginInfo?.nickname : elem.nickname}
+              profileImageUrl={isMe ? loginInfo?.profileImgUrl : undefined}
+            />
+          );
+        })}
+        {!isMeInLeaderboard && myRank && myDodgeScore !== undefined && (
+          <div css={{ marginTop: "20px" }}>
+            <LeaderboardItem
+              rank={myRank}
+              value={{
+                userId: loginInfo?.oid || "",
+                dodgeScore: myDodgeScore,
+                nickname: loginInfo?.nickname || "",
+              }}
+              isMe={true}
+              nickname={loginInfo?.nickname}
+              profileImageUrl={loginInfo?.profileImgUrl}
+            />
+          </div>
+        )}
       </div>
     </Modal>
   );
 };
 
-export default ModalLeaderboard;
+export default ModalDodgeLeaderboard;
