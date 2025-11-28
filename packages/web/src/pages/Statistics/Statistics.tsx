@@ -1,5 +1,9 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+// ✨ API 및 상태 관리 훅 임포트
+import { useAxios } from "@/hooks/useTaxiAPI";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Footer from "@/components/Footer";
@@ -12,7 +16,9 @@ import {
   TimeSlotData,
 } from "@/components/Statistics";
 import Title from "@/components/Title";
+import WhiteContainerSuggestLogin from "@/components/WhiteContainer/WhiteContainerSuggestLogin";
 
+// ✨ 로그인 제안 컴포넌트 추가
 import theme from "@/tools/theme";
 
 const fadeInUpKeyframes = `
@@ -22,7 +28,7 @@ const fadeInUpKeyframes = `
   }
 `;
 
-// --- Mock Data ---
+// --- Mock Data (아직 API 없는 부분) ---
 const MOCK_PLACES = ["전체", "본원 정문", "본원 후문", "문지캠", "화암캠"];
 const MOCK_DAYS = ["전체", "월", "화", "수", "목", "금", "토", "일"];
 
@@ -65,39 +71,72 @@ type TabType = "all" | "personal" | "place";
 
 const Statistics = () => {
   const { t } = useTranslation("mypage");
+  const axios = useAxios();
+  const loginInfo = useValueRecoilState("loginInfo");
+
   const [activeTab, setActiveTab] = useState<TabType>("all");
   const [period, setPeriod] = useState<Period>("30d");
   const [graphData, setGraphData] =
     useState<TimeSlotData[]>(MOCK_GRAPH_DATA_ALL);
 
-  const totalAccumulated = 34134631;
-  const myAccumulated = 125000;
+  // ✨ 실제 데이터 상태
+  const [totalSavings, setTotalSavings] = useState<number>(0); // 전체 누적
+  const [mySavings, setMySavings] = useState<number>(0); // 내 누적
+  const [periodSavings, setPeriodSavings] = useState<number>(0); // 기간별 전체
 
-  const ridesDiff =
-    MOCK_ACCUMULATED_RIDES[MOCK_ACCUMULATED_RIDES.length - 1].value -
-    MOCK_ACCUMULATED_RIDES[MOCK_ACCUMULATED_RIDES.length - 2].value;
-  const usersDiff =
-    MOCK_ACCUMULATED_USERS[MOCK_ACCUMULATED_USERS.length - 1].value -
-    MOCK_ACCUMULATED_USERS[MOCK_ACCUMULATED_USERS.length - 2].value;
+  // 1️⃣ 초기 로딩: 전체 누적 & 내 누적 가져오기
+  useEffect(() => {
+    // 전체 누적
+    axios({
+      url: "/statistics/savings/total",
+      method: "get",
+      onSuccess: (data) => setTotalSavings(data.totalSavings),
+      onError: () => console.error("전체 누적 금액 로딩 실패"),
+    });
 
-  const getPeriodValue = (baseAmount: number, p: Period) => {
-    let value = baseAmount;
-    switch (p) {
-      case "7d":
-        value = baseAmount * 0.02;
-        break;
-      case "30d":
-        value = baseAmount * 0.08;
-        break;
-      case "1y":
-        value = baseAmount * 0.85;
-        break;
-      default:
-        value = baseAmount;
-        break;
+    // 내 누적 (로그인 된 경우만)
+    if (loginInfo?.oid) {
+      axios({
+        url: "/statistics/users/savings",
+        method: "get",
+        params: { userId: loginInfo.oid },
+        onSuccess: (data) => setMySavings(data.totalSavings),
+        onError: () => console.error("내 누적 금액 로딩 실패"),
+      });
     }
-    return parseFloat(value.toFixed(1));
-  };
+  }, [axios, loginInfo?.oid]);
+
+  // 2️⃣ 기간 변경 시: 기간별 데이터 가져오기
+  const fetchPeriodSavings = useCallback(async () => {
+    if (period === "total") {
+      // '전체' 기간이면 API 호출 없이 totalSavings 사용
+      setPeriodSavings(totalSavings);
+      return;
+    }
+
+    const endDate = new Date();
+    const startDate = new Date();
+
+    if (period === "7d") startDate.setDate(endDate.getDate() - 7);
+    if (period === "30d") startDate.setDate(endDate.getDate() - 30);
+    if (period === "1y") startDate.setFullYear(endDate.getFullYear() - 1);
+
+    await axios({
+      url: "/statistics/savings/period",
+      method: "get",
+      params: {
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
+      },
+      onSuccess: (data) => setPeriodSavings(data.totalSavings),
+      onError: () => console.error("기간별 통계 로딩 실패"),
+    });
+  }, [axios, period, totalSavings]);
+
+  useEffect(() => {
+    // period가 바뀌거나, 초기 로딩으로 totalSavings가 세팅되면 실행
+    fetchPeriodSavings();
+  }, [fetchPeriodSavings]);
 
   const getPeriodLabelPrefix = (p: Period) => {
     switch (p) {
@@ -108,12 +147,11 @@ const Statistics = () => {
       case "1y":
         return "지난 1년간\n";
       default:
-        return "Taxi와 함께한 시간동안\n";
+        return "지금까지\n";
     }
   };
 
-  const currentTotal = getPeriodValue(totalAccumulated, period);
-
+  // 🍗 환산 데이터 생성기 (소수점 1자리)
   const getDynamicContents = (
     amount: number,
     userPrefix: string
@@ -124,54 +162,25 @@ const Statistics = () => {
     unit?: string;
     variant: TileVariant;
   }> => {
-    const timeLabel = getPeriodLabelPrefix(period);
+    const timeLabel =
+      activeTab === "all"
+        ? getPeriodLabelPrefix(period)
+        : "Taxi와 함께한 시간 동안\n";
     return [
       {
-        label: `${timeLabel}${userPrefix} 아낀 금액 💸`,
+        label: `${timeLabel}${userPrefix} 아낀 금액`,
         value: parseFloat(amount.toFixed(1)),
         prefix: "₩",
         variant: "purple",
       },
       {
-        label: `${timeLabel}${userPrefix} 아낀 치킨 🍗`,
+        label: `${timeLabel}${userPrefix} 아낀 치킨`,
         value: parseFloat((amount / 20000).toFixed(1)),
         unit: "마리",
         variant: "orange",
       },
       {
-        label: `${timeLabel}${userPrefix} 아낀 튀소 🍞`,
-        value: parseFloat((amount / 3500).toFixed(1)),
-        unit: "개",
-        variant: "yellow",
-      },
-    ];
-  };
-
-  const getMyTotalContents = (
-    amount: number
-  ): Array<{
-    label: string;
-    value: number;
-    prefix?: string;
-    unit?: string;
-    variant: TileVariant;
-  }> => {
-    const timeLabel = "Taxi와 함께한 시간 동안\n";
-    return [
-      {
-        label: `${timeLabel}내가 아낀 금액`,
-        value: parseFloat(amount.toFixed(1)),
-        prefix: "₩",
-        variant: "purple",
-      },
-      {
-        label: `${timeLabel}내가 아낀 치킨`,
-        value: parseFloat((amount / 20000).toFixed(1)),
-        unit: "마리",
-        variant: "orange",
-      },
-      {
-        label: `${timeLabel}내가 아낀 튀소`,
+        label: `${timeLabel}${userPrefix} 아낀 튀소`,
         value: parseFloat((amount / 3500).toFixed(1)),
         unit: "개",
         variant: "yellow",
@@ -208,6 +217,7 @@ const Statistics = () => {
   });
 
   const handleGraphFilterChange = (place: string, day: string) => {
+    // TODO: 나중에 API 연동
     if (place !== "전체") {
       setGraphData(
         MOCK_GRAPH_DATA_ALL.map((d) => ({
@@ -288,6 +298,7 @@ const Statistics = () => {
           </button>
         </div>
 
+        {/* 컨텐츠 영역 */}
         <div
           key={activeTab}
           css={{ animation: "fadeInUp 0.5s ease-out forwards" }}
@@ -306,7 +317,7 @@ const Statistics = () => {
                     marginBottom: "4px",
                   }}
                 >
-                  📍 택시팟, 언제 만들지?
+                  📍 어디가 가장 핫할까요?
                 </div>
                 <div css={{ fontSize: "14px", color: theme.gray_text }}>
                   원하는 장소와 요일을 선택해보세요.
@@ -327,7 +338,7 @@ const Statistics = () => {
             <div
               css={{ display: "flex", flexDirection: "column", gap: "32px" }}
             >
-              {/* 1. 기간별 분석 */}
+              {/* 1. 기간별 분석 (API 연동됨) */}
               <div>
                 <div
                   css={{
@@ -351,7 +362,20 @@ const Statistics = () => {
                   }}
                 >
                   <DynamicStatTile
-                    data={getDynamicContents(currentTotal, "모두가")}
+                    data={getDynamicContents(periodSavings, "모두가")}
+                  />
+                  {/* 동승 팟 수는 아직 API가 없어서 임시 계산 유지 */}
+                  <DynamicStatTile
+                    data={[
+                      {
+                        label: `${getPeriodLabelPrefix(
+                          period
+                        )}생성된\n택시 동승 팟 수`,
+                        value: Math.floor(periodSavings / 4500),
+                        unit: "개",
+                        variant: "white",
+                      },
+                    ]}
                   />
                 </div>
               </div>
@@ -365,6 +389,7 @@ const Statistics = () => {
                 }}
               />
 
+              {/* 2. Taxi는 지금까지 (누적 그래프 - API 아직 없음) */}
               <div>
                 <div
                   css={{
@@ -388,59 +413,72 @@ const Statistics = () => {
                     value={15430}
                     unit="번"
                     data={MOCK_ACCUMULATED_RIDES}
-                    difference={ridesDiff}
                     lineColor="#6B46C1"
                   />
-
                   <GraphStatTile
                     title="누적 사용자 수"
                     value={3850}
                     unit="명"
                     data={MOCK_ACCUMULATED_USERS}
-                    difference={usersDiff}
                     lineColor="#DD6B20"
                   />
                 </div>
               </div>
             </div>
           )}
+
+          {/* === C. 내 통계 (API 연동됨) === */}
           {activeTab === "personal" && (
             <div
               css={{ display: "flex", flexDirection: "column", gap: "24px" }}
             >
-              <div>
-                <div
-                  css={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "12px",
-                  }}
-                >
-                  <DynamicStatTile data={getMyTotalContents(myAccumulated)} />
-                  <DynamicStatTile
-                    data={[
-                      {
-                        label: `지금까지 참여한\n택시 동승 수`,
-                        value: Math.floor(myAccumulated / 4500),
-                        unit: "번",
-                        variant: "white",
-                      },
-                    ]}
-                  />
-                </div>
-              </div>
-              <div
-                css={{
-                  padding: "20px",
-                  textAlign: "center",
-                  color: theme.gray_text,
-                  fontSize: "13px",
-                  background: "#F9F9F9",
-                  borderRadius: "12px",
-                }}
-              >
-                내 통계는 전체 누적 기준으로 제공됩니다.
-              </div>
+              {/* ✨ 로그인 여부 확인 */}
+              {loginInfo?.oid ? (
+                <>
+                  <div>
+                    <div
+                      css={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "12px",
+                      }}
+                    >
+                      {/* ✨ 내 누적 데이터 사용 */}
+                      <DynamicStatTile
+                        data={getDynamicContents(mySavings, "내가")}
+                      />
+                      {/* 동승 팟 수는 아직 API가 없어서 임시 계산 유지 */}
+                      <DynamicStatTile
+                        data={[
+                          {
+                            label: `지금까지 참여한\n택시 동승 팟 수`,
+                            value: Math.floor(mySavings / 4500),
+                            unit: "번",
+                            variant: "white",
+                          },
+                        ]}
+                      />
+                    </div>
+                  </div>
+                  <div
+                    css={{
+                      padding: "20px",
+                      textAlign: "center",
+                      color: theme.gray_text,
+                      fontSize: "13px",
+                      background: "#F9F9F9",
+                      borderRadius: "12px",
+                    }}
+                  >
+                    내 통계는 개인정보 보호를 위해
+                    <br />
+                    상세 내역을 저장하지 않고 있습니다.
+                  </div>
+                </>
+              ) : (
+                // ✨ 로그인이 안 되어 있다면 로그인 제안 컴포넌트 표시
+                <WhiteContainerSuggestLogin />
+              )}
             </div>
           )}
         </div>
