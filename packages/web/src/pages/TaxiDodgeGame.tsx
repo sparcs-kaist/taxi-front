@@ -1,11 +1,13 @@
 import styled from "@emotion/styled";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 
+import { useIsLogin } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
 import Footer from "@/components/Footer";
 import { ModalLeaderboard } from "@/components/ModalPopup";
+import WhiteContainerSuggestLogin from "@/components/WhiteContainer/WhiteContainerSuggestLogin";
 
 import theme from "@/tools/theme";
 
@@ -22,7 +24,7 @@ import LocalTaxiRoundedIcon from "@mui/icons-material/LocalTaxiRounded";
 
 const PageWrapper = styled.div`
   width: 100%;
-  background-color: ${theme.white};
+  background-color: ${theme.purple_background};
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -66,7 +68,6 @@ const ContentWrapper = styled.div`
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
   padding-top: 20px;
 `;
 
@@ -200,6 +201,7 @@ type ObstacleType = "barigate" | "cone" | "kick" | "police" | "banana";
 
 const TaxiDodgeGame = () => {
   const history = useHistory();
+  const isLogin = useIsLogin();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
@@ -579,56 +581,66 @@ const TaxiDodgeGame = () => {
         </HeaderContent>
       </HeaderContainer>
       <ContentWrapper>
-        <ScoreArea>
-          <ScoreBoard css={{ marginRight: "15px" }}>점수: {score}</ScoreBoard>
-          <RankingButton onClick={() => setIsRankingOpen(true)}>
-            <EmojiEventsRoundedIcon style={{ fontSize: "16px" }} />
-            랭킹
-          </RankingButton>
-        </ScoreArea>
-        <GameContainer>
-          <div style={{ position: "relative" }}>
-            <Canvas
-              ref={canvasRef}
-              width={CANVAS_WIDTH}
-              height={CANVAS_HEIGHT}
-            />
-            {timeLeft && (
-              <WarningText>{timeLeft}초 동안 방향이 반대가 됩니다!</WarningText>
-            )}
-            {!gameStarted && !gameOver && (
-              <GameOverModal>
-                <p>장애물을 피하고 점수를 획득하세요!</p>
-                <RestartButton onClick={startGame}>게임 시작</RestartButton>
-              </GameOverModal>
-            )}
-            {gameOver && (
-              <GameOverModal>
-                <ScoreBoard css={{ marginBottom: "10px" }}>
-                  게임 종료
-                </ScoreBoard>
-                <p>최종 점수: {score}</p>
-                <RestartButton onClick={startGame}>다시하기</RestartButton>
-              </GameOverModal>
-            )}
-          </div>
-          <Controls>
-            <Button
-              onPointerDown={timeLeft ? handleRightDown : handleLeftDown}
-              onPointerUp={timeLeft ? handleRightUp : handleLeftUp}
-              onPointerLeave={timeLeft ? handleRightUp : handleLeftUp}
-            >
-              ◀
-            </Button>
-            <Button
-              onPointerDown={timeLeft ? handleLeftDown : handleRightDown}
-              onPointerUp={timeLeft ? handleLeftUp : handleRightUp}
-              onPointerLeave={timeLeft ? handleLeftUp : handleRightUp}
-            >
-              ▶
-            </Button>
-          </Controls>
-        </GameContainer>
+        {isLogin ? (
+          <>
+            <ScoreArea>
+              <ScoreBoard css={{ marginRight: "15px" }}>
+                점수: {score}
+              </ScoreBoard>
+              <RankingButton onClick={() => setIsRankingOpen(true)}>
+                <EmojiEventsRoundedIcon style={{ fontSize: "16px" }} />
+                랭킹
+              </RankingButton>
+            </ScoreArea>
+            <GameContainer>
+              <div style={{ position: "relative" }}>
+                <Canvas
+                  ref={canvasRef}
+                  width={CANVAS_WIDTH}
+                  height={CANVAS_HEIGHT}
+                />
+                {timeLeft && (
+                  <WarningText>
+                    {timeLeft}초 동안 방향이 반대가 됩니다!
+                  </WarningText>
+                )}
+                {!gameStarted && !gameOver && (
+                  <GameOverModal>
+                    <p>장애물을 피해 점수를 획득하세요!</p>
+                    <RestartButton onClick={startGame}>게임 시작</RestartButton>
+                  </GameOverModal>
+                )}
+                {gameOver && (
+                  <GameOverModal>
+                    <ScoreBoard css={{ marginBottom: "10px" }}>
+                      게임 종료
+                    </ScoreBoard>
+                    <p>최종 점수: {score}</p>
+                    <RestartButton onClick={startGame}>다시하기</RestartButton>
+                  </GameOverModal>
+                )}
+              </div>
+              <Controls>
+                <Button
+                  onPointerDown={timeLeft ? handleRightDown : handleLeftDown}
+                  onPointerUp={timeLeft ? handleRightUp : handleLeftUp}
+                  onPointerLeave={timeLeft ? handleRightUp : handleLeftUp}
+                >
+                  ◀
+                </Button>
+                <Button
+                  onPointerDown={timeLeft ? handleLeftDown : handleRightDown}
+                  onPointerUp={timeLeft ? handleLeftUp : handleRightUp}
+                  onPointerLeave={timeLeft ? handleLeftUp : handleRightUp}
+                >
+                  ▶
+                </Button>
+              </Controls>
+            </GameContainer>
+          </>
+        ) : (
+          <WhiteContainerSuggestLogin />
+        )}
       </ContentWrapper>
       <div style={{ paddingBottom: "30px" }}>
         <Footer type="only-logo" />
