@@ -20,6 +20,8 @@ import EnhanceResultModal, {
 import EnhanceConfirmModal from "@/components/ModalPopup/ModalGameenforceconfirm";
 import WhiteContainer from "@/components/WhiteContainer";
 
+import Ranking from "./ranking";
+
 import alertAtom from "@/atoms/alert";
 import { useSetRecoilState } from "recoil";
 
@@ -169,6 +171,7 @@ const GameMain = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          margin: "0 auto",
         }}
       >
         <WhiteContainer
@@ -291,6 +294,7 @@ const GameMain = () => {
             </Button>
           </div>
         </WhiteContainer>
+        <Ranking />
       </AdaptiveDiv>
 
       {/* 모달 컴포넌트들 */}

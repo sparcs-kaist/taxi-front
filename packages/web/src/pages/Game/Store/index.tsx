@@ -69,7 +69,6 @@ const Store = () => {
         </Title>
         <ItemListSection items={items} />
       </AdaptiveDiv>
-      <Footer type="game" />
     </>
   );
 };
