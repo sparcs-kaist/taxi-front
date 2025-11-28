@@ -104,16 +104,22 @@ const TaxiDodgeGame = () => {
   const gameOverRef = useRef(false);
   const taxiX = useRef(175);
   const obstacles = useRef<{ x: number; y: number; speed: number }[]>([]);
+  const coins = useRef<{ x: number; y: number; speed: number }[]>([]);
+  const floatingTexts = useRef<
+    { x: number; y: number; text: string; opacity: number }[]
+  >([]);
   const scoreRef = useRef(0);
   const animationFrameId = useRef<number>();
   const lastObstacleTime = useRef(0);
+  const lastCoinTime = useRef(0);
   const keysPressed = useRef<Set<string>>(new Set());
 
   const CANVAS_WIDTH = 350;
   const CANVAS_HEIGHT = 600;
   const TAXI_SIZE = 40;
   const OBSTACLE_SIZE = 30;
-  const TAXI_SPEED = 5;
+  const COIN_SIZE = 30;
+  const BASE_TAXI_SPEED = 5;
 
   const startGame = () => {
     setGameStarted(true);
@@ -123,7 +129,10 @@ const TaxiDodgeGame = () => {
     scoreRef.current = 0;
     taxiX.current = CANVAS_WIDTH / 2 - TAXI_SIZE / 2;
     obstacles.current = [];
+    coins.current = [];
+    floatingTexts.current = [];
     lastObstacleTime.current = 0;
+    lastCoinTime.current = 0;
     keysPressed.current.clear();
     gameLoop(0);
   };
@@ -136,37 +145,41 @@ const TaxiDodgeGame = () => {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // 택시 움직임
+    // 난이도 조절
+    const difficultyLevel = 1 + Math.floor(scoreRef.current / 100) * 0.1;
+    const currentTaxiSpeed =
+      BASE_TAXI_SPEED * (1 + (difficultyLevel - 1) * 0.5);
+    const obstacleSpeedBase = 5 * difficultyLevel;
+    const obstacleSpawnInterval = 300 / difficultyLevel;
+
+    // 움직임 로직
     if (keysPressed.current.has("ArrowLeft")) {
-      taxiX.current = Math.max(0, taxiX.current - TAXI_SPEED);
+      taxiX.current = Math.max(0, taxiX.current - currentTaxiSpeed);
     }
     if (keysPressed.current.has("ArrowRight")) {
       taxiX.current = Math.min(
         CANVAS_WIDTH - TAXI_SIZE,
-        taxiX.current + TAXI_SPEED
+        taxiX.current + currentTaxiSpeed
       );
     }
 
-    // 캔버스 초기화
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-    // 장애물 생성
-    if (timestamp - lastObstacleTime.current > 1000) {
+    // --- 장애물 ---
+    if (timestamp - lastObstacleTime.current > obstacleSpawnInterval) {
       obstacles.current.push({
         x: Math.random() * (CANVAS_WIDTH - OBSTACLE_SIZE),
         y: -OBSTACLE_SIZE,
-        speed: 3 + Math.random() * 3,
+        speed: obstacleSpeedBase + Math.random() * 3,
       });
       lastObstacleTime.current = timestamp;
     }
 
     ctx.fillStyle = "#8B4513";
-
     for (let i = obstacles.current.length - 1; i >= 0; i--) {
       const obs = obstacles.current[i];
       obs.y += obs.speed;
 
-      // 장애물 모양
       ctx.beginPath();
       ctx.arc(
         obs.x + OBSTACLE_SIZE / 2,
@@ -191,12 +204,90 @@ const TaxiDodgeGame = () => {
         return;
       }
 
-      // 화면 밖으로 나가면 삭제하고 점수 추가
       if (obs.y > CANVAS_HEIGHT) {
         obstacles.current.splice(i, 1);
         scoreRef.current += 10;
         setScore(scoreRef.current);
       }
+    }
+
+    // --- 코인 ---
+    if (timestamp - lastCoinTime.current > 2000) {
+      if (Math.random() < 0.8) {
+        coins.current.push({
+          x: Math.random() * (CANVAS_WIDTH - COIN_SIZE),
+          y: -COIN_SIZE,
+          speed: obstacleSpeedBase,
+        });
+      }
+      lastCoinTime.current = timestamp;
+    }
+
+    ctx.fillStyle = "#FFD700";
+    ctx.strokeStyle = "#DAA520";
+    ctx.lineWidth = 2;
+    for (let i = coins.current.length - 1; i >= 0; i--) {
+      const coin = coins.current[i];
+      coin.y += coin.speed;
+
+      ctx.beginPath();
+      ctx.arc(
+        coin.x + COIN_SIZE / 2,
+        coin.y + COIN_SIZE / 2,
+        COIN_SIZE / 2,
+        0,
+        Math.PI * 2
+      );
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = "#DAA520";
+      ctx.font = "bold 20px Arial";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("C", coin.x + COIN_SIZE / 2, coin.y + COIN_SIZE / 2);
+      ctx.fillStyle = "#FFD700";
+
+      // 충돌 감지 (코인)
+      if (
+        taxiX.current < coin.x + COIN_SIZE &&
+        taxiX.current + TAXI_SIZE > coin.x &&
+        CANVAS_HEIGHT - TAXI_SIZE - 10 < coin.y + COIN_SIZE &&
+        CANVAS_HEIGHT - 10 > coin.y
+      ) {
+        coins.current.splice(i, 1);
+        scoreRef.current += 50;
+        setScore(scoreRef.current);
+
+        floatingTexts.current.push({
+          x: taxiX.current + TAXI_SIZE / 2,
+          y: CANVAS_HEIGHT - TAXI_SIZE - 20,
+          text: "+50",
+          opacity: 1.0,
+        });
+        continue;
+      }
+
+      if (coin.y > CANVAS_HEIGHT) {
+        coins.current.splice(i, 1);
+      }
+    }
+
+    // --- 텍스트 ---
+    ctx.font = "bold 20px Arial";
+    ctx.textAlign = "center";
+    for (let i = floatingTexts.current.length - 1; i >= 0; i--) {
+      const ft = floatingTexts.current[i];
+      ft.y -= 1;
+      ft.opacity -= 0.02;
+
+      if (ft.opacity <= 0) {
+        floatingTexts.current.splice(i, 1);
+        continue;
+      }
+
+      ctx.fillStyle = `rgba(255, 215, 0, ${ft.opacity})`;
+      ctx.fillText(ft.text, ft.x, ft.y);
     }
 
     if (gameOverRef.current) return;
@@ -213,8 +304,6 @@ const TaxiDodgeGame = () => {
     ctx.fillStyle = "black";
     ctx.fillRect(taxiX.current + 5, CANVAS_HEIGHT - TAXI_SIZE - 5, 10, 5);
     ctx.fillRect(taxiX.current + 25, CANVAS_HEIGHT - TAXI_SIZE - 5, 10, 5);
-    ctx.fillStyle = "white";
-    ctx.fillRect(taxiX.current + 5, CANVAS_HEIGHT - TAXI_SIZE - 25, 30, 10);
 
     animationFrameId.current = requestAnimationFrame(gameLoop);
   };
