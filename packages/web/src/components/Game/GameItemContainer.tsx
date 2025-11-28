@@ -1,13 +1,8 @@
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
 
-import type { EventItem } from "@/types/event2024fall";
+import { GameItem } from "@/types/game";
 
-import { useFetchRecoilState } from "@/hooks/useFetchRecoilState";
-
-import {
-  ModalEvent2025SpringItem,
-} from "@/components/ModalPopup";
+import ModalGameItem from "@/components/ModalPopup/ModalGameItem";
 import WhiteContainer from "@/components/WhiteContainer";
 
 import theme from "@/tools/theme";
@@ -15,12 +10,13 @@ import theme from "@/tools/theme";
 import { ReactComponent as CreditIcon } from "@/static/events/2025springCredit.svg";
 
 type GameItemComponentProps = {
-  value: EventItem;
+  value: GameItem;
   fetchItems?: () => void;
   clickable?: boolean;
   showDescription?: boolean;
 };
 
+<<<<<<< HEAD
 const GameItemContainer = ({
   value,
   fetchItems,
@@ -28,6 +24,12 @@ const GameItemContainer = ({
   showDescription,
 }: GameItemComponentProps) => {
 //   const fetchGameInfo = useFetchRecoilState("gameInfo");
+=======
+const GameItemContainer = (
+  { value, fetchItems, clickable, showDescription }: GameItemComponentProps
+) => {
+  //   const fetchGameInfo = useFetchRecoilState("gameInfo");
+>>>>>>> 0b10c507622b0dbbe92ac6e6d1c530e2f3cf2372
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const onClickHandler = () => {
     // TODO: onclick
@@ -102,7 +104,7 @@ const GameItemContainer = ({
           {value.price}
         </div>
       </div>
-      <ModalEvent2025SpringItem
+      <ModalGameItem
         itemInfo={value}
         fetchItems={fetchItems}
         isOpen={isOpen}

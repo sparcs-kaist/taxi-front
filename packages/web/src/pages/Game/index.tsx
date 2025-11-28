@@ -15,6 +15,9 @@ import GameMain from "./GameMain";
 import Money from "./Money";
 import Store from "./Store";
 
+import { useGetMiniGameInfo, type MiniGameInfo } from "@/hooks/game/useMiniGame";
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+
 import theme from "@/tools/theme";
 
 import coinGif from "@/static/events/2024springCoin.gif";
@@ -22,6 +25,38 @@ import coinGif from "@/static/events/2024springCoin.gif";
 const Game = () => {
   const location = useLocation();
   const currentPath = location.pathname;
+  const getMiniGameInfo = useGetMiniGameInfo();
+  const gameInfo = useValueRecoilState("gameInfo");
+  const [miniGameInfo, setMiniGameInfo] = useState<MiniGameInfo | null>(null);
+
+  // Fetch miniGame info on mount and when gameInfo changes (e.g., after reinforcement)
+  useEffect(() => {
+    getMiniGameInfo(
+      (data) => {
+        const status = data.miniGameStatus || data.newMiniGameStatus;
+        if (status) {
+          setMiniGameInfo(status);
+        }
+      },
+      (error) => {
+        console.error("Failed to fetch miniGame info:", error);
+      }
+    );
+  }, [getMiniGameInfo, gameInfo?.level]); // Refresh when level changes
+
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때 스크롤을 막음
+    document.body.style.overflow = "hidden";
+
+    // 컴포넌트가 언마운트될 때 스크롤을 다시 활성화함
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
+
+
+  // Use miniGame creditAmount if available, otherwise fall back to gameInfo creditAmount
+  const creditAmount = miniGameInfo?.creditAmount ?? gameInfo?.creditAmount ?? 0;
 
   const [amount, setAmount] = useState(0);
 
@@ -103,7 +138,11 @@ const Game = () => {
                 color: theme.black || "#333",
               }}
             >
+<<<<<<< HEAD
               {amount}원
+=======
+              {creditAmount.toLocaleString()}원
+>>>>>>> 0b10c507622b0dbbe92ac6e6d1c530e2f3cf2372
             </span>
           </div>
         </div>

@@ -7,6 +7,7 @@ type CompletedQuest = {
   completedAt: Date;
 };
 
+// prettier-ignore
 export type GameInfoType = Nullable<{
   level: number;
   creditAmount: number;

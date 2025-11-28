@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { memo, useEffect, useState } from "react";
 
 // Recoil Hooks
@@ -12,8 +13,17 @@ import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 // Modals
 // 파일 경로와 이름이 실제 프로젝트와 일치하는지 확인해주세요.
+=======
+import { memo, useState } from "react";
+
+// useCallback 제거
+import AdaptiveDiv from "@/components/AdaptiveDiv";
+import Button from "@/components/Button";
+import Modal from "@/components/Modal";
+>>>>>>> 0b10c507622b0dbbe92ac6e6d1c530e2f3cf2372
 import ItemUseResultModal from "@/components/ModalPopup/ModalGameItemResult";
 import ItemUseModal from "@/components/ModalPopup/ModalGameItemUse";
+// [중요] 파일명과 경로가 정확한지 꼭 확인하세요!
 import EnhanceResultModal from "@/components/ModalPopup/ModalGameenforce";
 import EnhanceConfirmModal from "@/components/ModalPopup/ModalGameenforceconfirm";
 import WhiteContainer from "@/components/WhiteContainer";
@@ -21,6 +31,7 @@ import WhiteContainer from "@/components/WhiteContainer";
 import theme from "@/tools/theme";
 
 const GameMain = () => {
+<<<<<<< HEAD
   // -----------------------------------------------------------------------
   // 1. 상태 관리 (State)
   // -----------------------------------------------------------------------
@@ -33,12 +44,24 @@ const GameMain = () => {
   const fetchMinigameInfo = useFetchRecoilState("gameInfo");
 
   // 강화 관련 모달 상태
+=======
+  // 1. 강화 관련 상태
+>>>>>>> 0b10c507622b0dbbe92ac6e6d1c530e2f3cf2372
   const [isEnhanceConfirmOpen, setIsEnhanceConfirmOpen] = useState(false);
   const [isEnhanceModalOpen, setIsEnhanceModalOpen] = useState(false);
   const [isEnhanceSuccess, setIsEnhanceSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // 로딩(망치질) 상태
 
+<<<<<<< HEAD
   // 아이템 관련 모달 상태
+=======
+  const [isLoading, setIsLoading] = useState(false);
+  // [수정] 테스트를 위해 초기 자금을 비용보다 많게 설정 (500원)
+  const [currentMoney, setCurrentMoney] = useState(500);
+  const [enhanceCost] = useState(100);
+
+  // 2. 아이템 관련 상태
+>>>>>>> 0b10c507622b0dbbe92ac6e6d1c530e2f3cf2372
   const [isItemInventoryOpen, setIsItemInventoryOpen] = useState(false);
   const [isItemResultOpen, setIsItemResultOpen] = useState(false);
   const [usedItemName, setUsedItemName] = useState("");
@@ -47,6 +70,7 @@ const GameMain = () => {
   const ENHANCE_COST = 1000;
 
   // -----------------------------------------------------------------------
+<<<<<<< HEAD
   // 2. useEffect (데이터 동기화 & 429 에러 방지)
   // -----------------------------------------------------------------------
 
@@ -105,6 +129,34 @@ const GameMain = () => {
   };
 
   // 아이템 사용 완료 핸들러
+=======
+  // 핸들러
+  // -----------------------------------------------------------------------
+
+  // 실제 강화 실행 (확인 모달에서 '강화하기' 누른 후 실행됨)
+  const handleEnhance = () => {
+    // 1. 안전장치
+    if (currentMoney < enhanceCost) return;
+
+    // 2. 확인 모달 닫기 & 돈 차감
+    setIsEnhanceConfirmOpen(false);
+    setCurrentMoney((prev) => prev - enhanceCost);
+
+    // 3. 로딩 시작 (강화 연출 시작)
+    setIsLoading(true);
+
+    // 4. [핵심] 1.5초 딜레이 후 결과 판정
+    setTimeout(() => {
+      const isSuccess = Math.random() < 0.5;
+      setIsEnhanceSuccess(isSuccess);
+
+      // 로딩 끝내고 결과 모달 열기
+      setIsLoading(false);
+      setIsEnhanceModalOpen(true);
+    }, 1000);
+  };
+
+>>>>>>> 0b10c507622b0dbbe92ac6e6d1c530e2f3cf2372
   const handleItemUseComplete = (itemName: string) => {
     setUsedItemName(itemName);
     setIsItemInventoryOpen(false);
@@ -137,7 +189,10 @@ const GameMain = () => {
             alignItems: "center",
           }}
         >
+<<<<<<< HEAD
           {/* 타이틀 & 레벨 표시 */}
+=======
+>>>>>>> 0b10c507622b0dbbe92ac6e6d1c530e2f3cf2372
           <div
             style={{
               ...theme.font16_bold,
@@ -148,7 +203,10 @@ const GameMain = () => {
             현재 상태: +{level}강
           </div>
 
+<<<<<<< HEAD
           {/* 택시 이미지 영역 */}
+=======
+>>>>>>> 0b10c507622b0dbbe92ac6e6d1c530e2f3cf2372
           <div
             style={{
               width: "100%",
@@ -177,7 +235,10 @@ const GameMain = () => {
             />
           </div>
 
+<<<<<<< HEAD
           {/* 버튼 영역 */}
+=======
+>>>>>>> 0b10c507622b0dbbe92ac6e6d1c530e2f3cf2372
           <div
             style={{
               width: "100%",
@@ -188,7 +249,15 @@ const GameMain = () => {
           >
             <Button
               type="purple"
+<<<<<<< HEAD
               onClick={() => setIsEnhanceConfirmOpen(true)}
+=======
+              // [Check] 여기서 클릭 시 isEnhanceConfirmOpen이 true가 되는지 확인
+              onClick={() => {
+                console.log("강화 버튼 클릭됨");
+                setIsEnhanceConfirmOpen(true);
+              }}
+>>>>>>> 0b10c507622b0dbbe92ac6e6d1c530e2f3cf2372
               css={{
                 flex: 1,
                 padding: "12px 0",
@@ -215,6 +284,7 @@ const GameMain = () => {
         </WhiteContainer>
       </AdaptiveDiv>
 
+<<<<<<< HEAD
       {/* ------------------------------------------------------------------
           모달 컴포넌트 렌더링
       ------------------------------------------------------------------ */}
@@ -248,25 +318,56 @@ const GameMain = () => {
             }}
           >
             열심히 강화하는 중...
+=======
+      {/* 모달 컴포넌트들 
+        Tip: 모달들이 AdaptiveDiv 바깥에 있는 것은 맞습니다.
+      */}
+
+      <EnhanceConfirmModal
+        isOpen={isEnhanceConfirmOpen}
+        onClose={() => setIsEnhanceConfirmOpen(false)}
+        onConfirm={handleEnhance} // 여기서 바로 함수 호출
+        cost={enhanceCost}
+        currentMoney={currentMoney}
+      />
+
+      {/* [NEW] 2. 로딩 모달 (딜레이 동안 보여줄 화면) */}
+      <Modal isOpen={isLoading} padding="40px 20px">
+        <div style={{ textAlign: "center", color: theme.purple }}>
+          {/* 여기에 '망치질하는 GIF'나 '스피너'를 넣으면 더 좋습니다 */}
+          <div style={{ fontSize: "40px", marginBottom: "16px" }}>🔨</div>
+          <div style={{ fontWeight: "bold", fontSize: "16px" }}>
+            강화중입니다...
+>>>>>>> 0b10c507622b0dbbe92ac6e6d1c530e2f3cf2372
           </div>
         </div>
       </Modal>
 
+<<<<<<< HEAD
       {/* 3. 강화 결과(Result) 모달 */}
+=======
+      {/* 3. 강화 결과 모달 */}
+>>>>>>> 0b10c507622b0dbbe92ac6e6d1c530e2f3cf2372
       <EnhanceResultModal
         isOpen={isEnhanceModalOpen}
         onClose={() => setIsEnhanceModalOpen(false)}
         isSuccess={isEnhanceSuccess}
       />
 
+<<<<<<< HEAD
       {/* 4. 아이템 인벤토리 모달 */}
+=======
+>>>>>>> 0b10c507622b0dbbe92ac6e6d1c530e2f3cf2372
       <ItemUseModal
         isOpen={isItemInventoryOpen}
         onClose={() => setIsItemInventoryOpen(false)}
         onUse={handleItemUseComplete}
       />
 
+<<<<<<< HEAD
       {/* 5. 아이템 사용 결과 모달 */}
+=======
+>>>>>>> 0b10c507622b0dbbe92ac6e6d1c530e2f3cf2372
       <ItemUseResultModal
         isOpen={isItemResultOpen}
         onClose={() => setIsItemResultOpen(false)}

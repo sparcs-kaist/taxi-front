@@ -49,9 +49,13 @@ const ModalGameItem = ({
       () =>
         !gameInfo || !isLogin
           ? [true, "로그인해야 합니다"]
+<<<<<<< HEAD
           : gameInfo.isAgreeOnTermsOfEvent === false
           ? [true, "이벤트에 참여해야 합니다"]
           : gameInfo.creditAmount < 0
+=======
+          : gameInfo.creditAmount < itemInfo.price
+>>>>>>> 0b10c507622b0dbbe92ac6e6d1c530e2f3cf2372
           ? [true, "넙죽코인이 부족합니다"]
           : [false, "구매하기"],
       [gameInfo, itemInfo]
