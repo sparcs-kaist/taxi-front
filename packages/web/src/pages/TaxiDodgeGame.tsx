@@ -1,12 +1,72 @@
 import styled from "@emotion/styled";
 import { useEffect, useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 import { useAxios } from "@/hooks/useTaxiAPI";
 
-import AdaptiveDiv from "@/components/AdaptiveDiv";
-import Title from "@/components/Title";
+import Footer from "@/components/Footer";
 
 import theme from "@/tools/theme";
+
+import BananaImg from "@/static/assets/games/banana.png";
+import BarigateImg from "@/static/assets/games/barigate.png";
+import ConeImg from "@/static/assets/games/cone.png";
+import KickImg from "@/static/assets/games/kick.png";
+import PoliceImg from "@/static/assets/games/police.png";
+import RoadImg from "@/static/assets/games/road.png";
+import TaxiImg from "@/static/assets/games/taxi.png";
+import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
+import LocalTaxiRoundedIcon from "@mui/icons-material/LocalTaxiRounded";
+
+const PageWrapper = styled.div`
+  width: 100%;
+  background-color: ${theme.white};
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+`;
+
+const HeaderContainer = styled.div`
+  width: 100%;
+  background-color: ${theme.white};
+  box-shadow: ${theme.shadow};
+  display: flex;
+  justify-content: center;
+`;
+
+const HeaderContent = styled.div`
+  width: calc(
+    min(${theme.adaptivediv.center_device_max_width}px, 100%) -
+      ${theme.adaptivediv.margin * 2}px
+  );
+  padding-top: 16px;
+  padding-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+`;
+
+const HeaderTitle = styled.div`
+  color: ${theme.purple};
+  ${theme.font18};
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+const ContentWrapper = styled.div`
+  flex-grow: 1;
+  width: calc(
+    min(${theme.adaptivediv.center_device_max_width}px, 100%) -
+      ${theme.adaptivediv.margin * 2}px
+  );
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+`;
 
 const GameContainer = styled.div`
   display: flex;
@@ -17,12 +77,12 @@ const GameContainer = styled.div`
   overflow: hidden;
   touch-action: none;
   border-radius: 10px;
-  padding: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 30px;
 `;
 
 const Canvas = styled.canvas`
-  background-color: #fff;
+  background-color: #333;
   border: 2px solid ${theme.purple};
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -97,17 +157,38 @@ const RestartButton = styled.button`
   }
 `;
 
+const WarningText = styled.div`
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: red;
+  font-weight: bold;
+  font-size: 18px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 5px 10px;
+  border-radius: 5px;
+  pointer-events: none;
+  white-space: nowrap;
+`;
+
+type ObstacleType = "barigate" | "cone" | "kick" | "police" | "banana";
+
 const TaxiDodgeGame = () => {
+  const history = useHistory();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
+  const [timeLeft, setTimeLeft] = useState<number | null>(null);
 
   const request = useAxios();
 
   const gameOverRef = useRef(false);
   const taxiX = useRef(175);
-  const obstacles = useRef<{ x: number; y: number; speed: number }[]>([]);
+  const obstacles = useRef<
+    { x: number; y: number; speed: number; type: ObstacleType }[]
+  >([]);
   const coins = useRef<{ x: number; y: number; speed: number }[]>([]);
   const floatingTexts = useRef<
     { x: number; y: number; text: string; opacity: number }[]
@@ -117,20 +198,44 @@ const TaxiDodgeGame = () => {
   const lastObstacleTime = useRef(0);
   const lastCoinTime = useRef(0);
   const keysPressed = useRef<Set<string>>(new Set());
+  const backgroundY = useRef(0);
+  const reverseEndTimeRef = useRef<number | null>(null);
+  const timeLeftRef = useRef<number | null>(null);
+
+  const taxiImage = useRef<HTMLImageElement>(new Image());
+  const roadImage = useRef<HTMLImageElement>(new Image());
+  const barigateImage = useRef<HTMLImageElement>(new Image());
+  const coneImage = useRef<HTMLImageElement>(new Image());
+  const bananaImage = useRef<HTMLImageElement>(new Image());
+  const kickImage = useRef<HTMLImageElement>(new Image());
+  const policeImage = useRef<HTMLImageElement>(new Image());
 
   const CANVAS_WIDTH = 350;
   const CANVAS_HEIGHT = 600;
   const TAXI_SIZE = 40;
-  const OBSTACLE_SIZE = 30;
+  const OBSTACLE_SIZE = 40;
   const COIN_SIZE = 30;
   const BASE_TAXI_SPEED = 5;
+  const HITBOX_PADDING = 8;
+
+  useEffect(() => {
+    taxiImage.current.src = TaxiImg;
+    roadImage.current.src = RoadImg;
+    barigateImage.current.src = BarigateImg;
+    coneImage.current.src = ConeImg;
+    bananaImage.current.src = BananaImg;
+    kickImage.current.src = KickImg;
+    policeImage.current.src = PoliceImg;
+  }, []);
 
   useEffect(() => {
     if (gameOver) {
       request({
-        url: "/miniGame/update",
+        url: "/miniGame/miniGames/update",
         method: "post",
-        data: { score },
+        data: {
+          creditAmount: score,
+        },
       });
     }
   }, [gameOver, score, request]);
@@ -148,6 +253,10 @@ const TaxiDodgeGame = () => {
     lastObstacleTime.current = 0;
     lastCoinTime.current = 0;
     keysPressed.current.clear();
+    backgroundY.current = 0;
+    reverseEndTimeRef.current = null;
+    timeLeftRef.current = null;
+    setTimeLeft(null);
     gameLoop(0);
   };
 
@@ -159,59 +268,145 @@ const TaxiDodgeGame = () => {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const difficultyLevel = 1 + Math.floor(scoreRef.current / 100) * 0.1;
+    const difficultyLevel = 1 + Math.floor(scoreRef.current / 300) * 0.1;
     const currentTaxiSpeed =
-      BASE_TAXI_SPEED * (1 + (difficultyLevel - 1) * 0.5);
-    const obstacleSpeedBase = 5 * difficultyLevel;
-    const obstacleSpawnInterval = 300 / difficultyLevel;
+      BASE_TAXI_SPEED * (1 + (difficultyLevel - 1) * 0.4);
+    const obstacleSpeedBase = 4 * difficultyLevel;
+    const obstacleSpawnInterval = 400 / difficultyLevel;
 
-    if (keysPressed.current.has("ArrowLeft")) {
+    if (reverseEndTimeRef.current) {
+      const diff = reverseEndTimeRef.current - Date.now();
+      if (diff <= 0) {
+        reverseEndTimeRef.current = null;
+        timeLeftRef.current = null;
+        setTimeLeft(null);
+      } else {
+        const sec = Math.ceil(diff / 1000);
+        if (sec !== timeLeftRef.current) {
+          timeLeftRef.current = sec;
+          setTimeLeft(sec);
+        }
+      }
+    }
+
+    const isReverse = !!reverseEndTimeRef.current;
+
+    let moveLeft = keysPressed.current.has("ArrowLeft");
+    let moveRight = keysPressed.current.has("ArrowRight");
+
+    if (isReverse) {
+      const temp = moveLeft;
+      moveLeft = moveRight;
+      moveRight = temp;
+    }
+
+    if (moveLeft) {
       taxiX.current = Math.max(0, taxiX.current - currentTaxiSpeed);
     }
-    if (keysPressed.current.has("ArrowRight")) {
+    if (moveRight) {
       taxiX.current = Math.min(
         CANVAS_WIDTH - TAXI_SIZE,
         taxiX.current + currentTaxiSpeed
       );
     }
 
-    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    backgroundY.current += obstacleSpeedBase;
+    if (backgroundY.current >= CANVAS_HEIGHT) {
+      backgroundY.current = 0;
+    }
+
+    ctx.drawImage(
+      roadImage.current,
+      0,
+      backgroundY.current,
+      CANVAS_WIDTH,
+      CANVAS_HEIGHT
+    );
+    ctx.drawImage(
+      roadImage.current,
+      0,
+      backgroundY.current - CANVAS_HEIGHT,
+      CANVAS_WIDTH,
+      CANVAS_HEIGHT
+    );
 
     if (timestamp - lastObstacleTime.current > obstacleSpawnInterval) {
+      const rand = Math.random();
+      let type: ObstacleType = "barigate";
+      let speedMultiplier = 1.0;
+
+      if (rand < 0.3) {
+        type = "barigate";
+        speedMultiplier = 1.0;
+      } else if (rand < 0.6) {
+        type = "cone";
+        speedMultiplier = 1.0;
+      } else if (rand < 0.8) {
+        type = "kick";
+        speedMultiplier = 1.2;
+      } else if (rand < 0.9) {
+        type = "police";
+        speedMultiplier = 1.5;
+      } else {
+        type = "banana";
+        speedMultiplier = 1.0;
+      }
+
       obstacles.current.push({
         x: Math.random() * (CANVAS_WIDTH - OBSTACLE_SIZE),
         y: -OBSTACLE_SIZE,
-        speed: obstacleSpeedBase + Math.random() * 3,
+        speed: obstacleSpeedBase * speedMultiplier,
+        type,
       });
       lastObstacleTime.current = timestamp;
     }
 
-    ctx.fillStyle = "#8B4513";
     for (let i = obstacles.current.length - 1; i >= 0; i--) {
       const obs = obstacles.current[i];
       obs.y += obs.speed;
 
-      ctx.beginPath();
-      ctx.arc(
-        obs.x + OBSTACLE_SIZE / 2,
-        obs.y + OBSTACLE_SIZE / 2,
-        OBSTACLE_SIZE / 2,
-        0,
-        Math.PI * 2
-      );
-      ctx.fill();
+      let img = barigateImage.current;
+      if (obs.type === "cone") img = coneImage.current;
+      else if (obs.type === "banana") img = bananaImage.current;
+      else if (obs.type === "kick") img = kickImage.current;
+      else if (obs.type === "police") img = policeImage.current;
+
+      ctx.drawImage(img, obs.x, obs.y, OBSTACLE_SIZE, OBSTACLE_SIZE);
 
       if (
-        taxiX.current < obs.x + OBSTACLE_SIZE &&
-        taxiX.current + TAXI_SIZE > obs.x &&
-        CANVAS_HEIGHT - TAXI_SIZE - 10 < obs.y + OBSTACLE_SIZE &&
-        CANVAS_HEIGHT - 10 > obs.y
+        taxiX.current + HITBOX_PADDING <
+          obs.x + OBSTACLE_SIZE - HITBOX_PADDING &&
+        taxiX.current + TAXI_SIZE - HITBOX_PADDING > obs.x + HITBOX_PADDING &&
+        CANVAS_HEIGHT - TAXI_SIZE - 10 + HITBOX_PADDING <
+          obs.y + OBSTACLE_SIZE - HITBOX_PADDING &&
+        CANVAS_HEIGHT - 10 - HITBOX_PADDING > obs.y + HITBOX_PADDING
       ) {
-        setGameOver(true);
-        gameOverRef.current = true;
-        if (animationFrameId.current)
-          cancelAnimationFrame(animationFrameId.current);
-        return;
+        if (obs.type === "banana") {
+          obstacles.current.splice(i, 1);
+          const endTime = Date.now() + 5000;
+          reverseEndTimeRef.current = endTime;
+
+          const sec = 5;
+          timeLeftRef.current = sec;
+          setTimeLeft(sec);
+
+          scoreRef.current += 200;
+          setScore(scoreRef.current);
+
+          floatingTexts.current.push({
+            x: taxiX.current + TAXI_SIZE / 2,
+            y: CANVAS_HEIGHT - TAXI_SIZE - 20,
+            text: "+200",
+            opacity: 1.0,
+          });
+          continue;
+        } else {
+          setGameOver(true);
+          gameOverRef.current = true;
+          if (animationFrameId.current)
+            cancelAnimationFrame(animationFrameId.current);
+          return;
+        }
       }
 
       if (obs.y > CANVAS_HEIGHT) {
@@ -221,7 +416,7 @@ const TaxiDodgeGame = () => {
       }
     }
 
-    if (timestamp - lastCoinTime.current > 2000) {
+    if (timestamp - lastCoinTime.current > 1500) {
       if (Math.random() < 0.8) {
         coins.current.push({
           x: Math.random() * (CANVAS_WIDTH - COIN_SIZE),
@@ -299,19 +494,13 @@ const TaxiDodgeGame = () => {
 
     if (gameOverRef.current) return;
 
-    ctx.fillStyle = "#FFC107";
-    ctx.fillRect(
+    ctx.drawImage(
+      taxiImage.current,
       taxiX.current,
       CANVAS_HEIGHT - TAXI_SIZE - 10,
       TAXI_SIZE,
       TAXI_SIZE
     );
-
-    ctx.fillStyle = "black";
-    ctx.fillRect(taxiX.current + 5, CANVAS_HEIGHT - TAXI_SIZE - 5, 10, 5);
-    ctx.fillRect(taxiX.current + 25, CANVAS_HEIGHT - TAXI_SIZE - 5, 10, 5);
-    ctx.fillStyle = "white";
-    ctx.fillRect(taxiX.current + 5, CANVAS_HEIGHT - TAXI_SIZE - 25, 30, 10);
 
     animationFrameId.current = requestAnimationFrame(gameLoop);
   };
@@ -344,47 +533,74 @@ const TaxiDodgeGame = () => {
   const handleRightUp = () => keysPressed.current.delete("ArrowRight");
 
   return (
-    <AdaptiveDiv type="center">
-      <Title icon="taxi" isHeader>
-        장애물 피하기
-      </Title>
-      <GameContainer>
+    <PageWrapper>
+      <HeaderContainer>
+        <HeaderContent>
+          <ArrowBackRoundedIcon
+            style={{
+              fill: theme.purple,
+              cursor: "pointer",
+              width: "24px",
+              height: "24px",
+            }}
+            onClick={() => history.goBack()}
+          />
+          <HeaderTitle>
+            <LocalTaxiRoundedIcon
+              style={{ fill: theme.purple, width: "24px", height: "24px" }}
+            />
+            장애물 피하기
+          </HeaderTitle>
+        </HeaderContent>
+      </HeaderContainer>
+      <ContentWrapper>
         <ScoreBoard>점수: {score}</ScoreBoard>
-        <div style={{ position: "relative" }}>
-          <Canvas ref={canvasRef} width={CANVAS_WIDTH} height={CANVAS_HEIGHT} />
-          {!gameStarted && !gameOver && (
-            <GameOverModal>
-              <h2>장애물 피하기 게임</h2>
-              <p>장애물을 피하고 점수를 획득하세요!</p>
-              <RestartButton onClick={startGame}>게임 시작</RestartButton>
-            </GameOverModal>
-          )}
-          {gameOver && (
-            <GameOverModal>
-              <h2>게임 종료</h2>
-              <p>최종 점수: {score}</p>
-              <RestartButton onClick={startGame}>다시하기</RestartButton>
-            </GameOverModal>
-          )}
-        </div>
-        <Controls>
-          <Button
-            onPointerDown={handleLeftDown}
-            onPointerUp={handleLeftUp}
-            onPointerLeave={handleLeftUp}
-          >
-            ◀
-          </Button>
-          <Button
-            onPointerDown={handleRightDown}
-            onPointerUp={handleRightUp}
-            onPointerLeave={handleRightUp}
-          >
-            ▶
-          </Button>
-        </Controls>
-      </GameContainer>
-    </AdaptiveDiv>
+        <GameContainer>
+          <div style={{ position: "relative" }}>
+            <Canvas
+              ref={canvasRef}
+              width={CANVAS_WIDTH}
+              height={CANVAS_HEIGHT}
+            />
+            {timeLeft && (
+              <WarningText>{timeLeft}초 동안 방향이 반대가 됩니다!</WarningText>
+            )}
+            {!gameStarted && !gameOver && (
+              <GameOverModal>
+                <p>장애물을 피하고 점수를 획득하세요!</p>
+                <RestartButton onClick={startGame}>게임 시작</RestartButton>
+              </GameOverModal>
+            )}
+            {gameOver && (
+              <GameOverModal>
+                <h2 css={{ marginBottom: "10px" }}>게임 종료</h2>
+                <p>최종 점수: {score}</p>
+                <RestartButton onClick={startGame}>다시하기</RestartButton>
+              </GameOverModal>
+            )}
+          </div>
+          <Controls>
+            <Button
+              onPointerDown={timeLeft ? handleRightDown : handleLeftDown}
+              onPointerUp={timeLeft ? handleRightUp : handleLeftUp}
+              onPointerLeave={timeLeft ? handleRightUp : handleLeftUp}
+            >
+              ◀
+            </Button>
+            <Button
+              onPointerDown={timeLeft ? handleLeftDown : handleRightDown}
+              onPointerUp={timeLeft ? handleLeftUp : handleRightUp}
+              onPointerLeave={timeLeft ? handleLeftUp : handleRightUp}
+            >
+              ▶
+            </Button>
+          </Controls>
+        </GameContainer>
+      </ContentWrapper>
+      <div style={{ paddingBottom: "30px" }}>
+        <Footer type="only-logo" />
+      </div>
+    </PageWrapper>
   );
 };
 
