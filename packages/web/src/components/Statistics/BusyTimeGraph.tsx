@@ -30,11 +30,9 @@ const BusyTimeGraph = ({
 }: BusyTimeGraphProps) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-  // "전체" 옵션 제거 필터링
   const filteredPlaces = places.filter((p) => p !== "전체");
   const filteredDays = days.filter((d) => d !== "전체");
 
-  // 최대값 계산
   const maxValue = Math.max(...data.map((d) => d.value), 1);
 
   const handlePlaceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -45,35 +43,29 @@ const BusyTimeGraph = ({
     onFilterChange(selectedPlace, e.target.value);
   };
 
-  // 툴팁 위치 스타일 계산 함수
   const getTooltipStyle = (index: number, total: number) => {
-    // 1. 첫 번째 아이템: 왼쪽 정렬 (왼쪽으로 나가지 않게)
-    if (index === 0) {
+    if (index < 2) {
       return {
         left: "0",
         transform:
           hoveredIndex === index ? "translateY(0)" : "translateY(10px)",
         "&::after": {
-          // 꼬리 위치도 왼쪽으로
           left: "20%",
         },
       };
     }
-    // 2. 마지막 아이템: 오른쪽 정렬 (오른쪽으로 나가지 않게)
-    if (index === total - 1) {
+    if (index >= total - 2) {
       return {
         right: "0",
-        left: "auto", // left 속성 무효화
+        left: "auto",
         transform:
           hoveredIndex === index ? "translateY(0)" : "translateY(10px)",
         "&::after": {
-          // 꼬리 위치도 오른쪽으로
           left: "auto",
           right: "20%",
         },
       };
     }
-    // 3. 나머지: 가운데 정렬 (기본값)
     return {
       left: "50%",
       transform:
@@ -135,13 +127,12 @@ const BusyTimeGraph = ({
         alignItems: "center",
       }}
     >
-      {/* 1. 그래프 영역 */}
       <div
         css={{
           display: "flex",
           alignItems: "stretch",
           height: "140px",
-          gap: "4px", // 간격을 조금 좁힘 (더 많은 데이터 표시 대비)
+          gap: "4px",
           width: "100%",
           marginBottom: "28px",
         }}
@@ -150,15 +141,20 @@ const BusyTimeGraph = ({
           const heightPercentage = (item.value / maxValue) * 100;
           const isHighlight = item.value === maxValue && item.value > 0;
           const isHovered = hoveredIndex === index;
-          const tooltipStyle = getTooltipStyle(index, data.length); // 툴팁 위치 계산
+          const tooltipStyle = getTooltipStyle(index, data.length);
+
+          const hour = parseInt(item.time.replace("시", ""), 10);
+          const shouldShowLabel = hour % 3 === 0;
+
+          const displayValue = Math.round(item.value);
 
           return (
             <div
               key={index}
               css={{
-                flex: 1, // ✨ 모든 막대가 동일한 너비를 가짐
-                width: 0, // ✨ flex 아이템이 내용물 크기에 영향받지 않게 함 (중요!)
-                minWidth: 0, // ✨ 최소 너비 0으로 설정해서 삐져나감 방지
+                flex: 1,
+                width: 0,
+                minWidth: 0,
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
@@ -170,7 +166,6 @@ const BusyTimeGraph = ({
               onMouseLeave={() => setHoveredIndex(null)}
               onTouchStart={() => setHoveredIndex(index)}
             >
-              {/* 툴팁 */}
               <div
                 css={{
                   position: "absolute",
@@ -189,7 +184,7 @@ const BusyTimeGraph = ({
                   zIndex: 10,
                   pointerEvents: "none",
                   boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                  ...tooltipStyle, // 계산된 위치 스타일 적용
+                  ...tooltipStyle,
                   "&::after": {
                     content: '""',
                     position: "absolute",
@@ -197,18 +192,15 @@ const BusyTimeGraph = ({
                     borderLeft: "4px solid transparent",
                     borderRight: "4px solid transparent",
                     borderTop: `4px solid ${theme.purple}`,
-                    // 꼬리 위치 스타일 (기본값) - tooltipStyle에서 덮어씀
                     left: "50%",
                     marginLeft: "-4px",
                     ...((tooltipStyle as any)["&::after"] || {}),
                   },
                 }}
               >
-                {/* 소수점 1자리까지 표시 */}
-                {Number(item.value).toFixed(1)}개
+                {displayValue}개
               </div>
 
-              {/* 막대 Wrapper */}
               <div
                 css={{
                   display: "flex",
@@ -219,7 +211,6 @@ const BusyTimeGraph = ({
                   justifyContent: "flex-end",
                 }}
               >
-                {/* 실제 막대 */}
                 <div
                   css={{
                     width: "100%",
@@ -236,7 +227,6 @@ const BusyTimeGraph = ({
                   }}
                 />
 
-                {/* 시간 라벨 */}
                 <div
                   css={{
                     fontSize: "10px",
@@ -246,12 +236,10 @@ const BusyTimeGraph = ({
                     lineHeight: "12px",
                     textAlign: "center",
                     whiteSpace: "nowrap",
-                    opacity: 0.8,
-                    width: "100%", // 라벨도 부모 너비에 맞춤
-                    overflow: "hidden", // 넘치면 숨김 (깔끔하게)
+                    opacity: shouldShowLabel ? 0.8 : 0,
                   }}
                 >
-                  {item.time.replace("시", "")}
+                  {shouldShowLabel ? item.time.replace("시", "") : ""}
                 </div>
               </div>
             </div>
@@ -259,7 +247,6 @@ const BusyTimeGraph = ({
         })}
       </div>
 
-      {/* 2. 제목 & 설명 */}
       <div css={{ textAlign: "center", marginBottom: "32px", width: "100%" }}>
         <div
           css={{
