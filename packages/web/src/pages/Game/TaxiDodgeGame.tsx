@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 
-import { useIsLogin } from "@/hooks/useFetchRecoilState";
+import { useFetchRecoilState, useIsLogin } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
 import Footer from "@/components/Footer";
@@ -181,6 +181,8 @@ const TaxiDodgeGame = () => {
   const [isRankingOpen, setIsRankingOpen] = useState(false);
 
   const request = useAxios();
+  // [추가] 게임 정보(코인 등) 새로고침 함수 가져오기
+  const fetchGameInfo = useFetchRecoilState("gameInfo");
 
   const gameOverRef = useRef(false);
   const taxiX = useRef(175);
@@ -232,6 +234,8 @@ const TaxiDodgeGame = () => {
       method: "get",
     });
   }, [request]);
+
+  // [수정] 게임 오버 시 점수 업데이트 및 게임 정보 새로고침
   useEffect(() => {
     if (gameOver) {
       request({
@@ -240,11 +244,15 @@ const TaxiDodgeGame = () => {
         data: {
           score: score,
         },
+        onSuccess: () => {
+          fetchGameInfo(); // 코인 업데이트 반영
+        },
       });
     }
-  }, [gameOver, score, request]);
+  }, [gameOver, score, request, fetchGameInfo]);
 
   const startGame = () => {
+    console.log("Game Started");
     setGameStarted(true);
     setGameOver(false);
     gameOverRef.current = false;
@@ -574,7 +582,7 @@ const TaxiDodgeGame = () => {
                       게임 종료
                     </ScoreBoard>
                     <p css={{ marginBottom: "5px" }}>최종 점수: {score}</p>
-                    <p>획득한 넙죽코인: {score / 10}</p>
+                    <p>획득한 넙죽코인: {Math.floor(score / 10)}</p>
                     <RestartButton onClick={startGame}>다시하기</RestartButton>
                   </GameOverModal>
                 )}
@@ -602,7 +610,7 @@ const TaxiDodgeGame = () => {
         )}
       </ContentWrapper>
       <div style={{ paddingBottom: "30px" }}>
-        <Footer type="only-logo" />
+        <Footer type="game" />
       </div>
 
       <ModalDodgeLeaderboard
