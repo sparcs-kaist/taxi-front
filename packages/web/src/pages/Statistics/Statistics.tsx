@@ -1,8 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
-// ✨ API 및 상태 관리 훅
 import { useAxios } from "@/hooks/useTaxiAPI";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
@@ -27,7 +26,6 @@ const fadeInUpKeyframes = `
   }
 `;
 
-// 요일 목록 상수
 const DAYS = ["일", "월", "화", "수", "목", "금", "토"];
 
 type Period = "7d" | "30d" | "1y" | "total";
@@ -42,20 +40,16 @@ const Statistics = () => {
   const [activeTab, setActiveTab] = useState<TabType>("all");
   const [period, setPeriod] = useState<Period>("30d");
 
-  // ✨ 실제 데이터 상태 (금액)
   const [totalSavings, setTotalSavings] = useState<number>(0); // 전체 누적
   const [mySavings, setMySavings] = useState<number>(0); // 내 누적
   const [periodSavings, setPeriodSavings] = useState<number>(0); // 기간별 전체
 
-  // ✨ 실제 데이터 상태 (그래프용)
   const [accumulatedRides, setAccumulatedRides] = useState<GraphTileData[]>([]); // 누적 방 생성
   const [accumulatedUsers, setAccumulatedUsers] = useState<GraphTileData[]>([]); // 누적 사용자
   const [myDoneRoomCount, setMyDoneRoomCount] = useState<number>(0); // 내 참여 횟수
 
-  // ✨ 그래프용 상태 (장소별)
-  const [graphPlace, setGraphPlace] = useState("택시승강장");
+  const [graphPlace, setGraphPlace] = useState("카이스트 본원");
   const [graphDay, setGraphDay] = useState(() => {
-    // 오늘 요일 계산 (KST)
     const now = new Date();
     const utc = now.getTime() + now.getTimezoneOffset() * 60000;
     const kstGap = 9 * 60 * 60 * 1000;
@@ -64,7 +58,9 @@ const Statistics = () => {
   });
   const [graphData, setGraphData] = useState<TimeSlotData[]>([]);
 
-  // ✨ 증가량 계산
+  const [startHour, setStartHour] = useState(0);
+  const [endHour, setEndHour] = useState(23);
+
   const getDifference = (data: GraphTileData[]) => {
     if (data.length < 2) return 0;
     return data[data.length - 1].value - data[data.length - 2].value;
@@ -72,7 +68,6 @@ const Statistics = () => {
   const ridesDiff = getDifference(accumulatedRides);
   const usersDiff = getDifference(accumulatedUsers);
 
-  // 1️⃣ 초기 로딩: 전체 데이터 가져오기 (누적 금액, 그래프 데이터, 내 참여 횟수)
   useEffect(() => {
     // API 1: 전체 누적 아낀 금액
     axios({
@@ -141,7 +136,6 @@ const Statistics = () => {
       return;
     }
 
-    // ✨ 날짜 계산 (오늘 기준이 아니라 '어제' 기준)
     const today = new Date();
     const endDate = new Date(today);
     endDate.setDate(today.getDate() - 1); // 어제
@@ -173,19 +167,15 @@ const Statistics = () => {
     fetchPeriodSavings();
   }, [fetchPeriodSavings]);
 
-  // 3️⃣ 그래프 데이터 가져오기 (장소/요일 변경 시) - ✨ Mock 제거 및 실제 API 연결
   const fetchGraphData = useCallback(async () => {
     if (!taxiLocations || taxiLocations.length === 0) return;
 
-    // 선택된 장소 이름으로 ID 찾기
     const location = taxiLocations.find((loc) => loc.koName === graphPlace);
     if (!location) return;
 
-    // 요일 문자열 -> 숫자 변환 (일:0 ~ 토:6)
     const dayIndex = DAYS.indexOf(graphDay);
     if (dayIndex === -1) return;
 
-    // 기간 설정 (과거 30일)
     const endDate = new Date();
     const startDate = new Date();
     startDate.setDate(endDate.getDate() - 30);
@@ -220,6 +210,15 @@ const Statistics = () => {
     }
   }, [activeTab, fetchGraphData]);
 
+  const filteredGraphData = useMemo(() => {
+    if (startHour === 0 && endHour === 23) return graphData;
+
+    return graphData.filter((item) => {
+      // "18시" -> 18 추출
+      const hour = parseInt(item.time.replace("시", ""), 10);
+      return hour >= startHour && hour <= endHour;
+    });
+  }, [graphData, startHour, endHour]);
   // --- Helper Functions ---
   const getPeriodLabelPrefix = (p: Period) => {
     switch (p) {
@@ -234,7 +233,6 @@ const Statistics = () => {
     }
   };
 
-  // 🍗 환산 데이터 생성기 (소수점 1자리)
   const getDynamicContents = (
     amount: number,
     userPrefix: string
@@ -330,7 +328,7 @@ const Statistics = () => {
     boxShadow: activeTab === tab ? "0 2px 8px rgba(0,0,0,0.1)" : "none",
   });
 
-  // ✨ 그래프 필터 변경 핸들러
+  // 그래프 필터 변경 핸들러
   const handleGraphFilterChange = (place: string, day: string) => {
     setGraphPlace(place);
     setGraphDay(day);
@@ -429,8 +427,8 @@ const Statistics = () => {
               </div>
 
               <BusyTimeGraph
-                data={graphData}
-                places={taxiLocations?.map((loc) => loc.koName) || []} // ✨ 실제 장소 목록 사용
+                data={filteredGraphData} // ⭐️ 필터링된 데이터 사용
+                places={taxiLocations?.map((loc) => loc.koName) || []}
                 days={DAYS}
                 selectedPlace={graphPlace}
                 selectedDay={graphDay}
