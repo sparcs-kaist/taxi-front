@@ -1,24 +1,20 @@
-import { Dispatch, SetStateAction, useCallback, useMemo, useRef } from "react";
+import { useCallback, useMemo, useRef } from "react";
 import { GameItem } from "@/types/game";
 import { useValueRecoilState, useIsLogin } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
 import { useSetRecoilState } from "recoil";
 import alertAtom from "@/atoms/alert";
 import Modal from "@/components/Modal";
-import { ReactComponent as CreditIcon } from "@/static/events/2025springCredit.svg";
+
 import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceWalletRounded";
 import theme from "@/tools/theme";
 import Button from "@/components/Button";
-
+import coinGif from "@/static/events/2024springCoin.gif";
 type ModalGameItemProps = Parameters<typeof Modal>[0] & {
     itemInfo: GameItem;
-    fetchItems?: () => void;
-    setShareItem?: Dispatch<SetStateAction<Nullable<GameItem>>>;
   };
 const ModalGameItem = ({
     itemInfo,
-    fetchItems,
-    setShareItem,
     ...modalProps
   }: ModalGameItemProps) => {
     const gameInfo = useValueRecoilState("gameInfo");
@@ -32,18 +28,16 @@ const ModalGameItem = ({
       if (isRequesting.current) return;
       isRequesting.current = true;
       await axios({
-        url: `/events/2025spring/items/purchase/${itemInfo._id}`, // TODO: game
+        url: `/miniGame/miniGames/buy`, // TODO: game
         method: "post",
-        data: { amount: 0 },
+        data: { itemType: itemInfo.itemType },
         onSuccess: (result) => {
-          fetchItems?.();
           modalProps.onChangeIsOpen?.(false);
-            setShareItem?.(itemInfo);
         },
         onError: () => setAlert("구매를 실패하였습니다."),
       });
       isRequesting.current = false;
-    }, [itemInfo._id, fetchItems, modalProps.onChangeIsOpen, 0]);
+    }, [modalProps.onChangeIsOpen, 0]);
   
     const [isDisabled, buttonText] = useMemo(
       () =>
@@ -88,7 +82,11 @@ const ModalGameItem = ({
                 gap: "4px",
               }}
             >
-              <CreditIcon css={{ width: "27px", height: "16px" }} />
+              <img
+            src={coinGif}
+            alt="coin"
+            style={{ width: "16px", height: "16px", objectFit: "contain" }}
+          />
               <div>{itemInfo.price}</div>
             </div>
           </div>

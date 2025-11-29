@@ -1,28 +1,61 @@
 import { useState } from "react";
 
+// [수정] 상대 경로로 변경
 import { GameItem } from "@/types/game";
+
+import { useFetchRecoilState } from "@/hooks/useFetchRecoilState";
 
 import ModalGameItem from "@/components/ModalPopup/ModalGameItem";
 import WhiteContainer from "@/components/WhiteContainer";
 
 import theme from "@/tools/theme";
 
-import { ReactComponent as CreditIcon } from "@/static/events/2025springCredit.svg";
+import coinGif from "@/static/events/2024springCoin.gif";
 
 type GameItemComponentProps = {
   value: GameItem;
-  fetchItems?: () => void;
   clickable?: boolean;
   showDescription?: boolean;
 };
 
-const GameItemContainer = (
-  { value, fetchItems, clickable, showDescription }: GameItemComponentProps
-) => {
-  //   const fetchGameInfo = useFetchRecoilState("gameInfo");
+const GameItemContainer = ({
+  value,
+  clickable,
+  showDescription,
+}: GameItemComponentProps) => {
+  const fetchGameInfo = useFetchRecoilState("gameInfo");
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
   const onClickHandler = () => {
-    // TODO: onclick
+    setIsOpen(true);
+  };
+
+  const handleModalChange = (open: boolean) => {
+    setIsOpen(open);
+    if (!open) {
+      fetchGameInfo();
+    }
+  };
+
+  // [추가] 아이템 타입에 따라 이모지 또는 이미지 렌더링
+  const renderItemImage = () => {
+    if (value.itemType === "preventFail") {
+      return <div style={{ fontSize: "50px", lineHeight: 1 }}>🛡️</div>;
+    }
+    if (value.itemType === "preventBurst") {
+      return <div style={{ fontSize: "50px", lineHeight: 1 }}>💥</div>;
+    }
+    return (
+      <img
+        css={{
+          width: "100%",
+          height: "100%",
+          objectFit: "contain", // 비율 유지
+        }}
+        src={value.imageUrl}
+        alt={value.name}
+      />
+    );
   };
 
   return (
@@ -35,11 +68,11 @@ const GameItemContainer = (
         padding: "12px",
         display: "flex",
         flexDirection: "column",
-        alignItems: "left",
+        alignItems: "center", // 중앙 정렬
         gap: "8px",
-        // background: isSoldOut ? theme.gray_background : theme.white,
         ...theme.font14,
         ...theme.cursor(!clickable),
+        height: "100%", // 높이 꽉 채우기
       }}
       onClick={clickable ? onClickHandler : undefined}
     >
@@ -48,57 +81,69 @@ const GameItemContainer = (
           width: "100%",
           borderRadius: "6px",
           aspectRatio: "1/1",
-          objectFit: "cover",
           position: "relative",
           overflow: "hidden",
-          background: theme.purple_light,
+          background: ["preventFail", "preventBurst"].includes(value.itemType)
+            ? "#F5F5F5" // 이모지 배경: 회색
+            : "transparent", // 이미지 배경: 투명
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
-        <img
-          css={{
-            width: "100%",
-            height: "100%",
-          }}
-          src={value.imageUrl}
-          alt={value.name}
-        />
+        {renderItemImage()}
       </div>
+
       <div
         css={{
           ...theme.font14_bold,
+          textAlign: "center",
+          wordBreak: "keep-all",
         }}
       >
         {value.name}
       </div>
+
       {showDescription && (
         <div
           css={{
             ...theme.font12,
+            color: theme.gray_text,
+            textAlign: "center",
+            lineHeight: "1.4",
           }}
         >
           {value.description}
         </div>
       )}
+
       <div
         css={{
           display: "flex",
           gap: "4px",
+          alignItems: "center",
         }}
       >
-        <CreditIcon css={{ width: "27px", height: "16px" }} />
+        <img
+          src={coinGif}
+          alt="coin"
+          style={{ width: "16px", height: "16px", objectFit: "contain" }}
+        />
         <div
           css={{
             ...theme.font14,
+            fontWeight: "bold",
+            color: theme.purple,
           }}
         >
-          {value.price}
+          {value.price.toLocaleString()}원
         </div>
       </div>
+
       <ModalGameItem
         itemInfo={value}
-        fetchItems={fetchItems}
         isOpen={isOpen}
-        onChangeIsOpen={setIsOpen}
+        onChangeIsOpen={handleModalChange}
       />
     </WhiteContainer>
   );

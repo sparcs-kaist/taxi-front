@@ -28,135 +28,136 @@ const Game = () => {
   const minigameInfo = useValueRecoilState("gameInfo");
   const fetchMinigameInfo = useFetchRecoilState("gameInfo");
 
-  // [변경] 둥근 알약(Pill) 스타일의 탭 디자인
+  // [디자인] 탭 버튼 스타일
   const getTabStyle = (path: string) => {
     const isActive = currentPath === path;
     return {
       flex: 1,
       textAlign: "center" as const,
-      padding: "8px 0",
-      fontSize: "14px",
+      padding: "6px 0", // 높이 살짝 줄임
+      fontSize: "13px",
       fontWeight: isActive ? "bold" : "normal",
       color: isActive ? theme.purple : theme.gray_text,
       textDecoration: "none",
       cursor: "pointer",
 
-      // 둥근 디자인 핵심 속성
-      borderRadius: "20px", // 버튼 자체를 둥글게
-      backgroundColor: isActive ? "#ffffff" : "transparent", // 활성화되면 흰색 배경
-      boxShadow: isActive ? "0 2px 4px rgba(0,0,0,0.05)" : "none", // 활성화 시 살짝 그림자
-      transition: "all 0.2s ease-in-out", // 부드러운 전환 효과
+      // 활성화 시 스타일
+      borderRadius: "18px",
+      backgroundColor: isActive ? "#ffffff" : "transparent",
+      boxShadow: isActive ? "0 1px 3px rgba(0,0,0,0.1)" : "none",
+      transition: "all 0.2s ease-in-out",
     };
   };
 
   useEffect(() => {
-    // 컴포넌트가 마운트될 때 스크롤을 막음
-    document.body.style.overflow = "hidden";
-    setAmount(minigameInfo?.creditAmount || 0);
     fetchMinigameInfo();
-
-    // 컴포넌트가 언마운트될 때 스크롤을 다시 활성화함
-    return () => {
-      document.body.style.overflow = "";
-    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (minigameInfo) {
+      setAmount(minigameInfo.creditAmount || 0);
+    }
+  }, [minigameInfo]);
 
   return (
     <>
-      {/* 1. 최상단 고정 헤더 */}
-      <HeaderWithBackButton>
-        {/* 헤더 내부를 Flex로 만들어 좌우 끝으로 배치합니다.
-          width: 100%를 주어야 Title과 Coin이 양옆으로 벌어집니다.
-        */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between", // 양쪽 끝 정렬 (Title은 왼쪽, Coin은 오른쪽)
-            alignItems: "center", // 세로 중앙 정렬
-            width: "100%",
-            paddingRight: "8px", // 오른쪽 여백 살짝 추가
-          }}
-        >
-          {/* 왼쪽: 타이틀 */}
-          <Title>택시 강화하기</Title>
-
-          {/* 오른쪽: 코인 정보 (이미지 + 텍스트) */}
+      {/* [통합 헤더 영역]
+        TitleBar와 NavigationBar를 모두 포함하는 Sticky Container입니다.
+        전체를 흰색 배경으로 만들고, 가장 하단에만 그림자를 줍니다.
+      */}
+      <div
+        style={{
+          position: "sticky",
+          top: "0",
+          zIndex: 2,
+          width: "100%",
+          // 헤더 전체 덩어리 아래에 부드러운 그림자 추가
+        }}
+      >
+        {/* 1. 상단: 뒤로가기 + 타이틀 + 코인 */}
+        <HeaderWithBackButton>
           <div
             style={{
               display: "flex",
-              alignItems: "center", // 이미지와 텍스트 높이 맞춤
-              gap: "6px", // 이미지와 텍스트 사이 간격
-              backgroundColor: "rgba(255, 255, 255, 0.5)", // (선택사항) 가독성을 위한 연한 배경
-              padding: "4px 8px",
-              borderRadius: "12px",
+              justifyContent: "space-between",
+              alignItems: "center",
+              width: "100%",
+              paddingRight: "8px",
             }}
           >
-            <img
-              src={coinGif}
-              alt="coin"
-              style={{ width: "20px", height: "20px", objectFit: "contain" }}
-            />
-            <span
+            <Title>택시 강화하기</Title>
+            <div
               style={{
-                fontSize: "14px",
-                fontWeight: "bold",
-                color: theme.black || "#333",
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                padding: "4px 8px",
+                borderRadius: "12px",
+                backgroundColor: "#f9f9f9", // 코인 배경을 더 연하게
               }}
             >
-              {amount}원
-            </span>
+              <img
+                src={coinGif}
+                alt="coin"
+                style={{ width: "20px", height: "20px", objectFit: "contain" }}
+              />
+              <span
+                style={{
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  color: theme.black || "#333",
+                }}
+              >
+                {amount.toLocaleString()}원
+              </span>
+            </div>
           </div>
-        </div>
-      </HeaderWithBackButton>
+        </HeaderWithBackButton>
 
-      {/* 2. 내비게이션 탭 영역 */}
-      <div
-        style={{
-          display: "flex",
-          position: "sticky",
-          top: "0",
-          zIndex: 10,
-          width: "100%",
-          alignItems: "center",
-          justifyContent: "center",
-          paddingBottom: "10px", // 아래 콘텐츠와 간격을 위해 패딩 추가
-        }}
-      >
+        {/* 2. 하단: 네비게이션 탭 (헤더 내부로 통합) */}
         <div
           style={{
+            width: "100%",
             display: "flex",
-            width: "90%", // 좌우 여백을 위해 90%만 사용
-            maxWidth: "360px", // 너무 넓어지지 않도록 제한
-
-            // [요청사항 1] 헤더와 떨어뜨리기
-            marginTop: "10px",
-
-            // [요청사항 2] 전체 바를 동그랗게 만들기
-            backgroundColor: "#f5f5f5", // 연한 회색 배경
-            borderRadius: "25px", // 둥근 모서리
-            padding: "4px", // 내부 버튼과의 간격
+            justifyContent: "center",
+            paddingBottom: "12px", // 헤더 하단 여백
+            margin: "0 auto ",
           }}
         >
-          <Link to="/game/main" style={getTabStyle("/game/main")}>
-            메인
-          </Link>
-          <Link to="/game/store" style={getTabStyle("/game/store")}>
-            상점
-          </Link>
-          <Link to="/game/money" style={getTabStyle("/game/money")}>
-            돈 벌기
-          </Link>
+          <div
+            style={{
+              display: "flex",
+              width: "90%",
+              maxWidth: "360px",
+              backgroundColor: "#f0f0f0", // 탭 트랙 배경색 (연한 회색)
+              borderRadius: "20px",
+              padding: "4px",
+              marginTop: "8px",
+            }}
+          >
+            <Link to="/game/main" style={getTabStyle("/game/main")}>
+              메인
+            </Link>
+            <Link to="/game/store" style={getTabStyle("/game/store")}>
+              상점
+            </Link>
+            <Link to="/game/money" style={getTabStyle("/game/money")}>
+              돈 벌기
+            </Link>
+          </div>
         </div>
       </div>
 
       {/* 3. 실제 페이지 내용 */}
       <div
         style={{
-          // backgroundColor: theme.gray_background, // 필요하다면 배경색 유지
-          minHeight: "calc(100vh - 140px)", // 헤더 + 내비게이션 높이만큼 뺌
+          minHeight: "calc(100vh - 140px)",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          width: "100%",
+          paddingTop: "24px",
         }}
       >
         <div style={{ width: "100%", maxWidth: "400px" }}>

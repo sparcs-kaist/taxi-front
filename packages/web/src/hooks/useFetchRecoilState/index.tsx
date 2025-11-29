@@ -28,7 +28,7 @@ import {
 import {
   useFetchGameInfo,
   useSetGameInfo,
-  useValueGameInfo,
+  useValueGameInfo, // [추가]
 } from "./useFetchGameInfo";
 import {
   useFetchLoginInfo,
@@ -86,6 +86,7 @@ type useValueRecoilStateType = {
   (atomName: "event2025FallInfo"): Event2025FallInfoType;
   (atomName: "gameInfo"): GameInfoType;
 };
+
 const _useValueRecoilState = (atomName: AtomName) => {
   switch (atomName) {
     case "loginInfo":

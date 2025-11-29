@@ -28,7 +28,7 @@ export const useFetchGameInfo = () => {
         axios({
           url: "/miniGame/miniGames/",
           method: "get",
-          onSuccess: (data) => setGameInfo(data),
+          onSuccess: (data) => setGameInfo(data.miniGameStatus),
           onError: onError,
         });
       } else {
@@ -38,28 +38,4 @@ export const useFetchGameInfo = () => {
     },
     [userId, axios, setGameInfo]
   ); // 의존성 배열에 userId 추가
-};
-
-export const useFetchEnforceGameInfo = () => {
-  const setGameInfo = useSetGameInfo();
-  const axios = useAxios();
-
-  // [추가] 로그인 정보 가져오기
-  const loginInfo = useValueRecoilState("loginInfo");
-  const userId = loginInfo?.id;
-
-  return useCallback(
-    (onError?: AxiosOption["onError"]) => {
-      // [수정] userId가 있을 때만 API 호출
-      if (userId) {
-        axios({
-          url: "/miniGame/miniGames/reinforcement",
-          method: "get",
-          onSuccess: (data) => setGameInfo(data),
-          onError: onError,
-        });
-      }
-    },
-    [userId, axios, setGameInfo]
-  );
 };
