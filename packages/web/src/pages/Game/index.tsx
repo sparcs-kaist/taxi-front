@@ -12,8 +12,8 @@ import Title from "@/components/Title";
 
 // 라우팅될 컴포넌트들
 import GameMain from "./GameMain";
-import Money from "./Money";
 import Store from "./Store";
+import Money from "./TaxiDodgeGame";
 
 import theme from "@/tools/theme";
 
