@@ -58,10 +58,9 @@ type Period = "7d" | "30d" | "1y" | "total";
 type TabType = "all" | "personal" | "place";
 
 const Statistics = () => {
-  const { t } = useTranslation("mypage");
   const axios = useAxios();
   const loginInfo = useValueRecoilState("loginInfo");
-  const taxiLocations = useValueRecoilState("taxiLocations"); // ✨ 장소 목록 가져오기
+  const taxiLocations = useValueRecoilState("taxiLocations");
 
   const [activeTab, setActiveTab] = useState<TabType>("all");
   const [period, setPeriod] = useState<Period>("30d");
@@ -72,7 +71,7 @@ const Statistics = () => {
   const [periodSavings, setPeriodSavings] = useState<number>(0);
 
   // ✨ 그래프용 상태 (장소별 통계)
-  const [graphPlace, setGraphPlace] = useState("택시승강장"); // 기본값
+  const [graphPlace, setGraphPlace] = useState("카이스트 본원"); // 기본값
   const [graphDay, setGraphDay] = useState(() => {
     // 오늘 요일 계산 (KST)
     const now = new Date();
@@ -103,7 +102,6 @@ const Statistics = () => {
     }
   }, [axios, loginInfo?.oid]);
 
-  // 2️⃣ 기간 변경 시: 기간별 데이터 가져오기 (DB 집계 기준 '어제'로 수정)
   const fetchPeriodSavings = useCallback(async () => {
     if (period === "total") {
       setPeriodSavings(totalSavings);
@@ -150,15 +148,13 @@ const Statistics = () => {
     // 기간 설정 (과거 30일)
     const endDate = new Date();
     const startDate = new Date();
-    startDate.setDate(endDate.getDate() - 30);
+    startDate.setDate(endDate.getDate() - 28);
 
     await axios({
-      url: "/statistics/room-creation/hourly-average",
+      url: "/statistics/room-creation/hourly",
       method: "get",
       params: {
         locationId: location._id,
-        startDate: startDate.toISOString(),
-        endDate: endDate.toISOString(),
         dayOfWeek: dayIndex,
       },
       onSuccess: (data) => {
@@ -191,7 +187,7 @@ const Statistics = () => {
       case "1y":
         return "지난 1년간\n";
       default:
-        return "지금까지\n";
+        return "Taxi와 함께하며\n";
     }
   };
 
@@ -206,9 +202,7 @@ const Statistics = () => {
     variant: TileVariant;
   }> => {
     const timeLabel =
-      activeTab === "all"
-        ? getPeriodLabelPrefix(period)
-        : "Taxi와 함께한 시간 동안\n";
+      activeTab === "all" ? getPeriodLabelPrefix(period) : "Taxi와 함께하며\n";
     return [
       {
         label: `${timeLabel}${userPrefix} 아낀 금액`,
@@ -241,7 +235,7 @@ const Statistics = () => {
     unit?: string;
     variant: TileVariant;
   }> => {
-    const timeLabel = "Taxi와 함께한 시간 동안\n";
+    const timeLabel = "Taxi와 함께하며\n";
     return [
       {
         label: `${timeLabel}내가 아낀 금액`,
@@ -333,7 +327,7 @@ const Statistics = () => {
       <style>{fadeInUpKeyframes}</style>
 
       <Title icon="stats" isHeader>
-        {t("statistics")}
+        통계
       </Title>
 
       <div css={{ padding: "0 20px 80px" }}>
@@ -367,7 +361,6 @@ const Statistics = () => {
           </button>
         </div>
 
-        {/* 컨텐츠 영역 */}
         <div
           key={activeTab}
           css={{ animation: "fadeInUp 0.5s ease-out forwards" }}
@@ -386,7 +379,7 @@ const Statistics = () => {
                     marginBottom: "4px",
                   }}
                 >
-                  📍 어디가 가장 핫할까요?
+                  📍 택시팟, 언제 만들지?
                 </div>
                 <div css={{ fontSize: "14px", color: theme.gray_text }}>
                   원하는 장소와 요일을 선택해보세요.
@@ -434,19 +427,6 @@ const Statistics = () => {
                 >
                   <DynamicStatTile
                     data={getDynamicContents(periodSavings, "모두가")}
-                  />
-                  {/* 동승 팟 수는 아직 API가 없어서 임시 계산 유지 */}
-                  <DynamicStatTile
-                    data={[
-                      {
-                        label: `${getPeriodLabelPrefix(
-                          period
-                        )}생성된\n택시 동승 팟 수`,
-                        value: Math.floor(periodSavings / 4500),
-                        unit: "개",
-                        variant: "white",
-                      },
-                    ]}
                   />
                 </div>
               </div>

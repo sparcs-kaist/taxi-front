@@ -9,10 +9,10 @@ export interface TimeSlotData {
 
 interface BusyTimeGraphProps {
   data: TimeSlotData[];
-  places: string[]; // 장소 이름 목록
-  days: string[]; // 요일 이름 목록
-  selectedPlace: string; // ✨ [추가] 현재 선택된 장소
-  selectedDay: string; // ✨ [추가] 현재 선택된 요일
+  places: string[];
+  days: string[];
+  selectedPlace: string;
+  selectedDay: string;
   onFilterChange: (place: string, day: string) => void;
   className?: string;
   css?: any;
@@ -22,14 +22,13 @@ const BusyTimeGraph = ({
   data,
   places,
   days,
-  selectedPlace, // ✨ props로 받음
-  selectedDay, // ✨ props로 받음
+  selectedPlace,
+  selectedDay,
   onFilterChange,
   className,
   css,
 }: BusyTimeGraphProps) => {
-  // ✨ 내부 useState 제거 (부모에서 제어)
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null); // 호버 상태는 UI용이라 유지
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   // "전체" 옵션 제거 필터링
   const filteredPlaces = places.filter((p) => p !== "전체");
@@ -44,6 +43,44 @@ const BusyTimeGraph = ({
 
   const handleDayChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     onFilterChange(selectedPlace, e.target.value);
+  };
+
+  // 툴팁 위치 스타일 계산 함수
+  const getTooltipStyle = (index: number, total: number) => {
+    // 1. 첫 번째 아이템: 왼쪽 정렬 (왼쪽으로 나가지 않게)
+    if (index === 0) {
+      return {
+        left: "0",
+        transform:
+          hoveredIndex === index ? "translateY(0)" : "translateY(10px)",
+        "&::after": {
+          // 꼬리 위치도 왼쪽으로
+          left: "20%",
+        },
+      };
+    }
+    // 2. 마지막 아이템: 오른쪽 정렬 (오른쪽으로 나가지 않게)
+    if (index === total - 1) {
+      return {
+        right: "0",
+        left: "auto", // left 속성 무효화
+        transform:
+          hoveredIndex === index ? "translateY(0)" : "translateY(10px)",
+        "&::after": {
+          // 꼬리 위치도 오른쪽으로
+          left: "auto",
+          right: "20%",
+        },
+      };
+    }
+    // 3. 나머지: 가운데 정렬 (기본값)
+    return {
+      left: "50%",
+      transform:
+        hoveredIndex === index
+          ? "translateX(-50%) translateY(0)"
+          : "translateX(-50%) translateY(10px)",
+    };
   };
 
   const selectContainerStyle = {
@@ -104,7 +141,7 @@ const BusyTimeGraph = ({
           display: "flex",
           alignItems: "stretch",
           height: "140px",
-          gap: "6px",
+          gap: "4px", // 간격을 조금 좁힘 (더 많은 데이터 표시 대비)
           width: "100%",
           marginBottom: "28px",
         }}
@@ -113,12 +150,15 @@ const BusyTimeGraph = ({
           const heightPercentage = (item.value / maxValue) * 100;
           const isHighlight = item.value === maxValue && item.value > 0;
           const isHovered = hoveredIndex === index;
+          const tooltipStyle = getTooltipStyle(index, data.length); // 툴팁 위치 계산
 
           return (
             <div
               key={index}
               css={{
-                flex: 1,
+                flex: 1, // ✨ 모든 막대가 동일한 너비를 가짐
+                width: 0, // ✨ flex 아이템이 내용물 크기에 영향받지 않게 함 (중요!)
+                minWidth: 0, // ✨ 최소 너비 0으로 설정해서 삐져나감 방지
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
@@ -136,10 +176,6 @@ const BusyTimeGraph = ({
                   position: "absolute",
                   bottom: `calc(${heightPercentage}% + 24px)`,
                   marginBottom: "8px",
-                  left: "50%",
-                  transform: isHovered
-                    ? "translateX(-50%) scale(1)"
-                    : "translateX(-50%) scale(0.8)",
                   backgroundColor: theme.purple,
                   color: theme.white,
                   padding: "4px 8px",
@@ -153,15 +189,18 @@ const BusyTimeGraph = ({
                   zIndex: 10,
                   pointerEvents: "none",
                   boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                  ...tooltipStyle, // 계산된 위치 스타일 적용
                   "&::after": {
                     content: '""',
                     position: "absolute",
                     bottom: "-4px",
-                    left: "50%",
-                    marginLeft: "-4px",
                     borderLeft: "4px solid transparent",
                     borderRight: "4px solid transparent",
                     borderTop: `4px solid ${theme.purple}`,
+                    // 꼬리 위치 스타일 (기본값) - tooltipStyle에서 덮어씀
+                    left: "50%",
+                    marginLeft: "-4px",
+                    ...((tooltipStyle as any)["&::after"] || {}),
                   },
                 }}
               >
@@ -169,37 +208,51 @@ const BusyTimeGraph = ({
                 {Number(item.value).toFixed(1)}개
               </div>
 
-              {/* 막대 */}
+              {/* 막대 Wrapper */}
               <div
                 css={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
                   width: "100%",
-                  height: `${Math.max(heightPercentage, 0)}%`,
-                  backgroundColor: isHighlight ? "#7B2C83" : "#A9A0B6",
-                  borderRadius: "4px",
-                  transition:
-                    "height 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.2s",
-                  minHeight: "4px",
-                  marginBottom: "6px",
-                  "&:hover": {
-                    opacity: 0.8,
-                  },
-                }}
-              />
-
-              {/* 시간 라벨 */}
-              <div
-                css={{
-                  fontSize: "10px",
-                  color: theme.gray_text,
-                  fontWeight: 400,
-                  height: "12px",
-                  lineHeight: "12px",
-                  textAlign: "center",
-                  whiteSpace: "nowrap",
-                  opacity: 0.8,
+                  height: "100%",
+                  justifyContent: "flex-end",
                 }}
               >
-                {item.time.replace("시", "")}
+                {/* 실제 막대 */}
+                <div
+                  css={{
+                    width: "100%",
+                    height: `${Math.max(heightPercentage, 0)}%`,
+                    backgroundColor: isHighlight ? "#7B2C83" : "#A9A0B6",
+                    borderRadius: "4px",
+                    transition:
+                      "height 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.2s",
+                    minHeight: "4px",
+                    marginBottom: "6px",
+                    "&:hover": {
+                      opacity: 0.8,
+                    },
+                  }}
+                />
+
+                {/* 시간 라벨 */}
+                <div
+                  css={{
+                    fontSize: "10px",
+                    color: theme.gray_text,
+                    fontWeight: 400,
+                    height: "12px",
+                    lineHeight: "12px",
+                    textAlign: "center",
+                    whiteSpace: "nowrap",
+                    opacity: 0.8,
+                    width: "100%", // 라벨도 부모 너비에 맞춤
+                    overflow: "hidden", // 넘치면 숨김 (깔끔하게)
+                  }}
+                >
+                  {item.time.replace("시", "")}
+                </div>
               </div>
             </div>
           );
@@ -218,7 +271,7 @@ const BusyTimeGraph = ({
             lineHeight: "1.3",
           }}
         >
-          {selectedDay}요일, [{selectedPlace}]의
+          {selectedDay}요일, {selectedPlace}의
           <br />
           시간대별 택시 동승
         </div>
@@ -231,14 +284,15 @@ const BusyTimeGraph = ({
             lineHeight: "1.4",
           }}
         >
-          학기 / 최신 동향을 반영하고자 과거 30일을 기반으로 조회합니다.
+          학기 / 계절에 따른 동향을 반영하고자
+          <br />
+          과거 30일을 기반으로 조회합니다.
         </div>
       </div>
 
-      {/* 3. 선택기 */}
       <div css={{ display: "flex", width: "100%", gap: "12px" }}>
         <div css={selectContainerStyle}>
-          <div css={selectLabelStyle}>장소 선택기</div>
+          <div css={selectLabelStyle}>장소</div>
           <select
             value={selectedPlace}
             onChange={handlePlaceChange}
@@ -252,7 +306,7 @@ const BusyTimeGraph = ({
           </select>
         </div>
         <div css={selectContainerStyle}>
-          <div css={selectLabelStyle}>요일 선택기</div>
+          <div css={selectLabelStyle}>요일</div>
           <select
             value={selectedDay}
             onChange={handleDayChange}
