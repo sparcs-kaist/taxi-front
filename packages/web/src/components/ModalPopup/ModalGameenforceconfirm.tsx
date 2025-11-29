@@ -16,9 +16,9 @@ interface LevelUpProbInfoType {
 
 // 총 19단계 (0강 -> 1강 시도부터 18강 -> 19강 시도까지)
 const levelUpProb: LevelUpProbInfoType[] = [
-  { success: 100, maintain: 0, fail: 0 }, // 0 -> 1 (Level 0일 때)
-  { success: 95, maintain: 5, fail: 0 }, // 1 -> 2
-  { success: 90, maintain: 10, fail: 0 }, // 2 -> 3
+  { success: 100, maintain: 0, fail: 0 }, // 0 -> 1
+  { success: 95, maintain: 5, fail: 0 },
+  { success: 90, maintain: 10, fail: 0 },
   { success: 85, maintain: 15, fail: 0 },
   { success: 75, maintain: 20, fail: 5 },
   { success: 70, maintain: 25, fail: 5 },
@@ -34,7 +34,7 @@ const levelUpProb: LevelUpProbInfoType[] = [
   { success: 8, maintain: 41, fail: 49, burst: 2 },
   { success: 5, maintain: 39, fail: 53, burst: 3 },
   { success: 3, maintain: 40, fail: 53, burst: 4 },
-  { success: 2, maintain: 36, fail: 57, burst: 5 }, // 18 -> 19
+  { success: 2, maintain: 36, fail: 57, burst: 5 },
 ];
 
 interface EnhanceConfirmModalProps {
@@ -43,7 +43,8 @@ interface EnhanceConfirmModalProps {
   onConfirm: () => void;
   cost: number;
   currentMoney: number;
-  level: number; // 현재 레벨 (0부터 시작)
+  level: number;
+  usedItems: string[]; // [추가] 사용된 아이템 목록
 }
 
 export const EnhanceConfirmModal = ({
@@ -53,14 +54,39 @@ export const EnhanceConfirmModal = ({
   cost,
   currentMoney,
   level,
+  usedItems,
 }: EnhanceConfirmModalProps) => {
   const isNotEnoughMoney = currentMoney < cost;
 
-  // [로직 수정]
-  // 0강일 때 levelUpProb[0]을 가져옵니다.
-  // 배열 길이를 넘어가는 경우(만렙 등) 에러 방지를 위해 Math.min 사용
-  const safeIndex = Math.min(level, levelUpProb.length - 1);
-  const currentProb = levelUpProb[safeIndex];
+  // [로직 수정] 확률 계산 함수
+  const calculateProb = () => {
+    // 1. 기본 확률 가져오기
+    const safeIndex = Math.min(level, levelUpProb.length - 1);
+    // 객체 깊은 복사를 통해 원본 데이터 보호
+    const baseProb = { ...levelUpProb[safeIndex] };
+
+    // 2. 아이템 효과 적용 (순서 중요: Burst -> Fail -> Maintain)
+
+    // (1) 파괴 방지권 (preventBurst): Burst 확률을 Fail로 이동
+    if (
+      usedItems.includes("preventBurst") &&
+      baseProb.burst &&
+      baseProb.burst > 0
+    ) {
+      baseProb.fail += baseProb.burst;
+      baseProb.burst = 0;
+    }
+
+    // (2) 파손(하락) 방지권 (preventFail): Fail 확률을 Maintain으로 이동
+    if (usedItems.includes("preventFail") && baseProb.fail > 0) {
+      baseProb.maintain += baseProb.fail;
+      baseProb.fail = 0;
+    }
+
+    return baseProb;
+  };
+
+  const currentProb = calculateProb();
 
   const styleTitle = {
     ...theme.font18,
@@ -125,7 +151,7 @@ export const EnhanceConfirmModal = ({
     flexDirection: "column" as const,
     alignItems: "center",
     gap: "4px",
-    flex: 1, // 균등 분할
+    flex: 1,
   };
 
   const styleProbLabel = {
@@ -147,7 +173,7 @@ export const EnhanceConfirmModal = ({
   return (
     <Modal
       padding="24px 20px 20px"
-      z-Index={10000} // [수정] z-Index -> zIndex (네비게이션 위로 올라오도록)
+      z-Index={10000}
       isOpen={isOpen}
       onChangeIsOpen={(open) => {
         if (!open) onClose();
@@ -159,7 +185,7 @@ export const EnhanceConfirmModal = ({
         <span>강화 하시겠습니까?</span>
       </div>
 
-      {/* [추가] 확률 표시 영역 */}
+      {/* 확률 표시 영역 */}
       <div css={styleProbContainer}>
         {/* 성공 */}
         <div css={styleProbItem}>
@@ -167,7 +193,7 @@ export const EnhanceConfirmModal = ({
           <span css={styleProbValue(theme.purple)}>{currentProb.success}%</span>
         </div>
 
-        {/* 유지 (확률 있을 때만 표시) */}
+        {/* 유지 */}
         {currentProb.maintain > 0 && (
           <>
             <VerticalDivider />
@@ -180,18 +206,18 @@ export const EnhanceConfirmModal = ({
           </>
         )}
 
-        {/* 하락 (확률 있을 때만 표시) */}
+        {/* 하락 */}
         {currentProb.fail > 0 && (
           <>
             <VerticalDivider />
             <div css={styleProbItem}>
-              <span css={styleProbLabel}>하락</span>
+              <span css={styleProbLabel}>파손</span>
               <span css={styleProbValue("#FF9800")}>{currentProb.fail}%</span>
             </div>
           </>
         )}
 
-        {/* 파괴 (확률 있을 때만 표시 - 빨간색 경고) */}
+        {/* 파괴 */}
         {currentProb.burst && currentProb.burst > 0 ? (
           <>
             <VerticalDivider />

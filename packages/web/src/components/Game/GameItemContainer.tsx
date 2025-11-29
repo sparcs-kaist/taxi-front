@@ -1,8 +1,8 @@
 import { useState } from "react";
 
+// [수정] 상대 경로로 변경
 import { GameItem } from "@/types/game";
 
-// [추가] Recoil 훅 임포트
 import { useFetchRecoilState } from "@/hooks/useFetchRecoilState";
 
 import ModalGameItem from "@/components/ModalPopup/ModalGameItem";
@@ -23,23 +23,39 @@ const GameItemContainer = ({
   clickable,
   showDescription,
 }: GameItemComponentProps) => {
-  // [수정] 주석 해제 및 훅 사용
   const fetchGameInfo = useFetchRecoilState("gameInfo");
-
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const onClickHandler = () => {
     setIsOpen(true);
   };
 
-  // [추가] 모달 상태 변경 핸들러
   const handleModalChange = (open: boolean) => {
     setIsOpen(open);
-
-    // 모달이 닫힐 때(false) 데이터 새로고침 실행
     if (!open) {
       fetchGameInfo();
     }
+  };
+
+  // [추가] 아이템 타입에 따라 이모지 또는 이미지 렌더링
+  const renderItemImage = () => {
+    if (value.itemType === "preventFail") {
+      return <div style={{ fontSize: "50px", lineHeight: 1 }}>🛡️</div>;
+    }
+    if (value.itemType === "preventBurst") {
+      return <div style={{ fontSize: "50px", lineHeight: 1 }}>💥</div>;
+    }
+    return (
+      <img
+        css={{
+          width: "100%",
+          height: "100%",
+          objectFit: "contain", // 비율 유지
+        }}
+        src={value.imageUrl}
+        alt={value.name}
+      />
+    );
   };
 
   return (
@@ -52,10 +68,11 @@ const GameItemContainer = ({
         padding: "12px",
         display: "flex",
         flexDirection: "column",
-        alignItems: "left",
+        alignItems: "center", // 중앙 정렬
         gap: "8px",
         ...theme.font14,
         ...theme.cursor(!clickable),
+        height: "100%", // 높이 꽉 채우기
       }}
       onClick={clickable ? onClickHandler : undefined}
     >
@@ -64,41 +81,47 @@ const GameItemContainer = ({
           width: "100%",
           borderRadius: "6px",
           aspectRatio: "1/1",
-          objectFit: "cover",
           position: "relative",
           overflow: "hidden",
-          background: theme.purple_light,
+          background: ["preventFail", "preventBurst"].includes(value.itemType)
+            ? "#F5F5F5" // 이모지 배경: 회색
+            : "transparent", // 이미지 배경: 투명
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
-        <img
-          css={{
-            width: "100%",
-            height: "100%",
-          }}
-          src={value.imageUrl}
-          alt={value.name}
-        />
+        {renderItemImage()}
       </div>
+
       <div
         css={{
           ...theme.font14_bold,
+          textAlign: "center",
+          wordBreak: "keep-all",
         }}
       >
         {value.name}
       </div>
+
       {showDescription && (
         <div
           css={{
             ...theme.font12,
+            color: theme.gray_text,
+            textAlign: "center",
+            lineHeight: "1.4",
           }}
         >
           {value.description}
         </div>
       )}
+
       <div
         css={{
           display: "flex",
           gap: "4px",
+          alignItems: "center",
         }}
       >
         <img
@@ -109,13 +132,14 @@ const GameItemContainer = ({
         <div
           css={{
             ...theme.font14,
+            fontWeight: "bold",
+            color: theme.purple,
           }}
         >
-          {value.price}
+          {value.price.toLocaleString()}
         </div>
       </div>
 
-      {/* [수정] onChangeIsOpen에 커스텀 핸들러 연결 */}
       <ModalGameItem
         itemInfo={value}
         isOpen={isOpen}

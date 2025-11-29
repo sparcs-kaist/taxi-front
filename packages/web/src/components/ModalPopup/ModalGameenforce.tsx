@@ -166,7 +166,7 @@ const EnhanceResultModal = ({
         )}
         {result === "broken" && (
           <>
-            강화 실패로 충격을 받아 택시가 손상되었습니다... <br />
+            강화 실패로 충격을 받아 택시가 파손되었습니다... <br />
             <b>
               +{oldLevel}강 ➔ +{newLevel}강
             </b>

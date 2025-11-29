@@ -141,7 +141,7 @@ const GameMain = () => {
 
           setIsLoading(false);
           setIsEnhanceModalOpen(true);
-        }, 3000);
+        }, 1500);
       } else {
         if (!isLoading && !isEnhanceModalOpen) {
           setLevel(newLevel);
@@ -248,22 +248,22 @@ const GameMain = () => {
             style={{
               width: "100%",
               height: "200px",
-              backgroundColor: "#ffffff",
+              backgroundColor: theme.gray_background || "#f5f5f5",
               borderRadius: "12px",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
               overflow: "hidden",
+              boxShadow: "inset 0 0 10px rgba(0,0,0,0.05)",
               position: "relative",
             }}
           >
-            {/* [수정] import한 이미지 변수 사용 */}
             <img
               src={getTaxiImage(level)}
               alt="My Taxi"
               style={{
-                maxWidth: "140%",
-                maxHeight: "140%",
+                maxWidth: "80%",
+                maxHeight: "80%",
                 objectFit: "contain",
               }}
               onError={(e) => {
@@ -350,12 +350,12 @@ const GameMain = () => {
         cost={level * 100}
         currentMoney={amount}
         level={level}
+        usedItems={usedItems} // [추가] 사용된 아이템 전달
       />
 
       <Modal isOpen={isLoading} padding="40px 20px" z-Index={10000}>
         <style>
           {`
-            /* 1. 망치 애니메이션 */
             @keyframes hammerSwing {
               0% { transform: rotate(-45deg); }
               15% { transform: rotate(0deg); }   /* 들어올림 */
@@ -363,23 +363,16 @@ const GameMain = () => {
               50% { transform: rotate(0deg); }   /* 복귀 */
               100% { transform: rotate(-45deg); }
             }
-
-            /* 2. 택시 충격 애니메이션 */
             @keyframes taxiShake {
               0%, 24% { transform: scale(1) translateX(0); }
-              /* 25% 타격 순간 찌그러짐 */
               25% { transform: scale(0.95) translateY(2px); } 
-              30% { transform: scale(1.05) translateX(-2px); } /* 반동 */
+              30% { transform: scale(1.05) translateX(-2px); } 
               35% { transform: scale(1) translateX(2px); }
               100% { transform: scale(1); }
             }
-
-            /* 3. 불꽃 이펙트 */
             @keyframes sparkEffect {
               0%, 24% { opacity: 0; transform: scale(0.5); }
-              /* 25% 타격 순간 등장 */
               25% { opacity: 1; transform: scale(1.5); }
-              /* 이후 서서히 사라짐 */
               45% { opacity: 0; transform: scale(2); }
               100% { opacity: 0; }
             }
@@ -422,7 +415,7 @@ const GameMain = () => {
               style={{
                 position: "absolute",
                 top: "0px",
-                right: "-10px",
+                right: "-5px",
                 fontSize: "30px",
                 zIndex: 5,
                 transformOrigin: "bottom right",
@@ -436,10 +429,10 @@ const GameMain = () => {
             <div
               style={{
                 position: "absolute",
-                bottom: "-10px",
-                left: "0px",
-                width: "120px",
-                height: "100px",
+                bottom: "0",
+                left: "20px",
+                width: "80px",
+                height: "60px",
                 display: "flex",
                 alignItems: "flex-end",
                 animation: "taxiShake 0.8s infinite ease-in-out",
