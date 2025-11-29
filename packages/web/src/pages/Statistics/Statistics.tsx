@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
@@ -56,9 +56,6 @@ const Statistics = () => {
   });
   const [graphData, setGraphData] = useState<TimeSlotData[]>([]);
 
-  const [startHour, setStartHour] = useState(0);
-  const [endHour, setEndHour] = useState(23);
-
   const getDifference = (data: GraphTileData[]) => {
     if (data.length < 2) return 0;
     return data[data.length - 1].value - data[data.length - 2].value;
@@ -80,7 +77,6 @@ const Statistics = () => {
       url: "/statistics/room-creation/monthly",
       method: "get",
       onSuccess: (data) => {
-        // 데이터 가공: { month: "YYYY-MM...", cumulativeRooms: 12 } -> GraphTileData
         const formattedData = data.months.map((item: any) => ({
           label: new Date(item.month).getMonth() + 1 + "월", // 월만 추출
           value: item.cumulativeRooms,
@@ -90,7 +86,6 @@ const Statistics = () => {
       onError: () => console.error("방 생성 통계 로딩 실패"),
     });
 
-    // API 3: 누적 사용자 가입 통계 (그래프)
     axios({
       url: "/statistics/users/monthly",
       method: "get",
@@ -179,12 +174,10 @@ const Statistics = () => {
     startDate.setDate(endDate.getDate() - 30);
 
     await axios({
-      url: "/statistics/room-creation/hourly-average",
+      url: "/statistics/room-creation/hourly",
       method: "get",
       params: {
         locationId: location._id,
-        startDate: startDate.toISOString(),
-        endDate: endDate.toISOString(),
         dayOfWeek: dayIndex,
       },
       onSuccess: (data) => {
@@ -208,15 +201,12 @@ const Statistics = () => {
     }
   }, [activeTab, fetchGraphData]);
 
-  const filteredGraphData = useMemo(() => {
-    if (startHour === 0 && endHour === 23) return graphData;
-
+  const filteredGraphData = () => {
     return graphData.filter((item) => {
-      // "18시" -> 18 추출
       const hour = parseInt(item.time.replace("시", ""), 10);
-      return hour >= startHour && hour <= endHour;
+      return hour >= 0 && hour <= 23;
     });
-  }, [graphData, startHour, endHour]);
+  };
   // --- Helper Functions ---
   const getPeriodLabelPrefix = (p: Period) => {
     switch (p) {
@@ -425,7 +415,7 @@ const Statistics = () => {
               </div>
 
               <BusyTimeGraph
-                data={filteredGraphData} // ⭐️ 필터링된 데이터 사용
+                data={filteredGraphData()} // ⭐️ 필터링된 데이터 사용
                 places={taxiLocations?.map((loc) => loc.koName) || []}
                 days={DAYS}
                 selectedPlace={graphPlace}
