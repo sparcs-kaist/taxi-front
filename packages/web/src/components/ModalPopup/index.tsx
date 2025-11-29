@@ -1,3 +1,5 @@
+import ModalDodgeLeaderboard from "./ModalDodgeLeaderboard";
+
 export { default as ModalChatCancel } from "./ModalChatCancel";
 export { default as ModalChatPayement } from "./ModalChatPayment";
 export { default as ModalChatReport } from "./ModalChatReport";
@@ -41,4 +43,5 @@ export { default as ModalTerms } from "./ModalTerms";
 export { default as ModalCallTaxi } from "./ModalCallTaxi";
 export { default as ModalAccountWithdrawProcess } from "./ModalAccountWithdrawProcess";
 export { default as ModalSimilarRooms } from "./ModalSimilarRooms";
+export { default as ModalGameItem } from "./ModalGameItem";
 export { default as ModalDodgeLeaderboard } from "./ModalDodgeLeaderboard";

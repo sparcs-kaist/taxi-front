@@ -96,6 +96,10 @@ const LeaderboardItem = ({
     }
   };
 
+  // [수정] 점수 데이터가 없을 경우 0으로 처리하여 에러 방지
+  const displayScore = (value.dodgeScore ?? 0).toLocaleString();
+  const displayName = nickname || value.nickname || "User";
+
   return (
     <div
       css={{
@@ -127,6 +131,7 @@ const LeaderboardItem = ({
           overflow: "hidden",
           flexShrink: 0,
           marginLeft: "5px",
+          backgroundColor: "#fff", // 이미지가 없을 때를 대비한 배경
         }}
       >
         <ProfileImage url={profileImageUrl || value.profileImageUrl || ""} />
@@ -140,7 +145,7 @@ const LeaderboardItem = ({
           color: isMe ? theme.white : theme.black,
         }}
       >
-        {nickname || value.nickname || "User"}
+        {displayName}
       </div>
       <div
         css={{
@@ -150,7 +155,7 @@ const LeaderboardItem = ({
           color: isMe ? theme.white : theme.purple,
         }}
       >
-        {value.dodgeScore.toLocaleString()}
+        {displayScore}
       </div>
     </div>
   );
@@ -168,10 +173,8 @@ const ModalDodgeLeaderboard = ({
   const axios = useAxios();
   const loginInfo = useValueRecoilState("loginInfo");
   const [leaderboard, setLeaderboard] = useState<LeaderboardElem[]>([]);
-  const [myRank, setMyRank] = useState<number | undefined>(undefined);
-  const [myDodgeScore, setMyDodgeScore] = useState<number | undefined>(
-    undefined
-  );
+  const [myRank, setMyRank] = useState<number>(0);
+  const [myDodgeScore, setMyDodgeScore] = useState<number>(0);
 
   useEffect(() => {
     if (isOpen) {
@@ -179,17 +182,23 @@ const ModalDodgeLeaderboard = ({
         url: "/miniGame/miniGames/dodgeLeaderboard",
         method: "get",
         onSuccess: (data: LeaderboardResponse) => {
-          setLeaderboard(data.leaderboard);
-          setMyRank(data.myRank);
-          setMyDodgeScore(data.myDodgeScore);
+          // [수정] 데이터가 undefined일 경우를 대비해 안전하게 초기화
+          setLeaderboard(data.leaderboard || []);
+          setMyRank(data.myRank ?? 0);
+          setMyDodgeScore(data.myDodgeScore ?? 0);
+        },
+        onError: () => {
+          // 에러 발생 시 빈 상태로 유지
+          setLeaderboard([]);
         },
       });
     }
   }, [isOpen, axios]);
 
-  const isMeInLeaderboard = leaderboard.some(
-    (elem) => elem.userId === loginInfo?.oid
-  );
+  // [수정] loginInfo가 로딩되기 전에는 false 반환
+  const isMeInLeaderboard = loginInfo
+    ? leaderboard.some((elem) => elem.userId === loginInfo.oid)
+    : false;
 
   return (
     <Modal isOpen={isOpen} onChangeIsOpen={onChangeIsOpen} padding="16px 12px">
@@ -208,22 +217,37 @@ const ModalDodgeLeaderboard = ({
       </div>
       <LeaderboardTopBar />
       <div css={{ maxHeight: "400px", overflowY: "auto", marginTop: "8px" }}>
-        {leaderboard.map((elem, index) => {
-          const isMe = elem.userId === loginInfo?.oid;
-          return (
-            <LeaderboardItem
-              key={index}
-              rank={index + 1}
-              value={elem}
-              isMe={isMe}
-              nickname={isMe ? loginInfo?.nickname : elem.nickname}
-              profileImageUrl={
-                isMe ? loginInfo?.profileImgUrl : elem.profileImageUrl
-              }
-            />
-          );
-        })}
-        {!isMeInLeaderboard && myRank && myDodgeScore !== undefined && (
+        {leaderboard.length === 0 ? (
+          <div
+            css={{
+              padding: "20px",
+              textAlign: "center",
+              color: theme.gray_text,
+              ...theme.font14,
+            }}
+          >
+            아직 랭킹 정보가 없습니다.
+          </div>
+        ) : (
+          leaderboard.map((elem, index) => {
+            const isMe = loginInfo ? elem.userId === loginInfo.oid : false;
+            return (
+              <LeaderboardItem
+                key={index}
+                rank={index + 1}
+                value={elem}
+                isMe={isMe}
+                nickname={isMe ? loginInfo?.nickname : elem.nickname}
+                profileImageUrl={
+                  isMe ? loginInfo?.profileImgUrl : elem.profileImageUrl
+                }
+              />
+            );
+          })
+        )}
+
+        {/* 내 랭킹 표시 (상위권에 없을 때만 표시) */}
+        {!isMeInLeaderboard && myRank > 0 && (
           <div css={{ marginTop: "20px" }}>
             <LeaderboardItem
               rank={myRank}
