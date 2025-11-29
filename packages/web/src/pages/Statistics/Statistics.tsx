@@ -184,7 +184,7 @@ const Statistics = () => {
         // API 응답(intervals)을 그래프 데이터 형식(TimeSlotData)으로 변환
         const formattedData = data.intervals.map((interval: any) => ({
           time: `${interval.hour}시`,
-          value: interval.averageRooms,
+          value: interval.totalRooms,
         }));
         setGraphData(formattedData);
       },
