@@ -136,7 +136,7 @@ const GameItemContainer = ({
             color: theme.purple,
           }}
         >
-          {value.price.toLocaleString()}
+          {value.price.toLocaleString()}원
         </div>
       </div>
 
