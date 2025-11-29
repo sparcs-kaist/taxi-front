@@ -79,6 +79,7 @@ const MessageForm = ({
           onChangeIsOpen={onChangeIsOpenToolSheet}
           onChangeUploadedImage={setUploadedImage}
           account={account}
+          sendMessage={sendMessage}
         />
       </div>
       <div css={styleBody}>

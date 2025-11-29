@@ -48,6 +48,8 @@ const MessageBody = ({ type, content, roomInfo, color }: MessageBodyProps) => {
       );
     case "arrival":
       return <MessageArrival color={color} />;
+    case "wordChain":
+      return <MessageText text={content} color={color} />;
     default:
       return null;
   }
@@ -75,7 +77,8 @@ const MessageSet = ({
   const authorProfileUrl =
     "authorProfileUrl" in chats?.[0] ? chats?.[0].authorProfileUrl : "";
   const authorName = "authorName" in chats?.[0] ? chats?.[0].authorName : "";
-  const authorResidence = "authorResidence" in chats?.[0] ? chats?.[0].authorResidence : "";
+  const authorResidence =
+    "authorResidence" in chats?.[0] ? chats?.[0].authorResidence : "";
   const authorIsWithdrew =
     "authorIsWithdrew" in chats?.[0] ? chats?.[0].authorIsWithdrew : false;
 
@@ -215,7 +218,8 @@ const MessageSet = ({
               </div>
             ) : (
               <div css={styleName} className="selectable">
-                {authorName} {isBot || authorResidence === "" ? `` : `(${authorResidence})`}
+                {authorName}{" "}
+                {isBot || authorResidence === "" ? `` : `(${authorResidence})`}
                 <BadgeImage badge_live={!!authorBadge && !isBot} />
               </div>
             ))}

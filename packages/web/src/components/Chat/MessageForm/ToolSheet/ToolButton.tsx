@@ -7,7 +7,7 @@ import ImageRoundedIcon from "@mui/icons-material/ImageRounded";
 import LocalAtmRoundedIcon from "@mui/icons-material/LocalAtmRounded";
 
 type ToolButtonProps = {
-  type: "image" | "settlement" | "payment";
+  type: "image" | "settlement" | "payment" | "wordChain";
   isVaild?: boolean;
   onClick?: () => void;
 };
@@ -53,6 +53,10 @@ const ToolButton = ({ type, isVaild = true, onClick }: ToolButtonProps) => {
     payment: {
       icon: <LocalAtmRoundedIcon style={styleIcon} />,
       text: "송금하기",
+    },
+    wordChain: {
+      icon: <LocalAtmRoundedIcon style={styleIcon} />,
+      text: "끝말잇기",
     },
   }[type];
   return (

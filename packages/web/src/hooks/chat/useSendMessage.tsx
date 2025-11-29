@@ -20,18 +20,18 @@ export default (
 
   return useCallback(
     async (
-      type: "text" | "account" | "image",
+      type: "text" | "account" | "image" | "wordChain",
       { text, file }: { text?: string; file?: File }
     ): Promise<boolean> => {
       // 메시지 전송 중이라면 중복 전송을 막습니다.
       if (isSendingMessage.current) return false;
 
       try {
-        if (["text", "account"].includes(type)) {
+        if (["text", "account", "wordChain"].includes(type)) {
           // 메시지가 정규식 검사에서 통과하지 못했다면 전송을 막습니다.
           if (!text) throw new Error();
           if (
-            type === "text" &&
+            ["text", "wordChain"].includes(type) &&
             !regExpTest.chatMsg(text) &&
             !regExpTest.chatMsgLength(text)
           )
@@ -48,6 +48,7 @@ export default (
           if (result) {
             // 채팅 읽은 시간 업데이트
             handleRead();
+            isSendingMessage.current = false;
             return true;
           }
         }
@@ -78,6 +79,7 @@ export default (
           if (result) {
             // 채팅 읽은 시간 업데이트
             handleRead();
+            isSendingMessage.current = false;
             return true;
           }
         }

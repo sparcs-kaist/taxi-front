@@ -8,6 +8,7 @@ import {
 } from "react";
 
 import useAccountFromChats from "@/hooks/chat/useAccountFromChats";
+import useSendMessage from "@/hooks/chat/useSendMessage";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import useIsTimeOver from "@/hooks/useIsTimeOver";
 
@@ -32,6 +33,7 @@ type ToolSheetProps = {
   onChangeIsOpen?: (x: boolean) => void;
   onChangeUploadedImage?: (x: Nullable<File>) => void;
   account: ReturnType<typeof useAccountFromChats>;
+  sendMessage: ReturnType<typeof useSendMessage>;
 };
 
 const ToolSheet = ({
@@ -40,6 +42,7 @@ const ToolSheet = ({
   onChangeIsOpen,
   onChangeUploadedImage,
   account,
+  sendMessage,
 }: ToolSheetProps) => {
   const setAlert = useSetRecoilState(alertAtom);
   const { oid: userOid } = useValueRecoilState("loginInfo") || {};
@@ -99,6 +102,17 @@ const ToolSheet = ({
     setIsOpenSaveAccount(true);
   }, []);
 
+  const onClickWordChain = useCallback(async () => {
+    const word = window.prompt("끝말잇기 단어를 입력해주세요"); // 임시 입력창
+    if (!word) return;
+
+    const ok = await sendMessage("wordChain", { text: word });
+    if (!ok) return;
+
+    // 성공했으면 툴시트 닫기
+    onChangeIsOpen?.(false);
+  }, [sendMessage, onChangeIsOpen]);
+
   const styleWrap = {
     position: "absolute" as any,
     width: "100%",
@@ -139,6 +153,10 @@ const ToolSheet = ({
               !!roomInfo?.settlementTotal &&
               settlementStatusForMe === "send-required"
             }
+          />
+          <ToolButton
+            type="wordChain" // 이 타입을 ToolButton 쪽에만 추가해주면 됨
+            onClick={onClickWordChain}
           />
         </div>
       </AdaptiveDiv>

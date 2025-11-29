@@ -90,9 +90,12 @@ export default (
         item.type === "account" ||
         item.type === "share" ||
         item.type === "departure" ||
-        item.type === "arrival"
+        item.type === "arrival" ||
+        item.type === "wordChain"
       ) {
-        if (["share", "departure", "arrival"].includes(item.type)) {
+        if (
+          ["share", "departure", "arrival", "wordChain"].includes(item.type)
+        ) {
           item.authorId = "bot";
           item.authorName = "택시 봇";
         }
