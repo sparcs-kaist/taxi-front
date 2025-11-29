@@ -27,6 +27,49 @@ import { useSetRecoilState } from "recoil";
 
 import theme from "@/tools/theme";
 
+// [Import] 레벨별 택시 이미지
+import level0 from "@/static/game/level0.png";
+import level1_2 from "@/static/game/level1-2.png";
+import level3_4 from "@/static/game/level3-4.png";
+import level5_6 from "@/static/game/level5-6.png";
+import level7 from "@/static/game/level7.png";
+import level8 from "@/static/game/level8.png";
+import level9 from "@/static/game/level9.png";
+import level10 from "@/static/game/level10.png";
+import level11 from "@/static/game/level11.png";
+import level12 from "@/static/game/level12.png";
+import level13 from "@/static/game/level13.png";
+import level14 from "@/static/game/level14.png";
+import level15 from "@/static/game/level15.png";
+import level16 from "@/static/game/level16.png";
+import level17 from "@/static/game/level17.png";
+import level18 from "@/static/game/level18.png";
+import level19 from "@/static/game/level19.png";
+import level20 from "@/static/game/level20.png";
+
+// [함수] 레벨에 맞는 이미지 객체 반환
+export const getTaxiImage = (level: number) => {
+  if (level === 0) return level0;
+  if (level === 1 || level === 2) return level1_2;
+  if (level === 3 || level === 4) return level3_4;
+  if (level === 5 || level === 6) return level5_6;
+  if (level === 7) return level7;
+  if (level === 8) return level8;
+  if (level === 9) return level9;
+  if (level === 10) return level10;
+  if (level === 11) return level11;
+  if (level === 12) return level12;
+  if (level === 13) return level13;
+  if (level === 14) return level14;
+  if (level === 15) return level15;
+  if (level === 16) return level16;
+  if (level === 17) return level17;
+  if (level === 18) return level18;
+  if (level === 19) return level19;
+  if (level >= 20) return level20;
+  return level0; // 기본값
+};
+
 const GameMain = () => {
   // -----------------------------------------------------------------------
   // 1. 상태 관리 (State)
@@ -40,19 +83,17 @@ const GameMain = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  // [수정] 여러 아이템을 담기 위해 배열 상태로 변경
   const [usedItems, setUsedItems] = useState<string[]>([]);
 
-  // [수정] API 호출 함수: 완성된 body 객체를 직접 받도록 변경
   const reinforceClick = useCallback(
     (requestBody: Record<string, boolean>) =>
       axios({
         url: "/miniGame/miniGames/reinforcement",
         method: "post",
-        data: requestBody, // { fail: true, burst: true } 등이 들어옴
+        data: requestBody,
         onSuccess: () => {
           fetchMinigameInfo();
-          setUsedItems([]); // 성공 시 장착된 아이템 모두 소모(초기화)
+          setUsedItems([]); // 성공 시 아이템 소모
         },
         onError: () => {
           setAlert("강화 시도를 실패하였습니다.");
@@ -65,18 +106,16 @@ const GameMain = () => {
   const [isEnhanceConfirmOpen, setIsEnhanceConfirmOpen] = useState(false);
   const [isEnhanceModalOpen, setIsEnhanceModalOpen] = useState(false);
 
-  // 결과 판정용 상태
   const [enhanceResult, setEnhanceResult] = useState<EnhanceResultType>("fail");
   const [prevLevel, setPrevLevel] = useState(0);
 
   const [isItemInventoryOpen, setIsItemInventoryOpen] = useState(false);
   const [isItemResultOpen, setIsItemResultOpen] = useState(false);
 
-  // 방금 추가한 아이템 이름 (결과 모달 표시용)
   const [lastAddedItem, setLastAddedItem] = useState("");
 
   // -----------------------------------------------------------------------
-  // 2. useEffect (데이터 동기화 & 결과 판정)
+  // 2. useEffect
   // -----------------------------------------------------------------------
 
   useEffect(() => {
@@ -85,29 +124,41 @@ const GameMain = () => {
       const newAmount = minigameInfo.creditAmount || 0;
 
       if (isLoading) {
-        setIsLoading(false);
+        // 3초 딜레이 후 결과 반영
+        setTimeout(() => {
+          if (newLevel > prevLevel) {
+            setEnhanceResult("success");
+          } else if (newLevel === prevLevel) {
+            setEnhanceResult("fail");
+          } else if (newLevel + 1 < prevLevel) {
+            setEnhanceResult("burst");
+          } else {
+            setEnhanceResult("broken");
+          }
 
-        if (newLevel > prevLevel) {
-          setEnhanceResult("success");
-        } else if (newLevel === prevLevel) {
-          setEnhanceResult("fail");
-        } else if (newLevel + 1 < prevLevel) {
-          setEnhanceResult("burst");
-        } else {
-          setEnhanceResult("broken");
+          setLevel(newLevel);
+          setAmount(newAmount);
+
+          setIsLoading(false);
+          setIsEnhanceModalOpen(true);
+        }, 3000);
+      } else {
+        if (!isLoading && !isEnhanceModalOpen) {
+          setLevel(newLevel);
+          setAmount(newAmount);
         }
-
-        setIsEnhanceModalOpen(true);
       }
 
-      setLevel(newLevel);
-      setAmount(newAmount);
+      if (!isLoading) {
+        setLevel(newLevel);
+        setAmount(newAmount);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [minigameInfo]);
 
   // -----------------------------------------------------------------------
-  // 3. 핸들러 함수 (Logic)
+  // 3. Logic
   // -----------------------------------------------------------------------
 
   const handleEnhance = () => {
@@ -121,24 +172,21 @@ const GameMain = () => {
     setIsEnhanceConfirmOpen(false);
     setIsLoading(true);
 
-    // [핵심 로직] 장착된 아이템 배열을 순회하며 Request Body 생성
     const requestBody: Record<string, boolean> = {};
 
     if (usedItems.includes("preventFail")) {
-      requestBody.fail = true; // 파손 방지
+      requestBody.fail = true;
     }
     if (usedItems.includes("preventBurst")) {
-      requestBody.burst = true; // 파괴 방지
+      requestBody.burst = true;
     }
 
-    // 1초 딜레이 후 API 호출
     setTimeout(() => {
       reinforceClick(requestBody);
-    }, 1000);
+    }, 500);
   };
 
   const handleItemUseComplete = (itemKey: string) => {
-    // [수정] 이미 장착된 아이템인지 확인 후 추가 (중복 방지)
     setUsedItems((prev) => {
       if (prev.includes(itemKey)) return prev;
       return [...prev, itemKey];
@@ -155,13 +203,12 @@ const GameMain = () => {
     return "";
   };
 
-  // 아이템 취소 핸들러 (선택 사항 UI)
   const handleRemoveItem = (itemToRemove: string) => {
     setUsedItems((prev) => prev.filter((item) => item !== itemToRemove));
   };
 
   // -----------------------------------------------------------------------
-  // 4. 렌더링 (UI)
+  // 4. UI
   // -----------------------------------------------------------------------
   return (
     <>
@@ -201,22 +248,22 @@ const GameMain = () => {
             style={{
               width: "100%",
               height: "200px",
-              backgroundColor: theme.gray_background || "#f5f5f5",
+              backgroundColor: "#ffffff",
               borderRadius: "12px",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
               overflow: "hidden",
-              boxShadow: "inset 0 0 10px rgba(0,0,0,0.05)",
               position: "relative",
             }}
           >
+            {/* [수정] import한 이미지 변수 사용 */}
             <img
-              src="/assets/images/taxi-placeholder.png"
+              src={getTaxiImage(level)}
               alt="My Taxi"
               style={{
-                maxWidth: "80%",
-                maxHeight: "80%",
+                maxWidth: "140%",
+                maxHeight: "140%",
                 objectFit: "contain",
               }}
               onError={(e) => {
@@ -225,7 +272,6 @@ const GameMain = () => {
             />
           </div>
 
-          {/* [수정] 아이템 장착 상태 표시 (배열 순회) */}
           {usedItems.length > 0 && (
             <div
               style={{
@@ -238,7 +284,7 @@ const GameMain = () => {
               {usedItems.map((itemKey) => (
                 <div
                   key={itemKey}
-                  onClick={() => handleRemoveItem(itemKey)} // 클릭 시 장착 해제 기능
+                  onClick={() => handleRemoveItem(itemKey)}
                   style={{
                     ...theme.font14,
                     color: theme.purple,
@@ -297,34 +343,137 @@ const GameMain = () => {
         <Ranking />
       </AdaptiveDiv>
 
-      {/* 모달 컴포넌트들 */}
       <EnhanceConfirmModal
         isOpen={isEnhanceConfirmOpen}
         onClose={() => setIsEnhanceConfirmOpen(false)}
         onConfirm={handleEnhance}
         cost={level * 100}
         currentMoney={amount}
+        level={level}
       />
 
-      <Modal isOpen={isLoading} padding="40px 20px">
-        <div style={{ textAlign: "center", color: theme.purple }}>
+      <Modal isOpen={isLoading} padding="40px 20px" z-Index={10000}>
+        <style>
+          {`
+            /* 1. 망치 애니메이션 */
+            @keyframes hammerSwing {
+              0% { transform: rotate(-45deg); }
+              15% { transform: rotate(0deg); }   /* 들어올림 */
+              25% { transform: rotate(-45deg); } /* 타격 (Impact Point) */
+              50% { transform: rotate(0deg); }   /* 복귀 */
+              100% { transform: rotate(-45deg); }
+            }
+
+            /* 2. 택시 충격 애니메이션 */
+            @keyframes taxiShake {
+              0%, 24% { transform: scale(1) translateX(0); }
+              /* 25% 타격 순간 찌그러짐 */
+              25% { transform: scale(0.95) translateY(2px); } 
+              30% { transform: scale(1.05) translateX(-2px); } /* 반동 */
+              35% { transform: scale(1) translateX(2px); }
+              100% { transform: scale(1); }
+            }
+
+            /* 3. 불꽃 이펙트 */
+            @keyframes sparkEffect {
+              0%, 24% { opacity: 0; transform: scale(0.5); }
+              /* 25% 타격 순간 등장 */
+              25% { opacity: 1; transform: scale(1.5); }
+              /* 이후 서서히 사라짐 */
+              45% { opacity: 0; transform: scale(2); }
+              100% { opacity: 0; }
+            }
+          `}
+        </style>
+
+        <div
+          style={{
+            textAlign: "center",
+            color: theme.purple,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
           <div
             style={{
-              fontSize: "40px",
+              position: "relative",
+              width: "120px",
+              height: "100px",
               marginBottom: "16px",
-              animation: "bounce 1s infinite",
             }}
           >
-            🔨
+            {/* 1. 타격 이펙트 */}
+            <div
+              style={{
+                position: "absolute",
+                top: "30%",
+                left: "40%",
+                fontSize: "40px",
+                zIndex: 10,
+                animation: "sparkEffect 0.8s infinite linear",
+              }}
+            >
+              💥
+            </div>
+
+            {/* 2. 망치 */}
+            <div
+              style={{
+                position: "absolute",
+                top: "0px",
+                right: "-10px",
+                fontSize: "30px",
+                zIndex: 5,
+                transformOrigin: "bottom right",
+                animation: "hammerSwing 0.8s infinite ease-in-out",
+              }}
+            >
+              🔨
+            </div>
+
+            {/* 3. 택시 */}
+            <div
+              style={{
+                position: "absolute",
+                bottom: "-10px",
+                left: "0px",
+                width: "120px",
+                height: "100px",
+                display: "flex",
+                alignItems: "flex-end",
+                animation: "taxiShake 0.8s infinite ease-in-out",
+              }}
+            >
+              <img
+                src={getTaxiImage(level)}
+                alt="target"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "contain",
+                }}
+              />
+            </div>
           </div>
+
           <div
             style={{
               fontWeight: "bold",
-              fontSize: "16px",
+              fontSize: "18px",
               color: theme.black || "#333",
             }}
           >
-            열심히 강화하는 중...
+            강화 시도 중...
+          </div>
+          <div
+            style={{
+              fontSize: "14px",
+              color: theme.gray_text,
+              marginTop: "4px",
+            }}
+          >
+            제발 성공해라... 🙏
           </div>
         </div>
       </Modal>

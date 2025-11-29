@@ -3,9 +3,49 @@ import Modal from "@/components/Modal";
 
 import theme from "@/tools/theme";
 
-// -------------------------------------------------------------------------
-// [Modified] 강화 결과 모달 컴포넌트
-// -------------------------------------------------------------------------
+// [Import] 레벨별 택시 이미지
+import level0 from "@/static/game/level0.png";
+import level1_2 from "@/static/game/level1-2.png";
+import level3_4 from "@/static/game/level3-4.png";
+import level5_6 from "@/static/game/level5-6.png";
+import level7 from "@/static/game/level7.png";
+import level8 from "@/static/game/level8.png";
+import level9 from "@/static/game/level9.png";
+import level10 from "@/static/game/level10.png";
+import level11 from "@/static/game/level11.png";
+import level12 from "@/static/game/level12.png";
+import level13 from "@/static/game/level13.png";
+import level14 from "@/static/game/level14.png";
+import level15 from "@/static/game/level15.png";
+import level16 from "@/static/game/level16.png";
+import level17 from "@/static/game/level17.png";
+import level18 from "@/static/game/level18.png";
+import level19 from "@/static/game/level19.png";
+import level20 from "@/static/game/level20.png";
+
+// [함수] 레벨에 맞는 이미지 객체 반환
+const getTaxiImage = (level: number) => {
+  if (level === 0) return level0;
+  if (level === 1 || level === 2) return level1_2;
+  if (level === 3 || level === 4) return level3_4;
+  if (level === 5 || level === 6) return level5_6;
+  if (level === 7) return level7;
+  if (level === 8) return level8;
+  if (level === 9) return level9;
+  if (level === 10) return level10;
+  if (level === 11) return level11;
+  if (level === 12) return level12;
+  if (level === 13) return level13;
+  if (level === 14) return level14;
+  if (level === 15) return level15;
+  if (level === 16) return level16;
+  if (level === 17) return level17;
+  if (level === 18) return level18;
+  if (level === 19) return level19;
+  if (level >= 20) return level20;
+  return level0;
+};
+
 export type EnhanceResultType = "success" | "fail" | "broken" | "burst";
 
 interface EnhanceResultModalProps {
@@ -91,13 +131,13 @@ const EnhanceResultModal = ({
         }}
       >
         <img
-          src="/assets/images/taxi-placeholder.png"
+          src={getTaxiImage(newLevel)}
           alt="Taxi Result"
           style={{
             maxWidth: "80%",
             maxHeight: "80%",
             objectFit: "contain",
-            // [수정] broken(하락)이거나 burst(파괴)일 때 흑백 처리
+            // broken(하락)이거나 burst(파괴)일 때 흑백 처리
             filter:
               result === "broken" || result === "burst"
                 ? "grayscale(100%)"
