@@ -22,7 +22,7 @@ export type GeneralChat = {
   inOutNames: string[];
 } & CommonChat;
 export type BotChat = {
-  type: "share" | "departure" | "arrival";
+  type: "share" | "departure" | "arrival" | "wordChain";
   authorId?: "bot";
   authorName?: string;
 } & CommonChat;
