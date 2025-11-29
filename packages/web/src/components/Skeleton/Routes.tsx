@@ -63,6 +63,11 @@ const routeProps = [
     exact: true,
   },
   {
+    path: "/game/money",
+    component: lazy(() => import("@/pages/TaxiDodgeGame")),
+    exact: true,
+  },
+  {
     path: "*",
     component: lazy(() => import("@/pages/Error/PageNotFound")),
   },
