@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
@@ -32,7 +31,6 @@ type Period = "7d" | "30d" | "1y" | "total";
 type TabType = "all" | "personal" | "place";
 
 const Statistics = () => {
-  const { t } = useTranslation("mypage");
   const axios = useAxios();
   const loginInfo = useValueRecoilState("loginInfo");
   const taxiLocations = useValueRecoilState("taxiLocations");
@@ -368,7 +366,7 @@ const Statistics = () => {
       <style>{fadeInUpKeyframes}</style>
 
       <Title icon="stats" isHeader>
-        {t("statistics")}
+        Taxi Statistics
       </Title>
 
       <div css={{ padding: "0 20px 80px" }}>
