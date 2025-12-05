@@ -6,6 +6,7 @@ import { ModalCallTaxi } from "@/components/ModalPopup";
 
 import Button from "./Button";
 
+import { getEmoji } from "@/tools/emoji";
 import { getToday } from "@/tools/moment";
 import theme from "@/tools/theme";
 
@@ -48,23 +49,20 @@ const MessageDeparture = ({
           css={{
             marginTop: "10px",
             marginBottom: "10px",
-            padding: "10px",
+            padding: "12px 10px",
             backgroundColor: theme.gray_background,
             borderRadius: "8px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "4px",
           }}
         >
-          <div
-            css={{
-              ...theme.font14_bold,
-              marginBottom: "4px",
-              color: theme.black,
-            }}
-          >
-            방 식별자 : {roomInfo.emojiIdentifier}
+          <div css={{ ...theme.font14_bold }}>방 식별자</div>
+          <div style={{ fontSize: "24px", lineHeight: "1.2" }}>
+            {getEmoji(roomInfo.emojiIdentifier)}
           </div>
-          <div css={{ ...theme.font12, color: theme.gray_text }}>
-            탑승 시 방 식별자를 확인해주세요!
-          </div>
+          <div css={{ ...theme.font12 }}>탑승 시 방 식별자를 확인해주세요!</div>
         </div>
       )}
       <Button onClick={() => setIsOpenCallTaxi(true)}>택시 호출하기</Button>

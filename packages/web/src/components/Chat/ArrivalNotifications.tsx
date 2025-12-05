@@ -36,7 +36,7 @@ const ArrivalNotifications = ({
 
   const onClickArrival = () => {
     axios({
-      url: "/rooms/arrival",
+      url: "/rooms/updateArrival",
       method: "post",
       data: {
         roomId: roomInfo._id,
