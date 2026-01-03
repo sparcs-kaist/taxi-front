@@ -1,13 +1,10 @@
-import moment from "moment";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 
 import { ModalCallTaxi } from "@/components/ModalPopup";
 
 import Button from "./Button";
 
 import { getEmoji } from "@/tools/emoji";
-import { getToday } from "@/tools/moment";
 import theme from "@/tools/theme";
 
 type MessageDepartureProps = {
@@ -21,14 +18,6 @@ const MessageDeparture = ({
   minutes,
   color,
 }: MessageDepartureProps) => {
-  // 2025 fall event 관련 내용입니다. 이벤트 중이라면 뱃지 이벤트 내용을 출력!
-  // 현재 날짜와 시간을 가져옵니다.
-
-  const today = getToday();
-  const startDate = moment("2025-02-20", "YYYY-MM-DD");
-  const endDate = moment("2025-10-29", "YYYY-MM-DD");
-  const isEventDay = today.isBefore(endDate) && today.isAfter(startDate, "day");
-
   const [isOpenCallTaxi, setIsOpenCallTaxi] = useState<boolean>(false);
   const style = { width: "210px", padding: "10px" };
   const styleText = {
