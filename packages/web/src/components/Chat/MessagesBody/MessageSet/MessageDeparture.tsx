@@ -66,20 +66,6 @@ const MessageDeparture = ({
         </div>
       )}
       <Button onClick={() => setIsOpenCallTaxi(true)}>택시 호출하기</Button>
-      <div style={{ marginTop: "17px" }}></div>
-      <div css={styleText}>
-        {isEventDay && (
-          <span>
-            {" "}
-            <b>뱃지 이벤트 진행 중!</b> <br></br>
-            모든 동승자들이 전화번호 인증 뱃지를 가지고 있다면 정산 완료 시
-            응모권 3개를 받을 수 있어요.{" "}
-          </span>
-        )}
-      </div>
-      <Link to="/event/2025fall" css={{ textDecoration: "none" }}>
-        <Button>이벤트 바로가기</Button>
-      </Link>
       <ModalCallTaxi
         roomInfo={roomInfo}
         isOpen={isOpenCallTaxi}
