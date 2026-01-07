@@ -15,6 +15,7 @@ import {
   ModalEvent2023FallJoin,
   ModalEvent2024FallJoin,
   ModalEvent2024SpringJoin,
+  ModalEvent2025FallJoin,
   ModalEvent2025SpringJoin,
   ModalMypageModify,
   ModalNoticeBadge,
@@ -45,7 +46,7 @@ const Mypage = () => {
   const notificationOptions = useValueRecoilState("notificationOptions");
   const { id: userId } = loginInfo || {};
   const { isAgreeOnTermsOfEvent } =
-    (eventMode && useValueRecoilState("event2025SpringInfo")) || {};
+    (eventMode && useValueRecoilState("event2025FallInfo")) || {};
 
   const [isOpenProfileModify, setIsOpenProfileModify] = useState(false);
   const [isOpenNotification, setIsOpenNotification] = useState(false);
@@ -178,6 +179,10 @@ const Mypage = () => {
               {t("phone_number")}
               <div css={infoContent}>{loginInfo?.phoneNumber}</div>
             </div>
+            <div css={infoType} className="selectable">
+              {t("residence")}
+              <div css={infoContent}>{loginInfo?.residence}</div>
+            </div>
           </WhiteContainer>
           <WhiteContainer>
             <div css={{ display: "grid", rowGap: "16px" }}>
@@ -216,7 +221,10 @@ const Mypage = () => {
               {t("report_record")}
             </Menu>
           )}
-          <Link to={"/notice"} style={{ textDecoration: "none" }}>
+          <Link
+            to={"/notice"}
+            style={{ textDecoration: "none", display: "block" }}
+          >
             <Menu icon="notice">{t("notice")}</Menu>
           </Link>
           <a className="popup-channeltalk">
@@ -245,6 +253,10 @@ const Mypage = () => {
             ) : eventMode === "2025spring" ? (
               <Menu icon="policy" onClick={onClickEventPolicy}>
                 새학기 이벤트 참여 약관
+              </Menu>
+            ) : eventMode === "2025fall" ? (
+              <Menu icon="policy" onClick={onClickEventPolicy}>
+                뱃지 이벤트 참여 약관
               </Menu>
             ) : null)}
           <Menu icon="credit" onClick={onClickMembers}>
@@ -293,6 +305,11 @@ const Mypage = () => {
           />
         ) : eventMode === "2025spring" ? (
           <ModalEvent2025SpringJoin
+            isOpen={isOpenEventPolicy}
+            onChangeIsOpen={setIsOpenEventPolicy}
+          />
+        ) : eventMode === "2025fall" ? (
+          <ModalEvent2025FallJoin
             isOpen={isOpenEventPolicy}
             onChangeIsOpen={setIsOpenEventPolicy}
           />

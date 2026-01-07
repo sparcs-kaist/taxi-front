@@ -1,0 +1,17 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": [
+          "N5V8W52U3U.org.sparcs.soap"
+        ],
+        "components": [
+          {
+            "/": "/invite/*",
+            "comment": "Matches any URL with a path that starts with /invite/"
+          }
+        ]
+      }
+    ]
+  }
+}

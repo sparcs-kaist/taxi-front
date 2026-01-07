@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 
+import { useEvent2025FallQuestComplete } from "@/hooks/event/useEvent2025FallQuestComplete";
 import { useEvent2025SpringQuestComplete } from "@/hooks/event/useEvent2025SpringQuestComplete";
 import {
   useFetchRecoilState,
@@ -13,7 +14,7 @@ import { useAxios } from "@/hooks/useTaxiAPI";
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
 import {
-  ModalEvent2025SpringAbuseWarning,
+  ModalEvent2025FallAbuseWarning,
   ModalSimilarRooms,
 } from "@/components/ModalPopup";
 import { ModalNoticeBadge } from "@/components/ModalPopup";
@@ -34,7 +35,7 @@ import FullParticipation from "./FullParticipation";
 import alertAtom from "@/atoms/alert";
 import { useSetRecoilState } from "recoil";
 
-import { triggerTags } from "@/tools/gtm";
+import { triggerTag } from "@/tools/gtm";
 import { date2str, getToday, getToday10 } from "@/tools/moment";
 import { randomRoomNameGenerator } from "@/tools/random";
 import regExpTest from "@/tools/regExpTest";
@@ -77,6 +78,7 @@ const AddRoom = () => {
   const [isOpenModalEventAbuseWarning, setIsOpenModalEventAbuseWarning] =
     useState<boolean>(false);
   //#endregion
+  const event2025FallQuestComplete = useEvent2025FallQuestComplete();
 
   const [taxiFare, setTaxiFare] = useState<number>(0);
 
@@ -153,15 +155,16 @@ const AddRoom = () => {
     if (!onCall.current) {
       onCall.current = true;
 
-      // #region event2025spring
+      // #region event2025fall
       let isAgreeOnTermsOfEvent = false;
       await axios({
-        url: "/events/2025spring/globalState",
+        url: "/events/2025fall/globalState",
         method: "get",
         onSuccess: (data) => {
           if (data.isAgreeOnTermsOfEvent) {
             isAgreeOnTermsOfEvent = data.isAgreeOnTermsOfEvent;
           }
+          event2025FallQuestComplete("allBadgedSettlement");
         },
         onError: () => {},
       });
@@ -211,7 +214,7 @@ const AddRoom = () => {
             // 유사한 방이 있을 경우에만 모달 열기
             setIsSimilarRoomsModalOpen(true);
             // gtm 태그 전송
-            triggerTags("open_similar_rooms_list", {});
+            triggerTag("open_similar_rooms_list", {});
           }
         },
         onError: async (e) => {
@@ -254,7 +257,7 @@ const AddRoom = () => {
       });
 
       // gtm 태그 전송
-      triggerTags("create_new_room", {
+      triggerTag("create_new_room", {
         roomFrom: valuePlace[0],
         roomTo: valuePlace[1],
         roomTime: calculatedTime!.toISOString(),
@@ -317,8 +320,7 @@ const AddRoom = () => {
         </AdaptiveDiv>
       </div>
       {isLogin && loginInfo?.agreeOnTermsOfService && <ModalNoticeBadge />}
-      {/* #region event2025Spring */}
-      <ModalEvent2025SpringAbuseWarning
+      <ModalEvent2025FallAbuseWarning
         isOpen={isOpenModalEventAbuseWarning}
         onChangeIsOpen={async (data) => {
           if (data === true) {
@@ -336,7 +338,7 @@ const AddRoom = () => {
               onSuccess: () => {
                 fetchMyRooms();
                 //#region event2025Spring
-                event2025SpringQuestComplete("firstRoomCreation");
+                // event2025SpringQuestComplete("firstRoomCreation");
                 //#endregion
                 history.push("/myroom");
               },

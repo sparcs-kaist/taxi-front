@@ -56,18 +56,19 @@ export default (
           if (!file) throw new Error();
 
           isSendingMessage.current = true;
-          const { url, fields, id } = await axios({
+          const { url, id } = await axios({
             url: "chats/uploadChatImg/getPUrl",
             method: "post",
             data: { roomId, type: file.type },
           });
-          if (!url || !fields || !id) throw new Error();
+          if (!url || !id) throw new Error();
 
-          const formData = new FormData();
-          for (const key in fields) formData.append(key, fields[key]);
-          formData.append("file", file);
-          const { status: s3Status } = await axiosOri.post(url, formData);
-          if (s3Status !== 204) throw new Error();
+          await axiosOri({
+            url,
+            method: "put",
+            data: file,
+            headers: { "Content-Type": file.type },
+          });
 
           const { result } = await axios({
             url: "chats/uploadChatImg/done",

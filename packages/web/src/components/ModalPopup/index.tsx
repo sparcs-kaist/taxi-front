@@ -25,6 +25,10 @@ export { default as ModalEvent2025SpringShare } from "./ModalEvent2025SpringShar
 export { default as ModalEvent2025SpringAbuseWarning } from "./ModalEvent2025SpringAbuseWarning";
 export { default as ModalEvent2025SpringDailyAttendance } from "./ModalEvent2025SpringDailyAttendance";
 export { default as ModalEvent2025SpringCoupon } from "./ModalEvent2025SpringCoupon";
+export { default as ModalEvent2025FallItem } from "./ModalEvent2025FallItem";
+export { default as ModalEvent2025FallJoin } from "./ModalEvent2025FallJoin";
+export { default as ModalEvent2025FallShare } from "./ModalEvent2025FallShare";
+export { default as ModalEvent2025FallAbuseWarning } from "./ModalEvent2025FallAbuseWarning";
 
 export { default as ModalMypageModify } from "./ModalMypageModify";
 export { default as ModalNotification } from "./ModalNotification";
@@ -36,5 +40,4 @@ export { default as ModalRoomShare } from "./ModalRoomShare";
 export { default as ModalTerms } from "./ModalTerms";
 export { default as ModalCallTaxi } from "./ModalCallTaxi";
 export { default as ModalAccountWithdrawProcess } from "./ModalAccountWithdrawProcess";
-
 export { default as ModalSimilarRooms } from "./ModalSimilarRooms";
