@@ -99,7 +99,7 @@ const ModalChatSettlement = ({
     margin: "0 8px 12px",
   };
   const styleAccount = {
-    margin: "12px 8px",
+    margin: "12px 8px 6px 8px",
     display: "flex",
     alignItems: "center",
     color: theme.gray_text,
@@ -107,7 +107,7 @@ const ModalChatSettlement = ({
     ...theme.font14,
   } as const;
   const styleAmount = {
-    margin: "12px 8px",
+    margin: "8px 8px",
     gap: "8px",
     display: "flex",
     alignItems: "center",
@@ -124,7 +124,7 @@ const ModalChatSettlement = ({
   const styleAlarm = {
     ...theme.font12,
     color: theme.gray_text,
-    margin: "0 8px 12px",
+    margin: "0 8px 6px",
   };
 
   return (
