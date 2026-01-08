@@ -7,6 +7,7 @@ import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
 import Footer from "@/components/Footer";
 import LinkLogin from "@/components/Link/LinkLogin";
+import ModalStatInfo from "@/components/ModalPopup/ModalStatInfo";
 import {
   BusyTimeGraph,
   DynamicStatTile,
@@ -18,6 +19,8 @@ import {
 import Title from "@/components/Title";
 
 import theme from "@/tools/theme";
+
+import HelpOutlineRoundedIcon from "@mui/icons-material/HelpOutlineRounded";
 
 const fadeInUpKeyframes = `
   @keyframes fadeInUp {
@@ -38,6 +41,7 @@ const Statistics = () => {
 
   const [activeTab, setActiveTab] = useState<TabType>("all");
   const [period, setPeriod] = useState<Period>("30d");
+  const [isOpenInfoModal, setIsOpenInfoModal] = useState(false);
 
   const [totalSavings, setTotalSavings] = useState<number>(0);
   const [mySavings, setMySavings] = useState<number>(0);
@@ -235,13 +239,13 @@ const Statistics = () => {
       },
       {
         label: `${timeLabel}${userPrefix} 아낀 치킨 🍗`,
-        value: parseFloat((amount / 20000).toFixed(1)),
+        value: parseFloat((amount / 18000).toFixed(1)),
         unit: "마리",
         variant: "orange",
       },
       {
         label: `${timeLabel}${userPrefix} 아낀 튀소 🍪`,
-        value: parseFloat((amount / 3500).toFixed(1)),
+        value: parseFloat((amount / 1800).toFixed(1)),
         unit: "개",
         variant: "yellow",
       },
@@ -432,8 +436,21 @@ const Statistics = () => {
                     marginLeft: "4px",
                   }}
                 >
-                  <div css={{ fontSize: "18px", fontWeight: 800 }}>
-                    📅 기간별 분석
+                  <div
+                    css={{ display: "flex", alignItems: "center", gap: "6px" }}
+                  >
+                    <div css={{ fontSize: "18px", fontWeight: 800 }}>
+                      📅 기간별 분석
+                    </div>
+                    <HelpOutlineRoundedIcon
+                      css={{
+                        fontSize: "18px",
+                        color: theme.gray_text,
+                        cursor: "pointer",
+                        ":hover": { color: theme.purple },
+                      }}
+                      onClick={() => setIsOpenInfoModal(true)}
+                    />
                   </div>
                 </div>
                 <PeriodSelector />
@@ -636,6 +653,11 @@ const Statistics = () => {
       </div>
 
       <Footer type="only-logo" />
+
+      <ModalStatInfo
+        isOpen={isOpenInfoModal}
+        onChangeIsOpen={setIsOpenInfoModal}
+      />
     </AdaptiveDiv>
   );
 };
