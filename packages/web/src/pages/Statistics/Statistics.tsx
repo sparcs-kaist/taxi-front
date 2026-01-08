@@ -4,7 +4,9 @@ import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
+import Button from "@/components/Button";
 import Footer from "@/components/Footer";
+import LinkLogin from "@/components/Link/LinkLogin";
 import {
   BusyTimeGraph,
   DynamicStatTile,
@@ -14,7 +16,6 @@ import {
   TimeSlotData,
 } from "@/components/Statistics";
 import Title from "@/components/Title";
-import WhiteContainerSuggestLogin from "@/components/WhiteContainer/WhiteContainerSuggestLogin";
 
 import theme from "@/tools/theme";
 
@@ -38,13 +39,13 @@ const Statistics = () => {
   const [activeTab, setActiveTab] = useState<TabType>("all");
   const [period, setPeriod] = useState<Period>("30d");
 
-  const [totalSavings, setTotalSavings] = useState<number>(0); // 전체 누적
-  const [mySavings, setMySavings] = useState<number>(0); // 내 누적
-  const [periodSavings, setPeriodSavings] = useState<number>(0); // 기간별 전체
+  const [totalSavings, setTotalSavings] = useState<number>(0);
+  const [mySavings, setMySavings] = useState<number>(0);
+  const [periodSavings, setPeriodSavings] = useState<number>(0);
 
-  const [accumulatedRides, setAccumulatedRides] = useState<GraphTileData[]>([]); // 누적 방 생성
-  const [accumulatedUsers, setAccumulatedUsers] = useState<GraphTileData[]>([]); // 누적 사용자
-  const [myDoneRoomCount, setMyDoneRoomCount] = useState<number>(0); // 내 참여 횟수
+  const [accumulatedRides, setAccumulatedRides] = useState<GraphTileData[]>([]);
+  const [accumulatedUsers, setAccumulatedUsers] = useState<GraphTileData[]>([]);
+  const [myDoneRoomCount, setMyDoneRoomCount] = useState<number>(0);
 
   const [graphPlace, setGraphPlace] = useState("카이스트 본원");
   const [graphDay, setGraphDay] = useState(() => {
@@ -63,32 +64,35 @@ const Statistics = () => {
   const ridesDiff = getDifference(accumulatedRides);
   const usersDiff = getDifference(accumulatedUsers);
 
+  const shouldAnimate = !(activeTab === "personal" && !loginInfo?.oid);
+
   useEffect(() => {
-    // API 1: 전체 누적 아낀 금액
     axios({
       url: "/statistics/savings/total",
       method: "get",
+      skipAuthRedirect: true,
       onSuccess: (data) => setTotalSavings(data.totalSavings),
-      onError: () => console.error("전체 누적 금액 로딩 실패"),
+      onError: () => console.error("Total savings load failed"),
     });
 
-    // API 2: 누적 방 생성 통계 (그래프)
     axios({
       url: "/statistics/room-creation/monthly",
       method: "get",
+      skipAuthRedirect: true,
       onSuccess: (data) => {
         const formattedData = data.months.map((item: any) => ({
-          label: new Date(item.month).getMonth() + 1 + "월", // 월만 추출
+          label: new Date(item.month).getMonth() + 1 + "월",
           value: item.cumulativeRooms,
         }));
         setAccumulatedRides(formattedData);
       },
-      onError: () => console.error("방 생성 통계 로딩 실패"),
+      onError: () => console.error("Room creation stats load failed"),
     });
 
     axios({
       url: "/statistics/users/monthly",
       method: "get",
+      skipAuthRedirect: true,
       onSuccess: (data) => {
         const formattedData = data.months.map((item: any) => ({
           label: new Date(item.month).getMonth() + 1 + "월",
@@ -96,63 +100,57 @@ const Statistics = () => {
         }));
         setAccumulatedUsers(formattedData);
       },
-      onError: () => console.error("사용자 통계 로딩 실패"),
+      onError: () => console.error("User stats load failed"),
     });
 
-    // API 4 & 5: 내 데이터 (로그인 시)
     if (loginInfo?.oid) {
-      // 내 누적 아낀 금액
       axios({
         url: "/statistics/users/savings",
         method: "get",
         params: { userId: loginInfo.oid },
         onSuccess: (data) => setMySavings(data.totalSavings),
-        onError: () => console.error("내 누적 금액 로딩 실패"),
+        onError: () => console.error("My savings load failed"),
       });
 
-      // 내 누적 참여 횟수
       axios({
         url: "/statistics/users/done-room-count",
         method: "get",
         params: { userId: loginInfo.oid },
         onSuccess: (data) => setMyDoneRoomCount(data.doneRoomCount),
-        onError: () => console.error("내 참여 횟수 로딩 실패"),
+        onError: () => console.error("My room count load failed"),
       });
     }
   }, [axios, loginInfo?.oid]);
 
-  // 2️⃣ 기간 변경 시: 기간별 데이터 가져오기 (DB 집계 기준 '어제'로 수정)
   const fetchPeriodSavings = useCallback(async () => {
     if (period === "total") {
-      // '전체' 기간이면 이미 받아온 totalSavings 사용 (API 호출 절약)
       setPeriodSavings(totalSavings);
       return;
     }
 
     const today = new Date();
     const endDate = new Date(today);
-    endDate.setDate(today.getDate() - 1); // 어제
-    endDate.setHours(23, 59, 59, 999); // 어제의 끝
+    endDate.setDate(today.getDate() - 1);
+    endDate.setHours(23, 59, 59, 999);
 
-    const startDate = new Date(endDate); // 시작일 계산을 위한 기준점
+    const startDate = new Date(endDate);
 
     if (period === "7d") startDate.setDate(endDate.getDate() - 7);
     if (period === "30d") startDate.setDate(endDate.getDate() - 30);
     if (period === "1y") startDate.setFullYear(endDate.getFullYear() - 1);
 
-    // 시작일의 00:00:00 설정
     startDate.setHours(0, 0, 0, 0);
 
-    // API 0: 기간별 아낀 금액
     await axios({
       url: "/statistics/savings/period",
       method: "get",
+      skipAuthRedirect: true,
       params: {
         startDate: startDate.toISOString(),
         endDate: endDate.toISOString(),
       },
       onSuccess: (data) => setPeriodSavings(data.totalSavings),
-      onError: () => console.error("기간별 통계 로딩 실패"),
+      onError: () => console.error("Period stats load failed"),
     });
   }, [axios, period, totalSavings]);
 
@@ -169,19 +167,15 @@ const Statistics = () => {
     const dayIndex = DAYS.indexOf(graphDay);
     if (dayIndex === -1) return;
 
-    const endDate = new Date();
-    const startDate = new Date();
-    startDate.setDate(endDate.getDate() - 30);
-
     await axios({
       url: "/statistics/room-creation/hourly",
       method: "get",
+      skipAuthRedirect: true,
       params: {
         locationId: location._id,
         dayOfWeek: dayIndex,
       },
       onSuccess: (data) => {
-        // API 응답(intervals)을 그래프 데이터 형식(TimeSlotData)으로 변환
         const formattedData = data.intervals.map((interval: any) => ({
           time: `${interval.hour}시`,
           value: interval.totalRooms,
@@ -189,8 +183,7 @@ const Statistics = () => {
         setGraphData(formattedData);
       },
       onError: () => {
-        console.error("그래프 데이터 로딩 실패");
-        setGraphData([]); // 실패 시 빈 데이터
+        setGraphData([]);
       },
     });
   }, [axios, taxiLocations, graphPlace, graphDay]);
@@ -207,7 +200,7 @@ const Statistics = () => {
       return hour >= 0 && hour <= 23;
     });
   };
-  // --- Helper Functions ---
+
   const getPeriodLabelPrefix = (p: Period) => {
     switch (p) {
       case "7d":
@@ -255,7 +248,6 @@ const Statistics = () => {
     ];
   };
 
-  // 내 통계용 콘텐츠 (기간 상관없이 전체 누적)
   const getMyTotalContents = (
     amount: number
   ): Array<{
@@ -316,7 +308,6 @@ const Statistics = () => {
     boxShadow: activeTab === tab ? "0 2px 8px rgba(0,0,0,0.1)" : "none",
   });
 
-  // 그래프 필터 변경 핸들러
   const handleGraphFilterChange = (place: string, day: string) => {
     setGraphPlace(place);
     setGraphDay(day);
@@ -391,9 +382,12 @@ const Statistics = () => {
 
         <div
           key={activeTab}
-          css={{ animation: "fadeInUp 0.5s ease-out forwards" }}
+          css={{
+            animation: shouldAnimate
+              ? "fadeInUp 0.5s ease-out forwards"
+              : "none",
+          }}
         >
-          {/* === A. 장소별 통계 === */}
           {activeTab === "place" && (
             <div
               css={{ display: "flex", flexDirection: "column", gap: "24px" }}
@@ -413,9 +407,8 @@ const Statistics = () => {
                   원하는 장소와 요일을 선택해보세요.
                 </div>
               </div>
-
               <BusyTimeGraph
-                data={filteredGraphData()} // ⭐️ 필터링된 데이터 사용
+                data={filteredGraphData()}
                 places={taxiLocations?.map((loc) => loc.koName) || []}
                 days={DAYS}
                 selectedPlace={graphPlace}
@@ -456,8 +449,6 @@ const Statistics = () => {
                   />
                 </div>
               </div>
-
-              {/* 구분선 */}
               <div
                 css={{
                   height: "1px",
@@ -465,7 +456,6 @@ const Statistics = () => {
                   margin: "0 4px",
                 }}
               />
-
               <div>
                 <div
                   css={{
@@ -554,7 +544,91 @@ const Statistics = () => {
                   </div>
                 </>
               ) : (
-                <WhiteContainerSuggestLogin />
+                <div
+                  css={{
+                    position: "relative",
+                    borderRadius: "16px",
+                    overflow: "hidden",
+                  }}
+                >
+                  <div
+                    css={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                      zIndex: 10,
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      background:
+                        "linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.85) 100%)",
+                      backdropFilter: "blur(12px)",
+                      WebkitBackdropFilter: "blur(12px)",
+                      border: "1px solid rgba(255, 255, 255, 0.4)",
+                      boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.05)",
+                      borderRadius: "16px",
+                    }}
+                  >
+                    <div
+                      css={{
+                        marginBottom: "16px",
+                        ...theme.font14_bold,
+                        color: theme.black,
+                        textAlign: "center",
+                        lineHeight: "1.5",
+                      }}
+                    >
+                      로그인하고
+                      <br />내 통계를 확인해보세요!
+                    </div>
+                    <LinkLogin redirect="/statistics">
+                      <Button
+                        type="purple"
+                        css={{
+                          padding: "10px 24px",
+                          borderRadius: "12px",
+                          fontSize: "14px",
+                          fontWeight: "bold",
+                          boxShadow: "0 4px 12px rgba(107, 70, 193, 0.3)",
+                        }}
+                      >
+                        로그인 하러가기
+                      </Button>
+                    </LinkLogin>
+                  </div>
+
+                  <div
+                    css={{
+                      pointerEvents: "none",
+                      opacity: 0.3,
+                      filter: "grayscale(0.5)",
+                      transform: "scale(0.98)",
+                    }}
+                  >
+                    <div
+                      css={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "12px",
+                      }}
+                    >
+                      <DynamicStatTile data={getMyTotalContents(0)} />
+                      <DynamicStatTile
+                        data={[
+                          {
+                            label: `지금까지 참여한\n택시 동승 팟 수`,
+                            value: 0,
+                            unit: "번",
+                            variant: "white",
+                          },
+                        ]}
+                      />
+                    </div>
+                  </div>
+                </div>
               )}
             </div>
           )}
