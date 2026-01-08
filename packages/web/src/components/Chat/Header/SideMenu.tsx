@@ -1,5 +1,6 @@
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import useIsTimeOver from "@/hooks/useIsTimeOver";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
@@ -10,6 +11,7 @@ import {
   ModalChatReport,
   ModalRoomShare,
 } from "@/components/ModalPopup";
+import CarrierToggle from "@/components/ModalRoomOptions/Carrier";
 import User from "@/components/User";
 
 import alertAtom from "@/atoms/alert";
@@ -77,13 +79,42 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
   const axios = useAxios();
 
   const setAlert = useSetRecoilState(alertAtom);
+  const loginInfo = useValueRecoilState("loginInfo");
   const [isOpenShare, setIsOpenShare] = useState<boolean>(false);
   const [isOpenCallTaxi, setIsOpenCallTaxi] = useState<boolean>(false);
   const [isOpenReport, setIsOpenReport] = useState<boolean>(false);
   const [isOpenCancel, setIsOpenCancel] = useState<boolean>(false);
   const isDeparted = useIsTimeOver(dayServerToClient(roomInfo.time)); // 방 출발 여부
+  const [localPart, setLocalPart] = useState<User[]>(roomInfo.part);
 
-  const onClikcShare = useCallback(() => setIsOpenShare(true), []);
+  const myCarrierStatus = useMemo(() => {
+    return localPart.find((u) => u._id === loginInfo?.oid)?.hasCarrier || false;
+  }, [localPart, loginInfo]);
+
+  const handleToggleCarrier = async () => {
+    const nextStatus = !myCarrierStatus;
+
+    try {
+      await axios({
+        url: "/rooms/carrier/toggle",
+        method: "post",
+        data: {
+          roomId: roomInfo._id,
+          hasCarrier: nextStatus,
+        },
+        onSuccess: (data) => {
+          if (data && data.part) {
+            setLocalPart(data.part);
+          }
+        },
+        onError: () => setAlert("캐리어 상태 변경에 실패했습니다."),
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const onClickShare = useCallback(() => setIsOpenShare(true), []);
   const onClickCancel = useCallback(
     () =>
       isDeparted
@@ -200,17 +231,27 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
               <PeopleAltRoundedIcon style={styleIcon} />
               <div css={{ ...styleInfo }}>
                 참여 / 최대 인원 :{" "}
-                <span css={theme.font14_bold}>{roomInfo.part.length}명</span>{" "}
+                <span css={theme.font14_bold}>{localPart.length}명</span>{" "}
                 <span css={{ color: theme.gray_text }}>
                   / {roomInfo.maxPartLength}명
                 </span>
               </div>
             </div>
+
             <div css={styleUsers}>
-              {roomInfo.part.map((item) => (
+              {localPart.map((item) => (
                 <User key={item._id} value={item} isDeparted={isDeparted} />
               ))}
             </div>
+
+            {!isDeparted && (
+              <div css={{ marginTop: "12px" }}>
+                <CarrierToggle
+                  value={myCarrierStatus}
+                  handler={handleToggleCarrier}
+                />
+              </div>
+            )}
           </div>
           <DottedLine />
           {taxiFare !== 0 ? (
@@ -226,7 +267,7 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
               <DottedLine />
             </>
           ) : null}
-          <SideMenuButton type="share" onClick={onClikcShare} />
+          <SideMenuButton type="share" onClick={onClickShare} />
           <DottedLine />
           <SideMenuButton type="taxi" onClick={onClickCallTaxi} />
           {!isAlone && (

@@ -14,7 +14,7 @@ const User = ({ value, isDeparted }: UserProps) => {
   const isSettlement =
     value?.isSettlement === "paid" || value?.isSettlement === "sent";
   const isWithdrew = value?.withdraw;
-
+  const hasCarrier = value.hasCarrier || value.withCarrier;
   return (
     <div
       css={{
@@ -55,18 +55,22 @@ const User = ({ value, isDeparted }: UserProps) => {
         )}
         {isWithdrew && <span style={theme.font8}>{" (탈퇴)"}</span>}
       </div>
-      {value.withCarrier && (
+      {hasCarrier && (
         <div
           css={{
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontSize: "14px", // 아이콘 크기는 적절하게 조절!
-            marginLeft: "2px",
+            marginLeft: "1px", 
           }}
-          title="캐리어 소지" // ui 아이콘으로 바꾸기 TODO
+          title="캐리어 소지"
         >
-          <LuggageIcon style={{ fontSize: "14px", color: theme.gray_text }} />
+          <LuggageIcon
+            style={{
+              fontSize: "15px",
+              color: theme.purple,
+            }}
+          />
         </div>
       )}
 

@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 
-import { CarrierUser } from "@/hooks/useCarrier";
 import {
   useFetchRecoilState,
   useIsLogin,
@@ -11,11 +10,11 @@ import {
 import useIsTimeOver from "@/hooks/useIsTimeOver";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
-// ✨ 타입 임포트 (경로 확인 필요!)
 import Button from "@/components/Button";
 import DottedLine from "@/components/DottedLine";
 import LinkLogin from "@/components/Link/LinkLogin";
 import MiniCircle from "@/components/MiniCircle";
+import CarrierToggle from "@/components/ModalRoomOptions/Carrier";
 import Users from "@/components/User/Users";
 import { MAX_PARTICIPATION } from "@/pages/Myroom";
 
@@ -38,9 +37,10 @@ type InfoSectionProps = {
   alignDirection: "left" | "right";
   children: React.ReactNode;
 };
+
 export type BodyRoomSelectionProps = {
   roomInfo: Room;
-  carrierList?: CarrierUser[];
+  onToggleCarrier?: () => void; // (혹시 몰라 남겨두지만 이번엔 안 씀)
 };
 
 const PlaceSection = ({ type, name }: PlaceSectionProps) => (
@@ -103,10 +103,7 @@ const InfoSection = ({ title, alignDirection, children }: InfoSectionProps) => (
   </div>
 );
 
-const BodyRoomSelection = ({
-  roomInfo,
-  carrierList,
-}: BodyRoomSelectionProps) => {
+const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
   const { i18n } = useTranslation();
   const axios = useAxios();
   const history = useHistory();
@@ -117,68 +114,83 @@ const BodyRoomSelection = ({
   const fetchMyRooms = useFetchRecoilState("myRooms");
   const setAlert = useSetRecoilState(alertAtom);
 
-  const isLogin = useIsLogin() && !!loginInfo?.id; // 로그인 여부
-  const isRoomFull = roomInfo && roomInfo.part.length >= roomInfo.maxPartLength; // 방이 꽉 찼는지 여부
+  // 참여 시 캐리어 지참 여부 상태 (기본값 false)
+  const [joinWithCarrier, setJoinWithCarrier] = useState(false);
+
+  const isLogin = useIsLogin() && !!loginInfo?.id;
+  const isRoomFull = roomInfo && roomInfo.part.length >= roomInfo.maxPartLength;
+
   const isAlreadyPart =
     isLogin &&
     roomInfo &&
     (roomInfo.part.some(
       (user: Room["part"][number]) => user._id === loginInfo.oid
     ) ??
-      true); // 이미 참여 중인지 여부
+      true);
+
   const isMaxPart =
-    isLogin && myRooms && myRooms.ongoing.length >= MAX_PARTICIPATION; // 최대 참여 가능한 방 개수를 초과했는지 여부
-  const isDepart = useIsTimeOver(dayServerToClient(roomInfo.time)); // 방 출발 여부
+    isLogin && myRooms && myRooms.ongoing.length >= MAX_PARTICIPATION;
+  const isDepart = useIsTimeOver(dayServerToClient(roomInfo.time));
 
   const notPaid = useMemo(() => {
     const myOngoingRoom = myRooms?.ongoing.slice() ?? [];
     const notPaid = myOngoingRoom.find(
       (room) =>
         room.part.find((item: any) => item._id === loginInfo?.oid)
-          .isSettlement === "send-required" && room.isDeparted
-    ); // 다른 사람이 정산을 올렸으나 내가 아직 송금하지 않은 방이 있는지 여부 (추가 입장 제한에 사용)
+          ?.isSettlement === "send-required" && room.isDeparted
+    );
     return notPaid;
-  }, [myRooms]); // myOngoingRoom은 infoSection의 sortedMyRoom에서 정렬만 뺀 코드입니다. useMemo로 감싼 형태입니다.
-  // item : any 가 좋은 방법인지 모르겠습니다
+  }, [myRooms, loginInfo]);
+
   const participantsWithCarrier = useMemo(() => {
     if (!roomInfo?.part) return [];
-
-    // carrierList가 아직 로딩 안 됐으면 그냥 원래 정보 리턴
-    if (!carrierList) return roomInfo.part;
-
-    return roomInfo.part.map((user) => {
-      // 해당 유저의 캐리어 정보를 찾아요
-      const carrierInfo = carrierList.find((c) => c.userId === user._id);
-
-      // 기존 유저 정보에 withCarrier 속성을 추가해서 리턴!
-      return {
-        ...user,
-        withCarrier: carrierInfo ? carrierInfo.hasCarrier : false,
-      };
-    });
-  }, [roomInfo.part, carrierList]);
+    return roomInfo.part.map((user: any) => ({
+      ...user,
+      withCarrier: user.hasCarrier || false,
+    }));
+  }, [roomInfo.part]);
 
   const requestJoin = useCallback(async () => {
+    // 이미 참여 중이면 이동만
     if (isAlreadyPart) {
-      // 이미 참여 중인 방에서 버튼을 누르면 API 호출 관련 로직을 건너뛰고 해당 방으로 이동합니다.
       history.push(`/myroom/${roomInfo._id}`);
       return;
     }
-    // 여기부터는 이미 참여 중인 방이 아닌 경우의 로직입니다.
+
     if (onCall.current) return;
     onCall.current = true;
+
     await axios({
       url: "/rooms/join",
       method: "post",
       data: { roomId: roomInfo._id },
-      onSuccess: () => {
+      onSuccess: async () => {
+        // 만약 캐리어를 들고 탄다고 체크했다면 토글 API 추가 호출
+        if (joinWithCarrier) {
+          try {
+            await axios({
+              url: "/rooms/carrier/toggle",
+              method: "post",
+              data: {
+                roomId: roomInfo._id,
+                hasCarrier: true,
+              },
+              // ...
+            });
+          } catch (e) {
+            console.error("캐리어 상태 반영 실패", e);
+          }
+        }
+
+        // 내 방 목록 갱신 및 페이지 이동
         fetchMyRooms();
         history.push(`/myroom/${roomInfo._id}`);
       },
       onError: () => setAlert("방 참여에 실패하였습니다."),
     });
+
     onCall.current = false;
-  }, [roomInfo?._id, history]);
+  }, [roomInfo?._id, history, isAlreadyPart, joinWithCarrier]); // 의존성 유지
 
   const [taxiFare, setTaxiFare] = useState<number>(0);
   const getTaxiFare = async () => {
@@ -278,6 +290,13 @@ const BodyRoomSelection = ({
           </InfoSection>
         ) : null}
       </div>
+
+      {!isAlreadyPart && !isRoomFull && !isDepart && isLogin && (
+        <div css={{ marginBottom: "12px", padding: "0 10px" }}>
+          <CarrierToggle value={joinWithCarrier} handler={setJoinWithCarrier} />
+        </div>
+      )}
+
       {isLogin || isRoomFull || isDepart ? (
         <Button
           type="purple"
