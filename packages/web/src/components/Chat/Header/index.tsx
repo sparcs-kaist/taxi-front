@@ -110,6 +110,7 @@ const Header = ({ layoutType, roomInfo }: HeaderProps) => {
                 <span
                   style={{
                     marginLeft: "6px",
+                    fontFamily: '"TossFace", "NanumSquare"',
                   }}
                 >
                   {getEmoji(roomInfo.emojiIdentifier)}

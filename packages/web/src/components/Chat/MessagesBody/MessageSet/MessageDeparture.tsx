@@ -48,9 +48,15 @@ const MessageDeparture = ({
           }}
         >
           <div css={{ ...theme.font14_bold }}>방 식별자</div>
-          <div style={{ fontSize: "24px", lineHeight: "1.2" }}>
+          <span
+            style={{
+              fontSize: "28px",
+              lineHeight: "1.2",
+              fontFamily: '"TossFace", "NanumSquare"',
+            }}
+          >
             {getEmoji(roomInfo.emojiIdentifier)}
-          </div>
+          </span>
           <div css={{ ...theme.font12 }}>탑승 시 방 식별자를 확인해주세요!</div>
         </div>
       )}

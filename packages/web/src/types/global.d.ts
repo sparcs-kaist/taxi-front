@@ -41,7 +41,6 @@ declare global {
     maxPartLength: number;
     part: Array<User>;
     emojiIdentifier?: string;
-    numericIdentifier?: string;
   };
 
   type ReportResponse = { status: number };
