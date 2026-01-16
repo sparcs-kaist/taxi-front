@@ -93,12 +93,36 @@ const InfoSection = () => {
 
   // [CHANGE] useValueRecoilState를 통해 마일리지 데이터 (MileageSummary | null) 가져오기
   const mileageData = useValueRecoilState("mileage");
+  const { activeMileage } = mileageData || { activeMileage: 0 };
 
-  // [CHANGE] tier 객체를 mileageData를 기반으로 정의 (maxMileage는 예시값 유지)
-  const tier = {
-    tier: mileageData?.tier || "none",
-    maxMileage: 10000, // 백엔드에서 제공되지 않는다면 이 값은 프론트에서 관리 필요
-  };
+  const tierInfo = useMemo(() => {
+    if (activeMileage >= 96000) {
+      return {
+        nextTier: "Platinum",
+        maxMileage: 96000,
+        needed: 0,
+        isMax: true,
+      };
+    } else if (activeMileage >= 24000) {
+      return {
+        nextTier: "Gold",
+        maxMileage: 96000,
+        needed: 96000 - activeMileage,
+      };
+    } else if (activeMileage >= 8000) {
+      return {
+        nextTier: "Silver",
+        maxMileage: 24000,
+        needed: 24000 - activeMileage,
+      };
+    } else {
+      return {
+        nextTier: "Normal",
+        maxMileage: 8000,
+        needed: 8000 - activeMileage,
+      };
+    }
+  }, [activeMileage]);
 
   const { message, room } = useMemo(() => {
     const sortedMyRoom =
@@ -189,6 +213,7 @@ const InfoSection = () => {
           </div>
           {isLogin && (
             <>
+              {/* 마일리지 표시 부분 */}
               <div css={styleMileage}>
                 이번 달,&nbsp;
                 <span
@@ -199,30 +224,32 @@ const InfoSection = () => {
                     backgroundColor: theme.purple,
                   }}
                 >
-                  {/* mileageData에서 activeMileage를 안전하게 접근하여 표시 */}
-                  {mileageData?.activeMileage.toLocaleString() ?? "- "}원
+                  {activeMileage.toLocaleString()}원
                 </span>
                 을 절약했어요! <BadgeImage badge_size="1.2em" />
               </div>
+
+              {/* [CHANGE] 게이지 및 툴팁 수정 */}
               <div css={{ margin: "0px 0px 10px" }}>
                 <Tooltip
-                  // tier.maxMileage를 사용하여 툴팁 타이틀 설정
-                  title={`다음 단계: ${tier.maxMileage.toLocaleString()}원 필요`}
+                  title={
+                    tierInfo.isMax
+                      ? "이미 최고 등급(Gold)에 도달했습니다!"
+                      : `${
+                          tierInfo.nextTier
+                        } 등급까지 ${tierInfo.needed.toLocaleString()}원 남았습니다.`
+                  }
                   componentsProps={{
                     tooltip: {
                       sx: {
                         ...theme.font12,
                         color: theme.black,
-                        padding: "3px 1px 3px",
+                        padding: "6px 10px", // 패딩을 조금 더 주어 가독성 향상
                         marginTop: "8px !important",
-                        maxWidth: "280px",
-                        width: "calc(100vw - 40px)",
                         boxShadow: theme.shadow,
                         backgroundColor: "white",
-                        textAlign: "center",
-                        whiteSpace: "normal",
                         borderRadius: "12px",
-                        cursor: "default",
+                        textAlign: "center",
                       },
                     },
                   }}
@@ -230,10 +257,9 @@ const InfoSection = () => {
                   leaveTouchDelay={2000}
                 >
                   <Gauge
-                    // mileageData에서 activeMileage를 안전하게 접근
-                    value={mileageData?.activeMileage ?? 0}
-                    // tier.maxMileage를 사용하여 max 값을 설정
-                    max={tier.maxMileage ?? 0}
+                    value={activeMileage}
+                    // 현재 목표치에 맞춰 게이지가 차오르도록 설정
+                    max={tierInfo.maxMileage}
                     width="100%"
                     height="15px"
                     bgColor={theme.gray_background}
