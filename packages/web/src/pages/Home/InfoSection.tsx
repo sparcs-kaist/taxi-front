@@ -11,6 +11,7 @@ import Button from "@/components/Button";
 import LinkLogin from "@/components/Link/LinkLogin";
 import Room from "@/components/Room";
 import BadgeImage from "@/components/User/BadgeImage";
+import WhiteContainer from "@/components/WhiteContainer";
 
 import loginInfoAtom from "@/atoms/loginInfo";
 import { useRecoilValue } from "recoil";
@@ -213,60 +214,65 @@ const InfoSection = () => {
           </div>
           {isLogin && (
             <>
-              {/* 마일리지 표시 부분 */}
-              <div css={styleMileage}>
-                이번 달,&nbsp;
-                <span
-                  css={{
-                    ...styleMileage,
-                    padding: "5px 10px",
-                    borderRadius: "8px",
-                    backgroundColor: theme.purple,
-                  }}
-                >
-                  {activeMileage.toLocaleString()}원
-                </span>
-                을 절약했어요! <BadgeImage badge_size="1.2em" />
-              </div>
+              <WhiteContainer
+                css={{ padding: "20px 15px 5px", opacity: "0.97" }}
+              >
+                {/* 마일리지 표시 부분 */}
+                <div css={{ ...styleMileage, color: theme.black }}>
+                  이번 달,&nbsp;
+                  <span
+                    css={{
+                      ...styleMileage,
+                      padding: "4px 8px",
+                      borderRadius: "8px",
+                      backgroundColor: theme.purple,
+                      color: theme.white,
+                    }}
+                  >
+                    {activeMileage.toLocaleString()}원
+                  </span>
+                  &nbsp;을 절약했어요! <BadgeImage badge_size="1.2em" />
+                </div>
 
-              {/* [CHANGE] 게이지 및 툴팁 수정 */}
-              <div css={{ margin: "0px 0px 10px" }}>
-                <Tooltip
-                  title={
-                    tierInfo.isMax
-                      ? "이미 최고 등급(Gold)에 도달했습니다!"
-                      : `${
-                          tierInfo.nextTier
-                        } 등급까지 ${tierInfo.needed.toLocaleString()}원 남았습니다.`
-                  }
-                  componentsProps={{
-                    tooltip: {
-                      sx: {
-                        ...theme.font12,
-                        color: theme.black,
-                        padding: "6px 10px", // 패딩을 조금 더 주어 가독성 향상
-                        marginTop: "8px !important",
-                        boxShadow: theme.shadow,
-                        backgroundColor: "white",
-                        borderRadius: "12px",
-                        textAlign: "center",
+                {/* [CHANGE] 게이지 및 툴팁 수정 */}
+                <div css={{ margin: "0px 0px 10px" }}>
+                  <Tooltip
+                    title={
+                      tierInfo.isMax
+                        ? "이미 최고 등급(Gold)에 도달했습니다!"
+                        : `${
+                            tierInfo.nextTier
+                          } 등급까지 ${tierInfo.needed.toLocaleString()}원 남았습니다.`
+                    }
+                    componentsProps={{
+                      tooltip: {
+                        sx: {
+                          ...theme.font12,
+                          color: theme.black,
+                          padding: "6px 10px", // 패딩을 조금 더 주어 가독성 향상
+                          marginTop: "8px !important",
+                          boxShadow: theme.shadow,
+                          backgroundColor: "white",
+                          borderRadius: "12px",
+                          textAlign: "center",
+                        },
                       },
-                    },
-                  }}
-                  enterTouchDelay={0}
-                  leaveTouchDelay={2000}
-                >
-                  <Gauge
-                    value={activeMileage}
-                    // 현재 목표치에 맞춰 게이지가 차오르도록 설정
-                    max={tierInfo.maxMileage}
-                    width="100%"
-                    height="15px"
-                    bgColor={theme.gray_background}
-                    fillColor={theme.purple}
-                  />
-                </Tooltip>
-              </div>
+                    }}
+                    enterTouchDelay={0}
+                    leaveTouchDelay={2000}
+                  >
+                    <Gauge
+                      value={activeMileage}
+                      // 현재 목표치에 맞춰 게이지가 차오르도록 설정
+                      max={tierInfo.maxMileage}
+                      width="100%"
+                      height="15px"
+                      bgColor={theme.gray_background}
+                      fillColor={theme.purple}
+                    />
+                  </Tooltip>
+                </div>
+              </WhiteContainer>
             </>
           )}
           <div css={styleSubTitle}>{isLogin ? message : randomTaxiSlogan}</div>
