@@ -1,5 +1,3 @@
-import ModalDodgeLeaderboard from "./ModalDodgeLeaderboard";
-
 export { default as ModalChatCancel } from "./ModalChatCancel";
 export { default as ModalChatPayement } from "./ModalChatPayment";
 export { default as ModalChatReport } from "./ModalChatReport";

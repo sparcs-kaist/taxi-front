@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import { useEffect, useRef, useState } from "react";
-import { useHistory } from "react-router-dom";
 
 import { useFetchRecoilState, useIsLogin } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
@@ -18,9 +17,7 @@ import KickImg from "@/static/assets/games/kick.png";
 import PoliceImg from "@/static/assets/games/police.png";
 import RoadImg from "@/static/assets/games/road.png";
 import TaxiImg from "@/static/assets/games/taxi.png";
-import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import EmojiEventsRoundedIcon from "@mui/icons-material/EmojiEventsRounded";
-import LocalTaxiRoundedIcon from "@mui/icons-material/LocalTaxiRounded";
 
 const PageWrapper = styled.div`
   width: 100%;
@@ -171,7 +168,6 @@ const WarningText = styled.div`
 type ObstacleType = "barigate" | "cone" | "kick" | "police" | "banana";
 
 const TaxiDodgeGame = () => {
-  const history = useHistory();
   const isLogin = useIsLogin();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [score, setScore] = useState(0);

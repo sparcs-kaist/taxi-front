@@ -1,14 +1,11 @@
-import { ReactElement } from "react";
 import { Link } from "react-router-dom";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
+import Button from "@/components/Button";
 import CreditAmountStatusContainer from "@/components/Event/CreditAmountStatusContainer";
-import WhiteContainerSuggestJoinEvent from "@/components/Event/WhiteContainerSuggestJoinEvent";
 import Title from "@/components/Title";
-import WhiteContainer from "@/components/WhiteContainer";
 
 import theme from "@/tools/theme";
-import Button from "@/components/Button";
 
 const GameSection = () => {
   return (
@@ -21,8 +18,13 @@ const GameSection = () => {
         <Link to="/game/main" css={{ width: 0, flexGrow: 1 }}>
           <Button
             type="purple"
-            css={{ padding: "14px 0 13px", borderRadius: "12px", ...theme.font16_bold }}
-          >강화 메인 페이지 이동
+            css={{
+              padding: "14px 0 13px",
+              borderRadius: "12px",
+              ...theme.font16_bold,
+            }}
+          >
+            강화 메인 페이지 이동
           </Button>
         </Link>
       </div>

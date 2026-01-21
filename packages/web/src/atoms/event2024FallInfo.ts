@@ -7,7 +7,12 @@ type CompletedQuest = {
   completedAt: Date;
 };
 
-export type Event2024FallInfoType = Nullable;
+export type Event2024FallInfoType = Nullable<{
+  quests: Quest[];
+  completedQuests: CompletedQuest[];
+  isAgreeOnTermsOfEvent: boolean;
+  creditAmount: number;
+}>;
 
 const event2024FallInfoAtom = atom<Event2024FallInfoType>({
   key: "event2024FallInfoAtom",
