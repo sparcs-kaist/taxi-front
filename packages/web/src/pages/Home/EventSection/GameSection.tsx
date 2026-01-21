@@ -15,7 +15,10 @@ const GameSection = () => {
       </Title>
       <CreditAmountStatusContainer />
       <div css={{ display: "flex", gap: "15px" }}>
-        <Link to="/game/main" css={{ width: 0, flexGrow: 1 }}>
+        <Link
+          to="/game/main"
+          css={{ width: 0, flexGrow: 1, textDecoration: "none" }}
+        >
           <Button
             type="purple"
             css={{

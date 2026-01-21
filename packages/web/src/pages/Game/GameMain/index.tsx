@@ -28,24 +28,24 @@ import { useSetRecoilState } from "recoil";
 import theme from "@/tools/theme";
 
 // [Import] 레벨별 택시 이미지
-import level0 from "@/static/game/level0.png";
-import level1_2 from "@/static/game/level1-2.png";
-import level3_4 from "@/static/game/level3-4.png";
-import level5_6 from "@/static/game/level5-6.png";
-import level7 from "@/static/game/level7.png";
-import level8 from "@/static/game/level8.png";
-import level9 from "@/static/game/level9.png";
-import level10 from "@/static/game/level10.png";
-import level11 from "@/static/game/level11.png";
-import level12 from "@/static/game/level12.png";
-import level13 from "@/static/game/level13.png";
-import level14 from "@/static/game/level14.png";
-import level15 from "@/static/game/level15.png";
-import level16 from "@/static/game/level16.png";
-import level17 from "@/static/game/level17.png";
-import level18 from "@/static/game/level18.png";
-import level19 from "@/static/game/level19.png";
-import level20 from "@/static/game/level20.png";
+import level0 from "@/static/assets/games/level0.png";
+import level1_2 from "@/static/assets/games/level1-2.png";
+import level3_4 from "@/static/assets/games/level3-4.png";
+import level5_6 from "@/static/assets/games/level5-6.png";
+import level7 from "@/static/assets/games/level7.png";
+import level8 from "@/static/assets/games/level8.png";
+import level9 from "@/static/assets/games/level9.png";
+import level10 from "@/static/assets/games/level10.png";
+import level11 from "@/static/assets/games/level11.png";
+import level12 from "@/static/assets/games/level12.png";
+import level13 from "@/static/assets/games/level13.png";
+import level14 from "@/static/assets/games/level14.png";
+import level15 from "@/static/assets/games/level15.png";
+import level16 from "@/static/assets/games/level16.png";
+import level17 from "@/static/assets/games/level17.png";
+import level18 from "@/static/assets/games/level18.png";
+import level19 from "@/static/assets/games/level19.png";
+import level20 from "@/static/assets/games/level20.png";
 
 // [함수] 레벨에 맞는 이미지 객체 반환
 export const getTaxiImage = (level: number) => {
@@ -154,7 +154,6 @@ const GameMain = () => {
         setAmount(newAmount);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [minigameInfo]);
 
   // -----------------------------------------------------------------------
@@ -340,7 +339,7 @@ const GameMain = () => {
             </Button>
           </div>
         </WhiteContainer>
-        <Ranking />
+        <Ranking refreshTrigger={level} />
       </AdaptiveDiv>
 
       <EnhanceConfirmModal

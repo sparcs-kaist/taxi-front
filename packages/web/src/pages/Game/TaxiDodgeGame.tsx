@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { useFetchRecoilState, useIsLogin } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
-import Footer from "@/components/Footer";
 import { ModalDodgeLeaderboard } from "@/components/ModalPopup";
 import WhiteContainerSuggestLogin from "@/components/WhiteContainer/WhiteContainerSuggestLogin";
 
@@ -22,7 +21,6 @@ import EmojiEventsRoundedIcon from "@mui/icons-material/EmojiEventsRounded";
 const PageWrapper = styled.div`
   width: 100%;
   background-color: ${theme.purple_background};
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
 `;
@@ -36,7 +34,6 @@ const ContentWrapper = styled.div`
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  padding-top: 20px;
 `;
 
 const GameContainer = styled.div`
@@ -56,7 +53,9 @@ const Canvas = styled.canvas`
   background-color: #333;
   border: 2px solid ${theme.purple};
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border: 1px solid ${theme.gray_line};
   max-width: 100%;
   max-height: 60vh;
 `;
@@ -131,7 +130,7 @@ const GameOverModal = styled.div`
   border-radius: 12px;
   text-align: center;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  z-index: 10;
+  z-index: 1; // [수정] 헤더(z-index: 2)보다 낮게 설정
   border: 1px solid ${theme.gray_line};
 `;
 
@@ -605,10 +604,6 @@ const TaxiDodgeGame = () => {
           <WhiteContainerSuggestLogin />
         )}
       </ContentWrapper>
-      <div style={{ paddingBottom: "30px" }}>
-        <Footer type="game" />
-      </div>
-
       <ModalDodgeLeaderboard
         isOpen={isRankingOpen}
         onChangeIsOpen={setIsRankingOpen}

@@ -6,7 +6,7 @@ import theme from "@/tools/theme";
 
 import { ReactComponent as Ticket1Icon } from "@/static/events/2023fallTicket1.svg";
 import { ReactComponent as Ticket2Icon } from "@/static/events/2023fallTicket2.svg";
-import { ReactComponent as CreditIcon } from "@/static/events/2025springCredit.svg";
+import coinGif from "@/static/events/2024springCoin.gif";
 
 type CreditAmountStatusContainerProps = {
   type?: "credit" | "ticket" | "doubleTicket";
@@ -20,90 +20,103 @@ const CreditAmountStatusContainer = ({
   // const { creditAmount } = useValueRecoilState("event2025SpringInfo") || {};
   const { ticket1Amount, ticket2Amount } =
     useValueRecoilState("event2024SpringInfo") || {};
-  const { creditAmount } = useValueRecoilState("event2025FallInfo") || {};
+  const { creditAmount, level } = useValueRecoilState("gameInfo") || {};
 
   return (
     <WhiteContainer
       css={{
-        padding: "9px 16px",
-        background: theme.purple,
+        padding: "12px 16px",
         display: "flex",
-        gap: "8px",
-        alignItems: "center",
+        flexDirection: type === "credit" ? "column" : "row",
+        alignItems: type === "credit" ? "flex-start" : "center",
+        justifyContent: type === "credit" ? "space-between" : "flex-start",
+        gap: type === "credit" ? "0px" : "8px",
+        minHeight: type === "credit" ? "auto" : "auto",
+        position: "relative",
+        marginBottom: "12px",
       }}
       {...whiteContainerProps}
     >
-      <div css={{ color: theme.white, ...theme.font16_bold, flexGrow: 1 }}>
-        {/* { {type === "credit" ? "내가 모은 넙죽코인" : "일반 / 고급 응모권"} } */}
-        {type === "credit"
-          ? "내가 모은 넙죽코인"
-          : type === "ticket"
-          ? "내가 모은 응모권"
-          : "일반 / 고급 응모권"}
-      </div>
-      <>
-        {/* credit -> 그대로 / ticket - 응모권 / doubleTicket - 더블 응모권 */}
-        {/* <CreditIcon css={{ width: "27px", height: "16px" }} />
-        <div css={{ color: theme.white, ...theme.font16_bold }}>
-          {creditAmount || 0}
-        </div> */}
-        {type === "credit" ? (
-          <>
-            <CreditIcon css={{ width: "27px", height: "16px" }} />
-            <div css={{ color: theme.white, ...theme.font16_bold }}>
-              {creditAmount || 0}
+      {type === "credit" ? (
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <div
+              css={{
+                color: theme.black,
+                ...theme.font14,
+                fontWeight: "bold",
+                marginBottom: "6px",
+              }}
+            >
+              현재 택시
             </div>
-          </>
-        ) : type === "ticket" ? (
-          <>
-            <Ticket2Icon css={{ width: "27px", height: "27px" }} />
-            <div css={{ color: theme.white, ...theme.font16_bold }}>
-              {creditAmount || 0}
+            <div
+              css={{
+                color: theme.purple,
+                fontSize: "24px",
+                fontWeight: "bold",
+              }}
+            >
+              {level !== undefined ? `+${level}강` : "로딩중..."}
             </div>
-          </>
-        ) : (
-          <>
-            <Ticket1Icon css={{ width: "27px", height: "27px" }} />
-            <div css={{ color: theme.white, ...theme.font16_bold }}>
-              {ticket1Amount || 0}
-            </div>
-            <div css={{ marginLeft: "-4px" }} />
+          </div>
 
-            <Ticket2Icon css={{ width: "27px", height: "27px" }} />
-            <div css={{ color: theme.white, ...theme.font16_bold }}>
-              {ticket2Amount || 0}
+          <div
+            css={{
+              display: "flex",
+              alignItems: "center",
+              gap: "4px",
+              marginTop: "auto",
+              backgroundColor: theme.purple_light,
+              padding: "4px 8px",
+              borderRadius: "8px",
+            }}
+          >
+            <img
+              src={coinGif}
+              alt="coin"
+              style={{ width: "16px", height: "16px", objectFit: "contain" }}
+            />
+            <div css={{ color: theme.purple, ...theme.font14_bold }}>
+              {creditAmount ? creditAmount.toLocaleString() : 0}
             </div>
-          </>
-        )}{" "}
-      </>
-      {/* {type === "credit" ? (
+          </div>
+        </div>
       ) : (
         <>
-          <Ticket1Icon
-            css={{
-              width: "27px",
-              height: "27px",
-              marginTop: "-4px",
-              marginBottom: "-4px",
-            }}
-          />
-          <div css={{ color: theme.white, ...theme.font16_bold }}>
-            {ticket1Amount || 0}
+          <div css={{ color: theme.white, ...theme.font16_bold, flexGrow: 1 }}>
+            {type === "ticket" ? "내가 모은 응모권" : "일반 / 고급 응모권"}
           </div>
-          <div css={{ marginLeft: "-4px" }} />
-          <Ticket2Icon
-            css={{
-              width: "27px",
-              height: "27px",
-              marginTop: "-4px",
-              marginBottom: "-4px",
-            }}
-          />
-          <div css={{ color: theme.white, ...theme.font16_bold }}>
-            {ticket2Amount || 0}
-          </div>
+          {type === "ticket" ? (
+            <>
+              <Ticket2Icon css={{ width: "27px", height: "27px" }} />
+              <div css={{ color: theme.white, ...theme.font16_bold }}>
+                {creditAmount || 0}
+              </div>
+            </>
+          ) : (
+            <>
+              <Ticket1Icon css={{ width: "27px", height: "27px" }} />
+              <div css={{ color: theme.white, ...theme.font16_bold }}>
+                {ticket1Amount || 0}
+              </div>
+              <div css={{ marginLeft: "-4px" }} />
+
+              <Ticket2Icon css={{ width: "27px", height: "27px" }} />
+              <div css={{ color: theme.white, ...theme.font16_bold }}>
+                {ticket2Amount || 0}
+              </div>
+            </>
+          )}
         </>
-      )} */}
+      )}
     </WhiteContainer>
   );
 };

@@ -51,7 +51,6 @@ const Game = () => {
 
   useEffect(() => {
     fetchMinigameInfo();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -76,7 +75,7 @@ const Game = () => {
         }}
       >
         {/* 1. 상단: 뒤로가기 + 타이틀 + 코인 */}
-        <HeaderWithBackButton>
+        <HeaderWithBackButton backPath="/home">
           <div
             style={{
               display: "flex",
@@ -109,7 +108,7 @@ const Game = () => {
                   color: theme.black || "#333",
                 }}
               >
-                {amount.toLocaleString()}원
+                {amount.toLocaleString()}
               </span>
             </div>
           </div>
@@ -157,7 +156,7 @@ const Game = () => {
           flexDirection: "column",
           alignItems: "center",
           width: "100%",
-          paddingTop: "24px",
+          paddingTop: "10px",
         }}
       >
         <div style={{ width: "100%", maxWidth: "400px" }}>

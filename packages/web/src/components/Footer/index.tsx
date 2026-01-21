@@ -196,22 +196,6 @@ const Footer = ({ type = "full", children }: FooterProps) => {
       )}
       {type === "game" && (
         <>
-          <ModalPrivacyPolicy
-            isOpen={isOpenPrivacyPolicy}
-            onChangeIsOpen={setIsOpenPrivacyPolicy}
-          />
-          <ModalCredit isOpen={isOpenCredit} onChangeIsOpen={setIsOpenCredit} />
-          <a className="popup-channeltalk">
-            <ButtonAboveFooter text="채널톡 문의하기" />
-          </a>
-          <ButtonAboveFooter
-            text="개인정보 처리방침"
-            onClick={onClickPrivacyPolicy}
-          />
-          <Link to="/event/2023spring-guide" css={{ textDecoration: "none" }}>
-            <ButtonAboveFooter text="택시 살펴보기" />
-          </Link>
-          <ButtonAboveFooter text="만든 사람들" onClick={onClickCredit} />
           <ButtonAboveFooter text="이 페이지는 토스뱅크의 후원으로 제작되었습니다."></ButtonAboveFooter>
           {/* TODO: Toss logo */}
         </>

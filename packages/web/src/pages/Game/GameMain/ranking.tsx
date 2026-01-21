@@ -22,7 +22,7 @@ interface LeaderboardResponse {
   userIncludedInTop20: boolean;
 }
 
-const Ranking = () => {
+const Ranking = ({ refreshTrigger }: { refreshTrigger?: number }) => {
   const axios = useAxios();
   const loginInfo = useValueRecoilState("loginInfo"); // [추가] 로그인 정보 가져오기
   const [rankings, setRankings] = useState<Ranker[]>([]);
@@ -43,8 +43,7 @@ const Ranking = () => {
 
   useEffect(() => {
     fetchRankings();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [refreshTrigger]);
 
   const getRankBadge = (rank: number) => {
     if (rank === 1) return "🥇";
@@ -88,7 +87,6 @@ const Ranking = () => {
           flexDirection: "column",
           alignItems: "center",
           marginTop: "16px",
-          marginBottom: "50px",
           overflow: "hidden",
         }}
       >
@@ -159,8 +157,8 @@ const Ranking = () => {
                         backgroundColor: isMe
                           ? theme.purple
                           : rank <= 3
-                          ? "#F3E5F5"
-                          : "#fff",
+                            ? "#F3E5F5"
+                            : "#fff",
                         borderRadius: "8px",
                         border: isMe
                           ? "none"

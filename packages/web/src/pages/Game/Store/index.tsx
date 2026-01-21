@@ -6,9 +6,9 @@ import ItemListSection from "./ItemListSection";
 
 import theme from "@/tools/theme";
 
-import reinforce7 from "@/static/game/reinforce7.png";
-import reinforce10 from "@/static/game/reinforce10.png";
-import reinforce12 from "@/static/game/reinforce12.png";
+import reinforce7 from "@/static/assets/games/reinforce7.png";
+import reinforce10 from "@/static/assets/games/reinforce10.png";
+import reinforce12 from "@/static/assets/games/reinforce12.png";
 
 const Store = () => {
   const items: GameItem[] = [
@@ -61,7 +61,7 @@ const Store = () => {
           css={{
             position: "sticky",
             top: "75px",
-            marginTop: "-60px",
+            marginTop: "-40px",
             zIndex: theme.zIndex_nav - 1,
           }}
         ></div>
