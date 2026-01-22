@@ -5,6 +5,7 @@ import theme from "@/tools/theme";
 import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceWalletRounded";
 import ImageRoundedIcon from "@mui/icons-material/ImageRounded";
 import LocalAtmRoundedIcon from "@mui/icons-material/LocalAtmRounded";
+import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 
 type ToolButtonProps = {
   type: "image" | "settlement" | "payment" | "wordChain";
@@ -55,7 +56,7 @@ const ToolButton = ({ type, isVaild = true, onClick }: ToolButtonProps) => {
       text: "송금하기",
     },
     wordChain: {
-      icon: <LocalAtmRoundedIcon style={styleIcon} />,
+      icon: <QuestionAnswerIcon style={styleIcon} />,
       text: "끝말잇기",
     },
   }[type];

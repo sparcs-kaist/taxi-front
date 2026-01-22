@@ -154,17 +154,17 @@ const MessageSet = ({
             ? theme.purple_dark
             : theme.gray_background
           : type === "account" ||
-            type === "share" ||
-            type === "departure" ||
-            type === "arrival"
-          ? layoutType === "sidechat"
-            ? theme.purple_light
-            : theme.white
-          : userOid === authorId
-          ? theme.purple
-          : layoutType === "sidechat"
-          ? theme.purple_hover
-          : theme.white,
+              type === "share" ||
+              type === "departure" ||
+              type === "arrival"
+            ? layoutType === "sidechat"
+              ? theme.purple_light
+              : theme.white
+            : userOid === authorId
+              ? theme.purple
+              : layoutType === "sidechat"
+                ? theme.purple_hover
+                : theme.white,
     }),
     [userOid, authorId, layoutType]
   );

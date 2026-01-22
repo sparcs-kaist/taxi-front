@@ -209,8 +209,8 @@ const BodyText = ({ sendMessage }: BodyTextProps) => {
           isSendingMessage
             ? "pending"
             : isMessageValidState
-            ? "active"
-            : "inactive"
+              ? "active"
+              : "inactive"
         }
       />
     </div>

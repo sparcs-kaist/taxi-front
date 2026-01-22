@@ -12,8 +12,10 @@ import Title from "@/components/Title";
 
 // 라우팅될 컴포넌트들
 import GameMain from "./GameMain";
+import MoneyMenu from "./MoneyMenu";
+import RacingGame from "./RacingGame";
 import Store from "./Store";
-import Money from "./TaxiDodgeGame";
+import TaxiDodgeGame from "./TaxiDodgeGame";
 
 import theme from "@/tools/theme";
 
@@ -30,7 +32,15 @@ const Game = () => {
 
   // [디자인] 탭 버튼 스타일
   const getTabStyle = (path: string) => {
-    const isActive = currentPath === path;
+    // [수정] 하위 경로 포함하여 활성화 체크 (단, /game/money가 /game/main을 포함하진 않으므로 startsWith 사용 가능)
+    // 정확한 매칭을 위해 조건을 세분화
+    let isActive = false;
+    if (path === "/game/money") {
+      isActive = currentPath.startsWith("/game/money"); // /game/money, /game/money/dodge 등
+    } else {
+      isActive = currentPath === path;
+    }
+
     return {
       flex: 1,
       textAlign: "center" as const,
@@ -59,6 +69,11 @@ const Game = () => {
     }
   }, [minigameInfo]);
 
+  // [로직] 뒤로가기 경로 설정 (서브 게임에서는 메뉴로, 그 외에는 홈으로)
+  const backPath = currentPath.startsWith("/game/money/")
+    ? "/game/money"
+    : "/home";
+
   return (
     <>
       {/* [통합 헤더 영역]
@@ -75,7 +90,7 @@ const Game = () => {
         }}
       >
         {/* 1. 상단: 뒤로가기 + 타이틀 + 코인 */}
-        <HeaderWithBackButton backPath="/home">
+        <HeaderWithBackButton backPath={backPath}>
           <div
             style={{
               display: "flex",
@@ -163,7 +178,11 @@ const Game = () => {
           <Switch>
             <Route path="/game/main" component={GameMain} />
             <Route path="/game/store" component={Store} />
-            <Route path="/game/money" component={Money} />
+
+            {/* [수정] 돈 벌기 관련 라우팅 세분화 */}
+            <Route exact path="/game/money" component={MoneyMenu} />
+            <Route path="/game/money/dodge" component={TaxiDodgeGame} />
+            <Route path="/game/money/racing" component={RacingGame} />
 
             <Route exact path="/game">
               <Redirect to="/game/main" />
