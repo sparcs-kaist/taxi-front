@@ -4,7 +4,13 @@ import WhiteContainer from "@/components/WhiteContainer";
 
 import theme from "@/tools/theme";
 
-const RacingGame = () => {
+type RacingGameProps = {
+  roomId: string;
+  chats: any[];
+  sendMessage: (type: any, content: any) => Promise<boolean>;
+};
+
+const RacingGame = (_: RacingGameProps) => {
   return (
     <AdaptiveDiv type="center">
       <Title isHeader>경마 (준비 중)</Title>

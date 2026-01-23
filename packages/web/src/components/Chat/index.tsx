@@ -11,6 +11,7 @@ import useDateToken from "@/hooks/useDateToken";
 import useDisableScrollEffect from "@/hooks/useDisableScrollEffect";
 import useQuery from "@/hooks/useTaxiAPI";
 
+import ChatGameOverlay from "./ChatGameOverlay";
 import Container from "./Container";
 import Header from "./Header";
 import MessageForm from "./MessageForm";
@@ -96,6 +97,11 @@ const Chat = ({ roomId, layoutType }: ChatProps) => {
         isOpenToolSheet={isOpenToolSheet}
         onChangeIsOpenToolSheet={setIsOpenToolSheet}
         messageBodyRef={messageBodyRef}
+        sendMessage={sendMessage}
+      />
+      <ChatGameOverlay
+        roomId={roomId}
+        chats={chats}
         sendMessage={sendMessage}
       />
     </Container>

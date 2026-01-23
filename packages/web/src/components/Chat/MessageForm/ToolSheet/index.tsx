@@ -102,17 +102,6 @@ const ToolSheet = ({
     setIsOpenSaveAccount(true);
   }, []);
 
-  const onClickWordChain = useCallback(async () => {
-    const word = window.prompt("끝말잇기 단어를 입력해주세요"); // 임시 입력창
-    if (!word) return;
-
-    const ok = await sendMessage("wordChain", { text: word });
-    if (!ok) return;
-
-    // 성공했으면 툴시트 닫기
-    onChangeIsOpen?.(false);
-  }, [sendMessage, onChangeIsOpen]);
-
   const styleWrap = {
     position: "absolute" as any,
     width: "100%",
@@ -153,10 +142,6 @@ const ToolSheet = ({
               !!roomInfo?.settlementTotal &&
               settlementStatusForMe === "send-required"
             }
-          />
-          <ToolButton
-            type="wordChain" // 이 타입을 ToolButton 쪽에만 추가해주면 됨
-            onClick={onClickWordChain}
           />
         </div>
       </AdaptiveDiv>

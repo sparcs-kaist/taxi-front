@@ -12,10 +12,10 @@ import Title from "@/components/Title";
 
 // 라우팅될 컴포넌트들
 import GameMain from "./GameMain";
-import MoneyMenu from "./MoneyMenu";
 import RacingGame from "./RacingGame";
 import Store from "./Store";
 import TaxiDodgeGame from "./TaxiDodgeGame";
+import WordChainGame from "./WordChainGame";
 
 import theme from "@/tools/theme";
 
@@ -179,10 +179,9 @@ const Game = () => {
             <Route path="/game/main" component={GameMain} />
             <Route path="/game/store" component={Store} />
 
-            {/* [수정] 돈 벌기 관련 라우팅 세분화 */}
-            <Route exact path="/game/money" component={MoneyMenu} />
-            <Route path="/game/money/dodge" component={TaxiDodgeGame} />
-            <Route path="/game/money/racing" component={RacingGame} />
+            <Route path="/game/money" component={TaxiDodgeGame} />
+            <Route path="/game/racing" component={RacingGame} />
+            <Route path="/game/word-chain" component={WordChainGame} />
 
             <Route exact path="/game">
               <Redirect to="/game/main" />

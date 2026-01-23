@@ -27,21 +27,22 @@ export default (
 ) => {
   const axios = useAxios();
   const isCallingInfScroll = useRef<boolean>(false); // 무한 스크롤 메시지 요청 중인지 여부
+  const ignoreNextResizeScroll = useRef<boolean>(false);
+  const previousScrollHeightRef = useRef<number>(0);
 
   useLayoutEffect(() => {
     if (!isCallingInfScroll.current) return;
     isCallingInfScroll.current = false;
 
-    const children = chatBodyRef?.current?.children;
-    if (!children || children.length < 2) return;
-
-    let scrollTop = -(children[0].clientHeight + children[1].clientHeight);
-
-    for (const child of Array.from(children)) {
-      if (child.getAttribute("data-chat-type") === "joint-checkout") break;
-      scrollTop += child.clientHeight;
+    if (chatBodyRef.current) {
+      const currentScrollHeight = chatBodyRef.current.scrollHeight;
+      const heightDifference =
+        currentScrollHeight - previousScrollHeightRef.current;
+      chatBodyRef.current.scrollTop =
+        heightDifference + chatBodyRef.current.scrollTop;
     }
-    chatBodyRef.current.scrollTop = scrollTop;
+
+    ignoreNextResizeScroll.current = true;
   }, [chats]);
 
   useEffect(() => {
@@ -71,6 +72,10 @@ export default (
       });
     };
     const resizeEvent = () => {
+      if (ignoreNextResizeScroll.current) {
+        ignoreNextResizeScroll.current = false;
+        return;
+      }
       if (isBottomOnScrollCache) scrollToBottom(chatBody);
     };
     const scrollEvent = () => {
@@ -119,6 +124,8 @@ export default (
         isTopOnScroll(chatBody, chatBody.children[0].clientHeight)
       ) {
         isCallingInfScroll.current = true;
+        previousScrollHeightRef.current = chatBody.scrollHeight;
+
         socketReady(() => {
           const cleandChat = chats.filter(
             (chat) => !("isSpecialChat" in chat)
