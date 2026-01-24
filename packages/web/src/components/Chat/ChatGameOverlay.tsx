@@ -41,7 +41,7 @@ const ChatGameOverlay = ({
     setTimeout(() => {
       setOverlayGame(null);
       setIsClosing(false);
-    }, 300);
+    }, 800);
   };
 
   const gameProps = { roomId, chats, sendMessage };
@@ -59,7 +59,7 @@ const ChatGameOverlay = ({
         display: "flex",
         justifyContent: "center",
         alignItems: "flex-end",
-        transition: "opacity 0.3s ease-out",
+        transition: "opacity 0.4s cubic-bezier(0.33, 1, 0.68, 1)",
         opacity: isClosing ? 0 : 1,
         pointerEvents: isClosing ? "none" : "auto",
       }}
@@ -78,7 +78,7 @@ const ChatGameOverlay = ({
           display: "flex",
           flexDirection: "column",
           boxShadow: "0 -4px 16px rgba(0,0,0,0.2)",
-          animation: `${isClosing ? "slideDown" : "slideUp"} 0.3s ease-out forwards`,
+          animation: `${isClosing ? "slideDown" : "slideUp"} 0.4s cubic-bezier(0.33, 1, 0.68, 1) forwards`,
           "@keyframes slideUp": {
             from: { transform: "translateY(100%)" },
             to: { transform: "translateY(0)" },

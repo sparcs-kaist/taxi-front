@@ -11,6 +11,7 @@ import ProfileImage from "@/components/User/ProfileImage";
 import MessageAccount from "./MessageAccount";
 import MessageArrival from "./MessageArrival";
 import MessageDeparture from "./MessageDeparture";
+import MessageGameRecommendation from "./MessageGameRecommendation";
 import MessageImage from "./MessageImage";
 import MessagePaySettlement from "./MessagePaySettlement";
 import MessageShare from "./MessageShare";
@@ -50,6 +51,8 @@ const MessageBody = ({ type, content, roomInfo, color }: MessageBodyProps) => {
       return <MessageArrival color={color} />;
     case "wordChain":
       return <MessageText text={content} color={color} />;
+    case "gameRecommendation":
+      return <MessageGameRecommendation color={color} />;
     default:
       return null;
   }
@@ -156,7 +159,8 @@ const MessageSet = ({
           : type === "account" ||
               type === "share" ||
               type === "departure" ||
-              type === "arrival"
+              type === "arrival" ||
+              type === "gameRecommendation"
             ? layoutType === "sidechat"
               ? theme.purple_light
               : theme.white
