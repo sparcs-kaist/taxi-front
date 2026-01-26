@@ -4,31 +4,37 @@ import Modal from "@/components/Modal";
 import theme from "@/tools/theme";
 
 // [Import] 레벨별 택시 이미지
-import level0 from "@/static/assets/games/level0.png";
-import level1_2 from "@/static/assets/games/level1-2.png";
-import level3_4 from "@/static/assets/games/level3-4.png";
-import level5_6 from "@/static/assets/games/level5-6.png";
-import level7 from "@/static/assets/games/level7.png";
-import level8 from "@/static/assets/games/level8.png";
-import level9 from "@/static/assets/games/level9.png";
-import level10 from "@/static/assets/games/level10.png";
-import level11 from "@/static/assets/games/level11.png";
-import level12 from "@/static/assets/games/level12.png";
-import level13 from "@/static/assets/games/level13.png";
-import level14 from "@/static/assets/games/level14.png";
-import level15 from "@/static/assets/games/level15.png";
-import level16 from "@/static/assets/games/level16.png";
-import level17 from "@/static/assets/games/level17.png";
-import level18 from "@/static/assets/games/level18.png";
-import level19 from "@/static/assets/games/level19.png";
-import level20 from "@/static/assets/games/level20.png";
+import level0 from "@/static/assets/games/taxi_lv0.png";
+import level1 from "@/static/assets/games/taxi_lv1.png";
+import level2 from "@/static/assets/games/taxi_lv2.png";
+import level3 from "@/static/assets/games/taxi_lv3.png";
+import level4 from "@/static/assets/games/taxi_lv4.png";
+import level5 from "@/static/assets/games/taxi_lv5.png";
+import level6 from "@/static/assets/games/taxi_lv6.png";
+import level7 from "@/static/assets/games/taxi_lv7.png";
+import level8 from "@/static/assets/games/taxi_lv8.png";
+import level9 from "@/static/assets/games/taxi_lv9.png";
+import level10 from "@/static/assets/games/taxi_lv10.png";
+import level11 from "@/static/assets/games/taxi_lv11.png";
+import level12 from "@/static/assets/games/taxi_lv12.png";
+import level13 from "@/static/assets/games/taxi_lv13.png";
+import level14 from "@/static/assets/games/taxi_lv14.png";
+import level15 from "@/static/assets/games/taxi_lv15.png";
+import level16 from "@/static/assets/games/taxi_lv16.png";
+import level17 from "@/static/assets/games/taxi_lv17.png";
+import level18 from "@/static/assets/games/taxi_lv18.png";
+import level19 from "@/static/assets/games/taxi_lv19.png";
+import level20 from "@/static/assets/games/taxi_lv20.png";
 
 // [함수] 레벨에 맞는 이미지 객체 반환
 const getTaxiImage = (level: number) => {
   if (level === 0) return level0;
-  if (level === 1 || level === 2) return level1_2;
-  if (level === 3 || level === 4) return level3_4;
-  if (level === 5 || level === 6) return level5_6;
+  if (level === 1) return level1;
+  if (level === 2) return level2;
+  if (level === 3) return level3;
+  if (level === 4) return level4;
+  if (level === 5) return level5;
+  if (level === 6) return level6;
   if (level === 7) return level7;
   if (level === 8) return level8;
   if (level === 9) return level9;
