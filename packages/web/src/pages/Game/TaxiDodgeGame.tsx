@@ -182,9 +182,9 @@ const TaxiDodgeGame = () => {
   const gameOverRef = useRef(false);
   const taxiX = useRef(175);
   const obstacles = useRef<
-    { x: number; y: number; speed: number; type: ObstacleType }[]
+    { x: number; y: number; speedMultiplier: number; type: ObstacleType }[]
   >([]);
-  const coins = useRef<{ x: number; y: number; speed: number }[]>([]);
+  const coins = useRef<{ x: number; y: number }[]>([]);
   const floatingTexts = useRef<
     { x: number; y: number; text: string; opacity: number }[]
   >([]);
@@ -196,6 +196,10 @@ const TaxiDodgeGame = () => {
   const backgroundY = useRef(0);
   const reverseEndTimeRef = useRef<number | null>(null);
   const timeLeftRef = useRef<number | null>(null);
+
+  const [dailyEarnedCoins, setDailyEarnedCoins] = useState(0);
+  const [isDailyLimitReached, setIsDailyLimitReached] = useState(false);
+  const [earnedCoinsThisGame, setEarnedCoinsThisGame] = useState(0);
 
   const taxiImage = useRef<HTMLImageElement>(new Image());
   const roadImage = useRef<HTMLImageElement>(new Image());
@@ -228,11 +232,49 @@ const TaxiDodgeGame = () => {
       url: "/miniGame/miniGames/",
       method: "get",
     });
+
+    // 일일 획득 코인 로드
+    const loadDailyEarnings = () => {
+      const today = new Date().toISOString().split("T")[0];
+      const storageKey = `taxi_game_daily_earnings_${today}`;
+      const stored = localStorage.getItem(storageKey);
+      if (stored) {
+        setDailyEarnedCoins(parseInt(stored, 10));
+      } else {
+        // 날짜가 바뀌었으면 이전 데이터 정리
+        setDailyEarnedCoins(0);
+      }
+    };
+    loadDailyEarnings();
   }, [request]);
 
   // [수정] 게임 오버 시 점수 업데이트 및 게임 정보 새로고침
   useEffect(() => {
     if (gameOver) {
+      const potentialCoins = Math.floor(score / 10);
+      const DAILY_LIMIT = 5000;
+      let finalCoinsToAdd = potentialCoins;
+      const today = new Date().toISOString().split("T")[0];
+      const storageKey = `taxi_game_daily_earnings_${today}`;
+
+      // 일일 제한 체크
+      if (dailyEarnedCoins >= DAILY_LIMIT) {
+        finalCoinsToAdd = 0;
+        setIsDailyLimitReached(true);
+      } else if (dailyEarnedCoins + potentialCoins > DAILY_LIMIT) {
+        finalCoinsToAdd = DAILY_LIMIT - dailyEarnedCoins;
+        setIsDailyLimitReached(true);
+      } else {
+        setIsDailyLimitReached(false);
+      }
+
+      setEarnedCoinsThisGame(finalCoinsToAdd);
+
+      // 로컬 스토리지 업데이트
+      const newDailyTotal = dailyEarnedCoins + finalCoinsToAdd;
+      localStorage.setItem(storageKey, newDailyTotal.toString());
+      setDailyEarnedCoins(newDailyTotal);
+
       request({
         url: "/miniGame/miniGames/update",
         method: "post",
@@ -359,18 +401,45 @@ const TaxiDodgeGame = () => {
         speedMultiplier = 1.0;
       }
 
-      obstacles.current.push({
-        x: Math.random() * (CANVAS_WIDTH - OBSTACLE_SIZE),
-        y: -OBSTACLE_SIZE,
-        speed: obstacleSpeedBase * speedMultiplier,
-        type,
-      });
-      lastObstacleTime.current = timestamp;
+      // 겹침 방지 로직
+      let newX = Math.random() * (CANVAS_WIDTH - OBSTACLE_SIZE);
+      let isValidPosition = true;
+      const MIN_DISTANCE = OBSTACLE_SIZE * 1.5; // 최소 간격
+
+      // 마지막 장애물과의 거리 확인
+      if (obstacles.current.length > 0) {
+        const lastObstacle = obstacles.current[obstacles.current.length - 1];
+        // 마지막 장애물이 아직 화면 상단에 있다면 (생성 직후라면)
+        if (lastObstacle.y < OBSTACLE_SIZE * 3) {
+          // X축 거리가 너무 가까우면 다시 생성 시도
+          if (Math.abs(newX - lastObstacle.x) < MIN_DISTANCE) {
+            isValidPosition = false;
+            // 최대 5번까지 위치 재조정 시도
+            for (let k = 0; k < 5; k++) {
+              newX = Math.random() * (CANVAS_WIDTH - OBSTACLE_SIZE);
+              if (Math.abs(newX - lastObstacle.x) >= MIN_DISTANCE) {
+                isValidPosition = true;
+                break;
+              }
+            }
+          }
+        }
+      }
+
+      if (isValidPosition) {
+        obstacles.current.push({
+          x: newX,
+          y: -OBSTACLE_SIZE,
+          speedMultiplier: speedMultiplier,
+          type,
+        });
+        lastObstacleTime.current = timestamp;
+      }
     }
 
     for (let i = obstacles.current.length - 1; i >= 0; i--) {
       const obs = obstacles.current[i];
-      obs.y += obs.speed;
+      obs.y += obstacleSpeedBase * obs.speedMultiplier;
 
       let img = barigateImage.current;
       if (obs.type === "cone") img = coneImage.current;
@@ -428,7 +497,6 @@ const TaxiDodgeGame = () => {
         coins.current.push({
           x: Math.random() * (CANVAS_WIDTH - COIN_SIZE),
           y: -COIN_SIZE,
-          speed: obstacleSpeedBase,
         });
       }
       lastCoinTime.current = timestamp;
@@ -439,7 +507,7 @@ const TaxiDodgeGame = () => {
     ctx.lineWidth = 2;
     for (let i = coins.current.length - 1; i >= 0; i--) {
       const coin = coins.current[i];
-      coin.y += coin.speed;
+      coin.y += obstacleSpeedBase;
 
       ctx.beginPath();
       ctx.arc(
@@ -577,7 +645,18 @@ const TaxiDodgeGame = () => {
                       게임 종료
                     </ScoreBoard>
                     <p css={{ marginBottom: "5px" }}>최종 점수: {score}</p>
-                    <p>획득한 넙죽코인: {Math.floor(score / 10)}</p>
+                    <p>획득한 넙죽코인: {earnedCoinsThisGame}</p>
+                    {isDailyLimitReached && (
+                      <p
+                        css={{
+                          color: theme.red_text,
+                          fontSize: "12px",
+                          marginTop: "4px",
+                        }}
+                      >
+                        (하루 최대 획득량 5000코인 초과)
+                      </p>
+                    )}
                     <RestartButton onClick={startGame}>다시하기</RestartButton>
                   </GameOverModal>
                 )}
