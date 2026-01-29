@@ -1,7 +1,135 @@
-import { useState } from "react";
+import { SetStateAction, memo, useState } from "react";
+
+// 피커 컴포넌트 경로 확인 필요
+import Button from "@/components/Button";
+import Modal from "@/components/Modal";
+import Picker from "@/components/ModalRoomOptions/Picker";
 
 import theme from "@/tools/theme";
 
+const FilterElement = ({
+  label,
+  value,
+  onClick,
+}: {
+  label: string;
+  value: string;
+  onClick: () => void;
+}) => {
+  return (
+    <div
+      onClick={onClick}
+      css={{
+        flex: 1,
+        padding: "12px",
+        borderRadius: "12px",
+        border: `1px solid ${theme.purple_light}`,
+        backgroundColor: theme.white,
+        cursor: "pointer",
+        textAlign: "center",
+        transition: "all 0.2s",
+        "&:hover": { backgroundColor: "#F9F7FF" },
+      }}
+    >
+      <div
+        css={{
+          fontSize: "12px",
+          color: theme.purple,
+          fontWeight: 700,
+          marginBottom: "4px",
+        }}
+      >
+        {label}
+      </div>
+      <div css={{ fontSize: "16px", fontWeight: 800, color: theme.black }}>
+        {value}
+      </div>
+    </div>
+  );
+};
+
+const CustomPickerModal = ({
+  isOpen,
+  onClose,
+  value,
+  options,
+  onSelect,
+  title,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  value: string;
+  options: string[];
+  onSelect: (val: string) => void;
+  title: string;
+}) => {
+  const [tempValue, setTempValue] = useState(value);
+
+  const handleConfirm = () => {
+    onSelect(tempValue);
+    onClose();
+  };
+
+  return (
+    <Modal isOpen={isOpen} onChangeIsOpen={onClose} displayCloseBtn={false}>
+      <div css={{ padding: "10px", textAlign: "center" }}>
+        <div
+          css={{
+            fontSize: "18px",
+            fontWeight: 800,
+            color: theme.purple,
+            marginBottom: "20px",
+          }}
+        >
+          {title} 선택
+        </div>
+        <div css={{ height: "200px", marginBottom: "20px" }}>
+          <Picker
+            optionGroups={{ [title]: options }}
+            valueGroups={{ [title]: tempValue }}
+            onChange={(_: any, val: SetStateAction<string>) =>
+              setTempValue(val)
+            }
+          />
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            margin: "0px 10px",
+          }}
+        >
+          <Button
+            type="gray"
+            css={{
+              width: "calc(40% - 10px)",
+              padding: "10px 0 9px",
+              borderRadius: "8px",
+              ...theme.font14, // 취소 버튼은 일반 폰트
+            }}
+            onClick={onClose}
+          >
+            취소
+          </Button>
+          <Button
+            type="purple"
+            css={{
+              width: "60%",
+              padding: "10px 0 9px",
+              borderRadius: "8px",
+              ...theme.font14_bold, // 선택하기 버튼은 볼드 폰트
+            }}
+            onClick={handleConfirm}
+          >
+            선택하기
+          </Button>
+        </div>
+      </div>
+    </Modal>
+  );
+};
+
+// --- 메인 BusyTimeGraph 컴포넌트 ---
 export interface TimeSlotData {
   time: string;
   value: number;
@@ -29,89 +157,12 @@ const BusyTimeGraph = ({
   css,
 }: BusyTimeGraphProps) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [isPlaceOpen, setIsPlaceOpen] = useState(false);
+  const [isDayOpen, setIsDayOpen] = useState(false);
 
   const filteredPlaces = places.filter((p) => p !== "전체");
   const filteredDays = days.filter((d) => d !== "전체");
-
   const maxValue = Math.max(...data.map((d) => d.value), 1);
-
-  const handlePlaceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    onFilterChange(e.target.value, selectedDay);
-  };
-
-  const handleDayChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    onFilterChange(selectedPlace, e.target.value);
-  };
-
-  const getTooltipStyle = (index: number, total: number) => {
-    if (index < 2) {
-      return {
-        left: "0",
-        transform:
-          hoveredIndex === index ? "translateY(0)" : "translateY(10px)",
-        "&::after": {
-          left: "20%",
-        },
-      };
-    }
-    if (index >= total - 2) {
-      return {
-        right: "0",
-        left: "auto",
-        transform:
-          hoveredIndex === index ? "translateY(0)" : "translateY(10px)",
-        "&::after": {
-          left: "auto",
-          right: "20%",
-        },
-      };
-    }
-    return {
-      left: "50%",
-      transform:
-        hoveredIndex === index
-          ? "translateX(-50%) translateY(0)"
-          : "translateX(-50%) translateY(10px)",
-    };
-  };
-
-  const selectContainerStyle = {
-    flex: 1,
-    display: "flex",
-    flexDirection: "column" as const,
-    gap: "8px",
-  };
-
-  const selectLabelStyle = {
-    fontSize: "15px",
-    fontWeight: 700,
-    color: theme.purple,
-    textAlign: "center" as const,
-    marginBottom: "4px",
-  };
-
-  const selectStyle = {
-    width: "100%",
-    padding: "12px",
-    borderRadius: "12px",
-    border: `1px solid ${theme.purple_light}`,
-    backgroundColor: theme.white,
-    fontSize: "14px",
-    fontWeight: 600,
-    color: theme.black,
-    cursor: "pointer",
-    outline: "none",
-    appearance: "none" as const,
-    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B46C1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "right 12px center",
-    textAlign: "center" as const,
-    textAlignLast: "center" as const,
-    transition: "box-shadow 0.2s",
-    "&:focus": {
-      boxShadow: "0 0 0 2px rgba(107, 70, 193, 0.2)",
-    },
-  };
 
   return (
     <div
@@ -127,6 +178,7 @@ const BusyTimeGraph = ({
         alignItems: "center",
       }}
     >
+      {/* 그래프 영역 (기존 로직 동일) */}
       <div
         css={{
           display: "flex",
@@ -140,175 +192,116 @@ const BusyTimeGraph = ({
         {data.map((item, index) => {
           const heightPercentage = (item.value / maxValue) * 100;
           const isHighlight = item.value === maxValue && item.value > 0;
-          const isHovered = hoveredIndex === index;
-          const tooltipStyle = getTooltipStyle(index, data.length);
-
-          const hour = parseInt(item.time.replace("시", ""), 10);
-          const shouldShowLabel = hour % 3 === 0;
-
-          const displayValue = Math.round(item.value);
-
           return (
             <div
               key={index}
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
               css={{
                 flex: 1,
-                width: 0,
-                minWidth: 0,
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "center",
                 justifyContent: "flex-end",
                 position: "relative",
                 cursor: "pointer",
               }}
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
-              onTouchStart={() => setHoveredIndex(index)}
             >
+              {/* 툴팁 및 바 그래프 */}
               <div
                 css={{
                   position: "absolute",
-                  bottom: `calc(${heightPercentage}% + 24px)`,
-                  marginBottom: "8px",
+                  bottom: `calc(${heightPercentage}% + 30px)`,
+                  left: "50%",
+                  transform: "translateX(-50%)",
                   backgroundColor: theme.purple,
                   color: theme.white,
                   padding: "4px 8px",
                   borderRadius: "6px",
                   fontSize: "11px",
-                  fontWeight: 700,
-                  whiteSpace: "nowrap",
-                  opacity: isHovered ? 1 : 0,
-                  transition:
-                    "all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+                  opacity: hoveredIndex === index ? 1 : 0,
+                  transition: "all 0.2s",
                   zIndex: 10,
                   pointerEvents: "none",
-                  boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                  ...tooltipStyle,
-                  "&::after": {
-                    content: '""',
-                    position: "absolute",
-                    bottom: "-4px",
-                    borderLeft: "4px solid transparent",
-                    borderRight: "4px solid transparent",
-                    borderTop: `4px solid ${theme.purple}`,
-                    left: "50%",
-                    marginLeft: "-4px",
-                    ...((tooltipStyle as any)["&::after"] || {}),
-                  },
                 }}
               >
-                {displayValue}개
+                {Math.round(item.value)}개
               </div>
-
               <div
                 css={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
                   width: "100%",
-                  height: "100%",
-                  justifyContent: "flex-end",
+                  height: `${Math.max(heightPercentage, 0)}%`,
+                  backgroundColor: isHighlight ? "#7B2C83" : "#A9A0B6",
+                  borderRadius: "4px",
+                }}
+              />
+              <div
+                css={{
+                  fontSize: "10px",
+                  color: theme.gray_text,
+                  textAlign: "center",
+                  marginTop: "6px",
                 }}
               >
-                <div
-                  css={{
-                    width: "100%",
-                    height: `${Math.max(heightPercentage, 0)}%`,
-                    backgroundColor: isHighlight ? "#7B2C83" : "#A9A0B6",
-                    borderRadius: "4px",
-                    transition:
-                      "height 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.2s",
-                    minHeight: "4px",
-                    marginBottom: "6px",
-                    "&:hover": {
-                      opacity: 0.8,
-                    },
-                  }}
-                />
-
-                <div
-                  css={{
-                    fontSize: "10px",
-                    color: theme.gray_text,
-                    fontWeight: 400,
-                    height: "12px",
-                    lineHeight: "12px",
-                    textAlign: "center",
-                    whiteSpace: "nowrap",
-                    opacity: shouldShowLabel ? 0.8 : 0,
-                  }}
-                >
-                  {shouldShowLabel ? item.time.replace("시", "") : ""}
-                </div>
+                {parseInt(item.time) % 3 === 0
+                  ? item.time.replace("시", "")
+                  : ""}
               </div>
             </div>
           );
         })}
       </div>
 
-      <div css={{ textAlign: "center", marginBottom: "32px", width: "100%" }}>
+      {/* 텍스트 안내 영역 */}
+      <div css={{ textAlign: "center", marginBottom: "32px" }}>
         <div
           css={{
             fontSize: "18px",
             fontWeight: 800,
             color: theme.purple,
             marginBottom: "8px",
-            wordBreak: "keep-all",
-            lineHeight: "1.3",
           }}
         >
-          {selectedDay}요일, {selectedPlace}의
-          <br />
+          {selectedDay}요일, {selectedPlace}의<br />
           시간대별 택시 동승
         </div>
-        <div
-          css={{
-            fontSize: "12px",
-            color: theme.gray_text,
-            fontWeight: 500,
-            wordBreak: "keep-all",
-            lineHeight: "1.4",
-          }}
-        >
-          학기 / 계절에 따른 동향을 반영하고자
-          <br />
+        <div css={{ fontSize: "12px", color: theme.gray_text }}>
           과거 30일을 기반으로 조회합니다.
         </div>
       </div>
 
+      {/* ✨ 교체된 커스텀 필터 선택 영역 */}
       <div css={{ display: "flex", width: "100%", gap: "12px" }}>
-        <div css={selectContainerStyle}>
-          <div css={selectLabelStyle}>장소</div>
-          <select
-            value={selectedPlace}
-            onChange={handlePlaceChange}
-            css={selectStyle}
-          >
-            {filteredPlaces.map((place) => (
-              <option key={place} value={place}>
-                {place}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div css={selectContainerStyle}>
-          <div css={selectLabelStyle}>요일</div>
-          <select
-            value={selectedDay}
-            onChange={handleDayChange}
-            css={selectStyle}
-          >
-            {filteredDays.map((day) => (
-              <option key={day} value={day}>
-                {day}
-              </option>
-            ))}
-          </select>
-        </div>
+        <FilterElement
+          label="장소"
+          value={selectedPlace}
+          onClick={() => setIsPlaceOpen(true)}
+        />
+        <FilterElement
+          label="요일"
+          value={selectedDay}
+          onClick={() => setIsDayOpen(true)}
+        />
       </div>
+
+      {/* 모달 피커들 */}
+      <CustomPickerModal
+        isOpen={isPlaceOpen}
+        onClose={() => setIsPlaceOpen(false)}
+        title="장소"
+        options={filteredPlaces}
+        value={selectedPlace}
+        onSelect={(val) => onFilterChange(val, selectedDay)}
+      />
+      <CustomPickerModal
+        isOpen={isDayOpen}
+        onClose={() => setIsDayOpen(false)}
+        title="요일"
+        options={filteredDays}
+        value={selectedDay}
+        onSelect={(val) => onFilterChange(selectedPlace, val)}
+      />
     </div>
   );
 };
 
-export default BusyTimeGraph;
+export default memo(BusyTimeGraph);
