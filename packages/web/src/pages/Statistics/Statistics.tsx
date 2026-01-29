@@ -20,6 +20,7 @@ import Title from "@/components/Title";
 
 import theme from "@/tools/theme";
 
+import TossBankLogo from "@/static/assets/serviceLogos/TossBankLogo.png";
 import HelpOutlineRoundedIcon from "@mui/icons-material/HelpOutlineRounded";
 
 const fadeInUpKeyframes = `
@@ -651,7 +652,31 @@ const Statistics = () => {
           )}
         </div>
       </div>
-
+      <div>
+        <div
+          css={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: "30px",
+            marginBottom: "-15px",
+            opacity: 0.6,
+            filter: "grayscale(1)",
+            pointerEvents: "none",
+            userSelect: "none",
+          }}
+        >
+          <img
+            src={TossBankLogo}
+            alt="Toss Bank Logo"
+            css={{
+              height: "20px",
+              width: "auto",
+              objectFit: "contain",
+            }}
+          />
+        </div>
+      </div>
       <Footer type="only-logo" />
 
       <ModalStatInfo
