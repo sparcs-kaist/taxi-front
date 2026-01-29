@@ -150,13 +150,13 @@ const Game = () => {
               marginTop: "8px",
             }}
           >
-            <Link to="/game/main" style={getTabStyle("/game/main")}>
+            <Link to="/game/main" style={getTabStyle("/game/main")} replace>
               메인
             </Link>
-            <Link to="/game/store" style={getTabStyle("/game/store")}>
+            <Link to="/game/store" style={getTabStyle("/game/store")} replace>
               상점
             </Link>
-            <Link to="/game/money" style={getTabStyle("/game/money")}>
+            <Link to="/game/money" style={getTabStyle("/game/money")} replace>
               돈 벌기
             </Link>
           </div>

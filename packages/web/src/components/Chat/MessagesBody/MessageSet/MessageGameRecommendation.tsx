@@ -47,7 +47,7 @@ const MessageGameRecommendation = ({
         <Button onClick={() => setChatGameOverlay("wordChain")}>
           끝말잇기
         </Button>
-        <Button onClick={() => setChatGameOverlay("racing")}>경마</Button>
+        <Button onClick={() => setChatGameOverlay("racing")}>택시 경마</Button>
       </div>
     </div>
   );

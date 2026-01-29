@@ -54,6 +54,8 @@ export default (
     const mutationCallback = (mutations: Array<MutationRecord>) => {
       mutations.forEach(({ type, addedNodes }: MutationRecord) => {
         if (type === "childList") {
+          if (isBottomOnScrollCache) scrollToBottom(chatBody);
+
           const nodes = Array.from(addedNodes).filter(
             (node) => node.nodeName === "IMG"
           );

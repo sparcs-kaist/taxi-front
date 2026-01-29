@@ -59,7 +59,7 @@ const WordChainGame = ({ chats, sendMessage }: WordChainGameProps) => {
         css={{
           flex: 1,
           minHeight: 0,
-          backgroundColor: theme.gray_background,
+          backgroundColor: theme.purple_background,
           borderRadius: "12px",
           padding: "16px",
           overflowY: "auto",
