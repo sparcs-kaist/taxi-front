@@ -11,7 +11,7 @@ import {
   ModalChatReport,
   ModalRoomShare,
 } from "@/components/ModalPopup";
-import CarrierToggle from "@/components/ModalRoomOptions/Carrier";
+import CarrierOptionRow from "@/components/ModalRoomOptions/CarrierOptionRow";
 import User from "@/components/User";
 
 import alertAtom from "@/atoms/alert";
@@ -246,7 +246,7 @@ const SideMenu = ({ roomInfo, isOpen, setIsOpen }: SideMenuProps) => {
 
             {!isDeparted && (
               <div css={{ marginTop: "12px" }}>
-                <CarrierToggle
+                <CarrierOptionRow
                   value={myCarrierStatus}
                   handler={handleToggleCarrier}
                 />

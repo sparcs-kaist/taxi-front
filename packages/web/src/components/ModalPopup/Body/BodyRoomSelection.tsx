@@ -14,7 +14,7 @@ import Button from "@/components/Button";
 import DottedLine from "@/components/DottedLine";
 import LinkLogin from "@/components/Link/LinkLogin";
 import MiniCircle from "@/components/MiniCircle";
-import CarrierToggle from "@/components/ModalRoomOptions/Carrier";
+import CarrierOptionRow from "@/components/ModalRoomOptions/CarrierOptionRow";
 import Users from "@/components/User/Users";
 import { MAX_PARTICIPATION } from "@/pages/Myroom";
 
@@ -292,8 +292,13 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
       </div>
 
       {!isAlreadyPart && !isRoomFull && !isDepart && isLogin && (
-        <div css={{ marginBottom: "12px", padding: "0 10px" }}>
-          <CarrierToggle value={joinWithCarrier} handler={setJoinWithCarrier} />
+        <div
+          css={{ marginTop: "-5px", marginBottom: "12px", padding: "0 10px" }}
+        >
+          <CarrierOptionRow
+            value={joinWithCarrier}
+            handler={setJoinWithCarrier}
+          />{" "}
         </div>
       )}
 
@@ -313,14 +318,14 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
           {isAlreadyPart
             ? "이미 참여 중입니다 : 바로가기"
             : notPaid
-            ? "결제자에게 송금이 완료되지 않은 방이 있습니다"
-            : isDepart
-            ? "출발 시각이 현재 이전인 방은 참여할 수 없습니다"
-            : isRoomFull
-            ? "남은 인원이 0명인 방은 참여할 수 없습니다"
-            : isMaxPart
-            ? "현재 5개의 방에 참여 중입니다"
-            : "참여 신청"}
+              ? "결제자에게 송금이 완료되지 않은 방이 있습니다"
+              : isDepart
+                ? "출발 시각이 현재 이전인 방은 참여할 수 없습니다"
+                : isRoomFull
+                  ? "남은 인원이 0명인 방은 참여할 수 없습니다"
+                  : isMaxPart
+                    ? "현재 5개의 방에 참여 중입니다"
+                    : "참여 신청"}
         </Button>
       ) : (
         <LinkLogin redirect={`/home/${roomInfo?._id}`}>
