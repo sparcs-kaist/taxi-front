@@ -249,12 +249,13 @@ const InfoSection = () => {
                         sx: {
                           ...theme.font12,
                           color: theme.black,
-                          padding: "6px 10px", // 패딩을 조금 더 주어 가독성 향상
+                          padding: "6px 10px",
                           marginTop: "8px !important",
-                          boxShadow: theme.shadow,
-                          backgroundColor: "white",
-                          borderRadius: "12px",
+                          // backgroundColor: "white" 대신 rgba 사용 (0.5가 투명도)
+                          backgroundColor: "rgba(255, 255, 255, 0.9)",
+                          borderRadius: "8px",
                           textAlign: "center",
+                          boxShadow: theme.shadow, // 투명할 때 그림자가 있어야 잘 보입니다
                         },
                       },
                     }}
