@@ -14,22 +14,7 @@ type BadgeImageProps = {
 
 const BadgeImage = ({ badge_live, badge_size = "1em" }: BadgeImageProps) => {
   const loginInfo = useValueRecoilState("loginInfo");
-  // 마일리지 데이터를 가져와 실제 티어를 확인합니다.
-  const mileageData = useValueRecoilState("mileage");
-  const earnedTier = mileageData?.tier || "none";
-
-  // 배지 표시 여부 결정 로직
-  // 1. badge_live 프롭이 있으면 그 값을 따름 (주로 모달 내 프리뷰용)
-  // 2. badge_live가 없으면 loginInfo에 저장된 유저의 배지 설정 설정을 따름
-  const isEnabled =
-    badge_live ??
-    (loginInfo?.badge !== false && loginInfo?.badge !== undefined);
-
-  if (!isEnabled) return null;
-
-  // 표시할 배지 등급 결정
-  // 유저가 배지를 켰는데 티어가 "none"이라면 기본 배지인 "normal"을 보여줍니다.
-  const displayTier = earnedTier === "none" ? "normal" : earnedTier;
+  const displayTier = loginInfo?.badge === "none" ? "normal" : loginInfo?.badge;
 
   // 티어에 따라 아이콘 및 스케일 선택
   let BadgeIcon;

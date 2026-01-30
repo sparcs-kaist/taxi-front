@@ -1,5 +1,5 @@
 import axiosOri from "axios";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useEvent2025SpringQuestComplete } from "@/hooks/event/useEvent2025SpringQuestComplete";
@@ -27,7 +27,9 @@ import { convertImage } from "@/tools/image";
 import regExpTest from "@/tools/regExpTest";
 import theme from "@/tools/theme";
 
-import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
+import { ReactComponent as GoldBadgeIcon } from "@/static/assets/phone_badge_gold.svg";
+import { ReactComponent as NormalBadgeIcon } from "@/static/assets/phone_badge_normal.svg";
+import { ReactComponent as SilverBadgeIcon } from "@/static/assets/phone_badge_silver.svg";
 
 type ModalMypageModifyProps = Omit<
   Parameters<typeof Modal>[0],
@@ -141,6 +143,16 @@ const ButtonProfileImage = () => {
   );
 };
 
+// ---------- 배지 타입 및 유틸 ----------
+type BadgeSetting = "none" | "normal" | "silver" | "gold";
+
+function mapLoginInfoBadgeToState(raw: any): BadgeSetting {
+  if (raw === true) return "normal";
+  if (raw === false || raw === undefined || raw === null) return "none";
+  if (raw === "normal" || raw === "silver" || raw === "gold") return raw;
+  return "none";
+}
+
 const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
   const { t } = useTranslation("mypage");
   const axios = useAxios();
@@ -148,27 +160,55 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
   const [nickname, setNickname] = useState("");
   const [account, setAccount] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [badge, setBadge] = useState<boolean>(false);
+  const [badgeState, setBadgeState] = useState<BadgeSetting>("none");
   const [PhoneAgreeModalOpen, setPhoneAgreeModalOpen] = useState(false);
 
   const loginInfo = useValueRecoilState("loginInfo");
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
-  //#region event2025Spring
+  // 마일리지 티어 정보를 가져옵니다.
+  const mileageData = useValueRecoilState("mileage");
+  const earnedTier = mileageData?.tier || "none";
+
   const event2025SpringQuestComplete = useEvent2025SpringQuestComplete();
-  //#endregion
   const setAlert = useSetRecoilState(alertAtom);
+
+  // ---------- 배지 선택 권한 로직 ----------
+  const availableBadges = useMemo(() => {
+    const order: BadgeSetting[] = ["none", "normal", "silver", "gold"];
+    return order.filter((b) => {
+      if (b === "none" || b === "normal") return true; // 기본 오픈
+      if (b === "silver")
+        return earnedTier === "silver" || earnedTier === "gold";
+      if (b === "gold") return earnedTier === "gold";
+      return false;
+    });
+  }, [earnedTier]);
+
+  const handleNextBadge = () => {
+    const currentIndex = availableBadges.indexOf(badgeState);
+    // 만약 현재 설정된 배지가 권한 밖이라면(티어 하락 등) 첫 번째 요소로 초기화
+    if (currentIndex === -1) {
+      setBadgeState(availableBadges[0]);
+    } else {
+      const nextIndex = (currentIndex + 1) % availableBadges.length;
+      setBadgeState(availableBadges[nextIndex]);
+    }
+  };
+  // --------------------------------------
 
   useEffect(() => {
     if (modalProps.isOpen) {
       setNickname(loginInfo?.nickname || "");
       setAccount(loginInfo?.account || "");
       setPhoneNumber(loginInfo?.phoneNumber || "");
-      setBadge(loginInfo?.badge || false);
+      setBadgeState(mapLoginInfoBadgeToState(loginInfo?.badge));
     }
   }, [loginInfo, modalProps.isOpen]);
 
+  const prevBadgeState = mapLoginInfoBadgeToState(loginInfo?.badge);
   const isEditable =
     regExpTest.account(account) && regExpTest.nickname(nickname);
+
   const handleEditProfile = async () => {
     let isNeedToUpdateLoginInfo = false;
     if (!isEditable) return;
@@ -180,9 +220,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         method: "post",
         data: { nickname },
         onError: () => setAlert(t("page_modify.nickname_failed")),
-        //#region event2025Spring
         onSuccess: () => event2025SpringQuestComplete("nicknameChanging"),
-        //#endregion
       });
     }
     if (account !== loginInfo?.account) {
@@ -192,9 +230,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         method: "post",
         data: { account },
         onError: () => setAlert(t("page_modify.account_failed")),
-        //#region event2025Spring
         onSuccess: () => event2025SpringQuestComplete("accountChanging"),
-        //#endregion
       });
     }
 
@@ -204,24 +240,16 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
       return;
     }
 
-    if (badge == true) {
+    if (badgeState !== prevBadgeState) {
       isNeedToUpdateLoginInfo = true;
       await axios({
         url: "/users/editbadge",
         method: "post",
-        data: { badge: "true" },
+        data: { badge: badgeState },
         onError: () => setAlert(t("page_modify.badge_display_failed")),
       });
     }
-    if (badge == false) {
-      isNeedToUpdateLoginInfo = true;
-      await axios({
-        url: "/users/editbadge",
-        method: "post",
-        data: { badge: "false" },
-        onError: () => setAlert(t("page_modify.badge_display_failed")),
-      });
-    }
+
     if (isNeedToUpdateLoginInfo) {
       fetchLoginInfo();
     }
@@ -239,12 +267,14 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
     setPhoneAgreeModalOpen(false);
     modalProps.onChangeIsOpen?.(false);
   };
+
   const handlePhoneNumberNo = () => {
     setPhoneAgreeModalOpen(false);
     modalProps.onChangeIsOpen?.(true);
     setPhoneNumber(loginInfo?.phoneNumber || "");
   };
 
+  // 스타일 및 아이콘 설정
   const styleName = {
     ...theme.font20,
     textAlign: "center",
@@ -257,32 +287,38 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
     whiteSpace: "nowrap",
     ...theme.font14,
   } as const;
-  const styleContent = {
-    ...theme.font14,
-    marginLeft: "12px",
-  };
+  const styleContent = { ...theme.font14, marginLeft: "12px" };
   const styleButton = {
     display: "flex",
     justifyContent: "space-between",
     marginTop: "24px",
   };
-  const styleCheckBox = {
-    width: "16px",
-    height: "16px",
-    overflow: "hidden",
-    borderRadius: "50%",
-    background: theme.purple_light,
-    boxShadow: theme.shadow_purple_input_inset,
-    transitionDuration: theme.duration,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  };
-  const styleCheckBoxIcon = {
-    width: "14px",
-    height: "14px",
-    fill: theme.white,
-  };
+
+  const CurrentBadgeIcon =
+    badgeState === "gold"
+      ? GoldBadgeIcon
+      : badgeState === "silver"
+      ? SilverBadgeIcon
+      : badgeState === "normal"
+      ? NormalBadgeIcon
+      : null;
+
+  const badgeLabel =
+    badgeState === "none"
+      ? "없음"
+      : badgeState === "normal"
+      ? "Normal"
+      : badgeState === "silver"
+      ? "Silver"
+      : "Gold";
+
+  const ICON_BOX = 18;
+  const BUTTON_FIXED_W = 90;
+  const SCALE = { normal: 1.0, silver: 1.23, gold: 1.15 };
+  const scale =
+    badgeState === "none"
+      ? 1
+      : SCALE[badgeState as "normal" | "silver" | "gold"];
 
   return (
     <>
@@ -295,7 +331,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
           <div css={styleName} className="selectable">
             {loginInfo?.name}
             {loginInfo?.phoneNumber !== undefined && (
-              <BadgeImage badge_live={badge} />
+              <BadgeImage badge_live={badgeState !== "none"} />
             )}
           </div>
           {loginInfo?.profileImgUrl && (
@@ -307,7 +343,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
               <div
                 css={{
                   justifyContent: "flex-end",
-                  gap: "6px",
+                  gap: "8px",
                   padding: "0px 20px",
                   marginBottom: "8px",
                   rowGap: "10px",
@@ -316,22 +352,70 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
               >
                 {t("Badge Display")}
                 <div
-                  css={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "4px",
-                  }}
+                  css={{ display: "flex", alignItems: "center", gap: "8px" }}
                 >
-                  <div
-                    onClick={() => {
-                      setBadge(!badge);
-                    }}
-                    css={{
-                      ...styleCheckBox,
-                      background: badge ? theme.purple : theme.purple_light,
-                    }}
-                  >
-                    <CheckRoundedIcon style={styleCheckBoxIcon} />
+                  <div css={{ width: BUTTON_FIXED_W }}>
+                    <button
+                      type="button"
+                      onClick={handleNextBadge}
+                      css={{
+                        display: "grid",
+                        gridTemplateColumns: `${ICON_BOX}px 1fr`,
+                        alignItems: "center",
+                        padding: "6px 10px",
+                        borderRadius: "8px",
+                        background: theme.purple_light,
+                        boxShadow: theme.shadow_purple_input_inset,
+                        border: "none",
+                        cursor: "pointer",
+                        width: "100%",
+                        whiteSpace: "nowrap",
+                        columnGap: "8px",
+                      }}
+                      aria-label={`배지 설정: ${badgeLabel}`}
+                    >
+                      <div
+                        css={{
+                          width: ICON_BOX,
+                          height: ICON_BOX,
+                          display: "grid",
+                          placeItems: "center",
+                          overflow: "visible",
+                        }}
+                      >
+                        {CurrentBadgeIcon ? (
+                          <CurrentBadgeIcon
+                            css={{
+                              width: "100%",
+                              height: "100%",
+                              transform: `scale(${scale})`,
+                              transformOrigin: "center",
+                              display: "block",
+                            }}
+                          />
+                        ) : (
+                          <div
+                            css={{
+                              width: ICON_BOX - 4,
+                              height: ICON_BOX - 4,
+                              background: theme.gray_background,
+                            }}
+                          />
+                        )}
+                      </div>
+                      <span
+                        css={{
+                          ...theme.font12,
+                          color: theme.black,
+                          lineHeight: 1,
+                          textAlign: "right",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {badgeLabel}
+                      </span>
+                    </button>
                   </div>
                   <BadgeTooltip text="이 배지가 있는 회원분들은 문제가 생길 시 스팍스의 중계를 통해 문제를 해결할 수 있습니다." />
                 </div>
@@ -367,7 +451,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
             <div css={{ ...styleTitle, marginTop: "10px" }}>
               {t("phone_number")}
               {loginInfo?.phoneNumber !== undefined ? (
-                <div css={{ styleContent, marginLeft: "10px" }}>
+                <div css={{ ...styleContent, marginLeft: "10px" }}>
                   {loginInfo.phoneNumber}
                 </div>
               ) : (
@@ -398,11 +482,9 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
                 !isEditable ||
                 (nickname === loginInfo?.nickname &&
                   account === loginInfo?.account &&
-                  badge === loginInfo?.badge &&
-                  // 기존에 전화번호가 있거나, 없었고 입력란도 빈 상태면 변경 없음
+                  badgeState === prevBadgeState &&
                   (loginInfo?.phoneNumber !== undefined ||
                     phoneNumber === "")) ||
-                // 신규 전화번호 입력 중이고, 길이가 13자 미만이면 비활성화
                 (loginInfo?.phoneNumber === undefined &&
                   phoneNumber !== "" &&
                   phoneNumber.length < 13)
