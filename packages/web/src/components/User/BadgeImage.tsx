@@ -26,9 +26,11 @@ const BadgeImage = ({ badge_live, badge_size = "1em" }: BadgeImageProps) => {
   } else if (displayTier === "silver") {
     BadgeIcon = SilverBadgeIcon;
     scale = 1.23;
-  } else {
+  } else if (displayTier === "normal") {
     BadgeIcon = NormalBadgeIcon;
     scale = 1;
+  } else {
+    return null; // 배지가 없으면 아무것도 렌더링하지 않음
   }
 
   return (
