@@ -117,7 +117,7 @@ const MessageForm = ({
               }}
               onClick={() => setChatGameOverlay("wordChain")}
             >
-              🎮 끝말잇기
+              🗣️ 끝말잇기
             </button>
             <button
               css={{
@@ -132,7 +132,7 @@ const MessageForm = ({
               }}
               onClick={() => setChatGameOverlay("racing")}
             >
-              🐎 택시 경마
+              🚩 택시 경마
             </button>
           </div>
           <InputText

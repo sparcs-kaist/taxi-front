@@ -39,7 +39,7 @@ const ItemUseResultModal = ({
       }}
       // zIndex를 높여서 기존 모달 위에 뜨도록 설정 (필요시 Modal 컴포넌트 내부 구현 확인)
     >
-      <div css={styleTitle}>✨ 아이템 사용 완료!</div>
+      <div css={styleTitle}>아이템 사용 완료!</div>
 
       <div css={styleText}>
         <b css={{ color: theme.black }}>{itemName}</b>을(를)

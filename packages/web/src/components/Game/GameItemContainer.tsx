@@ -39,17 +39,14 @@ const GameItemContainer = ({
 
   // [추가] 아이템 타입에 따라 이모지 또는 이미지 렌더링
   const renderItemImage = () => {
-    if (value.itemType === "preventFail") {
-      return <div style={{ fontSize: "50px", lineHeight: 1 }}>🛡️</div>;
-    }
-    if (value.itemType === "preventBurst") {
-      return <div style={{ fontSize: "50px", lineHeight: 1 }}>💥</div>;
-    }
+    const isShieldItem = ["preventFail", "preventBurst"].includes(
+      value.itemType
+    );
     return (
       <img
         css={{
-          width: "100%",
-          height: "100%",
+          width: isShieldItem ? "70%" : "100%",
+          height: isShieldItem ? "70%" : "100%",
           objectFit: "contain", // 비율 유지
         }}
         src={value.imageUrl}
@@ -83,9 +80,7 @@ const GameItemContainer = ({
           aspectRatio: "1/1",
           position: "relative",
           overflow: "hidden",
-          background: ["preventFail", "preventBurst"].includes(value.itemType)
-            ? "#F5F5F5" // 이모지 배경: 회색
-            : "transparent", // 이미지 배경: 투명
+          background: "transparent", // 이미지 배경: 투명
           display: "flex",
           justifyContent: "center",
           alignItems: "center",

@@ -28,6 +28,8 @@ import { useSetRecoilState } from "recoil";
 import theme from "@/tools/theme";
 
 import garage from "@/static/assets/games/garage.png";
+import shieldDamage from "@/static/assets/games/shield_damage.png";
+import shieldDestruction from "@/static/assets/games/shield_destruction.png";
 import taxiBack from "@/static/assets/games/taxi_back.png";
 // [Import] 레벨별 택시 이미지
 import level0 from "@/static/assets/games/taxi_lv0.png";
@@ -309,7 +311,16 @@ const GameMain = () => {
                     gap: "4px",
                   }}
                 >
-                  ✨ {getDisplayItemName(itemKey)}
+                  <img
+                    src={
+                      itemKey === "preventFail"
+                        ? shieldDamage
+                        : shieldDestruction
+                    }
+                    alt="item"
+                    style={{ height: "20px", marginRight: "2px" }}
+                  />
+                  {getDisplayItemName(itemKey)}
                   <span style={{ fontSize: "12px", opacity: 0.6 }}>✕</span>
                 </div>
               ))}

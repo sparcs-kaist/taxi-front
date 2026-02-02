@@ -1,3 +1,4 @@
+import { keyframes } from "@emotion/react";
 import { useEffect, useRef, useState } from "react";
 
 import theme from "@/tools/theme";
@@ -13,6 +14,11 @@ import taxi6 from "@/static/assets/games/taxi_racing6.png";
 import taxi7 from "@/static/assets/games/taxi_racing7.png";
 import taxi8 from "@/static/assets/games/taxi_racing8.png";
 
+const flipAnimation = keyframes`
+  0% { transform: translateY(-50%) rotate(0deg); }
+  100% { transform: translateY(-50%) rotate(180deg); }
+`;
+
 const TAXI_IMAGES = [taxi1, taxi2, taxi3, taxi4, taxi5, taxi6, taxi7, taxi8];
 
 type RacingGameProps = {
@@ -26,7 +32,7 @@ type Taxi = {
   position: number;
   speed: number;
   rank: number | null;
-  state: "running" | "boost" | "stunned";
+  state: "running" | "boost" | "stunned" | "accident";
   stateDuration: number;
 };
 
@@ -76,30 +82,56 @@ const RacingGame = (_: RacingGameProps) => {
   const updateRace = () => {
     setTaxis((prevTaxis) => {
       let isRaceFinished = false;
+      const sortedTaxis = [...prevTaxis].sort(
+        (a, b) => b.position - a.position
+      );
+
       const newTaxis = prevTaxis.map((taxi) => {
         if (taxi.rank !== null) return taxi;
+        if (taxi.state === "accident") return taxi; // Crashed taxis don't move
 
         let newSpeed = Math.max(
-          0.02,
-          Math.min(0.15, (taxi.speed || 0.05) + (Math.random() - 0.5) * 0.01)
+          0.01,
+          Math.min(0.08, (taxi.speed || 0.05) + (Math.random() - 0.5) * 0.01)
         );
-        let newState = taxi.state;
+        let newState: Taxi["state"] = taxi.state;
         let newStateDuration = taxi.stateDuration;
+
+        const currentRank = sortedTaxis.findIndex((t) => t.id === taxi.id) + 1;
 
         if (newStateDuration > 0) {
           newStateDuration -= 1;
           if (newState === "boost") {
-            newSpeed = 0.4;
+            if (currentRank <= 2) newSpeed = 0.2;
+            else if (currentRank <= 4) newSpeed = 0.3;
+            else if (currentRank <= 6) newSpeed = 0.35;
+            else newSpeed = 0.4;
           } else if (newState === "stunned") {
-            newSpeed = 0;
+            newSpeed = 0.02;
           }
         } else {
           newState = "running";
           const rand = Math.random();
-          if (rand < 0.005) {
+          let boostChance = 0;
+          if (currentRank <= 2) boostChance = 0.002;
+          else if (currentRank <= 4) boostChance = 0.003;
+          else if (currentRank <= 6) boostChance = 0.004;
+          else boostChance = 0.005;
+
+          let accidentChance = 0;
+          if (currentRank <= 2) accidentChance = 0.0004;
+          else if (currentRank <= 4) accidentChance = 0.0002;
+          else if (currentRank <= 6) accidentChance = 0.0001;
+          else accidentChance = 0;
+
+          if (rand < accidentChance) {
+            newState = "accident";
+            newSpeed = 0;
+            newStateDuration = 0;
+          } else if (rand < accidentChance + boostChance) {
             newState = "boost";
             newStateDuration = 30 + Math.random() * 30;
-          } else if (rand < 0.008) {
+          } else if (rand < accidentChance + boostChance + 0.008) {
             newState = "stunned";
             newStateDuration = 20 + Math.random() * 40;
           }
@@ -331,51 +363,77 @@ const RacingGame = (_: RacingGameProps) => {
                               zIndex: 20,
                             }
                           : {}),
+                        ...(taxi.state === "accident"
+                          ? {
+                              animation: `${flipAnimation} 0.5s forwards`,
+                              filter: "grayscale(100%)",
+                              zIndex: 5,
+                            }
+                          : {}),
                       }}
                     >
                       {/* 선택된 택시 표시 */}
-                      {taxi.id === selectedTaxiId && (
+                      {taxi.id === selectedTaxiId &&
+                        taxi.state !== "accident" && (
+                          <div
+                            css={{
+                              position: "absolute",
+                              top: "-18px",
+                              left: "50%",
+                              transform: "translateX(-50%)",
+                              fontSize: "12px",
+                              fontWeight: "bold",
+                              color: theme.purple,
+                              textShadow: "0px 0px 2px #ffffff",
+                              zIndex: 25,
+                            }}
+                          >
+                            ▼
+                          </div>
+                        )}
+                      {taxi.state === "accident" && (
                         <div
                           css={{
                             position: "absolute",
-                            top: "-18px",
+                            top: "-20px",
                             left: "50%",
                             transform: "translateX(-50%)",
-                            fontSize: "12px",
-                            fontWeight: "bold",
-                            color: theme.purple,
-                            textShadow: "0px 0px 2px #ffffff",
-                            zIndex: 25,
+                            fontSize: "20px",
+                            zIndex: 30,
+                          }}
+                        ></div>
+                      )}
+
+                      {/* 부스트 효과*/}
+                      {taxi.state === "boost" && (
+                        <div
+                          css={{
+                            position: "absolute",
+                            left: "-48px",
+                            top: "55%",
+                            transform: "translateY(-50%)",
+                            zIndex: -1,
                           }}
                         >
-                          ▼
+                          <img
+                            src={boostEffect}
+                            alt="boost"
+                            css={{ width: "50px", height: "auto" }}
+                          />
                         </div>
                       )}
+
                       <img
                         src={TAXI_IMAGES[taxi.id - 1]}
                         alt="taxi"
-                        css={{ width: "50px", height: "auto" }}
+                        css={{
+                          width: "50px",
+                          height: "auto",
+                          position: "relative",
+                          zIndex: 2,
+                        }}
                       />
                     </div>
-
-                    {/* 부스트 효과 */}
-                    {taxi.state === "boost" && (
-                      <div
-                        css={{
-                          position: "absolute",
-                          left: `calc(2% + ${taxi.position * 0.87}% - 52px)`,
-                          top: "50%",
-                          transform: "translateY(-50%)",
-                          zIndex: 5,
-                        }}
-                      >
-                        <img
-                          src={boostEffect}
-                          alt="boost"
-                          css={{ width: "50px", height: "auto" }}
-                        />
-                      </div>
-                    )}
                   </div>
                 ))}
               </div>

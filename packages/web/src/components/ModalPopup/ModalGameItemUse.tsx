@@ -11,6 +11,9 @@ import WhiteContainer from "@/components/WhiteContainer";
 // import { useValueGameInfo } from "@/hooks/useFetchRecoilState/useFetchGameInfo";
 import theme from "@/tools/theme";
 
+import shieldDamage from "@/static/assets/games/shield_damage.png";
+import shieldDestruction from "@/static/assets/games/shield_destruction.png";
+
 // [Type Definition] 제공해주신 타입 정의
 type GameInfoType = {
   level: number;
@@ -86,8 +89,8 @@ const ItemUseModal = ({ isOpen, onClose, onUse }: ItemUseModalProps) => {
     backgroundColor: isSelected
       ? "#F3E5F5"
       : count === 0
-      ? "#f5f5f5"
-      : "#FAFAFA",
+        ? "#f5f5f5"
+        : "#FAFAFA",
     border: isSelected ? `1px solid ${theme.purple}` : "1px solid #E0E0E0",
     cursor: count > 0 ? "pointer" : "default", // 개수 없으면 클릭 불가
     opacity: count > 0 ? 1 : 0.5, // 개수 없으면 흐리게
@@ -158,7 +161,19 @@ const ItemUseModal = ({ isOpen, onClose, onUse }: ItemUseModalProps) => {
                   fontSize: "20px",
                 }}
               >
-                {item.key === "preventFail" ? "🛡️" : "💥"}
+                <img
+                  src={
+                    item.key === "preventFail"
+                      ? shieldDamage
+                      : shieldDestruction
+                  }
+                  alt={item.name}
+                  style={{
+                    width: "32px",
+                    height: "32px",
+                    objectFit: "contain",
+                  }}
+                />
               </div>
 
               <div style={{ ...theme.font14_bold, marginBottom: "4px" }}>

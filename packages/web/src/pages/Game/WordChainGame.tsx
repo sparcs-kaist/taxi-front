@@ -126,7 +126,6 @@ const WordChainGame = ({ chats, sendMessage }: WordChainGameProps) => {
           boxShadow: theme.shadow_purple_input_inset,
           borderRadius: "16px",
           overflow: "hidden",
-          minHeight: "36px",
           display: "flex",
           alignItems: "center",
           padding: "2px 36px 2px 12px",

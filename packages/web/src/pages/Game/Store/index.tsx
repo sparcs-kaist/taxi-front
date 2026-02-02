@@ -9,13 +9,15 @@ import theme from "@/tools/theme";
 import reinforce7 from "@/static/assets/games/reinforce7.png";
 import reinforce10 from "@/static/assets/games/reinforce10.png";
 import reinforce12 from "@/static/assets/games/reinforce12.png";
+import shieldDamage from "@/static/assets/games/shield_damage.png";
+import shieldDestruction from "@/static/assets/games/shield_destruction.png";
 
 const Store = () => {
   const items: GameItem[] = [
     {
       _id: "1",
       name: "파손 방지권",
-      imageUrl: "",
+      imageUrl: shieldDamage,
       price: 5000,
       description: "강화 시 하락을 방지합니다.",
       itemType: "preventFail",
@@ -23,7 +25,7 @@ const Store = () => {
     {
       _id: "2",
       name: "파괴 방지권",
-      imageUrl: "",
+      imageUrl: shieldDestruction,
       price: 7000,
       description: "강화 시 파괴를 방지합니다.",
       itemType: "preventBurst",
