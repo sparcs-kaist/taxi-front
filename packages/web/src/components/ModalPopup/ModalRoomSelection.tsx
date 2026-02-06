@@ -26,14 +26,13 @@ type HeightFixWrapperProps = {
 type ModalRoomSelectionProps = {
   isOpen: boolean;
   onChangeIsOpen: (isOpen: boolean) => void;
-  roomInfo: Nullable<BodyRoomSelectionProps["roomInfo"]>; // FIXME
+  roomInfo: BodyRoomSelectionProps["roomInfo"] | null;
   triggerTags?: string;
 };
 
-const HeightFixWrapper = ({
-  children,
-  onChangeHeight,
-}: HeightFixWrapperProps) => {
+const HeightFixWrapper = (
+  { children, onChangeHeight }: HeightFixWrapperProps
+) => {
   const body = useRef<HTMLDivElement>(null);
 
   // resize observer

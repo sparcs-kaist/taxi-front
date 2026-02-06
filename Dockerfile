@@ -24,7 +24,8 @@ FROM nginx:1.26.3-alpine
 # Set default environment variables
 ENV REACT_APP_BACK_URL=https://taxi.sparcs.org/api \
     REACT_APP_FRONT_URL=https://taxi.sparcs.org \
-    REACT_APP_OG_URL=https://og-image.taxi.sparcs.org
+    REACT_APP_OG_URL=https://og-image.taxi.sparcs.org \
+    REACT_APP_GTM_ID=GTM-PH7QZ5ZG
 
 # Install node & react-inject-env
 RUN apk add --no-cache nodejs npm && \
@@ -35,4 +36,4 @@ COPY serve /app/serve/
 RUN chmod +x /app/serve/
 
 EXPOSE 80
-CMD ["sh", "-c", "envsubst '$$REACT_APP_FRONT_URL $$REACT_APP_OG_URL' < /app/serve/default.conf.template > /etc/nginx/conf.d/default.conf && npx react-inject-env set -d /app/build/ && nginx -g 'daemon off;'"]
+CMD ["sh", "-c", "envsubst '$$REACT_APP_FRONT_URL $$REACT_APP_OG_URL $$REACT_APP_GTM_ID' < /app/serve/default.conf.template > /etc/nginx/conf.d/default.conf && npx react-inject-env set -d /app/build/ && nginx -g 'daemon off;'"]
