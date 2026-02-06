@@ -28,6 +28,7 @@ declare global {
     readAt: Date;
     withdraw: boolean;
     badge: boolean;
+    hasCarrier?: boolean; 
   };
   type Room = {
     _id: string;
