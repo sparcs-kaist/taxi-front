@@ -27,6 +27,7 @@ type ModalRoomSelectionProps = {
   isOpen: boolean;
   onChangeIsOpen: (isOpen: boolean) => void;
   roomInfo: Nullable<BodyRoomSelectionProps["roomInfo"]>; // FIXME
+  triggerTags?: string;
 };
 
 const HeightFixWrapper = ({
@@ -57,6 +58,7 @@ const ModalRoomSelection = ({
   isOpen,
   onChangeIsOpen,
   roomInfo: _roomInfo,
+  triggerTags,
 }: ModalRoomSelectionProps) => {
   const [roomInfo, setRoomInfo] = useState(_roomInfo);
   const [bodyHeight, setBodyHeight] = useState(0);
@@ -102,8 +104,8 @@ const ModalRoomSelection = ({
           body: (
             <BodyRoomSelection
               roomInfo={roomInfo}
-              // carrierList={carrierList} // 삭제: roomInfo에 포함됨
-              onToggleCarrier={handleToggleCarrier} // 추가: 토글 함수 전달
+              onToggleCarrier={handleToggleCarrier}
+              triggerTags={triggerTags}
             />
           ),
         },

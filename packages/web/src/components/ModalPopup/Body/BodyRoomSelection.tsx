@@ -22,6 +22,7 @@ import alertAtom from "@/atoms/alert";
 import { useSetRecoilState } from "recoil";
 
 import { dayServerToClient } from "@/tools/day";
+import { triggerTag } from "@/tools/gtm";
 import { date2str } from "@/tools/moment";
 import theme from "@/tools/theme";
 import { getLocationName } from "@/tools/trans";
@@ -40,7 +41,8 @@ type InfoSectionProps = {
 
 export type BodyRoomSelectionProps = {
   roomInfo: Room;
-  onToggleCarrier?: () => void; // (혹시 몰라 남겨두지만 이번엔 안 씀)
+  onToggleCarrier?: () => void;
+  triggerTags?: string;
 };
 
 const PlaceSection = ({ type, name }: PlaceSectionProps) => (
@@ -103,7 +105,10 @@ const InfoSection = ({ title, alignDirection, children }: InfoSectionProps) => (
   </div>
 );
 
-const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
+const BodyRoomSelection = ({
+  roomInfo,
+  triggerTags,
+}: BodyRoomSelectionProps) => {
   const { i18n } = useTranslation();
   const axios = useAxios();
   const history = useHistory();
@@ -185,12 +190,19 @@ const BodyRoomSelection = ({ roomInfo }: BodyRoomSelectionProps) => {
         // 내 방 목록 갱신 및 페이지 이동
         fetchMyRooms();
         history.push(`/myroom/${roomInfo._id}`);
+
+        if (triggerTags) {
+          for (const i of triggerTags.split(",")) {
+            triggerTag(i);
+          }
+        }
       },
+
       onError: () => setAlert("방 참여에 실패하였습니다."),
     });
 
     onCall.current = false;
-  }, [roomInfo?._id, history, isAlreadyPart, joinWithCarrier]); // 의존성 유지
+  }, [roomInfo?._id, history, joinWithCarrier, triggerTags]); // 의존성 유지
 
   const [taxiFare, setTaxiFare] = useState<number>(0);
   const getTaxiFare = async () => {

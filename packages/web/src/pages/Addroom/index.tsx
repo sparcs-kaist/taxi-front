@@ -36,7 +36,7 @@ import FullParticipation from "./FullParticipation";
 import alertAtom from "@/atoms/alert";
 import { useSetRecoilState } from "recoil";
 
-import { triggerTags } from "@/tools/gtm";
+import { triggerTag } from "@/tools/gtm";
 import { date2str, getToday, getToday10 } from "@/tools/moment";
 import { randomRoomNameGenerator } from "@/tools/random";
 import regExpTest from "@/tools/regExpTest";
@@ -216,7 +216,7 @@ const AddRoom = () => {
             // 유사한 방이 있을 경우에만 모달 열기
             setIsSimilarRoomsModalOpen(true);
             // gtm 태그 전송
-            triggerTags("open_similar_rooms_list", {});
+            triggerTag("open_similar_rooms_list", {});
           }
         },
         onError: async (e) => {
@@ -274,7 +274,7 @@ const AddRoom = () => {
       });
 
       // gtm 태그 전송 :
-      triggerTags("create_new_room", {
+      triggerTag("create_new_room", {
         roomFrom: valuePlace[0],
         roomTo: valuePlace[1],
         roomTime: calculatedTime!.toISOString(),
