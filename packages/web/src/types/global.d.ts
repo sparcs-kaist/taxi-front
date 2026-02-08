@@ -29,6 +29,7 @@ declare global {
     withdraw: boolean;
     badge: boolean;
     isArrived?: boolean;
+    hasCarrier?: boolean; 
   };
   type Room = {
     _id: string;
