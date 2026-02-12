@@ -120,14 +120,14 @@ export default (
         item.type === "gameRecommendation"
       ) {
         if (
-          [
-            "share",
-            "departure",
-            "arrival",
-            "wordChain",
-            "gameRecommendation",
-          ].includes(item.type)
+          ["share", "departure", "arrival", "gameRecommendation"].includes(
+            item.type
+          )
         ) {
+          item.authorId = "bot";
+          item.authorName = "택시 봇";
+        }
+        if (item.type === "wordChain" && !item.authorId) {
           item.authorId = "bot";
           item.authorName = "택시 봇";
         }

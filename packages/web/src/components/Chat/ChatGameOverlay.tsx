@@ -18,12 +18,16 @@ type ChatGameOverlayProps = {
   roomId: string;
   chats: any[];
   sendMessage: (type: any, content: any) => Promise<boolean>;
+  roomInfo: Room;
+  readAtList: Date[];
 };
 
 const ChatGameOverlay = ({
   roomId,
   chats,
   sendMessage,
+  roomInfo,
+  readAtList,
 }: ChatGameOverlayProps) => {
   const [overlayGame, setOverlayGame] = useRecoilState(chatGameOverlayAtom);
   const [isClosing, setIsClosing] = useState(false);
@@ -44,7 +48,7 @@ const ChatGameOverlay = ({
     }, 400);
   };
 
-  const gameProps = { roomId, chats, sendMessage };
+  const gameProps = { roomId, chats, sendMessage, roomInfo, readAtList };
 
   return createPortal(
     <div

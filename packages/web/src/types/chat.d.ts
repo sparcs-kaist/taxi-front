@@ -1,4 +1,4 @@
-export type LayoutType = "sidechat" | "fullchat";
+export type LayoutType = "sidechat" | "fullchat" | "wordChainGame";
 
 type CommonChat = {
   roomId: string; // 방의 objectId

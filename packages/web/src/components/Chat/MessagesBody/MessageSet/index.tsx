@@ -16,6 +16,7 @@ import MessageImage from "./MessageImage";
 import MessagePaySettlement from "./MessagePaySettlement";
 import MessageShare from "./MessageShare";
 import MessageText from "./MessageText";
+import MessageWordChain from "./MessageWordChain";
 
 import { getChatUniquewKey } from "@/tools/chat/chats";
 import dayjs from "@/tools/day";
@@ -28,9 +29,16 @@ type MessageBodyProps = {
   content: (UserChat | BotChat)["content"];
   roomInfo: Room;
   color: CSS["color"];
+  layoutType: LayoutType;
 };
 
-const MessageBody = ({ type, content, roomInfo, color }: MessageBodyProps) => {
+const MessageBody = ({
+  type,
+  content,
+  roomInfo,
+  color,
+  layoutType,
+}: MessageBodyProps) => {
   switch (type) {
     case "text":
       return <MessageText text={content} color={color} />;
@@ -50,6 +58,15 @@ const MessageBody = ({ type, content, roomInfo, color }: MessageBodyProps) => {
     case "arrival":
       return <MessageArrival color={color} />;
     case "wordChain":
+      if (/첫 단어는\s*["'](.+?)["']입니다/.test(content)) {
+        return (
+          <MessageWordChain
+            content={content}
+            color={color}
+            layoutType={layoutType}
+          />
+        );
+      }
       return <MessageText text={content} color={color} />;
     case "gameRecommendation":
       return <MessageGameRecommendation color={color} />;
@@ -160,7 +177,8 @@ const MessageSet = ({
               type === "share" ||
               type === "departure" ||
               type === "arrival" ||
-              type === "gameRecommendation"
+              type === "gameRecommendation" ||
+              (type === "wordChain" && authorId === "bot")
             ? layoutType === "sidechat"
               ? theme.purple_light
               : theme.white
@@ -236,6 +254,7 @@ const MessageSet = ({
                   content={chat.content}
                   roomInfo={roomInfo}
                   color={authorId === userOid ? theme.white : theme.black}
+                  layoutType={layoutType}
                 />
               </div>
               <div css={styleMessageDetail}>

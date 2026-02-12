@@ -103,6 +103,8 @@ const Chat = ({ roomId, layoutType }: ChatProps) => {
         roomId={roomId}
         chats={chats}
         sendMessage={sendMessage}
+        roomInfo={roomInfo}
+        readAtList={readAtList}
       />
     </Container>
   );

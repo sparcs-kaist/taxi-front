@@ -25,6 +25,8 @@ type RacingGameProps = {
   roomId: string;
   chats: any[];
   sendMessage: (type: any, content: any) => Promise<boolean>;
+  roomInfo: Room;
+  readAtList: Date[];
 };
 
 type Taxi = {

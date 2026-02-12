@@ -30,7 +30,16 @@ const MessagesBody = (
     ref={ref}
   >
     {_chats.length <= 0 && <LoadingChats />}
-    {useChatsForBody(_chats, layoutType, roomInfo, readAtList)}
+    {useChatsForBody(
+      _chats.filter(
+        (chat) =>
+          chat.type !== "wordChain" ||
+          /첫 단어는\s*["'](.+?)["']입니다/.test(chat.content)
+      ),
+      layoutType,
+      roomInfo,
+      readAtList
+    )}
   </div>
 );
 
