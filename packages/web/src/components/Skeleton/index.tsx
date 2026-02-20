@@ -45,7 +45,7 @@ const Container = ({ children }: ContainerProps) => (
       width: "100%",
       height: "calc(100% - env(safe-area-inset-bottom))",
       position: "relative",
-      paddingTop: "env(safe-area-inset-top)",
+      paddingTop: "0px", //"env(safe-area-inset-top)",
       paddingBottom: "env(safe-area-inset-bottom)",
     }}
   >
