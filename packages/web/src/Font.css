@@ -1,4 +1,9 @@
 @font-face {
+  font-family: "TossFace";
+  src: url("./static/fonts/TossFaceFontMac.ttf") format("truetype");
+}
+
+@font-face {
   font-family: "NanumSquare";
   src: local("NanumSquare"),
     url("./static/fonts/NanumSquare_acL.ttf") format("truetype");
