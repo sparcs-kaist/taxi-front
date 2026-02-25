@@ -18,7 +18,7 @@ import { useSetRecoilState } from "recoil";
 import theme from "@/tools/theme";
 
 import { ReactComponent as KakaoPayLogo } from "@/static/assets/serviceLogos/KakaoPayLogo.svg";
-import { ReactComponent as TossLogo } from "@/static/assets/serviceLogos/TossLogo.svg";
+import { ReactComponent as TossLogo } from "@/static/assets/serviceLogos/TossLogo.png";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import LocalAtmRoundedIcon from "@mui/icons-material/LocalAtmRounded";
