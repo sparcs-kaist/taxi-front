@@ -151,7 +151,6 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
 
 const Event2026SpringMissions = () => {
   const { quests } = useValueRecoilState("event2026SpringInfo") || {};
-  const { creditAmount } = useValueRecoilState("gameInfo") || {};
 
   return (
     <>
