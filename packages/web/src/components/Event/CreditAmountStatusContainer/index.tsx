@@ -91,7 +91,7 @@ const CreditAmountStatusContainer = ({
               alt="coin"
               style={{ width: "16px", height: "16px", objectFit: "contain" }}
             />
-            <div css={{ color: theme.white, ...theme.font14_bold }}>
+            <div css={{ color: theme.purple, ...theme.font14_bold }}>
               {creditAmount ? creditAmount.toLocaleString() : 0}
             </div>
           </div>
