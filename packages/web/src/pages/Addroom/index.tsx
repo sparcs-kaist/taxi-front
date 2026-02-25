@@ -154,45 +154,45 @@ const AddRoom = () => {
     if (!onCall.current) {
       onCall.current = true;
 
-      // #region event2026Spring
-      let isAgreeOnTermsOfEvent = false;
-      await axios({
-        url: "/events/2026spring/globalState",
-        method: "get",
-        onSuccess: (data) => {
-          if (data.isAgreeOnTermsOfEvent) {
-            isAgreeOnTermsOfEvent = data.isAgreeOnTermsOfEvent;
-          }
-          event2026SpringQuestComplete("allBadgedSettlement");
-        },
-        onError: () => {},
-      });
+      // // #region event2025fall
+      // let isAgreeOnTermsOfEvent = false;
+      // await axios({
+      //   url: "/events/2025fall/globalState",
+      //   method: "get",
+      //   onSuccess: (data) => {
+      //     if (data.isAgreeOnTermsOfEvent) {
+      //       isAgreeOnTermsOfEvent = data.isAgreeOnTermsOfEvent;
+      //     }
+      //     event2025FallQuestComplete("firstRoomCreation");
+      //   },
+      //   onError: () => {},
+      // });
 
-      if (isAgreeOnTermsOfEvent) {
-        let isFalse = false;
-        await axios({
-          url: "/rooms/create/test",
-          method: "post",
-          data: {
-            from: valuePlace[0],
-            to: valuePlace[1],
-            time: calculatedTime!.toISOString(),
-            maxPartLength: valueMaxPeople,
-            withCarrier: valueHasCarrier, // create room 시 캐리어 소지 여부 전달, API 수정 필요
-          },
-          onSuccess: (data) => {
-            if (data!.result === false) {
-              setIsOpenModalEventAbuseWarning(true);
-              onCall.current = false;
-              isFalse = true;
-              return;
-            }
-          },
-          onError: () => {},
-        });
-        if (isFalse) return;
-      }
-      // #endregion
+      // if (isAgreeOnTermsOfEvent) {
+      //   let isFalse = false;
+      //   await axios({
+      //     url: "/rooms/create/test",
+      //     method: "post",
+      //     data: {
+      //       from: valuePlace[0],
+      //       to: valuePlace[1],
+      //       time: calculatedTime!.toISOString(),
+      //       maxPartLength: valueMaxPeople,
+      //       withCarrier: valueHasCarrier, // create room 시 캐리어 소지 여부 전달, API 수정 필요
+      //     },
+      //     onSuccess: (data) => {
+      //       if (data!.result === false) {
+      //         setIsOpenModalEventAbuseWarning(true);
+      //         onCall.current = false;
+      //         isFalse = true;
+      //         return;
+      //       }
+      //     },
+      //     onError: () => {},
+      //   });
+      //   if (isFalse) return;
+      // }
+      // // #endregion
 
       await axios({
         url: "/rooms/searchByTimeGap",
@@ -358,8 +358,8 @@ const AddRoom = () => {
               },
               onSuccess: () => {
                 fetchMyRooms();
-                //#region event2025Spring
-                // event2025SpringQuestComplete("firstRoomCreation");
+                //#region event2026Spring
+                  event2026SpringQuestComplete("firstRoomCreation");
                 //#endregion
                 history.push("/myroom");
               },

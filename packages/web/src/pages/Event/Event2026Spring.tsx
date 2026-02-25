@@ -405,8 +405,8 @@ const Event2026Spring = () => {
         }}
       >
         <AdaptiveDiv type="center" css={{ textAlign: "center" }}>
-          <MainSection6 css={{ width: "292px", maxWidth: "100%" }} />
-          <div css={{ height: "56px" }} />
+          <MainSection6 css={{ width: "292px", maxWidth: "100%", height: "50px", marginTop: "-100px" }} />
+          <div css={{ height: "26px" }} />
           <div css={{ color: theme.gray_text, ...theme.font14 }}>
             본 이벤트는 토스뱅크와 KAIST의 후원으로 진행되었습니다.
           </div>
