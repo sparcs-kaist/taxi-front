@@ -7,7 +7,8 @@ import { useAxios } from "@/hooks/useTaxiAPI";
 
 import Button from "@/components/Button";
 import DottedLine from "@/components/DottedLine";
-import InputAcount from "@/components/Input/InputAccount";
+import Input from "@/components/Input";
+import InputAccount from "@/components/Input/InputAccount";
 import Modal from "@/components/Modal";
 
 import alertAtom from "@/atoms/alert";
@@ -37,6 +38,7 @@ const ModalChatSettlement = ({
   const setAlert = useSetRecoilState(alertAtom);
   const { account: defaultAccount } = useValueRecoilState("loginInfo") || {};
   const [account, setAccount] = useState<string>(defaultAccount || "");
+  const [amount, setAmount] = useState<string>("");
   const isValidAccount = useMemo(() => regExpTest.account(account), [account]);
   const isRequesting = useRef<boolean>(false);
   const sendMessage = useSendMessage(roomInfo._id, isRequesting);
@@ -44,11 +46,23 @@ const ModalChatSettlement = ({
 
   const onClickOk = () => {
     if (isRequesting.current || !isValidAccount) return;
+    const pattern = /^[0-9]+$/g;
+    if (amount != "") {
+      if (pattern.test(amount)) {
+        if (parseInt(amount) <= 0) {
+          setAlert("올바른 금액을 입력해주세요.");
+          return;
+        }
+      } else {
+        setAlert("올바른 금액을 입력해주세요.");
+        return;
+      }
+    }
     isRequesting.current = true;
     axios({
       url: "/rooms/commitSettlement",
       method: "post",
-      data: { roomId: roomInfo._id },
+      data: (amount != "") ? {roomId: roomInfo._id, settlementAmount: parseInt(amount)} : {roomId: roomInfo._id},
       onSuccess: async () => {
         isRequesting.current = false;
         onRecall?.();
@@ -85,13 +99,22 @@ const ModalChatSettlement = ({
     margin: "0 8px 12px",
   };
   const styleAccount = {
-    margin: "12px 8px",
+    margin: "12px 8px 6px 8px",
     display: "flex",
     alignItems: "center",
     color: theme.gray_text,
     whiteSpace: "nowrap",
     ...theme.font14,
   } as const;
+  const styleAmount = {
+    margin: "8px 8px",
+    gap: "8px",
+    display: "flex",
+    alignItems: "center",
+    color: theme.gray_text,
+    whiteSpace: "nowrap",
+    ...theme.font14,
+  }
   const styleButtons = {
     position: "relative",
     display: "flex",
@@ -101,7 +124,7 @@ const ModalChatSettlement = ({
   const styleAlarm = {
     ...theme.font12,
     color: theme.gray_text,
-    margin: "0 8px 12px",
+    margin: "0 8px 6px",
   };
 
   return (
@@ -121,7 +144,7 @@ const ModalChatSettlement = ({
       <DottedLine />
       <div css={styleAccount}>
         계좌번호
-        <InputAcount
+        <InputAccount
           value={account}
           onChangeValue={setAccount}
           css={{ width: "100%", marginLeft: "10px" }}
@@ -142,6 +165,10 @@ const ModalChatSettlement = ({
           • 올바른 계좌번호를 입력해주세요.
         </div>
       )}
+      <div css={styleAmount}>
+        정산 금액
+        <Input value={amount} onChangeValue={setAmount} placeholder={"0원"}/>
+      </div>
       <div css={styleButtons}>
         <Button
           type="gray"

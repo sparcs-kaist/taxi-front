@@ -22,6 +22,7 @@ import { ReactComponent as TossLogo } from "@/static/assets/serviceLogos/TossLog
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import LocalAtmRoundedIcon from "@mui/icons-material/LocalAtmRounded";
+import useSettlementFromChats from "@/hooks/chat/useSettlementFromChats";
 
 type ModalChatPaymentProps = Omit<
   Parameters<typeof Modal>[0],
@@ -30,11 +31,13 @@ type ModalChatPaymentProps = Omit<
   roomInfo: Room;
   onRecall?: () => void;
   account: ReturnType<typeof useAccountFromChats>;
+  settlement: ReturnType<typeof useSettlementFromChats>;
 };
 
 const ModalChatPayment = ({
   roomInfo,
   account,
+  settlement,
   onRecall,
   ...modalProps
 }: ModalChatPaymentProps) => {
@@ -120,6 +123,14 @@ const ModalChatPayment = ({
             계좌번호
             <div css={{}}>{account}</div>
           </div>
+          <div css={styleAccount} className="selectable">
+            총 금액
+            <div>{settlement?.total}원</div>
+          </div>
+          <div css={styleAccount} className="selectable">
+            송금할 금액
+            <div>{settlement?.perPerson}원</div>
+          </div>
           <div
             css={{
               display: "flex",
@@ -145,14 +156,14 @@ const ModalChatPayment = ({
                 background={theme.gray_background}
               />
             </LinkCopy>
-            <LinkPayment type="kakaopay" account={account}>
+            <LinkPayment type="kakaopay" account={account} amount={settlement?.perPerson}>
               <ButtonShare
                 text="카카오페이"
                 icon={<KakaoPayLogo css={{ width: "22px" }} />}
                 background="#FFEB00"
               />
             </LinkPayment>
-            <LinkPayment type="toss" account={account}>
+            <LinkPayment type="toss" account={account} amount={settlement?.perPerson}>
               <ButtonShare
                 text="토스"
                 icon={<TossLogo css={{ width: "24px" }} />}
