@@ -29,7 +29,7 @@ const WordChainGame = ({
   readAtList,
 }: WordChainGameProps) => {
   const [inputText, setInputText] = useState("");
-  const [timeLeft, setTimeLeft] = useState(30);
+  const [timeLeft, setTimeLeft] = useState(15);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // 끝말잇기 메시지만 필터링 및 정렬
@@ -102,7 +102,7 @@ const WordChainGame = ({
   // 타이머 로직
   useEffect(() => {
     if (wordChainChats.length === 0) {
-      setTimeLeft(30);
+      setTimeLeft(15);
       return;
     }
 
@@ -119,7 +119,7 @@ const WordChainGame = ({
     }
 
     // baseTime 기준으로 타이머 설정 (유효한 턴 시작 시간)
-    const deadline = dayjs(baseTime).add(30, "second");
+    const deadline = dayjs(baseTime).add(15, "second");
 
     const updateTimer = () => {
       const now = dayjs();
@@ -239,7 +239,7 @@ const WordChainGame = ({
                 height: "100%",
                 backgroundColor:
                   timeLeft < 10 ? theme.red_button : theme.purple,
-                width: `${(timeLeft / 30) * 100}%`,
+                width: `${(timeLeft / 15) * 100}%`,
                 transition: "width 0.1s linear, background-color 0.3s",
               }}
             />

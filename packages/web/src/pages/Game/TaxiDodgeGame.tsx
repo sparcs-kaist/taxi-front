@@ -197,8 +197,6 @@ const TaxiDodgeGame = () => {
   const reverseEndTimeRef = useRef<number | null>(null);
   const timeLeftRef = useRef<number | null>(null);
 
-  const [dailyEarnedCoins, setDailyEarnedCoins] = useState(0);
-  const [isDailyLimitReached, setIsDailyLimitReached] = useState(false);
   const [earnedCoinsThisGame, setEarnedCoinsThisGame] = useState(0);
 
   const taxiImage = useRef<HTMLImageElement>(new Image());
@@ -232,48 +230,16 @@ const TaxiDodgeGame = () => {
       url: "/miniGame/miniGames/",
       method: "get",
     });
-
-    // 일일 획득 코인 로드
-    const loadDailyEarnings = () => {
-      const today = new Date().toISOString().split("T")[0];
-      const storageKey = `taxi_game_daily_earnings_${today}`;
-      const stored = localStorage.getItem(storageKey);
-      if (stored) {
-        setDailyEarnedCoins(parseInt(stored, 10));
-      } else {
-        // 날짜가 바뀌었으면 이전 데이터 정리
-        setDailyEarnedCoins(0);
-      }
-    };
-    loadDailyEarnings();
   }, [request]);
 
   // [수정] 게임 오버 시 점수 업데이트 및 게임 정보 새로고침
   useEffect(() => {
     if (gameOver) {
-      const potentialCoins = Math.floor(score / 10);
-      const DAILY_LIMIT = 5000;
-      let finalCoinsToAdd = potentialCoins;
-      const today = new Date().toISOString().split("T")[0];
-      const storageKey = `taxi_game_daily_earnings_${today}`;
+      const earnedCoins = Math.floor(score / 10);
+      // 백엔드 minigameReward에서 700 코인(7000점) 제한이 있으므로 프론트 표시도 맞춤
+      const finalCoins = Math.min(700, earnedCoins);
 
-      // 일일 제한 체크
-      if (dailyEarnedCoins >= DAILY_LIMIT) {
-        finalCoinsToAdd = 0;
-        setIsDailyLimitReached(true);
-      } else if (dailyEarnedCoins + potentialCoins > DAILY_LIMIT) {
-        finalCoinsToAdd = DAILY_LIMIT - dailyEarnedCoins;
-        setIsDailyLimitReached(true);
-      } else {
-        setIsDailyLimitReached(false);
-      }
-
-      setEarnedCoinsThisGame(finalCoinsToAdd);
-
-      // 로컬 스토리지 업데이트
-      const newDailyTotal = dailyEarnedCoins + finalCoinsToAdd;
-      localStorage.setItem(storageKey, newDailyTotal.toString());
-      setDailyEarnedCoins(newDailyTotal);
+      setEarnedCoinsThisGame(finalCoins);
 
       request({
         url: "/miniGame/miniGames/update",
@@ -646,17 +612,6 @@ const TaxiDodgeGame = () => {
                     </ScoreBoard>
                     <p css={{ marginBottom: "5px" }}>최종 점수: {score}</p>
                     <p>획득한 넙죽코인: {earnedCoinsThisGame}</p>
-                    {isDailyLimitReached && (
-                      <p
-                        css={{
-                          color: theme.red_text,
-                          fontSize: "12px",
-                          marginTop: "4px",
-                        }}
-                      >
-                        (하루 최대 획득량 5000코인 초과)
-                      </p>
-                    )}
                     <RestartButton onClick={startGame}>다시하기</RestartButton>
                   </GameOverModal>
                 )}

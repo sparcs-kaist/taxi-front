@@ -1,4 +1,7 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
+
+import { useFetchRecoilState } from "@/hooks/useFetchRecoilState";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
@@ -8,6 +11,12 @@ import Title from "@/components/Title";
 import theme from "@/tools/theme";
 
 const GameSection = () => {
+  const fetchGameInfo = useFetchRecoilState("gameInfo");
+
+  useEffect(() => {
+    fetchGameInfo();
+  }, []);
+
   return (
     <AdaptiveDiv type="center">
       <Title icon="festival" isHeader>

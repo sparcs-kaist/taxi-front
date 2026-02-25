@@ -46,13 +46,19 @@ const CreditAmountStatusContainer = ({
             justifyContent: "space-between",
           }}
         >
-          <div style={{ display: "flex", flexDirection: "column" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: "8px",
+            }}
+          >
             <div
               css={{
                 color: theme.black,
                 ...theme.font14,
                 fontWeight: "bold",
-                marginBottom: "6px",
               }}
             >
               현재 택시
@@ -60,7 +66,7 @@ const CreditAmountStatusContainer = ({
             <div
               css={{
                 color: theme.purple,
-                fontSize: "24px",
+                fontSize: "18px",
                 fontWeight: "bold",
               }}
             >
