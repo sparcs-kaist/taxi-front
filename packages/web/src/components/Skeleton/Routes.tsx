@@ -68,6 +68,11 @@ const routeProps = [
     exact: true,
   },
   {
+    path: "/statistics",
+    component: lazy(() => import("@/pages/Statistics")),
+    exact: true,
+  },
+  {
     path: "*",
     component: lazy(() => import("@/pages/Error/PageNotFound")),
   },
