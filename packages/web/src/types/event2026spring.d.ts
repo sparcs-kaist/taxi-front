@@ -1,15 +1,17 @@
 export type QuestId =
-| "firstLogin"
-| "firstRoomCreation"
-| "roomSharing"
-| "fareSettlement"
-| "farePayment"
-| "nicknameChanging"
-| "phoneVerification"
-| "accountChanging"
-| "adPushAgreement"
-| "eventSharing"
-| "eventSharing5";
+  | "firstRoomCreation"
+  | "fareSettlement"
+  | "farePayment"
+  | "nicknameChanging"
+  | "phoneVerification"
+  | "accountChanging"
+  | "adPushAgreement"
+  | "referralInviterCredit"
+  | "referralInviteeCredit"
+  | "indirectEventSharing"
+  | "firstReinforcement"
+  | "firstMiniGame"
+  | "useCoupon";
 
 export type Quest = {
   description: string;
