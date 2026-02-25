@@ -1,3 +1,4 @@
+import OptionCarrier from "./Carrier";
 import OptionDate from "./Date";
 import OptionMaxPeople from "./MaxPeople";
 import OptionName from "./Name";
@@ -12,4 +13,5 @@ export {
   OptionTime,
   OptionMaxPeople,
   TaxiFare,
+  OptionCarrier,
 };

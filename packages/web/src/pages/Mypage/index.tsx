@@ -39,6 +39,9 @@ import { eventMode, isDev } from "@/tools/loadenv";
 import theme from "@/tools/theme";
 import { isNotificationOn } from "@/tools/trans";
 
+import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
+import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
+
 const Mypage = () => {
   const { t, i18n } = useTranslation("mypage");
   const setAlert = useSetRecoilState(alertAtom);
@@ -184,6 +187,7 @@ const Mypage = () => {
               <div css={infoContent}>{loginInfo?.residence}</div>
             </div>
           </WhiteContainer>
+
           <WhiteContainer>
             <div css={{ display: "grid", rowGap: "16px" }}>
               {isDev && (
@@ -269,6 +273,50 @@ const Mypage = () => {
           )}
         </div>
       </WhiteContainer>
+      <div css={{ paddingBottom: "16px" }}>
+        <WhiteContainer
+          css={{
+            padding: "16px 20px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            cursor: "pointer",
+            transition: "all 0.2s",
+            ":hover": { backgroundColor: "#fafafa" },
+            ":active": { transform: "scale(0.98)" },
+          }}
+          onClick={() => history.push("/statistics")}
+        >
+          <div css={{ display: "flex", alignItems: "center", gap: "12px" }}>
+            <div
+              css={{
+                width: "40px",
+                height: "40px",
+                borderRadius: "12px",
+                background: theme.purple_light || "#F3E8FF", // 연한 보라색 배경
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: theme.purple,
+              }}
+            >
+              <BarChartRoundedIcon />
+            </div>
+            <div>
+              <div css={{ ...theme.font16_bold, color: theme.black }}>
+                Taxi Statistics
+              </div>
+              <div css={{ ...theme.font12, color: theme.gray_text }}>
+                Taxi의 다양한 통계 정보를 확인해보세요!
+              </div>
+            </div>
+          </div>
+          <ArrowForwardIosRoundedIcon
+            css={{ fontSize: "16px", color: theme.gray_text }}
+          />
+        </WhiteContainer>
+      </div>
+
       {userId && (
         <WhiteContainer>
           <div css={{ display: "grid", rowGap: "16px" }}>

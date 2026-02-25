@@ -3,6 +3,7 @@ import { ReactNode, memo } from "react";
 import theme from "@/tools/theme";
 
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import AnalyticsIcon from "@mui/icons-material/Analytics";
 import ConfirmationNumberRoundedIcon from "@mui/icons-material/ConfirmationNumberRounded";
 import EmojiEventsRoundedIcon from "@mui/icons-material/EmojiEventsRounded";
 import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
@@ -38,7 +39,8 @@ type IconProps = {
     | "ticket"
     | "festival"
     | "shop"
-    | "leaderboard";
+    | "leaderboard"
+    | "stats";
 };
 
 type TitleProps = {
@@ -89,6 +91,8 @@ const Icon = ({ type: icon }: IconProps) => {
       return <ShoppingCartRoundedIcon style={iconStyle} />;
     case "leaderboard":
       return <EmojiEventsRoundedIcon style={iconStyle} />;
+    case "stats":
+      return <AnalyticsIcon style={iconStyle} />;
     default:
       return <></>;
   }
