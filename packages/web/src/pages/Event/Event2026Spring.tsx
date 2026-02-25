@@ -54,9 +54,9 @@ const Event2026Spring = () => {
           <div
             css={{
               position: "absolute",
-              bottom: "2000px",
-              left: "40px",
-              right: "40px",
+              bottom: "62%",
+              left: "10.66%",
+              right: "10.66%",
             }}
           >
             <Link
@@ -80,9 +80,9 @@ const Event2026Spring = () => {
           <div
             css={{
               position: "absolute",
-              bottom: "1465px",
-              left: "40px",
-              right: "40px",
+              bottom: "45.5%",
+              left: "10.66%",
+              right: "10.66%",
             }}
           >
             <Link
@@ -106,9 +106,9 @@ const Event2026Spring = () => {
           <div
             css={{
               position: "absolute",
-              bottom: "970px",
-              left: "40px",
-              right: "40px",
+              bottom: "30.1%",
+              left: "10.66%",
+              right: "10.66%",
             }}
           >
             <Link

@@ -105,7 +105,7 @@ const ChatGameOverlay = ({
           <div css={{ flex: 1 }}>
             <Title icon={overlayGame === "wordChain" ? "chat" : "leaderboard"}>
               {overlayGame === "wordChain" && "끝말잇기"}
-              {overlayGame === "racing" && "택시 경마"}
+              {overlayGame === "racing" && "택시 레이스"}
             </Title>
           </div>
           <button

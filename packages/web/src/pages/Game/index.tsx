@@ -157,7 +157,7 @@ const Game = () => {
               상점
             </Link>
             <Link to="/game/money" style={getTabStyle("/game/money")} replace>
-              돈 벌기
+              미니게임
             </Link>
           </div>
         </div>

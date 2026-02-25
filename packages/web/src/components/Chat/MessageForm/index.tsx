@@ -132,7 +132,7 @@ const MessageForm = ({
               }}
               onClick={() => setChatGameOverlay("racing")}
             >
-              🚩 택시 경마
+              🚩 택시 레이스
             </button>
           </div>
           <InputText
