@@ -1,4 +1,4 @@
-import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import WhiteContainer from "@/components/WhiteContainer";
 
@@ -21,6 +21,7 @@ const CreditAmountStatusContainer = ({
   const { ticket1Amount, ticket2Amount } =
     useValueRecoilState("event2024SpringInfo") || {};
   const { creditAmount, level } = useValueRecoilState("gameInfo") || {};
+  const isLogin = useIsLogin();
 
   return (
     <WhiteContainer
@@ -70,7 +71,7 @@ const CreditAmountStatusContainer = ({
                 fontWeight: "bold",
               }}
             >
-              {level !== undefined ? `+${level}강` : "로딩중..."}
+              {isLogin ? (level !== undefined ? `+${level}강` : "로딩중...") : "로그인 필요"}
             </div>
           </div>
 

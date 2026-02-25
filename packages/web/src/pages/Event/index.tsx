@@ -91,7 +91,7 @@ const Event = () => {
     case "2026spring-missions":
       return <Event2026SpringMissions />;
     default:
-      return <Event2025Fall />;
+      return <Event2026Spring />;
   }
 };
 

@@ -161,12 +161,7 @@ const Event2026SpringMissions = () => {
             value: "quests",
             label: "퀘스트",
             to: "/event/2026spring-missions",
-          },
-          {
-            value: "attendance",
-            label: "출석 체크",
-            to: "#", // Placeholder till we have the attendance page
-          },
+          }
         ]}
       />
       <AdaptiveDiv type="center">

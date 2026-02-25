@@ -1,4 +1,5 @@
 export type QuestId =
+| "firstRoomCreation"
   | "settlementForest"
   | "nicknameChanging"
   | "firstLogin"

@@ -2,8 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 
-import { useEvent2025FallQuestComplete } from "@/hooks/event/useEvent2025FallQuestComplete";
-import { useEvent2025SpringQuestComplete } from "@/hooks/event/useEvent2025SpringQuestComplete";
+import { useEvent2026SpringQuestComplete } from "@/hooks/event/useEvent2026SpringQuestComplete";
 import {
   useFetchRecoilState,
   useIsLogin,
@@ -74,12 +73,11 @@ const AddRoom = () => {
   const isLogin = useIsLogin();
   const myRooms = useValueRecoilState("myRooms");
   const fetchMyRooms = useFetchRecoilState("myRooms");
-  //#region event2025spring
-  const event2025SpringQuestComplete = useEvent2025SpringQuestComplete();
+  //#region event2026Spring
+  const event2026SpringQuestComplete = useEvent2026SpringQuestComplete();
   const [isOpenModalEventAbuseWarning, setIsOpenModalEventAbuseWarning] =
     useState<boolean>(false);
   //#endregion
-  const event2025FallQuestComplete = useEvent2025FallQuestComplete();
 
   const [taxiFare, setTaxiFare] = useState<number>(0);
 
@@ -156,16 +154,16 @@ const AddRoom = () => {
     if (!onCall.current) {
       onCall.current = true;
 
-      // #region event2025fall
+      // #region event2026Spring
       let isAgreeOnTermsOfEvent = false;
       await axios({
-        url: "/events/2025fall/globalState",
+        url: "/events/2026spring/globalState",
         method: "get",
         onSuccess: (data) => {
           if (data.isAgreeOnTermsOfEvent) {
             isAgreeOnTermsOfEvent = data.isAgreeOnTermsOfEvent;
           }
-          event2025FallQuestComplete("allBadgedSettlement");
+          event2026SpringQuestComplete("allBadgedSettlement");
         },
         onError: () => {},
       });
@@ -265,8 +263,8 @@ const AddRoom = () => {
           }
 
           fetchMyRooms();
-          //#region event2025Spring
-          event2025SpringQuestComplete("firstRoomCreation");
+          //#region event2026Spring
+          event2026SpringQuestComplete("firstRoomCreation");
           //#endregion
           history.push("/myroom");
         },
