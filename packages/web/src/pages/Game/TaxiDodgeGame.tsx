@@ -629,16 +629,16 @@ const TaxiDodgeGame = () => {
               </div>
               <Controls>
                 <Button
-                  onPointerDown={timeLeft ? handleRightDown : handleLeftDown}
-                  onPointerUp={timeLeft ? handleRightUp : handleLeftUp}
-                  onPointerLeave={timeLeft ? handleRightUp : handleLeftUp}
+                  onPointerDown={handleLeftDown}
+                  onPointerUp={handleLeftUp}
+                  onPointerLeave={handleLeftUp}
                 >
                   ◀
                 </Button>
                 <Button
-                  onPointerDown={timeLeft ? handleLeftDown : handleRightDown}
-                  onPointerUp={timeLeft ? handleLeftUp : handleRightUp}
-                  onPointerLeave={timeLeft ? handleLeftUp : handleRightUp}
+                  onPointerDown={handleRightDown}
+                  onPointerUp={handleRightUp}
+                  onPointerLeave={handleRightUp}
                 >
                   ▶
                 </Button>
