@@ -183,7 +183,7 @@ const Event2026Spring = () => {
               택시 방 내에서 즐기실 수 있습니다
             </div>
             <div css={{ height: "16px" }} />
-            <Link to="/game/main" css={{ textDecoration: "none" }}>
+            <Link to="/game/money" css={{ textDecoration: "none" }}>
               <Button
                 type="purple_inset"
                 css={{
@@ -231,7 +231,7 @@ const Event2026Spring = () => {
               강화 랭킹 순위권에 들면 경품이!
             </div>
             <div css={{ height: "16px" }} />
-            <Link to="/event/2025spring-store" css={{ textDecoration: "none" }}>
+            <Link to="/game/main" css={{ textDecoration: "none" }}>
               <Button
                 type="purple_inset"
                 css={{
@@ -240,7 +240,7 @@ const Event2026Spring = () => {
                   ...theme.font14_bold,
                 }}
               >
-                응모권 리더보드 확인하기
+                강화하러가기
               </Button>
             </Link>
           </WhiteContainer>
