@@ -232,7 +232,7 @@ export const EnhanceConfirmModal = ({
 
       {/* 현재 비용 영역 */}
       <div css={styleCostContainer}>
-        <span css={styleLabel}>현재 재화</span>
+        <span css={styleLabel}>현재 넙죽코인</span>
         <div
           style={{
             display: "flex",
