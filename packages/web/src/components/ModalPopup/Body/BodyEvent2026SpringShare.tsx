@@ -63,8 +63,8 @@ const BodyEvent2026SpringShare = ({
       <div css={styleGuide}>
         이벤트를 다른 사람들에게 공유할 수 있습니다. 이 링크를 통해 다른
         사용자가 이벤트에 참여하면, 회원님과 새 참여자 모두{" "}
-        <b>넙죽코인 700개</b>를 획득합니다. 새 참여자가 다른 사람을 초대하면
-        최대 10회까지 <b>넙죽코인 300개</b>를 획득할 수 있습니다.
+        <b>넙죽코인 500개</b>를 획득합니다. 새 참여자가 다른 사람을 초대하면
+        <b>넙죽코인 200개</b>를 획득할 수 있습니다.
       </div>
       <DottedLine />
       <div css={{ flexGrow: 1 }} />
@@ -75,7 +75,7 @@ const BodyEvent2026SpringShare = ({
       <div css={styleButtonSection}>
         <LinkKakaotalkShare
           title={"Taxi 새학기 이벤트"}
-          description={`Taxi 새학기 이벤트에 참여해 보세요! 이 링크로 참여하면 넙죽코인 700개를 획득할 수 있어요!`}
+          description={`Taxi 새학기 이벤트에 참여해 보세요! 이 링크로 참여하면 넙죽코인 500개를 획득할 수 있어요!`}
           imageUrl={
             ogServer
               ? `${ogServer}/eventInvite/${inviteUrl.split("/").pop()}`
