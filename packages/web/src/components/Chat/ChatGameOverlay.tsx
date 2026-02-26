@@ -58,7 +58,7 @@ const ChatGameOverlay = ({
         left: 0,
         width: "100%",
         height: "100%",
-        zIndex: 9999,
+        zIndex: theme.zIndex_modal - 1,
         backgroundColor: "rgba(0, 0, 0, 0.5)",
         display: "flex",
         justifyContent: "center",

@@ -54,6 +54,9 @@ export default (
             url: "/chats/send",
             method: "post",
             data: { roomId, type, content: text },
+            onError: (e) => {
+              throw e;
+            },
           });
 
           // Some endpoints like `racing` return `{success: ...}`, while others return `{result: ...}` depending on the route wrapper
@@ -78,6 +81,9 @@ export default (
             url: "chats/uploadChatImg/getPUrl",
             method: "post",
             data: { roomId, type: file.type },
+            onError: (e) => {
+              throw e;
+            },
           });
           if (!url || !id) throw new Error();
 
@@ -92,6 +98,9 @@ export default (
             url: "chats/uploadChatImg/done",
             method: "post",
             data: { id },
+            onError: (e) => {
+              throw e;
+            },
           });
           if (result) {
             // 채팅 읽은 시간 업데이트
@@ -100,8 +109,17 @@ export default (
             return true;
           }
         }
-      } catch (e) {
+      } catch (e: any) {
         console.error(e);
+        if (
+          e.response &&
+          typeof e.response.data === "string" &&
+          e.response.data.includes("Chat/send :")
+        ) {
+          setAlert(e.response.data.replace("Chat/send :", "").trim());
+          isSendingMessage.current = false;
+          return false;
+        }
       }
 
       setAlert("메시지 전송에 실패하였습니다.");

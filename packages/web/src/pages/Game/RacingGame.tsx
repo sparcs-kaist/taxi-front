@@ -3,6 +3,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
+import alertAtom from "@/atoms/alert";
+import { useSetRecoilState } from "recoil";
+
 import theme from "@/tools/theme";
 
 import boostEffect from "@/static/assets/games/racing_boost.png";
@@ -64,12 +67,12 @@ const getRaceStateFromChats = (
     } else {
       const { content } = chat;
       if (
-        content.includes("경마 방을 만들었습니다.") ||
-        content.includes("경마 방에 참가했습니다.")
+        content.includes("레이스 방을 만들었습니다.") ||
+        content.includes("레이스 방에 참가했습니다.")
       ) {
-        if (content.includes("경마 방을 만들었습니다.")) {
+        if (content.includes("레이스 방을 만들었습니다.")) {
           const createMatch = content.match(
-            /^(.*?)님이 경마 방을 만들었습니다\./
+            /^(.*?)님이 (?:경마|레이스) 방을 만들었습니다\./
           );
           if (createMatch) {
             hostName = createMatch[1];
@@ -82,9 +85,9 @@ const getRaceStateFromChats = (
         }
         state = "betting";
 
-        // 포맷 2: "경마 방에 참가했습니다."
+        // 포맷 2: "경마 방에 참가했습니다" 또는 "레이스 방에 참가했습니다"
         const joinMatch = content.match(
-          /^(.*?)님이 경마 방에 참가했습니다\.\s*.*?\(차량:\s*(\d+),\s*배팅:/
+          /^(.*?)님이 (?:경마|레이스) 방에 참가했습니다\.\s*.*?\(차량:\s*(\d+),\s*배팅:/
         );
         if (joinMatch) {
           const nickname = joinMatch[1];
@@ -95,16 +98,16 @@ const getRaceStateFromChats = (
           }
         }
       } else if (
-        content.includes("경마를 시작합니다.") ||
-        content.includes("참가자가 모여 경마를 시작합니다.")
+        content.includes("레이스를 시작합니다.") ||
+        content.includes("참가자가 모여 레이스를 시작합니다.")
       ) {
         state = "racing";
       } else if (
         content.includes(
-          "1분 동안 참가자가 더 오지 않아 경마가 취소되었습니다."
+          "1분 동안 참가자가 더 오지 않아 레이스가 취소되었습니다."
         ) ||
-        content.includes("경마를 진행할 참가 정보가 없어 종료되었습니다.") ||
-        content.includes("경마 진행 중 오류가 발생했습니다.")
+        content.includes("레이스를 진행할 참가 정보가 없어 종료되었습니다.") ||
+        content.includes("레이스 진행 중 오류가 발생했습니다.")
       ) {
         state = "canceled";
       } else if (content.includes("경주 결과")) {
@@ -159,6 +162,7 @@ const RacingGame = ({
   roomInfo,
 }: RacingGameProps) => {
   const loginInfo = useValueRecoilState("loginInfo");
+  const setAlert = useSetRecoilState(alertAtom);
   const myNickname = loginInfo?.nickname;
   const myOid = loginInfo?.oid;
 
@@ -269,7 +273,6 @@ const RacingGame = ({
   }, [mySelection]);
 
   useEffect(() => {
-    // Parse result lines to find winner
     if (gameState === "result" && resultLines.length > 0) {
       const firstPlaceLine = resultLines.find((line) =>
         line.startsWith("1등:")
@@ -287,29 +290,22 @@ const RacingGame = ({
     if (!selectedTaxiId) return;
     const amount = parseInt(betAmount, 10);
     if (isNaN(amount) || amount <= 0 || amount > 10000) {
-      alert("배팅 금액은 1~10000 사이의 숫자여야 합니다.");
+      setAlert("배팅 금액은 1~10000 사이의 숫자여야 합니다.");
       return;
     }
 
     setIsSubmitting(true);
-    const success = await sendMessage("racing", {
+    await sendMessage("racing", {
       text: `${selectedTaxiId}:${amount}`,
     });
-    setIsSubmitting(false);
 
-    if (!success) {
-      alert("전송에 실패했습니다.");
-    }
+    setIsSubmitting(false);
   };
 
   const startGame = async () => {
     setIsSubmitting(true);
-    const success = await sendMessage("racingStart", { text: "start" });
+    await sendMessage("racingStart", { text: "start" });
     setIsSubmitting(false);
-
-    if (!success) {
-      alert("전송에 실패했습니다.");
-    }
   };
 
   const updateRace = useCallback(
@@ -326,20 +322,17 @@ const RacingGame = ({
 
       const elapsedMs = timestamp - startTimeRef.current;
 
-      // We want the total race to take exactly 25 seconds
       const TOTAL_DURATION_MS = 25000;
 
       const maxLogsLength = Math.max(
         ...Object.values(raceLogData).map((logs) => logs.length)
       );
 
-      // If maxLogsLength is 0, race is invalid
       if (maxLogsLength === 0) {
         setGameState("result");
         return;
       }
 
-      // floatTick ranges from 0 to maxLogsLength
       const floatTick = (elapsedMs / TOTAL_DURATION_MS) * maxLogsLength;
 
       setTaxis((prevTaxis) => {
@@ -348,12 +341,9 @@ const RacingGame = ({
         const newTaxis = prevTaxis.map((taxi) => {
           const logs = raceLogData[taxi.id] || [];
 
-          // If we haven't reached the end of this taxi's log yet
           if (floatTick < logs.length) {
             allFinishedArray = false;
           }
-
-          // Calculate exact interpolated distance up to floatTick
           let currentPos = 0;
           let currentState: Taxi["state"] = "running";
           let lastSpeed = 0;
@@ -375,7 +365,6 @@ const RacingGame = ({
             }
           }
 
-          // Add proportional distance for the current fractional tick
           if (completeTicks < logs.length && currentState !== "accident") {
             const nextV = logs[completeTicks];
             if (nextV === -1) {
@@ -392,10 +381,7 @@ const RacingGame = ({
 
           currentPos = Math.min(FINISH_LINE, currentPos);
 
-          // Force the taxi to its final state if log array is exhausted
           if (floatTick >= logs.length) {
-            // Determine accident or finished/not-finished based on final distance
-            // If -1 is present anywhere in the logs, it means accident.
             if (logs.includes(-1)) currentState = "accident";
             else currentState = "running";
           }
@@ -486,7 +472,7 @@ const RacingGame = ({
             >
               참가자가 부족하여
               <br />
-              경마가 취소되었습니다.
+              레이스가 취소되었습니다.
             </div>
             <button
               onClick={handleRestart}
@@ -641,7 +627,6 @@ const RacingGame = ({
               })}
             </div>
 
-            {/* Betting Input Bar */}
             {myNickname !== hostName ? (
               <div
                 css={{
@@ -711,10 +696,10 @@ const RacingGame = ({
                         : theme.shadow_purple_button_inset,
                   }}
                 >
-                  {isSubmitting
-                    ? "전송 중..."
-                    : mySelection
-                      ? "방장의 시작 대기 중..."
+                  {mySelection
+                    ? "방장의 시작 대기 중..."
+                    : isSubmitting
+                      ? "전송 중..."
                       : "결정"}
                 </button>
               </div>
@@ -764,7 +749,7 @@ const RacingGame = ({
                     ? "전송 중..."
                     : Object.keys(entries).length < 2
                       ? "참가자 대기 중..."
-                      : "경마 시작하기"}
+                      : "레이스 시작하기"}
                 </button>
               </div>
             ) : null}
@@ -846,8 +831,6 @@ const RacingGame = ({
                     <div
                       style={{
                         left: `calc(2% + ${(taxi.position / FINISH_LINE) * 87}%)`,
-                        // We rely entirely on requestAnimationFrame interpolation
-                        // CSS transitions removed entirely to prevent stutter and jitter
                         transition: "none",
                       }}
                       css={{
@@ -1105,7 +1088,6 @@ const RacingGame = ({
               </div>
             </div>
 
-            {/* In a real integrated game, this text provides closure. A user can close the modal manually. */}
             <div
               css={{
                 color: theme.gray_text,
