@@ -53,6 +53,8 @@ import level17 from "@/static/assets/games/taxi_lv17.png";
 import level18 from "@/static/assets/games/taxi_lv18.png";
 import level19 from "@/static/assets/games/taxi_lv19.png";
 import level20 from "@/static/assets/games/taxi_lv20.png";
+import { useEvent2026SpringQuestComplete } from "@/hooks/event/useEvent2026SpringQuestComplete";
+import { useFetchEvent2026SpringInfo } from "@/hooks/useFetchRecoilState/useFetchEvent2026SpringInfo";
 
 // [함수] 레벨에 맞는 이미지 객체 반환
 export const getTaxiImage = (level: number) => {
@@ -100,6 +102,11 @@ const GameMain = () => {
 
   const [usedItems, setUsedItems] = useState<string[]>([]);
 
+  //#region event2026Spring
+  const event2026SpringQuestComplete = useEvent2026SpringQuestComplete();
+  const fetchEvent2026SpringInfo = useFetchEvent2026SpringInfo();
+  //#endregion
+
   const reinforceClick = useCallback(
     (requestBody: Record<string, boolean>) =>
       axios({
@@ -107,7 +114,11 @@ const GameMain = () => {
         method: "post",
         data: requestBody,
         onSuccess: () => {
-          fetchMinigameInfo();
+          fetchMinigameInfo();  
+          fetchEvent2026SpringInfo();
+          //#region event2026Spring
+          event2026SpringQuestComplete("firstReinforcement");
+          //#endregion
           setUsedItems([]); // 성공 시 아이템 소모
         },
         onError: () => {

@@ -70,9 +70,6 @@ const Skeleton = ({ children }: SkeletonProps) => {
   const [dailyAttendanceOpened, setDailyAttendanceOpened] =
     useState<boolean>(false);
 
-  //#region event2025Spring
-  // useEvent2025SpringEffect();
-  //#endregion
   useEvent2026SpringEffect();
   useSyncRecoilStateEffect(); // loginIngo, taxiLocations, myRooms, notificationOptions 초기화 및 동기화
   useI18nextEffect();
