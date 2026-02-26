@@ -1,8 +1,11 @@
-import { memo, useMemo } from "react";
+import { memo, useMemo, useEffect } from "react";
 
 import type { Quest } from "@/types/event2026spring";
 
-import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import {
+  useFetchRecoilState,
+  useValueRecoilState,
+} from "@/hooks/useFetchRecoilState";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Footer from "@/components/Footer";
@@ -151,6 +154,12 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
 
 const Event2026SpringMissions = () => {
   const { quests } = useValueRecoilState("event2026SpringInfo") || {};
+  const fetchEvent2026SpringInfo = useFetchRecoilState("event2026SpringInfo");
+
+  // 퀘스트 완료 모달에서 "확인하기"로 진입 시 creditAmount 등이 반영되도록 마운트 시 refetch
+  useEffect(() => {
+    fetchEvent2026SpringInfo();
+  }, [fetchEvent2026SpringInfo]);
 
   return (
     <>
@@ -167,7 +176,9 @@ const Event2026SpringMissions = () => {
       <AdaptiveDiv type="center">
         <div css={{ height: "30px" }} />
 
-        <CreditAmountStatusContainer type="onlycredit" />
+        <CreditAmountStatusContainer
+          type="onlycredit"
+        />
 
         {quests && quests.length > 0 ? (
           quests.map((quest) => (

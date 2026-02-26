@@ -20,7 +20,8 @@ const CreditAmountStatusContainer = ({
   // const { creditAmount } = useValueRecoilState("event2025SpringInfo") || {};
   const { ticket1Amount, ticket2Amount } =
     useValueRecoilState("event2024SpringInfo") || {};
-  const { creditAmount, level } = useValueRecoilState("gameInfo") || {};
+  const { creditAmount } = useValueRecoilState("event2026SpringInfo") || {};
+  const { level } = useValueRecoilState("gameInfo") || {};
   const isLogin = useIsLogin();
 
   return (
