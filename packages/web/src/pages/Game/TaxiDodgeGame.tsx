@@ -1,7 +1,9 @@
 import styled from "@emotion/styled";
 import { useEffect, useRef, useState } from "react";
 
+import { useEvent2026SpringQuestComplete } from "@/hooks/event/useEvent2026SpringQuestComplete";
 import { useFetchRecoilState, useIsLogin } from "@/hooks/useFetchRecoilState";
+import { useFetchEvent2026SpringInfo } from "@/hooks/useFetchRecoilState/useFetchEvent2026SpringInfo";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
 import { ModalDodgeLeaderboard } from "@/components/ModalPopup";
@@ -179,6 +181,11 @@ const TaxiDodgeGame = () => {
   // [추가] 게임 정보(코인 등) 새로고침 함수 가져오기
   const fetchGameInfo = useFetchRecoilState("gameInfo");
 
+  //#region event2026Spring
+  const event2026SpringQuestComplete = useEvent2026SpringQuestComplete();
+  const fetchEvent2026SpringInfo = useFetchEvent2026SpringInfo();
+  //#endregion
+
   const gameOverRef = useRef(false);
   const taxiX = useRef(175);
   const obstacles = useRef<
@@ -249,6 +256,10 @@ const TaxiDodgeGame = () => {
         },
         onSuccess: () => {
           fetchGameInfo(); // 코인 업데이트 반영
+          //#region event2026Spring
+          fetchEvent2026SpringInfo();
+          event2026SpringQuestComplete("firstMiniGame");
+          //#endregion
         },
       });
     }
