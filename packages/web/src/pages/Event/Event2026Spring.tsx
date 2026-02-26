@@ -33,7 +33,7 @@ import { ModalEvent2026SpringShare } from "@/components/ModalPopup";
 import { ModalEvent2026SpringCoupon } from "@/components/ModalPopup";
 
 const EVENT_INSTAGRAM_URL =
-  ""; // TODO: 인스타그램 링크 추가
+  "https://www.instagram.com/p/DVOuOrTk9Jw/?img_index=14"; // TODO: 인스타그램 링크 추가
 
 const Event2026Spring = () => {
   const [isOpenShare, setIsOpenShare] = useState<boolean>(false);
