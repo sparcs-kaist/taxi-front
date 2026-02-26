@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
 
-import { useEvent2025SpringQuestComplete } from "@/hooks/event/useEvent2025SpringQuestComplete";
 import {
   useFetchRecoilState,
   useValueRecoilState,
