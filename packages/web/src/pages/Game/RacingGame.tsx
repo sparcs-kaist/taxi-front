@@ -155,6 +155,8 @@ const getRaceStateFromChats = (
   return { state, entries, mySelection, raceLogRaw, resultLines, hostName };
 };
 
+const seenRaceAnimations = new Set<string>();
+
 const RacingGame = ({
   roomId,
   chats,
@@ -196,19 +198,23 @@ const RacingGame = ({
 
   const [gameState, setGameState] = useState<
     "betting" | "racing" | "result" | "canceled"
-  >(backendState);
+  >(() => {
+    if (
+      backendState === "result" &&
+      raceLogRaw &&
+      !seenRaceAnimations.has(raceLogRaw)
+    ) {
+      return "racing";
+    }
+    return backendState;
+  });
 
   const [selectedTaxiId, setSelectedTaxiId] = useState<number | null>(null);
   const [betAmount, setBetAmount] = useState<string>("100");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const [taxis, setTaxis] = useState<Taxi[]>([]);
-  const [winnerId, setWinnerId] = useState<number | null>(null);
-  const requestRef = useRef<number>();
-  const startTimeRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    const initialTaxis = Array.from(
+  const [taxis, setTaxis] = useState<Taxi[]>(() =>
+    Array.from(
       { length: RACING_TAXI_COUNT },
       (_, i) =>
         ({
@@ -219,9 +225,12 @@ const RacingGame = ({
           state: "running",
           stateDuration: 0,
         }) as Taxi
-    );
-    setTaxis(initialTaxis);
-  }, []);
+    )
+  );
+
+  const [winnerId, setWinnerId] = useState<number | null>(null);
+  const requestRef = useRef<number>();
+  const startTimeRef = useRef<number | null>(null);
 
   const lastProcessedBackendState = useRef(backendState);
 
@@ -231,9 +240,12 @@ const RacingGame = ({
       if (backendState === "canceled") {
         setGameState("canceled");
       } else if (backendState === "result") {
-        // 결과 상태로 진입 시 즉시 결과를 띄우지 않고,
-        // 애니메이션(레이싱) 데이터가 있다면 레이싱 상태를 먼저 거쳐서 애니메이션이 재생되도록 인터셉트
-        if (gameState === "betting" && raceLogData) {
+        if (
+          gameState === "betting" &&
+          raceLogData &&
+          raceLogRaw &&
+          !seenRaceAnimations.has(raceLogRaw)
+        ) {
           setGameState("racing");
           startTimeRef.current = null;
           setTaxis((prev) =>
@@ -247,6 +259,7 @@ const RacingGame = ({
           );
         } else if (gameState !== "racing" && gameState !== "result") {
           setGameState("result");
+          if (raceLogRaw) seenRaceAnimations.add(raceLogRaw);
         }
       } else if (backendState === "racing" && gameState === "betting") {
         setGameState("racing");
@@ -397,7 +410,10 @@ const RacingGame = ({
         if (!allFinishedArray) {
           requestRef.current = requestAnimationFrame(updateRace);
         } else {
-          setTimeout(() => setGameState("result"), 1000);
+          setTimeout(() => {
+            setGameState("result");
+            if (raceLogRaw) seenRaceAnimations.add(raceLogRaw);
+          }, 1000);
         }
         return newTaxis;
       });

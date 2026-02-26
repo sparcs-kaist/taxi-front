@@ -14,6 +14,7 @@ import MessageDeparture from "./MessageDeparture";
 import MessageGameRecommendation from "./MessageGameRecommendation";
 import MessageImage from "./MessageImage";
 import MessagePaySettlement from "./MessagePaySettlement";
+import MessageRacing from "./MessageRacing";
 import MessageShare from "./MessageShare";
 import MessageText from "./MessageText";
 import MessageWordChain from "./MessageWordChain";
@@ -69,7 +70,13 @@ const MessageBody = ({
       }
       return <MessageText text={content} color={color} />;
     case "racing":
-      return <MessageText text={content} color={color} />;
+      return (
+        <MessageRacing
+          content={content}
+          color={color}
+          layoutType={layoutType}
+        />
+      );
     case "gameRecommendation":
       return <MessageGameRecommendation color={color} />;
     default:

@@ -166,7 +166,7 @@ const EnhanceResultModal = ({
         {result === "fail" && (
           <>
             아쉽네요... <br />
-            강화에 실패하여 재화만 소모되었습니다. <br />
+            강화에 실패하여 코인만 소모되었습니다. <br />
             (현재 +{newLevel}강 유지)
           </>
         )}
