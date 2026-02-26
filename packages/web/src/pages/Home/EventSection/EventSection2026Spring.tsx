@@ -1,13 +1,19 @@
 import { ReactElement, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
-import { useFetchRecoilState } from "@/hooks/useFetchRecoilState";
+import {
+  useFetchRecoilState,
+  useValueRecoilState,
+} from "@/hooks/useFetchRecoilState";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import CreditAmountStatusContainer from "@/components/Event/CreditAmountStatusContainer";
 import WhiteContainerSuggestJoinEvent from "@/components/Event/WhiteContainerSuggestJoinEvent";
 import Title from "@/components/Title";
 import WhiteContainer from "@/components/WhiteContainer";
+
+import alertAtom from "@/atoms/alert";
+import { useSetRecoilState } from "recoil";
 
 import theme from "@/tools/theme";
 
@@ -69,6 +75,10 @@ const ButtonContainer = ({
 
 const EventSection2026Spring = () => {
   const fetchGameInfo = useFetchRecoilState("gameInfo");
+  const { isAgreeOnTermsOfEvent } =
+    useValueRecoilState("event2026SpringInfo") || {};
+  const setAlert = useSetRecoilState(alertAtom);
+  const history = useHistory();
 
   useEffect(() => {
     fetchGameInfo();
@@ -111,21 +121,28 @@ const EventSection2026Spring = () => {
             </ButtonContainer>
           </Link>
         </div>
-        <div css={{ width: 0, flexGrow: 1 }}>
-          <Link to="/game/main">
-            <ButtonContainer
-              title="강화 페이지"
-              description={
-                <>
-                  택시 강화하고
-                  <br />
-                  랭킹 올리기
-                </>
-              }
-            >
-              <BackgroundStore css={{ width: "100%", height: "100%" }} />
-            </ButtonContainer>
-          </Link>
+        <div
+          css={{ width: 0, flexGrow: 1, ...theme.cursor() }}
+          onClick={() => {
+            if (!isAgreeOnTermsOfEvent) {
+              setAlert("이벤트 참여 후 이용할 수 있습니다.");
+            } else {
+              history.push("/game/main");
+            }
+          }}
+        >
+          <ButtonContainer
+            title="강화 페이지"
+            description={
+              <>
+                택시 강화하고
+                <br />
+                랭킹 올리기
+              </>
+            }
+          >
+            <BackgroundStore css={{ width: "100%", height: "100%" }} />
+          </ButtonContainer>
         </div>
       </div>
       <WhiteContainerSuggestJoinEvent />

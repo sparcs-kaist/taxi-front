@@ -13,7 +13,7 @@ import theme from "@/tools/theme";
 interface Ranker {
   _id: string;
   userId: string;
-  level: number;
+  bestRecord: number;
   nickname: string;
 }
 
@@ -92,18 +92,36 @@ const Ranking = ({ refreshTrigger }: { refreshTrigger?: number }) => {
       >
         <div
           style={{
-            ...theme.font16_bold,
-            marginBottom: "20px",
-            textAlign: "center",
             display: "flex",
+            flexDirection: "column",
             alignItems: "center",
-            gap: "8px",
-            padding: "0 24px",
             width: "100%",
-            justifyContent: "center",
+            marginBottom: "14px",
+            gap: "8px",
           }}
         >
-          🏆 명예의 전당
+          <div
+            style={{
+              ...theme.font16_bold,
+              textAlign: "center",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              padding: "0 24px",
+              justifyContent: "center",
+            }}
+          >
+            🏆 명예의 전당
+          </div>
+          <div
+            style={{
+              ...theme.font12,
+              color: theme.gray_text,
+              textAlign: "center",
+            }}
+          >
+            최고 강화 수치를 기준으로 순위가 매겨집니다.
+          </div>
         </div>
 
         <div
@@ -210,7 +228,7 @@ const Ranking = ({ refreshTrigger }: { refreshTrigger?: number }) => {
                           marginLeft: "8px",
                         }}
                       >
-                        +{user.level}강
+                        +{user.bestRecord}강
                       </div>
                     </div>
                   );

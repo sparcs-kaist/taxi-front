@@ -86,7 +86,12 @@ const GameMain = () => {
   // -----------------------------------------------------------------------
   const axios = useAxios();
   const [level, setLevel] = useState(0);
+  const [bestRecord, setBestRecord] = useState(0);
   const [amount, setAmount] = useState(0);
+
+  const getEnhanceCost = (currentLevel: number) => {
+    return currentLevel < 10 ? 200 : currentLevel * 20;
+  };
   const setAlert = useSetRecoilState(alertAtom);
   const minigameInfo = useValueRecoilState("gameInfo");
   const fetchMinigameInfo = useFetchRecoilState("gameInfo");
@@ -132,6 +137,7 @@ const GameMain = () => {
     if (minigameInfo) {
       const newLevel = minigameInfo.level || 0;
       const newAmount = minigameInfo.creditAmount || 0;
+      const newBestRecord = minigameInfo.bestRecord || 0;
 
       if (isLoading) {
         // 3초 딜레이 후 결과 반영
@@ -147,6 +153,7 @@ const GameMain = () => {
           }
 
           setLevel(newLevel);
+          setBestRecord(newBestRecord);
           setAmount(newAmount);
 
           setIsLoading(false);
@@ -155,12 +162,14 @@ const GameMain = () => {
       } else {
         if (!isLoading && !isEnhanceModalOpen) {
           setLevel(newLevel);
+          setBestRecord(newBestRecord);
           setAmount(newAmount);
         }
       }
 
       if (!isLoading) {
         setLevel(newLevel);
+        setBestRecord(newBestRecord);
         setAmount(newAmount);
       }
     }
@@ -171,7 +180,7 @@ const GameMain = () => {
   // -----------------------------------------------------------------------
 
   const handleEnhance = () => {
-    if (amount < level * 100) {
+    if (amount < getEnhanceCost(level)) {
       alert("돈이 부족합니다!");
       setIsEnhanceConfirmOpen(false);
       return;
@@ -245,12 +254,31 @@ const GameMain = () => {
         >
           <div
             style={{
-              ...theme.font16_bold,
-              textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "6px",
               width: "100%",
             }}
           >
-            현재 상태: +{level}강
+            <div
+              style={{
+                ...theme.font16_bold,
+                textAlign: "center",
+              }}
+            >
+              현재 상태: +{level}강
+            </div>
+            <div
+              style={{
+                ...theme.font14_bold,
+                color: theme.purple,
+                textAlign: "center",
+                marginBottom: "-4px",
+              }}
+            >
+              (최고 기록: +{bestRecord}강)
+            </div>
           </div>
 
           <div
@@ -369,7 +397,7 @@ const GameMain = () => {
         isOpen={isEnhanceConfirmOpen}
         onClose={() => setIsEnhanceConfirmOpen(false)}
         onConfirm={handleEnhance}
-        cost={level * 100}
+        cost={getEnhanceCost(level)}
         currentMoney={amount}
         level={level}
         usedItems={usedItems} // [추가] 사용된 아이템 전달

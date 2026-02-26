@@ -6,6 +6,8 @@ export type GameInfoType = Nullable<{
   creditAmount: number;
   preventFail: number;
   preventBurst: number;
+  bestRecord: number;
+  usedCredit: number;
 }>;
 
 const gameInfoAtom = atom<GameInfoType>({
