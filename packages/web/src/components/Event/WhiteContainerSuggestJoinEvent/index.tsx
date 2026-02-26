@@ -4,7 +4,7 @@ import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import Button from "@/components/Button";
 import {
-  ModalEvent2025FallJoin,
+  ModalEvent2026SpringJoin,
   ModalNotification,
 } from "@/components/ModalPopup";
 import WhiteContainer from "@/components/WhiteContainer";
@@ -21,7 +21,7 @@ const WhiteContainerSuggestJoinEvent = () => {
   // );
 
   const { isAgreeOnTermsOfEvent } =
-    useValueRecoilState("event2025FallInfo") || {};
+    useValueRecoilState("event2026SpringInfo") || {}; 
 
   const [isOpenJoin, setIsOpenJoin] = useState<boolean>(false);
   const [isOpenNotification, setIsOpenNotification] = useState<boolean>(false);
@@ -77,7 +77,7 @@ const WhiteContainerSuggestJoinEvent = () => {
       //   </WhiteContainer>
       // ) : null}
       */}
-      <ModalEvent2025FallJoin
+      <ModalEvent2026SpringJoin
         isOpen={isOpenJoin}
         onChangeIsOpen={setIsOpenJoin}
       />

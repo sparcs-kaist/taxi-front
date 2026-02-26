@@ -2,8 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 
-import { useEvent2025FallQuestComplete } from "@/hooks/event/useEvent2025FallQuestComplete";
-import { useEvent2025SpringQuestComplete } from "@/hooks/event/useEvent2025SpringQuestComplete";
+import { useEvent2026SpringQuestComplete } from "@/hooks/event/useEvent2026SpringQuestComplete";
 import {
   useFetchRecoilState,
   useIsLogin,
@@ -74,12 +73,11 @@ const AddRoom = () => {
   const isLogin = useIsLogin();
   const myRooms = useValueRecoilState("myRooms");
   const fetchMyRooms = useFetchRecoilState("myRooms");
-  //#region event2025spring
-  const event2025SpringQuestComplete = useEvent2025SpringQuestComplete();
+  //#region event2026Spring
+  const event2026SpringQuestComplete = useEvent2026SpringQuestComplete();
   const [isOpenModalEventAbuseWarning, setIsOpenModalEventAbuseWarning] =
     useState<boolean>(false);
   //#endregion
-  const event2025FallQuestComplete = useEvent2025FallQuestComplete();
 
   const [taxiFare, setTaxiFare] = useState<number>(0);
 
@@ -156,45 +154,45 @@ const AddRoom = () => {
     if (!onCall.current) {
       onCall.current = true;
 
-      // #region event2025fall
-      let isAgreeOnTermsOfEvent = false;
-      await axios({
-        url: "/events/2025fall/globalState",
-        method: "get",
-        onSuccess: (data) => {
-          if (data.isAgreeOnTermsOfEvent) {
-            isAgreeOnTermsOfEvent = data.isAgreeOnTermsOfEvent;
-          }
-          event2025FallQuestComplete("allBadgedSettlement");
-        },
-        onError: () => {},
-      });
+      // // #region event2025fall
+      // let isAgreeOnTermsOfEvent = false;
+      // await axios({
+      //   url: "/events/2025fall/globalState",
+      //   method: "get",
+      //   onSuccess: (data) => {
+      //     if (data.isAgreeOnTermsOfEvent) {
+      //       isAgreeOnTermsOfEvent = data.isAgreeOnTermsOfEvent;
+      //     }
+      //     event2025FallQuestComplete("firstRoomCreation");
+      //   },
+      //   onError: () => {},
+      // });
 
-      if (isAgreeOnTermsOfEvent) {
-        let isFalse = false;
-        await axios({
-          url: "/rooms/create/test",
-          method: "post",
-          data: {
-            from: valuePlace[0],
-            to: valuePlace[1],
-            time: calculatedTime!.toISOString(),
-            maxPartLength: valueMaxPeople,
-            withCarrier: valueHasCarrier, // create room 시 캐리어 소지 여부 전달, API 수정 필요
-          },
-          onSuccess: (data) => {
-            if (data!.result === false) {
-              setIsOpenModalEventAbuseWarning(true);
-              onCall.current = false;
-              isFalse = true;
-              return;
-            }
-          },
-          onError: () => {},
-        });
-        if (isFalse) return;
-      }
-      // #endregion
+      // if (isAgreeOnTermsOfEvent) {
+      //   let isFalse = false;
+      //   await axios({
+      //     url: "/rooms/create/test",
+      //     method: "post",
+      //     data: {
+      //       from: valuePlace[0],
+      //       to: valuePlace[1],
+      //       time: calculatedTime!.toISOString(),
+      //       maxPartLength: valueMaxPeople,
+      //       withCarrier: valueHasCarrier, // create room 시 캐리어 소지 여부 전달, API 수정 필요
+      //     },
+      //     onSuccess: (data) => {
+      //       if (data!.result === false) {
+      //         setIsOpenModalEventAbuseWarning(true);
+      //         onCall.current = false;
+      //         isFalse = true;
+      //         return;
+      //       }
+      //     },
+      //     onError: () => {},
+      //   });
+      //   if (isFalse) return;
+      // }
+      // // #endregion
 
       await axios({
         url: "/rooms/searchByTimeGap",
@@ -265,8 +263,8 @@ const AddRoom = () => {
           }
 
           fetchMyRooms();
-          //#region event2025Spring
-          event2025SpringQuestComplete("firstRoomCreation");
+          //#region event2026Spring
+          event2026SpringQuestComplete("firstRoomCreation");
           //#endregion
           history.push("/myroom");
         },
@@ -360,8 +358,8 @@ const AddRoom = () => {
               },
               onSuccess: () => {
                 fetchMyRooms();
-                //#region event2025Spring
-                // event2025SpringQuestComplete("firstRoomCreation");
+                //#region event2026Spring
+                  event2026SpringQuestComplete("firstRoomCreation");
                 //#endregion
                 history.push("/myroom");
               },

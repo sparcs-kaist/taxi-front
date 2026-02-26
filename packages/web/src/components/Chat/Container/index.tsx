@@ -1,9 +1,11 @@
+import type { LayoutType } from "@/types/chat";
+
 import HeaderBar from "@/components/Header/HeaderBar";
 
 import { deviceType } from "@/tools/loadenv";
 
 type ContainerProps = {
-  layoutType: "sidechat" | "fullchat";
+  layoutType: LayoutType;
   children: React.ReactNode;
 };
 

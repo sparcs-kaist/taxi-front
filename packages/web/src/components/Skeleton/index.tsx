@@ -1,7 +1,6 @@
 import { ReactNode, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-import { useEvent2025FallEffect } from "@/hooks/event/useEvent2025FallEffect";
 import useCSSVariablesEffect from "@/hooks/skeleton/useCSSVariablesEffect";
 import useChannelTalkEffect from "@/hooks/skeleton/useChannelTalkEffect";
 import useFirebaseMessagingEffect from "@/hooks/skeleton/useFirebaseMessagingEffect";
@@ -30,6 +29,7 @@ import errorAtom from "@/atoms/error";
 import { useRecoilValue } from "recoil";
 
 import { deviceType } from "@/tools/loadenv";
+import { useEvent2026SpringEffect } from "@/hooks/event/useEvent2026SpringEffect";
 
 type ContainerProps = {
   children: ReactNode;
@@ -61,7 +61,7 @@ const Skeleton = ({ children }: SkeletonProps) => {
   const isLoading = userId === null;
   const isDisplayNavigation = useMemo(
     () =>
-      !["/login", "/logout", "/chatting"].some((prefix) =>
+      !["/login", "/logout", "/chatting", "/game"].some((prefix) =>
         pathname.startsWith(prefix)
       ),
     [pathname]
@@ -70,10 +70,7 @@ const Skeleton = ({ children }: SkeletonProps) => {
   const [dailyAttendanceOpened, setDailyAttendanceOpened] =
     useState<boolean>(false);
 
-  //#region event2025Spring
-  // useEvent2025SpringEffect();
-  //#endregion
-  useEvent2025FallEffect();
+  useEvent2026SpringEffect();
   useSyncRecoilStateEffect(); // loginIngo, taxiLocations, myRooms, notificationOptions 초기화 및 동기화
   useI18nextEffect();
   useScrollRestorationEffect();

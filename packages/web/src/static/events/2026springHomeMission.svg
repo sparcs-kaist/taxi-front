@@ -1,0 +1,34 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g clip-path="url(#clip0_166_487)">
+<rect width="128" height="128" fill="url(#paint0_linear_166_487)"/>
+<rect width="128" height="128" fill="url(#paint1_linear_166_487)"/>
+<rect opacity="0.9" x="52.3242" y="16.1681" width="44.6601" height="44.6601" transform="rotate(-23.6886 52.3242 16.1681)" fill="url(#pattern0_166_487)"/>
+<rect opacity="0.8" x="12.4036" y="17.5571" width="68.8322" height="68.8322" transform="rotate(9.21245 12.4036 17.5571)" fill="url(#pattern1_166_487)"/>
+<rect opacity="0.7" x="81.7439" y="38.2887" width="60" height="60" transform="rotate(35.0472 81.7439 38.2887)" fill="url(#pattern2_166_487)"/>
+</g>
+<defs>
+<pattern id="pattern0_166_487" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_166_487" transform="scale(0.0416667)"/>
+</pattern>
+<pattern id="pattern1_166_487" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image1_166_487" transform="scale(0.0416667)"/>
+</pattern>
+<pattern id="pattern2_166_487" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image2_166_487" transform="scale(0.0416667)"/>
+</pattern>
+<linearGradient id="paint0_linear_166_487" x1="64" y1="0" x2="64" y2="128" gradientUnits="userSpaceOnUse">
+<stop stop-color="#203F76"/>
+<stop offset="1" stop-color="#797F6C"/>
+</linearGradient>
+<linearGradient id="paint1_linear_166_487" x1="64" y1="0" x2="64" y2="128" gradientUnits="userSpaceOnUse">
+<stop stop-opacity="0"/>
+<stop offset="1" stop-opacity="0.6"/>
+</linearGradient>
+<clipPath id="clip0_166_487">
+<rect width="128" height="128" fill="white"/>
+</clipPath>
+<image id="image0_166_487" width="24" height="24" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYBAMAAAASWSDLAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAPUExURf9XIQAAAP/BB/+YAP/rO/I8uLUAAAABdFJOUwBA5thmAAAAAWJLR0QB/wIt3gAAAAd0SU1FB+oCGQY7FXk4rlAAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjYtMDItMjVUMDY6NTk6MjErMDA6MDBtSSPOAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDI2LTAyLTI1VDA2OjU5OjIxKzAwOjAwHBSbcgAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAyNi0wMi0yNVQwNjo1OToyMSswMDowMEsBuq0AAAB0SURBVBjTfY/RDcMwCETtDWxvkIMJIBMg9p+pmCQqVaue+ODJp8PX2n/NWXZgvnfVhzoUMSNhEUJyXCAbOKET2N1gI4EtHixhiW0bpW+dYCHD+Q3V1okim+ROA6nKFf1xtC3eYMf9UUfMeCq410KoVcv+Uy/2YBVlzZqesQAAAABJRU5ErkJggg=="/>
+<image id="image1_166_487" width="24" height="24" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYBAMAAAASWSDLAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAPUExURQAAAAAAAP/BB/+YAP/rO8JBohIAAAABdFJOUwBA5thmAAAAAWJLR0QAiAUdSAAAAAd0SU1FB+oCGQY7FXk4rlAAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjYtMDItMjVUMDY6NTk6MjErMDA6MDBtSSPOAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDI2LTAyLTI1VDA2OjU5OjIxKzAwOjAwHBSbcgAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAyNi0wMi0yNVQwNjo1OToyMSswMDowMEsBuq0AAABrSURBVBjTfc/RDcAgCARQ3UDdoAcLiE5A3H+magTjR1O+eAnRuxD+J+drB44imiAZCoHwOARQQyQAbHcTfFCEdfhdEQXE0Vk6af3APqvngQZDXAGY0vWpYcepnm0FqKfC0OYVZjm6q17757zw9BIudeZKaAAAAABJRU5ErkJggg=="/>
+<image id="image2_166_487" width="24" height="24" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYBAMAAAASWSDLAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAPUExURQAAAAAAAP/BB/+YAP/rO8JBohIAAAABdFJOUwBA5thmAAAAAWJLR0QAiAUdSAAAAAd0SU1FB+oCGQY7FXk4rlAAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjYtMDItMjVUMDY6NTk6MjErMDA6MDBtSSPOAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDI2LTAyLTI1VDA2OjU5OjIxKzAwOjAwHBSbcgAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAyNi0wMi0yNVQwNjo1OToyMSswMDowMEsBuq0AAABbSURBVBjTfc/RDYAwCARQuoFlAw8WKDoBdv+ZNCZCNY188ZIDAtF/1Zp9AZYAA2tis0ARaOQ+0ASbmz9DvEMG2OFtjivWxgUtVovKeHQO4h4j9wuJgky9357WCSO1DYv4PjaVAAAAAElFTkSuQmCC"/>
+</defs>
+</svg>
