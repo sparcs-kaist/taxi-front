@@ -20,14 +20,24 @@ export default (
 
   return useCallback(
     async (
-      type: "text" | "account" | "image" | "wordChain",
+      type:
+        | "text"
+        | "account"
+        | "image"
+        | "wordChain"
+        | "racing"
+        | "racingStart",
       { text, file }: { text?: string; file?: File }
     ): Promise<boolean> => {
       // 메시지 전송 중이라면 중복 전송을 막습니다.
       if (isSendingMessage.current) return false;
 
       try {
-        if (["text", "account", "wordChain"].includes(type)) {
+        if (
+          ["text", "account", "wordChain", "racing", "racingStart"].includes(
+            type
+          )
+        ) {
           // 메시지가 정규식 검사에서 통과하지 못했다면 전송을 막습니다.
           if (!text) throw new Error();
           if (
@@ -40,12 +50,19 @@ export default (
             throw new Error();
 
           isSendingMessage.current = true;
-          const { result } = await axios({
+          const res = await axios({
             url: "/chats/send",
             method: "post",
             data: { roomId, type, content: text },
           });
-          if (result) {
+
+          // Some endpoints like `racing` return `{success: ...}`, while others return `{result: ...}` depending on the route wrapper
+          if (
+            res?.result ||
+            res?.success ||
+            type === "racing" ||
+            type === "racingStart"
+          ) {
             // 채팅 읽은 시간 업데이트
             handleRead();
             isSendingMessage.current = false;

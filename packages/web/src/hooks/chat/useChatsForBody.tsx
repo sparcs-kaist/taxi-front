@@ -117,12 +117,17 @@ export default (
         item.type === "departure" ||
         item.type === "arrival" ||
         item.type === "wordChain" ||
-        item.type === "gameRecommendation"
+        item.type === "gameRecommendation" ||
+        item.type === "racing"
       ) {
         if (
-          ["share", "departure", "arrival", "gameRecommendation"].includes(
-            item.type
-          )
+          [
+            "share",
+            "departure",
+            "arrival",
+            "gameRecommendation",
+            "racing",
+          ].includes(item.type)
         ) {
           item.authorId = "bot";
           item.authorName = "택시 봇";
@@ -140,8 +145,16 @@ export default (
         ) {
           popQueue();
         }
-        if (!chatsCache) chatsCache = [];
-        chatsCache.push(item);
+
+        // 백엔드에서 racing 타입으로 보내는 원시 배팅 메시지("X:Y" 형태)는 화면에 표시하지 않음
+        const isRawBettingPayload =
+          item.type === "racing" && /^\d+:\s*\d+$/.test(item.content);
+
+        // 원시 배팅 데이터가 아닐 경우에만 캐시에 푸시
+        if (!isRawBettingPayload) {
+          if (!chatsCache) chatsCache = [];
+          chatsCache.push(item);
+        }
       }
       momentCache = currentMoment.clone();
     });

@@ -1,5 +1,7 @@
 import { keyframes } from "@emotion/react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import theme from "@/tools/theme";
 
@@ -39,16 +41,167 @@ type Taxi = {
 };
 
 const RACING_TAXI_COUNT = 8;
-const FINISH_LINE = 100;
+const FINISH_LINE = 1000;
 
-const RacingGame = (_: RacingGameProps) => {
-  const [gameState, setGameState] = useState<"betting" | "racing" | "result">(
-    "betting"
+const getRaceStateFromChats = (
+  chats: any[],
+  myNickname?: string,
+  myOid?: string
+) => {
+  const racingChats = chats.filter(
+    (c) => c.type === "racing" || c.type === "raceLog"
   );
+  let state: "betting" | "racing" | "result" | "canceled" = "betting";
+  let entries: Record<number, string> = {};
+  let mySelection: number | null = null;
+  let raceLogRaw: string | null = null;
+  let resultLines: string[] = [];
+  let hostName: string | null = null;
+
+  for (const chat of racingChats) {
+    if (chat.type === "raceLog") {
+      raceLogRaw = chat.content;
+    } else {
+      const { content } = chat;
+      if (
+        content.includes("경마 방을 만들었습니다.") ||
+        content.includes("경마 방에 참가했습니다.")
+      ) {
+        if (content.includes("경마 방을 만들었습니다.")) {
+          const createMatch = content.match(
+            /^(.*?)님이 경마 방을 만들었습니다\./
+          );
+          if (createMatch) {
+            hostName = createMatch[1];
+          }
+          // 방장이든 일반 참가자든 방 생성 시 기존 캐싱된 선택 및 참가자를 완전히 초기화
+          entries = {};
+          mySelection = null;
+          raceLogRaw = null;
+          resultLines = [];
+        }
+        state = "betting";
+
+        // 포맷 2: "경마 방에 참가했습니다."
+        const joinMatch = content.match(
+          /^(.*?)님이 경마 방에 참가했습니다\.\s*.*?\(차량:\s*(\d+),\s*배팅:/
+        );
+        if (joinMatch) {
+          const nickname = joinMatch[1];
+          const car = parseInt(joinMatch[2], 10);
+          entries[car] = nickname;
+          if (nickname === myNickname) {
+            mySelection = car;
+          }
+        }
+      } else if (
+        content.includes("경마를 시작합니다.") ||
+        content.includes("참가자가 모여 경마를 시작합니다.")
+      ) {
+        state = "racing";
+      } else if (
+        content.includes(
+          "1분 동안 참가자가 더 오지 않아 경마가 취소되었습니다."
+        ) ||
+        content.includes("경마를 진행할 참가 정보가 없어 종료되었습니다.") ||
+        content.includes("경마 진행 중 오류가 발생했습니다.")
+      ) {
+        state = "canceled";
+      } else if (content.includes("경주 결과")) {
+        state = "result";
+        resultLines = content.split("\n").slice(1);
+      } else if (chat.type === "racing" && /^\d+:\s*\d+$/.test(content)) {
+        // "차량:금액" 포맷의 원시 배팅 메시지 캡처를 위한 폴백
+        const [carStr] = content.split(":");
+        const car = parseInt(carStr, 10);
+
+        let assumedAuthor =
+          chat.authorName && chat.authorName !== "택시 봇"
+            ? chat.authorName
+            : null;
+
+        // 원시 봇 메시지에 작성자가 누락된 경우, 방장의 최초 배팅이라고만 가정.
+        // 만약 방장이 이미 택시를 배정받았다면 남의 배팅이므로 무시함! (남의 배팅은 "참가했습니다" 봇 메시지로 정상 처리됨)
+        if (!assumedAuthor && hostName) {
+          const hostAlreadyHasCar = Object.values(entries).includes(hostName);
+          if (!hostAlreadyHasCar) {
+            assumedAuthor = hostName;
+          }
+        }
+
+        if (assumedAuthor) {
+          // 이전에 다른 사람이 차지한 빈자리 등 덮어쓰기 방지
+          entries[car] = assumedAuthor;
+          if (assumedAuthor === myNickname) {
+            mySelection = car;
+          }
+        } else if (chat.isMine) {
+          // Optimistic UI로 들어온 내 배팅인 경우 (위 조건에 안 걸렸을 때만)
+          const iAlreadyHaveCar = myNickname
+            ? Object.values(entries).includes(myNickname)
+            : false;
+          if (!iAlreadyHaveCar && myNickname) {
+            entries[car] = myNickname;
+            mySelection = car;
+          }
+        }
+      }
+    }
+  }
+
+  return { state, entries, mySelection, raceLogRaw, resultLines, hostName };
+};
+
+const RacingGame = ({
+  roomId,
+  chats,
+  sendMessage,
+  roomInfo,
+}: RacingGameProps) => {
+  const loginInfo = useValueRecoilState("loginInfo");
+  const myNickname = loginInfo?.nickname;
+  const myOid = loginInfo?.oid;
+
+  const [ignoreChatsBeforeIndex, setIgnoreChatsBeforeIndex] =
+    useState<number>(0);
+
+  const activeChats = useMemo(
+    () => chats.slice(ignoreChatsBeforeIndex),
+    [chats, ignoreChatsBeforeIndex]
+  );
+
+  const {
+    state: backendState,
+    entries,
+    mySelection,
+    raceLogRaw,
+    resultLines,
+    hostName,
+  } = useMemo(
+    () => getRaceStateFromChats(activeChats, myNickname, myOid),
+    [activeChats, myNickname, myOid]
+  );
+
+  const raceLogData = useMemo((): Record<number, number[]> | null => {
+    try {
+      return raceLogRaw ? JSON.parse(raceLogRaw) : null;
+    } catch {
+      return null;
+    }
+  }, [raceLogRaw]);
+
+  const [gameState, setGameState] = useState<
+    "betting" | "racing" | "result" | "canceled"
+  >(backendState);
+
   const [selectedTaxiId, setSelectedTaxiId] = useState<number | null>(null);
+  const [betAmount, setBetAmount] = useState<string>("100");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [taxis, setTaxis] = useState<Taxi[]>([]);
   const [winnerId, setWinnerId] = useState<number | null>(null);
   const requestRef = useRef<number>();
+  const startTimeRef = useRef<number | null>(null);
 
   useEffect(() => {
     const initialTaxis = Array.from(
@@ -66,125 +219,218 @@ const RacingGame = (_: RacingGameProps) => {
     setTaxis(initialTaxis);
   }, []);
 
-  const startRace = (myTaxiId: number) => {
-    setSelectedTaxiId(myTaxiId);
-    setGameState("racing");
-    setWinnerId(null);
-    setTaxis((prev) =>
-      prev.map((taxi) => ({
-        ...taxi,
-        position: 0,
-        rank: null,
-        state: "running",
-        stateDuration: 0,
-      }))
-    );
-  };
-
-  const updateRace = () => {
-    setTaxis((prevTaxis) => {
-      let isRaceFinished = false;
-      const sortedTaxis = [...prevTaxis].sort(
-        (a, b) => b.position - a.position
-      );
-
-      const newTaxis = prevTaxis.map((taxi) => {
-        if (taxi.rank !== null) return taxi;
-        if (taxi.state === "accident") return taxi; // Crashed taxis don't move
-
-        let newSpeed = Math.max(
-          0.01,
-          Math.min(0.08, (taxi.speed || 0.05) + (Math.random() - 0.5) * 0.01)
-        );
-        let newState: Taxi["state"] = taxi.state;
-        let newStateDuration = taxi.stateDuration;
-
-        const currentRank = sortedTaxis.findIndex((t) => t.id === taxi.id) + 1;
-
-        if (newStateDuration > 0) {
-          newStateDuration -= 1;
-          if (newState === "boost") {
-            if (currentRank <= 2) newSpeed = 0.2;
-            else if (currentRank <= 4) newSpeed = 0.3;
-            else if (currentRank <= 6) newSpeed = 0.35;
-            else newSpeed = 0.4;
-          } else if (newState === "stunned") {
-            newSpeed = 0.02;
-          }
-        } else {
-          newState = "running";
-          const rand = Math.random();
-          let boostChance = 0;
-          if (currentRank <= 2) boostChance = 0.002;
-          else if (currentRank <= 4) boostChance = 0.003;
-          else if (currentRank <= 6) boostChance = 0.004;
-          else boostChance = 0.005;
-
-          let accidentChance = 0;
-          if (currentRank <= 2) accidentChance = 0.0004;
-          else if (currentRank <= 4) accidentChance = 0.0002;
-          else if (currentRank <= 6) accidentChance = 0.0001;
-          else accidentChance = 0;
-
-          if (rand < accidentChance) {
-            newState = "accident";
-            newSpeed = 0;
-            newStateDuration = 0;
-          } else if (rand < accidentChance + boostChance) {
-            newState = "boost";
-            newStateDuration = 30 + Math.random() * 30;
-          } else if (rand < accidentChance + boostChance + 0.008) {
-            newState = "stunned";
-            newStateDuration = 20 + Math.random() * 40;
-          }
-        }
-
-        const newPosition = taxi.position + newSpeed;
-
-        if (newPosition >= FINISH_LINE) {
-          return {
-            ...taxi,
-            position: FINISH_LINE,
-            speed: newSpeed,
-            rank: 1,
-            state: newState,
-            stateDuration: newStateDuration,
-          };
-        }
-        return {
-          ...taxi,
-          position: newPosition,
-          speed: newSpeed,
-          state: newState,
-          stateDuration: newStateDuration,
-        };
-      });
-
-      const winner = newTaxis.find((t) => t.position >= FINISH_LINE);
-      if (winner && !winnerId) {
-        setWinnerId(winner.id);
-        isRaceFinished = true;
-      }
-
-      if (isRaceFinished) {
-        setTimeout(() => setGameState("result"), 1000);
-      } else {
-        requestRef.current = requestAnimationFrame(updateRace);
-      }
-      return newTaxis;
-    });
-  };
+  const lastProcessedBackendState = useRef(backendState);
 
   useEffect(() => {
-    if (gameState === "racing") {
+    if (backendState !== lastProcessedBackendState.current) {
+      lastProcessedBackendState.current = backendState;
+      if (backendState === "canceled") {
+        setGameState("canceled");
+      } else if (backendState === "result") {
+        // 결과 상태로 진입 시 즉시 결과를 띄우지 않고,
+        // 애니메이션(레이싱) 데이터가 있다면 레이싱 상태를 먼저 거쳐서 애니메이션이 재생되도록 인터셉트
+        if (gameState === "betting" && raceLogData) {
+          setGameState("racing");
+          startTimeRef.current = null;
+          setTaxis((prev) =>
+            prev.map((taxi) => ({
+              ...taxi,
+              position: 0,
+              rank: null,
+              state: "running",
+              stateDuration: 0,
+            }))
+          );
+        } else if (gameState !== "racing" && gameState !== "result") {
+          setGameState("result");
+        }
+      } else if (backendState === "racing" && gameState === "betting") {
+        setGameState("racing");
+        startTimeRef.current = null;
+        setTaxis((prev) =>
+          prev.map((taxi) => ({
+            ...taxi,
+            position: 0,
+            rank: null,
+            state: "running",
+            stateDuration: 0,
+          }))
+        );
+      } else if (backendState === "betting" && gameState !== "betting") {
+        setGameState("betting");
+      }
+    }
+  }, [backendState, gameState]);
+
+  useEffect(() => {
+    if (mySelection) {
+      setSelectedTaxiId(mySelection);
+    }
+  }, [mySelection]);
+
+  useEffect(() => {
+    // Parse result lines to find winner
+    if (gameState === "result" && resultLines.length > 0) {
+      const firstPlaceLine = resultLines.find((line) =>
+        line.startsWith("1등:")
+      );
+      if (firstPlaceLine) {
+        const match = firstPlaceLine.match(/(\d+)번차/);
+        if (match) {
+          setWinnerId(parseInt(match[1], 10));
+        }
+      }
+    }
+  }, [gameState, resultLines]);
+
+  const placeBet = async () => {
+    if (!selectedTaxiId) return;
+    const amount = parseInt(betAmount, 10);
+    if (isNaN(amount) || amount <= 0 || amount > 10000) {
+      alert("배팅 금액은 1~10000 사이의 숫자여야 합니다.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    const success = await sendMessage("racing", {
+      text: `${selectedTaxiId}:${amount}`,
+    });
+    setIsSubmitting(false);
+
+    if (!success) {
+      alert("전송에 실패했습니다.");
+    }
+  };
+
+  const startGame = async () => {
+    setIsSubmitting(true);
+    const success = await sendMessage("racingStart", { text: "start" });
+    setIsSubmitting(false);
+
+    if (!success) {
+      alert("전송에 실패했습니다.");
+    }
+  };
+
+  const updateRace = useCallback(
+    (timestamp: number) => {
+      if (!raceLogData) {
+        if (gameState === "racing")
+          setTimeout(() => setGameState("result"), 1000);
+        return;
+      }
+
+      if (!startTimeRef.current) {
+        startTimeRef.current = timestamp;
+      }
+
+      const elapsedMs = timestamp - startTimeRef.current;
+
+      // We want the total race to take exactly 25 seconds
+      const TOTAL_DURATION_MS = 25000;
+
+      const maxLogsLength = Math.max(
+        ...Object.values(raceLogData).map((logs) => logs.length)
+      );
+
+      // If maxLogsLength is 0, race is invalid
+      if (maxLogsLength === 0) {
+        setGameState("result");
+        return;
+      }
+
+      // floatTick ranges from 0 to maxLogsLength
+      const floatTick = (elapsedMs / TOTAL_DURATION_MS) * maxLogsLength;
+
+      setTaxis((prevTaxis) => {
+        let allFinishedArray = true;
+
+        const newTaxis = prevTaxis.map((taxi) => {
+          const logs = raceLogData[taxi.id] || [];
+
+          // If we haven't reached the end of this taxi's log yet
+          if (floatTick < logs.length) {
+            allFinishedArray = false;
+          }
+
+          // Calculate exact interpolated distance up to floatTick
+          let currentPos = 0;
+          let currentState: Taxi["state"] = "running";
+          let lastSpeed = 0;
+
+          const completeTicks = Math.min(Math.floor(floatTick), logs.length);
+          const remainderTick = floatTick - completeTicks;
+
+          for (let i = 0; i < completeTicks; i++) {
+            const v = logs[i];
+            if (v === -1) {
+              currentState = "accident";
+              lastSpeed = 0;
+            } else if (currentState !== "accident") {
+              const stepUnits = Math.round(v * 1000);
+              currentPos += stepUnits;
+              lastSpeed = v;
+              if (stepUnits > 50) currentState = "boost";
+              else currentState = "running";
+            }
+          }
+
+          // Add proportional distance for the current fractional tick
+          if (completeTicks < logs.length && currentState !== "accident") {
+            const nextV = logs[completeTicks];
+            if (nextV === -1) {
+              currentState = "accident";
+              lastSpeed = 0;
+            } else {
+              const stepUnits = Math.round(nextV * 1000);
+              currentPos += stepUnits * remainderTick;
+              lastSpeed = nextV;
+              if (stepUnits > 50) currentState = "boost";
+              else currentState = "running";
+            }
+          }
+
+          currentPos = Math.min(FINISH_LINE, currentPos);
+
+          // Force the taxi to its final state if log array is exhausted
+          if (floatTick >= logs.length) {
+            // Determine accident or finished/not-finished based on final distance
+            // If -1 is present anywhere in the logs, it means accident.
+            if (logs.includes(-1)) currentState = "accident";
+            else currentState = "running";
+          }
+
+          return {
+            ...taxi,
+            position: currentPos,
+            speed: lastSpeed,
+            state: currentState,
+          };
+        });
+
+        if (!allFinishedArray) {
+          requestRef.current = requestAnimationFrame(updateRace);
+        } else {
+          setTimeout(() => setGameState("result"), 1000);
+        }
+        return newTaxis;
+      });
+    },
+    [gameState, raceLogData]
+  );
+
+  useEffect(() => {
+    if (gameState === "racing" && raceLogData) {
+      startTimeRef.current = null;
       requestRef.current = requestAnimationFrame(updateRace);
     }
     return () => {
       if (requestRef.current) cancelAnimationFrame(requestRef.current);
     };
-  }, [gameState]);
+  }, [gameState, raceLogData, updateRace]);
 
   const handleRestart = () => {
+    setIgnoreChatsBeforeIndex(chats.length);
     setGameState("betting");
     setSelectedTaxiId(null);
     setWinnerId(null);
@@ -219,16 +465,76 @@ const RacingGame = (_: RacingGameProps) => {
           overflowY: "auto",
         }}
       >
+        {gameState === "canceled" && (
+          <div
+            css={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100%",
+              gap: "16px",
+            }}
+          >
+            <div css={{ fontSize: "60px" }}>😿</div>
+            <div
+              css={{
+                ...theme.font16_bold,
+                color: theme.black,
+                textAlign: "center",
+              }}
+            >
+              참가자가 부족하여
+              <br />
+              경마가 취소되었습니다.
+            </div>
+            <button
+              onClick={handleRestart}
+              css={{
+                marginTop: "24px",
+                padding: "12px 24px",
+                borderRadius: "12px",
+                background: theme.purple,
+                color: theme.white,
+                ...theme.font14_bold,
+                border: "none",
+                cursor: "pointer",
+                boxShadow: theme.shadow,
+                transition: "background 0.2s",
+                "&:hover": { background: theme.purple_dark },
+              }}
+            >
+              다시 시작하기
+            </button>
+          </div>
+        )}
+
         {gameState === "betting" && (
-          <>
+          <div
+            css={{ display: "flex", flexDirection: "column", height: "100%" }}
+          >
             <div
               css={{
                 ...theme.font16_bold,
                 textAlign: "center",
-                padding: "10px 0",
+                padding: "8px 0",
               }}
             >
               우승할 택시를 선택하세요!
+              <div
+                css={{
+                  ...theme.font12,
+                  color: theme.purple,
+                  marginTop: "6px",
+                  fontWeight: "normal",
+                  background: theme.purple_light,
+                  padding: "8px",
+                  borderRadius: "8px",
+                  boxShadow: theme.shadow,
+                }}
+              >
+                참가자가 2명 이상 모이면 방장이 시작할 수 있습니다.
+              </div>
             </div>
             <div
               css={{
@@ -239,42 +545,230 @@ const RacingGame = (_: RacingGameProps) => {
                 "@media (min-width: 460px)": {
                   gridTemplateColumns: "repeat(4, 1fr)",
                 },
+                flex: 1,
+                overflowY: "auto",
+                paddingBottom: "320px",
               }}
             >
-              {taxis.map((taxi) => (
+              {taxis.map((taxi) => {
+                const isSelected = selectedTaxiId === taxi.id;
+                const occupier = entries[taxi.id];
+                const isOccupied = !!(occupier && occupier !== myNickname);
+                const amIOccupier = occupier === myNickname;
+
+                return (
+                  <button
+                    key={taxi.id}
+                    onClick={() => {
+                      if (!isOccupied && !mySelection)
+                        setSelectedTaxiId(taxi.id);
+                    }}
+                    disabled={isOccupied || !!mySelection}
+                    css={{
+                      padding: "8px 12px 12px 12px",
+                      border: isSelected ? `2px solid ${theme.purple}` : "none",
+                      background: isOccupied
+                        ? theme.gray_background
+                        : theme.purple_light,
+                      borderRadius: "12px",
+                      cursor: isOccupied ? "not-allowed" : "pointer",
+                      boxShadow: isSelected
+                        ? theme.shadow_clicked
+                        : theme.shadow,
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      gap: "4px",
+                      transition: "all 0.2s",
+                      position: "relative",
+                      opacity: isOccupied ? 0.6 : 1,
+                      "&:hover": {
+                        transform:
+                          isOccupied || !!mySelection ? "none" : "scale(1.02)",
+                        boxShadow:
+                          isOccupied || !!mySelection
+                            ? theme.shadow
+                            : theme.shadow_clicked,
+                      },
+                    }}
+                  >
+                    {isOccupied && (
+                      <div
+                        css={{
+                          position: "absolute",
+                          top: "4px",
+                          ...theme.font10,
+                          color: theme.red_button,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {occupier} 선택됨
+                      </div>
+                    )}
+                    {amIOccupier && (
+                      <div
+                        css={{
+                          position: "absolute",
+                          top: "4px",
+                          ...theme.font10,
+                          color: theme.purple,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        내 선택
+                      </div>
+                    )}
+                    <img
+                      src={TAXI_IMAGES[taxi.id - 1]}
+                      alt={`Taxi ${taxi.id}`}
+                      css={{
+                        width: "60px",
+                        height: "auto",
+                        margin: "12px 0 4px 0",
+                      }}
+                    />
+                    <div
+                      css={{
+                        ...theme.font14_bold,
+                        color: theme.black,
+                        marginTop: "auto",
+                      }}
+                    >
+                      {taxi.id}번
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Betting Input Bar */}
+            {myNickname !== hostName ? (
+              <div
+                css={{
+                  position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  background: theme.white,
+                  borderTop: `1px solid ${theme.gray_line}`,
+                  padding: "16px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "12px",
+                  boxShadow: "0 -4px 12px rgba(0,0,0,0.05)",
+                }}
+              >
+                <div
+                  css={{ display: "flex", gap: "12px", alignItems: "center" }}
+                >
+                  <div css={{ ...theme.font14_bold, whiteSpace: "nowrap" }}>
+                    배팅 금액
+                  </div>
+                  <input
+                    type="number"
+                    value={betAmount}
+                    onChange={(e) => setBetAmount(e.target.value)}
+                    placeholder="100 ~ 10000"
+                    min="1"
+                    max="10000"
+                    css={{
+                      flex: 1,
+                      padding: "8px 12px",
+                      borderRadius: "8px",
+                      border: `1px solid ${theme.gray_line}`,
+                      ...theme.font14,
+                      outline: "none",
+                      "&:focus": {
+                        borderColor: theme.purple,
+                      },
+                    }}
+                  />
+                </div>
                 <button
-                  key={taxi.id}
-                  onClick={() => startRace(taxi.id)}
+                  onClick={placeBet}
+                  disabled={!selectedTaxiId || isSubmitting || !!mySelection}
                   css={{
-                    padding: "16px",
+                    padding: "14px 0",
+                    width: "100%",
+                    background:
+                      !selectedTaxiId || !!mySelection
+                        ? theme.gray_background
+                        : theme.purple,
+                    color:
+                      !selectedTaxiId || !!mySelection
+                        ? theme.gray_text
+                        : theme.white,
                     border: "none",
-                    background: theme.purple_light,
                     borderRadius: "12px",
-                    cursor: "pointer",
-                    boxShadow: theme.shadow,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    gap: "8px",
-                    transition: "all 0.2s",
-                    "&:hover": {
-                      transform: "scale(1.02)",
-                      boxShadow: theme.shadow_clicked,
-                    },
+                    cursor:
+                      !selectedTaxiId || !!mySelection
+                        ? "not-allowed"
+                        : "pointer",
+                    ...theme.font16_bold,
+                    boxShadow:
+                      !selectedTaxiId || !!mySelection
+                        ? "none"
+                        : theme.shadow_purple_button_inset,
                   }}
                 >
-                  <img
-                    src={TAXI_IMAGES[taxi.id - 1]}
-                    alt={`Taxi ${taxi.id}`}
-                    css={{ width: "60px", height: "auto" }}
-                  />
-                  <div css={{ ...theme.font14_bold, color: theme.black }}>
-                    {taxi.id}번
-                  </div>
+                  {isSubmitting
+                    ? "전송 중..."
+                    : mySelection
+                      ? "방장의 시작 대기 중..."
+                      : "결정"}
                 </button>
-              ))}
-            </div>
-          </>
+              </div>
+            ) : myNickname === hostName ? (
+              <div
+                css={{
+                  position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  background: theme.white,
+                  borderTop: `1px solid ${theme.gray_line}`,
+                  padding: "16px",
+                  display: "flex",
+                  flexDirection: "column",
+                  boxShadow: "0 -4px 12px rgba(0,0,0,0.05)",
+                }}
+              >
+                <button
+                  onClick={startGame}
+                  disabled={Object.keys(entries).length < 2 || isSubmitting}
+                  css={{
+                    padding: "14px 0",
+                    width: "100%",
+                    background:
+                      Object.keys(entries).length < 2
+                        ? theme.gray_background
+                        : theme.purple,
+                    color:
+                      Object.keys(entries).length < 2
+                        ? theme.gray_text
+                        : theme.white,
+                    border: "none",
+                    borderRadius: "12px",
+                    cursor:
+                      Object.keys(entries).length < 2
+                        ? "not-allowed"
+                        : "pointer",
+                    ...theme.font16_bold,
+                    boxShadow:
+                      Object.keys(entries).length < 2
+                        ? "none"
+                        : theme.shadow_purple_button_inset,
+                  }}
+                >
+                  {isSubmitting
+                    ? "전송 중..."
+                    : Object.keys(entries).length < 2
+                      ? "참가자 대기 중..."
+                      : "경마 시작하기"}
+                </button>
+              </div>
+            ) : null}
+          </div>
         )}
 
         {gameState === "racing" && (
@@ -351,15 +845,17 @@ const RacingGame = (_: RacingGameProps) => {
                     {/* 택시 */}
                     <div
                       style={{
-                        left: `calc(2% + ${taxi.position * 0.87}%)`,
-                        transition: "left 0.1s linear",
+                        left: `calc(2% + ${(taxi.position / FINISH_LINE) * 87}%)`,
+                        // We rely entirely on requestAnimationFrame interpolation
+                        // CSS transitions removed entirely to prevent stutter and jitter
+                        transition: "none",
                       }}
                       css={{
                         position: "absolute",
                         top: "50%",
                         transform: "translateY(-50%)",
                         zIndex: 10,
-                        ...(taxi.id === selectedTaxiId
+                        ...(taxi.id === mySelection
                           ? {
                               filter: `drop-shadow(0 0 2px ${theme.white})`,
                               zIndex: 20,
@@ -375,24 +871,23 @@ const RacingGame = (_: RacingGameProps) => {
                       }}
                     >
                       {/* 선택된 택시 표시 */}
-                      {taxi.id === selectedTaxiId &&
-                        taxi.state !== "accident" && (
-                          <div
-                            css={{
-                              position: "absolute",
-                              top: "-18px",
-                              left: "50%",
-                              transform: "translateX(-50%)",
-                              fontSize: "12px",
-                              fontWeight: "bold",
-                              color: theme.purple,
-                              textShadow: "0px 0px 2px #ffffff",
-                              zIndex: 25,
-                            }}
-                          >
-                            ▼
-                          </div>
-                        )}
+                      {taxi.id === mySelection && taxi.state !== "accident" && (
+                        <div
+                          css={{
+                            position: "absolute",
+                            top: "-18px",
+                            left: "50%",
+                            transform: "translateX(-50%)",
+                            fontSize: "12px",
+                            fontWeight: "bold",
+                            color: theme.purple,
+                            textShadow: "0px 0px 2px #ffffff",
+                            zIndex: 25,
+                          }}
+                        >
+                          ▼
+                        </div>
+                      )}
                       {taxi.state === "accident" && (
                         <div
                           css={{
@@ -490,7 +985,7 @@ const RacingGame = (_: RacingGameProps) => {
                       rankScale = 1.05;
                     }
 
-                    const isMyTaxi = taxi.id === selectedTaxiId;
+                    const isMyTaxi = taxi.id === mySelection;
 
                     return (
                       <div
@@ -550,15 +1045,6 @@ const RacingGame = (_: RacingGameProps) => {
                           >
                             {taxi.id}번
                           </div>
-                          {isMyTaxi && (
-                            <div
-                              css={{
-                                fontSize: "8px",
-                                color: theme.purple,
-                                fontWeight: "bold",
-                              }}
-                            ></div>
-                          )}
                         </div>
                       </div>
                     );
@@ -619,23 +1105,34 @@ const RacingGame = (_: RacingGameProps) => {
               </div>
             </div>
 
+            {/* In a real integrated game, this text provides closure. A user can close the modal manually. */}
+            <div
+              css={{
+                color: theme.gray_text,
+                ...theme.font14,
+                textAlign: "center",
+              }}
+            >
+              정산 결과는 채팅방에서 확인하세요.
+            </div>
+
             <button
               onClick={handleRestart}
               css={{
-                marginTop: "10px",
-                padding: "14px 0",
-                width: "100%",
-                maxWidth: "280px",
+                marginTop: "16px",
+                padding: "12px 24px",
+                borderRadius: "12px",
                 background: theme.purple,
                 color: theme.white,
+                ...theme.font14_bold,
                 border: "none",
-                borderRadius: "12px",
                 cursor: "pointer",
-                ...theme.font16_bold,
-                boxShadow: theme.shadow_purple_button_inset,
+                boxShadow: theme.shadow,
+                transition: "background 0.2s",
+                "&:hover": { background: theme.purple_dark },
               }}
             >
-              다시 하기
+              다시 시작하기
             </button>
           </div>
         )}

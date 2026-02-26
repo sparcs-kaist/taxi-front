@@ -84,7 +84,7 @@ const ModalEvent2026SpringJoin = ({
         onSuccess: () => {
           fetchLoginInfo();
           //#region event2026Spring
-          event2026SpringQuestComplete("firstLogin");
+          event2026SpringQuestComplete("phoneVerification");
           //#endregion
           modalProps.onChangeIsOpen?.(false);
         },

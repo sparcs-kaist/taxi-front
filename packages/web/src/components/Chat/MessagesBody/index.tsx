@@ -33,8 +33,9 @@ const MessagesBody = (
     {useChatsForBody(
       _chats.filter(
         (chat) =>
-          chat.type !== "wordChain" ||
-          /첫 단어는\s*["'](.+?)["']입니다/.test(chat.content)
+          (chat.type !== "wordChain" ||
+            /첫 단어는\s*["'](.+?)["']입니다/.test(chat.content)) &&
+          chat.type !== "raceLog"
       ),
       layoutType,
       roomInfo,

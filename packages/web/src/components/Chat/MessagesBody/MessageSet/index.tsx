@@ -68,6 +68,8 @@ const MessageBody = ({
         );
       }
       return <MessageText text={content} color={color} />;
+    case "racing":
+      return <MessageText text={content} color={color} />;
     case "gameRecommendation":
       return <MessageGameRecommendation color={color} />;
     default:
@@ -102,7 +104,7 @@ const MessageSet = ({
   const authorIsWithdrew =
     "authorIsWithdrew" in chats?.[0] ? chats?.[0].authorIsWithdrew : false;
 
-  const isBot = authorId === "bot";
+  const isBot = authorId === "bot" || chats?.[0]?.type === "racing";
   const author = isBot
     ? undefined
     : roomInfo.part.find((p) => p._id === authorId);
@@ -178,6 +180,7 @@ const MessageSet = ({
               type === "departure" ||
               type === "arrival" ||
               type === "gameRecommendation" ||
+              type === "racing" ||
               (type === "wordChain" && authorId === "bot")
             ? layoutType === "sidechat"
               ? theme.purple_light
