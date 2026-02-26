@@ -1,39 +1,37 @@
 import { memo, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import { useAxios } from "@/hooks/useTaxiAPI";
+
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
 import Footer from "@/components/Footer";
 import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";
+import { ModalEvent2026SpringShare } from "@/components/ModalPopup";
+import { ModalEvent2026SpringCoupon } from "@/components/ModalPopup";
+import WhiteContainer from "@/components/WhiteContainer";
 
-import theme from "@/tools/theme";
+import alertAtom from "@/atoms/alert";
+import { useSetRecoilState } from "recoil";
 
 import { getToday } from "@/tools/moment";
 import moment from "@/tools/moment";
-import { useSetRecoilState } from "recoil";
-import alertAtom from "@/atoms/alert";
-import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
-import { useAxios } from "@/hooks/useTaxiAPI";
-
-import WhiteContainer from "@/components/WhiteContainer";
+import theme from "@/tools/theme";
 
 import { ReactComponent as TaxiLogoIcon } from "@/static/assets/sparcsLogos/TaxiLogo.svg";
 import { ReactComponent as BonusSection2 } from "@/static/events/2025springBonusSection2.svg";
 import { ReactComponent as MainTitle } from "@/static/events/2025springMainTitle.svg";
-import { ReactComponent as MainStep3 } from "@/static/events/2026springMainStep3.svg";
-import { ReactComponent as MainSection2 } from "@/static/events/2026springMainSection2.svg";
 import { ReactComponent as MissionCompleteIcon } from "@/static/events/2025springMissionComplete.svg";
-import { ReactComponent as MainStep2 } from "@/static/events/2026springMainStep2.svg";
-
 import { ReactComponent as MainSection1 } from "@/static/events/2026springMainSection1.svg";
+import { ReactComponent as MainSection2 } from "@/static/events/2026springMainSection2.svg";
 import { ReactComponent as MainSection4 } from "@/static/events/2026springMainSection4.svg";
 import { ReactComponent as MainSection6 } from "@/static/events/2026springMainSection6.svg";
-
-import { ModalEvent2026SpringShare } from "@/components/ModalPopup";
-import { ModalEvent2026SpringCoupon } from "@/components/ModalPopup";
+import { ReactComponent as MainStep2 } from "@/static/events/2026springMainStep2.svg";
+import { ReactComponent as MainStep3 } from "@/static/events/2026springMainStep3.svg";
 
 const EVENT_INSTAGRAM_URL =
-  "https://www.instagram.com/p/DVOuOrTk9Jw/?img_index=14"; // TODO: 인스타그램 링크 추가
+  "https://www.instagram.com/p/DVOuOrTk9Jw/?img_index=1"; // TODO: 인스타그램 링크 추가
 
 const Event2026Spring = () => {
   const [isOpenShare, setIsOpenShare] = useState<boolean>(false);
@@ -43,7 +41,7 @@ const Event2026Spring = () => {
   const { isAgreeOnTermsOfEvent } =
     useValueRecoilState("event2026SpringInfo") || {};
   const axios = useAxios();
-  
+
   const today = getToday();
   const startDate = moment("2026-02-20", "YYYY-MM-DD");
   const endDate = moment("2026-03-31", "YYYY-MM-DD");
@@ -60,7 +58,7 @@ const Event2026Spring = () => {
         onError: () => setAlert("초대 링크를 생성하지 못했습니다."),
       });
   }, [isAgreeOnTermsOfEvent]);
-  
+
   return (
     <>
       <HeaderWithBackButton>
@@ -215,7 +213,7 @@ const Event2026Spring = () => {
                 color: theme.black,
               }}
             >
-              모은 코인으로 
+              모은 코인으로
               <br />
               나만의 택시를 강화해보세요!
             </div>
@@ -405,7 +403,14 @@ const Event2026Spring = () => {
         }}
       >
         <AdaptiveDiv type="center" css={{ textAlign: "center" }}>
-          <MainSection6 css={{ width: "292px", maxWidth: "100%", height: "50px", marginTop: "-100px" }} />
+          <MainSection6
+            css={{
+              width: "292px",
+              maxWidth: "100%",
+              height: "50px",
+              marginTop: "-100px",
+            }}
+          />
           <div css={{ height: "26px" }} />
           <div css={{ color: theme.gray_text, ...theme.font14 }}>
             본 이벤트는 토스뱅크와 KAIST의 후원으로 진행되었습니다.
