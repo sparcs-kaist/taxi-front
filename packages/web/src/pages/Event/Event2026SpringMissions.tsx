@@ -13,6 +13,7 @@ import theme from "@/tools/theme";
 
 import { ReactComponent as TaxiLogo } from "@/static/assets/sparcsLogos/TaxiLogo.svg";
 import CoinGif from "@/static/events/2024springCoin.gif";
+import CreditAmountStatusContainer from "@/components/Event/CreditAmountStatusContainer";
 
 type MissionContainerProps = {
   quest: Quest;
@@ -150,7 +151,6 @@ const MissionContainer = ({ quest }: MissionContainerProps) => {
 
 const Event2026SpringMissions = () => {
   const { quests } = useValueRecoilState("event2026SpringInfo") || {};
-  const { creditAmount } = useValueRecoilState("gameInfo") || {};
 
   return (
     <>
@@ -167,32 +167,7 @@ const Event2026SpringMissions = () => {
       <AdaptiveDiv type="center">
         <div css={{ height: "30px" }} />
 
-        {/* 내가 모은 넙죽코인 Banner */}
-        <WhiteContainer
-          css={{
-            padding: "16px 20px",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            backgroundColor: theme.purple,
-            marginBottom: "16px",
-            borderRadius: "10px",
-          }}
-        >
-          <div css={{ color: theme.white, ...theme.font16_bold }}>
-            내가 모은 넙죽코인
-          </div>
-          <div css={{ display: "flex", alignItems: "center", gap: "4px" }}>
-            <img
-              src={CoinGif}
-              alt="coin"
-              css={{ width: "24px", height: "24px" }}
-            />
-            <div css={{ color: theme.white, ...theme.font16_bold }}>
-              {creditAmount || 0}
-            </div>
-          </div>
-        </WhiteContainer>
+        <CreditAmountStatusContainer type="onlycredit" />
 
         {quests && quests.length > 0 ? (
           quests.map((quest) => (

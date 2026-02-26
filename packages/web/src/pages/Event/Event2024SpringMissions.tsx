@@ -6,7 +6,7 @@ import { useEventBackgroundEffect } from "@/hooks/event/useEventBackgroundEffect
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
-import CreditAmountContainer from "@/components/Event/CreditAmoutContainer";
+import CreditAmountContainer from "@/components/Event/CreditAmountContainer";
 import SuggestJoinEventContainer from "@/components/Event/SuggestJoinEventContainer";
 import Footer from "@/components/Footer";
 import HeaderWithBackButton from "@/components/Header/HeaderWithBackButton";

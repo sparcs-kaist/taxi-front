@@ -15,7 +15,7 @@ const members: Members = [
   },
   {
     position: "⚙️ Front-end Developer",
-    list: [{ name: "김우현", id: "dreamer", period: "2026" }, { name: "최지윤", id: "malloc", period: "2026" }]
+    list: [{ name: "김우현", id: "dreamer", period: "2026" }, { name: "조은강", id: "wicks", period: "2026" }, { name: "최지윤", id: "malloc", period: "2026" }]
   },
   {
     position: "🎨 Designer",

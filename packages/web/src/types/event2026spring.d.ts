@@ -1,11 +1,18 @@
 export type QuestId =
-| "firstRoomCreation"
-  | "settlementForest"
+  | "firstRoomCreation"
+  | "fareSettlement"
+  | "farePayment"
   | "nicknameChanging"
-  | "firstLogin"
   | "phoneVerification"
-  | "referralInvitedBonus"
-  | "allBadgedSettlement"; // Example IDs, backend can expand these
+  | "accountChanging"
+  | "adPushAgreement"
+  | "referralInviterCredit"
+  | "referralInviteeCredit"
+  | "indirectEventSharing"
+  | "firstReinforcement"
+  | "firstMiniGame"
+  | "useCoupon1"
+  | "useCoupon2";
 
 export type Quest = {
   description: string;

@@ -9,7 +9,7 @@ import { ReactComponent as Ticket2Icon } from "@/static/events/2023fallTicket2.s
 import coinGif from "@/static/events/2024springCoin.gif";
 
 type CreditAmountStatusContainerProps = {
-  type?: "credit" | "ticket" | "doubleTicket";
+  type?: "credit" | "ticket" | "doubleTicket" | "onlycredit";
 } & Parameters<typeof WhiteContainer>[0];
 
 const CreditAmountStatusContainer = ({
@@ -35,6 +35,7 @@ const CreditAmountStatusContainer = ({
         minHeight: type === "credit" ? "auto" : "auto",
         position: "relative",
         marginBottom: "12px",
+        backgroundColor: type === "onlycredit" ? theme.purple : "auto",
       }}
       {...whiteContainerProps}
     >
@@ -81,7 +82,6 @@ const CreditAmountStatusContainer = ({
               alignItems: "center",
               gap: "4px",
               marginTop: "auto",
-              backgroundColor: theme.purple_light,
               padding: "4px 8px",
               borderRadius: "8px",
             }}
@@ -99,7 +99,7 @@ const CreditAmountStatusContainer = ({
       ) : (
         <>
           <div css={{ color: theme.white, ...theme.font16_bold, flexGrow: 1 }}>
-            {type === "ticket" ? "내가 모은 응모권" : "일반 / 고급 응모권"}
+            {type === "ticket" ? "내가 모은 응모권" : type === "doubleTicket" ? "일반 / 고급 응모권" : "내가 모은 넙죽코인"}
           </div>
           {type === "ticket" ? (
             <>
@@ -108,7 +108,7 @@ const CreditAmountStatusContainer = ({
                 {creditAmount || 0}
               </div>
             </>
-          ) : (
+          ) : type === "doubleTicket" ? (
             <>
               <Ticket1Icon css={{ width: "27px", height: "27px" }} />
               <div css={{ color: theme.white, ...theme.font16_bold }}>
@@ -121,7 +121,14 @@ const CreditAmountStatusContainer = ({
                 {ticket2Amount || 0}
               </div>
             </>
-          )}
+          ) : type === "onlycredit" ? (
+            <>
+              <img src={coinGif} alt="coin" style={{ width: "24px", height: "24px" }} />
+              <div css={{ color: theme.white, ...theme.font16_bold }}>
+                {creditAmount || 0}
+              </div>
+            </>
+          ) : null}
         </>
       )}
     </WhiteContainer>

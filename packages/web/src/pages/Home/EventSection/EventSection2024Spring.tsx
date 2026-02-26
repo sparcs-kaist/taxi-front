@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
-import CreditAmountContainer from "@/components/Event/CreditAmoutContainer";
+import CreditAmountContainer from "@/components/Event/CreditAmountContainer";
 import EventButton from "@/components/Event/EventButton";
 import SuggestJoinEventContainer from "@/components/Event/SuggestJoinEventContainer";
 
