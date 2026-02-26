@@ -11,7 +11,8 @@ export type QuestId =
   | "indirectEventSharing"
   | "firstReinforcement"
   | "firstMiniGame"
-  | "useCoupon";
+  | "useCoupon1"
+  | "useCoupon2";
 
 export type Quest = {
   description: string;
