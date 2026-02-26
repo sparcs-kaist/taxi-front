@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import useAccountFromChats from "@/hooks/chat/useAccountFromChats";
-import { useEvent2025SpringQuestComplete } from "@/hooks/event/useEvent2025SpringQuestComplete";
+import { useEvent2026SpringQuestComplete } from "@/hooks/event/useEvent2026SpringQuestComplete";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
@@ -22,7 +22,6 @@ import { ReactComponent as TossLogo } from "@/static/assets/serviceLogos/TossLog
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import LocalAtmRoundedIcon from "@mui/icons-material/LocalAtmRounded";
-import { useEvent2026SpringQuestComplete } from "@/hooks/event/useEvent2026SpringQuestComplete";
 
 type ModalChatPaymentProps = Omit<
   Parameters<typeof Modal>[0],
