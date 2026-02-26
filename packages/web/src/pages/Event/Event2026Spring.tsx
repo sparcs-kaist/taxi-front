@@ -238,7 +238,7 @@ const Event2026Spring = () => {
                   ...theme.font14_bold,
                 }}
               >
-                강화하러가기
+                강화 하러가기
               </Button>
             </Link>
           </WhiteContainer>
