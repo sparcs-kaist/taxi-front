@@ -4,7 +4,7 @@ import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import Footer from "@/components/Footer";
 import {
-  ModalEvent2025FallJoin,
+  ModalEvent2026SpringJoin,
   ModalNoticeBadge,
   ModalPrivacyPolicy,
 } from "@/components/ModalPopup";
@@ -45,7 +45,7 @@ const Home = () => {
         isOpen={_roomId === "privacyPolicy"}
         onChangeIsOpen={onChangeIsOpenPrivacyPolicy}
       />
-      <ModalEvent2025FallJoin
+      <ModalEvent2026SpringJoin
         inviterId={inviterId}
         isOpen={isOpenEventJoin}
         onChangeIsOpen={onChangeIsOpenEventJoin}

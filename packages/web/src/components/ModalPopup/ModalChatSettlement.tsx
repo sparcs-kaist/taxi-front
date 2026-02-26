@@ -1,7 +1,6 @@
 import { useMemo, useRef, useState } from "react";
 
 import useSendMessage from "@/hooks/chat/useSendMessage";
-import { useEvent2025SpringQuestComplete } from "@/hooks/event/useEvent2025SpringQuestComplete";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
@@ -17,6 +16,7 @@ import regExpTest from "@/tools/regExpTest";
 import theme from "@/tools/theme";
 
 import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceWalletRounded";
+import { useEvent2026SpringQuestComplete } from "@/hooks/event/useEvent2026SpringQuestComplete";
 
 type ModalChatSettlementProps = Omit<
   Parameters<typeof Modal>[0],
@@ -40,7 +40,7 @@ const ModalChatSettlement = ({
   const isValidAccount = useMemo(() => regExpTest.account(account), [account]);
   const isRequesting = useRef<boolean>(false);
   const sendMessage = useSendMessage(roomInfo._id, isRequesting);
-  const event2025SpringQuestComplete = useEvent2025SpringQuestComplete();
+  const event2026SpringQuestComplete = useEvent2026SpringQuestComplete();
 
   const onClickOk = () => {
     if (isRequesting.current || !isValidAccount) return;
@@ -57,8 +57,8 @@ const ModalChatSettlement = ({
           isRequesting.current = false;
           if (account !== defaultAccount) openSaveAccountModal?.(account);
         }
-        //#region event2025Spring
-        event2025SpringQuestComplete("fareSettlement");
+        //#region event2026Spring
+        event2026SpringQuestComplete("fareSettlement");
         //#endregion
         modalProps.onChangeIsOpen?.(false);
       },

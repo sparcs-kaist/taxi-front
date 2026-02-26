@@ -2,7 +2,6 @@ import axiosOri from "axios";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useEvent2025FallQuestComplete } from "@/hooks/event/useEvent2025FallQuestComplete";
 import {
   useFetchRecoilState,
   useValueRecoilState,
@@ -28,6 +27,7 @@ import regExpTest from "@/tools/regExpTest";
 import theme from "@/tools/theme";
 
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
+import { useEvent2026SpringQuestComplete } from "@/hooks/event/useEvent2026SpringQuestComplete";
 
 type ModalMypageModifyProps = Omit<
   Parameters<typeof Modal>[0],
@@ -154,13 +154,11 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
 
   const loginInfo = useValueRecoilState("loginInfo");
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
-  const completeQuest = useEvent2025FallQuestComplete();
 
-  //#region event2025Spring
-  // const event2025SpringQuestComplete = useEvent2025SpringQuestComplete();
-  //#region event2025Fall
-
+  //#region event2026Spring
+  const event2026SpringQuestComplete = useEvent2026SpringQuestComplete();
   //#endregion
+
   const setAlert = useSetRecoilState(alertAtom);
 
   useEffect(() => {
@@ -186,8 +184,8 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         method: "post",
         data: { nickname },
         onError: () => setAlert(t("page_modify.nickname_failed")),
-        //#region event2025Spring
-        // onSuccess: () => event2025SpringQuestComplete("nicknameChanging"),
+        //#region event2026Spring
+        onSuccess: () => event2026SpringQuestComplete("nicknameChanging"),
         //#endregion
       });
     }
@@ -198,8 +196,8 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         method: "post",
         data: { account },
         onError: () => setAlert(t("page_modify.account_failed")),
-        //#region event2025Spring
-        // onSuccess: () => event2025SpringQuestComplete("accountChanging"),
+        //#region event2026Spring
+        onSuccess: () => event2026SpringQuestComplete("accountChanging"),
         //#endregion
       });
     }
@@ -263,15 +261,15 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
       onError: () => setAlert(t("page_modify.phone_number_failed")),
     });
 
-    // 2025 Fall 기간에는 전화번호 등록 시 이벤트 참여가 진행됩니다.
+    // 2026 Spring 기간에는 전화번호 등록 시 이벤트 참여가 진행됩니다.
     await axios({
-      url: "/events/2025fall/globalState/create",
+      url: "/events/2026spring/globalState/create",
       method: "post",
       data: { phoneNumber },
       onSuccess: () => {
         fetchLoginInfo();
         modalProps.onChangeIsOpen?.(false);
-        completeQuest("phoneVerification");
+        event2026SpringQuestComplete("phoneVerification");
       },
       onError: () => setAlert("이벤트 참여에 실패하였습니다."),
     });

@@ -1,7 +1,6 @@
 import { useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useEvent2025SpringQuestComplete } from "@/hooks/event/useEvent2025SpringQuestComplete";
 import {
   useFetchRecoilState,
   useValueRecoilState,
@@ -24,6 +23,7 @@ import { isNotificationOn } from "@/tools/trans";
 
 import AlarmOffRoundedIcon from "@mui/icons-material/AlarmOffRounded";
 import AlarmOnRoundedIcon from "@mui/icons-material/AlarmOnRounded";
+import { useEvent2026SpringQuestComplete } from "@/hooks/event/useEvent2026SpringQuestComplete";
 
 type SelectNotificationProps = {
   text: string;
@@ -65,8 +65,8 @@ const ModalNotification = ({
   const notificationOptions = useValueRecoilState("notificationOptions");
   const fetchNotificationOptions = useFetchRecoilState("notificationOptions");
   const isAxiosCalled = useRef(false);
-  //#region event2025Spring
-  const event2025SpringQuestComplete = useEvent2025SpringQuestComplete();
+  //#region event2026Spring
+  const event2026SpringQuestComplete = useEvent2026SpringQuestComplete();
   //#endregion
 
   const styleTitle = {
@@ -113,9 +113,9 @@ const ModalNotification = ({
       fetchNotificationOptions();
       isAxiosCalled.current = false;
 
-      //#region event2025Spring
+      //#region event2026Spring
       if (optionName === "advertisement" && value)
-        event2025SpringQuestComplete("adPushAgreement");
+        event2026SpringQuestComplete("adPushAgreement");
       //#endregion
     },
     [deviceToken]
@@ -149,8 +149,8 @@ const ModalNotification = ({
       fetchNotificationOptions();
       isAxiosCalled.current = false;
 
-      //#region event2025Spring
-      if (value) event2025SpringQuestComplete("adPushAgreement");
+      //#region event2026Spring
+      if (value) event2026SpringQuestComplete("adPushAgreement");
       //#endregion
     },
     [deviceToken]
