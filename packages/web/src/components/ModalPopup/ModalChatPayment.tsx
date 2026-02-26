@@ -22,6 +22,7 @@ import { ReactComponent as TossLogo } from "@/static/assets/serviceLogos/TossLog
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import LocalAtmRoundedIcon from "@mui/icons-material/LocalAtmRounded";
+import { useEvent2026SpringQuestComplete } from "@/hooks/event/useEvent2026SpringQuestComplete";
 
 type ModalChatPaymentProps = Omit<
   Parameters<typeof Modal>[0],
@@ -50,8 +51,8 @@ const ModalChatPayment = ({
     [userOid, roomInfo]
   );
   const onCopy = useCallback(() => setIsCopied(true), [setIsCopied]);
-  //#region event2025Spring
-  const event2025SpringQuestComplete = useEvent2025SpringQuestComplete();
+  //#region event2026Spring
+  const event2026SpringQuestComplete = useEvent2026SpringQuestComplete();
   //#endregion
 
   useEffect(() => {
@@ -69,8 +70,8 @@ const ModalChatPayment = ({
       method: "post",
       data: { roomId: roomInfo._id },
       onSuccess: () => {
-        //#region event2025Spring
-        event2025SpringQuestComplete("farePayment");
+        //#region event2026Spring
+        event2026SpringQuestComplete("farePayment");
         //#endregion
         modalProps.onChangeIsOpen?.(false);
         onRecall?.();
