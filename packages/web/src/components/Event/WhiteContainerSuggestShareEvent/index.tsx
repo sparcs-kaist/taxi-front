@@ -4,7 +4,7 @@ import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
 
 import Button from "@/components/Button";
-import { ModalEvent2025FallShare } from "@/components/ModalPopup";
+import { ModalEvent2026SpringShare } from "@/components/ModalPopup";
 import WhiteContainer from "@/components/WhiteContainer";
 
 import alertAtom from "@/atoms/alert";
@@ -16,15 +16,15 @@ import theme from "@/tools/theme";
 const WhiteContainerSuggestShareEvent = () => {
   const isLogin = useIsLogin();
   const { isAgreeOnTermsOfEvent } =
-    useValueRecoilState("event2025FallInfo") || {};
+    useValueRecoilState("event2026SpringInfo") || {};
   const [inviteUrl, setInviteUrl] = useState<string>("");
   const [isOpenShare, setIsOpenShare] = useState<boolean>(false);
   const axios = useAxios();
   const setAlert = useSetRecoilState(alertAtom);
 
   const today = getToday();
-  const startDate = moment("2025-02-20", "YYYY-MM-DD");
-  const endDate = moment("2025-10-29", "YYYY-MM-DD");
+  const startDate = moment("2026-02-20", "YYYY-MM-DD");
+  const endDate = moment("2026-03-31", "YYYY-MM-DD");
   const isEventDay = today.isBefore(endDate) && today.isAfter(startDate, "day");
 
   const styleText = {
@@ -40,7 +40,7 @@ const WhiteContainerSuggestShareEvent = () => {
   useEffect(() => {
     if (isAgreeOnTermsOfEvent && isEventDay)
       axios({
-        url: `/events/2025fall/invites/create`,
+        url: `/events/2026spring/invites/create`,
         method: "post",
         onSuccess: ({ inviteUrl }) => {
           setInviteUrl(inviteUrl);
@@ -76,7 +76,7 @@ const WhiteContainerSuggestShareEvent = () => {
           >
             이벤트 공유하기
           </Button>
-          <ModalEvent2025FallShare
+          <ModalEvent2026SpringShare
             isOpen={isOpenShare}
             onChangeIsOpen={setIsOpenShare}
             inviteUrl={inviteUrl || ""}

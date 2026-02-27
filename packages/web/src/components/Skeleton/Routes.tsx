@@ -58,8 +58,23 @@ const routeProps = [
     exact: true,
   },
   {
+    path: "/game",
+    component: lazy(() => import("@/pages/Game")),
+    exact: false,
+  },
+  {
     path: "/chatting/:roomId",
     component: lazy(() => import("@/pages/Chatting")),
+    exact: true,
+  },
+  {
+    path: "/statistics",
+    component: lazy(() => import("@/pages/Statistics")),
+    exact: true,
+  },
+  {
+    path: "/terms",
+    component: lazy(() => import("@/pages/Terms")),
     exact: true,
   },
   {

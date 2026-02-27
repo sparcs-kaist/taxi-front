@@ -11,10 +11,13 @@ import ProfileImage from "@/components/User/ProfileImage";
 import MessageAccount from "./MessageAccount";
 import MessageArrival from "./MessageArrival";
 import MessageDeparture from "./MessageDeparture";
+import MessageGameRecommendation from "./MessageGameRecommendation";
 import MessageImage from "./MessageImage";
 import MessagePaySettlement from "./MessagePaySettlement";
+import MessageRacing from "./MessageRacing";
 import MessageShare from "./MessageShare";
 import MessageText from "./MessageText";
+import MessageWordChain from "./MessageWordChain";
 
 import { getChatUniquewKey } from "@/tools/chat/chats";
 import dayjs from "@/tools/day";
@@ -27,9 +30,16 @@ type MessageBodyProps = {
   content: (UserChat | BotChat)["content"];
   roomInfo: Room;
   color: CSS["color"];
+  layoutType: LayoutType;
 };
 
-const MessageBody = ({ type, content, roomInfo, color }: MessageBodyProps) => {
+const MessageBody = ({
+  type,
+  content,
+  roomInfo,
+  color,
+  layoutType,
+}: MessageBodyProps) => {
   switch (type) {
     case "text":
       return <MessageText text={content} color={color} />;
@@ -48,6 +58,27 @@ const MessageBody = ({ type, content, roomInfo, color }: MessageBodyProps) => {
       );
     case "arrival":
       return <MessageArrival color={color} />;
+    case "wordChain":
+      if (/첫 단어는\s*["'](.+?)["']입니다/.test(content)) {
+        return (
+          <MessageWordChain
+            content={content}
+            color={color}
+            layoutType={layoutType}
+          />
+        );
+      }
+      return <MessageText text={content} color={color} />;
+    case "racing":
+      return (
+        <MessageRacing
+          content={content}
+          color={color}
+          layoutType={layoutType}
+        />
+      );
+    case "gameRecommendation":
+      return <MessageGameRecommendation color={color} />;
     default:
       return null;
   }
@@ -75,11 +106,12 @@ const MessageSet = ({
   const authorProfileUrl =
     "authorProfileUrl" in chats?.[0] ? chats?.[0].authorProfileUrl : "";
   const authorName = "authorName" in chats?.[0] ? chats?.[0].authorName : "";
-  const authorResidence = "authorResidence" in chats?.[0] ? chats?.[0].authorResidence : "";
+  const authorResidence =
+    "authorResidence" in chats?.[0] ? chats?.[0].authorResidence : "";
   const authorIsWithdrew =
     "authorIsWithdrew" in chats?.[0] ? chats?.[0].authorIsWithdrew : false;
 
-  const isBot = authorId === "bot";
+  const isBot = authorId === "bot" || chats?.[0]?.type === "racing";
   const author = isBot
     ? undefined
     : roomInfo.part.find((p) => p._id === authorId);
@@ -151,17 +183,20 @@ const MessageSet = ({
             ? theme.purple_dark
             : theme.gray_background
           : type === "account" ||
-            type === "share" ||
-            type === "departure" ||
-            type === "arrival"
-          ? layoutType === "sidechat"
-            ? theme.purple_light
-            : theme.white
-          : userOid === authorId
-          ? theme.purple
-          : layoutType === "sidechat"
-          ? theme.purple_hover
-          : theme.white,
+              type === "share" ||
+              type === "departure" ||
+              type === "arrival" ||
+              type === "gameRecommendation" ||
+              type === "racing" ||
+              (type === "wordChain" && authorId === "bot")
+            ? layoutType === "sidechat"
+              ? theme.purple_light
+              : theme.white
+            : userOid === authorId
+              ? theme.purple
+              : layoutType === "sidechat"
+                ? theme.purple_hover
+                : theme.white,
     }),
     [userOid, authorId, layoutType]
   );
@@ -215,7 +250,8 @@ const MessageSet = ({
               </div>
             ) : (
               <div css={styleName} className="selectable">
-                {authorName} {isBot || authorResidence === "" ? `` : `(${authorResidence})`}
+                {authorName}{" "}
+                {isBot || authorResidence === "" ? `` : `(${authorResidence})`}
                 <BadgeImage badge_live={!!authorBadge && !isBot} />
               </div>
             ))}
@@ -228,6 +264,7 @@ const MessageSet = ({
                   content={chat.content}
                   roomInfo={roomInfo}
                   color={authorId === userOid ? theme.white : theme.black}
+                  layoutType={layoutType}
                 />
               </div>
               <div css={styleMessageDetail}>

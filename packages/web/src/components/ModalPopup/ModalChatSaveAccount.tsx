@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
 
-import { useEvent2025SpringQuestComplete } from "@/hooks/event/useEvent2025SpringQuestComplete";
 import {
   useFetchRecoilState,
   useValueRecoilState,
@@ -17,6 +16,7 @@ import { useSetRecoilState } from "recoil";
 import theme from "@/tools/theme";
 
 import WalletIcon from "@mui/icons-material/Wallet";
+import { useEvent2026SpringQuestComplete } from "@/hooks/event/useEvent2026SpringQuestComplete";
 
 type ModalChatSaveAcountProps = Omit<
   Parameters<typeof Modal>[0],
@@ -32,8 +32,8 @@ const ModalChatSaveAcount = ({
   const { account: accountOrigin } = useValueRecoilState("loginInfo") || {};
   const [account, setAccount] = useState<string>(accountDefault || "");
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
-  //#region event2025Spring
-  const event2025SpringQuestComplete = useEvent2025SpringQuestComplete();
+  //#region event2026Spring
+  const event2026SpringQuestComplete = useEvent2026SpringQuestComplete();
   //#endregion
 
   useEffect(() => setAccount(accountDefault || ""), [accountDefault]);
@@ -45,8 +45,8 @@ const ModalChatSaveAcount = ({
       method: "post",
       data: { account },
       onSuccess: () => {
-        //#region event2025Spring
-        event2025SpringQuestComplete("accountChanging");
+        //#region event2026Spring
+        event2026SpringQuestComplete("accountChanging");
         //#endregion
         fetchLoginInfo();
       },

@@ -20,18 +20,28 @@ export default (
 
   return useCallback(
     async (
-      type: "text" | "account" | "image",
+      type:
+        | "text"
+        | "account"
+        | "image"
+        | "wordChain"
+        | "racing"
+        | "racingStart",
       { text, file }: { text?: string; file?: File }
     ): Promise<boolean> => {
       // 메시지 전송 중이라면 중복 전송을 막습니다.
       if (isSendingMessage.current) return false;
 
       try {
-        if (["text", "account"].includes(type)) {
+        if (
+          ["text", "account", "wordChain", "racing", "racingStart"].includes(
+            type
+          )
+        ) {
           // 메시지가 정규식 검사에서 통과하지 못했다면 전송을 막습니다.
           if (!text) throw new Error();
           if (
-            type === "text" &&
+            ["text", "wordChain"].includes(type) &&
             !regExpTest.chatMsg(text) &&
             !regExpTest.chatMsgLength(text)
           )
@@ -40,14 +50,25 @@ export default (
             throw new Error();
 
           isSendingMessage.current = true;
-          const { result } = await axios({
+          const res = await axios({
             url: "/chats/send",
             method: "post",
             data: { roomId, type, content: text },
+            onError: (e) => {
+              throw e;
+            },
           });
-          if (result) {
+
+          // Some endpoints like `racing` return `{success: ...}`, while others return `{result: ...}` depending on the route wrapper
+          if (
+            res?.result ||
+            res?.success ||
+            type === "racing" ||
+            type === "racingStart"
+          ) {
             // 채팅 읽은 시간 업데이트
             handleRead();
+            isSendingMessage.current = false;
             return true;
           }
         }
@@ -60,6 +81,9 @@ export default (
             url: "chats/uploadChatImg/getPUrl",
             method: "post",
             data: { roomId, type: file.type },
+            onError: (e) => {
+              throw e;
+            },
           });
           if (!url || !id) throw new Error();
 
@@ -74,15 +98,28 @@ export default (
             url: "chats/uploadChatImg/done",
             method: "post",
             data: { id },
+            onError: (e) => {
+              throw e;
+            },
           });
           if (result) {
             // 채팅 읽은 시간 업데이트
             handleRead();
+            isSendingMessage.current = false;
             return true;
           }
         }
-      } catch (e) {
+      } catch (e: any) {
         console.error(e);
+        if (
+          e.response &&
+          typeof e.response.data === "string" &&
+          e.response.data.includes("Chat/send :")
+        ) {
+          setAlert(e.response.data.replace("Chat/send :", "").trim());
+          isSendingMessage.current = false;
+          return false;
+        }
       }
 
       setAlert("메시지 전송에 실패하였습니다.");

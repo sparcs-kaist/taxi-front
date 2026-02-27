@@ -7,12 +7,14 @@ import useButterflyState from "@/hooks/useButterflyState";
 
 import SideMenu from "./SideMenu";
 
+import { getEmoji } from "@/tools/emoji";
 import theme from "@/tools/theme";
 
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import CloseFullscreenRoundedIcon from "@mui/icons-material/CloseFullscreenRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import OpenInFullRoundedIcon from "@mui/icons-material/OpenInFullRounded";
+import Tooltip from "@mui/material/Tooltip";
 
 type HeaderProps = {
   layoutType: LayoutType;
@@ -85,7 +87,37 @@ const Header = ({ layoutType, roomInfo }: HeaderProps) => {
           }
         />
         <div css={styleInfo}>
-          <div css={styleName}>{roomInfo.name}</div>
+          <div css={styleName}>
+            {roomInfo.name}
+            {roomInfo.emojiIdentifier && (
+              <Tooltip
+                title="이 이모지는 방을 식별하는 용도입니다."
+                enterTouchDelay={0}
+                leaveTouchDelay={2000}
+                componentsProps={{
+                  tooltip: {
+                    sx: {
+                      ...theme.font12,
+                      color: theme.black,
+                      backgroundColor: theme.white,
+                      boxShadow: theme.shadow,
+                      borderRadius: "12px",
+                      padding: "8px 10px",
+                    },
+                  },
+                }}
+              >
+                <span
+                  style={{
+                    marginLeft: "6px",
+                    fontFamily: '"TossFace", "NanumSquare"',
+                  }}
+                >
+                  {getEmoji(roomInfo.emojiIdentifier)}
+                </span>
+              </Tooltip>
+            )}
+          </div>
           <div css={styleFromTo}>
             {roomInfo.from?.koName}&nbsp; → &nbsp;
             {roomInfo.to?.koName}

@@ -2,8 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 
-import { useEvent2025FallQuestComplete } from "@/hooks/event/useEvent2025FallQuestComplete";
-import { useEvent2025SpringQuestComplete } from "@/hooks/event/useEvent2025SpringQuestComplete";
+import { useEvent2026SpringQuestComplete } from "@/hooks/event/useEvent2026SpringQuestComplete";
 import {
   useFetchRecoilState,
   useIsLogin,
@@ -19,6 +18,7 @@ import {
 } from "@/components/ModalPopup";
 import { ModalNoticeBadge } from "@/components/ModalPopup";
 import {
+  OptionCarrier,
   OptionDate,
   OptionMaxPeople,
   OptionName,
@@ -70,17 +70,16 @@ const AddRoom = () => {
   const [valueTime, setTime] = useState([today10.hour(), today10.minute()]);
   const [calculatedTime, setCalculatedTime] = useState<Date | null>(null);
   const randomRoomName = useMemo(randomRoomNameGenerator, []);
-
+  const [valueHasCarrier, setHasCarrier] = useState(false); // 캐리어 소지 여부
   const setAlert = useSetRecoilState(alertAtom);
   const isLogin = useIsLogin();
   const myRooms = useValueRecoilState("myRooms");
   const fetchMyRooms = useFetchRecoilState("myRooms");
-  //#region event2025spring
-  const event2025SpringQuestComplete = useEvent2025SpringQuestComplete();
+  //#region event2026Spring
+  const event2026SpringQuestComplete = useEvent2026SpringQuestComplete();
   const [isOpenModalEventAbuseWarning, setIsOpenModalEventAbuseWarning] =
     useState<boolean>(false);
   //#endregion
-  const event2025FallQuestComplete = useEvent2025FallQuestComplete();
 
   const [taxiFare, setTaxiFare] = useState<number>(0);
 
@@ -157,44 +156,45 @@ const AddRoom = () => {
     if (!onCall.current) {
       onCall.current = true;
 
-      // #region event2025fall
-      let isAgreeOnTermsOfEvent = false;
-      await axios({
-        url: "/events/2025fall/globalState",
-        method: "get",
-        onSuccess: (data) => {
-          if (data.isAgreeOnTermsOfEvent) {
-            isAgreeOnTermsOfEvent = data.isAgreeOnTermsOfEvent;
-          }
-          event2025FallQuestComplete("allBadgedSettlement");
-        },
-        onError: () => {},
-      });
+      // // #region event2025fall
+      // let isAgreeOnTermsOfEvent = false;
+      // await axios({
+      //   url: "/events/2025fall/globalState",
+      //   method: "get",
+      //   onSuccess: (data) => {
+      //     if (data.isAgreeOnTermsOfEvent) {
+      //       isAgreeOnTermsOfEvent = data.isAgreeOnTermsOfEvent;
+      //     }
+      //     event2025FallQuestComplete("firstRoomCreation");
+      //   },
+      //   onError: () => {},
+      // });
 
-      if (isAgreeOnTermsOfEvent) {
-        let isFalse = false;
-        await axios({
-          url: "/rooms/create/test",
-          method: "post",
-          data: {
-            from: valuePlace[0],
-            to: valuePlace[1],
-            time: calculatedTime!.toISOString(),
-            maxPartLength: valueMaxPeople,
-          },
-          onSuccess: (data) => {
-            if (data!.result === false) {
-              setIsOpenModalEventAbuseWarning(true);
-              onCall.current = false;
-              isFalse = true;
-              return;
-            }
-          },
-          onError: () => {},
-        });
-        if (isFalse) return;
-      }
-      // #endregion
+      // if (isAgreeOnTermsOfEvent) {
+      //   let isFalse = false;
+      //   await axios({
+      //     url: "/rooms/create/test",
+      //     method: "post",
+      //     data: {
+      //       from: valuePlace[0],
+      //       to: valuePlace[1],
+      //       time: calculatedTime!.toISOString(),
+      //       maxPartLength: valueMaxPeople,
+      //       withCarrier: valueHasCarrier, // create room 시 캐리어 소지 여부 전달, API 수정 필요
+      //     },
+      //     onSuccess: (data) => {
+      //       if (data!.result === false) {
+      //         setIsOpenModalEventAbuseWarning(true);
+      //         onCall.current = false;
+      //         isFalse = true;
+      //         return;
+      //       }
+      //     },
+      //     onError: () => {},
+      //   });
+      //   if (isFalse) return;
+      // }
+      // // #endregion
 
       await axios({
         url: "/rooms/searchByTimeGap",
@@ -248,22 +248,38 @@ const AddRoom = () => {
           time: calculatedTime!.toISOString(),
           maxPartLength: valueMaxPeople,
         },
-        onSuccess: () => {
+        onSuccess: async (data) => {
+          if (data?._id && valueHasCarrier) {
+            try {
+              await axios({
+                url: "/rooms/carrier/toggle",
+                method: "post",
+                data: {
+                  roomId: data._id,
+                  hasCarrier: true,
+                },
+              });
+            } catch (e) {
+              console.error("캐리어 상태 설정 실패:", e);
+            }
+          }
+
           fetchMyRooms();
-          //#region event2025Spring
-          event2025SpringQuestComplete("firstRoomCreation");
+          //#region event2026Spring
+          event2026SpringQuestComplete("firstRoomCreation");
           //#endregion
           history.push("/myroom");
         },
         onError: () => setAlert("방 개설에 실패하였습니다."),
       });
 
-      // gtm 태그 전송
+      // gtm 태그 전송 :
       triggerTag("create_new_room", {
         roomFrom: valuePlace[0],
         roomTo: valuePlace[1],
         roomTime: calculatedTime!.toISOString(),
         wasSimilarRoomsModalOpen: wasSimilarRoomsModalOpen.toString(),
+        // hasCarrier 옵션 추가 하는게 맞나 고민
       });
 
       onCall.current = false;
@@ -288,6 +304,11 @@ const AddRoom = () => {
               />
               <OptionTime value={valueTime} handler={setTime} page="add" />
               <OptionMaxPeople value={valueMaxPeople} handler={setMaxPeople} />
+              <OptionCarrier
+                value={valueHasCarrier}
+                handler={setHasCarrier}
+              />{" "}
+              {/* 캐리어 소지 여부 옵션 추가 */}
               {taxiFare !== 0 ? (
                 <TaxiFare value={taxiFare} roomLength={valueMaxPeople} />
               ) : null}
@@ -339,8 +360,8 @@ const AddRoom = () => {
               },
               onSuccess: () => {
                 fetchMyRooms();
-                //#region event2025Spring
-                // event2025SpringQuestComplete("firstRoomCreation");
+                //#region event2026Spring
+                  event2026SpringQuestComplete("firstRoomCreation");
                 //#endregion
                 history.push("/myroom");
               },
