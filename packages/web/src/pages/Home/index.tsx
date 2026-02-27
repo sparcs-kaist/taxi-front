@@ -14,6 +14,13 @@ import InfoSection from "./InfoSection";
 import NoticeSection from "./NoticeSection";
 import RoomSection from "./RoomSection";
 
+import { atom } from "recoil";
+
+export const homeRoomFilterAtom = atom<boolean>({
+  key: "homeRoomFilterAtom",
+  default: false,
+});
+
 const Home = () => {
   const history = useHistory();
   const location = useLocation();

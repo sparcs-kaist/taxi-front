@@ -1,9 +1,18 @@
 import { useEffect, useState } from "react";
 
+import useHoverProps from "@/hooks/theme/useHoverProps";
+import { useIsLogin } from "@/hooks/useFetchRecoilState";
+
 import Date from "./Date";
+import { homeRoomFilterAtom } from "./index";
+
+import favoriteRoutesAtom from "@/atoms/favoriteRoutes";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 import { getToday } from "@/tools/moment";
 import theme from "@/tools/theme";
+
+import StarIcon from "@mui/icons-material/Star";
 
 const getWeekDates = () => {
   const today = getToday();
@@ -54,6 +63,14 @@ const SelectDate = (props: SelectDateProps) => {
     };
   }, []);
 
+  const isLogin = useIsLogin();
+  const [showFavoritesOnly, setShowFavoritesOnly] =
+    useRecoilState(homeRoomFilterAtom);
+  const favoriteRoutes = useRecoilValue(favoriteRoutesAtom);
+  const [hoverProps, isHover] = useHoverProps();
+
+  const canShowFilter = isLogin && favoriteRoutes.data.length > 0;
+
   return (
     <>
       <div
@@ -77,14 +94,52 @@ const SelectDate = (props: SelectDateProps) => {
           ...theme.font14,
           color: theme.purple,
           margin: "20px 4px 15px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
         }}
       >
-        날짜 :{" "}
-        {week[0].date === props.selectedDate[2]
-          ? `${week[1].month + 1}월 ${week[1].date}일 ~ ${
-              week[1].month !== week[7].month ? `${week[7].month + 1}월 ` : ""
-            }${week[7].date}일`
-          : `${props.selectedDate[1] + 1}월 ${props.selectedDate[2]}일`}
+        <span>
+          날짜 :{" "}
+          {week[0].date === props.selectedDate[2]
+            ? `${week[1].month + 1}월 ${week[1].date}일 ~ ${
+                week[1].month !== week[7].month ? `${week[7].month + 1}월 ` : ""
+              }${week[7].date}일`
+            : `${props.selectedDate[1] + 1}월 ${props.selectedDate[2]}일`}
+        </span>
+        {canShowFilter && (
+          <div
+            onClick={() => setShowFavoritesOnly((prev) => !prev)}
+            css={{
+              ...theme.font12,
+              borderRadius: "15px",
+              padding: "8px 15px 7px 15px",
+              boxShadow: theme.shadow,
+              background: showFavoritesOnly
+                ? isHover
+                  ? theme.purple_dark
+                  : theme.purple
+                : isHover
+                ? theme.purple_hover
+                : theme.white,
+              color: showFavoritesOnly ? theme.white : theme.black,
+              transition: `background ${theme.duration}`,
+              ...theme.cursor(),
+              display: "flex",
+              alignItems: "center",
+              gap: "4px",
+            }}
+            {...hoverProps}
+          >
+            <StarIcon
+              style={{
+                fontSize: "16px",
+                color: showFavoritesOnly ? theme.white : theme.purple,
+              }}
+            />
+            즐겨찾기만
+          </div>
+        )}
       </div>
     </>
   );
