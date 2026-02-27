@@ -26,14 +26,15 @@ import {
   useValueEvent2025SpringInfo,
 } from "./useFetchEvent2025SpringInfo";
 import {
-  useFetchFavoriteRoutes,
-  useSetFavoriteRoutes,
-  useValueFavoriteRoutes,
-} from "./useFetchFavoriteRoutes";
   useFetchEvent2026SpringInfo,
   useSetEvent2026SpringInfo,
   useValueEvent2026SpringInfo,
 } from "./useFetchEvent2026SpringInfo";
+import {
+  useFetchFavoriteRoutes,
+  useSetFavoriteRoutes,
+  useValueFavoriteRoutes,
+} from "./useFetchFavoriteRoutes";
 import {
   useFetchGameInfo,
   useSetGameInfo,
@@ -65,8 +66,8 @@ import { Event2024FallInfoType } from "@/atoms/event2024FallInfo";
 import { Event2024SpringInfoType } from "@/atoms/event2024SpringInfo";
 import { Event2025FallInfoType } from "@/atoms/event2025FallInfo";
 import { Event2025SpringInfoType } from "@/atoms/event2025SpringInfo";
-import { FavoriteRoutesType } from "@/atoms/favoriteRoutes";
 import { Event2026SpringInfoType } from "@/atoms/event2026SpringInfo";
+import { FavoriteRoutesType } from "@/atoms/favoriteRoutes";
 import { GameInfoType } from "@/atoms/gameInfo";
 import { LoginInfoType } from "@/atoms/loginInfo";
 import { MyRoomsType } from "@/atoms/myRooms";
