@@ -27,6 +27,7 @@ import Event2025SpringMissions from "./Event2025SpringMissions";
 import Event2025SpringStore from "./Event2025SpringStore";
 import Event2026Spring from "./Event2026Spring";
 import Event2026SpringMissions from "./Event2026SpringMissions";
+import Event2026SpringBuddy from "./Event2026SpringBuddy";
 
 const Event = () => {
   const { eventName, itemId } = useParams() as {
@@ -90,6 +91,8 @@ const Event = () => {
       return <Event2026Spring />;
     case "2026spring-missions":
       return <Event2026SpringMissions />;
+    case "2026spring-buddy":
+      return <Event2026SpringBuddy />;
     default:
       return <Event2026Spring />;
   }
