@@ -110,17 +110,12 @@ const InfoSection = () => {
         maxMileage: 96000,
         needed: 96000 - activeMileage,
       };
-    } else if (activeMileage >= 8000) {
+    } else {
+      // 24,000원 미만일 때는 Normal을 건너뛰고 Silver를 목표로 표시
       return {
         nextTier: "Silver",
         maxMileage: 24000,
         needed: 24000 - activeMileage,
-      };
-    } else {
-      return {
-        nextTier: "Normal",
-        maxMileage: 8000,
-        needed: 8000 - activeMileage,
       };
     }
   }, [activeMileage]);
@@ -231,18 +226,44 @@ const InfoSection = () => {
                   >
                     {activeMileage.toLocaleString()}원
                   </span>
-                  &nbsp;을 절약했어요! <BadgeImage badge_size="1.2em" />
+                  &nbsp;을 절약했어요!{" "}
+                  <BadgeImage badge_size="1.2em" top="-0.1em" />
                 </div>
 
                 {/* [CHANGE] 게이지 및 툴팁 수정 */}
                 <div css={{ margin: "0px 0px 10px" }}>
                   <Tooltip
                     title={
-                      tierInfo.isMax
-                        ? "이미 최고 등급(Gold)에 도달했습니다!"
-                        : `${
-                            tierInfo.nextTier
-                          } 등급까지 ${tierInfo.needed.toLocaleString()}원 남았습니다.`
+                      <div
+                        css={{
+                          display: "flex",
+                          alignItems: "center",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {tierInfo.isMax ? (
+                          <span>이미 최고 등급(Platinum)에 도달했습니다!</span>
+                        ) : (
+                          <>
+                            {/* 티어 이름 출력 */}
+                            <span>{tierInfo.nextTier}</span>
+                            {/* 티어 이름 바로 뒤에 아이콘 배치 */}
+                            <BadgeImage
+                              tier={tierInfo.nextTier.toLowerCase() as any}
+                              badge_live={true}
+                              noTooltip={true} // 툴팁 내부이므로 아이콘 자체 툴팁은 끔
+                              badge_size="1.2em"
+                              top="-0.1em"
+                              marginRight="0.25em"
+                            />
+                            <span>
+                              {" "}
+                              등급까지 {tierInfo.needed.toLocaleString()}원
+                              남았습니다.
+                            </span>
+                          </>
+                        )}
+                      </div>
                     }
                     componentsProps={{
                       tooltip: {
@@ -251,11 +272,10 @@ const InfoSection = () => {
                           color: theme.black,
                           padding: "6px 10px",
                           marginTop: "8px !important",
-                          // backgroundColor: "white" 대신 rgba 사용 (0.5가 투명도)
-                          backgroundColor: "rgba(255, 255, 255, 0.9)",
+                          backgroundColor: "rgba(255, 255, 255, 0.9)", // 요청하신 투명도 반영
                           borderRadius: "8px",
                           textAlign: "center",
-                          boxShadow: theme.shadow, // 투명할 때 그림자가 있어야 잘 보입니다
+                          boxShadow: theme.shadow,
                         },
                       },
                     }}
@@ -264,7 +284,6 @@ const InfoSection = () => {
                   >
                     <Gauge
                       value={activeMileage}
-                      // 현재 목표치에 맞춰 게이지가 차오르도록 설정
                       max={tierInfo.maxMileage}
                       width="100%"
                       height="15px"

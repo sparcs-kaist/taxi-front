@@ -27,8 +27,10 @@ import { convertImage } from "@/tools/image";
 import regExpTest from "@/tools/regExpTest";
 import theme from "@/tools/theme";
 
+// Platinum 추가
 import { ReactComponent as GoldBadgeIcon } from "@/static/assets/phone_badge_gold.svg";
 import { ReactComponent as NormalBadgeIcon } from "@/static/assets/phone_badge_normal.svg";
+import { ReactComponent as PlatinumBadgeIcon } from "@/static/assets/phone_badge_platinum.svg";
 import { ReactComponent as SilverBadgeIcon } from "@/static/assets/phone_badge_silver.svg";
 
 type ModalMypageModifyProps = Omit<
@@ -144,12 +146,17 @@ const ButtonProfileImage = () => {
 };
 
 // ---------- 배지 타입 및 유틸 ----------
-type BadgeSetting = "none" | "normal" | "silver" | "gold";
+type BadgeSetting = "none" | "normal" | "silver" | "gold" | "platinum"; // Platinum 타입 추가
 
+/** 레거시 대응: true는 normal로, 그 외 문자열은 그대로 매핑 */
 function mapLoginInfoBadgeToState(raw: any): BadgeSetting {
-  if (raw === true) return "normal";
-  if (raw === false || raw === undefined || raw === null) return "none";
-  if (raw === "normal" || raw === "silver" || raw === "gold") return raw;
+  if (
+    raw === "normal" ||
+    raw === "silver" ||
+    raw === "gold" ||
+    raw === "platinum"
+  )
+    return raw; // platinum 매핑 추가
   return "none";
 }
 
@@ -165,8 +172,10 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
 
   const loginInfo = useValueRecoilState("loginInfo");
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
+
   // 마일리지 티어 정보를 가져옵니다.
   const mileageData = useValueRecoilState("mileage");
+  // const earnedTier = "platinum"; // 테스트를 위해 'platinum'으로 설정
   const earnedTier = mileageData?.tier || "none";
 
   const event2025SpringQuestComplete = useEvent2025SpringQuestComplete();
@@ -174,19 +183,30 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
 
   // ---------- 배지 선택 권한 로직 ----------
   const availableBadges = useMemo(() => {
-    const order: BadgeSetting[] = ["none", "normal", "silver", "gold"];
+    const order: BadgeSetting[] = [
+      "none",
+      "normal",
+      "silver",
+      "gold",
+      "platinum",
+    ]; // 순서에 platinum 추가
     return order.filter((b) => {
       if (b === "none" || b === "normal") return true; // 기본 오픈
       if (b === "silver")
-        return earnedTier === "silver" || earnedTier === "gold";
-      if (b === "gold") return earnedTier === "gold";
+        return (
+          earnedTier === "silver" ||
+          earnedTier === "gold" ||
+          earnedTier === "platinum"
+        );
+      if (b === "gold")
+        return earnedTier === "gold" || earnedTier === "platinum";
+      if (b === "platinum") return earnedTier === "platinum"; // platinum 조건 추가
       return false;
     });
   }, [earnedTier]);
 
   const handleNextBadge = () => {
     const currentIndex = availableBadges.indexOf(badgeState);
-    // 만약 현재 설정된 배지가 권한 밖이라면(티어 하락 등) 첫 번째 요소로 초기화
     if (currentIndex === -1) {
       setBadgeState(availableBadges[0]);
     } else {
@@ -194,7 +214,6 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
       setBadgeState(availableBadges[nextIndex]);
     }
   };
-  // --------------------------------------
 
   useEffect(() => {
     if (modalProps.isOpen) {
@@ -205,7 +224,20 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
     }
   }, [loginInfo, modalProps.isOpen]);
 
-  const prevBadgeState = mapLoginInfoBadgeToState(loginInfo?.badge);
+  const prevBadgeState = useMemo(
+    () => mapLoginInfoBadgeToState(loginInfo?.badge),
+    [loginInfo]
+  );
+
+  const isChanged = useMemo(() => {
+    return (
+      nickname !== (loginInfo?.nickname || "") ||
+      account !== (loginInfo?.account || "") ||
+      badgeState !== prevBadgeState ||
+      (loginInfo?.phoneNumber === undefined && phoneNumber !== "")
+    );
+  }, [nickname, account, badgeState, phoneNumber, loginInfo, prevBadgeState]);
+
   const isEditable =
     regExpTest.account(account) && regExpTest.nickname(nickname);
 
@@ -243,7 +275,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
     if (badgeState !== prevBadgeState) {
       isNeedToUpdateLoginInfo = true;
       await axios({
-        url: "/users/editbadge",
+        url: "/users/editBadge",
         method: "post",
         data: { badge: badgeState },
         onError: () => setAlert(t("page_modify.badge_display_failed")),
@@ -274,7 +306,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
     setPhoneNumber(loginInfo?.phoneNumber || "");
   };
 
-  // 스타일 및 아이콘 설정
+  // 스타일 설정
   const styleName = {
     ...theme.font20,
     textAlign: "center",
@@ -295,7 +327,9 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
   };
 
   const CurrentBadgeIcon =
-    badgeState === "gold"
+    badgeState === "platinum"
+      ? PlatinumBadgeIcon // Platinum 아이콘 추가
+      : badgeState === "gold"
       ? GoldBadgeIcon
       : badgeState === "silver"
       ? SilverBadgeIcon
@@ -310,15 +344,15 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
       ? "Normal"
       : badgeState === "silver"
       ? "Silver"
-      : "Gold";
+      : badgeState === "gold"
+      ? "Gold"
+      : "Platinum"; // 레이블 추가
 
   const ICON_BOX = 18;
-  const BUTTON_FIXED_W = 90;
-  const SCALE = { normal: 1.0, silver: 1.23, gold: 1.15 };
+  const BUTTON_FIXED_W = 100; // 텍스트 길이에 맞춰 소폭 조정
+  const SCALE = { normal: 1.0, silver: 1.08, gold: 1.08, platinum: 1.08 }; // 스케일 추가
   const scale =
-    badgeState === "none"
-      ? 1
-      : SCALE[badgeState as "normal" | "silver" | "gold"];
+    badgeState === "none" ? 1 : SCALE[badgeState as keyof typeof SCALE];
 
   return (
     <>
@@ -480,11 +514,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
               type="purple_inset"
               disabled={
                 !isEditable ||
-                (nickname === loginInfo?.nickname &&
-                  account === loginInfo?.account &&
-                  badgeState === prevBadgeState &&
-                  (loginInfo?.phoneNumber !== undefined ||
-                    phoneNumber === "")) ||
+                !isChanged ||
                 (loginInfo?.phoneNumber === undefined &&
                   phoneNumber !== "" &&
                   phoneNumber.length < 13)
