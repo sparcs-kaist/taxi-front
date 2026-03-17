@@ -76,6 +76,7 @@ export default (
       }
       if (item.type === "in" || item.type === "out") {
         popQueue();
+        if (!("유령" in item.inOutNames)) { // inOutNames가 유령일 경우
         list.push(
           <MessageInOut
             key={"inout" + getChatUniquewKey(item)}
@@ -83,7 +84,7 @@ export default (
             users={item.inOutNames || []}
           />
         );
-
+      }
         if (item.type === "in") {
           hasRecommended++;
         }
