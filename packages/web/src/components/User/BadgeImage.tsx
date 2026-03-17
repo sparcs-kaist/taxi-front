@@ -28,7 +28,7 @@ const BadgeImage = ({
   const loginInfo = useValueRecoilState("loginInfo");
 
   const rawBadge = tier || loginInfo?.badge;
-  const displayTier = rawBadge === true ? "normal" : rawBadge;
+  const displayTier = rawBadge;
 
   if (badge_live === false) return null;
 

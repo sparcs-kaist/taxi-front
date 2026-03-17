@@ -175,7 +175,6 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
 
   // 마일리지 티어 정보를 가져옵니다.
   const mileageData = useValueRecoilState("mileage");
-  // const earnedTier = "platinum"; // 테스트를 위해 'platinum'으로 설정
   const earnedTier = mileageData?.tier || "none";
 
   const event2025SpringQuestComplete = useEvent2025SpringQuestComplete();
@@ -244,7 +243,6 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
   const handleEditProfile = async () => {
     let isNeedToUpdateLoginInfo = false;
     if (!isEditable) return;
-
     if (nickname !== loginInfo?.nickname) {
       isNeedToUpdateLoginInfo = true;
       await axios({
@@ -365,7 +363,10 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
           <div css={styleName} className="selectable">
             {loginInfo?.name}
             {loginInfo?.phoneNumber !== undefined && (
-              <BadgeImage badge_live={badgeState !== "none"} />
+              <BadgeImage
+                badge_live={badgeState !== "none"}
+                tier={badgeState}
+              />
             )}
           </div>
           {loginInfo?.profileImgUrl && (
