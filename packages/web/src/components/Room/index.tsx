@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+import type { ReactNode } from "react";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -15,8 +15,27 @@ import { getLocationName } from "@/tools/trans";
 
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 
-const Tag = (props) => {
-  const style = {
+type RoomData = Room & { isDeparted?: boolean };
+
+type TagProps = {
+  users: User[];
+  isDeparted?: boolean;
+  isSettlementForMe: "not-departed" | "paid" | "send-required" | "sent";
+  maxPartLength?: number;
+  theme: "purple" | "white";
+};
+
+type RoomProps = {
+  data?: RoomData | null;
+  selected?: boolean;
+  onClick?: () => void;
+  marginTop?: string;
+  marginBottom?: string;
+  theme?: "purple" | "white";
+};
+
+const Tag = (props: TagProps) => {
+  const style: React.CSSProperties = {
     ...theme.font10,
     color: theme.gray_text,
     display: "flex",
@@ -30,17 +49,18 @@ const Tag = (props) => {
     flexShrink: "0",
   };
   const paid = props.users.find((user) => user.isSettlement === "paid");
-  let isDone = null;
+  let isDone: ReactNode = null;
   // let person = null;
+  const usersNotGhost = props.users.filter((user) => user.name !== "유령");
 
   if (!props.isDeparted) {
     isDone = (
       <>
         인원 :
         <div style={{ color: theme.purple, ...theme.font10_bold }}>
-          {props.users.length}명
+          {usersNotGhost.length}명
         </div>{" "}
-        /{props.maxPartLength}명
+        /{props.maxPartLength ?? 4}명
       </>
     );
   } else if (!paid) {
@@ -75,24 +95,35 @@ const Tag = (props) => {
   );
 };
 
-const Room = (props) => {
+const Room = ({
+  data,
+  selected = false,
+  onClick = () => {},
+  marginTop = "0px",
+  marginBottom = "0px",
+  theme: themeProp = "purple",
+}: RoomProps) => {
+  
   const { i18n } = useTranslation();
 
-  const users = props.data?.part || [];
+  const users = data?.part ?? [];
   const loginInfo = useRecoilValue(loginInfoAtom);
   const isSettlementForMe = useMemo(
-    () => users.find((user) => user._id === loginInfo.oid)?.isSettlement,
+    () =>
+      (users.find((user) => user._id === loginInfo?.oid)?.isSettlement ??
+        "paid") as "not-departed" | "paid" | "send-required" | "sent",
     [loginInfo?.oid, JSON.stringify(users)]
   );
-  const styleBox = {
+  const styleBox: React.CSSProperties = {
     position: "relative",
-    background: props.theme === "purple" ? theme.purple_light : theme.white,
+    background:
+      themeProp === "purple" ? theme.purple_light : theme.white,
     borderRadius: "12px",
-    marginTop: props.marginTop,
-    marginBottom: props.marginBottom,
+    marginTop: marginTop,
+    marginBottom: marginBottom,
     boxShadow:
       theme.shadow +
-      (props.selected ? `, inset 0 0 0 0.5px ${theme.purple}` : ""),
+      (selected ? `, inset 0 0 0 0.5px ${theme.purple}` : ""),
     ...theme.cursor(),
   };
   const styleTop = {
@@ -113,7 +144,7 @@ const Room = (props) => {
     marginTop: "16px",
     padding: "0 8px",
   };
-  const stylePlace = {
+  const stylePlace: React.CSSProperties = {
     ...theme.font14_bold,
     width: "calc(50% - 12px)",
     textAlign: "center",
@@ -122,7 +153,7 @@ const Room = (props) => {
     fontSize: "16px",
     color: theme.gray_text,
   };
-  const styleDate = {
+  const styleDate: React.CSSProperties = {
     ...theme.font12,
     color: theme.purple,
     padding: "12px 0",
@@ -130,54 +161,30 @@ const Room = (props) => {
   };
 
   return (
-    <div style={styleBox} className="shadow" onClick={props.onClick}>
+    <div style={styleBox} className="shadow" onClick={onClick}>
       <div style={styleTop}>
-        <div style={styleName}>{props.data?.name}</div>
+        <div style={styleName}>{data?.name}</div>
         <Tag
           users={users}
-          isDeparted={props.data?.isDeparted}
+          isDeparted={data?.isDeparted}
           isSettlementForMe={isSettlementForMe}
-          maxPartLength={props.data?.maxPartLength}
-          theme={props.theme}
+          maxPartLength={data?.maxPartLength}
+          theme={themeProp}
         />
       </div>
       <DottedLine direction="row" margin="0 12px" />
       <div style={stylePlaceGrid}>
         <div style={stylePlace}>
-          {getLocationName(props.data?.from, i18n.language)}
+          {getLocationName(data?.from, i18n.language)}
         </div>
         <ArrowRightAltRoundedIcon style={styleArrow} />
         <div style={stylePlace}>
-          {getLocationName(props.data?.to, i18n.language)}
+          {getLocationName(data?.to, i18n.language)}
         </div>
       </div>
-      <div style={styleDate}>{date2str(props.data?.time)}</div>
+      <div style={styleDate}>{date2str(data?.time)}</div>
     </div>
   );
-};
-
-Room.propTypes = {
-  data: PropTypes.object,
-  selected: PropTypes.bool,
-  onClick: PropTypes.func,
-  marginTop: PropTypes.string,
-  marginBottom: PropTypes.string,
-  theme: PropTypes.string,
-};
-
-Room.defaultProps = {
-  seleted: false,
-  onClick: () => {},
-  marginTop: "0px",
-  marginBottom: "0px",
-};
-
-Tag.propTypes = {
-  users: PropTypes.array,
-  maxPartLength: PropTypes.number,
-  theme: PropTypes.string,
-  isDeparted: PropTypes.bool,
-  isSettlementForMe: PropTypes.string,
 };
 
 export default Room;
