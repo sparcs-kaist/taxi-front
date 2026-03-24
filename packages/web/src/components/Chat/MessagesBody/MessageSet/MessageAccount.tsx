@@ -71,7 +71,7 @@ const MessageAccount = ({ roomInfo, account, settlement }: MessageAccountProps) 
           <div css={styleLineRight}>{totalAmount}원</div>
         </div>
         <div css={styleLine}>
-          <div css={styleLineLeft}>송금할 금액</div>
+          <div css={styleLineLeft}>보낼 금액</div>
           <div css={styleLineRight}>{perPersonAmount}원</div>
         </div>
         <div css={styleButtonSection}>
