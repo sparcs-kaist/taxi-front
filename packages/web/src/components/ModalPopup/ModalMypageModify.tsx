@@ -2,6 +2,7 @@ import axiosOri from "axios";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { useEvent2026SpringQuestComplete } from "@/hooks/event/useEvent2026SpringQuestComplete";
 import {
   useFetchRecoilState,
   useValueRecoilState,
@@ -27,7 +28,6 @@ import regExpTest from "@/tools/regExpTest";
 import theme from "@/tools/theme";
 
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
-import { useEvent2026SpringQuestComplete } from "@/hooks/event/useEvent2026SpringQuestComplete";
 
 type ModalMypageModifyProps = Omit<
   Parameters<typeof Modal>[0],
@@ -48,6 +48,29 @@ const ProfileImageLarge = (props: ProfileImageLargeProps) => (
   >
     <ProfileImage {...props} />
   </div>
+);
+
+const CounterClockwiseIcon = ({
+  size = 24,
+  onClick,
+}: {
+  size?: number;
+  onClick?: () => void;
+}) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={theme.purple}
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    onClick={onClick}
+  >
+    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+    <path d="M3 3v5h5" />
+  </svg>
 );
 
 const ButtonProfileImage = () => {
@@ -112,10 +135,10 @@ const ButtonProfileImage = () => {
       profileAlert === "SUCCESS"
         ? theme.green_button
         : profileAlert === "FAIL"
-          ? theme.red_button
-          : profileAlert === "LOADING"
-            ? theme.gray_text
-            : theme.purple,
+        ? theme.red_button
+        : profileAlert === "LOADING"
+        ? theme.gray_text
+        : theme.purple,
     width: "fit-content",
     margin: "16px auto",
     cursor: profileAlert ? "default" : "pointer",
@@ -133,10 +156,10 @@ const ButtonProfileImage = () => {
       {profileAlert === "SUCCESS"
         ? t("page_modify.profile_image_success")
         : profileAlert === "FAIL"
-          ? t("page_modify.profile_image_failed")
-          : profileAlert === "LOADING"
-            ? t("page_modify.profile_image_loading")
-            : t("page_modify.profile_image_change")}
+        ? t("page_modify.profile_image_failed")
+        : profileAlert === "LOADING"
+        ? t("page_modify.profile_image_loading")
+        : t("page_modify.profile_image_change")}
     </div>
   );
 };
@@ -284,6 +307,21 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
     setPhoneNumber(loginInfo?.phoneNumber || "");
   };
 
+  const handleIconClick = async () => {
+    try {
+      const data = await axios({
+        url: "/users/generateNickname", // 실제 taxi-back의 API 주소 확인 필요
+        method: "get",
+      });
+
+      if (data?.nickname) {
+        setNickname(data.nickname);
+      }
+    } catch (e) {
+      setAlert("닉네임 랜덤 생성에 실패했습니다.");
+    }
+  };
+
   const styleName = {
     ...theme.font20,
     textAlign: "center",
@@ -392,8 +430,9 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
               <Input
                 value={nickname}
                 onChangeValue={setNickname}
-                css={{ width: "100%", marginLeft: "10px" }}
+                css={{ width: "80%", marginLeft: "10px", marginRight: "5px" }}
               />
+              <CounterClockwiseIcon size={20} onClick={handleIconClick} />
             </div>
             <div css={{ ...styleTitle, marginTop: "10px" }}>
               {t("account")}
