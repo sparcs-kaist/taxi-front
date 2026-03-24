@@ -18,7 +18,7 @@ import { useSetRecoilState } from "recoil";
 import theme from "@/tools/theme";
 
 import { ReactComponent as KakaoPayLogo } from "@/static/assets/serviceLogos/KakaoPayLogo.svg";
-import { ReactComponent as TossLogo } from "@/static/assets/serviceLogos/TossLogo.png";
+import TossLogo from "@/static/assets/serviceLogos/TossLogo.png";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import LocalAtmRoundedIcon from "@mui/icons-material/LocalAtmRounded";
@@ -166,7 +166,7 @@ const ModalChatPayment = ({
             <LinkPayment type="toss" account={account} amount={settlement?.perPerson}>
               <ButtonShare
                 text="토스"
-                icon={<TossLogo css={{ width: "24px" }} />}
+                icon={<img src={TossLogo} css={{ width: "24px" }} />}
                 background="#0050FF"
               />
             </LinkPayment>
