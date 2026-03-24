@@ -18,10 +18,11 @@ import { useSetRecoilState } from "recoil";
 import theme from "@/tools/theme";
 
 import { ReactComponent as KakaoPayLogo } from "@/static/assets/serviceLogos/KakaoPayLogo.svg";
-import { ReactComponent as TossLogo } from "@/static/assets/serviceLogos/TossLogo.svg";
+import TossLogo from "@/static/assets/serviceLogos/TossLogo.png";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import LocalAtmRoundedIcon from "@mui/icons-material/LocalAtmRounded";
+import useSettlementFromChats from "@/hooks/chat/useSettlementFromChats";
 
 type ModalChatPaymentProps = Omit<
   Parameters<typeof Modal>[0],
@@ -30,11 +31,13 @@ type ModalChatPaymentProps = Omit<
   roomInfo: Room;
   onRecall?: () => void;
   account: ReturnType<typeof useAccountFromChats>;
+  settlement: ReturnType<typeof useSettlementFromChats>;
 };
 
 const ModalChatPayment = ({
   roomInfo,
   account,
+  settlement,
   onRecall,
   ...modalProps
 }: ModalChatPaymentProps) => {
@@ -98,10 +101,22 @@ const ModalChatPayment = ({
   const styleAccount = {
     ...theme.font14,
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     gap: "12px",
-    margin: "0 8px 12px",
+    margin: "0 8px 10px",
     color: theme.gray_text,
+  };
+  const styleMoney = {
+    ...styleAccount,
+    gap: "20px",
+  }
+  const stylePerPersonMoney = {
+    ...styleAccount,
+    gap: "9px",
+  };
+  const stylePaymentInfoGroup = {
+    width: "fit-content",
+    margin: "0 auto",
   };
 
   return (
@@ -116,15 +131,26 @@ const ModalChatPayment = ({
             택시비 결제자의 계좌번호를 참고하시어 송금해 주세요. 결제 방법 선택
             시에 해당 앱으로 이동합니다.
           </div>
-          <div css={styleAccount} className="selectable">
-            계좌번호
-            <div css={{}}>{account}</div>
+          <div css={stylePaymentInfoGroup}>
+            <div css={styleAccount} className="selectable">
+              계좌번호
+              <div css={{}}>{account}</div>
+            </div>
+            <div css={styleMoney} className="selectable">
+              총 금액
+              <div>{settlement?.total}원</div>
+            </div>
+            <div css={stylePerPersonMoney} className="selectable">
+              보낼 금액
+              <div>{settlement?.perPerson}원</div>
+            </div>
           </div>
           <div
             css={{
               display: "flex",
               justifyContent: "center",
               gap: "10px",
+              marginTop: "4px",
               marginBottom: "12px",
             }}
           >
@@ -145,17 +171,17 @@ const ModalChatPayment = ({
                 background={theme.gray_background}
               />
             </LinkCopy>
-            <LinkPayment type="kakaopay" account={account}>
+            <LinkPayment type="kakaopay" account={account} amount={settlement?.perPerson}>
               <ButtonShare
                 text="카카오페이"
                 icon={<KakaoPayLogo css={{ width: "22px" }} />}
                 background="#FFEB00"
               />
             </LinkPayment>
-            <LinkPayment type="toss" account={account}>
+            <LinkPayment type="toss" account={account} amount={settlement?.perPerson}>
               <ButtonShare
                 text="토스"
-                icon={<TossLogo css={{ width: "24px" }} />}
+                icon={<img src={TossLogo} css={{ width: "48px" }} />}
                 background="#0050FF"
               />
             </LinkPayment>
