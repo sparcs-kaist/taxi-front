@@ -1,4 +1,4 @@
-export type LayoutType = "sidechat" | "fullchat";
+export type LayoutType = "sidechat" | "fullchat" | "wordChainGame";
 
 type CommonChat = {
   roomId: string; // 방의 objectId
@@ -22,7 +22,7 @@ export type GeneralChat = {
   inOutNames: string[];
 } & CommonChat;
 export type BotChat = {
-  type: "share" | "departure" | "arrival";
+  type: "share" | "departure" | "arrival" | "wordChain" | "gameRecommendation" | "racing" | "raceLog";
   authorId?: "bot";
   authorName?: string;
 } & CommonChat;

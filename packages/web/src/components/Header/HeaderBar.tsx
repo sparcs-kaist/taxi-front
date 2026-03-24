@@ -9,7 +9,7 @@ const HeaderBar = ({ position = "fixed" }: HeaderBarProps) => (
     style={{
       background: theme.purple,
       width: "100%",
-      height: "max(5px, env(safe-area-inset-top))",
+      height: "0px", //"max(5px, env(safe-area-inset-top))",
       position,
       top: "0px",
       left: "0px",

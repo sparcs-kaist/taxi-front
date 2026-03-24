@@ -1,0 +1,15 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "org.sparcs.soap",
+      "sha256_cert_fingerprints": [
+        "FF:DF:61:FB:90:CD:5C:75:55:55:C1:02:F8:20:79:7C:F8:AA:3E:87:85:A8:F9:59:A8:1C:22:51:31:FB:11:8E"
+      ]
+    }
+  }
+]

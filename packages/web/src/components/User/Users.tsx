@@ -1,7 +1,7 @@
 import User from ".";
 
 type UsersProps = {
-  values: Array<User>;
+  values: Array<User & { withCarrier?: boolean }>;
 };
 
 const Users = ({ values }: UsersProps) => (

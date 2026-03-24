@@ -26,6 +26,7 @@ export default (
     const list: ReactNode[] = [];
     let momentCache: any = null; // @fixme, @todo
     let chatsCache: (UserChat | BotChat)[] | null = null;
+    let hasRecommended = 0;
     const dateFormat = "YYYY.MM.DD";
     const minFormat = "YYYY.MM.DD HH:mm";
 
@@ -82,6 +83,30 @@ export default (
             users={item.inOutNames || []}
           />
         );
+
+        if (item.type === "in") {
+          hasRecommended++;
+        }
+        if (item.type === "in" && hasRecommended === 2) {
+          const recommendationChat: BotChat = {
+            type: "gameRecommendation",
+            authorId: "bot",
+            authorName: "택시 봇",
+            time: item.time,
+            content: "함께 즐길 게임을 추천해 드릴까요?",
+            roomId: roomInfo._id,
+            isValid: true,
+          };
+          list.push(
+            <MessageSet
+              key={"bot-recommendation-" + item.time}
+              chats={[recommendationChat]}
+              layoutType={layoutType}
+              roomInfo={roomInfo}
+              readAtList={readAtList}
+            />
+          );
+        }
       } else if (
         item.type === "text" ||
         item.type === "s3img" ||
@@ -90,9 +115,24 @@ export default (
         item.type === "account" ||
         item.type === "share" ||
         item.type === "departure" ||
-        item.type === "arrival"
+        item.type === "arrival" ||
+        item.type === "wordChain" ||
+        item.type === "gameRecommendation" ||
+        item.type === "racing"
       ) {
-        if (["share", "departure", "arrival"].includes(item.type)) {
+        if (
+          [
+            "share",
+            "departure",
+            "arrival",
+            "gameRecommendation",
+            "racing",
+          ].includes(item.type)
+        ) {
+          item.authorId = "bot";
+          item.authorName = "택시 봇";
+        }
+        if (item.type === "wordChain" && !item.authorId) {
           item.authorId = "bot";
           item.authorName = "택시 봇";
         }
@@ -105,8 +145,16 @@ export default (
         ) {
           popQueue();
         }
-        if (!chatsCache) chatsCache = [];
-        chatsCache.push(item);
+
+        // 백엔드에서 racing 타입으로 보내는 원시 배팅 메시지("X:Y" 형태)는 화면에 표시하지 않음
+        const isRawBettingPayload =
+          item.type === "racing" && /^\d+:\s*\d+$/.test(item.content);
+
+        // 원시 배팅 데이터가 아닐 경우에만 캐시에 푸시
+        if (!isRawBettingPayload) {
+          if (!chatsCache) chatsCache = [];
+          chatsCache.push(item);
+        }
       }
       momentCache = currentMoment.clone();
     });

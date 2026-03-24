@@ -11,11 +11,13 @@ import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 
 type HeaderWithBackButtonProps = {
   isDisplayBackBtn?: boolean;
+  backPath?: string; // [추가] 뒤로가기 경로 지정 (없으면 기본 동작)
   children?: ReactNode;
 } & Omit<Parameters<typeof AdaptiveDiv>[0], "type">;
 
 const HeaderWithBackButton = ({
   isDisplayBackBtn = true,
+  backPath,
   children,
   ...adaptiveDivProps
 }: HeaderWithBackButtonProps) => {
@@ -41,9 +43,11 @@ const HeaderWithBackButton = ({
           <ArrowBackRoundedIcon
             style={styleIconLarge}
             onClick={
-              history.length <= 1
-                ? () => history.replace("/myroom")
-                : () => history.goBack()
+              backPath
+                ? () => history.replace(backPath)
+                : history.length <= 1
+                  ? () => history.replace("/myroom")
+                  : () => history.goBack()
             }
           />
         )}

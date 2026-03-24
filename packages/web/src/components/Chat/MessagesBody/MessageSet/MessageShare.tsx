@@ -14,6 +14,7 @@ type MessageShareProps = {
 
 const MessageShare = ({ roomInfo, text, color }: MessageShareProps) => {
   const [isOpenShare, setIsOpenShare] = useState<boolean>(false);
+
   const style = { width: "210px", padding: "10px" };
   const styleText = {
     marginBottom: "10px",
@@ -22,10 +23,12 @@ const MessageShare = ({ roomInfo, text, color }: MessageShareProps) => {
     ...theme.font14,
     color,
   };
+
   return (
     <div css={style}>
       <div css={styleText}>{text}</div>
       <Button onClick={() => setIsOpenShare(true)}>공유하기</Button>
+
       <ModalRoomShare
         isOpen={isOpenShare}
         onChangeIsOpen={setIsOpenShare}

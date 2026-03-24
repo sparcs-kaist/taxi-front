@@ -9,6 +9,7 @@ import {
 
 import useAccountFromChats from "@/hooks/chat/useAccountFromChats";
 import useSettlementFromChats from "@/hooks/chat/useSettlementFromChats";
+import useSendMessage from "@/hooks/chat/useSendMessage";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import useIsTimeOver from "@/hooks/useIsTimeOver";
 
@@ -34,6 +35,7 @@ type ToolSheetProps = {
   onChangeUploadedImage?: (x: Nullable<File>) => void;
   account: ReturnType<typeof useAccountFromChats>;
   settlement: ReturnType<typeof useSettlementFromChats>;
+  sendMessage: ReturnType<typeof useSendMessage>;
 };
 
 const ToolSheet = ({
@@ -43,6 +45,7 @@ const ToolSheet = ({
   onChangeUploadedImage,
   account,
   settlement,
+  sendMessage,
 }: ToolSheetProps) => {
   const setAlert = useSetRecoilState(alertAtom);
   const { oid: userOid } = useValueRecoilState("loginInfo") || {};

@@ -16,6 +16,7 @@ export type AxiosOption = {
   params?: any;
   onError?: (error: unknown) => void;
   onSuccess?: (data: any) => void;
+  skipAuthRedirect?: boolean;
 };
 
 const useAxios = () => {
@@ -25,7 +26,15 @@ const useAxios = () => {
   const currentPath = pathname + search;
 
   return useCallback(
-    async ({ url, method, data, params, onError, onSuccess }: AxiosOption) => {
+    async ({
+      url,
+      method,
+      data,
+      params,
+      onError,
+      onSuccess,
+      skipAuthRedirect,
+    }: AxiosOption) => {
       try {
         const timeClient = dayNowClient(); // client 의 요청 시각
         const res = await axios({ url, method, data, params }); // server의 API 호출 결과
@@ -36,7 +45,12 @@ const useAxios = () => {
         if (dateServer && timeServer.isValid()) {
           syncDayWithServer(timeServer.diff(timeClient));
         }
-        if (res?.status === 403 && res.data?.error === "not logged in") {
+        // skipAuthRedirect가 없을 때(!false = true)만 리다이렉트 실행
+        if (
+          !skipAuthRedirect &&
+          res?.status === 403 &&
+          res.data?.error === "not logged in"
+        ) {
           history.replace(
             `/logout?redirect=${encodeURIComponent(
               `/login?redirect=${encodeURIComponent(currentPath)}`
@@ -48,6 +62,7 @@ const useAxios = () => {
         }
       } catch (e: AxiosError | any) {
         if (
+          !skipAuthRedirect &&
           e?.response &&
           e?.response?.status === 403 &&
           e?.response?.data?.error === "not logged in"
@@ -60,6 +75,11 @@ const useAxios = () => {
         } else if (onError) {
           onError(e);
         } else {
+          if (skipAuthRedirect) {
+            console.warn(`[useAxios] Auth error ignored for ${url}`);
+            return;
+          }
+
           console.error(e);
           setError({
             title: "일시적인 서버 오류",
@@ -72,5 +92,4 @@ const useAxios = () => {
     [history, currentPath]
   );
 };
-
 export default useAxios;

@@ -16,7 +16,9 @@ type FooterProps = {
     | "event-2024spring"
     | "event-2024fall"
     | "event-2025spring"
-    | "event-2025fall";
+    | "event-2025fall"
+    | "event-2026spring"
+    | "game";
   children?: ReactNode;
 };
 
@@ -191,6 +193,39 @@ const Footer = ({ type = "full", children }: FooterProps) => {
             text="뱃지 이벤트를 만든 사람들"
             onClick={onClickCredit}
           />
+        </>
+      )}
+      {type === "event-2026spring" && (
+        <>
+          <ModalPrivacyPolicy
+            isOpen={isOpenPrivacyPolicy}
+            onChangeIsOpen={setIsOpenPrivacyPolicy}
+          />
+          <ModalCredit
+            defaultSelectedCatagory="2026SpringEvent"
+            isOpen={isOpenCredit}
+            onChangeIsOpen={setIsOpenCredit}
+          />
+          <a className="popup-channeltalk">
+            <ButtonAboveFooter text="채널톡 문의하기" />
+          </a>
+          <ButtonAboveFooter
+            text="개인정보 처리방침"
+            onClick={onClickPrivacyPolicy}
+          />
+          <Link to="/event/2026spring" css={{ textDecoration: "none" }}>
+            <ButtonAboveFooter text="이벤트 살펴보기" />
+          </Link>
+          <ButtonAboveFooter
+            text="새학기 이벤트를 만든 사람들"
+            onClick={onClickCredit}
+          />
+        </>
+      )}
+      {type === "game" && (
+        <>
+          <ButtonAboveFooter text="이 페이지는 토스뱅크의 후원으로 제작되었습니다."></ButtonAboveFooter>
+          {/* TODO: Toss logo */}
         </>
       )}
       {type !== "event-2024spring" && (

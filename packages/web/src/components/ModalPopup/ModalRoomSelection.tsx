@@ -1,5 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
+import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import { useAxios } from "@/hooks/useTaxiAPI";
+
+// 추가: 토글 API 호출용
 import Modal from "@/components/Modal";
 import Navigation from "@/components/Navigation";
 
@@ -8,7 +12,12 @@ import BodyRoomSelection, {
 } from "./Body/BodyRoomSelection";
 import { BodyRoomShare } from "./ModalRoomShare";
 
+import alertAtom from "@/atoms/alert";
+import { useSetRecoilState } from "recoil";
+
 import theme from "@/tools/theme";
+
+// 추가
 
 type HeightFixWrapperProps = {
   children: React.ReactNode;
@@ -44,16 +53,47 @@ const HeightFixWrapper = (
   );
 };
 
-const ModalRoomSelection = (
-  {
-    isOpen,
-    onChangeIsOpen,
-    roomInfo: _roomInfo,
-    triggerTags,
-  }: ModalRoomSelectionProps
-) => {
+const ModalRoomSelection = ({
+  isOpen,
+  onChangeIsOpen,
+  roomInfo: _roomInfo,
+  triggerTags,
+}: ModalRoomSelectionProps) => {
   const [roomInfo, setRoomInfo] = useState(_roomInfo);
   const [bodyHeight, setBodyHeight] = useState(0);
+
+  const axios = useAxios(); // 추가
+  const setAlert = useSetRecoilState(alertAtom); // 추가
+  const loginInfo = useValueRecoilState("loginInfo"); // 로그인된 내 정보
+
+  useEffect(() => {
+    if (_roomInfo) setRoomInfo(_roomInfo);
+  }, [_roomInfo]);
+
+  const handleToggleCarrier = () => {
+    if (!roomInfo) return;
+    axios({
+      url: "/rooms/carrier/toggle",
+      method: "post",
+      data: { roomId: roomInfo._id }, // 필요한 경우 roomId 전송
+      onSuccess: () => {
+        // 성공 시 로컬 state 즉시 업데이트 (낙관적 업데이트)
+        setRoomInfo((prev: any) => {
+          if (!prev) return null;
+          return {
+            ...prev,
+            part: prev.part.map((user: any) =>
+              user._id === loginInfo?.oid
+                ? { ...user, hasCarrier: !user.hasCarrier } // 내 상태 반전
+                : user
+            ),
+          };
+        });
+      },
+      onError: () => setAlert("캐리어 상태 변경에 실패했습니다."),
+    });
+  };
+
   const pages = useMemo(
     () =>
       roomInfo && [
@@ -61,7 +101,11 @@ const ModalRoomSelection = (
           key: "info",
           name: "방 정보",
           body: (
-            <BodyRoomSelection roomInfo={roomInfo} triggerTags={triggerTags} />
+            <BodyRoomSelection
+              roomInfo={roomInfo}
+              onToggleCarrier={handleToggleCarrier}
+              triggerTags={triggerTags}
+            />
           ),
         },
         {
@@ -70,12 +114,8 @@ const ModalRoomSelection = (
           body: <BodyRoomShare roomInfo={roomInfo} height={bodyHeight} />,
         },
       ],
-    [roomInfo, bodyHeight]
+    [roomInfo, bodyHeight, loginInfo] // 의존성 추가
   );
-
-  useEffect(() => {
-    if (_roomInfo) setRoomInfo(_roomInfo);
-  }, [_roomInfo]);
 
   const styleTitle = {
     ...theme.font18,
@@ -91,9 +131,15 @@ const ModalRoomSelection = (
       {roomInfo && (
         <>
           <div css={styleTitle}>{roomInfo.name}</div>
+
           {pages && <Navigation pages={pages} />}
+
+          {/* HeightFixWrapper에도 동일한 props를 넘겨야 높이 계산이 정확함 */}
           <HeightFixWrapper onChangeHeight={setBodyHeight}>
-            <BodyRoomSelection roomInfo={roomInfo} />
+            <BodyRoomSelection
+              roomInfo={roomInfo}
+              onToggleCarrier={handleToggleCarrier}
+            />
           </HeightFixWrapper>
         </>
       )}

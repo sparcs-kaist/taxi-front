@@ -4,7 +4,7 @@ import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import Footer from "@/components/Footer";
 import {
-  ModalEvent2025FallJoin,
+  ModalEvent2026SpringJoin,
   ModalNoticeBadge,
   ModalPrivacyPolicy,
 } from "@/components/ModalPopup";
@@ -13,6 +13,13 @@ import EventSection from "./EventSection";
 import InfoSection from "./InfoSection";
 import NoticeSection from "./NoticeSection";
 import RoomSection from "./RoomSection";
+
+import { atom } from "recoil";
+
+export const homeRoomFilterAtom = atom<boolean>({
+  key: "homeRoomFilterAtom",
+  default: false,
+});
 
 const Home = () => {
   const history = useHistory();
@@ -45,7 +52,7 @@ const Home = () => {
         isOpen={_roomId === "privacyPolicy"}
         onChangeIsOpen={onChangeIsOpenPrivacyPolicy}
       />
-      <ModalEvent2025FallJoin
+      <ModalEvent2026SpringJoin
         inviterId={inviterId}
         isOpen={isOpenEventJoin}
         onChangeIsOpen={onChangeIsOpenEventJoin}
