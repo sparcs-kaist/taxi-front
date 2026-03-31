@@ -174,6 +174,8 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
   const [residence, setResidence] = useState("");
   const [badge, setBadge] = useState<boolean>(false);
   const [PhoneAgreeModalOpen, setPhoneAgreeModalOpen] = useState(false);
+  const [initialNickname, setInitialNickname] = useState(""); // 처음 닉네임 기억용
+  const isResettingRef = useRef(false);
 
   const loginInfo = useValueRecoilState("loginInfo");
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
@@ -186,13 +188,26 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
 
   useEffect(() => {
     if (modalProps.isOpen) {
-      setNickname(loginInfo?.nickname || "");
+      const currentNickname = loginInfo?.nickname || "";
+      setNickname(currentNickname);
+      setInitialNickname(currentNickname); // 👈 초기 닉네임 백업!
+
       setAccount(loginInfo?.account || "");
       setPhoneNumber(loginInfo?.phoneNumber || "");
       setResidence(loginInfo?.residence || "");
       setBadge(loginInfo?.badge || false);
+    } else {
+      setNickname("");
     }
-  }, [loginInfo, modalProps.isOpen]);
+  }, [modalProps.isOpen]);
+
+  useEffect(() => {
+    // 깃발이 올라가 있고, 새 닉네임이 들어왔을 때만 실행!
+    if (isResettingRef.current && loginInfo?.nickname) {
+      setNickname(loginInfo.nickname);
+      isResettingRef.current = false; // 리셋 완료했으니 깃발 내리기
+    }
+  }, [loginInfo]);
 
   const isEditable =
     regExpTest.account(account) && regExpTest.nickname(nickname);
@@ -306,22 +321,22 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
     modalProps.onChangeIsOpen?.(true);
     setPhoneNumber(loginInfo?.phoneNumber || "");
   };
-
-  const handleIconClick = async () => {
+  const handleIconClick = useCallback(async () => {
     try {
-      const data = await axios({
-        url: "/users/generateNickname", // 실제 taxi-back의 API 주소 확인 필요
+      isResettingRef.current = true; // 1. 화면 깜빡임 없이 조용히 깃발 올리기
+
+      await axios({
+        url: "/users/resetNickname",
         method: "get",
       });
 
-      if (data?.nickname) {
-        setNickname(data.nickname);
-      }
+      // 2. 서버 통신 완료 후 최신 정보 땡겨오기
+      fetchLoginInfo();
     } catch (e) {
+      isResettingRef.current = false; // 에러 나면 조용히 깃발 내리기
       setAlert("닉네임 랜덤 생성에 실패했습니다.");
     }
-  };
-
+  }, [axios, fetchLoginInfo, setAlert]);
   const styleName = {
     ...theme.font20,
     textAlign: "center",
@@ -482,14 +497,13 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
               type="purple_inset"
               disabled={
                 !isEditable ||
-                (nickname === loginInfo?.nickname &&
-                  account === loginInfo?.account &&
-                  badge === loginInfo?.badge &&
-                  residence === loginInfo?.residence &&
-                  // 기존에 전화번호가 있거나, 없었고 입력란도 빈 상태면 변경 없음
+                // 👇 nickname을 loginInfo.nickname이 아닌 initialNickname과 비교!
+                (nickname === initialNickname &&
+                  account === (loginInfo?.account || "") &&
+                  badge === (loginInfo?.badge ?? false) &&
+                  residence === (loginInfo?.residence || "") &&
                   (loginInfo?.phoneNumber !== undefined ||
                     phoneNumber === "")) ||
-                // 신규 전화번호 입력 중이고, 길이가 13자 미만이면 비활성화
                 (loginInfo?.phoneNumber === undefined &&
                   phoneNumber !== "" &&
                   phoneNumber.length < 13)
