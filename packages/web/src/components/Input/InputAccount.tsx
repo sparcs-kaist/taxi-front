@@ -27,7 +27,7 @@ const syncAccount2Value = (_name: string, _number: string): string => {
   return name + " " + number;
 };
 
-const InputAccount = ({
+const InputAcount = ({
   value,
   onChangeValue,
   className,
@@ -73,4 +73,4 @@ const InputAccount = ({
   );
 };
 
-export default InputAccount;
+export default InputAcount;

@@ -8,8 +8,8 @@ type MessagePaySettlementProps = {
   color: CSS["color"];
 };
 
-const MessagePaySettlement = ({ type, color }: MessagePaySettlementProps) => {
-  return (<div
+const MessagePaySettlement = ({ type, color }: MessagePaySettlementProps) => (
+  <div
     css={{
       padding: "9px 12px 8px",
       display: "flex",
@@ -31,7 +31,6 @@ const MessagePaySettlement = ({ type, color }: MessagePaySettlementProps) => {
       </>
     )}
   </div>
-  );
-};
+);
 
 export default MessagePaySettlement;
