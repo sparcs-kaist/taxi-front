@@ -9,10 +9,16 @@ import {
   ModalPrivacyPolicy,
 } from "@/components/ModalPopup";
 
-import EventSection from "./EventSection";
 import InfoSection from "./InfoSection";
 import NoticeSection from "./NoticeSection";
 import RoomSection from "./RoomSection";
+
+import { atom } from "recoil";
+
+export const homeRoomFilterAtom = atom<boolean>({
+  key: "homeRoomFilterAtom",
+  default: false,
+});
 
 const Home = () => {
   const history = useHistory();
@@ -38,7 +44,6 @@ const Home = () => {
     <>
       <InfoSection />
       <NoticeSection />
-      <EventSection />
       <RoomSection roomId={roomId} triggerTags={triggerTags} />
       <Footer />
       <ModalPrivacyPolicy
