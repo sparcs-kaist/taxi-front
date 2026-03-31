@@ -14,7 +14,7 @@ import "./index.css";
 
 import isVirtualKeyboardDetectedAtom from "@/atoms/isVirtualKeyboardDetected";
 import useSettlementFromChats from "@/hooks/chat/useSettlementFromChats";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import { scrollToBottom } from "@/tools/chat/scroll";
 import theme from "@/tools/theme";
@@ -44,6 +44,7 @@ const MessageForm = ({
   const [uploadedImage, setUploadedImage] = useState<Nullable<File>>(null); // 업로드된 이미지 파일
   const account = useAccountFromChats(chats);
   const settlement = useSettlementFromChats(chats);
+  const setChatGameOverlay = useSetRecoilState(chatGameOverlayAtom);
 
   const onClickNewMessage = () => {
     if (!messageBodyRef.current) return;
@@ -82,7 +83,6 @@ const MessageForm = ({
           onChangeIsOpen={onChangeIsOpenToolSheet}
           onChangeUploadedImage={setUploadedImage}
           account={account}
-          settlement={settlement}
           sendMessage={sendMessage}
         />
       </div>
