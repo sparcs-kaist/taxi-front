@@ -1,12 +1,13 @@
 import { SetStateAction, memo, useState } from "react";
 
-// 피커 컴포넌트 경로 확인 필요
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 import Picker from "@/components/ModalRoomOptions/Picker";
 
 import theme from "@/tools/theme";
 
+
+// ───── FilterElement ─────
 const FilterElement = ({
   label,
   value,
@@ -15,39 +16,38 @@ const FilterElement = ({
   label: string;
   value: string;
   onClick: () => void;
-}) => {
-  return (
+}) => (
+  <div
+    onClick={onClick}
+    css={{
+      flex: 1,
+      padding: "12px",
+      borderRadius: "12px",
+      border: `1px solid ${theme.purple_light}`,
+      backgroundColor: theme.white,
+      cursor: "pointer",
+      textAlign: "center",
+      transition: "all 0.2s",
+      "&:hover": { backgroundColor: "#F9F7FF" },
+    }}
+  >
     <div
-      onClick={onClick}
       css={{
-        flex: 1,
-        padding: "12px",
-        borderRadius: "12px",
-        border: `1px solid ${theme.purple_light}`,
-        backgroundColor: theme.white,
-        cursor: "pointer",
-        textAlign: "center",
-        transition: "all 0.2s",
-        "&:hover": { backgroundColor: "#F9F7FF" },
+        fontSize: "12px",
+        color: theme.purple,
+        fontWeight: 700,
+        marginBottom: "4px",
       }}
     >
-      <div
-        css={{
-          fontSize: "12px",
-          color: theme.purple,
-          fontWeight: 700,
-          marginBottom: "4px",
-        }}
-      >
-        {label}
-      </div>
-      <div css={{ fontSize: "16px", fontWeight: 800, color: theme.black }}>
-        {value}
-      </div>
+      {label}
     </div>
-  );
-};
+    <div css={{ fontSize: "16px", fontWeight: 800, color: theme.black }}>
+      {value}
+    </div>
+  </div>
+);
 
+// ───── CustomPickerModal ─────
 const CustomPickerModal = ({
   isOpen,
   onClose,
@@ -64,7 +64,6 @@ const CustomPickerModal = ({
   title: string;
 }) => {
   const [tempValue, setTempValue] = useState(value);
-
   const handleConfirm = () => {
     onSelect(tempValue);
     onClose();
@@ -105,7 +104,7 @@ const CustomPickerModal = ({
               width: "calc(40% - 10px)",
               padding: "10px 0 9px",
               borderRadius: "8px",
-              ...theme.font14, // 취소 버튼은 일반 폰트
+              ...theme.font14,
             }}
             onClick={onClose}
           >
@@ -117,7 +116,7 @@ const CustomPickerModal = ({
               width: "60%",
               padding: "10px 0 9px",
               borderRadius: "8px",
-              ...theme.font14_bold, // 선택하기 버튼은 볼드 폰트
+              ...theme.font14_bold,
             }}
             onClick={handleConfirm}
           >
@@ -129,7 +128,7 @@ const CustomPickerModal = ({
   );
 };
 
-// --- 메인 BusyTimeGraph 컴포넌트 ---
+// ───── 메인 BusyTimeGraph 컴포넌트 ─────
 export interface TimeSlotData {
   time: string;
   value: number;
@@ -164,6 +163,12 @@ const BusyTimeGraph = ({
   const filteredDays = days.filter((d) => d !== "전체");
   const maxValue = Math.max(...data.map((d) => d.value), 1);
 
+  // 3시간 간격 라벨 표시 여부 (0, 3, 6, 9, 12, 15, 18, 21)
+  const showLabel = (timeStr: string) => {
+    const hour = parseInt(timeStr);
+    return !isNaN(hour) && hour % 3 === 0;
+  };
+
   return (
     <div
       className={className}
@@ -171,97 +176,25 @@ const BusyTimeGraph = ({
         ...css,
         backgroundColor: theme.white,
         borderRadius: "24px",
-        padding: "32px 24px",
+        padding: "24px 20px 20px",
         boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
+        gap: "20px",
       }}
     >
-      {/* 그래프 영역 (기존 로직 동일) */}
-      <div
-        css={{
-          display: "flex",
-          alignItems: "stretch",
-          height: "140px",
-          gap: "4px",
-          width: "100%",
-          marginBottom: "28px",
-        }}
-      >
-        {data.map((item, index) => {
-          const heightPercentage = (item.value / maxValue) * 100;
-          const isHighlight = item.value === maxValue && item.value > 0;
-          return (
-            <div
-              key={index}
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
-              css={{
-                flex: 1,
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "flex-end",
-                position: "relative",
-                cursor: "pointer",
-              }}
-            >
-              {/* 툴팁 및 바 그래프 */}
-              <div
-                css={{
-                  position: "absolute",
-                  bottom: `calc(${heightPercentage}% + 30px)`,
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  backgroundColor: theme.purple,
-                  color: theme.white,
-                  padding: "4px 8px",
-                  borderRadius: "6px",
-                  fontSize: "11px",
-                  opacity: hoveredIndex === index ? 1 : 0,
-                  transition: "all 0.2s",
-                  zIndex: 10,
-                  pointerEvents: "none",
-                }}
-              >
-                {Math.round(item.value)}개
-              </div>
-              <div
-                css={{
-                  width: "100%",
-                  height: `${Math.max(heightPercentage, 0)}%`,
-                  backgroundColor: isHighlight ? "#7B2C83" : "#A9A0B6",
-                  borderRadius: "4px",
-                }}
-              />
-              <div
-                css={{
-                  fontSize: "10px",
-                  color: theme.gray_text,
-                  textAlign: "center",
-                  marginTop: "6px",
-                }}
-              >
-                {parseInt(item.time) % 3 === 0
-                  ? item.time.replace("시", "")
-                  : ""}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* 텍스트 안내 영역 */}
-      <div css={{ textAlign: "center", marginBottom: "32px" }}>
+      {/* 제목 */}
+      <div css={{ textAlign: "center" }}>
         <div
           css={{
-            fontSize: "18px",
+            fontSize: "16px",
             fontWeight: 800,
             color: theme.purple,
-            marginBottom: "8px",
+            marginBottom: "4px",
           }}
         >
-          {selectedDay}요일, {selectedPlace}의<br />
+          {selectedDay}요일, {selectedPlace}
+          <br />
           시간대별 택시 동승
         </div>
         <div css={{ fontSize: "12px", color: theme.gray_text }}>
@@ -269,7 +202,120 @@ const BusyTimeGraph = ({
         </div>
       </div>
 
-      {/* ✨ 교체된 커스텀 필터 선택 영역 */}
+      {/* 막대 그래프 or 빈 상태 */}
+      {data.length === 0 ? (
+        <div
+          css={{
+            height: "120px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: theme.gray_text,
+            fontSize: "13px",
+          }}
+        >
+          데이터를 불러오는 중...
+        </div>
+      ) : (
+      <div
+        css={{
+          display: "grid",
+          gridTemplateColumns: `repeat(${data.length}, 1fr)`,
+          alignItems: "end",
+          height: "120px",
+          gap: "2px",
+          width: "100%",
+        }}
+      >
+        {data.map((item, index) => {
+          const heightPct = (item.value / maxValue) * 100;
+          const isHighlight = item.value === maxValue && item.value > 0;
+          const isHovered = hoveredIndex === index;
+
+          return (
+            <div
+              key={index}
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              css={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                height: "100%",
+                position: "relative",
+                cursor: "pointer",
+              }}
+            >
+              {/* 호버 툴팁 */}
+              {isHovered && (
+                <div
+                  css={{
+                    position: "absolute",
+                    bottom: "100%",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    backgroundColor: theme.purple,
+                    color: theme.white,
+                    padding: "3px 6px",
+                    borderRadius: "5px",
+                    fontSize: "10px", 
+                    whiteSpace: "nowrap",
+                    zIndex: 10,
+                    pointerEvents: "none",
+                    marginBottom: "4px",
+                  }}
+                >
+                  {item.time} {Math.round(item.value)}개
+                </div>
+              )}
+              {/* 막대 */}
+              <div
+                css={{
+                  width: "100%",
+                  height: `${Math.max(heightPct, 2)}%`,
+                  backgroundColor: isHighlight
+                    ? theme.purple
+                    : isHovered
+                    ? "#C4B3DF"
+                    : "#DDD6F0",
+                  borderRadius: "3px 3px 0 0",
+                  transition: "background-color 0.15s, height 0.3s ease",
+                }}
+              />
+            </div>
+          );
+        })}
+      </div>
+      )}
+
+      {/* X축 라벨 (3시간 간격) */}
+      <div
+        css={{
+          display: "grid",
+          gridTemplateColumns: `repeat(${data.length}, 1fr)`,
+          width: "100%",
+          marginTop: "-12px",
+          gap: "2px",
+        }}
+      >
+        {data.map((item, index) => (
+          <div
+            key={index}
+            css={{
+              fontSize: "9px",
+              color: theme.gray_text,
+              textAlign: "center",
+              overflow: "hidden",
+              lineHeight: 1,
+            }}
+          >
+            {showLabel(item.time) ? item.time.replace("시", "") : ""}
+          </div>
+        ))}
+      </div>
+
+      {/* 장소/요일 필터 */}
       <div css={{ display: "flex", width: "100%", gap: "12px" }}>
         <FilterElement
           label="장소"
@@ -283,7 +329,7 @@ const BusyTimeGraph = ({
         />
       </div>
 
-      {/* 모달 피커들 */}
+      {/* 피커 모달 */}
       <CustomPickerModal
         isOpen={isPlaceOpen}
         onClose={() => setIsPlaceOpen(false)}
