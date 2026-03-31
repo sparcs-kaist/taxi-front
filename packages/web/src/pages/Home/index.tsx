@@ -9,7 +9,6 @@ import {
   ModalPrivacyPolicy,
 } from "@/components/ModalPopup";
 
-import EventSection from "./EventSection";
 import InfoSection from "./InfoSection";
 import NoticeSection from "./NoticeSection";
 import RoomSection from "./RoomSection";
@@ -45,7 +44,6 @@ const Home = () => {
     <>
       <InfoSection />
       <NoticeSection />
-      <EventSection />
       <RoomSection roomId={roomId} triggerTags={triggerTags} />
       <Footer />
       <ModalPrivacyPolicy
