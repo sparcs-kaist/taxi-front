@@ -24,12 +24,14 @@ import dayjs from "@/tools/day";
 import theme from "@/tools/theme";
 
 import { ReactComponent as TaxiIcon } from "@/static/assets/sparcsLogos/TaxiAppIcon.svg";
+import useSettlementFromChats from "@/hooks/chat/useSettlementFromChats";
 
 type MessageBodyProps = {
   type: (UserChat | BotChat)["type"];
   content: (UserChat | BotChat)["content"];
   roomInfo: Room;
   color: CSS["color"];
+  settlement: ReturnType<typeof useSettlementFromChats>;
   layoutType: LayoutType;
 };
 
@@ -38,6 +40,7 @@ const MessageBody = ({
   content,
   roomInfo,
   color,
+  settlement,
   layoutType,
 }: MessageBodyProps) => {
   switch (type) {
@@ -49,7 +52,7 @@ const MessageBody = ({
     case "settlement":
       return <MessagePaySettlement type={type} color={color} />;
     case "account":
-      return <MessageAccount roomInfo={roomInfo} account={content} />;
+      return <MessageAccount roomInfo={roomInfo} account={content} settlement={settlement} />;
     case "share":
       return <MessageShare roomInfo={roomInfo} text={content} color={color} />;
     case "departure":
@@ -101,6 +104,7 @@ const MessageSet = ({
   const { oid: userOid } = useValueRecoilState("loginInfo") || {};
 
   const onClickProfileImage = useCallback(() => setIsOpenReport(true), []);
+  const settlement = useSettlementFromChats(chats);
 
   const authorId = chats?.[0]?.authorId;
   const authorProfileUrl =
@@ -264,6 +268,7 @@ const MessageSet = ({
                   content={chat.content}
                   roomInfo={roomInfo}
                   color={authorId === userOid ? theme.white : theme.black}
+                  settlement={settlement}
                   layoutType={layoutType}
                 />
               </div>
