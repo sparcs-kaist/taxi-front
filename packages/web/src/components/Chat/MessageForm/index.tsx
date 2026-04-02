@@ -4,6 +4,7 @@ import type { Chats, LayoutType } from "@/types/chat";
 
 import useAccountFromChats from "@/hooks/chat/useAccountFromChats";
 import useSendMessage from "@/hooks/chat/useSendMessage";
+import useSettlementFromChats from "@/hooks/chat/useSettlementFromChats";
 
 import InputText from "./InputText";
 import NewMessage from "./NewMessage";
@@ -41,6 +42,7 @@ const MessageForm = ({
   const isVKDetected = useRecoilValue(isVirtualKeyboardDetectedAtom);
   const [uploadedImage, setUploadedImage] = useState<Nullable<File>>(null); // 업로드된 이미지 파일
   const account = useAccountFromChats(chats);
+  const settlement = useSettlementFromChats(chats);
 
   const onClickNewMessage = () => {
     if (!messageBodyRef.current) return;
@@ -79,6 +81,7 @@ const MessageForm = ({
           onChangeIsOpen={onChangeIsOpenToolSheet}
           onChangeUploadedImage={setUploadedImage}
           account={account}
+          settlement={settlement}
           sendMessage={sendMessage}
         />
       </div>

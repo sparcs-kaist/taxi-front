@@ -5,7 +5,7 @@ import Select from "./Select";
 
 import bankNames from "@/static/bankNames";
 
-type InputAcountProps = {
+type InputAccountProps = {
   value: string;
   onChangeValue?: (v: string) => void;
   className?: string; // for emotion (css props)
@@ -27,12 +27,12 @@ const syncAccount2Value = (_name: string, _number: string): string => {
   return name + " " + number;
 };
 
-const InputAcount = ({
+const InputAccount = ({
   value,
   onChangeValue,
   className,
   ...inputProps
-}: InputAcountProps) => {
+}: InputAccountProps) => {
   const [_name, number] = useMemo(() => syncValue2Account(value), [value]);
   const [name, setName] = useState<string>(_name);
 
@@ -73,4 +73,4 @@ const InputAcount = ({
   );
 };
 
-export default InputAcount;
+export default InputAccount;
