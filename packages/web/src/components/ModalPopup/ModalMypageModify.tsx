@@ -2,6 +2,7 @@ import axiosOri from "axios";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { useEvent2026SpringQuestComplete } from "@/hooks/event/useEvent2026SpringQuestComplete";
 import {
   useFetchRecoilState,
   useValueRecoilState,
@@ -22,12 +23,13 @@ import ProfileImage from "@/components/User/ProfileImage";
 import alertAtom from "@/atoms/alert";
 import { useSetRecoilState } from "recoil";
 
+import { generateNickname } from "@/tools/generateNickname";
 import { convertImage } from "@/tools/image";
 import regExpTest from "@/tools/regExpTest";
 import theme from "@/tools/theme";
 
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
-import { useEvent2026SpringQuestComplete } from "@/hooks/event/useEvent2026SpringQuestComplete";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
 type ModalMypageModifyProps = Omit<
   Parameters<typeof Modal>[0],
@@ -112,10 +114,10 @@ const ButtonProfileImage = () => {
       profileAlert === "SUCCESS"
         ? theme.green_button
         : profileAlert === "FAIL"
-          ? theme.red_button
-          : profileAlert === "LOADING"
-            ? theme.gray_text
-            : theme.purple,
+        ? theme.red_button
+        : profileAlert === "LOADING"
+        ? theme.gray_text
+        : theme.purple,
     width: "fit-content",
     margin: "16px auto",
     cursor: profileAlert ? "default" : "pointer",
@@ -133,10 +135,10 @@ const ButtonProfileImage = () => {
       {profileAlert === "SUCCESS"
         ? t("page_modify.profile_image_success")
         : profileAlert === "FAIL"
-          ? t("page_modify.profile_image_failed")
-          : profileAlert === "LOADING"
-            ? t("page_modify.profile_image_loading")
-            : t("page_modify.profile_image_change")}
+        ? t("page_modify.profile_image_failed")
+        : profileAlert === "LOADING"
+        ? t("page_modify.profile_image_loading")
+        : t("page_modify.profile_image_change")}
     </div>
   );
 };
@@ -151,6 +153,8 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
   const [residence, setResidence] = useState("");
   const [badge, setBadge] = useState<boolean>(false);
   const [PhoneAgreeModalOpen, setPhoneAgreeModalOpen] = useState(false);
+  const [initialNickname, setInitialNickname] = useState(""); // 처음 닉네임 기억용
+  const isResettingRef = useRef(false);
 
   const loginInfo = useValueRecoilState("loginInfo");
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
@@ -163,13 +167,26 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
 
   useEffect(() => {
     if (modalProps.isOpen) {
-      setNickname(loginInfo?.nickname || "");
+      const currentNickname = loginInfo?.nickname || "";
+      setNickname(currentNickname);
+      setInitialNickname(currentNickname); // 👈 초기 닉네임 백업!
+
       setAccount(loginInfo?.account || "");
       setPhoneNumber(loginInfo?.phoneNumber || "");
       setResidence(loginInfo?.residence || "");
       setBadge(loginInfo?.badge || false);
+    } else {
+      setNickname("");
     }
-  }, [loginInfo, modalProps.isOpen]);
+  }, [modalProps.isOpen]);
+
+  useEffect(() => {
+    // 깃발이 올라가 있고, 새 닉네임이 들어왔을 때만 실행!
+    if (isResettingRef.current && loginInfo?.nickname) {
+      setNickname(loginInfo.nickname);
+      isResettingRef.current = false; // 리셋 완료했으니 깃발 내리기
+    }
+  }, [loginInfo]);
 
   const isEditable =
     regExpTest.account(account) && regExpTest.nickname(nickname);
@@ -284,6 +301,19 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
     setPhoneNumber(loginInfo?.phoneNumber || "");
   };
 
+  const handleIconClick = useCallback(async () => {
+    try {
+      if (!loginInfo?.id) return;
+
+      // 프론트엔드에서 랜덤 닉네임 로컬 생성
+      const newRandomNickname = await generateNickname();
+
+      setNickname(newRandomNickname);
+    } catch (e) {
+      setAlert("닉네임 랜덤 생성에 실패했습니다.");
+    }
+  }, [loginInfo, setAlert]);
+
   const styleName = {
     ...theme.font20,
     textAlign: "center",
@@ -392,8 +422,11 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
               <Input
                 value={nickname}
                 onChangeValue={setNickname}
-                css={{ width: "100%", marginLeft: "10px" }}
+                css={{ width: "80%", marginLeft: "10px", marginRight: "5px" }}
               />
+              <div onClick={handleIconClick}>
+                <RestartAltIcon css={{ color: theme.purple }} />
+              </div>
             </div>
             <div css={{ ...styleTitle, marginTop: "10px" }}>
               {t("account")}
@@ -443,14 +476,13 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
               type="purple_inset"
               disabled={
                 !isEditable ||
-                (nickname === loginInfo?.nickname &&
-                  account === loginInfo?.account &&
-                  badge === loginInfo?.badge &&
-                  residence === loginInfo?.residence &&
-                  // 기존에 전화번호가 있거나, 없었고 입력란도 빈 상태면 변경 없음
+                // 👇 nickname을 loginInfo.nickname이 아닌 initialNickname과 비교!
+                (nickname === initialNickname &&
+                  account === (loginInfo?.account || "") &&
+                  badge === (loginInfo?.badge ?? false) &&
+                  residence === (loginInfo?.residence || "") &&
                   (loginInfo?.phoneNumber !== undefined ||
                     phoneNumber === "")) ||
-                // 신규 전화번호 입력 중이고, 길이가 13자 미만이면 비활성화
                 (loginInfo?.phoneNumber === undefined &&
                   phoneNumber !== "" &&
                   phoneNumber.length < 13)
