@@ -23,11 +23,13 @@ import ProfileImage from "@/components/User/ProfileImage";
 import alertAtom from "@/atoms/alert";
 import { useSetRecoilState } from "recoil";
 
+import { generateNickname } from "@/tools/generateNickname";
 import { convertImage } from "@/tools/image";
 import regExpTest from "@/tools/regExpTest";
 import theme from "@/tools/theme";
 
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
 type ModalMypageModifyProps = Omit<
   Parameters<typeof Modal>[0],
@@ -48,29 +50,6 @@ const ProfileImageLarge = (props: ProfileImageLargeProps) => (
   >
     <ProfileImage {...props} />
   </div>
-);
-
-const CounterClockwiseIcon = ({
-  size = 24,
-  onClick,
-}: {
-  size?: number;
-  onClick?: () => void;
-}) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke={theme.purple}
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    onClick={onClick}
-  >
-    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-    <path d="M3 3v5h5" />
-  </svg>
 );
 
 const ButtonProfileImage = () => {
@@ -321,22 +300,20 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
     modalProps.onChangeIsOpen?.(true);
     setPhoneNumber(loginInfo?.phoneNumber || "");
   };
+
   const handleIconClick = useCallback(async () => {
     try {
-      isResettingRef.current = true; // 1. 화면 깜빡임 없이 조용히 깃발 올리기
+      if (!loginInfo?.id) return;
 
-      await axios({
-        url: "/users/resetNickname",
-        method: "get",
-      });
+      // 프론트엔드에서 랜덤 닉네임 로컬 생성
+      const newRandomNickname = await generateNickname();
 
-      // 2. 서버 통신 완료 후 최신 정보 땡겨오기
-      fetchLoginInfo();
+      setNickname(newRandomNickname);
     } catch (e) {
-      isResettingRef.current = false; // 에러 나면 조용히 깃발 내리기
       setAlert("닉네임 랜덤 생성에 실패했습니다.");
     }
-  }, [axios, fetchLoginInfo, setAlert]);
+  }, [loginInfo, setAlert]);
+
   const styleName = {
     ...theme.font20,
     textAlign: "center",
@@ -447,7 +424,9 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
                 onChangeValue={setNickname}
                 css={{ width: "80%", marginLeft: "10px", marginRight: "5px" }}
               />
-              <CounterClockwiseIcon size={20} onClick={handleIconClick} />
+              <div onClick={handleIconClick}>
+                <RestartAltIcon css={{ color: theme.purple }} />
+              </div>
             </div>
             <div css={{ ...styleTitle, marginTop: "10px" }}>
               {t("account")}
