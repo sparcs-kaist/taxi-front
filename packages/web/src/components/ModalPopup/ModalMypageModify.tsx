@@ -175,7 +175,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
 
   // 마일리지 티어 정보를 가져옵니다.
   const mileageData = useValueRecoilState("mileage");
-  const earnedTier = mileageData?.tier || "none";
+  const earnedTier = (mileageData?.tier || "none") as BadgeSetting;
 
   const event2025SpringQuestComplete = useEvent2025SpringQuestComplete();
   const setAlert = useSetRecoilState(alertAtom);
