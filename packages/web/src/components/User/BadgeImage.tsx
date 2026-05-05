@@ -1,3 +1,6 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
+
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import theme from "@/tools/theme";
@@ -8,13 +11,24 @@ import { ReactComponent as PlatinumBadgeIcon } from "@/static/assets/phone_badge
 import { ReactComponent as SilverBadgeIcon } from "@/static/assets/phone_badge_silver.svg";
 import Tooltip from "@mui/material/Tooltip";
 
+export const BADGE_SCALE = 1.08;
+export const badgeWrapperStyle = css({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "44px",
+  height: "44px",
+  borderRadius: "8px",
+  columnGap: "8px",
+});
+
 type BadgeImageProps = {
   badge_live?: boolean;
   badge_size?: string;
   tier?: "none" | "normal" | "silver" | "gold" | "platinum";
   noTooltip?: boolean;
-  top?: string; // [추가] 밖에서 조정 가능
-  marginRight?: string; // [추가] 밖에서 조정 가능
+  top?: string;
+  marginRight?: string;
 };
 
 const BadgeImage = ({
@@ -22,8 +36,8 @@ const BadgeImage = ({
   badge_size = "1em",
   tier,
   noTooltip,
-  top = "0", // [디폴트] 0
-  marginRight = "0", // [디폴트] 0
+  top = "0",
+  marginRight = "0",
 }: BadgeImageProps) => {
   const loginInfo = useValueRecoilState("loginInfo");
 
@@ -37,13 +51,13 @@ const BadgeImage = ({
 
   if (displayTier === "platinum") {
     BadgeIcon = PlatinumBadgeIcon;
-    scale = 1.08;
+    scale = BADGE_SCALE;
   } else if (displayTier === "gold") {
     BadgeIcon = GoldBadgeIcon;
-    scale = 1.08;
+    scale = BADGE_SCALE;
   } else if (displayTier === "silver") {
     BadgeIcon = SilverBadgeIcon;
-    scale = 1.08;
+    scale = BADGE_SCALE;
   } else if (displayTier === "normal") {
     BadgeIcon = NormalBadgeIcon;
     scale = 1;
@@ -59,14 +73,20 @@ const BadgeImage = ({
         width: badge_size,
         height: badge_size,
         marginLeft: "0.25em",
-        marginRight: marginRight, // [적용]
-        top: top, // [적용]
+        marginRight: marginRight,
+        top: top,
         verticalAlign: "middle",
         lineHeight: 0,
         overflow: "visible",
       }}
     >
-      <div style={{ width: "100%", height: "100%", pointerEvents: "auto" }}>
+      <div
+        css={{
+          width: "100%",
+          height: "100%",
+          pointerEvents: "auto",
+        }}
+      >
         <BadgeIcon
           css={{
             width: "100%",

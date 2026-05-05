@@ -3,9 +3,6 @@ import { Link } from "react-router-dom";
 
 import { useIsLogin, useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
-// NOTE: useFetchMileage, useValueMileage에 대한 직접적인 import는 제거하고,
-//       통합된 useValueRecoilState를 사용하도록 코드를 정리합니다.
-// import { useFetchMileage, useValueMileage } from "@/hooks/useFetchRecoilState/useFetchMileage";
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
 import LinkLogin from "@/components/Link/LinkLogin";
@@ -92,7 +89,6 @@ const InfoSection = () => {
   const myRooms = useValueRecoilState("myRooms");
   const randomTaxiSlogan = useMemo(randomTaxiSloganGenerator, []);
 
-  // [CHANGE] useValueRecoilState를 통해 마일리지 데이터 (MileageSummary | null) 가져오기
   const mileageData = useValueRecoilState("mileage");
   const { activeMileage } = mileageData || { activeMileage: 0 };
 

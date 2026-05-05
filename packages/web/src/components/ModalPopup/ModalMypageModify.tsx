@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import axiosOri from "axios";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -13,11 +14,11 @@ import Button from "@/components/Button";
 import DottedLine from "@/components/DottedLine";
 import Input from "@/components/Input";
 import InputAccount from "@/components/Input/InputAccount";
-import InputPhoneNumber faiderom "@/components/Input/InputPhoneNumber";
+import InputPhoneNumber from "@/components/Input/InputPhoneNumber";
 import Modal from "@/components/Modal";
 import PhoneAgreeModal from "@/components/ModalPopup/ModalPhoneAgree";
 import BadgeTooltip from "@/components/Tooltip_badge";
-import BadgeImage from "@/components/User/BadgeImage";
+import BadgeImage, { BADGE_SCALE } from "@/components/User/BadgeImage";
 import ProfileImage from "@/components/User/ProfileImage";
 
 import alertAtom from "@/atoms/alert";
@@ -27,7 +28,6 @@ import { convertImage } from "@/tools/image";
 import regExpTest from "@/tools/regExpTest";
 import theme from "@/tools/theme";
 
-// Platinum 추가
 import { ReactComponent as GoldBadgeIcon } from "@/static/assets/phone_badge_gold.svg";
 import { ReactComponent as NormalBadgeIcon } from "@/static/assets/phone_badge_normal.svg";
 import { ReactComponent as PlatinumBadgeIcon } from "@/static/assets/phone_badge_platinum.svg";
@@ -146,9 +146,8 @@ const ButtonProfileImage = () => {
 };
 
 // ---------- 배지 타입 및 유틸 ----------
-type BadgeSetting = "none" | "normal" | "silver" | "gold" | "platinum"; // Platinum 타입 추가
+type BadgeSetting = "none" | "normal" | "silver" | "gold" | "platinum";
 
-/** 레거시 대응: true는 normal로, 그 외 문자열은 그대로 매핑 */
 function mapLoginInfoBadgeToState(raw: any): BadgeSetting {
   if (
     raw === "normal" ||
@@ -156,7 +155,7 @@ function mapLoginInfoBadgeToState(raw: any): BadgeSetting {
     raw === "gold" ||
     raw === "platinum"
   )
-    return raw; // platinum 매핑 추가
+    return raw;
   return "none";
 }
 
@@ -173,7 +172,6 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
   const loginInfo = useValueRecoilState("loginInfo");
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
 
-  // 마일리지 티어 정보를 가져옵니다.
   const mileageData = useValueRecoilState("mileage");
   const earnedTier = (mileageData?.tier || "none") as BadgeSetting;
 
@@ -188,9 +186,9 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
       "silver",
       "gold",
       "platinum",
-    ]; // 순서에 platinum 추가
+    ];
     return order.filter((b) => {
-      if (b === "none" || b === "normal") return true; // 기본 오픈
+      if (b === "none" || b === "normal") return true;
       if (b === "silver")
         return (
           earnedTier === "silver" ||
@@ -199,7 +197,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         );
       if (b === "gold")
         return earnedTier === "gold" || earnedTier === "platinum";
-      if (b === "platinum") return earnedTier === "platinum"; // platinum 조건 추가
+      if (b === "platinum") return earnedTier === "platinum";
       return false;
     });
   }, [earnedTier]);
@@ -306,12 +304,12 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
     setPhoneNumber(loginInfo?.phoneNumber || "");
   };
 
-  // 스타일 설정
   const styleName = {
     ...theme.font20,
     textAlign: "center",
     marginBottom: "16px",
   } as const;
+
   const styleTitle = {
     display: "flex",
     alignItems: "center",
@@ -319,16 +317,18 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
     whiteSpace: "nowrap",
     ...theme.font14,
   } as const;
+
   const styleContent = { ...theme.font14, marginLeft: "12px" };
+
   const styleButton = {
     display: "flex",
     justifyContent: "space-between",
     marginTop: "24px",
-  };
+  } as const;
 
   const CurrentBadgeIcon =
     badgeState === "platinum"
-      ? PlatinumBadgeIcon // Platinum 아이콘 추가
+      ? PlatinumBadgeIcon
       : badgeState === "gold"
       ? GoldBadgeIcon
       : badgeState === "silver"
@@ -346,13 +346,13 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
       ? "Silver"
       : badgeState === "gold"
       ? "Gold"
-      : "Platinum"; // 레이블 추가
+      : "Platinum";
 
   const ICON_BOX = 18;
-  const BUTTON_FIXED_W = 100; // 텍스트 길이에 맞춰 소폭 조정
-  const SCALE = { normal: 1.0, silver: 1.08, gold: 1.08, platinum: 1.08 }; // 스케일 추가
+  const BUTTON_FIXED_W = 100;
+  // BadgeImage에서 정의한 BADGE_SCALE을 불러와 동기화
   const scale =
-    badgeState === "none" ? 1 : SCALE[badgeState as keyof typeof SCALE];
+    badgeState === "none" || badgeState === "normal" ? 1 : BADGE_SCALE;
 
   return (
     <>
