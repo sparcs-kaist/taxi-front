@@ -13,7 +13,7 @@ import Button from "@/components/Button";
 import DottedLine from "@/components/DottedLine";
 import Input from "@/components/Input";
 import InputAccount from "@/components/Input/InputAccount";
-import InputPhoneNumber from "@/components/Input/InputPhoneNumber";
+import InputPhoneNumber faiderom "@/components/Input/InputPhoneNumber";
 import Modal from "@/components/Modal";
 import PhoneAgreeModal from "@/components/ModalPopup/ModalPhoneAgree";
 import BadgeTooltip from "@/components/Tooltip_badge";
@@ -250,6 +250,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         method: "post",
         data: { nickname },
         onError: () => setAlert(t("page_modify.nickname_failed")),
+        //#region event2025Spring
         onSuccess: () => event2025SpringQuestComplete("nicknameChanging"),
       });
     }
@@ -260,6 +261,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
         method: "post",
         data: { account },
         onError: () => setAlert(t("page_modify.account_failed")),
+        //#region event2025Spring
         onSuccess: () => event2025SpringQuestComplete("accountChanging"),
       });
     }
