@@ -47,8 +47,6 @@ export const generateNickname = () => {
   const noun = nouns[nounIdx];
   const adjective = adjectives[adjectiveIdx];
 
-  // 프론트엔드용 가벼운 랜덤 16진수 5자리 생성 (crypto 에러 방지용)
-  // 백엔드의 해시값 추출 로직(hash.digest("hex").substring(0, 5))과 결과물이 동일합니다.
   const randomHex = Math.random().toString(16).substring(2, 7).padEnd(5, "0");
 
   return `${adjective} ${noun}_${randomHex}`;

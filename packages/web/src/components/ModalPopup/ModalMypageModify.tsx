@@ -153,7 +153,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
   const [residence, setResidence] = useState("");
   const [badge, setBadge] = useState<boolean>(false);
   const [PhoneAgreeModalOpen, setPhoneAgreeModalOpen] = useState(false);
-  const [initialNickname, setInitialNickname] = useState(""); // 처음 닉네임 기억용
+  const [initialNickname, setInitialNickname] = useState("");
   const isResettingRef = useRef(false);
 
   const loginInfo = useValueRecoilState("loginInfo");
@@ -169,7 +169,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
     if (modalProps.isOpen) {
       const currentNickname = loginInfo?.nickname || "";
       setNickname(currentNickname);
-      setInitialNickname(currentNickname); // 👈 초기 닉네임 백업!
+      setInitialNickname(currentNickname);
 
       setAccount(loginInfo?.account || "");
       setPhoneNumber(loginInfo?.phoneNumber || "");
@@ -181,10 +181,9 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
   }, [modalProps.isOpen]);
 
   useEffect(() => {
-    // 깃발이 올라가 있고, 새 닉네임이 들어왔을 때만 실행!
     if (isResettingRef.current && loginInfo?.nickname) {
       setNickname(loginInfo.nickname);
-      isResettingRef.current = false; // 리셋 완료했으니 깃발 내리기
+      isResettingRef.current = false;
     }
   }, [loginInfo]);
 
