@@ -1,7 +1,12 @@
+import _axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 import { useAxios } from "@/hooks/useTaxiAPI";
+import { backServer } from "@/tools/loadenv";
+
+// 로그인 없이도 호출 가능한 공용 통계 API용 (쿠키 미포함)
+const axiosAnon = _axios.create({ baseURL: backServer, withCredentials: false });
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
@@ -72,41 +77,32 @@ const Statistics = () => {
   const shouldAnimate = !(activeTab === "personal" && !loginInfo?.oid);
 
   useEffect(() => {
-    axios({
-      url: "/statistics/savings/total",
-      method: "get",
-      skipAuthRedirect: true,
-      onSuccess: (data) => setTotalSavings(data.totalSavings),
-      onError: () => console.error("Total savings load failed"),
-    });
+    axiosAnon
+      .get("/statistics/savings/total")
+      .then((res) => setTotalSavings(res.data.totalSavings))
+      .catch(() => console.error("Total savings load failed"));
 
-    axios({
-      url: "/statistics/room-creation/monthly",
-      method: "get",
-      skipAuthRedirect: true,
-      onSuccess: (data) => {
-        const formattedData = data.months.map((item: any) => ({
+    axiosAnon
+      .get("/statistics/room-creation/monthly")
+      .then((res) => {
+        const formattedData = res.data.months.map((item: any) => ({
           label: new Date(item.month).getMonth() + 1 + "월",
           value: item.cumulativeRooms,
         }));
         setAccumulatedRides(formattedData);
-      },
-      onError: () => console.error("Room creation stats load failed"),
-    });
+      })
+      .catch(() => console.error("Room creation stats load failed"));
 
-    axios({
-      url: "/statistics/users/monthly",
-      method: "get",
-      skipAuthRedirect: true,
-      onSuccess: (data) => {
-        const formattedData = data.months.map((item: any) => ({
+    axiosAnon
+      .get("/statistics/users/monthly")
+      .then((res) => {
+        const formattedData = res.data.months.map((item: any) => ({
           label: new Date(item.month).getMonth() + 1 + "월",
           value: item.cumulativeUsers,
         }));
         setAccumulatedUsers(formattedData);
-      },
-      onError: () => console.error("User stats load failed"),
-    });
+      })
+      .catch(() => console.error("User stats load failed"));
 
     if (loginInfo?.oid) {
       axios({
@@ -146,18 +142,14 @@ const Statistics = () => {
 
     startDate.setHours(0, 0, 0, 0);
 
-    await axios({
-      url: "/statistics/savings/period",
-      method: "get",
-      skipAuthRedirect: true,
+    const res = await axiosAnon.get("/statistics/savings/period", {
       params: {
         startDate: startDate.toISOString(),
         endDate: endDate.toISOString(),
       },
-      onSuccess: (data) => setPeriodSavings(data.totalSavings),
-      onError: () => console.error("Period stats load failed"),
     });
-  }, [axios, period, totalSavings]);
+    setPeriodSavings(res.data.totalSavings);
+  }, [period, totalSavings]);
 
   useEffect(() => {
     fetchPeriodSavings();
@@ -172,26 +164,19 @@ const Statistics = () => {
     const dayIndex = DAYS.indexOf(graphDay);
     if (dayIndex === -1) return;
 
-    await axios({
-      url: "/statistics/room-creation/hourly",
-      method: "get",
-      skipAuthRedirect: true,
-      params: {
-        locationId: location._id,
-        dayOfWeek: dayIndex,
-      },
-      onSuccess: (data) => {
-        const formattedData = data.intervals.map((interval: any) => ({
-          time: `${interval.hour}시`,
-          value: interval.totalRooms,
-        }));
-        setGraphData(formattedData);
-      },
-      onError: () => {
-        setGraphData([]);
-      },
-    });
-  }, [axios, taxiLocations, graphPlace, graphDay]);
+    const res = await axiosAnon.get("/statistics/room-creation/hourly", {
+      params: { locationId: location._id, dayOfWeek: dayIndex },
+    }).catch(() => null);
+    if (res) {
+      const formattedData = res.data.intervals.map((interval: any) => ({
+        time: `${interval.hour}시`,
+        value: interval.totalRooms,
+      }));
+      setGraphData(formattedData);
+    } else {
+      setGraphData([]);
+    }
+  }, [taxiLocations, graphPlace, graphDay]);
 
   useEffect(() => {
     if (activeTab === "place") {

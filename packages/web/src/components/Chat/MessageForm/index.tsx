@@ -4,6 +4,7 @@ import type { Chats, LayoutType } from "@/types/chat";
 
 import useAccountFromChats from "@/hooks/chat/useAccountFromChats";
 import useSendMessage from "@/hooks/chat/useSendMessage";
+import useSettlementFromChats from "@/hooks/chat/useSettlementFromChats";
 
 import InputText from "./InputText";
 import NewMessage from "./NewMessage";
@@ -11,9 +12,8 @@ import ToolSheet from "./ToolSheet";
 import ToolSheetOpenButton from "./ToolSheetOpenButton";
 import "./index.css";
 
-import chatGameOverlayAtom from "@/atoms/chatGameOverlay";
 import isVirtualKeyboardDetectedAtom from "@/atoms/isVirtualKeyboardDetected";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 
 import { scrollToBottom } from "@/tools/chat/scroll";
 import theme from "@/tools/theme";
@@ -42,7 +42,7 @@ const MessageForm = ({
   const isVKDetected = useRecoilValue(isVirtualKeyboardDetectedAtom);
   const [uploadedImage, setUploadedImage] = useState<Nullable<File>>(null); // 업로드된 이미지 파일
   const account = useAccountFromChats(chats);
-  const setChatGameOverlay = useSetRecoilState(chatGameOverlayAtom);
+  const settlement = useSettlementFromChats(chats);
 
   const onClickNewMessage = () => {
     if (!messageBodyRef.current) return;
@@ -81,6 +81,7 @@ const MessageForm = ({
           onChangeIsOpen={onChangeIsOpenToolSheet}
           onChangeUploadedImage={setUploadedImage}
           account={account}
+          settlement={settlement}
           sendMessage={sendMessage}
         />
       </div>
@@ -98,43 +99,6 @@ const MessageForm = ({
             minWidth: 0,
           }}
         >
-          <div
-            css={{
-              display: "flex",
-              gap: "6px",
-            }}
-          >
-            <button
-              css={{
-                background: theme.purple_light,
-                color: theme.purple,
-                border: "none",
-                borderRadius: "16px",
-                padding: "4px 8px",
-                ...theme.font12_bold,
-                cursor: "pointer",
-                flex: 1,
-              }}
-              onClick={() => setChatGameOverlay("wordChain")}
-            >
-              🗣️ 끝말잇기
-            </button>
-            <button
-              css={{
-                background: theme.purple_light,
-                color: theme.purple,
-                border: "none",
-                borderRadius: "16px",
-                padding: "4px 8px",
-                ...theme.font12_bold,
-                cursor: "pointer",
-                flex: 1,
-              }}
-              onClick={() => setChatGameOverlay("racing")}
-            >
-              🚩 택시 레이스
-            </button>
-          </div>
           <InputText
             uploadedImage={uploadedImage}
             onChangeUploadedImage={setUploadedImage}
