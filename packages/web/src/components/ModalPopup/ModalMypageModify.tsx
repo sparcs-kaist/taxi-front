@@ -475,7 +475,6 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
               type="purple_inset"
               disabled={
                 !isEditable ||
-                // 👇 nickname을 loginInfo.nickname이 아닌 initialNickname과 비교!
                 (nickname === initialNickname &&
                   account === (loginInfo?.account || "") &&
                   badge === (loginInfo?.badge ?? false) &&
