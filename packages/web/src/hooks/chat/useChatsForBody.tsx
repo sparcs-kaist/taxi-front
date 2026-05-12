@@ -26,7 +26,6 @@ export default (
     const list: ReactNode[] = [];
     let momentCache: any = null; // @fixme, @todo
     let chatsCache: (UserChat | BotChat)[] | null = null;
-    let hasRecommended = 0;
     const dateFormat = "YYYY.MM.DD";
     const minFormat = "YYYY.MM.DD HH:mm";
 
@@ -76,35 +75,13 @@ export default (
       }
       if (item.type === "in" || item.type === "out") {
         popQueue();
-        if (!("유령" in item.inOutNames)) { // inOutNames가 유령일 경우
-        list.push(
-          <MessageInOut
-            key={"inout" + getChatUniquewKey(item)}
-            type={item.type}
-            users={item.inOutNames || []}
-          />
-        );
-      }
-        if (item.type === "in") {
-          hasRecommended++;
-        }
-        if (item.type === "in" && hasRecommended === 2) {
-          const recommendationChat: BotChat = {
-            type: "gameRecommendation",
-            authorId: "bot",
-            authorName: "택시 봇",
-            time: item.time,
-            content: "함께 즐길 게임을 추천해 드릴까요?",
-            roomId: roomInfo._id,
-            isValid: true,
-          };
+        if (!("유령" in item.inOutNames)) {
+          // inOutNames가 유령일 경우
           list.push(
-            <MessageSet
-              key={"bot-recommendation-" + item.time}
-              chats={[recommendationChat]}
-              layoutType={layoutType}
-              roomInfo={roomInfo}
-              readAtList={readAtList}
+            <MessageInOut
+              key={"inout" + getChatUniquewKey(item)}
+              type={item.type}
+              users={item.inOutNames || []}
             />
           );
         }
