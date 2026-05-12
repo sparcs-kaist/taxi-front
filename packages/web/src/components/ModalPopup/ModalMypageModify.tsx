@@ -391,9 +391,9 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
                   css={{ display: "flex", alignItems: "center", gap: "8px" }}
                 >
                   <div css={{ width: BUTTON_FIXED_W }}>
-                    <button
-                      type="button"
-                      onClick={handleNextBadge}
+                    <Button
+                      // 공통 컴포넌트의 hover 및 클릭 효과를 활용하기 위해 type 지정
+                      // 기존 디자인이 배경색과 그림자가 특수하므로 필요 시 새로운 스타일을 css 속성으로 덮어씌웁니다.
                       css={{
                         display: "grid",
                         gridTemplateColumns: `${ICON_BOX}px 1fr`,
@@ -407,7 +407,10 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
                         width: "100%",
                         whiteSpace: "nowrap",
                         columnGap: "8px",
+                        // Button 컴포넌트 내부의 기본 스타일을 오버라이드 하기 위해 추가
+                        transitionDuration: theme.duration,
                       }}
+                      onClick={handleNextBadge}
                       aria-label={`배지 설정: ${badgeLabel}`}
                     >
                       <div
@@ -451,7 +454,7 @@ const ModalMypageModify = ({ ...modalProps }: ModalMypageModifyProps) => {
                       >
                         {badgeLabel}
                       </span>
-                    </button>
+                    </Button>
                   </div>
                   <BadgeTooltip text="이 배지가 있는 회원분들은 문제가 생길 시 스팍스의 중계를 통해 문제를 해결할 수 있습니다." />
                 </div>
