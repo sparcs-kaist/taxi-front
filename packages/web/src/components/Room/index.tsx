@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import DottedLine from "@/components/DottedLine";
 
+import ToolTip from "../Tooltip";
 import "./index.css";
 
 import loginInfoAtom from "@/atoms/loginInfo";
@@ -103,10 +104,10 @@ const Room = ({
   marginBottom = "0px",
   theme: themeProp = "purple",
 }: RoomProps) => {
-  
   const { i18n } = useTranslation();
 
   const users = data?.part ?? [];
+  const isGhostRoom = users.some((user) => user.name === "유령");
   const loginInfo = useRecoilValue(loginInfoAtom);
   const isSettlementForMe = useMemo(
     () =>
@@ -116,14 +117,12 @@ const Room = ({
   );
   const styleBox: React.CSSProperties = {
     position: "relative",
-    background:
-      themeProp === "purple" ? theme.purple_light : theme.white,
+    background: themeProp === "purple" ? theme.purple_light : theme.white,
     borderRadius: "12px",
     marginTop: marginTop,
     marginBottom: marginBottom,
     boxShadow:
-      theme.shadow +
-      (selected ? `, inset 0 0 0 0.5px ${theme.purple}` : ""),
+      theme.shadow + (selected ? `, inset 0 0 0 0.5px ${theme.purple}` : ""),
     ...theme.cursor(),
   };
   const styleTop = {
@@ -132,11 +131,22 @@ const Room = ({
     justifyContent: "space-between",
     padding: "0 12px 0 20px",
   };
-  const styleName = {
+  const styleName: React.CSSProperties = {
     ...theme.font12,
     margin: "13px 0 12px",
-    flexShrink: "1",
-    flexGrow: "0",
+    flexShrink: 1,
+    flexGrow: 0,
+    minWidth: 0,
+    display: "flex",
+    alignItems: "center",
+    gap: "6px",
+    flexWrap: "nowrap",
+  };
+  const styleNameText: React.CSSProperties = {
+    minWidth: 0,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
   };
   const stylePlaceGrid = {
     display: "flex",
@@ -163,7 +173,24 @@ const Room = ({
   return (
     <div style={styleBox} className="shadow" onClick={onClick}>
       <div style={styleTop}>
-        <div style={styleName}>{data?.name}</div>
+        <div style={styleName}>
+          <span style={styleNameText}>{data?.name}</span>
+          {!isGhostRoom && (
+            <ToolTip
+              text="최근 1달 간 가장 많은 방이 생성된 시간대를 기반으로 자동으로 생성되는 방입니다."
+              style={{
+                width: "16px",
+                height: "16px",
+                margin: 0,
+                flexShrink: 0,
+                borderWidth: "1.5px",
+                ...theme.font12_bold,
+                lineHeight: "14px",
+              }}
+            />
+          )}
+        </div>
+
         <Tag
           users={users}
           isDeparted={data?.isDeparted}
@@ -178,9 +205,7 @@ const Room = ({
           {getLocationName(data?.from, i18n.language)}
         </div>
         <ArrowRightAltRoundedIcon style={styleArrow} />
-        <div style={stylePlace}>
-          {getLocationName(data?.to, i18n.language)}
-        </div>
+        <div style={stylePlace}>{getLocationName(data?.to, i18n.language)}</div>
       </div>
       <div style={styleDate}>{date2str(data?.time)}</div>
     </div>
