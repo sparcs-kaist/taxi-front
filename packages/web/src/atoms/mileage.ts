@@ -5,7 +5,7 @@ import { atom } from "recoil";
 // Nullable 유틸리티 타입 (loginInfo 파일의 패턴에 맞추어 정의)
 export type Nullable<T> = T | null;
 
-export type MileageTier = "gold" | "silver" | "normal" | "none";
+export type MileageTier = "platinum" | "gold" | "silver" | "normal" | "none";
 
 export interface MileageSummary {
   totalMileage: number;
