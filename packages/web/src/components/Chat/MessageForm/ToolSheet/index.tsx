@@ -28,6 +28,13 @@ import { useSetRecoilState } from "recoil";
 import { dayNowClient, dayServerToClient } from "@/tools/day";
 import theme from "@/tools/theme";
 
+import { keyframes } from "@emotion/react";
+
+const slideUp = keyframes`
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+`;
+
 type ToolSheetProps = {
   roomInfo: Nullable<Room>;
   isOpen: boolean;
@@ -105,23 +112,23 @@ const ToolSheet = ({
     setIsOpenSaveAccount(true);
   }, []);
 
-  const styleWrap = {
+  const stylePanel = {
     position: "absolute" as any,
     width: "100%",
     left: "0",
     bottom: "0",
-    transform: `translate(0, ${isOpen ? "0" : "calc(100% + 20px)"})`,
-    transition: "all 0.3s",
     padding: "16px 0 14px",
     background: theme.white,
     boxShadow: theme.shadow_clicked,
+    animation: `${slideUp} 0.25s ease`,
   };
   const style = {
     display: "flex",
     justifyContent: "space-around",
   };
   return (
-    <div css={styleWrap}>
+    <>
+      {/* 파일 input과 모달은 항상 마운트 유지 (모달은 전역 atom에 등록되므로 언마운트 시 닫힘) */}
       <input
         type="file"
         accept="image/jpg, image/png, image/jpeg, image/heic"
@@ -129,25 +136,30 @@ const ToolSheet = ({
         ref={inputImageRef}
         onChange={onChangeImage}
       />
-      <AdaptiveDiv type="center">
-        <div css={style}>
-          <ToolButton type="image" onClick={onClickImage} />
-          <ToolButton
-            type="settlement"
-            onClick={onClickSettlement}
-            isVaild={isDepart && !roomInfo?.settlementTotal}
-          />
-          <ToolButton
-            type="payment"
-            onClick={onClickPayment}
-            isVaild={
-              isDepart &&
-              !!roomInfo?.settlementTotal &&
-              settlementStatusForMe === "send-required"
-            }
-          />
+      {/* 3메뉴 패널은 + 버튼으로 열었을 때(isOpen)만 입력창 위에 출현 */}
+      {isOpen && (
+        <div css={stylePanel}>
+          <AdaptiveDiv type="center">
+            <div css={style}>
+              <ToolButton type="image" onClick={onClickImage} />
+              <ToolButton
+                type="settlement"
+                onClick={onClickSettlement}
+                isVaild={isDepart && !roomInfo?.settlementTotal}
+              />
+              <ToolButton
+                type="payment"
+                onClick={onClickPayment}
+                isVaild={
+                  isDepart &&
+                  !!roomInfo?.settlementTotal &&
+                  settlementStatusForMe === "send-required"
+                }
+              />
+            </div>
+          </AdaptiveDiv>
         </div>
-      </AdaptiveDiv>
+      )}
       {roomInfo && (
         <>
           <ModalChatSettlement
@@ -174,7 +186,7 @@ const ToolSheet = ({
           )}
         </>
       )}
-    </div>
+    </>
   );
 };
 

@@ -1,6 +1,7 @@
 export type LayoutType = "sidechat" | "fullchat" | "wordChainGame";
 
 type CommonChat = {
+  _id?: string; // 채팅의 objectId
   roomId: string; // 방의 objectId
   type: string;
   authorId?: string; // 작성자 objectId
@@ -9,13 +10,21 @@ type CommonChat = {
   isValid: boolean;
 };
 
+export type ParentChat = {
+  originChatId: string;
+  authorId: string;
+  nickname: string;
+  content: string;
+};
+
 export type UserChat = {
-  type: "text" | "s3img" | "payment" | "settlement" | "account";
+  type: "text" | "s3img" | "payment" | "settlement" | "account" | "reply";
   authorId: string;
   authorName: string;
   authorResidence?: string;
   authorProfileUrl: string;
   authorIsWithdrew: boolean;
+  parentChat?: ParentChat;
 } & CommonChat;
 export type GeneralChat = {
   type: "in" | "out";
