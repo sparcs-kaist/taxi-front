@@ -149,7 +149,7 @@ const BodyRoomSelection = ({
 
   const participantsWithCarrier = useMemo(() => {
     if (!roomInfo?.part) return [];
-    return roomInfo.part.map((user: any) => ({
+    return roomInfo.part.filter((user: any) => user.nickname !== "유령").map((user: any) => ({
       ...user,
       withCarrier: user.hasCarrier || false,
     }));
@@ -275,7 +275,7 @@ const BodyRoomSelection = ({
               <div css={{ display: "flex", justifyContent: "end" }}>
                 <p
                   css={{ ...theme.font14_bold, color: theme.purple }}
-                >{`${roomInfo?.part?.length}명`}</p>
+                >{`${participantsWithCarrier.length}명`}</p>
                 <p css={theme.font14}>
                   &nbsp;{`/ ${roomInfo?.maxPartLength}명`}
                 </p>
