@@ -71,7 +71,8 @@ const Skeleton = ({ children }: SkeletonProps) => {
     useState<boolean>(false);
 
   useEvent2026SpringEffect();
-  useSyncRecoilStateEffect(); // loginIngo, taxiLocations, myRooms, notificationOptions 초기화 및 동기화
+  const isPublicPage = pathname.startsWith("/statistics");
+  useSyncRecoilStateEffect({ skipAuthFetches: isPublicPage });
   useI18nextEffect();
   useScrollRestorationEffect();
   useCSSVariablesEffect();
