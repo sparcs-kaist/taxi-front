@@ -11,12 +11,12 @@ import { useRecoilValue } from "recoil";
 import theme from "@/tools/theme";
 
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
 import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 import RoofingRoundedIcon from "@mui/icons-material/RoofingRounded";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import SubjectRoundedIcon from "@mui/icons-material/SubjectRounded";
 
-type PageType = "home" | "search" | "addroom" | "myroom" | "mypage";
+type PageType = "home" | "statistics" | "addroom" | "myroom" | "mypage";
 type NavigationMenuProps = {
   text: string;
   page: PageType;
@@ -63,8 +63,8 @@ const NavigationMenu = ({ text, page }: NavigationMenuProps) => {
     switch (type) {
       case "home":
         return <RoofingRoundedIcon style={styleIcon} />;
-      case "search":
-        return <SearchRoundedIcon style={styleIcon} />;
+      case "statistics":
+        return <BarChartRoundedIcon style={styleIcon} />;
       case "addroom":
         return <AddRoundedIcon style={styleIcon} />;
       case "myroom":
@@ -117,8 +117,8 @@ const Navigation = () => {
       >
         <NavigationMenu text={t("home_for_nav", { ns: "home" })} page="home" />
         <NavigationMenu
-          text={t("search_room_for_nav", { ns: "search" })}
-          page="search"
+          text={t("statistics_for_nav", { ns: "mypage", defaultValue: "통계" })}
+          page="statistics"
         />
         <NavigationMenu
           text={t("add_room_for_nav", { ns: "addroom" })}

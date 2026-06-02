@@ -19,6 +19,9 @@ import favoriteRoutesAtom from "@/atoms/favoriteRoutes";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 import moment, { getToday } from "@/tools/moment";
+import theme from "@/tools/theme";
+
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 
 type RoomSectionProps = {
   roomId: Nullable<string>;
@@ -109,9 +112,15 @@ const RoomSection = ({ roomId, triggerTags }: RoomSectionProps) => {
         roomInfo={roomInfo}
         triggerTags={triggerTags}
       />
-      <Title icon="taxi" isHeader>
-        요일별 출발하는 방
-      </Title>
+      <div css={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", padding: "30px 0 25px" }}>
+        <Title icon="taxi">
+          요일별 출발하는 방
+        </Title>
+        <SearchRoundedIcon 
+          css={{ cursor: "pointer", fill: theme.purple, width: "24px", height: "24px" }} 
+          onClick={() => history.push("/search")}
+        />
+      </div>
       <SelectDate
         selectedDate={selectedDate}
         onClick={([year, month, date]) => {
