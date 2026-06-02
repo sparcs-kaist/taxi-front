@@ -46,3 +46,4 @@ export { default as ModalAccountWithdrawProcess } from "./ModalAccountWithdrawPr
 export { default as ModalSimilarRooms } from "./ModalSimilarRooms";
 export { default as ModalGameItem } from "./ModalGameItem";
 export { default as ModalDodgeLeaderboard } from "./ModalDodgeLeaderboard";
+export { default as ModalGuide } from "./ModalGuide";

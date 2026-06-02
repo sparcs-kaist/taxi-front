@@ -5,12 +5,11 @@ import Footer from "@/components/Footer";
 import Title from "@/components/Title";
 import WhiteContainer from "@/components/WhiteContainer";
 
-import Card05 from "@/static/events/2023springCard05.png";
-import Card06 from "@/static/events/2023springCard06.png";
-import Card07 from "@/static/events/2023springCard07.png";
-import Card08 from "@/static/events/2023springCard08.png";
-import Card09 from "@/static/events/2023springCard09.png";
-import Card10 from "@/static/events/2023springCard10.png";
+import Card1 from "@/static/assets/modalGuide/Card1.png";
+import Card2 from "@/static/assets/modalGuide/Card2.png";
+import Card3 from "@/static/assets/modalGuide/Card3.png";
+import Card4 from "@/static/assets/modalGuide/Card4.png";
+import Card5 from "@/static/assets/modalGuide/Card5.png";
 
 type WhiteContainerCardProps = {
   src: string;
@@ -36,7 +35,7 @@ const Event2023SpringGuide = () => (
     </Title>
     <WhiteContainer css={{ padding: "0" }}>
       <Carousel autoplay autoplaySpeed={5000}>
-        {[Card05, Card06, Card07, Card08, Card09, Card10].map((item, index) => (
+        {[Card1, Card2, Card3, Card4, Card5].map((item, index) => (
           <WhiteContainerCard src={item} key={index} />
         ))}
       </Carousel>
