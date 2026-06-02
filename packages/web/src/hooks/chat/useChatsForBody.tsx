@@ -1,4 +1,4 @@
-import { ReactNode, useMemo } from "react";
+import { ReactNode, RefObject, useMemo } from "react";
 
 import type { BotChat, Chats, LayoutType, UserChat } from "@/types/chat";
 
@@ -14,11 +14,19 @@ import { getChatUniquewKey } from "@/tools/chat/chats";
 import dayjs from "@/tools/day";
 import moment from "@/tools/moment";
 
+type ReplyTarget = {
+  chatId: string;
+  authorName: string;
+  content: string;
+};
+
 export default (
   _chats: Chats,
   layoutType: LayoutType,
   roomInfo: Room,
-  readAtList: Date[]
+  readAtList: Date[],
+  onSetReplyTarget?: (target: ReplyTarget) => void,
+  messageBodyRef?: RefObject<HTMLDivElement>
 ) => {
   const { oid: userOid } = useValueRecoilState("loginInfo") || {};
 
@@ -38,6 +46,8 @@ export default (
             layoutType={layoutType}
             roomInfo={roomInfo}
             readAtList={readAtList}
+            onSetReplyTarget={onSetReplyTarget}
+            messageBodyRef={messageBodyRef}
           />
         );
       }
@@ -88,6 +98,7 @@ export default (
         item.type === "payment" ||
         item.type === "settlement" ||
         item.type === "account" ||
+        item.type === "reply" ||
         item.type === "share" ||
         item.type === "departure" ||
         item.type === "arrival" ||
@@ -135,5 +146,5 @@ export default (
     });
     popQueue();
     return list;
-  }, [_chats, layoutType, userOid, roomInfo, readAtList]);
+  }, [_chats, layoutType, userOid, roomInfo, readAtList, onSetReplyTarget, messageBodyRef]);
 };

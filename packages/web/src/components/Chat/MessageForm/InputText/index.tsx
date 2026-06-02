@@ -5,20 +5,36 @@ import BodyText from "./BodyText";
 
 import theme from "@/tools/theme";
 
+type ReplyTarget = {
+  chatId: string;
+  authorName: string;
+  content: string;
+} | null;
+
 type InputTextProps = {
   uploadedImage?: Nullable<File>;
   onChangeUploadedImage?: (file: Nullable<File>) => void;
   sendMessage: ReturnType<typeof useSendMessage>;
+  replyTarget?: ReplyTarget;
+  onClearReplyTarget?: () => void;
 };
 
 const InputText = ({
   uploadedImage,
   onChangeUploadedImage,
   sendMessage,
+  replyTarget,
+  onClearReplyTarget,
 }: InputTextProps) => {
   const inputMode = uploadedImage ? "image" : "text";
   const children = {
-    text: <BodyText sendMessage={sendMessage} />,
+    text: (
+      <BodyText
+        sendMessage={sendMessage}
+        replyTarget={replyTarget}
+        onClearReplyTarget={onClearReplyTarget}
+      />
+    ),
     image: (
       <BodyImage
         uploadedImage={uploadedImage as File}
