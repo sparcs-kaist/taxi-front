@@ -1,5 +1,7 @@
 # SPARCS Taxi
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/60672e1f-5076-4f27-8f4a-7c1407cbeffa/deploy-status)](https://app.netlify.com/sites/taxi-dev-preview/deploys)
+
 KAIST Taxi Party Matching Web Service
 
 ## About
