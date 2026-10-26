@@ -52,7 +52,7 @@ const LinkPayment = ({ children, account, type, amount }: LinkPaymentProps) => {
         <LinkCopy
           value={account || ""}
           onCopy={() => {
-            window.location.href = "kakaotalk://kakaopay/money/to/bank";
+            window.location.href = `kakaotalk://kakaopay/money/to/bank?bank_code=${bankCode || ""}&bank_account_number=${accountNumber || ""}&amount=${amount || ""}`;
           }}
         >
           {children}
