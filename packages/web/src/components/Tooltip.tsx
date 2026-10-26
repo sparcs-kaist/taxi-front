@@ -1,9 +1,29 @@
+import type { CSSProperties } from "react";
+
 import theme from "@/tools/theme";
 
 import Tooltip from "@mui/material/Tooltip";
 
 type ToolTipProps = {
   text: string;
+  /** 트리거(물음표 원)에 적용. 기본 스타일 위에 병합됩니다. */
+  style?: CSSProperties;
+};
+
+const defaultTriggerStyle: CSSProperties = {
+  ...theme.font16_bold,
+  lineHeight: "21px",
+  fontWeight: 700,
+  color: theme.purple,
+  backgroundColor: theme.white,
+  boxShadow: theme.shadow,
+  textAlign: "center",
+  width: "24px",
+  height: "24px",
+  margin: "8px auto",
+  borderRadius: "50%",
+  boxSizing: "border-box",
+  border: `2px solid ${theme.purple}`,
 };
 
 const ToolTip = (props: ToolTipProps) => {
@@ -31,25 +51,7 @@ const ToolTip = (props: ToolTipProps) => {
       enterTouchDelay={0}
       leaveTouchDelay={2000}
     >
-      <div
-        style={{
-          ...theme.font16_bold,
-          lineHeight: "21px",
-          fontWeight: 700,
-          color: theme.purple,
-          backgroundColor: theme.white,
-          boxShadow: theme.shadow,
-          textAlign: "center",
-          width: "24px",
-          height: "24px",
-          margin: "8px auto",
-          borderRadius: "50%",
-          boxSizing: "border-box",
-          border: `2px solid ${theme.purple}`,
-        }}
-      >
-        ?
-      </div>
+      <div style={{ ...defaultTriggerStyle, ...props.style }}>?</div>
     </Tooltip>
   );
 };

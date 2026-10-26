@@ -8,7 +8,7 @@ type AnimatedRoomProps = {
   onClick?: () => void;
   marginTop?: string;
   marginBottom?: string;
-  theme?: string;
+  theme?: "purple" | "white";
   type?: "addition" | "deletion";
 };
 

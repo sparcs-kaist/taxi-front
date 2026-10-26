@@ -75,13 +75,16 @@ export default (
       }
       if (item.type === "in" || item.type === "out") {
         popQueue();
-        list.push(
-          <MessageInOut
-            key={"inout" + getChatUniquewKey(item)}
-            type={item.type}
-            users={item.inOutNames || []}
-          />
-        );
+        if (!("유령" in item.inOutNames)) {
+          // inOutNames가 유령일 경우
+          list.push(
+            <MessageInOut
+              key={"inout" + getChatUniquewKey(item)}
+              type={item.type}
+              users={item.inOutNames || []}
+            />
+          );
+        }
       } else if (
         item.type === "text" ||
         item.type === "s3img" ||
