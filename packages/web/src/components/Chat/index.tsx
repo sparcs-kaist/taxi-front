@@ -26,6 +26,11 @@ const Chat = ({ roomId, layoutType }: ChatProps) => {
   const [chats, setChats] = useStateWithCallbackLazy<Chats>([]); // 채팅 메시지 배열
   const [isDisplayNewMessage, setDisplayNewMessage] = useState<boolean>(false); // 새로운 메시지 버튼 표시 여부
   const [isOpenToolSheet, setIsOpenToolSheet] = useState<boolean>(false); // 툴 시트 표시 여부
+  const [replyTarget, setReplyTarget] = useState<{
+    chatId: string;
+    authorName: string;
+    content: string;
+  } | null>(null);
   const messageBodyRef = useRef<HTMLDivElement>(null); // 스크롤 되는 메시지 HTML 요소
   const isSendingMessage = useRef<boolean>(false); // 메시지 전송 중인지 여부
   const sendMessage = useSendMessage(roomId, isSendingMessage); // 메시지 전송 핸들러
@@ -93,6 +98,7 @@ const Chat = ({ roomId, layoutType }: ChatProps) => {
         roomInfo={roomInfo}
         chats={chats}
         readAtList={readAtList}
+        onSetReplyTarget={setReplyTarget}
         ref={messageBodyRef}
       />
       <MessageForm
@@ -104,6 +110,8 @@ const Chat = ({ roomId, layoutType }: ChatProps) => {
         onChangeIsOpenToolSheet={setIsOpenToolSheet}
         messageBodyRef={messageBodyRef}
         sendMessage={sendMessage}
+        replyTarget={replyTarget}
+        onClearReplyTarget={() => setReplyTarget(null)}
       />
       <ChatGameOverlay
         roomId={roomId}

@@ -2,11 +2,15 @@ import _axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
+import { useSetLoginInfo } from "@/hooks/useFetchRecoilState/useFetchLoginInfo";
+import { useSetTaxiLocations } from "@/hooks/useFetchRecoilState/useFetchTaxiLocations";
 import { useAxios } from "@/hooks/useTaxiAPI";
 import { backServer } from "@/tools/loadenv";
 
 // 로그인 없이도 호출 가능한 공용 통계 API용 (쿠키 미포함)
 const axiosAnon = _axios.create({ baseURL: backServer, withCredentials: false });
+// 리다이렉트 없이 로그인 상태를 확인하기 위한 인스턴스 (쿠키 포함)
+const axiosSilent = _axios.create({ baseURL: backServer, withCredentials: true });
 
 import AdaptiveDiv from "@/components/AdaptiveDiv";
 import Button from "@/components/Button";
@@ -44,6 +48,23 @@ const Statistics = () => {
   const axios = useAxios();
   const loginInfo = useValueRecoilState("loginInfo");
   const taxiLocations = useValueRecoilState("taxiLocations");
+  const setLoginInfo = useSetLoginInfo();
+  const setTaxiLocations = useSetTaxiLocations();
+
+  useEffect(() => {
+    if (!loginInfo) {
+      axiosSilent
+        .get("/logininfo")
+        .then((res) => setLoginInfo(res.data))
+        .catch(() => {});
+    }
+    if (!taxiLocations || taxiLocations.length === 0) {
+      axiosAnon
+        .get("/locations")
+        .then((res) => setTaxiLocations(res.data.locations))
+        .catch(() => {});
+    }
+  }, []);
 
   const [activeTab, setActiveTab] = useState<TabType>("all");
   const [period, setPeriod] = useState<Period>("30d");

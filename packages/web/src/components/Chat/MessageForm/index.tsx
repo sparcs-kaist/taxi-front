@@ -8,6 +8,7 @@ import useSettlementFromChats from "@/hooks/chat/useSettlementFromChats";
 
 import InputText from "./InputText";
 import NewMessage from "./NewMessage";
+import ReplyPreview from "./ReplyPreview";
 import ToolSheet from "./ToolSheet";
 import ToolSheetOpenButton from "./ToolSheetOpenButton";
 import "./index.css";
@@ -18,6 +19,12 @@ import { useRecoilValue } from "recoil";
 import { scrollToBottom } from "@/tools/chat/scroll";
 import theme from "@/tools/theme";
 
+type ReplyTarget = {
+  chatId: string;
+  authorName: string;
+  content: string;
+} | null;
+
 type MessageFormProps = {
   layoutType: LayoutType;
   roomInfo: Nullable<Room>;
@@ -27,6 +34,8 @@ type MessageFormProps = {
   onChangeIsOpenToolSheet: (x: boolean) => void;
   messageBodyRef: RefObject<HTMLDivElement>;
   sendMessage: ReturnType<typeof useSendMessage>;
+  replyTarget?: ReplyTarget;
+  onClearReplyTarget?: () => void;
 };
 
 const MessageForm = ({
@@ -38,6 +47,8 @@ const MessageForm = ({
   onChangeIsOpenToolSheet,
   messageBodyRef,
   sendMessage,
+  replyTarget,
+  onClearReplyTarget,
 }: MessageFormProps) => {
   const isVKDetected = useRecoilValue(isVirtualKeyboardDetectedAtom);
   const [uploadedImage, setUploadedImage] = useState<Nullable<File>>(null); // 업로드된 이미지 파일
@@ -62,10 +73,15 @@ const MessageForm = ({
         : "env(safe-area-inset-bottom)"
     })`,
     display: "flex",
-    alignItems: "flex-end",
-    gap: "10px",
+    flexDirection: "column" as any,
+    gap: "8px",
     boxShadow: theme.shadow_clicked,
     background: theme.white,
+  };
+  const styleInputRow = {
+    display: "flex",
+    alignItems: "flex-end",
+    gap: "10px",
   };
 
   return (
@@ -86,24 +102,35 @@ const MessageForm = ({
         />
       </div>
       <div css={styleBody}>
-        <ToolSheetOpenButton
-          isOpen={isOpenToolSheet}
-          onChangeIsOpen={onChangeIsOpenToolSheet}
-        />
-        <div
-          css={{
-            flex: 1,
-            display: "flex",
-            flexDirection: "column",
-            gap: "7px",
-            minWidth: 0,
-          }}
-        >
-          <InputText
-            uploadedImage={uploadedImage}
-            onChangeUploadedImage={setUploadedImage}
-            sendMessage={sendMessage}
+        {replyTarget && onClearReplyTarget && (
+          <ReplyPreview
+            authorName={replyTarget.authorName}
+            content={replyTarget.content}
+            onCancel={onClearReplyTarget}
           />
+        )}
+        <div css={styleInputRow}>
+          <ToolSheetOpenButton
+            isOpen={isOpenToolSheet}
+            onChangeIsOpen={onChangeIsOpenToolSheet}
+          />
+          <div
+            css={{
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              gap: "7px",
+              minWidth: 0,
+            }}
+          >
+            <InputText
+              uploadedImage={uploadedImage}
+              onChangeUploadedImage={setUploadedImage}
+              sendMessage={sendMessage}
+              replyTarget={replyTarget}
+              onClearReplyTarget={onClearReplyTarget}
+            />
+          </div>
         </div>
       </div>
     </>

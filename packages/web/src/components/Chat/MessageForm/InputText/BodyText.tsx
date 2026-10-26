@@ -9,17 +9,29 @@ import ButtonSend from "./ButtonSend";
 import regExpTest from "@/tools/regExpTest";
 import theme from "@/tools/theme";
 
+type ReplyTarget = {
+  chatId: string;
+  authorName: string;
+  content: string;
+} | null;
+
 type BodyTextProps = {
   sendMessage: ReturnType<typeof useSendMessage>;
+  replyTarget?: ReplyTarget;
+  onClearReplyTarget?: () => void;
 };
 
-const BodyText = ({ sendMessage }: BodyTextProps) => {
+const BodyText = ({ sendMessage, replyTarget, onClearReplyTarget }: BodyTextProps) => {
   const wrapRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>();
   const [height, setHeight] = useState<CSS["height"]>("32px");
   const [isSendingMessage, setIsSendingMessage] = useState<boolean>(false);
   const isEnterPressed = useRef<boolean>(false);
   const isShiftPressed = useRef<boolean>(false);
+  // textarea의 이벤트 핸들러는 sendMessage가 바뀔 때만 재바인딩되어 replyTarget을
+  // stale하게 캡처하므로, 전송 시점의 최신 값을 ref로 읽는다.
+  const replyTargetRef = useRef(replyTarget);
+  replyTargetRef.current = replyTarget;
 
   const [chatMsgLength, setChatMsgLength] = useState(0);
   const maxChatMsgLength = 140;
@@ -78,8 +90,17 @@ const BodyText = ({ sendMessage }: BodyTextProps) => {
 
     if (isMessageValid) {
       setIsSendingMessage(true);
-      const result = await sendMessage("text", { text: message });
+      const currentReplyTarget = replyTargetRef.current;
+      const isReply = !!currentReplyTarget;
+      const result = await sendMessage(
+        isReply ? "reply" : "text",
+        {
+          text: message,
+          ...(isReply ? { parentChatId: currentReplyTarget!.chatId } : {}),
+        }
+      );
       if (!result) textareaRef.current.value = message;
+      else if (isReply && onClearReplyTarget) onClearReplyTarget();
       setChatMsgLength(0);
       setIsSendingMessage(false);
     }
@@ -137,6 +158,11 @@ const BodyText = ({ sendMessage }: BodyTextProps) => {
     resizeEvent();
   };
   useEffect(refreshTextArea, [sendMessage]);
+
+  /* 답장 대상이 지정되면 바로 입력할 수 있도록 포커스 */
+  useEffect(() => {
+    if (replyTarget) textareaRef.current?.focus();
+  }, [replyTarget?.chatId]);
 
   return (
     <div

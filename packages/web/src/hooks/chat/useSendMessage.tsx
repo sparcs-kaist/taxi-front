@@ -26,34 +26,40 @@ export default (
         | "image"
         | "wordChain"
         | "racing"
-        | "racingStart",
-      { text, file }: { text?: string; file?: File }
+        | "racingStart"
+        | "reply",
+      { text, file, parentChatId }: { text?: string; file?: File; parentChatId?: string }
     ): Promise<boolean> => {
       // 메시지 전송 중이라면 중복 전송을 막습니다.
       if (isSendingMessage.current) return false;
 
       try {
         if (
-          ["text", "account", "wordChain", "racing", "racingStart"].includes(
+          ["text", "account", "wordChain", "racing", "racingStart", "reply"].includes(
             type
           )
         ) {
           // 메시지가 정규식 검사에서 통과하지 못했다면 전송을 막습니다.
           if (!text) throw new Error();
           if (
-            ["text", "wordChain"].includes(type) &&
+            ["text", "wordChain", "reply"].includes(type) &&
             !regExpTest.chatMsg(text) &&
             !regExpTest.chatMsgLength(text)
           )
             throw new Error();
           if (type === "account" && !regExpTest.account(text))
             throw new Error();
+          if (type === "reply" && !parentChatId) throw new Error();
 
           isSendingMessage.current = true;
+          const data: Record<string, string> = { roomId, type, content: text };
+          if (type === "reply" && parentChatId) {
+            data.parentChat = parentChatId;
+          }
           const res = await axios({
             url: "/chats/send",
             method: "post",
-            data: { roomId, type, content: text },
+            data,
             onError: (e) => {
               throw e;
             },

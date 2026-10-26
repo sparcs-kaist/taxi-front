@@ -1,8 +1,9 @@
-import { memo, useCallback, useState } from "react";
+import { RefObject, memo, useCallback, useState } from "react";
 
 import type { BotChat, LayoutType, UserChat } from "@/types/chat";
 
 import useSettlementFromChats from "@/hooks/chat/useSettlementFromChats";
+import useSwipeToReply from "@/hooks/chat/useSwipeToReply";
 import { useValueRecoilState } from "@/hooks/useFetchRecoilState";
 
 import { ModalChatReport } from "@/components/ModalPopup";
@@ -16,15 +17,20 @@ import MessageGameRecommendation from "./MessageGameRecommendation";
 import MessageImage from "./MessageImage";
 import MessagePaySettlement from "./MessagePaySettlement";
 import MessageRacing from "./MessageRacing";
+import MessageReply from "./MessageReply";
 import MessageShare from "./MessageShare";
 import MessageText from "./MessageText";
 import MessageWordChain from "./MessageWordChain";
+
+import ReplyRoundedIcon from "@mui/icons-material/ReplyRounded";
 
 import { getChatUniquewKey } from "@/tools/chat/chats";
 import dayjs from "@/tools/day";
 import theme from "@/tools/theme";
 
 import { ReactComponent as TaxiIcon } from "@/static/assets/sparcsLogos/TaxiAppIcon.svg";
+
+import "./index.css";
 
 type MessageBodyProps = {
   type: (UserChat | BotChat)["type"];
@@ -33,6 +39,9 @@ type MessageBodyProps = {
   color: CSS["color"];
   settlement: ReturnType<typeof useSettlementFromChats>;
   layoutType: LayoutType;
+  chat: UserChat | BotChat;
+  userOid?: string;
+  onClickParentChat?: () => void;
 };
 
 const MessageBody = ({
@@ -42,8 +51,28 @@ const MessageBody = ({
   color,
   settlement,
   layoutType,
+  chat,
+  userOid,
+  onClickParentChat,
 }: MessageBodyProps) => {
   switch (type) {
+    case "reply": {
+      const parentChat = ("parentChat" in chat && chat.parentChat) || {
+        originChatId: "",
+        authorId: "",
+        nickname: "알 수 없음",
+        content: "",
+      };
+      return (
+        <MessageReply
+          text={content}
+          color={color}
+          parentChat={parentChat}
+          isSelf={!!userOid && parentChat.authorId === userOid}
+          onClickParent={onClickParentChat}
+        />
+      );
+    }
     case "text":
       return <MessageText text={content} color={color} />;
     case "s3img":
@@ -93,11 +122,19 @@ const MessageBody = ({
   }
 };
 
+type ReplyTarget = {
+  chatId: string;
+  authorName: string;
+  content: string;
+};
+
 type MessageSetProps = {
   chats: Array<UserChat | BotChat>;
   layoutType: LayoutType;
   roomInfo: Room;
   readAtList: Array<Date>;
+  onSetReplyTarget?: (target: ReplyTarget) => void;
+  messageBodyRef?: RefObject<HTMLDivElement>;
 };
 
 const MessageSet = ({
@@ -105,12 +142,15 @@ const MessageSet = ({
   layoutType,
   roomInfo,
   readAtList,
+  onSetReplyTarget,
+  messageBodyRef,
 }: MessageSetProps) => {
   const [isOpenReport, setIsOpenReport] = useState<boolean>(false);
   const { oid: userOid } = useValueRecoilState("loginInfo") || {};
 
   const onClickProfileImage = useCallback(() => setIsOpenReport(true), []);
   const settlement = useSettlementFromChats(chats);
+  const makeSwipeHandlers = useSwipeToReply();
 
   const authorId = chats?.[0]?.authorId;
   const authorProfileUrl =
@@ -230,7 +270,7 @@ const MessageSet = ({
 
   return (
     <>
-      <div css={style}>
+      <div css={style} data-chat-row>
         <div css={styleProfileSection}>
           {authorId !== userOid && (
             <div
@@ -266,30 +306,161 @@ const MessageSet = ({
               </div>
             ))}
 
-          {chats.map((chat, index) => (
-            <div key={getChatUniquewKey(chat)} css={styleMessageWrap}>
-              <div css={styleChat(chat.type)}>
-                <MessageBody
-                  type={chat.type}
-                  content={chat.content}
-                  roomInfo={roomInfo}
-                  color={authorId === userOid ? theme.white : theme.black}
-                  settlement={settlement}
-                  layoutType={layoutType}
-                />
-              </div>
-              <div css={styleMessageDetail}>
-                {unreadUsersNum(chat.time) > 0 && (
-                  <div css={styleUnreadUsers}>{unreadUsersNum(chat.time)}</div>
-                )}
-                {index === chats.length - 1 && (
-                  <div css={styleTime} className="selectable">
-                    {dayjs(chat.time).format("H시 mm분")}
+          {chats.map((chat, index) => {
+            const handleReply = () => {
+              if (!onSetReplyTarget || isBot) return;
+              const name =
+                ("authorName" in chat && chat.authorName) || "알 수 없음";
+              onSetReplyTarget({
+                chatId: chat._id || "",
+                authorName: name,
+                content:
+                  chat.type === "s3img" ? "사진" : chat.content,
+              });
+            };
+
+            const handleClickParentChat = () => {
+              if (
+                !messageBodyRef?.current ||
+                chat.type !== "reply" ||
+                !("parentChat" in chat) ||
+                !chat.parentChat
+              )
+                return;
+              const targetEl = messageBodyRef.current.querySelector<HTMLElement>(
+                `[data-chat-id="${chat.parentChat.originChatId}"]`
+              );
+              if (targetEl) {
+                targetEl.scrollIntoView({ behavior: "smooth", block: "center" });
+                // 원본 메시지를 살짝 hop 시켜 강조 (스크롤이 자리잡은 뒤)
+                window.setTimeout(() => {
+                  targetEl.classList.remove("chat-hop");
+                  void targetEl.offsetWidth; // reflow로 재트리거 허용
+                  targetEl.classList.add("chat-hop");
+                  const handleEnd = () => {
+                    targetEl.classList.remove("chat-hop");
+                    targetEl.removeEventListener("animationend", handleEnd);
+                  };
+                  targetEl.addEventListener("animationend", handleEnd);
+                }, 260);
+              }
+            };
+
+            const isMyMessage = authorId === userOid;
+            const swipeHandlers = makeSwipeHandlers(
+              handleReply,
+              isMyMessage,
+              isBot || !onSetReplyTarget
+            );
+
+            return (
+              <div
+                key={getChatUniquewKey(chat)}
+                css={styleMessageWrap}
+                data-chat-item
+              >
+                {!isBot && onSetReplyTarget && (
+                  <div
+                    data-swipe-hint
+                    css={{
+                      position: "absolute",
+                      top: 0,
+                      bottom: 0,
+                      [isMyMessage ? "right" : "left"]: "6px",
+                      display: "flex",
+                      alignItems: "center",
+                      opacity: 0,
+                      transition: "opacity 0.15s",
+                      pointerEvents: "none",
+                    }}
+                  >
+                    <ReplyRoundedIcon
+                      style={{
+                        fontSize: "18px",
+                        fill: theme.purple,
+                        transform: "scaleX(-1)",
+                      }}
+                    />
                   </div>
                 )}
+                {authorId === userOid && !isBot && (
+                  <div
+                    css={{
+                      display: "flex",
+                      alignItems: "center",
+                      opacity: 0,
+                      transition: "opacity 0.15s",
+                      cursor: "pointer",
+                      "[data-chat-item]:hover &": { opacity: 1 },
+                      // 터치(폰)에선 호버 답장 버튼을 숨기고 스와이프로만 답장
+                      "@media (hover: none)": { display: "none" },
+                    }}
+                    onClick={handleReply}
+                  >
+                    <ReplyRoundedIcon
+                      style={{
+                        fontSize: "16px",
+                        fill: theme.gray_text,
+                        transform: "scaleX(-1)",
+                      }}
+                    />
+                  </div>
+                )}
+                <div
+                  css={styleChat(chat.type)}
+                  data-chat-id={chat._id}
+                  {...swipeHandlers}
+                >
+                  <MessageBody
+                    type={chat.type}
+                    content={chat.content}
+                    roomInfo={roomInfo}
+                    color={authorId === userOid ? theme.white : theme.black}
+                    settlement={settlement}
+                    layoutType={layoutType}
+                    chat={chat}
+                    userOid={userOid}
+                    onClickParentChat={handleClickParentChat}
+                  />
+                </div>
+                {authorId !== userOid && !isBot && (
+                  <div
+                    css={{
+                      display: "flex",
+                      alignItems: "center",
+                      opacity: 0,
+                      transition: "opacity 0.15s",
+                      cursor: "pointer",
+                      "[data-chat-item]:hover &": { opacity: 1 },
+                      // 터치(폰)에선 호버 답장 버튼을 숨기고 스와이프로만 답장
+                      "@media (hover: none)": { display: "none" },
+                    }}
+                    onClick={handleReply}
+                  >
+                    <ReplyRoundedIcon
+                      style={{
+                        fontSize: "16px",
+                        fill: theme.gray_text,
+                        transform: "scaleX(-1)",
+                      }}
+                    />
+                  </div>
+                )}
+                <div css={styleMessageDetail}>
+                  {unreadUsersNum(chat.time) > 0 && (
+                    <div css={styleUnreadUsers}>
+                      {unreadUsersNum(chat.time)}
+                    </div>
+                  )}
+                  {index === chats.length - 1 && (
+                    <div css={styleTime} className="selectable">
+                      {dayjs(chat.time).format("H시 mm분")}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
       <ModalChatReport

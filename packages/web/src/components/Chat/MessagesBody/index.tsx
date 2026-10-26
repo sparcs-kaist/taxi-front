@@ -6,15 +6,22 @@ import useChatsForBody from "@/hooks/chat//useChatsForBody";
 
 import LoadingChats from "./LoadingChats";
 
+type ReplyTarget = {
+  chatId: string;
+  authorName: string;
+  content: string;
+};
+
 type MessagesBodyProps = {
   layoutType: LayoutType;
   roomInfo: Room;
   chats: Chats;
   readAtList: Array<Date>;
+  onSetReplyTarget?: (target: ReplyTarget) => void;
 };
 
 const MessagesBody = (
-  { layoutType, roomInfo, chats: _chats, readAtList }: MessagesBodyProps,
+  { layoutType, roomInfo, chats: _chats, readAtList, onSetReplyTarget }: MessagesBodyProps,
   ref: ForwardedRef<HTMLDivElement>
 ) => (
   <div
@@ -40,7 +47,9 @@ const MessagesBody = (
       ),
       layoutType,
       roomInfo,
-      readAtList
+      readAtList,
+      onSetReplyTarget,
+      typeof ref === "object" ? ref ?? undefined : undefined
     )}
   </div>
 );

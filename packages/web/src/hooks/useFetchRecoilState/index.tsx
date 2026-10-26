@@ -192,17 +192,24 @@ export const useFetchRecoilState = (atomName: AtomName) => {
   }
 };
 
-export const useSyncRecoilStateEffect = () => {
+export const useSyncRecoilStateEffect = (options?: {
+  skipAuthFetches?: boolean;
+}) => {
+  const { skipAuthFetches = false } = options || {};
   const loginInfo = useValueRecoilState("loginInfo");
   const { id: userId, deviceToken } = loginInfo || {};
 
   // userId 초기화 및 동기화
   const fetchLoginInfo = useFetchRecoilState("loginInfo");
-  useEffect(fetchLoginInfo, []);
+  useEffect(() => {
+    if (!skipAuthFetches) fetchLoginInfo();
+  }, [skipAuthFetches]);
 
   // taxiLocations 초기화 및 동기화
   const fetchTaxiLocations = useFetchRecoilState("taxiLocations");
-  useEffect(fetchTaxiLocations, []);
+  useEffect(() => {
+    if (!skipAuthFetches) fetchTaxiLocations();
+  }, [skipAuthFetches]);
 
   // myRooms 초기화 및 동기화
   const fetchMyRooms = useFetchRecoilState("myRooms");
