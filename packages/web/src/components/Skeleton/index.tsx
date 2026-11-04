@@ -1,6 +1,7 @@
-import { ReactNode, useMemo, useState } from "react";
+import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 
+import { useEvent2026SpringEffect } from "@/hooks/event/useEvent2026SpringEffect";
 import useCSSVariablesEffect from "@/hooks/skeleton/useCSSVariablesEffect";
 import useChannelTalkEffect from "@/hooks/skeleton/useChannelTalkEffect";
 import useFirebaseMessagingEffect from "@/hooks/skeleton/useFirebaseMessagingEffect";
@@ -18,6 +19,7 @@ import HeaderBar from "@/components/Header/HeaderBar";
 import Loading from "@/components/Loading";
 import {
   ModalEvent2025SpringDailyAttendance,
+  ModalGuide,
   ModalTerms,
 } from "@/components/ModalPopup";
 import Error from "@/pages/Error";
@@ -29,7 +31,6 @@ import errorAtom from "@/atoms/error";
 import { useRecoilValue } from "recoil";
 
 import { deviceType } from "@/tools/loadenv";
-import { useEvent2026SpringEffect } from "@/hooks/event/useEvent2026SpringEffect";
 
 type ContainerProps = {
   children: ReactNode;
@@ -69,6 +70,15 @@ const Skeleton = ({ children }: SkeletonProps) => {
 
   const [dailyAttendanceOpened, setDailyAttendanceOpened] =
     useState<boolean>(false);
+  const [isGuideOpen, setIsGuideOpen] = useState<boolean>(false);
+
+  const prevIsAgree = useRef<boolean | undefined>(isAgreeOnTermsOfService);
+  useEffect(() => {
+    if (prevIsAgree.current === false && isAgreeOnTermsOfService === true) {
+      setIsGuideOpen(true);
+    }
+    prevIsAgree.current = isAgreeOnTermsOfService;
+  }, [isAgreeOnTermsOfService]);
 
   useEvent2026SpringEffect();
   useSyncRecoilStateEffect(); // loginIngo, taxiLocations, myRooms, notificationOptions 초기화 및 동기화
@@ -96,6 +106,7 @@ const Skeleton = ({ children }: SkeletonProps) => {
           )}
           {children}
           <ModalTerms isOpen={!!userId && !isAgreeOnTermsOfService} />
+          <ModalGuide isOpen={isGuideOpen} onChangeIsOpen={setIsGuideOpen} />
           <ModalEvent2025SpringDailyAttendance
             isOpen={dailyAttendanceOpened}
             onChangeIsOpen={setDailyAttendanceOpened}
