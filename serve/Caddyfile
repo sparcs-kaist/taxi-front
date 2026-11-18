@@ -1,0 +1,49 @@
+{
+	admin off
+	auto_https off
+}
+
+:80 {
+	# 방 초대 링크: OG 태그에 방 ID를 채워 넣은 뒤 클라이언트에서 리다이렉트
+	@invite path_regexp invite ^/invite/([^/]+)
+	handle @invite {
+		root * /app/serve
+		rewrite * /invite.html
+		templates
+		file_server
+	}
+
+	# 이벤트 초대 링크
+	@invite_event path_regexp invite_event ^/event/2026spring-invite/([^/]+)
+	handle @invite_event {
+		root * /app/serve
+		rewrite * /invite-event.html
+		templates
+		file_server
+	}
+
+	# Notion API 프록시: /notion/* -> https://www.notion.so/api/v3/*
+	handle_path /notion/* {
+		header {
+			Access-Control-Allow-Origin *
+			Access-Control-Allow-Methods "GET, POST, OPTIONS"
+			Access-Control-Allow-Headers *
+			defer
+		}
+
+		@preflight method OPTIONS
+		respond @preflight 204
+
+		rewrite * /api/v3{uri}
+		reverse_proxy https://www.notion.so {
+			header_up Host {upstream_hostport}
+		}
+	}
+
+	# SPA
+	handle {
+		root * /app/build
+		try_files {path} {path}/ /index.html
+		file_server
+	}
+}

@@ -19,7 +19,7 @@ RUN pnpm --filter-prod @taxi/web... install --offline && \
 #
 # Second stage: serve the app
 #
-FROM nginx:1.26.3-alpine
+FROM caddy:2.10.2-alpine
 
 # Set default environment variables
 ENV REACT_APP_BACK_URL=https://taxi.sparcs.org/api \
@@ -33,7 +33,7 @@ RUN apk add --no-cache nodejs npm && \
 
 COPY --from=builder /app/packages/web/build /app/build/
 COPY serve /app/serve/
-RUN chmod +x /app/serve/
+RUN chmod +x /app/serve/entrypoint.sh
 
 EXPOSE 80
-CMD ["sh", "-c", "envsubst '$$REACT_APP_FRONT_URL $$REACT_APP_OG_URL $$REACT_APP_GTM_ID' < /app/serve/default.conf.template > /etc/nginx/conf.d/default.conf && npx react-inject-env set -d /app/build/ && nginx -g 'daemon off;'"]
+CMD ["/app/serve/entrypoint.sh"]
