@@ -30,14 +30,14 @@
     />
 
     <!-- Open Graph : Web -->
-    <meta property="og:url" content="%FRONT_URL%/invite/%ROOM_ID%" />
+    <meta property="og:url" content="{{env "REACT_APP_FRONT_URL"}}/invite/{{placeholder "http.regexp.invite.1" | html}}" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Taxi 공유하기 링크" />
     <meta
       property="og:description"
       content="링크로 이동하여 택시에 동승하세요!"
     />
-    <meta property="og:image" content="%OG_URL%/%ROOM_ID%.png" />
+    <meta property="og:image" content="{{env "REACT_APP_OG_URL"}}/{{placeholder "http.regexp.invite.1" | html}}.png" />
     <meta property="og:locale" content="ko_KR" />
     <meta property="og:locale:alternate" content="en_US" />
 
