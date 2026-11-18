@@ -32,7 +32,7 @@
     <!-- Open Graph : Web -->
     <meta
       property="og:url"
-      content="%FRONT_URL%/event/2026spring-invite/%INVITER_ID%"
+      content="{{env "REACT_APP_FRONT_URL"}}/event/2026spring-invite/{{placeholder "http.regexp.invite_event.1" | html}}"
     />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Taxi 새학기 이벤트 초대 링크" />
@@ -41,7 +41,7 @@
       content="링크로 이동하여 Taxi 새학기 이벤트에 참여하세요!"
     />
     <!-- TODO: FIXME -->
-    <meta property="og:image" content="%OG_URL%/eventInvite/%INVITER_ID%" />
+    <meta property="og:image" content="{{env "REACT_APP_OG_URL"}}/eventInvite/{{placeholder "http.regexp.invite_event.1" | html}}" />
     <meta property="og:locale" content="ko_KR" />
     <meta property="og:locale:alternate" content="en_US" />
 
